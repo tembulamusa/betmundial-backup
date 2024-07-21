@@ -50,7 +50,7 @@ const Index = (props) => {
         setFetching(true)
         let tab = 'highlights';
         let betslip = findPostableSlip();
-        let method = betslip ? "POST" : "GET";
+        let method = "GET";
         let endpoint = "/v1/matches?page=" + (page || 1) + `&limit=${limit || 50}` ;
 
         let url = new URL(window.location.href)
@@ -78,7 +78,7 @@ const Index = (props) => {
         endpoint = endpoint.replaceAll(" ", '')
 
         endpoint += `&sub_type_id=` + subTypes;
-        await makeRequest({url: endpoint, method: method, data: betslip}).then(([status, result]) => {
+        await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
             if (status == 200) {
                 setMatches(matches?.length > 0 ? {...matches, ...result?.data} : result?.data || result)
                 setFetching(false)

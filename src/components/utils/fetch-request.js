@@ -1,7 +1,7 @@
 import {setLocalStorage, getFromLocalStorage} from './local-storage';
 
 const ENC_KEY = '2bdVweTeI42s5mkLdYHyklTMxQS5gLA7MDS6FA9cs1uobDXeruACDic0YSU3si04JGZe4Y';
-const BASE_URL = 'https://api.bethipo.co.ke';
+const BASE_URL = 'https://api.sportmula.co.ke';
 
 const makeRequest = async ({url, method, data = null, use_jwt = false}) => {
 
