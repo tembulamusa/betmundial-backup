@@ -25,7 +25,7 @@ const Float = (equation, precision = 4) => {
 
 const BetslipSubmitForm = (props) => {
 
-    const {jackpot, totalGames, totalOdds, betslip, setBetslipsData, jackpotData} = props;
+    const {jackpot, totalGames, totalOdds, betslip, setBetslipsData, jackpotData, bonusBet} = props;
     const [ipv4, setIpv4] = useState(null);
     const [message, setMessage] = useState(null);
     const [state, dispatch] = useContext(Context);
@@ -125,7 +125,7 @@ const BetslipSubmitForm = (props) => {
             accept_all_odds_change: values.accept_all_odds_change
         };
         let endpoint = '/bet';
-        let method = "GET"
+        let method = "POST"
         let use_jwt = !jackpot
         if (jackpot) {
             payload.message = jackpotMessage
@@ -135,8 +135,9 @@ const BetslipSubmitForm = (props) => {
             method = "POST"
         }
 
-        makeRequest({url: endpoint, method: method, data: payload, use_jwt: use_jwt})
+        makeRequest({url: endpoint, method: method, data: payload})
             .then(([status, response]) => {
+                console.log("PLACEBET RESPONSE:::::::::::::========", status);
                 setMessage(response)
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
                     //all is good am be quiet
@@ -144,7 +145,7 @@ const BetslipSubmitForm = (props) => {
                         clearJackpotSlip();
                         setMessage({
                             status: 201,
-                            message: response?.message || response
+                            message: "Jackpot bet placed successfully."
                         })
                     } else {
                         clearSlip();
@@ -164,7 +165,7 @@ const BetslipSubmitForm = (props) => {
 
     const updateWinnings = useCallback(() => {
         if (betslip) {
-            let stake_after_tax = Float(stake) / Float(107.5) * 100
+            let stake_after_tax = Float(stake) / Float(112.5) * 100
             let ext = Float(stake) - Float(stake_after_tax);
             let raw_possible_win = Float(stake_after_tax) * Float(totalOdds);
             if (jackpot) {
@@ -216,7 +217,7 @@ const BetslipSubmitForm = (props) => {
     }, [updateWinnings]);
 
     const initialValues = {
-        bet_amount: jackpot ? jackpotData?.bet_amount : 100,
+        bet_amount: jackpot ? jackpotData?.bet_amount : bonusBet ? 30 : 100,
         accept_all_odds_change: true,
         user_id: state?.user?.profile_id,
         total_games: totalGames,

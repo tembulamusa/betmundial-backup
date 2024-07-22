@@ -1,10 +1,10 @@
 import {setLocalStorage, getFromLocalStorage} from './local-storage';
 
 const ENC_KEY = '2bdVweTeI42s5mkLdYHyklTMxQS5gLA7MDS6FA9cs1uobDXeruACDic0YSU3si04JGZe4Y';
+// const BASE_URL = 'https://bikoapi.bikosports.co.tz';
 const BASE_URL = 'https://api.sportmula.co.ke';
 
 const makeRequest = async ({url, method, data = null, use_jwt = false}) => {
-
     url = BASE_URL + url;
     let headers = {
         "accept": "*/*"
@@ -54,12 +54,10 @@ const makeRequest = async ({url, method, data = null, use_jwt = false}) => {
         }
 
         const response = await fetch(url, request);
-        let result= await (response.json() ||  response.text());
-         
+        let result = await response.json();
         let status = response?.status;
         return [status, result];
     } catch (err) {
-        
         let status = err.response?.status,
             result = err.response?.data;
         return [status, result]

@@ -98,14 +98,14 @@ const HeaderNav = (props) => {
                    { (window.location.hostname.includes("test") || window.location.hostname.includes("localhost")) && 
                        (
                            <>
-                            <li className={pathname === '/virtuals/index' || pathname.includes("virtuals/index") ? 'active' : ''}>
+                            {/* <li className={pathname === '/virtuals/index' || pathname.includes("virtuals/index") ? 'active' : ''}>
                                 <a className="g url-link" href="/virtuals/index" title="Virtuals">
                                     <span >
                                         <FontAwesomeIcon icon={faLaptop} className="hide1"/> Virtuals
                                     </span>
                                 </a>
-                            </li>
-                            <li className={pathname === '/virtuals/casino' || pathname.includes("virtuals/casino") ? 'active' : ''}>
+                            </li> */}
+                            {/* <li className={pathname === '/virtuals/casino' || pathname.includes("virtuals/casino") ? 'active' : ''}>
                                 <a className="g url-link" href="/virtuals/casino" title="Casino">
                                     <span >
                                         <FontAwesomeIcon icon={faLaptop} className="hide1"/> Casino
@@ -118,7 +118,7 @@ const HeaderNav = (props) => {
                                         <FontAwesomeIcon icon={faLaptop} className="hide1"/> Live Casino
                                     </span>
                                 </a>
-                            </li>
+                            </li> */}
                         </> )
                    }
                     {/*<li className={pathname === '/casino' || pathname.includes("virtuals") ? 'active' : ''}>*/}
@@ -151,7 +151,7 @@ const HeaderNav = (props) => {
                     <li className={pathname === '/print-matches' ? 'spacing-end' : 'spacing-end'}>
                         <a className="g url-link fix-display" href="#" title="Search"
                            onClick={() => showSearchBar()}>
-                            <span className=" space-icons"><img  src={HipoIcon} alt="" style={{width:"20px"}} /> </span><span className={'hide2'}>Search</span>
+                            <span className=" space-icons"><FontAwesomeIcon icon={faSearch} /> </span><span className={'hide2'}>Search</span>
                         </a>
                     </li>
                     <li className={pathname === '/how-to-play' ? 'active' : ''}>
