@@ -52,13 +52,13 @@ legal agreement between You and us and provide information about what other docu
 
 In these General Terms and Conditions (“hereinafter “The Terms”):•
 
-Reference to “Bethipo” “We” “our” or “us” is reference to Element Gaming Limited, Bethipo and or its
+Reference to “majesticbet” “We” “our” or “us” is reference to Element Gaming Limited, majesticbet and or its
 successors in title and assigns.
 
 • Element Gaming Limited is licensed and regulated by the Betting Control and Licensing Board of Kenya
 (“BCLB”) under the Betting, Lotteries and Gaming Act, Cap 131, Laws of Kenya
 
-• Bethipo is a licensed trademark owned by Element Gaming Limited, a company registered under the Laws of
+• majesticbet is a licensed trademark owned by Element Gaming Limited, a company registered under the Laws of
 Kenya and having its registered address at 3rd Floor, Utalii House, Utalii Street, Nairobi and P.O. Box
 4785600100
 
@@ -66,12 +66,12 @@ Kenya and having its registered address at 3rd Floor, Utalii House, Utalii Stree
                             </div>
                             <div className="col-md-12 p-5">
 <h2>1. INTRODUCTION</h2>
-<p>1.1. These Terms constitute a binding contract between You and Bethipo. These Terms apply to all services offered
-by Bethipo as described in paragraph 1.2. below. By using the Service, You agree to be bound by these Terms
+<p>1.1. These Terms constitute a binding contract between You and majesticbet. These Terms apply to all services offered
+by majesticbet as described in paragraph 1.2. below. By using the Service, You agree to be bound by these Terms
 and Conditions.</p>
 <p>1.2.  The Service includes:</p>
-<p>1.2.1. Bethipo’s Website (www.Bethipo.com) and any other remote product We may offer from time to time |(“Website”);</p>
-<p>1.2.2. Bethipo’s Tele-betting services i.e. betting via USSD or SMS; and</p>
+<p>1.2.1. majesticbet’s Website (www.majesticbet.com) and any other remote product We may offer from time to time |(“Website”);</p>
+<p>1.2.2. majesticbet’s Tele-betting services i.e. betting via USSD or SMS; and</p>
 
 <p>1.3. The Terms apply equally irrespective of whether the Service is accessed via telephone, desktop browser, mobile
 browser, mobile, tablet device, or any other device.</p>
@@ -92,28 +92,28 @@ unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 
 <p>1.5. In addition, as part of these Terms, You agree to be bound by:</p>
 <p>1.5.1. The rules applicable to sports betting, virtual sports, Jackpot, casino or any other products that may be provided from time to time. The rules are available in the “How to Play” section of this Website.</p>
-<p>1.5.2.  Bethipo’s Betting Rules.</p>
+<p>1.5.2.  majesticbet’s Betting Rules.</p>
 
-<p>1.5.3.  Bethipo’s Privacy Policy.</p>
+<p>1.5.3.  majesticbet’s Privacy Policy.</p>
 
 <p>1.5.4.  Any other terms, policies or rules applicable to the Service</p>
 
 <h2>2. AMENDMENTS TO THE TERMS</h2>
-<p>2.1. Bethipo reserves the right to update the Terms from time to time in order to address legal and regulatory changes, to incorporate changes in our business or the services offered, or to improve the clarity of the Terms.</p>
+<p>2.1. majesticbet reserves the right to update the Terms from time to time in order to address legal and regulatory changes, to incorporate changes in our business or the services offered, or to improve the clarity of the Terms.</p>
 <p>2.2. All changes will be published on the Website. The most-up-to-date Terms will be available on the Website. If you continue using the Services after the date on which the Terms come into effect, you will be deemed to have accepted those changes.</p>
 
 <h2>3. ACCOUNT REGISTRATION</h2>
-<p>3.1. To register an account with Bethipo, You must be at least 18 years old. Bethipo reserves the right to ask for proof of age from any customer and suspend their account until satisfactory documentation is provided.</p>
-<p>3.2. Where an underage user is discovered, Bethipo reserves the right to close the account indefinitely. ALL funds deposited in such account will be forfeited. Bethipo shall also report the incident to BCLB or any other relevant authority and the player shall suffer the consequences of such reporting.</p>
+<p>3.1. To register an account with majesticbet, You must be at least 18 years old. majesticbet reserves the right to ask for proof of age from any customer and suspend their account until satisfactory documentation is provided.</p>
+<p>3.2. Where an underage user is discovered, majesticbet reserves the right to close the account indefinitely. ALL funds deposited in such account will be forfeited. majesticbet shall also report the incident to BCLB or any other relevant authority and the player shall suffer the consequences of such reporting.</p>
 
 <p>3.3. As part of the registration process, You will be required to enter Your personal details which include mobile phone number.</p>
 
 <p>3.4. You may not access the Services by means of another person's account. Should You attempt to access the Service by means of another person’s account, We reserve the right to immediately close all Your accounts and bar You from future use of any of our Services.</p>
 <p>3.5. You may not transfer Your account to any other player or third party.</p>
-<p>3.6. You are required to keep Your registration details up to date at all times. If You change Your phone number or any other contact or personal information, please contact us in order to update Your account information.  Bethipo reserves the right to close the account when the information provided is deemed to be false or inaccurate.</p>
+<p>3.6. You are required to keep Your registration details up to date at all times. If You change Your phone number or any other contact or personal information, please contact us in order to update Your account information.  majesticbet reserves the right to close the account when the information provided is deemed to be false or inaccurate.</p>
 
 <h2>4. ACCOUNT SECURITY AND PRIVACY</h2>
-4.1. As you are responsible for all bets placed on your account, You must keep Your account access information (“Access Information”) including Your username, password, account number or any other information used to access Your account secret and confidential. Bethipo shall not be held liable in such cases.  
+4.1. As you are responsible for all bets placed on your account, You must keep Your account access information (“Access Information”) including Your username, password, account number or any other information used to access Your account secret and confidential. majesticbet shall not be held liable in such cases.  
 <p>4.2. If there are sufficient funds in your accounts, all Bets will stand if your username and password have been entered correctly (whether or not authorized by you).</p>
 <p>4.3. If, at any time, you feel that a third party may be aware of your Access Information, You should change it immediately via the Website. Please contact us if you are unable to make the changes.</p>
 
@@ -122,7 +122,7 @@ unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 <h2>5. DORMANT ACCOUNTS</h2>
 <p>5.1. Your account shall be considered dormant where it has not had any activity for 6 months. Account activity is defined as the following: (i) making a deposit (ii) withdrawal or (iii) placement of a bet.</p>
 
-<p>5.2. After the expiry of 6 months, Bethipo reserves the right to close Your account and thereafter either refund the balance to You or where applicable deal with it in the manner provided for in law less any costs accruing thereon.</p>
+<p>5.2. After the expiry of 6 months, majesticbet reserves the right to close Your account and thereafter either refund the balance to You or where applicable deal with it in the manner provided for in law less any costs accruing thereon.</p>
 
 <h2>6. ACCOUNT CLOSURE (BY PLAYER)</h2>
 <p>6.1. If You want to close Your account, You should inform us either in writing, through email or letter addressed to us. Any activity on Your account will remain Your responsibility up to the point of actual account closure.</p>
@@ -130,7 +130,7 @@ unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 <p>6.3. Once We receive confirmation that You wish to close Your account, if requested, You shall be paid the balance of Your funds.</p>
 <p>6.4. We may withhold any outstanding balance or outstanding bet settlements in respect of Your account in accordance with these Terms.</p>
 <p>6.5. Following account closure, any stake, winnings, promotional bonuses, benefits or prizes will be forfeited by You.</p>
-<p>(BY BETHIPO)</p>
+<p>(BY majesticbet)</p>
 <p>6.6. We have the right to suspend Your account (preventing Your use of the Service and the provision of promotional benefits) or permanently close Your account as directed by the Terms and/or at any time and for any reason.</p>
 <p>6.7. We may withhold any outstanding balance or outstanding bet settlements in respect of Your account in accordance with these Terms.</p>
 <p>6.8. Following account closure, any stake, winnings, promotional bonuses, benefits or prizes will be forfeited by You.</p>
@@ -149,7 +149,7 @@ unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 <p>7.1.5.4. on the basis of ‘inside information’ known to the customer and which is not in the public domain</p>
 <p>7.1.6. any other criminal activity</p>
 <p>7.1.7. bonus or promotional abuse</p>
-<p>7.2. Where We have reason to believe that You (or Your account) are connected to Prohibited Act(s), or otherwise We have reason to believe that You are in breach of the Terms of Your Agreement, We will have the right at our sole discretion in respect of any Bethipo account held by You to:</p>
+<p>7.2. Where We have reason to believe that You (or Your account) are connected to Prohibited Act(s), or otherwise We have reason to believe that You are in breach of the Terms of Your Agreement, We will have the right at our sole discretion in respect of any majesticbet account held by You to:</p>
 <p>7.2.1.  refuse a bet or any part of a bet offered to us;</p>
 <p>7.2.2. void any accepted bets and withhold settlement (there may be other instances where we may void a bet as detailed under the specific sport/event in our rules, or otherwise as instructed by the appropriate regulator or authority);</p>
 <p>7.2.3.  permanently close your account(s) and terminate this agreement;</p>
@@ -158,7 +158,7 @@ unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 <p>7.3. We will not be liable for any loss or damage which you may incur as a result of any prohibited acts. you agree to cooperate in any investigation in respect of Prohibited Acts.</p>
 <p>8. PROMOTIONAL OFFERS</p>
 <p>8.1. The terms of these promotional offers will be clearly stated for each individual promotion. It is Your responsibility to ensure that these terms are read and fulfilled by You in order to qualify for the respective bonus, credit or prize, and also to facilitate any subsequent redemption and/or withdrawal. All promotional terms are to be read in conjunction with these Terms.  </p>
-<p>8.2. Bethipo specifically retains the rights, at any time and without notice, to remove, alter or add to promotions, tournaments or similar and related activities without liability to You.</p>
+<p>8.2. majesticbet specifically retains the rights, at any time and without notice, to remove, alter or add to promotions, tournaments or similar and related activities without liability to You.</p>
 
 <h2>9. SELF-EXCLUSION</h2>
 <p>9.1. You may, at any time, instruct Us to exclude You from placing any Bets and using our services for a specified or unspecified period by contacting our Customer Service Center.</p>
@@ -169,10 +169,10 @@ unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 <p>9.4.  If You wish to reactivate Your account, You may only do so by contacting our Customer Service Center.</p>
 
 <h2>10. PLACING BETS</h2>
-<p>10.1. You can only place a bet if You have been duly registered with Bethipo and an account has been opened and assigned to You.  </p>
+<p>10.1. You can only place a bet if You have been duly registered with majesticbet and an account has been opened and assigned to You.  </p>
 <p>10.2. All bets are subject to the Rules for the relevant sport/market/game set out In the “How to Play” Section of the Website.</p>
-<p>10.3. Bethipo reserves the right to decline all, or part, of any bet requested at our sole and absolute discretion. All bets are placed at your own risk and discretion.</p>
-<p>10.4. It is Your responsibility to ensure that Your bet details are accurate. Bethipo reserves the right to cancel any bet at any time.</p>
+<p>10.3. majesticbet reserves the right to decline all, or part, of any bet requested at our sole and absolute discretion. All bets are placed at your own risk and discretion.</p>
+<p>10.4. It is Your responsibility to ensure that Your bet details are accurate. majesticbet reserves the right to cancel any bet at any time.</p>
 <p>10.5. Without limiting our discretion to refuse or limit bets at our discretion, You agree that We may void any bets in our absolute discretion if: 10.5.1.1. We suspect that You have engaged in any Prohibited Activities;</p>
 <p>10.5.1.2. You have breached any of these Terms;</p>
 <p>10.5.1.3. There is a technological error related to the Service or placing of Your bet;</p>
@@ -180,18 +180,18 @@ unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 <p>10.6. Bets will not be placed if there are insufficient funds in your account.</p>
 
 <h2>11. ERRORS</h2>
-<p>11.1. Bethipo will not be liable for any errors in respect of bets including where:-</p>
-<p>(i) Bethipo has incorrectly stated the relevant odds/spreads/handicap/total amounts</p>
-<p>(ii) Bethipo incorrectly continues to accept bets on closed or suspended markets;</p>
-<p>(iii) Bethipo incorrectly calculates or pays settlement amounts; or (iv) any error occurs in a random number generator or pay tables included, incorporated or used in any game or product.</p>
+<p>11.1. majesticbet will not be liable for any errors in respect of bets including where:-</p>
+<p>(i) majesticbet has incorrectly stated the relevant odds/spreads/handicap/total amounts</p>
+<p>(ii) majesticbet incorrectly continues to accept bets on closed or suspended markets;</p>
+<p>(iii) majesticbet incorrectly calculates or pays settlement amounts; or (iv) any error occurs in a random number generator or pay tables included, incorporated or used in any game or product.</p>
 <p>11.2. We reserve the right to void any winnings that were obtained as a result of hardware/software error or malfunction. We are not liable to You for any loss that You may incur as a result of such suspension or delay.</p>
 <p>11.3. We are not liable for any downtime, server disruptions, lagging, or any technical disturbances or disruptions to the game play. We are not liable for any acts or omissions made by Your internet service provider or any third party with whom You rely upon to gain access to our Services.</p>
 
 <h2>12. FINANCIAL MATTERS AND PAYMENTS</h2>
 <p><b>Deposits</b></p>
-<p>12.1. You may deposit money into Your Bethipo account through Mobile Money.</p>
-<p>12.2. You shall only deposit money in Your account for the purposes of You using such money to place bets or stakes on our platforms. Bethipo shall be entitled to suspend or close Your account if Bethipo reasonably considers or has reason to believe that You are depositing money without any intention of placing bets.</p>
-<p>12.3. By depositing funds with Bethipo You certify that the funds You deposit in Your account are not from an illegal source. You shall not use the Service for the purpose of transferring such funds from illegal sources. You will not use our Services for any illicit or fraudulent activity, or for any unlawful or fraudulent transactions. We reserve the right to suspend or close Your account at any time if We suspect that You may be engaging in, or have engaged in fraudulent, unlawful or improper activity, including money laundering activities or any conduct which violates these Terms. If Your account is terminated or blocked for these reasons, We are under no obligation to refund to You any money that may be in Your account. In addition, We are entitled to inform relevant authorities of Your suspected unlawful, fraudulent or improper activity.</p>
+<p>12.1. You may deposit money into Your majesticbet account through Mobile Money.</p>
+<p>12.2. You shall only deposit money in Your account for the purposes of You using such money to place bets or stakes on our platforms. majesticbet shall be entitled to suspend or close Your account if majesticbet reasonably considers or has reason to believe that You are depositing money without any intention of placing bets.</p>
+<p>12.3. By depositing funds with majesticbet You certify that the funds You deposit in Your account are not from an illegal source. You shall not use the Service for the purpose of transferring such funds from illegal sources. You will not use our Services for any illicit or fraudulent activity, or for any unlawful or fraudulent transactions. We reserve the right to suspend or close Your account at any time if We suspect that You may be engaging in, or have engaged in fraudulent, unlawful or improper activity, including money laundering activities or any conduct which violates these Terms. If Your account is terminated or blocked for these reasons, We are under no obligation to refund to You any money that may be in Your account. In addition, We are entitled to inform relevant authorities of Your suspected unlawful, fraudulent or improper activity.</p>
 <p><b>Payments/Withdrawals</b></p>
 <p>12.4. The “Potential Win” calculation available on the Website is for information purposes only, and all bets will be calculate using the stake/risk at the odds accepted.</p>
 <p>12.5. Should You include a non-runner or void selection in a multiple bet/parlay, the bet will be settled on the remaining selections.</p>
@@ -199,13 +199,13 @@ unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 <p>(i) the integrity of the event has been called into question; </p>
 <p>(ii) the price(s) or pool has been manipulated; or </p>
 <p>(iii) match-rigging has taken place. Evidence of the above may be based on the size, volume or pattern of bets placed with us across any or all of our betting channels. Any decision made by us in this regard will be conclusive. If any customer owes any money to us for any reason, we have the right to take that into account before making any payments to that customer.</p>
-<p>12.7. Winnings from settled bets are added to the balance of your betting account. Any funds/winnings credited to an account in error are not available for use and Bethipo reserves the right to void any transactions involving such funds and/or withdraw the relevant amount from your account and/or reverse the transaction either at the time or retrospectively.</p>
+<p>12.7. Winnings from settled bets are added to the balance of your betting account. Any funds/winnings credited to an account in error are not available for use and majesticbet reserves the right to void any transactions involving such funds and/or withdraw the relevant amount from your account and/or reverse the transaction either at the time or retrospectively.</p>
 <p>12.8. We reserve the right to undertake reasonable diligence to verify the validity of any bets, wagers or winnings as a precondition to paying out any wins or permitting player withdrawals.</p>
 <p></p>
 <p>12.9. You will incur charges when using SMS services. The charges shall be communicated to you from time to time.  </p>
 <p>12.10. Any monies held in Your account shall NOT attract interest.</p>
 <p>12.11. You are solely responsible for any applicable taxes on any stake, prizes and/or winnings that You collect from Your use of the Service over and above taxes collected by us on Your behalf. We will deduct applicable taxes from any stake, prizes or winnings prior to payment to You; as a result, You acknowledge and agree that any amounts You receive shall be net of such deductions.</p>
-<p>12.12. Bethipo reserves the right to monitor any irregular activity. We further reserve the right to withhold any withdrawals and/or confiscate all winnings which We reasonably believe to be related to irregular activity.  </p>
+<p>12.12. majesticbet reserves the right to monitor any irregular activity. We further reserve the right to withhold any withdrawals and/or confiscate all winnings which We reasonably believe to be related to irregular activity.  </p>
     
 <h2>13. INDEMNITY</h2>
 <p>13.1. You agree fully to indemnify, defend and hold us, and our officers, directors, employees, agents, contractors and suppliers, harmless immediately on demand, from and against all claims, liabilities, damages, losses, costs and expenses including legal fees, arising out of any breach of the Terms by You or any other liabilities arising out of Your access and use of the Service (or by anyone else using Your Access Information and/or accessing Your account).</p>
@@ -229,13 +229,13 @@ unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 <h2>16. INTELLECTUAL PROPERTY</h2>
 <p>16.1. The Service is intended solely for personal and non-commercial use by Players. In any event, no one is authorised to copy, modify, tamper with, distribute, transmit, display, reproduce, upload or otherwise alter the content of our Service.</p>
 <p>.</p>
-<p>16.2. You are not the owner of the Software; the Software is owned and is exclusive property of Us, the licensor, an associate, or a third party software provider company, (the "Software Provider"). The Software used and offered, and associated documentation are proprietary products of the Software Provider and it is protected through the world by copyright law. Bethipo is the sole owner of the trademark Bethipo and the Bethipo logo. Any unauthorized use of any URL containing Bethipo and or the Bethipo logo may result in prosecution. Your use of the Software does not allow You or grant You any right of any intellectual property right in the Software.  Bethipo is the owner or the rightful licensee of the rights to the technology, software and business systems used within this Website; this also includes, but is not limited to, the special promotional software and intellectual property of this concept. The contents and structure of the Bethipo Website pages are subject to copyright © and database right in the name of Element Gaming Limited. All rights reserved. The copyright in this Website including all text, graphics, code, files and links belongs to Element Gaming Limited and the site may not be reproduced, transmitted or stored in whole or in part without Element Gaming Limited’s written consent.</p>
+<p>16.2. You are not the owner of the Software; the Software is owned and is exclusive property of Us, the licensor, an associate, or a third party software provider company, (the "Software Provider"). The Software used and offered, and associated documentation are proprietary products of the Software Provider and it is protected through the world by copyright law. majesticbet is the sole owner of the trademark majesticbet and the majesticbet logo. Any unauthorized use of any URL containing majesticbet and or the majesticbet logo may result in prosecution. Your use of the Software does not allow You or grant You any right of any intellectual property right in the Software.  majesticbet is the owner or the rightful licensee of the rights to the technology, software and business systems used within this Website; this also includes, but is not limited to, the special promotional software and intellectual property of this concept. The contents and structure of the majesticbet Website pages are subject to copyright © and database right in the name of Element Gaming Limited. All rights reserved. The copyright in this Website including all text, graphics, code, files and links belongs to Element Gaming Limited and the site may not be reproduced, transmitted or stored in whole or in part without Element Gaming Limited’s written consent.</p>
 <p></p>
 <h2>17. THIRD PARTY CONTENT</h2>
-<p>17.1. Bethipo receives feeds, commentaries and content from a number of suppliers. Certain third-party product providers may require the Customer to agree to additional Terms and Conditions governing the use of their feeds, commentaries and content. If the Customer does not accept the relevant third-party Terms and Conditions, the Customer acknowledges that he/she may not use the relevant feeds, commentaries or content.  </p>
-<p>17.2. Bethipo does not accept any liability in respect of third-party feeds, commentaries and content.</p>
+<p>17.1. majesticbet receives feeds, commentaries and content from a number of suppliers. Certain third-party product providers may require the Customer to agree to additional Terms and Conditions governing the use of their feeds, commentaries and content. If the Customer does not accept the relevant third-party Terms and Conditions, the Customer acknowledges that he/she may not use the relevant feeds, commentaries or content.  </p>
+<p>17.2. majesticbet does not accept any liability in respect of third-party feeds, commentaries and content.</p>
 <p></p>
-<p>17.3. Where link to third party resources appear on the Mobile service, Website and any other media/electronic platform, these links are provided for the information of the Customer only. Bethipo is not responsible and has no control over the content of third party Websites sites or services offered therein, does not make any representations regarding the content or accuracy of materials on such third-party Websites and will accept no liability for any direct or indirect loss or damage that may arise from the access or use of the information provided therein by the Customer. The inclusion of a link to a third party does not constitute an endorsement of that third party’s product or services (if applicable)</p>
+<p>17.3. Where link to third party resources appear on the Mobile service, Website and any other media/electronic platform, these links are provided for the information of the Customer only. majesticbet is not responsible and has no control over the content of third party Websites sites or services offered therein, does not make any representations regarding the content or accuracy of materials on such third-party Websites and will accept no liability for any direct or indirect loss or damage that may arise from the access or use of the information provided therein by the Customer. The inclusion of a link to a third party does not constitute an endorsement of that third party’s product or services (if applicable)</p>
 <h2>18. OUR LIABILITY</h2>
 <p></p>
 <p>18.1. In no event shall we or the software provider, or any of our or their affiliates and related parties, be</p>

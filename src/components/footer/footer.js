@@ -10,14 +10,14 @@ const Footer = (props) => {
         <footer className="footer-custom">
             <div className="row">
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 text-white">
-                    <h5>BETHIPO</h5>
+                    <h5>majesticbet</h5>
                     <ul>
                         <li className="">
                             BOX 347856-00100, NAIROBI
                         </li>
                         <li className="">
-                            <a href="mailto:customercare@bethipo.co.ke">
-                                <FontAwesomeIcon icon={faEnvelope}/> customercare@bethipo.co.ke
+                            <a href="mailto:customercare@majesticbet.co.ke">
+                                <FontAwesomeIcon icon={faEnvelope}/> customercare@majesticbet.co.ke
                             </a>
                         </li>
                         <li className="footer-icon">

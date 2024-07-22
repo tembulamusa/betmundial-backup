@@ -117,7 +117,7 @@ const HeaderLogin = (props) => {
                             <label>
                                <input type="hidden" name="remember" value="1"/> 
                                 <a className="m-lg-2" href="/verify-account" title="Verify Account">
-                                    <span className="register-label">Already using BETHIPO?, Verify</span>
+                                    <span className="register-label">registered?, Verify</span>
                                 </a>
                             </label>
                         </span>

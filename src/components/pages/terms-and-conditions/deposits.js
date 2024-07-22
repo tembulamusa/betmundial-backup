@@ -22,21 +22,21 @@ const Deposits = () => {
                         deposit methods availed on the company’s website. Further
                         information
                         about the deposit methods are included in the Deposit section on the
-                        website (www.bethipo.com).
+                        website (www.majesticbet.com).
                     </li>
                     <li>
-                        BetHipo reserves the right to impose certain conditions on the use
+                        majesticbet reserves the right to impose certain conditions on the use
                         of
                         particular payment methods, only but not limited if enforced by
                         payment
                         providers’ requirements, or regulatory requirements in connection to
                         Social Responsibility Code of the license or if is connected to the
-                        suspicious activity of the particular player. BetHipo retains the
+                        suspicious activity of the particular player. majesticbet retains the
                         right
                         to change the payment methods available.
                     </li>
                     <li>
-                        BetHipo does not guarantee that all methods of payment are available
+                        majesticbet does not guarantee that all methods of payment are available
                         at all times but will do utmost to provide customers with continuous
                         service.
                     </li>
@@ -45,7 +45,7 @@ const Deposits = () => {
                         account in real time, other methods might take longer to process.
                     </li>
                     <li>
-                        BetHipo reserves the right to request further information and
+                        majesticbet reserves the right to request further information and
                         documentation regarding CLIENT'S age, identity and place of
                         residence
                         following any deposits or prior to any withdrawals, in particular
@@ -62,7 +62,7 @@ const Deposits = () => {
                         diverging data, we reserve the right to cancel the bets along with
                         the
                         payment of the account balance, unless the CLIENT can demonstrate
-                        entitlement to the balance by some other means. BetHipo reserves the
+                        entitlement to the balance by some other means. majesticbet reserves the
                         right to request an image of both sides of the debit/credit card
                         used to
                         deposit as supporting evidence in case a deposit comes from a non 3D
@@ -82,7 +82,7 @@ const Deposits = () => {
                         page.
                     </li>
                     <li>
-                        The player acknowledges that BetHipo reserves the right to request
+                        The player acknowledges that majesticbet reserves the right to request
                         proof of payments to player’s accounts to confirm a depositing
                         source or
                         complete verification process.

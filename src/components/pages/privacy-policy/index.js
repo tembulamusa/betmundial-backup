@@ -31,7 +31,7 @@ const PrivacyPolicy = () => {
 <h1>Introduction and general terms</h1>
 
    <p>This privacy policy document is used to inform customers our policies on collection, use, and disclosure of
-   Personal Information and data collected from website visitors. At Bethipo we are committed to protecting and
+   Personal Information and data collected from website visitors. At majesticbet we are committed to protecting and
    respecting your privacy and maintaining the confidence and trust of our customers.</p>
 
    <p>This Privacy Policy explains how and why your personal information is collected, through the use of our website
@@ -70,16 +70,16 @@ const PrivacyPolicy = () => {
     <p>If you give us personal information about someone else then you should not do so without their permission.
         Where information is provided by you about someone else, or someone else discloses information about
         you, it may be added to any personal information that is already held by us and it will be used in the ways
-        described in this Privacy Policy. This list of personal data types collected by Bethipo is not exhaustive and
-        further information may be requested from you when Bethipo considers it fair and necessary to do so.</p>
+        described in this Privacy Policy. This list of personal data types collected by majesticbet is not exhaustive and
+        further information may be requested from you when majesticbet considers it fair and necessary to do so.</p>
 
    <h2>D. Special categories of data: </h2>
-   <p>Personal data collected by Bethipo may include so called “special categories of
+   <p>Personal data collected by majesticbet may include so called “special categories of
        data”, such as data revealing health (in relation to responsible gaming policies).</p>
 
 <h1>Why do we collect your Personal Data and on what basis?</h1>
 
-   <p>We recognize the trust and confidence our customers place in us as a service provider. In return, Bethipo is open
+   <p>We recognize the trust and confidence our customers place in us as a service provider. In return, majesticbet is open
    about why we collect your data. First and foremost, collecting your information is essential for providing you
    the services and products you want. In addition, your data is used to personalize and improve your experience
    using our services, and to contact you from time to time with important information. In some cases, we need to
@@ -96,7 +96,7 @@ const PrivacyPolicy = () => {
    <p>to provide gaming and betting services, activities or online content, to provide you with information about
        them and to deal with your requests and enquiries;</p>
    <p>for 'service administration purposes', such as password reminders, service messages, such as site
-       maintenance, updates to our Privacy and Cookies Policy or Terms of Use, to let you know if your Bethipo
+       maintenance, updates to our Privacy and Cookies Policy or Terms of Use, to let you know if your majesticbet
        account has become dormant and to ask if you would like to use it again before we close it;</p>
    <p>to assess betting risk - when you make a bet, an automated system may be used to assess the risk connected
        to your bet, in accordance with our Betting Rules. It is a system widely used by the betting operators to help
@@ -122,7 +122,7 @@ const PrivacyPolicy = () => {
 <p>If you are signed-in or subscribed to our marketing offers, you will receive a personalized service. If you
      don’t want to receive these services, you can unsubscribe from marketing offers.</p>
 <p>to provide you with the most user-friendly online navigation experience;</p>
-<p>for analysis and research purposes so that we may improve the services offered by Bethipo;</p>
+<p>for analysis and research purposes so that we may improve the services offered by majesticbet;</p>
 <p>testing new systems and checking upgrades to existing systems;</p>
 <p>evaluating the effectiveness of marketing and for market research and training;</p>
 <p>customer modelling, statistical and trend analysis, with the aim of developing and improving products and
@@ -191,10 +191,10 @@ const PrivacyPolicy = () => {
 <p>You have the option to either accept or refuse these cookies, and know when a cookie is being sent to your phone/computer. If you choose to refuse our cookies, you may not be able to use some features of our Services.</p>
 <h1>When do we share your personal information?</h1>
 <p></p>
-<p>We do not share your personal information to third parties outside Bethipo for marketing purposes.  However, there are circumstances when we share your personal data with third parties that provide services to you on our behalf, and with other third parties in the course of complying with our legal obligations. Other examples of when we share your personal information include when we enter any kind of merger or business sale, as customers’ personal information is likely to be included in the sale/transfer. Additionally, the personal information may be stored and/or processed for the purposes set forth above in this Privacy Statement in any country where our affiliates, suppliers, subsidiaries or agents operate in</p>
+<p>We do not share your personal information to third parties outside majesticbet for marketing purposes.  However, there are circumstances when we share your personal data with third parties that provide services to you on our behalf, and with other third parties in the course of complying with our legal obligations. Other examples of when we share your personal information include when we enter any kind of merger or business sale, as customers’ personal information is likely to be included in the sale/transfer. Additionally, the personal information may be stored and/or processed for the purposes set forth above in this Privacy Statement in any country where our affiliates, suppliers, subsidiaries or agents operate in</p>
 <p></p>
 <p>We would inform you prior to affecting such transfer of personal data. Even when it is shared, we ensure that your personal information will only be used for the purposes outlined in this Privacy Notice.  </p>
-<p>We may share the personal data we collect within Bethipo for the following purposes:</p>
+<p>We may share the personal data we collect within majesticbet for the following purposes:</p>
 <p></p>
 <p>providing you with products and services and notifying you about either important changes or developments to the features and operation of those products and services;</p>
 <p>responding to your enquiries and complaints; o         administering offers, competitions, and promotions; o facilitating the secure access to online platforms</p>
@@ -208,7 +208,7 @@ const PrivacyPolicy = () => {
 <p>providing you with products and services and notifying you about either important changes or developments to the features and operation of those products and services;</p>
 <p>when ordered to do so by any regulatory body and/or under any legal provision contained in the governing law;</p>
 <p>we may instruct and authorize the Financial Institution with which an Account Holder's account is held to disclose any information as may be requested by the Regulator in respect of an Account Holder's account; o in order to establish, exercise or defend our legal rights;</p>
-<p>for verification, and fraud detection purposes, we may transfer your personal data to third parties, including but not limited to so-called Address Verification System service providers, Payment Service Providers, Financial Institutions, and credit reference agencies. Furthermore, we reserve the right to disclose the Account Holder’s personal data to relevant parties where Bethipo has reasonable grounds to suspect irregularities involving a Bethipo Account;</p>
+<p>for verification, and fraud detection purposes, we may transfer your personal data to third parties, including but not limited to so-called Address Verification System service providers, Payment Service Providers, Financial Institutions, and credit reference agencies. Furthermore, we reserve the right to disclose the Account Holder’s personal data to relevant parties where majesticbet has reasonable grounds to suspect irregularities involving a majesticbet Account;</p>
 <p>with service providers to enable us to provide our services, such as companies that help us with technology services, storing and combining data, and processing payments or providing relevant online advertising for our products and services;</p>
 <p>with external auditors who may carry out independent checks as part of our accreditations o to an organisation we sell or transfer (or enter into negotiations to sell or transfer) any of our businesses or any of our rights or obligations under any agreement we may have with you. If the transfer or sale goes ahead, the organisation receiving your personal data can use your personal data in the same way as us; or</p>
 <p>to any other successors in title to our business.</p>
@@ -239,7 +239,7 @@ const PrivacyPolicy = () => {
 <p></p>
 <p>based on our legitimate business interests (including profiling); or done for research and statistical purposes</p>
 <p></p>
-<p>You also have the right to object to the use of your personal information for direct marketing purposes (including profiling), such as when you receive emails from us notifying you about other Bethipo services which we think will be of interest to you.</p>
+<p>You also have the right to object to the use of your personal information for direct marketing purposes (including profiling), such as when you receive emails from us notifying you about other majesticbet services which we think will be of interest to you.</p>
 <p>When we rely on your consent as the basis to process your personal information – such as for sales and marketing communications – you have the right to withdraw your consent at any time by contacting us.</p>
 <p>We sometimes use systems to make automated decisions based on your personal information. This helps us to make sure our decisions are quick, fair, efficient and correct, based on what we know.  These automated decisions can affect the products, services or features we may offer you now or in the future, or the ability to use our services.</p>
 <p>We may use automate decisions making in the following situations:</p>
@@ -254,7 +254,7 @@ const PrivacyPolicy = () => {
 <p>when it is based on your explicit consent.</p>
 
 <h1>Security: </h1>
-<p>We value your trust in availing your Personal Information to us, we thus strive to use commercially acceptable means of protecting it from any unauthorized external or internal access without your consent.  Bethipo shall not take responsibility whatsoever for events beyond its control. These include but are not limited to inclusive of, but not limited to acts of God or natural disasters and including power cuts and strikes.  Furthermore, no method of transmission over the internet, or electronic storage is 100% secure or offers absolute reliability. We therefore cannot guarantee absolute security.  </p>
+<p>We value your trust in availing your Personal Information to us, we thus strive to use commercially acceptable means of protecting it from any unauthorized external or internal access without your consent.  majesticbet shall not take responsibility whatsoever for events beyond its control. These include but are not limited to inclusive of, but not limited to acts of God or natural disasters and including power cuts and strikes.  Furthermore, no method of transmission over the internet, or electronic storage is 100% secure or offers absolute reliability. We therefore cannot guarantee absolute security.  </p>
 <h1>Children’s Privacy</h1>
 <p>Our Services do not address anyone under the age of 18. We do not knowingly collect personal identifiable information from children under 18. In the case we discover that a child under 18 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.</p>
 <p></p>

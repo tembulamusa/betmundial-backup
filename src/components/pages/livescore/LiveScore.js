@@ -26,7 +26,7 @@ const LiveScore = () => {
         {/**
         <iframe src="#"
                                                             height={'100%'} className={'vh-100 frame-spacing'}
-                                                            title="BetHipo Livescore"></iframe>
+                                                            title="majesticbet Livescore"></iframe>
                                                             **/}
                                                 </div>
                                             </div>

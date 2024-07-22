@@ -19,13 +19,13 @@ const IntellectualProperty = () => {
                 <ul>
                     <li>
                         All content, trademarks, services marks, trade names and logos are
-                        the property of BetHipo and are protected by copyright laws,
+                        the property of majesticbet and are protected by copyright laws,
                         international treaties and provisions.
                     </li>
                     <li>
                         The CLIENT agrees not to delete any copyright notices or other
                         indications of protected intellectual property rights from materials
-                        that the CLIENT receives from BetHipo or BetHipo’ WEBSITES. The
+                        that the CLIENT receives from majesticbet or majesticbet’ WEBSITES. The
                         CLIENT
                         will not obtain any intellectual property rights in, or any right or
                         license to use such materials or the WEBSITES, other than as set out
@@ -34,17 +34,17 @@ const IntellectualProperty = () => {
                     </li>
                     <li>
                         The CLIENT agrees not to resell marketing materials provided to them
-                        by BetHipo or permit secured access of the Website to others, and
+                        by majesticbet or permit secured access of the Website to others, and
                         not to
                         copy any materials appearing on the Website for resale or for any
                         other
-                        purpose to others without the prior written consent of BetHipo. The
+                        purpose to others without the prior written consent of majesticbet. The
                         same
                         rule applies to all users of the Website not limited to the Account
                         holders.
                     </li>
                     <li>
-                        Images displayed on the Website are either the property of BetHipo
+                        Images displayed on the Website are either the property of majesticbet
                         or
                         to be used with permission. The CLIENT agrees not to upload, post,
                         reproduce or distribute any information, software or other material
@@ -52,7 +52,7 @@ const IntellectualProperty = () => {
                         well as rights of publicity and privacy) without first obtaining the
                         permission of the owner of such rights and the prior written consent
                         of
-                        BetHipo.
+                        majesticbet.
                     </li>
                 </ul>
             </AccordionItemPanel>
