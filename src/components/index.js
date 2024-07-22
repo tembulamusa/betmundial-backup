@@ -83,7 +83,7 @@ const Index = (props) => {
                 setMatches(matches?.length > 0 ? {...matches, ...result?.data} : result?.data || result)
                 setFetching(false)
                 if (result?.slip_data) {
-                    setUserSlipsValidation(result?.slip_data)
+                    setUserSlipsValidation(result?.slip_data);
                 }
                 setProducerDown(result?.producer_status === 1);
             }
