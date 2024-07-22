@@ -366,7 +366,7 @@ const OddButton = (props) => {
             );
             setUcn(uc);
 
-            setOddValue(match?.odds[mkt]);
+            setOddValue(match?.odds?.[mkt]);
         }
     }, [match]);
 
@@ -483,11 +483,11 @@ const OddButton = (props) => {
             {detail &&
                 (<>
                       <span
-                          className="label label-inverse blueish">
+                          className="label label-inverse">
                         {match.odd_key}
                       </span>
                     <span
-                        className="label label-inverse blueish odd-value">
+                        className="label label-inverse odd-value">
                             {match?.odd_value}
                      </span>
                 </>)}
@@ -709,13 +709,13 @@ export const MarketList = (props) => {
             {!matchwithmarkets
                 ? <div className="top-matches">Event not available for betting.</div>
                 : <MoreMarketsHeaderRow
-                    {...matchwithmarkets?.data?.match}
-                    score={matchwithmarkets?.data?.match?.score}
+                    {...matchwithmarkets?.match}
+                    score={matchwithmarkets?.match?.score}
                     live={live}
                 />
             }
-            <Container className="web-element">
-                {Object.entries(matchwithmarkets?.data?.odds || {}).map(([mkt_id, markets]) => {
+            <div className="web-element">
+                {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
                     return <MarketRow
                         market_id={mkt_id}
                         markets={markets}
@@ -727,7 +727,7 @@ export const MarketList = (props) => {
                     />
                 })
                 }
-            </Container>
+            </div>
         </div>
     )
 

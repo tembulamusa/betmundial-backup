@@ -158,7 +158,6 @@ const Index = (props) => {
         <>
             <Header/>
             <div className="amt">
-                {window.location.pathname == '/'?<WorldCupModal />:null}
                 <div className="d-flex flex-row justify-content-between">
                     <SideBar loadCompetitions/>
                     <div className="gz home" style={{width: '100%'}}>

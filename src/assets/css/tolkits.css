@@ -717,16 +717,17 @@ header, li a, .thedate span {
 }
 
 .matches .top-matches .match-detail button {
-	cursor: pointer;
-	float: left;
-	min-width: 100%;
-	margin-right: 0px;
-	border-radius: 0px !important;
-	text-align: left;
-	margin-bottom: 10px;
-	height: 40px;
+    cursor: pointer;
+    float: left;
+    min-width: 100%;
+    margin-right: 0px;
+    /* border-radius: 0px !important; */
+    text-align: left;
+    padding-right: 10px;
+    border-radius: 3px !important;
+    margin-bottom: 4px;
+    height: 40px;
 }
-
 .match-detail button .label {
     font-weight:bold;
 }
@@ -870,7 +871,7 @@ header, li a, .thedate span {
 }
 
 .top-matches div:last-child {
-    padding-right:0;
+    /* padding-right:0; */
 }
 
 .home-team {
@@ -14967,11 +14968,11 @@ img.zoom-img {
 .top-matches:nth-child(odd) {
 
 }
-
 .top-matches:nth-child(2n) {
-    background: #f5f5f5b3;
+    /* background: #f5f5f5b3; */
+    border-bottom: 4px solid #f5f5f5;
+    border-top: 4px solid #f5f5f5;
 }
-
 .top-matches:nth-child(2n + 1) {
 
     /* box-sizing: ; */
