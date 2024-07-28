@@ -30,8 +30,8 @@
 }
 
 .pro-sidebar .pro-menu .pro-sub-menu.open > .pro-inner-item {
-    background: rgba(44,36,87,.2);
-    color:#000 !important;
+    background: #2C2457;
+    color: #fff !important;
 }
 
 .pro-sidebar > .pro-sidebar-inner {
@@ -39,7 +39,7 @@
 }
 
 .pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item {
-    background-color: #fff !important;
+    background-color: #f0f0f0 !important;
 }
 
 .pro-sidebar.collapsed .pro-menu > ul > .pro-menu-item.pro-sub-menu > .pro-inner-list-item > .popper-inner {
@@ -1968,6 +1968,9 @@ events-header {
     padding-bottom: 45px;
 }
 
+.pro-sub-menu.open .react-slidedown.pro-inner-list-item.transitioning {
+    background: #f0f0f0 !important;
+}
 .opacity-reduce-txt {
     opacity: 0.8;
 }

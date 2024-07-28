@@ -106,7 +106,7 @@ const HeaderLogin = (props) => {
                             <div className="input-group">
                                 <input type="text"
                                     name="msisdn"
-                                    className={`top-login-input-field ${errors.msisdn && 'text-danger'} px-2 py-2`}
+                                    className={`top-login-input-field ${errors.msisdn && 'text-danger'} !px-2 !py-2`}
                                     // style={{borderRight:"1px solid #dddddd"}}
                                     data-action="grow"
                                     placeholder={errors.msisdn || "+254........."}
@@ -115,7 +115,7 @@ const HeaderLogin = (props) => {
                                 />
                                 <input type="password"
                                     name="password"
-                                    className={`top-login-input-field ${errors.password && 'text-danger'} px-2 py-2`}
+                                    className={`top-login-input-field ${errors.password && 'text-danger'} !px-2 !py-2`}
                                     style={{borderLeft:"1px solid #cccccc"}}
                                     data-action="grow"
                                     placeholder={errors.password || "Password"}
