@@ -61,3 +61,7 @@ code {
   font-weight: 700;
   padding: 6px 12px;
 }
+
+.bg-pink {
+  background: rgba(231, 6, 84, 0.958);
+}

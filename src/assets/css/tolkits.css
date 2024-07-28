@@ -815,7 +815,7 @@ header, li a, .thedate span {
     min-width: 0 !important;
     display: block;
     position: absolute;
-    right: 0;
+    right: -10px;
     text-align: right !important;
     padding-right: 0 !important;
     bottom: 20%;
@@ -894,7 +894,7 @@ header, li a, .thedate span {
 	/* min-height: 35px; */
 	/* height: auto; */
 	/* margin-right: ; */
-	padding-right: 15px;
+	padding-right: 10px;
 }
 
 .top-matches div:last-child {

@@ -39,13 +39,15 @@ const SlipCounter = (props) => {
 const SharedBetslip = (props) => {
 
     return (
-        <div className='std-block'>
-            <div className='my-3'>Do you have a shared betslip code? Enter it here.</div>
-
-            <input placeholder='eg BsjUL' className='w-full rounded-2xl std-input px-3 py-2 mb-3'/>
-
-            <button className='capitalize py-2 px-x secondary-bg border-none rounded-2xl w-full text-white'>load betslip</button>
-        </div>
+        <div className='std-block p-3'>
+            <div className='my-3 text-center text-2xl'>You have not selected any bet. <br/>Make your first pick to start playing.</div>
+            <hr/>
+            <div className='my-3'>
+                <h2>Or Introduce your bet code:</h2>
+                <input placeholder='eg BsjUL' className='mr-3 rounded-xl std-input px-3 py-2 mb-3 border border-gray-200'/>
+                <button className='capitalize secondary-bg bg-pink p-3 font-bold btn btn-pink border-none rounded-xl text-white uppercase px-5'>ADD</button>
+            </div>
+            </div>
     )
 }
 const LoadedBetslip = (props) => {
