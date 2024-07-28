@@ -100,49 +100,59 @@ const HeaderLogin = (props) => {
         }
         return (
             <>
-                <Form className="ow og i web-element">
+                <Form className="header-login-form">
                     <Row>
-                        <div className="col-5">
-                            <input type="text"
-                                   name="msisdn"
-                                   className={`top-login-input-field ${errors.msisdn && 'text-danger'}`}
-                                   style={{width:"100%"}}
-                                   data-action="grow"
-                                   placeholder={errors.msisdn || "+254........."}
-                                   onChange={ev => onFieldChanged(ev)}
-                                   value={values.msisdn}
-                            />
-                            <br/>
-                            <span className="sticky-hidden">
-                            <label>
-                               <input type="hidden" name="remember" value="1"/> 
-                                <a className="m-lg-2" href="/verify-account" title="Verify Account">
-                                    <span className="register-label">registered?, Verify</span>
-                                </a>
-                            </label>
-                        </span>
+                        <div className='col-9'>
+                            <div className="input-group">
+                                <input type="text"
+                                    name="msisdn"
+                                    className={`top-login-input-field ${errors.msisdn && 'text-danger'} px-2 py-2`}
+                                    // style={{borderRight:"1px solid #dddddd"}}
+                                    data-action="grow"
+                                    placeholder={errors.msisdn || "+254........."}
+                                    onChange={ev => onFieldChanged(ev)}
+                                    value={values.msisdn}
+                                />
+                                <input type="password"
+                                    name="password"
+                                    className={`top-login-input-field ${errors.password && 'text-danger'} px-2 py-2`}
+                                    style={{borderLeft:"1px solid #cccccc"}}
+                                    data-action="grow"
+                                    placeholder={errors.password || "Password"}
+                                    onChange={ev => onFieldChanged(ev)}
+                                    value={values.password}
+                                />
+                                <button className="btn-default top-login-btn btn text-white font-bold uppercase !py-3" type="submit">
+                                    {isLoading ? <span>Login ..</span> : <span className='font-bold'>Login</span>}
+                                </button>
+
+                                
+                            </div>
+                                
+                            <div className="">
+                                
+                                <span className="sticky-hidden">
+                                    <label>
+                                    <input type="hidden" name="remember" value="1"/> 
+                                        <a className="m-lg-2" href="/verify-account" title="Verify Account">
+                                            <span className="register-label">registered?, Verify</span>
+                                        </a>
+                                    </label>
+                                    <input type="hidden" name="ref" value="{props.refURL}"/>
+                                    <a href="/reset-password" title="Reset password" className='ml-4'>
+                                        <span className="sticky-hidden">Forgot Password?</span>
+                                    </a>
+                                </span>
+                                
+                            </div>
                         </div>
-                        <div className="col-5">
-                            <input type="password"
-                                   name="password"
-                                   className={`top-login-input-field ${errors.password && 'text-danger'} `}
-                                   data-action="grow"
-                                   style={{width:"100%"}}
-                                   placeholder={errors.password || "Password"}
-                                   onChange={ev => onFieldChanged(ev)}
-                                   value={values.password}
-                            />
-                            <br/>
-                            <input type="hidden" name="ref" value="{props.refURL}"/>
-                            <a href="/reset-password" title="Reset password">
-                                <span className="sticky-hidden">Forgot Password?</span>
+                        <div className="col-3">
+                            <a className="top-login-btn btn yellow-btn ml-3" href="/signup" title="Join now" style={{ fontSize: "13px", fontWeight: "bold"}}>
+                                <span className="register-label uppercase">Register</span>
                             </a>
                         </div>
-                        <div className="col-sm-2">
-                            <button className="cg login-button btn" type="submit">
-                                {isLoading ? <span>Login ..</span> : <span>Login</span>}
-                            </button>
-                        </div>
+
+                        
                     </Row>
                 </Form>
             </>
@@ -175,18 +185,16 @@ const HeaderLogin = (props) => {
             </Row> */}
             <Row style={{marginBottom:"10px"}}>
                 <Col xs={3}className="d-inline-flex justify-content-center" style={{margin:"auto"}}>
-                    <ToastContainer/>
+                    
 
-                    { user && 
-                        <a className="filter-icon" href="/deposit" title="Deposit" style={{ fontSize: "16px", fontWeight: "bold", background:"#39b54a", padding:"5px 20px"}} >
-                                    <span className="register-label">Deposit</span>
-                                </a>
-                    }
-                    <a className="filter-icon" href="/signup" title="Join now" style={{ fontSize: "16px", fontWeight: "bold"}}>
-                        <span className="register-label">Register now!</span>
-                    </a>
+                    
                 </Col>
-                <Col xs={6}><LoginForm/></Col>
+                <Col xs={6}>
+                    <ToastContainer/>
+                    
+                    <LoginForm/>
+                    
+                </Col>
             </Row>
         </Container>
     )

@@ -214,7 +214,7 @@ const MainTabs = (props) => {
                         <button className={`btn-secondary ${activeTab === 'tomorrow' && 'home-tab-active'}`}
                             onClick={() => setActiveTabSpace('tomorrow')}>Tomorrow</button>
                 </div>
-                <div className="filter-group-icon" key="1">
+                {/* <div className="filter-group-icon" key="1">
                     <Dropdown>
                         <Dropdown.Toggle id="dropdown-custom-components" variant="secondary" >
                             { selectedSport?.label }
@@ -231,8 +231,8 @@ const MainTabs = (props) => {
                           }
                         </Dropdown.Menu>
                       </Dropdown>
-                </div>
-                <div className="filter-group-icon" key="2">
+                </div> */}
+                {/* <div className="filter-group-icon" key="2">
                     <Dropdown>
                         <Dropdown.Toggle id="dropdown-custom-components" variant="secondary" >
                             { selectedCategory?.label }
@@ -249,9 +249,9 @@ const MainTabs = (props) => {
                           }
                         </Dropdown.Menu>
                       </Dropdown>
-                </div>
+                </div> */}
 
-                { competitions && <div className="filter-group-icon" key="3">
+                {/* { competitions && <div className="filter-group-icon" key="3">
                     <Dropdown>
                         <Dropdown.Toggle id="dropdown-custom-components" variant="secondary" >
                             { selectedCompetition?.label }
@@ -269,7 +269,7 @@ const MainTabs = (props) => {
                         </Dropdown.Menu>
                       </Dropdown>
                 </div> 
-               }
+               } */}
             </Row>
         </div>
     )

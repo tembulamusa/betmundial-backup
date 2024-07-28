@@ -10,7 +10,7 @@ import makeRequest from '../utils/fetch-request';
 import {setLocalStorage} from '../utils/local-storage';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
-import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/logo2.png';
 import {Navbar, Nav, Offcanvas} from "react-bootstrap";
 import SideBar from "../sidebar/awesome/Sidebar";
 import {Menu, MenuItem, ProSidebar, SidebarContent, SidebarHeader, SubMenu} from "react-pro-sidebar";

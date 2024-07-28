@@ -287,7 +287,7 @@ const SideBets = (props) => {
 
     return (
         <div
-            className={`bet-fix events-odd pad ${picked} align-self-center more-markets-container m-lg-2`}>
+            className={` ${picked} align-self-center more-markets-container m-lg-2`}>
             {(match?.side_bets > 1) && <>
                 <a className="side" title={'More Markets'}
                    href={`/match/${live ? 'live/' : ''}${
@@ -590,6 +590,7 @@ const MatchRow = (props) => {
     }
     // console.log("MATCH:::::::::::==============::::::::::::::", match)
     return (
+        <>
         <div className="top-matches d-flex">
             <div className="col-sm-2 col-xs-12 pad left-text" key="22">
                 {live &&
@@ -691,11 +692,14 @@ const MatchRow = (props) => {
                     }
                 </div>
                 
-                {!pdown && !jackpot &&
-                    <SideBets match={match} live={live} style={{d: "inline"}}/>}
+                
             </div>
-
+            {!pdown && !jackpot &&
+                    <SideBets match={match} live={live} style={{d: "inline"}}/>}
         </div>
+        
+        </>
+        
     )
 
 }

@@ -83,12 +83,33 @@
 }
 
 .filter-icon {
-    background: #902065;
+    /* background: rgba(231, 6, 84, 0.958); */
+    width: -moz-fit-content;
     width: fit-content;
-    margin: 5px 10px 5px 0px;
+    /* margin: 5px 0px 5px 0px; */
     border-radius: 10px;
     color: #fff;
-    padding: 5px 10px;
+    padding: 7px 9px;
+}
+.secondary-bg {
+    
+}
+
+.top-login-btn {
+    background: #4d4093;
+    border: 1px solid #6c5cc0 !important;
+    font-weight: 700;
+    padding: 6px 15px !important;
+}
+
+.input-group .btn {
+    position: relative;
+    padding: 7px;
+    margin-top: -6px;
+    border: 1px solid;
+    z-index: 2;
+    min-width: 65px;
+    font-weight: b;
 }
 
 .filter-group-icon {
@@ -123,7 +144,7 @@
 	position: sticky !important;
 	margin-left: 2px;
 	outline: none !important;
-	color: #902065;
+	color: rgba(231, 6, 84, 0.958);
 	border-radius: ;
 	margin-right: 5px !important;
 	margin-top: 5px !important;
@@ -227,14 +248,15 @@ header, li a, .thedate span {
     color:#fff;
 }
 
-.header-menu li.active  a, .header-menu li.active a:hover{
-    background-color: #2c2457 !important;
-    color:#fff;
-    border-radius: 10px;
-    padding:5px 10px;
+.header-menu li.active  a, .header-menu li.active a:hover {
+    /* background-color: #2c2457 !important; */
+    color: #fff;
+    border-radius: 0;
+    padding: 0 !important;
+    /* border-bottom: 3px solid; */
 }
 .header-menu a.active {
-    border-bottom: 2px solid #dfbc64;
+    /* border-bottom: 2px solid #dfbc64; */
 }
 
 .betslip input[type="number"] {
@@ -790,9 +812,14 @@ header, li a, .thedate span {
 }
 
 .more-markets-container {
-    min-width: 50px !important;
+    min-width: 0 !important;
+    display: block;
+    position: absolute;
+    right: 0;
+    text-align: right !important;
+    padding-right: 0 !important;
+    bottom: 20%;
 }
-
 .picked .theodds,
 .picked .mobi-odd {
     color: #fff;
@@ -1918,11 +1945,11 @@ events-header {
 }
 
 .second-nav {
-    background: #902065 !important;
+    background: rgba(231, 6, 84, 0.958) !important;
     font-size: 12px;
-    box-shadow: 0 1px 2px #2C2457;
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-    -webkit-box-shadow: 0 1px 2px #902065;
+    box-shadow: 0 1px 2px rgba(231, 6, 84, 0.958);
+    -moz-box-shadow: 0 1px 2px rgba(231, 6, 84, 0.958);
+    -webkit-box-shadow: 0 1px 2px rgba(231, 6, 84, 0.958);
 }
 
 .leftpad a {
@@ -1932,12 +1959,13 @@ events-header {
 .top-nav {
     top: -2px;
     padding-top: 10px;
-    background:#2C2457 !important;
+    background: #2C2457 !important;
     background-size: cover;
     background-position: center center;
     padding-bottom: 5px;
     background-size: cover;
     z-index: 9999 !important;
+    padding-bottom: 45px;
 }
 
 .opacity-reduce-txt {
@@ -2011,11 +2039,16 @@ events-header {
 
 .matches .top-matches button {
     height: 30px;
+    margin-right: 2px;
     border-radius: 2px !important;
 }
 
+.more-markets-container {
+
+}
+
 .home-team {
-    background: #d7d7d7 !important;
+    background: rgb(243 244 246)!important;
     color: #2c2457!important;
     font-weight: 100 !important;
 }
@@ -2039,12 +2072,12 @@ events-header {
     margin-bottom: 0px;
     padding-left: 10px;
     padding-right: 10px;
+    position: relative;
     font-weight: normal;
     color: #797979;
     font-size: 12px;
-    margin:0px;
+    margin: 0px;
 }
-
 .mobi #search-event {
     padding-top: 0;
     padding-bottom: 0;
@@ -2333,17 +2366,14 @@ th {
 }
 
 
-input,
-button,
-select,
-textarea {
+input, button, select, textarea {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
     background: #fff;
     border: none;
     border-radius: 2px;
-    padding: 2px 5px;
+    padding: 3px 5px;
 }
 
 a {
@@ -2521,7 +2551,7 @@ footer a {
 }
 
 .spacing-end {
-    margin-left: auto;
+    margin-left: auto !important;
 }
 
 .footer-lower a {
@@ -7656,7 +7686,7 @@ ul.sport {
     }
 
     .app-header-nav {
-        margin-top: 120px;
+        margin-top: 130px;
     }
 
     .shrink-header .second-nav {
@@ -7664,7 +7694,7 @@ ul.sport {
     }
 
     .amt {
-        margin-top: 130px !important;
+        margin-top: 145px !important;
         scroll-margin-top: 140px;
     }
 }
@@ -8860,16 +8890,23 @@ fieldset[disabled] .pa .fu:focus {
 
 .header-menu li {
     box-shadow: none !important;
-    border-radius: 8px;
+    border-radius: 0;
     display: flex !important;
     justify-content: center;
     align-items: center;
+    margin-right: 10px;
+    border-bottom: 3px solid transparent;
+    margin-left: 10px;
+}
+.header-menu li.active {
+    color: #fff;
+    border-bottom-color:#fff;
 }
 
 .pc .navbar-nav > li > a {
-    margin-right: 10px;
-    margin-left: 10px;
-    color:#fff;
+    margin-right: 0;
+    margin-left: 0;
+    color: #fff;
 }
 
 .pc .navbar-nav > .active > a,
@@ -15174,17 +15211,17 @@ h4.live-header {
 
 li a.live-game.active, .navbar-nav li a.live-game.active, li a.live-game {
     color: #fff;
-    background-color: red;
+    /* background-color: red; */
 }
 
 li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-game:hover {
     color: #fff;
     background-color: #C00000 !important;
 }
-.navbar-nav li a.live-game{
-    margin:10px;
-    padding:5px 10px;
-    border-radius:10px;
+.navbar-nav li a.live-game {
+    /* margin: 10px; */
+    /* padding: 5px 10px; */
+    /* border-radius: 10px; */
 }
 .pro-sidebar .pro-menu a{
     color:#666 !important;
@@ -15302,7 +15339,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 
 .jp-header-text {
     text-align: center;
-    color: #902065;
+    color: rgba(231, 6, 84, 0.958);
     text-transform: uppercase;
     font-size: 18px;
 }
@@ -15343,12 +15380,12 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
     border: none;
     font-size: 14px;
     text-transform: uppercase;
-    background:#902065;
+    background:rgba(231, 6, 84, 0.958);
 }
 
 .deposit-withdraw-button:hover{
 
-    background:#902065;
+    background:rgba(231, 6, 84, 0.958);
 }
 .input-square {
     border-radius: 0 !important;
@@ -15376,7 +15413,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 
 .login-button {
     color: #ffffff;
-    background-color: #902065 !important;
+    background-color: rgba(231, 6, 84, 0.958) !important;
     border-color: #24367e;
     height: 29px;
     padding: 0px 10px;
@@ -15511,7 +15548,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 .c-btn-group > .c-btn {
     border-radius: 0;
     border: none;
-    border-right: 1px solid #bababa;
+    border: 1px solid #ddd !important;
     width: 50px !important;
     height: 40px !important;
     line-height: 30px;
@@ -15597,8 +15634,8 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 }
 .btn-secondary {
   color: #fff;
-  background-color: #902065;
-  background-color: #902065;
+  background-color: rgba(231, 6, 84, 0.958);
+  background-color: rgba(231, 6, 84, 0.958);
   padding:5px 20px;
   font-size:14px;
   line-height:24px;
@@ -15610,8 +15647,8 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 }
 .btn-check:active + .btn-secondary, .btn-check:checked + .btn-secondary, .btn-secondary.active, .btn-secondary:active, .show > .btn-secondary.dropdown-toggle{
 
-  background-color: #902065;
-  border-color:#902065;
+  background-color: rgba(231, 6, 84, 0.958);
+  border-color:rgba(231, 6, 84, 0.958);
 }
 .dropdown-item{
     border-bottom: 1px solid #f3f3f3;
@@ -15622,8 +15659,8 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 
 .btn-check:focus + .btn-secondary, .btn-secondary:focus {
 	color: #fff;
-	background-color: #902065;
-	border-color: #902065;
+	background-color: rgba(231, 6, 84, 0.958);
+	border-color: rgba(231, 6, 84, 0.958);
 }
 .promo-pannel{
     border:1px solid #bebebe;
@@ -15658,4 +15695,14 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 
 .world-cup-ad .modal-content {
     background: transparent;
-} 
+}
+
+.pro-sidebar .pro-menu {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.gz {
+   
+    margin-top: 0;
+}
