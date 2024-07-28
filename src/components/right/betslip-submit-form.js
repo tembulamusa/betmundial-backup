@@ -137,7 +137,6 @@ const BetslipSubmitForm = (props) => {
 
         makeRequest({url: endpoint, method: method, data: payload})
             .then(([status, response]) => {
-                console.log("PLACEBET RESPONSE:::::::::::::========", status);
                 setMessage(response)
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
                     //all is good am be quiet
@@ -344,7 +343,7 @@ const BetslipSubmitForm = (props) => {
                     </tr>}
 
                     <tr className="bet-win-tr hide-on-affix">
-                        <td> Excise Tax (7.5%)</td>
+                        <td> Excise Tax (12.5%)</td>
                         <td>KES. <span id="tax">{formatNumber(exciseTax)}</span></td>
                     </tr>
                     {jackpot ? (

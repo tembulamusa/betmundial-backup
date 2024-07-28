@@ -1,10 +1,20 @@
 import React, {useState, useContext, useEffect, useCallback} from 'react';
 import QuickLogin from './quick-login';
 import CompanyInfo from './company-info';
-import {Context} from '../../context/store';
 import BetSlip from './betslip';
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Badge} from "react-bootstrap";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+import { Context } from '../../context/store';
+import {
+    getBetslip,
+    getJackpotBetslip,
+} from '../utils/betslip';
+import Mpesa from "../../assets/img/mpesa-1.png";
+import Airtelmoney from "../../assets/img/airtelmoney.png";
+import { useLocation } from 'react-router-dom';
 
 const AlertMessage = (props) => {
     return (
@@ -17,37 +27,64 @@ const AlertMessage = (props) => {
     )
 }
 
-const Right = (props) => {
-    const {jackpot, betslipValidationData, jackpotData} = props;
-    const [betSlipMobile, setBetSlipMobile] = useState(false)
+const SlipCounter = (props) => {
+    const {sliptype} = props;
+    const [state, dispatch] = useContext(Context);
 
     return (
-        <div className="col-md-3 gn betslip-container sticky-top">
-            <div className=" betslip-container d-none d-md-block">
+        <span className=''>{state?.sliptype?.count || 0}</span>
+    )
+}
+
+const SharedBetslip = (props) => {
+
+    return (
+        <div className='std-block'>
+            <div className='my-3'>Do you have a shared betslip code? Enter it here.</div>
+
+            <input placeholder='eg BsjUL' className='w-full rounded-2xl std-input px-3 py-2 mb-3'/>
+
+            <button className='capitalize py-2 px-x secondary-bg border-none rounded-2xl w-full text-white'>load betslip</button>
+        </div>
+    )
+}
+const LoadedBetslip = (props) => {
+    const {jackpot, betslipValidationData, jackpotData} = props;
+    const [betSlipMobile, setBetSlipMobile] = useState(false);
+    const [state, dispatch] = useContext(Context);
+
+    const [hasBetslip, setHasBetslip] = useState(false)
+
+    useEffect(() => {
+        if(state?.betslip || state?.jackpotbetslip){
+            if(Object.entries(state?.betslip).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
+        } else {
+            setHasBetslip(false);
+        }
+    },[state?.betslip, state?.jackpotbetslip]);
+    
+    return (
+        <>
+            {!hasBetslip ? <SharedBetslip /> : ""}
+
+            <div className="betslip-container d-none d-md-block">
                 {props?.message && <AlertMessage classname={props.classname} message={props.message}/>}
                 <div className="bet-option-list sticky-top" id=''>
                     <div className="bet alu block-shadow">
-                        <header>
-                            <div className="betslip-header">
-                    <span className="col-sm-2 bkmrk">
-                        <i className="fa fa-bookmark" aria-hidden="true"></i></span>
-                                <span className="col-sm-8 slp">BETSLIP</span>
-                                <span className="col-sm-2 slip-counter"></span>
-                            </div>
-                        </header>
+                        
                         <button id="slip-button-close" type="button" className="close mobi" aria-hidden="true">×
                         </button>
-                        <div id="betslip" className="betslip">
+                        {hasBetslip ? <div id="betslip" className="betslip">
                             <BetSlip jackpot={jackpot} betslipValidationData={betslipValidationData}
                                      jackpotData={jackpotData}/>
-                        </div>
+                        </div>: ""}
                         <QuickLogin/>
                     </div>
                 </div>
-                <CompanyInfo/>
+                
             </div>
             <div
-                className={`fixed-bottom text-white d-block d-md-none shadow-lg betslip-container-mobile ${betSlipMobile ? 'd-block' : 'd-none'}`}>
+                className={`fixed-bottom text-white d-block d-md-none shadow-sm betslip-container-mobile ${betSlipMobile ? 'd-block' : 'd-none'}`}>
                 <div className="bet-option-list sticky-top" id=''>
                     <div className="bet alu  block-shadow">
                         <header style={{marginTop: "60px"}}>
@@ -59,7 +96,7 @@ const Right = (props) => {
                                 </span>
                             </div>
                         </header>
-                        <div id="betslip" className="betslip">
+                        <div id="betslip" className="betslip">]
                             <BetSlip jackpot={jackpot} betslipValidationData={betslipValidationData}/>
                         </div>
                         <QuickLogin/>
@@ -67,11 +104,58 @@ const Right = (props) => {
                 </div>
             </div>
             <div
-                className={`${betSlipMobile ? 'd-none' : 'd-block'} d-block d-md-none fixed-bottom text-center text-white bg-info bet-slip-footer-toggle`}
+                className={`${betSlipMobile ? 'd-none' : 'd-block'} d-block d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle`}
                 onClick={() => setBetSlipMobile(true)}>
                 Click to show BetSlip
             </div>
+        </>
+    )
+}
+
+
+const Right = (props) => {
+    const [tabKey, setTabKey] = useState("normal");
+    const {jackpot, betslipValidationData, jackpotData} = props;
+    const location = useLocation();
+    const {pathname} = location;
+
+    return (
+        <>
+        {!["/register", "/login", "/signup"].includes(pathname) &&
+        <div className="col-md-3 betslip-container sticky-top">
+            <section id='betslip' className='betslip-v2'>
+                <div className='betslip-header bg-secondary uppercase'>
+                    Betslip
+                </div>
+                <div id='betslip-content' className='betslip-content'>
+                    <LoadedBetslip sliptype = "normal" jackpot={jackpot} jackpotData={jackpotData} betslipValidationData={betslipValidationData} />
+                </div>
+            </section>
+            <section className='betslip-paybill bg-secondary'>
+                <div className="paybillnumbers bg-secondary">
+                    <h2>Paybill Numbers</h2>
+                    <p>Your account/reference number should be your registered number.</p>
+                    <ul>
+                        <li class="mpesa">
+                        <span class="lazy lazy-loaded"><img src={Mpesa} style={{maxWidth:"50px"}} alt='paybill'/></span>
+                        <span>4109000</span>
+                        </li>
+                        {/* <li class="airtelmoney">
+                            <span class="lazy lazy-loaded"><img src={Airtelmoney} style={{maxWidth:"50px"}}/></span>
+                            <span>4109000 or SPORTMULA</span>
+                        </li> */}
+                    </ul>
+                </div>
+            </section>
+            <section id='nav-tabs'>
+                
+
+                {/* <div className='std-block'><CompanyInfo/></div> */}
+            </section>
+            
         </div>
+            }
+        </>
     )
 }
 export default Right;

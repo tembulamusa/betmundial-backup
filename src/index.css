@@ -15,3 +15,49 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.bg-primary {
+  background: #2C2457 !important;
+  color: #ffffff;
+}
+
+.paybillnumbers {
+  /* background: #1c75bc4d!important; */
+  /* background-position: -20% 20%; */
+  /* background-size: 100%; */
+  box-shadow: 0 0 6px 0 #00000080;
+  /* margin-bottom: 16px; */
+  margin-top: 15px;
+  /* padding-bottom: 0; */
+  /* position: relative; */
+  border-radius: 4px !important;
+  text-align: center;
+  z-index: 1;
+}
+.paybillnumbers h2 {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .8px;
+  padding-bottom: 5px;
+  padding-top: 15px;
+  text-transform: uppercase;
+}
+.paybillnumbers ul li {
+  align-items: center;
+  background-color: #ffffff12;
+  border-top: 1px solid #ffffff80;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+.paybillnumbers p {
+  font-size: 12px;
+  padding: 8px;
+}
+.paybillnumbers ul li span {
+  font-weight: 700;
+  padding: 6px 12px;
+}
