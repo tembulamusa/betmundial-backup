@@ -215,16 +215,26 @@ li.bet-option {
 }
 
 .bet-option-list li {
-  padding-bottom: 3px !important;
-  padding-top: 3px !important;
-  background: #c3c3c3;
-  padding: 4px;
+  padding-bottom: 8px !important;
+  padding-top: 0px !important;
+  /* background: #c3c3c3; */
+  padding: 10px;
   text-shadow: none;
   overflow: hidden;
-  margin: 7px 0px;
+  /* margin: 7px 0px; */
   color: #2c2457;
-  opacity: 0.8;
+  border-bottom: 1px dashed #bbbbbb;
+  /* opacity: 0.8; */
   line-height: 1.6;
+}
+.bet-option-list li:last-child {
+  border-bottom: none;
+
+}
+
+.betslip-placebet-section {
+  background: #2C2457;
+  color: #ffffff;
 }
 .bet-cancel {
     float: right;
@@ -257,7 +267,7 @@ li.bet-option {
 .bet-pick {
   font-family: 'Montserrat', sans-serif;
   float: left;
-  margin-top: 5px;
+  /* margin-top: 5px; */
   width: 100%;
   color: #101b25;
 }
@@ -289,10 +299,11 @@ li.bet-option {
 .bet-type{font-size: 12px}
 
 .place-bet-btn {
-  background: #4c2a3e;
+  background: rgba(255, 255,255, 0.18);
   color: #fff;
   border: none;
-  padding: 5px 10px;
+  padding: 10px 10px;
+  width: 140px;
   font-size: 11px;
 }
 
@@ -304,11 +315,11 @@ li.bet-option {
 }
 
 .place-bet-btn.primary, .place_bet_button, #place_bet_button {
-    background: #fbd702 !important;
-    color: #000;
-    border-radius: 2px;
+  background: rgba(255,255,255, 0.96) !important;
+  color: #000;
+  width: 100% !important;
+  border-radius: 2px;
 }
-
 .social-icons{
 	float: right;
 padding-top: 10px;

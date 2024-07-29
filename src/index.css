@@ -65,3 +65,12 @@ code {
 .bg-pink {
   background: rgba(231, 6, 84, 0.958);
 }
+
+.betslip-sport-icon {
+  width: 40px;
+  display: inline-block;
+}
+
+.bet-option {
+  /* font-weight: 600; */
+}

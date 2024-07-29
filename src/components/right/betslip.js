@@ -21,7 +21,7 @@ const BetSlip = (props) => {
     const [betslipKey, setBetslipKey] = useState("betslip");
     const [betslipsData, setBetslipsData] = useState(null);
     const [state, dispatch] = useContext(Context);
-
+    const [hasBetslip, setHasBetslip] = useState(false);
     const [totalOdds, setTotalOdds] = useState(1);
 
     //initial betslip loading
@@ -38,6 +38,13 @@ const BetSlip = (props) => {
         loadBetslip();
     }, [loadBetslip]);
 
+    useEffect(() => {
+        if(state?.betslip || state?.jackpotbetslip){
+            if(Object.entries(state?.betslip).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
+        } else {
+            setHasBetslip(false);
+        }
+    },[state?.betslip, state?.jackpotbetslip]);
 
     useEffect(() => {
         if (state[betslipKey]) {
@@ -136,8 +143,21 @@ const BetSlip = (props) => {
         dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
     }
 
+    const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
+
+        let default_img = 'hipo'
+        let sport_image;
+        try {
+            sport_image = topLeagues ? require(`../../assets${sport_name}`) : require(`../../assets/${folder}/${sport_name}.svg`);
+        } catch (error) {
+            sport_image = require(`../../assets/${folder}/${default_img}.png`);
+        }
+        return sport_image
+    }
     return (
+        
         <div className="">
+            {hasBetslip && <>
             <div className="flow" style={{maxHeight: "50vh", overflowY: "auto"}}>
                 <ul>
                     {Object.entries(betslipsData || {}).map(([match_id, slip]) => {
@@ -153,27 +173,25 @@ const BetSlip = (props) => {
                                            onClick={() => handledRemoveSlip(slip)}/>
                                 </div>
                                 <div className="bet-value">
-                                    <b>
-                                        {<span style={{
-                                            float: "left",
-                                            width: "auto",
-                                            fontWeight: "bold"
-                                        }}>{slip.sport_name},&nbsp;</span>}
+                                        {
+                                            <span 
+                                                style={{
+                                                float: "left",
+                                                width: "auto",
+                                                fontWeight: "500"
+                                            }}>
+                                                <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
+                                                {`${slip.home_team} - ${slip.away_team}`}
+                                            </span>}
                                         {slip.bet_type === 0 && ' Pre-match'}
                                         {slip.bet_type === 1 && ' Live'}
-                                    </b>
-                                </div>
-                                <div className="row">
-                                    <div className="bet-value">{`${slip.home_team} - ${slip.away_team}`}
-                                        <br/><span className="sp_sport"></span>
-                                    </div>
                                 </div>
                                 <div className="row">
                                     <div className="bet-value">
-                                        Market - {slip.odd_type}
+                                        {slip.odd_type}
                                     </div>
                                 </div>
-                                <div className="bet-pick"><b>Your Pick - {slip.bet_pick}
+                                <div className="bet-pick">Your Pick - <b>{slip.bet_pick}
                                     <span className="bet-odd">{slip.odd_value}
                                         {slip.odd_value === 1 &&
                                             (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
@@ -200,7 +218,10 @@ const BetSlip = (props) => {
                     jackpot={jackpot}
                 />
             </div>
+            </>
+        }
         </div>
+        
     )
 }
 export default React.memo(BetSlip);

@@ -428,7 +428,7 @@ header, li a, .thedate span {
 }
 
 .bet-option:nth-child(2n) {
-    background: #d3d3d3;
+    /* background: #d3d3d3; */
 }
 
 #quick-login label {
@@ -498,8 +498,8 @@ header, li a, .thedate span {
 }
 
 .yellow-bg {
-    background: #24367e !important;
-    color: #fff !important;
+    background: rgb(242 194 11) !important;
+    color: #faf4f4 !important;
 }
 
 .compt {
@@ -524,6 +524,7 @@ header, li a, .thedate span {
     color: #000;
     padding: 3px;
     border-radius: 5.2px;
+    border: 1px solid #bbb;
     text-align: center;
 }
 
@@ -15434,9 +15435,13 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 .betslip-container {
     position: sticky !important;
     top: 140px !important;
+    
+}
+.betslip-v2 {
     background: #fff;
     box-shadow: 0px 0px 3px #bbbbbb;
     -webkit-box-shadow: 0px 0px 3px #bbbbbb;
+    border-radius: 3px;
 }
 
 .betslip-container-mobile {

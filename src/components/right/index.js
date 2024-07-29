@@ -43,7 +43,7 @@ const SharedBetslip = (props) => {
             <div className='my-3 text-center text-2xl'>You have not selected any bet. <br/>Make your first pick to start playing.</div>
             <hr/>
             <div className='my-3'>
-                <h2>Or Introduce your bet code:</h2>
+                <h2 className='mb-3'>Or Introduce your bet code:</h2>
                 <input placeholder='eg BsjUL' className='mr-3 rounded-xl std-input px-3 py-2 mb-3 border border-gray-200'/>
                 <button className='capitalize secondary-bg bg-pink p-3 font-bold btn btn-pink border-none rounded-xl text-white uppercase px-5'>ADD</button>
             </div>
@@ -55,7 +55,7 @@ const LoadedBetslip = (props) => {
     const [betSlipMobile, setBetSlipMobile] = useState(false);
     const [state, dispatch] = useContext(Context);
 
-    const [hasBetslip, setHasBetslip] = useState(false)
+    const [hasBetslip, setHasBetslip] = useState(false);
 
     useEffect(() => {
         if(state?.betslip || state?.jackpotbetslip){
@@ -73,13 +73,11 @@ const LoadedBetslip = (props) => {
                 {props?.message && <AlertMessage classname={props.classname} message={props.message}/>}
                 <div className="bet-option-list sticky-top" id=''>
                     <div className="bet alu block-shadow">
-                        
-                        <button id="slip-button-close" type="button" className="close mobi" aria-hidden="true">×
-                        </button>
-                        {hasBetslip ? <div id="betslip" className="betslip">
+                        <button id="slip-button-close" type="button" className="close mobi" aria-hidden="true">×</button>
+                        <div id="betslip" className="betslip">
                             <BetSlip jackpot={jackpot} betslipValidationData={betslipValidationData}
                                      jackpotData={jackpotData}/>
-                        </div>: ""}
+                        </div>
                         <QuickLogin/>
                     </div>
                 </div>
