@@ -17,7 +17,7 @@ const Indemnification = () => {
             </AccordionItemHeading>
             <AccordionItemPanel className='accordion-item-panel'>
                 <p>
-                    The CLIENT agrees to defend and indemnify majesticbet and its officers,
+                    The CLIENT agrees to defend and indemnify surebet and its officers,
                     directors, and employees, and to hold them harmless from and against any
                     and all claims, liabilities, damages, losses, and expenses, including
                     without limitation reasonable attorney's fees and costs, arising out of

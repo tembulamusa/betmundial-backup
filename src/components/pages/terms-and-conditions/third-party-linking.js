@@ -19,8 +19,8 @@ const ThirdPartyLinking = () => {
                 <p>
                     At the company’s discretion, the Websites or other Services may contain
                     links to third party websites. These links are provided solely as a
-                    convenience to you and not as an endorsement by majesticbet of the contents
-                    on such third party websites. majesticbet will not be responsible for the
+                    convenience to you and not as an endorsement by surebet of the contents
+                    on such third party websites. surebet will not be responsible for the
                     content of linked third party sites and does not make any
                     representations regarding the content or accuracy of materials on such
                     third party sites. LINKS TO ANY SERVICES PROVIDED BY A THIRD PARTY ARE
@@ -31,10 +31,10 @@ const ThirdPartyLinking = () => {
                     THIRD PARTY WEBSITES, YOU DO SO AT YOUR OWN RISK.
                 </p>
                 <p>
-                    majesticbet does not permit linking from its Websites or its Services to
+                    surebet does not permit linking from its Websites or its Services to
                     third party websites or services or the display of third party content
                     on top of, or in addition or as an alternative to, our Websites or
-                    Services without our express written consent. In particular, majesticbet
+                    Services without our express written consent. In particular, surebet
                     expressly prohibits third parties from framing, similar techniques or
                     other acts of impairment of a user's experience when they visit our
                     Websites or engage with our Services. To this end, and by your

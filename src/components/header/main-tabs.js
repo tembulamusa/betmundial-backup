@@ -11,13 +11,21 @@ import highlightsIconSvg from "../../assets/svg/toggle-off-icon.svg"
 import { faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Context} from '../../context/store';
-
+import {
+    ProSidebar, 
+    Menu, 
+    MenuItem, 
+    SubMenu, 
+    SidebarHeader, 
+    SidebarContent 
+} from 'react-pro-sidebar';
 
 import {
     faSearch,
     faToggleOn,
     faTasks,
 } from '@fortawesome/free-solid-svg-icons'
+import { getFromLocalStorage } from '../utils/local-storage';
 
 const MainTabs = (props) => {
     const {tab, fetching} = props;
@@ -160,6 +168,9 @@ const MainTabs = (props) => {
         dispatch({type:"DEL", key:"filtercategory"});
         dispatch({type:"SET", key:"filtermenuclicked", payload:true});
 
+        // Load the respective game to the url path...
+
+
     } 
 
     const setActiveTabSpace = (tab) => {
@@ -196,23 +207,58 @@ const MainTabs = (props) => {
         setSelectedCompetition(cspc); 
         dispatch({type:"SET", key:"filtercompetition", payload:cspc});
         dispatch({type:"SET", key:"filtermenuclicked", payload:true});
-    } 
+    }
+
+    const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
+
+        let default_img = 'hipo'
+        let sport_image;
+        try {
+            sport_image = topLeagues ? require(`../../assets${sport_name}`) : require(`../../assets/${folder}/${sport_name}.svg`);
+        } catch (error) {
+            sport_image = require(`../../assets/${folder}/${default_img}.png`);
+        }
+        return sport_image
+    }
 
     return (
-        <div>
-            <Row className="full-mobile filter-groups">
+        <div className='bg-white shadow-sm border-b border-gray-200 mb-3 block relative z-[9999]'>
+            <Row className="border-b border-gray-200 !uppercase font-bold">
+                <div className='col-4'>
+                    <div className="filter-group-icon mb-0" key="1">
+                        <Dropdown>
+                            <Dropdown.Toggle id="dropdown-custom-components" variant="transparent-selector" >
+                                { selectedSport?.label }
+                            </Dropdown.Toggle>
 
-                <div className="filter-group-icon">
-                    <button className={`btn-secondary ${activeTab === 'highlights' && 'home-tab-active'}`} 
-                       onClick = {() => setActiveTabSpace('highlights')} >Highlights</button>
+                            <Dropdown.Menu >
+                            {
+                                sports && sports.map((sport) => { 
+                                    return <Dropdown.Item 
+                                        key={sport.sport_id}
+                                        eventKey={sport.sport_id} 
+                                        onClick={() => handleSportsSelect(sport)}>{ sport.label}</Dropdown.Item> 
+                                })
+                            }
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
                 </div>
-                <div className="filter-group-icon">
-                        <button className={`btn-secondary ${activeTab === 'today' && 'home-tab-active'}`} 
-                            onClick ={() => setActiveTabSpace('today')}>Today's</button>
-                </div>
-                <div className="filter-group-icon">
-                        <button className={`btn-secondary ${activeTab === 'tomorrow' && 'home-tab-active'}`}
-                            onClick={() => setActiveTabSpace('tomorrow')}>Tomorrow</button>
+                <div className='col-8 text-gray-500 cursor-pointer'>
+                    <div className='row'>
+                        <div className="col-4">
+                            <div className={`home-tabs hover:text-hover ${activeTab === 'highlights' && 'home-tab-active'}`} 
+                            onClick = {() => setActiveTabSpace('highlights')} >Highlights</div>
+                        </div>
+                        <div className="col-4">
+                                <div className={`home-tabs hover:text-hover ${activeTab === 'today' && 'home-tab-active'}`} 
+                                    onClick ={() => setActiveTabSpace('today')}>Today's</div>
+                        </div>
+                        <div className="col-4">
+                                <div className={`home-tabs hover:text-hover ${activeTab === 'tomorrow' && 'home-tab-active'}`}
+                                    onClick={() => setActiveTabSpace('tomorrow')}>Tomorrow</div>
+                        </div>
+                    </div>
                 </div>
                 {/* <div className="filter-group-icon" key="1">
                     <Dropdown>
@@ -259,11 +305,14 @@ const MainTabs = (props) => {
 
                         <Dropdown.Menu variant="default">
                           {
-                              competitions.map((competition) => { 
+                              competitions.top_soccer?.map((competition) => { 
                                  return <Dropdown.Item 
                                   key={competition.competition_id}
-                                  eventKey={competition.competition_id} 
-                                  onClick={() => handleCompetitionSelect(competition)}>{ competition.label}</Dropdown.Item> 
+                                  eventKey={competition.competition_id}>
+                                    <a href={`/competition/${competition.sport_id}/${competition.category_id}/${competition.competition_id}`}>
+                                        {competition?.competition_name}
+                                    </a>
+                                    </Dropdown.Item> 
                               })
                           }
                         </Dropdown.Menu>
@@ -271,6 +320,23 @@ const MainTabs = (props) => {
                 </div> 
                } */}
             </Row>
+            <div className='py-2 my-2 mx-2 flex'>
+                <a href={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
+                    All
+                </a>
+                {state?.categories?.top_soccer?.map((competition, idx) => (
+                    <>
+                        
+                        <a href={`/competition/${competition.sport_id}/${competition.category_id}/${competition.competition_id}`}
+                        className='mx-3' style={{fontSize: "13px"}}>
+                            <img style={{borderRadius: '1px', height: '13px', width:"13px" }}
+                            src={getSportImageIcon(competition?.flag, 'img/flags-1-1', true)}
+                            alt='' className='inline-block mr-2'/>
+                            <span className='inline-block leading-0'>{competition?.competition_name}</span>
+                        </a>
+                    </>
+                ))}
+            </div>
         </div>
     )
 

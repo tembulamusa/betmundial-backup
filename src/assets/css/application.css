@@ -216,14 +216,14 @@ li.bet-option {
 
 .bet-option-list li {
   padding-bottom: 8px !important;
-  padding-top: 0px !important;
+  padding-top: 8px !important;
   /* background: #c3c3c3; */
   padding: 10px;
   text-shadow: none;
   overflow: hidden;
   /* margin: 7px 0px; */
-  color: #2c2457;
-  border-bottom: 1px dashed #bbbbbb;
+  /* color: #24367e; */
+  border-bottom: 1px dashed #BBBBAC;
   /* opacity: 0.8; */
   line-height: 1.6;
 }
@@ -233,19 +233,20 @@ li.bet-option {
 }
 
 .betslip-placebet-section {
-  background: #2C2457;
+  background: #24367e;
   color: #ffffff;
 }
 .bet-cancel {
-    float: right;
-    width: 10%;
+  float: right;
+  text-align: right;
+  width: 10%;
 }
 
 
 .bet-cancel input {
     background: transparent;
     border: none;
-    color: #902065;
+    color: red;
     height: 19px;
     font-weight: normal;
     font-size: 12px;

@@ -30,7 +30,7 @@ const ResponsibleGambling = () => {
 
                                 <h2>1 INTRODUCTION</h2>
 
-                            <p>As majesticbet we are committed to responsible gambling and take our customers and our social
+                            <p>As surebet we are committed to responsible gambling and take our customers and our social
                             responsibility very seriously. Our products are designed for your entertainment and enjoyment
                             and we are committed to providing a secure, fair and socially responsible service. We want you
                             to enjoy our products safely and responsibly.</p>
@@ -74,7 +74,7 @@ const ResponsibleGambling = () => {
                             <p>1. Please contact Customer Services and give clear written instructions of the self-exclsion
                             measure you would like implemented on your specific account;<br/>
                             the customer ought to be diligent to ensure that the withdrawal has been made from
-                            their majesticbet wallet and all the information and documentation above has been sent in
+                            their surebet wallet and all the information and documentation above has been sent in
                             full;</p>
 
                             <p>Once the self-exclusion application is made by you, you are advised not to place any
@@ -92,8 +92,8 @@ const ResponsibleGambling = () => {
                             period, or permanently if permanent self-exclusion was applied.<br/>
                             If permanent exclusion is applied, your account will be permanently blocked and no re-activation is possible.</p>
 
-                            <p>2. majesticbet reserves the right to exclude a customer for a longer period at our discretion. This may
-                            include instances where majesticbet is informed by legitimate sources (e.g. regulators or other
+                            <p>2. surebet reserves the right to exclude a customer for a longer period at our discretion. This may
+                            include instances where surebet is informed by legitimate sources (e.g. regulators or other
                             authorities, authorized professional organizations, authorized medical professional etc.) that may warrant extension of a customer's self-exclusion period.</p>
 
                             <p>3.  We may receive problem gambler or problem gambling related information concerning our
@@ -119,7 +119,7 @@ const ResponsibleGambling = () => {
 
                             <h2>4 PREVENTING UNDERAGE GAMBLING</h2>
 
-                            <p>It is illegal for anyone under the age of 18 to gamble. majesticbet takes its responsibilities to
+                            <p>It is illegal for anyone under the age of 18 to gamble. surebet takes its responsibilities to
                             prevent access by persons under the permitted age very seriously. We make it clear in our Terms
                             and Conditions and in the account registration process that underage gambling is illegal. We
                             reserve the right to carry out verification checks to ensure that all account holders are at least 18
@@ -140,7 +140,7 @@ const ResponsibleGambling = () => {
 
                             <h2>5 COMPLAINTS</h2>
 
-                            <p>majesticbet endeavours to make a customer's experience with us an enjoyable one. However, there
+                            <p>surebet endeavours to make a customer's experience with us an enjoyable one. However, there
                             may be occasions where a customer feels dissatisfied with the quality of our product/s or our
                             customer service. A customer may raise a complaint by sending an e-mail to our Customer
                             Service.</p>

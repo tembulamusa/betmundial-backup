@@ -157,7 +157,7 @@ const LiveCasino = (props) => {
                                                         className="col shadow-lg p-2 cursor-pointer virtual-game-container"
                                                         style={{borderRadius: "4px"}}>
                                                         <div className="col text-uppercase text-center bold" style={{
-                                                            color: "#2c2457"
+                                                            color: "#24367e"
                                                         }}>
                                                             {tableDataItem?.tableName}
                                                         </div>

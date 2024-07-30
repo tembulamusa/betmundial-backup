@@ -23,21 +23,21 @@ const Withdrawals = () => {
                         a gaming session.
                     </li>
                     <li>
-                        majesticbet’ finance department will handle all withdrawal requests.
-                        majesticbet reserves the right to verify the account holder's
+                        surebet’ finance department will handle all withdrawal requests.
+                        surebet reserves the right to verify the account holder's
                         eligibility
                         for any requests and, in case of doubt, refuse to process the
                         withdrawal, leading to the return of the funds back to the player's
                         account. Valid documents issued by government (Passport, Identity
                         Card)
-                        must be submitted in order to process a withdrawal. However, majesticbet
+                        must be submitted in order to process a withdrawal. However, surebet
                         reserves the right to verify the User’s identity, age, address and
                         location at any time before processing any amount of requested
                         withdrawal.
                     </li>
                     <li>
                         Withdrawal methods information is included in the Withdrawal section
-                        on the website www.majesticbet.com.
+                        on the website www.surebet.com.
                     </li>
                     <li>
                         Any expense related to withdrawal requests, if applicable and
@@ -46,7 +46,7 @@ const Withdrawals = () => {
                     </li>
                     <li>
                         The account holder's personal data in their Gaming Account and Bank
-                        Account (or for any other payment method) must correspond. majesticbet
+                        Account (or for any other payment method) must correspond. surebet
                         reserves the right to withhold withdrawal until to request further
                         documentation, as proof of identity, as well as additional
                         verification
@@ -60,7 +60,7 @@ const Withdrawals = () => {
                         Withdrawals from a User’s Account can only be addressed strictly to
                         the person registered on the Account and as per the conditions
                         specified
-                        on the majesticbet WEBSITE.
+                        on the surebet WEBSITE.
                     </li>
 
                     <li>
@@ -68,16 +68,16 @@ const Withdrawals = () => {
                         method from which player's deposits have originated.
                     </li>
                     <li>
-                        Once a withdrawal request is submitted it can take majesticbet up to
-                        forty eight (48) hours to process the request. However, majesticbet will
+                        Once a withdrawal request is submitted it can take surebet up to
+                        forty eight (48) hours to process the request. However, surebet will
                         be
                         doing its best to process withdrawal requests immediately.
                     </li>
                     <li>
                         In the instance a CLIENT attempts to withdraw funds that were
-                        deposited but not used for staking, majesticbet may levy a processing
+                        deposited but not used for staking, surebet may levy a processing
                         fee of
-                        20% upon such withdrawals. majesticbet reserves the right to investigate
+                        20% upon such withdrawals. surebet reserves the right to investigate
                         any
                         and all suspicious activities related to such withdrawals and report
                         the
@@ -100,15 +100,15 @@ const Withdrawals = () => {
                         The CLIENT agrees not to attempt any chargebacks, reversals or
                         otherwise cancel any deposit previously made in his/her Account.
                         Whenever any such event should occur the CLIENT commits to refund
-                        majesticbet for the unpaid deposits and for possible expenses resulting
+                        surebet for the unpaid deposits and for possible expenses resulting
                         from
                         the recollection of the misplaced money.
                     </li>
                     <li>
-                        Kindly note that majesticbet will hold the funds deposited in the
+                        Kindly note that surebet will hold the funds deposited in the
                         Account
                         as trustee for the CLIENT and not as his/her banker or debtor.
-                        Accordingly, there will be no obligation on the part of majesticbet
+                        Accordingly, there will be no obligation on the part of surebet
                         Kenya to
                         repay money to the Customer as his/her debtor. Additionally, no
                         interest
@@ -117,7 +117,7 @@ const Withdrawals = () => {
                         the form of deposits, winnings or any other method.
                     </li>
                     <li>
-                        majesticbet at all times reserves the right to refuse and/ or limit
+                        surebet at all times reserves the right to refuse and/ or limit
                         bets.
                     </li>
                 </ol>

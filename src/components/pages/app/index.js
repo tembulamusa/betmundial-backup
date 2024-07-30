@@ -9,7 +9,7 @@ const Header = React.lazy(() => import('../../header/header'));
 const SideBar = React.lazy(() => import('../../sidebar/awesome/Sidebar'));
 const Footer = React.lazy(() => import('../../footer/footer'));
 const Right = React.lazy(() => import('../../right/index'));
-const downloadAPKFile = React.lazy(() => import('../../../assets/majesticbet.apk'));
+const downloadAPKFile = React.lazy(() => import('../../../assets/surebet.apk'));
 
 
 const MobileApp = () => {
@@ -29,13 +29,13 @@ const MobileApp = () => {
                             <div
                                 className='col-md-12 primary-bg p-4 text-center d-flex flex-row justify-content-between sticky-top'>
                                 <h4 className="inline-block">
-                                    majesticbet APP
+                                    surebet APP
                                 </h4>
 
                                 <DownloadLink
                                     className="btn btn-primary btn-lg mb-5 text-white text-decoration-none"
                                     label="Download App"
-                                    filename="majesticbet.apk"
+                                    filename="surebet.apk"
                                     exportFile={() => getDownloadFile()}
                                 />
                             </div>

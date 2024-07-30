@@ -181,23 +181,28 @@ const BetSlip = (props) => {
                                                 fontWeight: "500"
                                             }}>
                                                 <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
-                                                {`${slip.home_team} - ${slip.away_team}`}
+                                                {`${slip.home_team} VS ${slip.away_team}`}
                                             </span>}
                                         {slip.bet_type === 0 && ' Pre-match'}
                                         {slip.bet_type === 1 && ' Live'}
                                 </div>
                                 <div className="row">
                                     <div className="bet-value">
-                                        {slip.odd_type}
+                                        {slip.odd_type} - {slip.bet_pick}
+                                        <span className="bet-odd">{slip.odd_value}
+                                                    {slip.odd_value === 1 &&
+                                                        (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
+                                                    }
+                                        </span>
                                     </div>
                                 </div>
-                                <div className="bet-pick">Your Pick - <b>{slip.bet_pick}
+                                {/* <div className="bet-pick">Your Pick - <b>{slip.bet_pick}
                                     <span className="bet-odd">{slip.odd_value}
                                         {slip.odd_value === 1 &&
                                             (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
                                         }
                             </span></b>
-                                </div>
+                                </div> */}
                                 <div className="row">
                                     <div className="warn">{slip?.comment} </div>
                                 </div>

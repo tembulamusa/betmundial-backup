@@ -10,23 +10,28 @@ const Footer = (props) => {
         <footer className="footer-custom">
             <div className="row">
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 text-white">
-                    <h5>majesticbet</h5>
+                    <h5>surebet</h5>
                     <ul>
                         <li className="">
                             BOX 347856-00100, NAIROBI
                         </li>
                         <li className="">
-                            <a href="mailto:customercare@majesticbet.co.ke">
-                                <FontAwesomeIcon icon={faEnvelope}/> customercare@majesticbet.co.ke
+                            <a href="mailto:customercare@surebet.co.ke">
+                                <FontAwesomeIcon icon={faEnvelope}/> customercare@surebet.co.ke
                             </a>
                         </li>
                         <li className="footer-icon">
-                            <a href="https://www.facebook.com/BetHipoKenya">
+                            <a href="https://www.facebook.com/kesurebet">
                                 <FontAwesomeIcon icon={faFacebook}/> Facebook
                             </a>
                         </li>
                         <li className="footer-icon">
-                            <a href="https://www.instagram.com/bethipokenya">
+                            <a href="https://www.instagram.com/surebet_kenya">
+                                <FontAwesomeIcon icon={faTwitter}/> Twitter/X
+                            </a>
+                        </li>
+                        <li className="footer-icon">
+                            <a href="https://www.instagram.com/surebet_ke">
                                 <FontAwesomeIcon icon={faInstagram}/> Instagram
                             </a>
                         </li>
@@ -70,8 +75,7 @@ const Footer = (props) => {
                     <h5>LICENSING</h5>
                     <hr/>
                     <p>
-                        We are licensed and regulated by the Betting Control and Licensing
-                        Board BCLB 0000454
+                    Surebet is Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000202
                     </p>
                 </div>
             </div>

@@ -18,16 +18,16 @@ const BonusesAndPromotions = () => {
             <AccordionItemPanel className='accordion-item-panel'>
                 <p>
                     Bonuses being offered and their details of crediting bonus money will be available on the
-                    bonus/promotions section of the website. The amount of bonus money is determined by majesticbet and set
+                    bonus/promotions section of the website. The amount of bonus money is determined by surebet and set
                     out on the website.
                 </p>
 
                 <p>The CLIENT binds himself/herself not to abuse the ability of opening accounts in order to benefit
                     from bonus credits and other promotional offers that may be offered. The company reserves the right
                     in case of an abusive behavior on the CLIENT’S part as related to bonus credits and/or to
-                    promotional offered by majesticbet to rescind or block CLIENT accounts created to that end as well as
+                    promotional offered by surebet to rescind or block CLIENT accounts created to that end as well as
                     their transactions.</p>
-                <p>majesticbet reserves the right to revoke and/or cancel any bonus and/or promotional winnings which are
+                <p>surebet reserves the right to revoke and/or cancel any bonus and/or promotional winnings which are
                     deemed to have occurred due to abuse and/or misuse of any promotional system. In the event of any
                     dispute the general conditions set out in the complaints procedure on the company’s website will
                     apply.</p>
@@ -70,7 +70,7 @@ const BonusesAndPromotions = () => {
                     conditions
                     made available when communicating the bonus offer.
                 </p>
-                Rules on majesticbet Bonuses
+                Rules on surebet Bonuses
                 <br/>
                 <strong className="text-decoration-underline">GENERAL BONUS/PROMOTION RULES</strong>
                 <br/>
@@ -80,7 +80,7 @@ const BonusesAndPromotions = () => {
                         derived from the bets placed successfully with the bonus can be withdrawn.
                     </li>
                     <li>
-                        If majesticbet notices something suspicious about your activities with the bonus, then we may
+                        If surebet notices something suspicious about your activities with the bonus, then we may
                         take it away. This includes very similar betting patterns between the referrer and the referred
                         account.
                     </li>

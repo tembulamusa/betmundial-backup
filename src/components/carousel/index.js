@@ -29,7 +29,7 @@ const CarouselLoader = (props) => {
                         style={{display: imageLoaded ? 'block' : 'none'}}
                         src={banner}
                         onLoad={onImageLoaded}
-                        alt="majesticbet"
+                        alt="surebet"
                         effects="blur"
                     />
                 </Carousel.Item>

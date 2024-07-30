@@ -30,7 +30,7 @@
 }
 
 .pro-sidebar .pro-menu .pro-sub-menu.open > .pro-inner-item {
-    background: #2C2457;
+    background: #24367e;
     color: #fff !important;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .pro-sidebar.collapsed .pro-menu > ul > .pro-menu-item.pro-sub-menu > .pro-inner-list-item > .popper-inner {
-    /*background-color: #2C2457 !important;*/
+    /*background-color: #24367e !important;*/
     background-color: #253743 !important;
 }
 
@@ -249,7 +249,7 @@ header, li a, .thedate span {
 }
 
 .header-menu li.active  a, .header-menu li.active a:hover {
-    /* background-color: #2c2457 !important; */
+    /* background-color: #24367e !important; */
     color: #fff;
     border-radius: 0;
     padding: 0 !important;
@@ -451,7 +451,6 @@ header, li a, .thedate span {
 
 
 .home-tab-active {
-    background: #2c2457 !important;
 }
 
 .cancel {
@@ -758,14 +757,14 @@ header, li a, .thedate span {
     background: #e3e3e3 !important;
 }
 .matches .top-matches .match-detail button.home-team.picked{
-    background: #2c2457 !important;
+    background: #24367e !important;
 }
 .matches .top-matches .match-detail button.home-team label:hover, .matches .top-matches .match-detail button.home-team:hover{
-    background: #2c2457 !important;
+    background: #24367e !important;
     color:#fff !important;
 }
 .match-detail button .label:hover{
-    background: #2c2457 !important;
+    background: #24367e !important;
     color:#fff !important;
 }
 .match-detail button .label:hover, .match-detail button.picked .label {
@@ -918,7 +917,7 @@ header, li a, .thedate span {
     background: transparent;
 }
 .top-matches button:hover{
-   background:#2c2457 !important;
+   background:#24367e !important;
    color:#fff;
 }
 
@@ -1570,7 +1569,7 @@ header {
     .second-nav {
         /*top: 80px !important;*/
         margin-top: 140px;
-        background: #2C2457 !important;
+        background: #24367e !important;
     }
 
     .e {
@@ -1960,7 +1959,7 @@ events-header {
 .top-nav {
     top: -2px;
     padding-top: 10px;
-    background: #2C2457 !important;
+    background: #24367e !important;
     background-size: cover;
     background-position: center center;
     padding-bottom: 5px;
@@ -2053,7 +2052,7 @@ events-header {
 
 .home-team {
     background: rgb(243 244 246)!important;
-    color: #2c2457!important;
+    color: #24367e!important;
     font-weight: 100 !important;
 }
 
@@ -2088,7 +2087,7 @@ events-header {
 }
 
 .top-matches button.picked {
-    background: #2c2457 !important
+    background: #24367e !important
 }
 
 
@@ -2387,7 +2386,7 @@ a {
 }
 
 .top-matches a {
-    color: #2c2457!important;
+    color: #24367e!important;
 }
 
 .one_game_wrapper.top-matches a {
@@ -2582,7 +2581,7 @@ footer a {
 }
 
 .bg-secondary {
-    background: #2C2457 !important;
+    background: #24367e !important;
     color: #ffffff;
 }
 
@@ -5940,9 +5939,23 @@ tbody.collapse.in {
     list-style: none;
     font-size: 14px;
     text-align: left;
-    background-color: #26408A;
+    /* background-color: #26408A; */
     border-radius: 0;
     background-clip: padding-box;
+    text-transform: capitalize;
+}
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    clear: both;
+    font-weight: 400;
+    color: var(--bs-dropdown-link-color);
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
 }
 
 .dropdown-menu.eg {
@@ -15461,7 +15474,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 
 
 .filters-modal .modal-content {
-    background-color: #2C2457;
+    background-color: #24367e;
     color: #fff;
 }
 
@@ -15511,13 +15524,13 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #2C2457;
+    background: #24367e;
 }
 
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #2C2457;
+    background: #24367e;
 }
 
 

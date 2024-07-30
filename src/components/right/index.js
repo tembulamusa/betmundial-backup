@@ -138,13 +138,22 @@ const Right = (props) => {
                     <ul>
                         <li class="mpesa">
                         <span class="lazy lazy-loaded"><img src={Mpesa} style={{maxWidth:"50px"}} alt='paybill'/></span>
-                        <span>4109000</span>
+                        <span>599488</span>
                         </li>
                         {/* <li class="airtelmoney">
                             <span class="lazy lazy-loaded"><img src={Airtelmoney} style={{maxWidth:"50px"}}/></span>
-                            <span>4109000 or SPORTMULA</span>
+                            <span>599488 or SPORTMULA</span>
                         </li> */}
                     </ul>
+                </div>
+            </section>
+
+            <section className='betslip-paybill bg-secondary'>
+                <div className="paybillnumbers bg-secondary">
+                    <h2>Customer Care</h2>
+                    <p>Surebet is the place to be all day long for 24/7 customer support.</p>
+                    <div className='text-3xl py-3'>0724599488</div>
+                    <p>customercare@surebet.co.ke</p>
                 </div>
             </section>
             <section id='nav-tabs'>

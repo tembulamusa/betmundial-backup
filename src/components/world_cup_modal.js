@@ -20,7 +20,7 @@ const WorldCupModal = (props) => {
                         <LazyLoadImage
                             className="d-block w-100"
                             src={worldcup}
-                            alt="majesticbet" />
+                            alt="surebet" />
                         
                     </Modal.Body>
                 </a>

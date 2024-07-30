@@ -81,10 +81,10 @@ const Header = (props) => {
         <>
             <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark">
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
-                    <Navbar.Brand href="/" className="e logo align-self-start" title="majesticbet">
+                    <Navbar.Brand href="/" className="e logo align-self-start" title="surebet">
                         <div className="col-3">
                             <div>
-                                <LazyLoadImage src={logo} alt="majesticbet" title="majesticbet" effects="blur"/>
+                                <LazyLoadImage src={logo} alt="surebet" title="surebet" effects="blur"/>
                             </div>
                         </div>
                     </Navbar.Brand>
@@ -108,7 +108,7 @@ const Header = (props) => {
                             <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
                                 <div className="col-3">
                                     <div>
-                                        <LazyLoadImage src={logo} alt="majesticbet" title="majesticbet" effects="blur"/>
+                                        <LazyLoadImage src={logo} alt="surebet" title="surebet" effects="blur"/>
                                     </div>
                                 </div>
                             </Offcanvas.Title>

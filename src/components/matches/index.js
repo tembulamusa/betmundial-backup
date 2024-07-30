@@ -362,11 +362,12 @@ const OddButton = (props) => {
             let uc = clean(
                 match.match_id
                 + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
-                + (match?.[mkt] || match?.odd_key || mkt)
+                + (match?.[mkt] || match?.odd_key || mkt || "draw")
             );
             setUcn(uc);
 
             setOddValue(match?.odds?.[mkt]);
+            
         }
     }, [match]);
 
@@ -588,7 +589,6 @@ const MatchRow = (props) => {
     for (let i = 0; i < append; i++) {
         loops.push(i)
     }
-    // console.log("MATCH:::::::::::==============::::::::::::::", match)
     return (
         <>
         <div className="top-matches d-flex">

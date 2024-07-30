@@ -111,7 +111,7 @@ export default function MatchesList() {
                                     onSelect={(k) => fetchActiveTabMatches(k)}
                                     className="background-primary"
                                     justify>
-                                    <Tab eventKey="matches" title="Grab your favorite games in printable format here. majesticbet provides the the best competitie odds for you to take advantage of in all areas of betting" className={'background-primary shadow p-5'}
+                                    <Tab eventKey="matches" title="Grab your favorite games in printable format here. surebet provides the the best competitie odds for you to take advantage of in all areas of betting" className={'background-primary shadow p-5'}
                                          style={{}}>
                                         <div className="col-md-12 d-flex flex-column p-2">
         {/* <div className="col-md-12 text-start p-2">

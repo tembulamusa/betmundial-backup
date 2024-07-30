@@ -17,7 +17,7 @@ code {
 }
 
 .bg-primary {
-  background: #2C2457 !important;
+  background: #24367e !important;
   color: #ffffff;
 }
 
@@ -67,10 +67,36 @@ code {
 }
 
 .betslip-sport-icon {
-  width: 40px;
+  width: 30px;
   display: inline-block;
+  margin: -10px -5px -5px;
 }
 
 .bet-option {
   /* font-weight: 600; */
+}
+
+.home-tabs {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid transparent;
+  text-align: center;
+  transition: all ease-in 1s;
+}
+.home-tab-active {
+  border-bottom-color: rgba(231, 6, 84, 0.958);
+  color: rgba(231, 6, 84, 0.958);
+}
+
+.home-tabs:hover {
+  border-bottom-color: rgba(231, 6, 84, 0.958);
+  color: rgba(231, 6, 84, 0.958);
+  /* opacity: 0.; */
+  transition: all ease-in 1s;
+}
+
+.btn-transparent-selector {
+  font-weight: bold;
+  font-size: 15px;
+
 }
