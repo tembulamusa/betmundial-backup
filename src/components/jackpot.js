@@ -40,93 +40,83 @@ const Jackpot = (props) => {
 
     return (
         <>
-            <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <SideBar loadCompetitions/>
-                    <div className="gz home" style={{width: "100%"}}>
-                        <div className="homepage">
-                            <img src={dailyJackpot}/>
-                            <Tabs
-                                variant={'tabs'}
-                                defaultActiveKey={matches?.meta.status == 'ACTIVE' ? "home":"results"}
-                                id=""
-                                className="background-primary "
-                                justify>
-                                <Tab eventKey="home" 
-                                  title="Jackpot" 
-                                  className={'background-primary'}
-                                  disabled = {matches?.meta.status == 'INACTIVE'}
-                                  >
-                                    {matches?.data?.length > 0 ? (
-                                        <>
-                                            <JackpotHeader jackpot={matches?.meta}/>
-                                            <JackpotMatchList matches={matches}/>
-                                        </>
-                                    ) : (
-                                        <div
-                                            className={'col-md-12 text-center background-primary  mt-2 p-3'}>
-                                            There are no active jackpots at the moment.
+            
+            <img src={dailyJackpot}/>
+            <Tabs
+                variant={'tabs'}
+                defaultActiveKey={matches?.meta.status == 'ACTIVE' ? "home":"results"}
+                id=""
+                className="background-primary "
+                justify>
+                <Tab eventKey="home" 
+                    title="Jackpot" 
+                    className={'background-primary'}
+                    disabled = {matches?.meta.status == 'INACTIVE'}
+                    >
+                    {matches?.data?.length > 0 ? (
+                        <>
+                            <JackpotHeader jackpot={matches?.meta}/>
+                            <JackpotMatchList matches={matches}/>
+                        </>
+                    ) : (
+                        <div
+                            className={'col-md-12 text-center background-primary  mt-2 p-3'}>
+                            There are no active jackpots at the moment.
+                        </div>
+                    )}
+                </Tab>
+                <Tab 
+                    eventKey="results" 
+                    title="Results"
+                    disabled = {matches?.meta.status == 'ACTIVE'}
+                    >
+                    <JackpotHeader jackpot={matches?.meta}/>
+                    <div className="matches full-mobile sticky-top container">
+                        <div
+                            className="top-matches d-flex position-sticky  p-4">
+                            <div className="col-md-3 bold">
+                                TIME
+                            </div>
+                            <div className="col-md-6 bold">
+                                MATCH
+                            </div>
+                            <div className="col-md-3 bold">
+                                OUTCOME
+                            </div>
+                        </div>
+                    </div>
+
+                    {matches?.data.map((match, index) => (
+                        <div className={'matches full-width'} key={index}>
+                            <Container className="web-element">
+                                <div
+                                    className="col-md-12 d-flex flex-row p-2 top-matches">
+                                    <div className="col-md-3">
+                                        {match?.start_time}
+                                    </div>
+                                    <div className="col-md-6 d-flex flex-column">
+                                        <div className={'small'}>
+                                            {match?.category} | {match?.competition_name}
                                         </div>
-                                    )}
-                                </Tab>
-                                <Tab 
-                                   eventKey="results" 
-                                   title="Results"
-                                   disabled = {matches?.meta.status == 'ACTIVE'}
-                                   >
-                                    <JackpotHeader jackpot={matches?.meta}/>
-                                    <div className="matches full-mobile sticky-top container">
-                                        <div
-                                            className="top-matches d-flex position-sticky  p-4">
-                                            <div className="col-md-3 bold">
-                                                TIME
+                                        <div>
+                                            <div className={'bold'}>
+                                                {match?.home_team}
                                             </div>
-                                            <div className="col-md-6 bold">
-                                                MATCH
-                                            </div>
-                                            <div className="col-md-3 bold">
-                                                OUTCOME
+                                            <div className={'bold'}>
+                                                {match?.away_team}
                                             </div>
                                         </div>
                                     </div>
-
-                                    {matches?.data.map((match, index) => (
-                                        <div className={'matches full-width'} key={index}>
-                                            <Container className="web-element">
-                                                <div
-                                                    className="col-md-12 d-flex flex-row p-2 top-matches">
-                                                    <div className="col-md-3">
-                                                        {match?.start_time}
-                                                    </div>
-                                                    <div className="col-md-6 d-flex flex-column">
-                                                        <div className={'small'}>
-                                                            {match?.category} | {match?.competition_name}
-                                                        </div>
-                                                        <div>
-                                                            <div className={'bold'}>
-                                                                {match?.home_team}
-                                                            </div>
-                                                            <div className={'bold'}>
-                                                                {match?.away_team}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-3">
-                                                        {match?.outcome || '-'}
-                                                    </div>
-                                                </div>
-                                            </Container>
-                                        </div>
-                                    ))}
-                                </Tab>
-                            </Tabs>
+                                    <div className="col-md-3">
+                                        {match?.outcome || '-'}
+                                    </div>
+                                </div>
+                            </Container>
                         </div>
-                    </div>
-                    <Right jackpot={true} jackpotData={matches?.meta}/>
-                </div>
-            </div>
-            <Footer/>
+                    ))}
+                </Tab>
+            </Tabs>
+                        
         </>
     )
 }

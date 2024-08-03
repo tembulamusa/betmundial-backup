@@ -92,12 +92,8 @@ export default function MatchesList() {
 
     return (
         <>
-            <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <SideBar loadCompetitions/>
-                    <div className="gz home" style={{width:"100%"}}>
-                        <div className="homepage">
+            
+                
                             <div className='col-md-12 page-title p-4 text-center'>
                                 <h4 className="inlin-block">
                                     <span className="fa fa-chevron-left"></span>
@@ -145,12 +141,6 @@ export default function MatchesList() {
                                     </Tab>
                                 </Tabs>
                             </div>
-                        </div>
-                    </div>
-                    <Right/>
-                </div>
-            </div>
-            <Footer/>
         </>
     )
 }

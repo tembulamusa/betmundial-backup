@@ -310,7 +310,6 @@ const SideBets = (props) => {
 
 const OddButton = (props) => {
     const {match, mkt, detail, live, jackpot, subType, marketKey} = props
-    // console.log("MKT are ", match)
     const [ucn, setUcn] = useState('');
     // console.log(ucn)
     const [picked, setPicked] = useState('');
@@ -366,7 +365,7 @@ const OddButton = (props) => {
             );
             setUcn(uc);
 
-            setOddValue(match?.odds?.[mkt]);
+            setOddValue(match?.odd_value);
             
         }
     }, [match]);
@@ -467,8 +466,8 @@ const OddButton = (props) => {
             away_team={match.away_team}
             market_active={match.market_active}
             odd_value={oddValue}
-            odd_key={match?.[mkt] || match?.odd_key || mkt}
-            pick_key={match?.[mkt] || match?.pick_key || "Home Test"}
+            odd_key={match?.odd_key}
+            pick_key={match?.odd_key}
             parent_match_id={match.parent_match_id}
             match_id={match.match_id}
             custom={ucn}
@@ -505,7 +504,7 @@ const MarketRow = (props) => {
     const MktOddsButton = (props) => {
         const {match, mktodds, live, pdown} = props;
         const fullmatch = {...match, ...mktodds};
-        // console.log("Market odds", fullmatch)
+        console.log("Market odds", match)
         return (
             !pdown
             && fullmatch?.odd_value !== 'NaN'
@@ -579,18 +578,11 @@ const MatchRow = (props) => {
         jackpot, 
         live, 
         pdown, 
-        three_way, 
         sub_types} = props;
 
-    let url = new URL(window.location)
     match.market_active = 1
     match.odds.home_odd_active = 1
-    const [totalMarkets] = useState(sub_types?.split(",")?.length)
-    let append = totalMarkets - Object.keys(match?.extra_odds || {}).length - 1
-    let loops = []
-    for (let i = 0; i < append; i++) {
-        loops.push(i)
-    }
+   
     return (
         <>
         <div className="top-matches d-flex">
@@ -628,7 +620,6 @@ const MatchRow = (props) => {
                             <div className={'bold'}>
                                 {match.away_team}
                             </div>
-
                         </div>
                     </div>
                 </a>
@@ -636,61 +627,45 @@ const MatchRow = (props) => {
             <div className="col d-flex flex-row justify-content-between" key="24">
                 <div className="c-btn-group align-self-center" key="222">
                     {
-                        match?.odds?.home_odd ? (match?.odds?.home_odd && (!pdown && match?.odds?.home_odd && match.odds.home_odd !== 'NaN' &&
-                                match.market_active == 1 && match.odds.home_odd_active == 1) || jackpot
-                                ? <OddButton key={`${match?.match_id}-home`} match={match} mkt="home_odd" live={live} jackpot={jackpot}/>
-                                : <EmptyTextRow key={`${match?.match_id}-home`} odd_key={match?.odd_key}/>) :
-                            match?.odds?.home_odd ? <EmptyTextRow odd_key={match?.odd_key}/> : ''
+                        match?.odds?.["1x2"]?.map((marketOdd, idx) => {
+                            let matchWithDetails = {...match, ...marketOdd};
+                            delete matchWithDetails.odds;
+                            return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
+                                ? <OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="1x2" live={live} jackpot={jackpot}/>
+                                : <EmptyTextRow key={`${match?.match_id}-${idx}`} odd_key={marketOdd?.odd_key}/>) 
+                           
+                            
+                        }) 
                     }
-
-                    {match?.odds?.neutral_odd ? ((!pdown && match?.odds?.neutral_odd && match.odds.neutral_odd !== 'NaN' &&
-                                match.market_active == 1) || jackpot
-                                ? <OddButton match={match} mkt="neutral_odd" live={live} jackpot={jackpot}/>
-                                : <EmptyTextRow odd_key={match?.odd_key}/>) : ''
-                            }
-                    {match?.odds?.away_odd ? (match?.odds?.away_odd && (!pdown && match?.odds?.away_odd && match.odds.away_odd !== 'NaN' &&
-                            match.market_active == 1) || jackpot
-                            ? <OddButton key={`${match?.match_id}-away`} match={match} mkt="away_odd" live={live} jackpot={jackpot}/>
-                            : <EmptyTextRow key={`${match?.match_id}-away`} odd_key={match?.odd_key}/>) :
-                        match?.odds?.away_odd ? <EmptyTextRow key={`${match?.match_id}-away`} odd_key={match?.odd_key}/> : ''
-                    }
-                    
                 </div>
 
                 
                 <div className={`c-btn-group align-self-center`} key="223">
-                    {match?.odds?.home_team_or_draw_odd ? (match?.odds?.home_team_or_draw_odd && (!pdown && match?.odds?.home_team_or_draw_odd && match.odds.home_team_or_draw_odd !== 'NaN' &&
-                            match.market_active == 1) || jackpot
-                            ? <OddButton key={`${match?.match_id}-home_team_or_draw_odd`} match={match} mkt="home_team_or_draw_odd" live={live} jackpot={jackpot}/>
-                            : <EmptyTextRow key={`${match?.match_id}-home_team_or_draw_odd`} odd_key={match?.odd_key}/>) :
-                        match?.odds?.home_team_or_draw_odd ? <EmptyTextRow key={`${match?.match_id}-home_team_or_draw_odd`} odd_key={match?.odd_key}/> : ''
+                   {
+                        match?.odds?.["Double Chance"]?.map((marketOdd, idx) => {
+                            let matchWithDetails = {...match, ...marketOdd};
+                            delete matchWithDetails.odds;
+                            return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
+                                ? <OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="Double Chance" live={live} jackpot={jackpot}/>
+                                : <EmptyTextRow key={`${match?.match_id}-${idx}`} odd_key={marketOdd?.odd_key}/>) 
+                           
+                            
+                        }) 
                     }
-                    {match?.odds?.draw_or_away_team_odd ? (match?.odds?.draw_or_away_team_odd && (!pdown && match?.odds?.draw_or_away_team_odd && match.odds.draw_or_away_team_odd !== 'NaN' &&
-                            match.market_active == 1) || jackpot
-                            ? <OddButton key={`${match?.match_id}-draw_or_away_team_odd`} match={match} mkt="draw_or_away_team_odd" live={live} jackpot={jackpot}/>
-                            : <EmptyTextRow key={`${match?.match_id}-draw_or_away_team_odd`} odd_key={match?.odd_key}/>) :
-                        match?.odds?.draw_or_away_team_odd ? <EmptyTextRow key={`${match?.match_id}-draw_or_away_team_odd`} odd_key={match?.odd_key}/> : ''
-                    }
-                    {match?.odds?.home_team_or_away_team_odd ? (match?.odds?.home_team_or_away_team_odd && (!pdown && match?.odds?.home_team_or_away_team_odd && match.odds.home_team_or_away_team_odd !== 'NaN' &&
-                            match.market_active == 1) || jackpot
-                            ? <OddButton key={`${match?.match_id}-home_team_or_away_team_odd`} match={match} mkt="home_team_or_away_team_odd" live={live} jackpot={jackpot}/>
-                            : <EmptyTextRow key={`${match?.match_id}-home_team_or_away_team_odd`} odd_key={match?.odd_key}/>) :
-                        match?.odds?.home_team_or_away_team_odd ? <EmptyTextRow key={`${match?.match_id}-home_team_or_away_team_odd`} odd_key={match?.odd_key}/> : ''
-                    }
+                    
                 </div>
 
                 <div className={`c-btn-group align-self-center`} key="224">
-                    {match?.odds?.under25_odd ? (match?.odds?.under25_odd && (!pdown && match?.odds?.under25_odd && match.odds.under25_odd !== 'NaN' &&
-                            match.market_active == 1) || jackpot
-                            ? <OddButton key={`${match?.match_id}-under25_odd`} match={match} mkt="under25_odd" live={live} jackpot={jackpot}/>
-                            : <EmptyTextRow key={`${match?.match_id}-under25_odd`} odd_key={match?.odd_key}/>) :
-                        match?.odds?.under25_odd ? <EmptyTextRow key={`${match?.match_id}-under25_odd`} odd_key={match?.odd_key}/> : ''
-                    }
-                    {match?.odds?.over25_odd ? (match?.odds?.over25_odd && (!pdown && match?.odds?.over25_odd && match.odds.over25_odd !== 'NaN' &&
-                            match.market_active == 1) || jackpot
-                            ? <OddButton key={`${match?.match_id}-over25_odd`} match={match} mkt="over25_odd" live={live} jackpot={jackpot}/>
-                            : <EmptyTextRow key={`${match?.match_id}-under25_odd`} odd_key={match?.odd_key}/>) :
-                        match?.odds?.over25_odd ? <EmptyTextRow key={`${match?.match_id}-over25_odd`} odd_key={match?.odd_key}/> : ''
+                    {    
+                        match?.odds?.["Total"]?.map((marketOdd, idx) => {
+                            let matchWithDetails = {...match, ...marketOdd};
+                            delete matchWithDetails.odds;
+                            return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
+                                ? <OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="Total" live={live} jackpot={jackpot}/>
+                                : <EmptyTextRow key={`${match?.match_id}-${idx}`} odd_key={marketOdd?.odd_key}/>) 
+                           
+                            
+                        }) 
                     }
                 </div>
                 
@@ -722,11 +697,12 @@ export const MarketList = (props) => {
             }
             <div className="web-element">
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
+                    console.log("Math with markets::", matchwithmarkets)
                     return <MarketRow
                         market_id={mkt_id}
                         markets={markets}
                         width={markets.length === 3 ? "33.333%" : "50%"}
-                        match={matchwithmarkets?.data?.match}
+                        match={matchwithmarkets?.match}
                         key={mkt_id}
                         live={live}
                         pdown={pdown}

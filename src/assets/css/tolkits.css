@@ -1918,6 +1918,7 @@ events-header {
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);
     -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);
+    background: #fff;
 }
 
 .events-header .form-control {
@@ -15690,11 +15691,11 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 	background-color: rgba(231, 6, 84, 0.958);
 	border-color: rgba(231, 6, 84, 0.958);
 }
-.promo-pannel{
-    border:1px solid #bebebe;
-    width:49.0%;
-    margin:0px 5px;
-    border-radius:5px;
+.promo-pannel {
+    border: 1px solid #bebebe;
+    width: 49.0%;
+    margin: 0px 4px;
+    border-radius: 5px;
 }
 .promo-pannel ul li{
     list-style:none;

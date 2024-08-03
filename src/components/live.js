@@ -86,20 +86,9 @@ const Live = (props) => {
 
     return (
         <>
-            <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <LiveSideBar/>
-                    <div className="gz home" style={{width:"100%"}}>
-                        <div className="homepage">
-                            <CarouselLoader/>
-                            {matches && <MatchList live matches={matches} pdown={producerDown}/>}
-                        </div>
-                    </div>
-                    <Right betslipValidationData={userSlipsValidation}/>
-                </div>
-            </div>
-            <Footer/>
+            <CarouselLoader />
+            {matches && <MatchList live matches={matches} pdown={producerDown}/>}
+               
         </>
     )
 }

@@ -133,11 +133,7 @@ const Signup = (props) => {
 
     return (
         <React.Fragment>
-            <Header/>
-            <div className='mt-5 pt-9'>
-            <div className='mt-5 pt-9'>
-            <div className='mt-5 pt-7'>
-                <div className="homepage col-md-8 mx-auto mt-5 shadow-sm">
+            
                     <FormTitle/>
                     <div className="col-md-12 mt-2  p-2">
                         {message && <Alert/>}
@@ -145,11 +141,7 @@ const Signup = (props) => {
                             <SignupForm/>
                         </div>
                     </div>
-                </div>
-                </div>
-                </div>
-            </div>
-            <Footer/>
+                
         </React.Fragment>
     );
 }

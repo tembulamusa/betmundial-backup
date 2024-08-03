@@ -16,6 +16,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import {Context} from '../../../context/store';
+import LiveSideBar from '../live-sidebar';
 
 const Sidebar = (props) => {
 
@@ -111,85 +112,63 @@ const Sidebar = (props) => {
     const getDefaultMarketsForSport = (competition) => {
         return competition?.default_display_markets
     }
+    const pathname = window.location.pathname;
+
 
     return (
-        <div style={{
-            display: 'flex',
-            overflow: 'scroll initial',
-            zIndex: 10,
-            marginRight: '2px',
-            top: "100px"
-        }}
-             className={`vh-100 text-white sticky-top d-none d-md-block up`}>
-            <ProSidebar
-
-                style={{backgroundColor: '#16202c !important'}}
-                image={false}
-                onToggle={handleToggleSidebar}
-                collapsed={collapsed}
-                toggled={toggled}>
-        {/** <SidebarHeader>
-                    <div
-                        style={{
-                            padding: '5px',
-                            textTransform: 'uppercase',
-                            fontWeight: 'bold',
-                            fontSize: 14,
-                            letterSpacing: '1px',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                        }}>
-                        <div className="d-flex justify-content-end">
-
-                            <span onClick={() => setCollapsed(!collapsed)} className={'cursor-pointer'}>
-                               {collapsed ? (
-                                   <>
-                                       Show <FontAwesomeIcon icon={faArrowRight}/>
-                                   </>
-                               ) : (
-                                   <>
-                                       <FontAwesomeIcon icon={faArrowLeft}/> Hide
-                                   </>
-                               )}
-                            </span>
-                        </div>
-                    </div>
-                </SidebarHeader>
-                */}
-                <SidebarContent>
-                    <Menu iconShape="circle">
-
-                        
-                        {competitions?.all_sports.map((competition, index) => (
-
-                            <SubMenu title={competition.sport_name} defaultOpen={getActiveSport(competition.sport_id) && index !== 0}
-                                     icon={<img style={{borderRadius: '50%', height: '30px'}}
-                                                src={getSportImageIcon(competition.sport_name)} alt=''/>}
-                                     key={index}>
-                            {/* <SubMenu title={'Countries'}
-                                         style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}
-                                    <PerfectScrollbar >
-                                    {competition?.categories.map((country, countryKey) => (
-                                            <MenuItem title={country.category_name}
-                                                     icon={<img style={{borderRadius: '50%', height: '15px'}}
-                                                     src={getSportImageIcon(country.cat_flag, 'img/flags-1-1')}
-                                                     alt=''/>} key={countryKey} >
-
-                                                        <a href={`/competition/${competition.sport_id}/${country.category_id}/all`}
-                                                           onClick={() => setLocalStorage('active_item', competition.sport_id)}>
-                                                            {country.category_name}
-                                                        </a>
-                                            </MenuItem>
-                                    ))}
-                                    </PerfectScrollbar >
-                            { /* </SubMenu> */}
-                            </SubMenu>
-                        ))}
-                    </Menu>
-                </SidebarContent>
-            </ProSidebar>
-        </div>
+        <>
+        {pathname == "/live" ? <LiveSideBar /> : 
+            <div style={{
+                display: 'flex',
+                overflow: 'scroll initial',
+                zIndex: 10,
+                top: "100px"
+            }}
+                 className={`vh-100 text-white sticky-top d-none d-md-block up col-md-2`}>
+                <ProSidebar
+    
+                    style={{backgroundColor: '#16202c !important'}}
+                    image={false}
+                    onToggle={handleToggleSidebar}
+                    collapsed={collapsed}
+                    toggled={toggled}>
+                    <SidebarContent>
+                        <Menu iconShape="circle">
+    
+                            
+                            {competitions?.all_sports.map((competition, index) => (
+    
+                                <SubMenu title={competition.sport_name} defaultOpen={getActiveSport(competition.sport_id) && index !== 0}
+                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
+                                                    src={getSportImageIcon(competition.sport_name)} alt=''/>}
+                                         key={index}>
+                                {/* <SubMenu title={'Countries'}
+                                             style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}
+                                        <PerfectScrollbar >
+                                        {competition?.categories.map((country, countryKey) => (
+                                                <MenuItem title={country.category_name}
+                                                         icon={<img style={{borderRadius: '50%', height: '15px'}}
+                                                         src={getSportImageIcon(country.cat_flag, 'img/flags-1-1')}
+                                                         alt=''/>} key={countryKey} >
+    
+                                                            <a href={`/competition/${competition.sport_id}/${country.category_id}/all`}
+                                                               onClick={() => setLocalStorage('active_item', competition.sport_id)}>
+                                                                {country.category_name}
+                                                            </a>
+                                                </MenuItem>
+                                        ))}
+                                        </PerfectScrollbar >
+                                { /* </SubMenu> */}
+                                </SubMenu>
+                            ))}
+                        </Menu>
+                    </SidebarContent>
+                </ProSidebar>
+            </div>
+        }
+            
+        </>
+        
     );
 };
 

@@ -155,33 +155,24 @@ const Index = (props) => {
     })
 
     return (
+
         <>
-            <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <SideBar loadCompetitions/>
-                    <div className="gz home" style={{width: '100%'}}>
-                        <div className="homepage" ref={homePageRef}>
-                            <CarouselLoader/>
-                            <MainTabs tab={location.pathname.replace("/", "") || 'highlights'} />
-                            {/* <MobileCategories/> */}
-                            <MatchList
-                                live={false}
-                                matches={matches}
-                                pdown={producerDown}
-                                three_way={threeWay}
-                                fetching={fetching}
-                                subTypes={subTypes}
-                            />
-                        </div>
-                        <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}>
-                            <Spinner animation={'grow'} size={'lg'}/>
-                        </div>
-                    </div>
-                    <Right betslipValidationData={userSlipsValidation}/>
-                </div>
+            <div className="homepage" ref={homePageRef}>
+                <CarouselLoader/>
+                <MainTabs tab={location.pathname.replace("/", "") || 'highlights'} />
+                {/* <MobileCategories/> */}
+                <MatchList
+                    live={false}
+                    matches={matches}
+                    pdown={producerDown}
+                    three_way={threeWay}
+                    fetching={fetching}
+                    subTypes={subTypes}
+                />
             </div>
-            <Footer/>
+            <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}>
+                <Spinner animation={'grow'} size={'lg'}/>
+            </div>
         </>
     )
 }

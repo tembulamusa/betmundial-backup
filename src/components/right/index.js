@@ -121,7 +121,6 @@ const Right = (props) => {
 
     return (
         <>
-        {!["/register", "/login", "/signup"].includes(pathname) &&
         <div className="col-md-3 betslip-container sticky-top">
             <section id='betslip' className='betslip-v2'>
                 <div className='betslip-header bg-secondary uppercase'>
@@ -163,7 +162,6 @@ const Right = (props) => {
             </section>
             
         </div>
-            }
         </>
     )
 }

@@ -132,3 +132,15 @@ h5, h4, h3, h2 {
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
+.pro-sidebar {
+  color: #adadad;
+  height: 100%;
+  width: 100% !important;
+  max-width: 240px !important;
+  min-width: 240px !important;
+  text-align: left;
+  transition: width, left, right, 0.3s;
+  position: relative;
+  z-index: 1009;
+}

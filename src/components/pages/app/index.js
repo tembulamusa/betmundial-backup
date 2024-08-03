@@ -20,32 +20,22 @@ const MobileApp = () => {
 
     return (
         <>
-            <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <SideBar loadCompetitions/>
-                    <div className="gz home bg-white" style={{width: '100%'}}>
-                        <div className="homepage">
-                            <h4
-                                className='text-center col-md-12 page-title p-4 text-center d-flex flex-row justify-content-between sticky-top'>
-                                    SUREBET APP
-                            </h4>
+            
+            <h4
+                className='text-center col-md-12 page-title p-4 text-center d-flex flex-row justify-content-between sticky-top'>
+                    SUREBET APP
+            </h4>
 
-                            <div className=" px-5">
-                                <DownloadLink
-                                    className="btn btn-primary btn-lg mb-5 text-white text-decoration-none"
-                                    label="Download App"
-                                    filename="surebet.apk"
-                                    exportFile={() => getDownloadFile()}
-                                />
-                            </div>
-                            <div className="col-md-12 mt-2 text-white accordion-container text-start"></div>
-                        </div>
-                    </div>
-                    <Right/>
-                </div>
+            <div className=" px-5">
+                <DownloadLink
+                    className="btn btn-primary btn-lg mb-5 text-white text-decoration-none"
+                    label="Download App"
+                    filename="surebet.apk"
+                    exportFile={() => getDownloadFile()}
+                />
             </div>
-            <Footer/>
+            <div className="col-md-12 mt-2 text-white accordion-container text-start"></div>
+                        
         </>
     )
 }

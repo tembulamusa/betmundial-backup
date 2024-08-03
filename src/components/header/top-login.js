@@ -8,6 +8,7 @@ import {Context} from '../../context/store';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {setLocalStorage, getFromLocalStorage} from '../utils/local-storage';
+import { Link } from 'react-router-dom';
 
 const HeaderLogin = (props) => {
     const [isLoading, setIsLoading] = useState(null)
@@ -134,22 +135,22 @@ const HeaderLogin = (props) => {
                                 <span className="sticky-hidden">
                                     <label>
                                     <input type="hidden" name="remember" value="1"/> 
-                                        <a className="m-lg-2" href="/verify-account" title="Verify Account">
+                                        <Link className="m-lg-2" to="/verify-account" title="Verify Account">
                                             <span className="register-label">registered?, Verify</span>
-                                        </a>
+                                        </Link>
                                     </label>
                                     <input type="hidden" name="ref" value="{props.refURL}"/>
-                                    <a href="/reset-password" title="Reset password" className='ml-4'>
+                                    <Link to="/reset-password" title="Reset password" className='ml-4'>
                                         <span className="sticky-hidden">Forgot Password?</span>
-                                    </a>
+                                    </Link>
                                 </span>
                                 
                             </div>
                         </div>
                         <div className="col-3">
-                            <a className="top-login-btn btn yellow-btn ml-3" href="/signup" title="Join now" style={{ fontSize: "13px", fontWeight: "bold"}}>
+                            <Link className="top-login-btn btn yellow-btn ml-3" to="/signup" title="Join now" style={{ fontSize: "13px", fontWeight: "bold"}}>
                                 <span className="register-label uppercase">Register</span>
-                            </a>
+                            </Link>
                         </div>
 
                         

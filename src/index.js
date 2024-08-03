@@ -1,10 +1,11 @@
-import React, {useEffect, useCallback, Suspense} from "react";
+import React, {useEffect, useCallback, Suspense, useContext} from "react";
 import {render} from "react-dom";
 
 import {
     BrowserRouter,
     Route,
     Routes,
+    useLocation,
     useNavigate,
 } from 'react-router-dom'
 
@@ -16,73 +17,46 @@ import './assets/css/sidebar-menu.css';
 import './index.css';
 import Store from './context/store';
 
-const Index = React.lazy(() => import('./components/index'));
+import Index from './components/index';
 
-const MatchAllMarkets = React.lazy(() => import('./components/all-markets'));
-const Jackpot = React.lazy(() => import('./components/jackpot'));
-const Live = React.lazy(
-    () => import('./components/live')
-);
-const MyBets = React.lazy(
-    () => import('./components/my-bets')
-);
-const HowToPlay = React.lazy(
-    () => import('./components/pages/HowToPlay')
-);
-const TermsAndConditions = React.lazy(
-    () => import('./components/pages/terms-and-conditions/index')
-);
-const CookiePolicy = React.lazy(
-    () => import('./components/pages/cookie-policy/index')
-);
-const DisputeResolution = React.lazy(
-    () => import('./components/pages/dispute-resolution/index')
-);
-const ResponsibleGambling = React.lazy(
-    () => import('./components/pages/responsible-gambling')
-);
-const AntimoneyLaundering = React.lazy(
-    () => import('./components/pages/anti-money-laundering')
-);
-const PrivacyPolicy = React.lazy(
-    () => import('./components/pages/privacy-policy/index')
-);
-const Withdraw = React.lazy(
-    () => import('./components/pages/deposit-withraw/Withdraw'))
-;
-const Deposit = React.lazy(
-    () => import('./components/pages/deposit-withraw/Deposit')
-);
+import MatchAllMarkets from './components/all-markets';
+import Jackpot from './components/jackpot';
+import Live from './components/live';
+import MyBets from './components/my-bets';
+import HowToPlay from './components/pages/HowToPlay';
+import TermsAndConditions from './components/pages/terms-and-conditions/index';
+import CookiePolicy from './components/pages/cookie-policy/index';
+import DisputeResolution from './components/pages/dispute-resolution/index';
+import ResponsibleGambling from './components/pages/responsible-gambling';
+import AntimoneyLaundering from './components/pages/anti-money-laundering';
+import PrivacyPolicy from './components/pages/privacy-policy/index';
+import Withdraw from './components/pages/deposit-withraw/Withdraw';
+import Deposit from './components/pages/deposit-withraw/Deposit';
+import Signup from './components/pages/signup';
+import ResetPassword from './components/pages/auth/reset-password';
+import VerifyAccount from './components/pages/auth/verify-account';
 
-const Signup = React.lazy(
-    () => import('./components/pages/signup')
-);
+import MobileApp from './components/pages/app';
+import ProtectedRoute from './components/utils/protected-route';
 
-const ResetPassword = React.lazy(
-    () => import('./components/pages/auth/reset-password')
-)
+import PrintMatches from './components/pages/downloads';
 
-const VerifyAccount = React.lazy(
-    () => import('./components/pages/auth/verify-account')
-)
+import Casino from './components/pages/casino/Casino';
+import LiveCasino from './components/pages/casino/LiveCasino';
+import Virtuals from './components/pages/casino/Virtuals';
 
-const MobileApp = React.lazy(() => import('./components/pages/app'))
+import CasinoGamePlay from './components/pages/casino/GamePlay';
 
-const ProtectedRoute = React.lazy(
-    () => import('./components/utils/protected-route')
-);
+import Promotions from './components/pages/promotions/Promotions';
 
-const PrintMatches = React.lazy(() => import('./components/pages/downloads'))
-
-const Casino = React.lazy(() => import('./components/pages/casino/Casino'))
-const LiveCasino = React.lazy(() => import('./components/pages/casino/LiveCasino'))
-const Virtuals = React.lazy(() => import('./components/pages/casino/Virtuals'))
-
-const CasinoGamePlay = React.lazy(() => import('./components/pages/casino/GamePlay'))
-
-const Promotions = React.lazy(() => import('./components/pages/promotions/Promotions'))
-
-const LiveScore = React.lazy(() => import('./components/pages/livescore/LiveScore'))
+import LiveScore from './components/pages/livescore/LiveScore';
+import Right from "./components/right";
+import Footer from "./components/footer/footer";
+import Header from "./components/header/header";
+import { Row } from "react-bootstrap";
+import Sidebar from "./components/sidebar/awesome/Sidebar";
+import { Context } from './context/store';
+import LiveSideBar from "./components/sidebar/live-sidebar";
 
 const Logout = () => {
     let navigate = useNavigate();
@@ -99,58 +73,85 @@ const Logout = () => {
 }
 
 const container = document.getElementById("app");
+const location = window.location;
+
+
+const App = () => {
+    const [state, ] = useContext(Context);
+    return (
+            <BrowserRouter>
+            <div className={state?.currentmode}>
+                <Suspense fallback={<p></p>}>
+                <Header />
+                <div className="amt">
+                    <Row>
+                        {/* Conditional load live or otherwise */}
+                        <Sidebar />
+                
+                        <div className="col-7 home mx-auto">
+                        <Routes>
+                            
+                            <Route exact path="/" element={<Index/>}/>
+                            <Route exact path="/virtuals" element={<Casino/>}/>
+                            <Route exact path="/virtuals/index" element={<Virtuals />}/>
+                            <Route exact path="/virtuals/casino" element={<Casino />}/>
+                            <Route exact path="/livescore" element={<LiveScore/>}/>
+                            <Route exact path="/casino" element={<Casino/>}/>
+                            <Route exact path="/livecasino" element={<LiveCasino/>}/>
+                            <Route exact path="/virtuals/launch/:game_id" element={<CasinoGamePlay/>}/>
+                            <Route exact path="/highlights" element={<Index/>}/>
+                            <Route exact path="/upcoming" element={<Index/>}/>
+                            <Route exact path="/tomorrow" element={<Index/>}/>
+                            <Route exact path="/competition/:id" element={<Index/>}/>
+                            <Route exact path="/competition/:sportid/:categoryid/:competitionid"
+                                element={<Index/>}/>
+                            <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
+                            <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
+                            <Route exact path="/jackpot" element={<Jackpot/>}/>
+                            <Route exact path="/live" element={<Live/>}/>
+                            <Route exact path="/live/:spid" element={<Live/>}/>
+                            <Route exact path="/privacy-policy" element={<PrivacyPolicy/>}/>
+                            <Route exact path="/anti-money-laundering" element={<AntimoneyLaundering/>}/>
+                            <Route exact path="/responsible-gambling" element={<ResponsibleGambling/>}/>
+                            <Route exact path="/dispute-resolution" element={<DisputeResolution/>}/>
+                            <Route exact path="/cookie-policy" element={<CookiePolicy/>}/>
+                            <Route exact path="/terms-and-conditions" element={<TermsAndConditions/>}/>
+                            <Route exact path="/how-to-play" element={<HowToPlay/>}/>
+                            <Route exact path="/signup" element={<Signup/>}/>
+                            <Route exact path="/reset-password" element={<ResetPassword/>}/>
+                            <Route exact path="/verify-account" element={<VerifyAccount/>}/>
+                            <Route exact path="/app" element={<MobileApp/>}/>
+                            <Route exact path="/logout" element={<Logout/>}/>
+                            <Route exact path="/print-matches" element={<PrintMatches/>}/>
+                            <Route exact path="/promotions" element={<Promotions/>}/>
+
+                            <Route exact path="/deposit"
+                                element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
+                            <Route exact path="/withdraw"
+                                element={<ProtectedRoute><Withdraw/></ProtectedRoute>}/>
+                            <Route exact path="/my-bets"
+                                element={<ProtectedRoute><MyBets/> </ProtectedRoute>}/>
+                            <Route path="*" element={<Index/>}/>
+                        </Routes>
+                    </div>
+                    <Right />
+                 
+                </Row>
+            </div>
+            <Footer />
+            </Suspense>
+            </div>
+            </BrowserRouter>
+    )
+    
+
+}
+
 render((
     <Store>
-        <BrowserRouter>
-            <Suspense fallback={<div>&nbsp;</div>}>
-              <Routes>
-                <Route exact path="/" element={<Index/>}/>
-                <Route exact path="/virtuals" element={<Casino/>}/>
-                <Route exact path="/virtuals/index" element={<Virtuals />}/>
-                <Route exact path="/virtuals/casino" element={<Casino />}/>
-                <Route exact path="/livescore" element={<LiveScore/>}/>
-                <Route exact path="/casino" element={<Casino/>}/>
-                <Route exact path="/livecasino" element={<LiveCasino/>}/>
-                <Route exact path="/virtuals/launch/:game_id" element={<CasinoGamePlay/>}/>
-                <Route exact path="/highlights" element={<Index/>}/>
-                <Route exact path="/upcoming" element={<Index/>}/>
-                <Route exact path="/tomorrow" element={<Index/>}/>
-                <Route exact path="/competition/:id" element={<Index/>}/>
-                <Route exact path="/competition/:sportid/:categoryid/:competitionid"
-                       element={<Index/>}/>
-                <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
-                <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
-                <Route exact path="/jackpot" element={<Jackpot/>}/>
-                <Route exact path="/live" element={<Live/>}/>
-                <Route exact path="/live/:spid" element={<Live/>}/>
-                <Route exact path="/privacy-policy" element={<PrivacyPolicy/>}/>
-                <Route exact path="/anti-money-laundering" element={<AntimoneyLaundering/>}/>
-                <Route exact path="/responsible-gambling" element={<ResponsibleGambling/>}/>
-                <Route exact path="/dispute-resolution" element={<DisputeResolution/>}/>
-                <Route exact path="/cookie-policy" element={<CookiePolicy/>}/>
-                <Route exact path="/terms-and-conditions" element={<TermsAndConditions/>}/>
-                <Route exact path="/how-to-play" element={<HowToPlay/>}/>
-                <Route exact path="/signup" element={<Signup/>}/>
-                <Route exact path="/reset-password" element={<ResetPassword/>}/>
-                <Route exact path="/verify-account" element={<VerifyAccount/>}/>
-                <Route exact path="/app" element={<MobileApp/>}/>
-                <Route exact path="/logout" element={<Logout/>}/>
-                <Route exact path="/print-matches" element={<PrintMatches/>}/>
-                <Route exact path="/promotions" element={<Promotions/>}/>
-
-                <Route exact path="/deposit"
-                       element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
-                <Route exact path="/withdraw"
-                       element={<ProtectedRoute><Withdraw/></ProtectedRoute>}/>
-                <Route exact path="/my-bets"
-                       element={<ProtectedRoute><MyBets/> </ProtectedRoute>}/>
-                <Route path="*" element={<Index/>}/>
-              </Routes>
-          </Suspense>
-        </BrowserRouter>
+        <App />
     </Store>
 ), container);
-
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

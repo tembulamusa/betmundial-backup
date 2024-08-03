@@ -37,16 +37,13 @@ const LiveSideBar = (props) => {
     }, [fetchData]);
 
     return (
-        <div className="d-md-block">
             <div style={{
                 display: 'flex',
                 overflow: 'scroll initial',
                 zIndex: 10,
-                marginRight: '2px',
-                top: "100px",
-                marginTop: "10px"
+                top: "100px"
             }}
-                 className={`vh-100 sticky-top d-none d-md-block up`}>
+                 className={`vh-100 text-white sticky-top d-none d-md-block up col-md-2`}>
                 <ProSidebar
                     style={{backgroundColor: '#16202c !important'}}
                     image={false}>
@@ -113,7 +110,6 @@ const LiveSideBar = (props) => {
                     </SidebarContent>
                 </ProSidebar>
             </div>
-        </div>
     );
 
     // return (

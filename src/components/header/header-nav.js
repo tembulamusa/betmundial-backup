@@ -20,6 +20,7 @@ import LiveIcon from "../../assets/svg/Live.svg";
 import JackpotIcon from "../../assets/svg/JP.svg";
 import HipoIcon from "../../assets/img/search-icon.png";
 import PromotionIcon from "../../assets/svg/Promotions.svg";
+import { Link } from 'react-router-dom';
 
 const HeaderNav = (props) => {
     const [state,] = useContext(Context);
@@ -75,94 +76,54 @@ const HeaderNav = (props) => {
                 <ListGroup as="ul" xs="12" horizontal className="nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display">
                     
                     <li className={pathname === '/' ? "active" : ''}>
-                        <a className="cg fm ox anl url-link not-selectable " href="/" title="Home"><img src={HomeIcon} alt=""  className="svg-menu-img-icon hide1" /> Home</a>
+                        <Link className="cg fm ox anl url-link not-selectable " to={"/"} title="Home"><img src={HomeIcon} alt=""  className="svg-menu-img-icon hide1" /> Home</Link>
                     </li>
-                    <li>
-                        <a className={`g url-link live-game ${pathname === '/live' ? 'active' : ''}`} href="/live"
-                           title="Live"><img src={LiveIcon} alt="" className="svg-menu-img-icon hide1" />Live</a>
+                    <li className={pathname === '/live' ? "active" : ''}>
+                        <Link className={`cg fm ox anl url-link`} to={"/live"}
+                           title="Live"><img src={LiveIcon} alt="" className="svg-menu-img-icon hide1" />Live</Link>
                     </li>
 
                     <li className={pathname === '/jackpot' ? 'active' : ''}>
-                        <a className="cg fm ox anl url-link" href="/jackpot" title="Jackpot">
+                        <Link className="cg fm ox anl url-link" to={"/jackpot"}>
                             <img src={JackpotIcon} alt="" className="svg-menu-img-icon hide1" /> Jackpot
-                        </a>
+                        </Link>
                     </li>
                     <li className={pathname === '/app' ? 'active' : ''}>
-                        <a className="g url-link" href="/app" title="App">
+                        <Link className="g url-link" to={"/app"}>
                             <span>
                                 <FontAwesomeIcon icon={faMobile} className="hide1"/> APP
                             </span>
-                        </a>
+                        </Link>
                     </li>
 
-                   { (window.location.hostname.includes("test") || window.location.hostname.includes("localhost")) && 
-                       (
-                           <>
-                            {/* <li className={pathname === '/virtuals/index' || pathname.includes("virtuals/index") ? 'active' : ''}>
-                                <a className="g url-link" href="/virtuals/index" title="Virtuals">
-                                    <span >
-                                        <FontAwesomeIcon icon={faLaptop} className="hide1"/> Virtuals
-                                    </span>
-                                </a>
-                            </li> */}
-                            {/* <li className={pathname === '/virtuals/casino' || pathname.includes("virtuals/casino") ? 'active' : ''}>
-                                <a className="g url-link" href="/virtuals/casino" title="Casino">
-                                    <span >
-                                        <FontAwesomeIcon icon={faLaptop} className="hide1"/> Casino
-                                    </span>
-                                </a>
-                            </li>
-                            <li className={pathname === '/livecasino' || pathname.includes("livecasino") ? 'active' : ''}>
-                                <a className="g url-link" href="/livecasino" title="Live Casino">
-                                    <span >
-                                        <FontAwesomeIcon icon={faLaptop} className="hide1"/> Live Casino
-                                    </span>
-                                </a>
-                            </li> */}
-                        </> )
-                   }
-                    {/*<li className={pathname === '/casino' || pathname.includes("virtuals") ? 'active' : ''}>*/}
-                    {/*    <a className="g url-link" href="/virtuals/index" title="Casino">*/}
-                    {/*        <FontAwesomeIcon icon={faDice}/> Casino*/}
-                    {/*    </a>*/}
-                    {/*</li>*/}
+                   
                     <li className={pathname === '/promotions' || pathname.includes("promotions") ? 'active' : ''}>
-                        <a className="g url-link" href="/promotions" title="Promotions">
+                        <Link className="g url-link" to={"/promotions"}>
                             <img src={PromotionIcon} alt="" className="svg-menu-img-icon hide1" /> Promotions
-                        </a>
+                        </Link>
                     </li>
 
                     <li className={pathname === '/print-matches' ? 'active py-3' : 'py-md-0 py-lg-3 py-sm-0 d-flex align-items-center'}>
-                        <a className="g url-link fix-print" href="/print-matches" title="Print Matches">
+                        <Link className="g url-link fix-print" to={"/print-matches"}>
                             <span className=" space-icons hide1"><FontAwesomeIcon icon={faPrint}/> </span>Print <span>Matches</span>
-                        </a>
+                        </Link>
                     </li>
-                    {/**
-                    <li>
-                        <a className="g url-link" href="/livescore"
-                           title="Live Score">
-                            <span>
-                                <FontAwesomeIcon icon={faInfo}/> Live Score
-                            </span>
-                        </a>
-                    </li>
-                    **/ 
-                    }
+                    
                     <li className={pathname === '/print-matches' ? 'spacing-end' : 'spacing-end'}>
-                        <a className="g url-link fix-display" href="#" title="Search"
+                        <Link className="g url-link fix-display" to="#" title="Search"
                            onClick={() => showSearchBar()}>
                             <span className=" space-icons"><FontAwesomeIcon icon={faSearch} /> </span><span className={'hide2'}>Search</span>
-                        </a>
+                        </Link>
                     </li>
                     <li className={pathname === '/how-to-play' ? 'active' : ''}>
-                        <a className="g url-link fix-display" href="/how-to-play" title="How to play">
+                        <Link className="g url-link fix-display" to={"/how-to-play"}>
                             <span className=" space-icons"><FontAwesomeIcon icon={faQuestionCircle}/> </span> <span className={'hide2'}>Help</span>
-                        </a>
+                        </Link>
                     </li>
                     <li className={""}>
-                        <a className="g url-link fix-display" href="#" title="Current Time">
+                        <Link className="g url-link fix-display" to="#" title="Current Time">
                             <span className=" space-icons"><FontAwesomeIcon icon={faClock}/> </span> <span className={'hide2'}>{time}</span>
-                        </a>
+                        </Link>
                     </li>
                 </ListGroup>
 
