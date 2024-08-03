@@ -100,3 +100,35 @@ code {
   font-size: 15px;
 
 }
+
+.homepage {
+  background-color: #ffffff;
+}
+
+.page-title {
+  border-bottom: 1px solid #ddd;
+  font-weight: 500;
+  text-transform: capitalize;
+  font-size: 20px;
+}
+
+h5, h4, h3, h2 {
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0px 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #504d4d;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #dddddd;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -moz-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}

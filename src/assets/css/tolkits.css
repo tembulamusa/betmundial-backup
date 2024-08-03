@@ -15384,14 +15384,14 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 }
 
 .deposit-input {
-    border: 2px solid gray;
+    /* border: 2px solid gray; */
 }
 
 
 .input-field {
     height: 40px;
     line-height: 40px;
-    border: none;
+    /* border: none; */
 }
 
 .deposit-withdraw-button {
@@ -15400,12 +15400,12 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
     border: none;
     font-size: 14px;
     text-transform: uppercase;
-    background:rgba(231, 6, 84, 0.958);
+    background: #4d4093;
+    width: 100% !important;
 }
-
 .deposit-withdraw-button:hover{
 
-    background:rgba(231, 6, 84, 0.958);
+    background: #4d4093;
 }
 .input-square {
     border-radius: 0 !important;
@@ -15626,22 +15626,22 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
     background: #947389;
 } 
 .nav-tabs .nav-link {
-	display: block;
-	padding: .5rem 1rem;
-	border: none;
-	background: #947389;
-	color: #fff;
-    border-radius:none !important;
-    border-top-right-radius:none;
-    border-top-left-radius:none;
+    display: block;
+    padding: .5rem 1rem;
+    border: none;
+    background: #fff;
+    color: inherit;
+    border-radius: none !important;
+    border-top-right-radius: none;
+    border-bottom: 1px solid #dddddd;
+    border-top-left-radius: none;
 }
-
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     background-color: #1c313b;
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-    background-color: #613354;
+    background-color: #24367e;
     color: white;
     border: none !important;
 }

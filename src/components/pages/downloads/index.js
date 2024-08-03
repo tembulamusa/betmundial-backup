@@ -98,20 +98,23 @@ export default function MatchesList() {
                     <SideBar loadCompetitions/>
                     <div className="gz home" style={{width:"100%"}}>
                         <div className="homepage">
-                            <div className='col-md-12 primary-bg p-4 text-center'>
-                                <h4 className="inline-block">
+                            <div className='col-md-12 page-title p-4 text-center'>
+                                <h4 className="inlin-block">
                                     <span className="fa fa-chevron-left"></span>
-                                    DOWNLOAD MATCHES
+                                    Download Matches
                                 </h4>
                             </div>
                             <div className="col-md-12 text-center vh-100">
+                                <p className="text-2xl my-3 px-2">
+                                Grab your favorite games in printable format here. surebet provides the the best competitie odds for you to take advantage of in all areas of betting
+                                </p>
                                 <Tabs
                                     variant={'tabs'}
                                     defaultActiveKey="matches"
                                     onSelect={(k) => fetchActiveTabMatches(k)}
                                     className="background-primary"
                                     justify>
-                                    <Tab eventKey="matches" title="Grab your favorite games in printable format here. surebet provides the the best competitie odds for you to take advantage of in all areas of betting" className={'background-primary shadow p-5'}
+                                    <Tab eventKey="matches" title="" className={'background-primary shadow p-5'}
                                          style={{}}>
                                         <div className="col-md-12 d-flex flex-column p-2">
         {/* <div className="col-md-12 text-start p-2">

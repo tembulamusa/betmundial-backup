@@ -24,14 +24,14 @@ const MobileApp = () => {
             <div className="amt">
                 <div className="d-flex flex-row justify-content-between">
                     <SideBar loadCompetitions/>
-                    <div className="gz home" style={{width: '100%'}}>
+                    <div className="gz home bg-white" style={{width: '100%'}}>
                         <div className="homepage">
-                            <div
-                                className='col-md-12 primary-bg p-4 text-center d-flex flex-row justify-content-between sticky-top'>
-                                <h4 className="inline-block">
-                                    surebet APP
-                                </h4>
+                            <h4
+                                className='text-center col-md-12 page-title p-4 text-center d-flex flex-row justify-content-between sticky-top'>
+                                    SUREBET APP
+                            </h4>
 
+                            <div className=" px-5">
                                 <DownloadLink
                                     className="btn btn-primary btn-lg mb-5 text-white text-decoration-none"
                                     label="Download App"

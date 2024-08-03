@@ -48,10 +48,8 @@ const Signup = (props) => {
 
     const FormTitle = () => {
         return (
-            <div className='col-md-12 primary-bg p-4 text-center'>
-                <h4 className="inline-block">
-                    SIGNUP | CREATE A NEW ACCOUNT
-                </h4>
+            <div className='col-md-12 page-title p-4 text-center'>
+                    Signup | Register
             </div>
         )
     }
@@ -67,11 +65,7 @@ const Signup = (props) => {
         return (
             <Form>
                 <div className="pt-0">
-                    <div className="row">
-                        <div className='col-md-6 text-center'>
-                            <img src={mpesa} alt=""/>
-                        </div>
-                        <hr/>
+                    <div className="row">                        
                         <div className="form-group row d-flex justify-content-center mt-5">
                             <div className="col-md-12">
                                 <label>Mobile Number</label>
@@ -104,7 +98,7 @@ const Signup = (props) => {
                             </div>
                         </div>
                         <div className="form-group row d-flex justify-content-left mb-4">
-                            <div className="col-md-3">
+                            <div className="">
                                 <button type="submit"
                                     className={`btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button`}
                                     disabled={loading}
@@ -140,21 +134,19 @@ const Signup = (props) => {
     return (
         <React.Fragment>
             <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <SideBar loadCompetitions/>
-                    <div className="gz home mt-3">
-                        <div className="homepage">
-                            <FormTitle/>
-                            <div className="col-md-12 mt-2  p-2">
-                                {message && <Alert/>}
-                                <div className="modal-body pb-0" data-backdrop="static">
-                                    <SignupForm/>
-                                </div>
-                            </div>
+            <div className='mt-5 pt-9'>
+            <div className='mt-5 pt-9'>
+            <div className='mt-5 pt-7'>
+                <div className="homepage col-md-8 mx-auto mt-5 shadow-sm">
+                    <FormTitle/>
+                    <div className="col-md-12 mt-2  p-2">
+                        {message && <Alert/>}
+                        <div className="modal-body pb-0" data-backdrop="static">
+                            <SignupForm/>
                         </div>
                     </div>
-                    <Right/>
+                </div>
+                </div>
                 </div>
             </div>
             <Footer/>

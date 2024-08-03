@@ -409,6 +409,7 @@ const OddButton = (props) => {
         let sbv = event.currentTarget.getAttribute("special_bet_value");
         let oddk = event.currentTarget.getAttribute("odd_key");
         let odd_value = event.currentTarget.getAttribute("odd_value");
+        let pick_key = event.currentTarget.getAttribute("pick_key");
         let bet_type = event.currentTarget.getAttribute("bet_type");
         let odd_type = event.currentTarget.getAttribute("odd_type");
         let home_team = event.currentTarget.getAttribute("home_team");
@@ -422,7 +423,7 @@ const OddButton = (props) => {
             "parent_match_id": pmid,
             "special_bet_value": sbv,
             "sub_type_id": stid,
-            "bet_pick": oddk,
+            "bet_pick": pick_key,
             "odd_value": odd_value,
             "home_team": home_team,
             "away_team": away_team,
@@ -467,6 +468,7 @@ const OddButton = (props) => {
             market_active={match.market_active}
             odd_value={oddValue}
             odd_key={match?.[mkt] || match?.odd_key || mkt}
+            pick_key={match?.[mkt] || match?.pick_key || "Home Test"}
             parent_match_id={match.parent_match_id}
             match_id={match.match_id}
             custom={ucn}

@@ -186,7 +186,7 @@ const BetslipSubmitForm = (props) => {
             let taxable_amount = Float(raw_possible_win) - Float(stake_after_tax);
 
             let wint = taxable_amount * 0.2;
-            let nw = raw_possible_win - wint;
+            let nw = raw_possible_win;
             setExciseTax(Float(ext, 2));
             setStakeAfterTax(Float(stake_after_tax,2));
             setNetWin(Float(nw, 2));
@@ -389,7 +389,7 @@ const BetslipSubmitForm = (props) => {
                                 <tr className="bet-win-tr hide-on-affix">
                                     <td className='py-2'>{'possible payout'}</td>
                                     <td className='text-right py-2'>KSH. <span
-                                        id="net-amount">{formatNumber(jackpot ? jackpotData?.jackpot_amount : netWin + withholdingTax)}</span></td>
+                                        id="net-amount">{formatNumber(jackpot ? jackpotData?.jackpot_amount : Float((netWin + withholdingTax), 2))}</span></td>
                                 </tr>
                                 <tr>
                                     <td className='w-1/2'>

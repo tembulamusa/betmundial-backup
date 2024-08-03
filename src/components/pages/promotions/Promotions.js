@@ -21,20 +21,20 @@ const Promotions = () => {
                             <div className="col-md-12 d-flex flex-column">
                                 <div className="col-md-12">
                                     <div
-                                        className="primary-bg shadow-sm  p-2 shadow-sm casino-category-container ">
-                                    PROMOTIONS
+                                        className="page-title shadow-sm  p-2 shadow-sm casino-category-container ">
+                                            Promotions
                                     </div>
                                 </div>
                                 <div className="col">
                                     <div className={'row  p-3 d-flex justify-content-center'}>
                                         <div className="col-6 p-3 shadow-lg promo-pannel">
                                             <div className="d-flex flex-column">
-                                                <h5>HIPO 3000 KARIBU BONUS</h5>
+                                                <h5 className="uppercase">SUREBET 3000 KARIBU BONUS</h5>
                                                 <img src={karibuBonus} className={'rounded'}/>
                                                 <span><u>How to get it</u></span>
                                                 <ul>
                                                     <li>
-                                                        Register on sms by sending the word JOIN 29400 or visiting www.surebet.co.ke and creating account via signup link.
+                                                        Register on sms by sending the word JOIN 29400 or visiting www.SUREBET.co.ke and creating account via signup link.
                                                     </li>
                                                 </ul>
                                                 <div className="col-md-12">
@@ -51,12 +51,12 @@ const Promotions = () => {
                                         </div>
                                         <div className="col-6 p-3 shadow-lg promo-pannel">
                                             <div className="d-flex flex-column">
-                                                <h5>100% FIRST DEPOSIT HIPO BONUS </h5>
+                                                <h5>100% FIRST DEPOSIT SUREBET BONUS </h5>
                                                 <img src={hundredPercentDepositBonus} className={'rounded'}/>
                                                 <span><u>How to get it</u></span>
                                                 <ul>
                                                     <li>
-                                                        Deposit KES.50 and above to surebet Paybill 4093333 using your phone number as the account number
+                                                        Deposit KES.50 and above to SUREBET Paybill 4093333 using your phone number as the account number
                                                     </li>
                                                 </ul>
                                                 <div className="col-md-12">
@@ -73,7 +73,7 @@ const Promotions = () => {
                                        <div className="row p-3  d-flex justify-content-center"> 
                                             <div className="col-6 p-3 shadow-lg promo-pannel">
                                                 <div className="d-flex flex-column">
-                                                    <h5>HIPO MSHIPI BONUS</h5>
+                                                    <h5>SUREBET MSHIPI BONUS</h5>
                                                     <img src={MshipiBonusImg} className={'rounded'}/>
                                                     <span><u>How to get it</u></span>
                                                     <ul>
@@ -93,11 +93,11 @@ const Promotions = () => {
 
                                             <div className="col-6 p-3 shadow-lg promo-pannel">
                                                 <div className="d-flex flex-column">
-                                                    <h5>HIPO DAILY DEPOSIT BONUS</h5>
+                                                    <h5>SUREBET DAILY DEPOSIT BONUS</h5>
                                                     <img src={earlyBirdDailyDepositBonus} className={'rounded'}/>
                                                     <span><u>How to get it</u></span>
                                                     <ul>
-                                                         <li>Make your first deposit of the day to surebet paybill 4093333 account number your mobile number</li>
+                                                         <li>Make your first deposit of the day to SUREBET paybill 4093333 account number your mobile number</li>
                                                     </ul>
                                                     <div className="col-md-12">
                                                         <span><u>Terms and conditions</u></span>

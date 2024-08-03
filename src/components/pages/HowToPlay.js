@@ -35,8 +35,8 @@ const HowToPlay = (props) => {
                     <SideBar loadCompetitions/>
                     <div className="gz home" style={{width: '100%'}}>
                         <div className="homepage">
-                            <div className='col-md-12 primary-bg p-4 text-center'>
-                                <h4 className="inline-block"> HOW TO PLAY - BETTING RULES</h4>
+                            <div className='col-md-12 page-title p-4 text-center'>
+                                HOW TO PLAY - BETTING RULES
                             </div>
                               <div className="col-md-12 p-5">
                                 <h2>INTRODUTION</h2>
