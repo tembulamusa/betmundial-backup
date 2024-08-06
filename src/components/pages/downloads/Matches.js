@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 0
     },
     tableColMatch: {
-        width: "40%",
+        width: "50%",
         borderStyle: "solid",
         borderColor: '#bfbfbf',
         borderWidth: 1,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0
     },
     tableColHeaderSpannedTopMatch: {
-        width: "40%",
+        width: "50%",
         borderStyle: "solid",
         borderColor: '#bfbfbf',
         borderWidth: 1,
@@ -154,18 +154,15 @@ export function PdfDocument(props) {
         console.log("Looking at this match", match)
         let odds = match.odds;
         let doubleChance = odds['Double Chance']
-        if (key === '1orX') {
-            let oddKey = match?.home_team + ' or draw'
-            return doubleChance?.[oddKey]?.['odd_value']
+        if (key === '1X') {
+            return doubleChance[0]['odd_value']
         }
-        if (key === 'Xor2') {
-            let oddKey = 'draw or ' + match?.away_team
-            return doubleChance?.[oddKey]?.['odd_value']
+        if (key === 'X2') {
+            return doubleChance[1]['odd_value']
         }
 
-        if (key === '1or2') {
-            let oddKey = match?.home_team + ' or ' + match?.away_team
-            return doubleChance?.[oddKey]?.['odd_value']
+        if (key === '12') {
+            return doubleChance[2]['odd_value']
         }
     }
 
@@ -173,10 +170,10 @@ export function PdfDocument(props) {
         let odds = match?.odds;
         let overUnder = odds['Total']
         if (key === 'over') {
-            return overUnder?.['over 2.5']?.['odd_value']
+            return overUnder[0]['odd_value']
         }
         if (key === 'under') {
-            return overUnder?.['under 2.5']?.['odd_value']
+            return overUnder[1]['odd_value']
         }
     }
     return (
@@ -204,9 +201,6 @@ export function PdfDocument(props) {
                                 </View>
                                 <View style={styles.tableColHeader}>
                                     <Text style={styles.tableCellHeader}>OVER OR UNDER 2.5</Text>
-                                </View>
-                                <View style={styles.tableColHeader}>
-                                    <Text style={styles.tableCellHeader}>BOTH TEAMS TO SCORE</Text>
                                 </View>
                             </>
                         )}
@@ -262,16 +256,6 @@ export function PdfDocument(props) {
                                         </View>
                                         <View style={styles.tableColTwoChildren}>
                                             <Text style={styles.tableCell}>UNDER</Text>
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={styles.tableCol}>
-                                    <View style={styles.tableRowFlex}>
-                                        <View style={styles.tableColTwoChildren}>
-                                            <Text style={styles.tableCell}>YES</Text>
-                                        </View>
-                                        <View style={styles.tableColTwoChildren}>
-                                            <Text style={styles.tableCell}>NO</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -334,17 +318,17 @@ export function PdfDocument(props) {
                                         <View style={styles.tableRowFlex}>
                                             <View style={styles.tableColThreeChildren}>
                                                 <Text style={styles.tableCell}>
-                                                    {getDoubleChanceOdds(match, match.home_team + ' or draw')}
+                                                    {getDoubleChanceOdds(match, "1X")}
                                                 </Text>
                                             </View>
                                             <View style={styles.tableColThreeChildren}>
                                                 <Text style={styles.tableCell}>
-                                                    {getDoubleChanceOdds(match, match.home_team + ' or ' + match.away_team)}
+                                                    {getDoubleChanceOdds(match, "X2")}
                                                 </Text>
                                             </View>
                                             <View style={styles.tableColThreeChildren}>
                                                 <Text style={styles.tableCell}>
-                                                    {getDoubleChanceOdds(match, 'draw or '+ match.away_team)}
+                                                    {getDoubleChanceOdds(match, "12")}
                                                 </Text>
                                             </View>
                                         </View>
@@ -359,20 +343,6 @@ export function PdfDocument(props) {
                                             <View style={styles.tableColTwoChildren}>
                                                 <Text style={styles.tableCell}>
                                                     {getOverUnderTwoPointFive(match, 'under')}
-                                                </Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                    <View style={styles.tableCol}>
-                                        <View style={styles.tableRowFlex}>
-                                            <View style={styles.tableColTwoChildren}>
-                                                <Text style={styles.tableCell}>
-                                                    {getBothTeamsToScoreOdds(match, 'yes')}
-                                                </Text>
-                                            </View>
-                                            <View style={styles.tableColTwoChildren}>
-                                                <Text style={styles.tableCell}>
-                                                    {getBothTeamsToScoreOdds(match, 'no')}
                                                 </Text>
                                             </View>
                                         </View>
