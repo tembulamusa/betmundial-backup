@@ -125,7 +125,7 @@ const ProSidebar = (props) => {
                 zIndex: 10,
                 top: "100px"
             }}
-                 className={`vh-100 text-white sticky-top d-none d-md-block up col-md-2`}>
+                 className={`vh-100 sticky-top d-none d-md-block up col-md-2`}>
                 <Sidebar
     
                     style={{backgroundColor: '#16202c !important'}}
@@ -139,9 +139,10 @@ const ProSidebar = (props) => {
                             {competitions?.all_sports.map((competition, index) => (
     
                                 <SubMenu title={competition.sport_name} defaultOpen={getActiveSport(competition.sport_id) && index !== 0}
-                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
+                                        icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}
-                                         key={index}>
+                                        label={competition.sport_name}
+                                        key={index}>
                                 {/* <SubMenu title={'Countries'}
                                              style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}
                                         <PerfectScrollbar >
