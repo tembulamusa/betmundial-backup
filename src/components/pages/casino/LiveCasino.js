@@ -96,7 +96,7 @@ const LiveCasino = (props) => {
 
     const initializeDGA = async () => {
         try {
-            let url = "prelive-dga0.pragmaticplaylive.net/ws?key=testKey&stylename=lmntgmng_bethipo";
+            let url = "prelive-dga0.pragmaticplaylive.net/ws?key=testKey&stylename=lmntgmng_surebet";
             window.dga.connect(url)
             // console.log("Connected to DGA Web Socket on PP")
         } catch (e) {

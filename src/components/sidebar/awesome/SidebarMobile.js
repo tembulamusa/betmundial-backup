@@ -1,15 +1,14 @@
-import {Menu, MenuItem, ProSidebar, SidebarContent, SubMenu} from "react-pro-sidebar";
+import {Menu, MenuItem, Sidebar,  SubMenu} from "react-pro-sidebar";
 import {getFromLocalStorage, setLocalStorage} from "../../utils/local-storage";
 import React, {useState} from "react";
 
 const SidebarMobile = (props) => {
     const [competitions, setCompetitions] = useState(getFromLocalStorage('categories'));
     return (
-        <ProSidebar
+        <Sidebar
             className={'background-primary'}
             style={{width: "100%"}}
             image={false}>
-            <SidebarContent>
                 <Menu iconShape="circle">
                     {competitions?.all_sports?.map((competition, index) => (
                         <SubMenu title={competition.sport_name}
@@ -55,8 +54,7 @@ const SidebarMobile = (props) => {
                         </SubMenu>
                     ))}
                 </Menu>
-            </SidebarContent>
-        </ProSidebar>
+        </Sidebar>
     )
 }
 

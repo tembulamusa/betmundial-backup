@@ -1,24 +1,25 @@
 import React, {useCallback, useEffect, useState, useContext} from 'react';
 import {
-    ProSidebar, 
+    Sidebar, 
     Menu, 
     MenuItem, 
     SubMenu, 
     SidebarHeader, 
-    SidebarContent 
+    //SidebarContent 
 } from 'react-pro-sidebar';
 
-import 'react-pro-sidebar/dist/css/styles.css';
+//import 'react-pro-sidebar/dist/css/styles.css';
 import {getFromLocalStorage, setLocalStorage} from "../../utils/local-storage";
 import makeRequest from "../../utils/fetch-request";
 import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import PerfectScrollbar from 'react-perfect-scrollbar';
+
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import {Context} from '../../../context/store';
 import LiveSideBar from '../live-sidebar';
 
-const Sidebar = (props) => {
+const ProSidebar = (props) => {
 
     const [collapsed, setCollapsed] = useState(false)
     const [toggled, setToggled] = useState(false)
@@ -125,14 +126,13 @@ const Sidebar = (props) => {
                 top: "100px"
             }}
                  className={`vh-100 text-white sticky-top d-none d-md-block up col-md-2`}>
-                <ProSidebar
+                <Sidebar
     
                     style={{backgroundColor: '#16202c !important'}}
                     image={false}
                     onToggle={handleToggleSidebar}
                     collapsed={collapsed}
                     toggled={toggled}>
-                    <SidebarContent>
                         <Menu iconShape="circle">
     
                             
@@ -162,8 +162,7 @@ const Sidebar = (props) => {
                                 </SubMenu>
                             ))}
                         </Menu>
-                    </SidebarContent>
-                </ProSidebar>
+                </Sidebar>
             </div>
         }
             
@@ -172,4 +171,4 @@ const Sidebar = (props) => {
     );
 };
 
-export default Sidebar;
+export default ProSidebar;

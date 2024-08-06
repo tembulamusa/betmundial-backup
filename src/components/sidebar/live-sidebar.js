@@ -5,7 +5,7 @@ import makeRequest from "../utils/fetch-request";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import {Menu, MenuItem, ProSidebar, SidebarContent, SidebarHeader, SubMenu} from "react-pro-sidebar";
+import {Menu, MenuItem, Sidebar, SubMenu} from "react-pro-sidebar";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {setLocalStorage} from "../utils/local-storage";
@@ -44,10 +44,10 @@ const LiveSideBar = (props) => {
                 top: "100px"
             }}
                  className={`vh-100 text-white sticky-top d-none d-md-block up col-md-2`}>
-                <ProSidebar
+                <Sidebar
                     style={{backgroundColor: '#16202c !important'}}
                     image={false}>
-                    <SidebarHeader>
+                    <div>
                         <div
                             style={{
                                 padding: '5px',
@@ -60,8 +60,8 @@ const LiveSideBar = (props) => {
                                 whiteSpace: 'nowrap',
                             }}>
                         </div>
-                    </SidebarHeader>
-                    <SidebarHeader>
+                    </div>
+                    <div>
                         <div
                             style={{
                                 padding: '5px',
@@ -77,8 +77,7 @@ const LiveSideBar = (props) => {
                                 LIVE SPORTS
                             </div>
                         </div>
-                    </SidebarHeader>
-                    <SidebarContent>
+                    </div>
                         <Menu iconShape="circle">
                             {liveSports && Object.entries(liveSports).map(([index, livesport]) => (
                                     <Menu iconShape="circle">
@@ -107,50 +106,9 @@ const LiveSideBar = (props) => {
                             )
                             }
                         </Menu>
-                    </SidebarContent>
-                </ProSidebar>
+                </Sidebar>
             </div>
     );
 
-    // return (
-    //     <div className="gn d-md-block">
-    //
-    //       <PerfectScrollbar >
-    //         <div className="qv rc aog alu web-element block-shadow bottom-std-margin-spacing">
-    //             <header>
-    //                 <div className="header-holder">
-    //                     <span className="col-sm-10">Live Sports</span>
-    //                     <span className="col-sm-2 header-icon">
-    //                     <img
-    //                       height="14px"
-    //                       src={football}
-    //                       alt="-"
-    //                       />
-    //                     </span>
-    //                 </div>
-    //             </header>
-    //
-    //             <ul className="aoi nav base-bg">
-    //                 {  liveSports && Object.entries(liveSports).map(([index, livesport])  => (
-    //                     <li className="li-white-h" key={index}>
-    //                         <a className="col-12"
-    //                             href={`/live/${livesport.sport_id}`}>
-    //                             <Row>
-    //                             <Col lg="11" md="11" sm="11" xs="11" className="topl" >
-    //                                 <Row style={{color:"#69819a"}}>
-    //                                     <Col>{livesport.sport_name} </Col>
-    //                                     <Col><span style={{float:"right", color:"#fff"}}>{livesport.count }</span></Col>
-    //                                 </Row>
-    //                             </Col>
-    //                            </Row>
-    //                         </a>
-    //                     </li>)
-    //                   )
-    //                 }
-    //             </ul>
-    //         </div>
-    //       </PerfectScrollbar>
-    //     </div>
-    // )
 }
 export default LiveSideBar;

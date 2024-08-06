@@ -12,7 +12,6 @@ import {
     getBetslip
 } from '../utils/betslip';
 
-import CurrencyFormat from 'react-currency-format';
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
@@ -728,10 +727,7 @@ export const JackpotHeader = (props) => {
                 </Row>
                 <Row className="jp-header-text mb-2">
                     <div className="jackpot-amount mt-3">
-                        <CurrencyFormat
-                            value={jackpot?.jackpot_amount}
-                            displayType={'text'}
-                            thousandSeparator={true} prefix={'KES'}/>
+                        KES  { Intl.NumberFormat('en-US').format(jackpot?.jackpot_amount) }
                     </div>
                 </Row>
 

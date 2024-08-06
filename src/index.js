@@ -1,5 +1,5 @@
 import React, {useEffect, useCallback, Suspense, useContext} from "react";
-import {render} from "react-dom";
+import { createRoot } from 'react-dom/client';
 
 import {
     BrowserRouter,
@@ -148,11 +148,10 @@ const App = () => {
 
 }
 
-render((
-    <Store>
-        <App />
-    </Store>
-), container);
+
+
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(<Store><App /></Store>);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

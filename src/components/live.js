@@ -9,7 +9,6 @@ import {Context} from '../context/store';
 
 const Header = React.lazy(() => import('./header/header'));
 const Footer = React.lazy(() => import('./footer/footer'));
-const LiveSideBar = React.lazy(() => import('./sidebar/live-sidebar'));
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const SearchBar = React.lazy(() => import('./header/search-bar'));
 const MatchList = React.lazy(() => import('./matches/index'));
