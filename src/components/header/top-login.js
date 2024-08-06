@@ -103,7 +103,8 @@ const HeaderLogin = (props) => {
             <>
                 <Form className="header-login-form">
                     <Row>
-                        <div className='col-9'>
+                        <div className='col-md-9'>
+                            <div className='float-end'>
                             <div className="input-group">
                                 <input type="text"
                                     name="msisdn"
@@ -146,14 +147,13 @@ const HeaderLogin = (props) => {
                                 </span>
                                 
                             </div>
+                            </div>
                         </div>
                         <div className="col-3">
                             <Link className="top-login-btn btn yellow-btn ml-3" to="/signup" title="Join now" style={{ fontSize: "13px", fontWeight: "bold"}}>
                                 <span className="register-label uppercase">Register</span>
                             </Link>
                         </div>
-
-                        
                     </Row>
                 </Form>
             </>
@@ -184,18 +184,10 @@ const HeaderLogin = (props) => {
                     </a>
                 </div>
             </Row> */}
-            <Row style={{marginBottom:"10px"}}>
-                <Col xs={3}className="d-inline-flex justify-content-center" style={{margin:"auto"}}>
-                    
-
-                    
-                </Col>
-                <Col xs={6}>
-                    <ToastContainer/>
-                    
+            <Row style={{marginBottom:"10px"}}>                
+                    <ToastContainer/>                   
                     <LoginForm/>
                     
-                </Col>
             </Row>
         </Container>
     )

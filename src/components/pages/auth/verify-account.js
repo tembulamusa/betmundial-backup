@@ -1,6 +1,7 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {Formik, Form} from 'formik';
 import makeRequest from "../../utils/fetch-request";
+import { Context } from '../../../context/store';
 
 const Header = React.lazy(() => import('../../header/header'));
 const SideBar = React.lazy(() => import('../../sidebar/awesome/Sidebar'));
@@ -11,33 +12,40 @@ const VerifyAccount = (props) => {
 
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
-    const verifyRef = useRef()
+    const [isLoading, setIsLoading] = useState(false);
+    const verifyRef = useRef();
+    const [state, _] = useContext(Context);
 
     const initialValues = {
-        mobile: '',
+        mobile: state?.regmsisdn,
         code: ''
     }
 
     const handleSubmit = values => {
         let endpoint = '/v1/verify';
+        setIsLoading(true);
+        console.log(values);
         makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
             setSuccess(status === 200 || status === 201)
             setMessage(response.success ? response.success.message : response.error.message);
-            response.success ? setSuccess(true) : setSuccess(false)
-            if(success) {
+            response.success ? setSuccess(true) : setSuccess(false);
+            setIsLoading(false);
+            if (response.success) {
                 let timer = setInterval(() => {
                     clearInterval(timer)
-                    window.location.href = "/"
-                }, 3000)
+                    window.location.href = "/login"
+                }, 3000);
             }
+            
         }).catch((err) => {
-            console.log(err)
+
         })
     }
 
     const validate = values => {
 
         let errors = {}
+
 
         if (!values.mobile || !values.mobile.match(/(254|0|)?[71]\d{8}/g)) {
             errors.mobile = 'Please enter a valid phone number'
@@ -67,16 +75,16 @@ const VerifyAccount = (props) => {
 
     const FormTitle = () => {
         return (
-            <div className='col-md-12 primary-bg p-4 text-center'>
+            <div className='col-md-12 page-title p-4 text-center'>
                 <h4 className="inline-block">
-                    VERIFY YOUR PHONE NUMBER
+                    Verify Account
                 </h4>
             </div>
         )
     }
 
     const MyVerifyAccountForm = (props) => {
-        const {errors, values, submitForm, setFieldValue} = props;
+        const {errors, values, setFieldValue} = props;
 
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
@@ -84,46 +92,42 @@ const VerifyAccount = (props) => {
             setFieldValue(field, value);
         }
         return (
-            <Form>
+            <form onReset={props.handleReset} onSubmit={props.handleSubmit} {...props} >
+                
                 <div className="pt-0">
                     <div className="row">
+                        <hr/>
+                        <div className='alert alert-success'>
+                            Thanks for registering. Kindly check your phone for the sms and enter code in the field below
+                        </div>
                         <div className="form-group row d-flex justify-content-center mt-5">
                             <div className="col-md-12">
-                                <div className="row">
-                                <div className="col-md-12">
-                                    <span className=''>
-                                        Didn't receive code? Resend OTP  &nbsp;
-                                    </span>
-                                    <button onClick={() => resendOTP()} type={"button"}
-                                            className='btn btn-primary btn-sm'>Resend OTP
-                                    </button>
-                                </div>
-                                </div>
                                 <label>Mobile Number</label>
                                 <div className="row">
-                                    <div className="col-md-12">
+                                    <div className="col-12">
                                         <input
-                                            value={values.mobile}
-                                            className="text-dark deposit-input form-control col-md-12 input-field"
+                                            value={state?.regmsisdn}
+                                            className="block px-3 py-3 w-full rounded-2xl std-input form-control"
                                             id="mobile"
                                             name="mobile"
                                             type="text"
                                             placeholder='Phone number'
+                                            disabled = {true}
                                             onChange={ev => onFieldChanged(ev)}
                                         />
-                                        {errors.mobile && <div className='text-danger'> {errors.mobile} </div>}
                                     </div>
+                                    
                                 </div>
 
                             </div>
                         </div>
 
                         <div className="form-group row d-flex  mt-5">
-                            <div className="col-md-12">
+                            <div className="col-12">
                                 <label>Code (OTP)</label>
                                 <input
                                     value={values.code}
-                                    className="text-dark deposit-input form-control col-md-12 input-field"
+                                    className="block px-3 py-3 w-full rounded-2xl std-input form-control"
                                     id="code"
                                     name="code"
                                     type="code"
@@ -132,19 +136,29 @@ const VerifyAccount = (props) => {
                                 />
                                 {errors.code && <div className='text-danger'> {errors.code} </div>}
                             </div>
-                        </div>
-                        <div className="form-group row d-flex justify-content-left mb-4">
-                            <div className="col-md-3">
-                                <button type="submit"
-                                        onClick={submitForm}
-                                        className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button'>
-                                    Verify Account
+
+                            <div className="col-12 my-2">
+                                <span className=''>
+                                    Didn't receive code? Resend Code
+                                </span>
+                                <button onClick={() => resendOTP()} type={"button"}
+                                        className='btn text-white ml-2 btn-sm bg-green-500'>Resend OTP
                                 </button>
                             </div>
                         </div>
+                        <div className="form-group row d-flex justify-content-left mb-4">
+                            <div className="col-12">
+                                <button type="submit"
+                                        disabled = {isLoading}
+                                        className={`btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button`}>
+                                        {isLoading === false? "Verify Account" : "verifying..."}
+                                </button>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
-            </Form>
+            </form>
         );
     }
 
@@ -156,8 +170,10 @@ const VerifyAccount = (props) => {
                 onSubmit={handleSubmit}
                 validateOnChange={false}
                 validateOnBlur={false}
-                validate={validate}
-                render={(props) => <MyVerifyAccountForm {...props} />}/>
+                validator={validate} >
+                    {props => <MyVerifyAccountForm {...props} />}
+                </Formik>
+            
         );
     }
 
@@ -168,27 +184,17 @@ const VerifyAccount = (props) => {
     };
 
     return (
-        <React.Fragment>
-            <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <SideBar loadCompetitions />
-                    <div className="gz home">
-                        <div className="homepage">
-                            <FormTitle/>
-                            <div className="col-md-12 mt-2  p-2">
-                                {message && <Alert/>}
-                                <div className="modal-body pb-0" data-backdrop="static">
-                                    <VerifyAccountForm/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <Right/>
+        <>
+            <FormTitle/>
+            <div className="col-md-12 mt-2 p-2">
+                {message && <Alert/>}
+                <div className="modal-body pb-0" data-backdrop="static">
+                    <VerifyAccountForm/>
                 </div>
             </div>
-            <Footer/>
-        </React.Fragment>
+        </>
+
+                        
     );
 }
 

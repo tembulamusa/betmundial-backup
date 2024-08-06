@@ -48,7 +48,7 @@ import Virtuals from './components/pages/casino/Virtuals';
 import CasinoGamePlay from './components/pages/casino/GamePlay';
 
 import Promotions from './components/pages/promotions/Promotions';
-
+import Login from './components/pages/login';
 import LiveScore from './components/pages/livescore/LiveScore';
 import Right from "./components/right";
 import Footer from "./components/footer/footer";
@@ -60,15 +60,15 @@ import LiveSideBar from "./components/sidebar/live-sidebar";
 
 const Logout = () => {
     let navigate = useNavigate();
-
+    localStorage.clear();
     const out = useCallback(() => {
         localStorage.clear();
         navigate("/");
     }, [navigate]);
-
     useEffect(() => {
         out();
     }, [out]);
+    localStorage.clear();
     return null;
 }
 
@@ -118,6 +118,7 @@ const App = () => {
                             <Route exact path="/terms-and-conditions" element={<TermsAndConditions/>}/>
                             <Route exact path="/how-to-play" element={<HowToPlay/>}/>
                             <Route exact path="/signup" element={<Signup/>}/>
+                            <Route exact path="/login" element={<Login/>}/>
                             <Route exact path="/reset-password" element={<ResetPassword/>}/>
                             <Route exact path="/verify-account" element={<VerifyAccount/>}/>
                             <Route exact path="/app" element={<MobileApp/>}/>

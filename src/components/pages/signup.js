@@ -1,18 +1,18 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Formik, Form} from 'formik';
 import makeRequest from "../utils/fetch-request";
 import mpesa from '../../assets/img/mpesa-3.png'
-
-const Header = React.lazy(() => import('../header/header'));
-const SideBar = React.lazy(() => import('../sidebar/awesome/Sidebar'));
-const Right = React.lazy(() => import('../right/index'));
-const Footer = React.lazy(() => import('../footer/footer'));
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import { Context } from '../../context/store';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = (props) => {
-
+    const [isLoading, setIsLoading] = useState(false)
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [_, dispatch] = useContext(Context);
+    const navigate = useNavigate();
 
     const initialValues = {
         msisdn: '',
@@ -20,14 +20,21 @@ const Signup = (props) => {
     }
 
     const handleSubmit = values => {
-        if(loading) { return ;}
-
-        setLoading(true);
         let endpoint = '/v1/signup';
+        setIsLoading(true);
         makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
-            setSuccess(response?.success?.status == 200 || response?.success?.status === 201);
-            setMessage(response?.success?.message);
-            setLoading(false);
+            setMessage(response?.message);
+            dispatch({type: "SET", key: "regmsisdn", payload: values?.msisdn})
+            setSuccess(status === 200 || status === 201)
+            if([200, 201, 204].includes(status)){
+                setTimeout(() => {
+                    
+                }, 3000);
+                navigate("/verify-account");
+            } else {
+                setIsLoading(false);
+            }
+            
         })
     }
 
@@ -48,14 +55,16 @@ const Signup = (props) => {
 
     const FormTitle = () => {
         return (
-            <div className='col-md-12 page-title p-4 text-center'>
-                    Signup | Register
+            <div className='col-md-12 primary-bg p-4 text-center'>
+                <h4 className="inline-block">
+                    SIGNUP | CREATE A NEW ACCOUNT
+                </h4>
             </div>
         )
     }
 
     const MySignupForm = (props) => {
-        const {errors, values, submitForm, setFieldValue} = props;
+        const {errors, values, setFieldValue} = props;
 
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
@@ -65,13 +74,13 @@ const Signup = (props) => {
         return (
             <Form>
                 <div className="pt-0">
-                    <div className="row">                        
+                    <div className="row">
                         <div className="form-group row d-flex justify-content-center mt-5">
                             <div className="col-md-12">
                                 <label>Mobile Number</label>
                                 <input
                                     value={values.msisdn}
-                                    className="text-dark deposit-input form-control col-md-12 input-field"
+                                    className="block px-3 py-3 w-full rounded-2xl std- form-control"
                                     id="msisdn"
                                     name="msisdn"
                                     type="text"
@@ -87,7 +96,7 @@ const Signup = (props) => {
                                 <label>Password</label>
                                 <input
                                     value={values.password}
-                                    className="text-dark deposit-input form-control col-md-12 input-field"
+                                    className="block px-3 py-3 w-full rounded-2xl std-input form-control"
                                     id="password"
                                     name="password"
                                     type="password"
@@ -101,7 +110,7 @@ const Signup = (props) => {
                             <div className="">
                                 <button type="submit"
                                     className={`btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button`}
-                                    disabled={loading}
+                                    disabled={isLoading}
                                     >
                                     Signup
                                 </button>
@@ -133,15 +142,19 @@ const Signup = (props) => {
 
     return (
         <React.Fragment>
+
             
-                    <FormTitle/>
-                    <div className="col-md-12 mt-2  p-2">
-                        {message && <Alert/>}
-                        <div className="modal-body pb-0" data-backdrop="static">
-                            <SignupForm/>
-                        </div>
-                    </div>
-                
+                        <div className="">
+                            <div className='col-md-12 page-title p-4 text-center profound-text'>
+                                <h4 className="inline-block"> Signup | Create New Account </h4>
+                            </div>
+                            <div className="col-md-12 mt-2  p-2">
+                                {message ? <Alert/>:""}
+                                <div className="modal-body pb-0" data-backdrop="static">
+                                                <SignupForm/>
+                                            </div>
+                                </div>
+                            </div>
         </React.Fragment>
     );
 }

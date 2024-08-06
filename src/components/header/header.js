@@ -24,7 +24,7 @@ const HeaderNav = React.lazy(() => import('./header-nav'));
 
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
-    const [, dispatch] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
     const history = useNavigate();
     const containerRef = useRef();
     const {current} = containerRef;
@@ -66,7 +66,9 @@ const Header = (props) => {
         dispatch({type: "SET", key: "user", payload: user});
     }, [user?.msisdn, user?.balance]);
 
-
+    useEffect(()=>{
+        setUser(getFromLocalStorage("user"));
+    },[state?.user]);
     useEffect(() => {
         updateUserOnHistory()
     }, [updateUserOnHistory])
@@ -81,18 +83,11 @@ const Header = (props) => {
         <>
             <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark">
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
-                    <Navbar.Brand href="/" className="e logo align-self-start" title="surebet">
-                        <div className="col-3">
-                            <div>
+                    <Navbar.Brand href="/" className="e col-md-5 logo align-self-start" title="surebet">
                                 <LazyLoadImage src={logo} alt="surebet" title="surebet" effects="blur"/>
-                            </div>
-                        </div>
                     </Navbar.Brand>
-                    <div className="col-9 change-size" id="navbar-collapse-main">
-                        <div className="col-sm-12 disable-ipad ">
+                    <div className="col-md-7 change-size" id="navbar-collapse-main">
                             {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
-                        </div>
-
                     </div>
                    
                     <Row className="second-nav ck pc os app-navbar app-header-nav">

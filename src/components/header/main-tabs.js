@@ -222,7 +222,7 @@ const MainTabs = (props) => {
     }
 
     return (
-        <div className='bg-white shadow-sm border-b border-gray-200 mb-3 block relative z-[9999]'>
+        <div className='bg-white shadow-sm border-b border-gray-200 mb-3 block relative'>
             <Row className="border-b border-gray-200 !uppercase font-bold">
                 <div className='col-4'>
                     <div className="filter-group-icon mb-0" key="1">

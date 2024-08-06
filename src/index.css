@@ -144,3 +144,19 @@ h5, h4, h3, h2 {
   position: relative;
   z-index: 1009;
 }
+
+.secondary-text {
+  color: #FFB200;
+}
+
+.tertiary-text {
+
+}
+
+.user-menu-col {
+  width: auto;
+}
+
+.primary-text {
+  color: #444444;
+}

@@ -75,7 +75,7 @@ const Footer = (props) => {
                     <h5>LICENSING</h5>
                     <hr/>
                     <p>
-                    Surebet is Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000202
+                    Surebet is Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
                     </p>
                 </div>
             </div>
