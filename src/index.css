@@ -225,3 +225,9 @@ h5, h4, h3, h2 {
 .space-icons {
   padding-right: 5px;
 }
+
+.min-scroll-table-content {
+  max-height: 400px !important;
+  overflow-y: scroll;
+  display: block;
+}

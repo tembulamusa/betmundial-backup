@@ -16,7 +16,7 @@ export default function MatchesList() {
     const [matches, setMatches] = useState([]);
     const [section, setSection] = useState('highlights');
     const [title, setTitle] = useState('highlights');
-    const [events, setEvents] = useState(10);
+    const [eventsOption, setEventsOption] = useState({});
     const [loaded, setLoaded] = useState(false)
     const [jackpotData, setJackpotData] = useState([])
     const [key, setKey] = useState('home');
@@ -26,9 +26,9 @@ export default function MatchesList() {
     const fetchMatches = () => {
         setLoaded(false)
         let method = 'GET'
-        let endpoint = "/v1/matches?dooood&page=" + (1) + `&limit=${events}&tab=` + section + '&sub_type_id=1,10,29,18';
-
+        let endpoint = "/v1/matches?dooood&page=" + (1) + `&limit=${eventsOption?.value}&tab=` + section + '&sub_type_id=1,10,29,18';
         makeRequest({url: endpoint, method: method}).then(([status, result]) => {
+            console.log("MATCHES::::::::::::", result);
             if (status == 200) {
                 setMatches(result)
                 if (result.length > 0) {
@@ -53,8 +53,7 @@ export default function MatchesList() {
     ]
 
     const handleEventsChange = e => {
-        console.log("Event changes got running fetch matches with value", e.value)
-        setEvents(e.value);
+        setEventsOption(e);
         fetchMatches();
     }
 
@@ -74,6 +73,137 @@ export default function MatchesList() {
             }
         }
     }, []);
+
+    const MatchesPreview = () => {
+
+        return (
+            <div className="">
+                <table width={"100%"} className="table table-striped">
+                    <tbody className="min-scroll-table-content">
+                        <tr className="uppercase">
+                            <td>Date/Time</td>
+                            <td>Game</td>
+                            <td colSpan={3}>Match</td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>3 way</td>
+                                        </tr>
+                                        <tr className="text-sm font-bold">
+                                            <td>
+                                                <table>
+                                                    <tbody>
+                                                        <tr className="capitalize">
+                                                            <td>Home</td>
+                                                            <td>Draw</td>
+                                                            <td>Away</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Double Chance</td>                                            
+                                        </tr>
+                                        <tr className="text-sm font-bold">
+                                            <td>
+                                                <table>
+                                                    <tbody>
+                                                        <tr className="capitalize">
+                                                            <td>1orX</td>
+                                                            <td>Xor2</td>
+                                                            <td>1or2</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>Over or Under 2.5</td>
+                                        </tr>
+                                        <tr className="text-sm font-bold">
+                                            <td>
+                                                <table>
+                                                    <tbody>
+                                                        <tr className="capitalize">
+                                                            <td>Over</td>
+                                                            <td>Under</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            
+                        </tr>
+                        {matches.map((match, idx) => (
+                            <tr>
+                                <td className="!p-0 !py-2 text-sm font-bold">{match?.start_time}</td>
+                                <td>{match?.game_id}</td>
+                                <td className="text-left">{match?.home_team}</td>
+                                <td className="text-center">VS</td>
+                                <td className="text-left">{match?.away_team}</td>
+                                <td className="">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                {match?.odds?.["1x2"]?.map((odd, idx) => (
+                                                    <td>{odd?.odd_value}</td>
+                                                ))}
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                </td>
+
+                                <td>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                {match?.odds?.["Double Chance"]?.map((odd, idx) => (
+                                                    <td>{odd?.odd_value}</td>
+                                                ))}
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                </td>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                {match?.odds?.["Total"]?.map((odd, idx) => (
+                                                    <td>{odd?.odd_value}</td>
+                                                ))}
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                </td>
+
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
 
     const fetchActiveTabMatches = async (key) => {
         setKey(key)
@@ -115,17 +245,36 @@ export default function MatchesList() {
                     justify>
                     <Tab eventKey="matches" title="" className={'background-primary shadow p-5'}
                          style={{}}>
-                        <div className="col-md-12 d-flex flex-column p-2">
-                            <div className="col-md-12 text-start p-2">
-                                <label htmlFor="" className={''}>Select Number of Games</label>
-                                <Select options={totalEventOptions}
-                                        value={() => totalEventOptions.filter(obj => obj.value === events)}
-                                        onChange={(e) => handleEventsChange(e)}
-                                  />
+                            <div className="col-md-12 d-flex flex-column p-2">
+                                <div className="row">
+                                <div className="col-md-6 text-start p-2">
+                                    <label htmlFor="" className={''}>Select Number of Games</label>
+                                    <Select 
+                                    options={totalEventOptions}
+                                            value={() => totalEventOptions.filter(obj => obj === eventsOption)}
+                                            onChange={handleEventsChange}
+                                    />
+                                    
 
+                                </div>
+                                <div className="col-md-6">
+                                    <button 
+                                    onClick={generatePDFDocument}
+                                    className={`mt-3 btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
+                                    style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
+                                    >
+
+                                    { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
+                                    </button>
+                                    </div>
+                                    </div>
                             </div>
 
-                        <div className="md-col-12 text-start float-start py-5">
+                            {/* The matches are here */}
+
+                            <MatchesPreview />
+
+                        <div className="md-col-12 text-start float-start py-3">
                               <button 
                                   onClick={generatePDFDocument}
                                   className={`btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
@@ -134,7 +283,6 @@ export default function MatchesList() {
 
                                    { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
                               </button> 
-                        </div>
                         </div>
                     </Tab>
                 </Tabs>
