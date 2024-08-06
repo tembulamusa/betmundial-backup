@@ -90,6 +90,16 @@ export default function MatchesList() {
         }
     }
 
+    const colourStyles = {
+        control: styles => ({ ...styles, backgroundColor: 'white' }),
+        option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+          return {
+            ...styles,
+            color: '#555555',
+            cursor: isDisabled ? 'not-allowed' : 'default',
+          };
+        },
+      };
     return (
         <>
             
@@ -123,6 +133,7 @@ export default function MatchesList() {
                                                 <label htmlFor="" className={''}>Select Number of Games</label>
                                                 <Select options={totalEventOptions}
                                                         value={totalEventOptions.filter(obj => obj.value === events)}
+                                                        styles={colourStyles}
                                                         onChange={handleEventsChange}/>
                                             </div>
                                         </div>
