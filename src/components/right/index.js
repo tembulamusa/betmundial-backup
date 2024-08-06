@@ -45,7 +45,7 @@ const SharedBetslip = (props) => {
             <div className='my-3'>
                 <h2 className='mb-3'>Or Introduce your bet code:</h2>
                 <input placeholder='eg BsjUL' className='mr-3 rounded-xl std-input px-3 py-2 mb-3 border border-gray-200'/>
-                <button className='capitalize secondary-bg bg-pink p-3 font-bold btn btn-pink border-none rounded-xl text-white uppercase px-5'>ADD</button>
+                <button className='capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none rounded-xl text-white uppercase px-4 hover:opacity-80'>ADD</button>
             </div>
             </div>
     )
