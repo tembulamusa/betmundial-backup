@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {PDFDownloadLink} from "@react-pdf/renderer";
+import {PDFDownloadLink, pdf} from "@react-pdf/renderer";
+import { saveAs } from "file-saver";
 import {PdfDocument} from "./Matches";
 import makeRequest from "../../utils/fetch-request";
 import Select from 'react-select'
@@ -20,18 +21,17 @@ export default function MatchesList() {
     const [jackpotData, setJackpotData] = useState([])
     const [key, setKey] = useState('home');
     const [isJackpot, setIsJackpot] = useState(false);
-    useEffect(() => {
-        fetchMatches()
-    }, [section, events])
 
-    const fetchMatches = async () => {
+
+    const fetchMatches = () => {
         setLoaded(false)
-        let method = 'POST'
-        let endpoint = "/v1/matches?page=" + (1) + `&limit=${events}&tab=` + section + '&sub_type_id=1,10,29,18';
-        await makeRequest({url: endpoint, method: method, data: []}).then(([status, result]) => {
+        let method = 'GET'
+        let endpoint = "/v1/matches?dooood&page=" + (1) + `&limit=${events}&tab=` + section + '&sub_type_id=1,10,29,18';
+
+        makeRequest({url: endpoint, method: method}).then(([status, result]) => {
             if (status == 200) {
-                setMatches(result?.data || result)
-                if (result?.data?.length > 0) {
+                setMatches(result)
+                if (result.length > 0) {
                     setLoaded(true)
                 }
             }
@@ -53,12 +53,9 @@ export default function MatchesList() {
     ]
 
     const handleEventsChange = e => {
-        setEvents(e.value)
-    }
-
-    const handleSectionChange = e => {
-        setSection(e.value)
-        setTitle(e.value)
+        console.log("Event changes got running fetch matches with value", e.value)
+        setEvents(e.value);
+        fetchMatches();
     }
 
     const fetchJackpotData = useCallback(async () => {
@@ -90,57 +87,58 @@ export default function MatchesList() {
         }
     }
 
+    const generatePDFDocument = async () => {
+      const blob = await pdf(
+        <PdfDocument matches={matches} jackpot={isJackpot} title={title}/>
+      ).toBlob();
+      saveAs(blob, "pageName");
+    };
+
+
     return (
         <>
-            
-                
-                            <div className='col-md-12 page-title p-4 text-center'>
-                                <h4 className="inlin-block">
-                                    <span className="fa fa-chevron-left"></span>
-                                    Download Matches
-                                </h4>
+            <div className='col-md-12 page-title p-4 text-center'>
+                <h4 className="inlin-block">
+                    <span className="fa fa-chevron-left"></span>
+                    Download Matches
+                </h4>
+            </div>
+            <div className="col-md-12 text-center vh-100">
+                <p className="text-2xl my-3 px-2">
+                Grab your favorite games in printable format here. surebet provides the the best competitie odds for you to take advantage of in all areas of betting
+                </p>
+                <Tabs
+                    variant={'tabs'}
+                    defaultActiveKey="matches"
+                    onSelect={(k) => fetchActiveTabMatches(k)}
+                    className="background-primary"
+                    justify>
+                    <Tab eventKey="matches" title="" className={'background-primary shadow p-5'}
+                         style={{}}>
+                        <div className="col-md-12 d-flex flex-column p-2">
+                            <div className="col-md-12 text-start p-2">
+                                <label htmlFor="" className={''}>Select Number of Games</label>
+                                <Select options={totalEventOptions}
+                                        value={() => totalEventOptions.filter(obj => obj.value === events)}
+                                        onChange={(e) => handleEventsChange(e)}
+                                  />
+
                             </div>
-                            <div className="col-md-12 text-center vh-100">
-                                <p className="text-2xl my-3 px-2">
-                                Grab your favorite games in printable format here. surebet provides the the best competitie odds for you to take advantage of in all areas of betting
-                                </p>
-                                <Tabs
-                                    variant={'tabs'}
-                                    defaultActiveKey="matches"
-                                    onSelect={(k) => fetchActiveTabMatches(k)}
-                                    className="background-primary"
-                                    justify>
-                                    <Tab eventKey="matches" title="" className={'background-primary shadow p-5'}
-                                         style={{}}>
-                                        <div className="col-md-12 d-flex flex-column p-2">
-        {/* <div className="col-md-12 text-start p-2">
-                                                <label htmlFor="" className={''}>Select Section</label>
-                                                <Select options={sectionOptions}
-                                                        value={sectionOptions.filter(obj => obj.value === section)}
-                                                        onChange={handleSectionChange}/>
-                                            </div> */}
-                                            <div className="col-md-12 text-start p-2">
-                                                <label htmlFor="" className={''}>Select Number of Games</label>
-                                                <Select options={totalEventOptions}
-                                                        value={totalEventOptions.filter(obj => obj.value === events)}
-                                                        onChange={handleEventsChange}/>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-12 mt-5 text-start">
-                                            <PDFDownloadLink
-                                                className={`btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
-                                                style={{width: "150px", border: "none", padding: "3px", marginLeft:"10px"}}
-                                                document={<PdfDocument matches={matches} jackpot={isJackpot}
-                                                                       title={title}/>}
-                                                fileName="matches.pdf">
-                                                {({blob, url, loading, error}) =>
-                                                    loading ? "Preparing Document..." : "Download Matches"
-                                                }
-                                            </PDFDownloadLink>
-                                        </div>
-                                    </Tab>
-                                </Tabs>
-                            </div>
+
+                        <div className="md-col-12 text-start float-start py-5">
+                              <button 
+                                  onClick={generatePDFDocument}
+                                  className={`btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
+                                  style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
+                                  >
+
+                                   { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
+                              </button> 
+                        </div>
+                        </div>
+                    </Tab>
+                </Tabs>
+            </div>
         </>
     )
 }

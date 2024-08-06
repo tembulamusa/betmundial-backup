@@ -145,14 +145,15 @@ export function PdfDocument(props) {
     const {matches, jackpot, title} = props
 
     const getBothTeamsToScoreOdds = (match, key) => {
-        let odds = match?.extra_odds;
+        let odds = match?.odds;
         let bothTeamsToScore = odds['Both teams to score']
         return key === 'yes' ? bothTeamsToScore?.yes?.odd_value : bothTeamsToScore?.no?.odd_value
     }
 
     const getDoubleChanceOdds = (match, key) => {
-        let odds = match?.extra_odds;
-        let doubleChance = odds['Double chance']
+        console.log("Looking at this match", match)
+        let odds = match.odds;
+        let doubleChance = odds['Double Chance']
         if (key === '1orX') {
             let oddKey = match?.home_team + ' or draw'
             return doubleChance?.[oddKey]?.['odd_value']
@@ -169,7 +170,7 @@ export function PdfDocument(props) {
     }
 
     const getOverUnderTwoPointFive = (match, key) => {
-        let odds = match?.extra_odds;
+        let odds = match?.odds;
         let overUnder = odds['Total']
         if (key === 'over') {
             return overUnder?.['over 2.5']?.['odd_value']
@@ -312,17 +313,17 @@ export function PdfDocument(props) {
                                 <View style={styles.tableRowFlex}>
                                     <View style={styles.tableColThreeChildren}>
                                         <Text style={styles.tableCell}>
-                                            {match.odds?.home_odd}
+                                            {match.odds["1x2"][0]["odd_value"]}
                                         </Text>
                                     </View>
                                     <View style={styles.tableColThreeChildren}>
                                         <Text style={styles.tableCell}>
-                                            {match.odds?.neutral_odd}
+                                            {match.odds["1x2"][1]["odd_value"]}
                                         </Text>
                                     </View>
                                     <View style={styles.tableColThreeChildren}>
                                         <Text style={styles.tableCell}>
-                                            {match.odds?.away_odd}
+                                            {match.odds["1x2"][2]["odd_value"]}
                                         </Text>
                                     </View>
                                 </View>
@@ -333,17 +334,17 @@ export function PdfDocument(props) {
                                         <View style={styles.tableRowFlex}>
                                             <View style={styles.tableColThreeChildren}>
                                                 <Text style={styles.tableCell}>
-                                                    {getDoubleChanceOdds(match, '1orX')}
+                                                    {getDoubleChanceOdds(match, match.home_team + ' or draw')}
                                                 </Text>
                                             </View>
                                             <View style={styles.tableColThreeChildren}>
                                                 <Text style={styles.tableCell}>
-                                                    {getDoubleChanceOdds(match, 'Xor2')}
+                                                    {getDoubleChanceOdds(match, match.home_team + ' or ' + match.away_team)}
                                                 </Text>
                                             </View>
                                             <View style={styles.tableColThreeChildren}>
                                                 <Text style={styles.tableCell}>
-                                                    {getDoubleChanceOdds(match, '1or2')}
+                                                    {getDoubleChanceOdds(match, 'draw or '+ match.away_team)}
                                                 </Text>
                                             </View>
                                         </View>

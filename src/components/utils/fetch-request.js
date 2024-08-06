@@ -53,6 +53,7 @@ const makeRequest = async ({url, method, data = null, use_jwt = false}) => {
             request['body'] = JSON.stringify(data)
         }
 
+        console.log("Make request called with url", url)
         const response = await fetch(url, request);
         let result = await response.json();
         let status = response?.status;
