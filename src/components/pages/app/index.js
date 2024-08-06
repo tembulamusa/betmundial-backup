@@ -27,8 +27,12 @@ const MobileApp = () => {
             </h4>
 
             <div className=" px-5">
+
+                <img src={mobileBanner} className="my-3" alt="view" style={{maxWidth:"250px"}}/>
+
                 <DownloadLink
-                    className="btn btn-primary btn-lg mb-5 text-white text-decoration-none"
+                    className="btn btn-primary btn-lg mb-5 py-3 px-4 font-bold text-white text-decoration-none"
+                    style={{minWidth:"250px", textAlign:"center"}}
                     label="Download App"
                     filename="surebet.apk"
                     exportFile={() => getDownloadFile()}
