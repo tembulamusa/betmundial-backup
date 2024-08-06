@@ -10,7 +10,8 @@ const ProfileMenu = (props) => {
   return (
     <>
       {user && (
-        <div className="ale ss profile d-flex flex-row row  tablet-design float-end">
+        <>
+        <div className="ale ss profile  flex-row row  tablet-design float-end hidden md:d-flex md:flex md:block">
             <div className="user-menu-col {'mt-1'} col-md-2 d-flex flex-column justify-content-start space-deposit">
             <Link
               to={{ pathname: "/deposit" }}
@@ -70,6 +71,7 @@ const ProfileMenu = (props) => {
           </div>
         
         </div>
+        </>
       )}
     </>
   );

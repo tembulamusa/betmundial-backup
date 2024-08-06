@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import {Context} from '../../context/store';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
+    faHome as HomeIcon,
     faSearch,
     faPrint,
     faQuestionCircle,
@@ -11,14 +12,15 @@ import {
     faLaptop,
     faClock,
     faMagnet,
-    faMagic, faInfo, faChessBoard, faDice
+    faVideo,
+    faMagic, faInfo, faChessBoard, faDice,
+    faVolumeUp
 } from '@fortawesome/free-solid-svg-icons'
 import makeRequest from "../utils/fetch-request";
 import {faMobile, faCoins} from "@fortawesome/free-solid-svg-icons";
-import HomeIcon from "../../assets/svg/Home.svg";
+// import { MdHome as HomeIcon} from "react-icons/md";
 import LiveIcon from "../../assets/svg/Live.svg";
 import JackpotIcon from "../../assets/svg/JP.svg";
-import HipoIcon from "../../assets/img/search-icon.png";
 import PromotionIcon from "../../assets/svg/Promotions.svg";
 import { Link } from 'react-router-dom';
 
@@ -73,19 +75,19 @@ const HeaderNav = (props) => {
             <Container id="navbar-collapse-main"
                        className={`d-none d-sm-flex d-flex flex-row  header-menu ${searching ? 'hidden' : 'd-block'}`}>
 
-                <ListGroup as="ul" xs="12" horizontal className="nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display">
+                <ListGroup as="ul" xs="12" horizontal className="font-bold nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display">
                     
                     <li className={pathname === '/' ? "active" : ''}>
-                        <Link className="cg fm ox anl url-link not-selectable " to={"/"} title="Home"><img src={HomeIcon} alt=""  className="svg-menu-img-icon hide1" /> Home</Link>
+                        <Link className="cg fm ox anl url-link not-selectable " to={"/"} title="Home"><span className=" space-icons"><FontAwesomeIcon icon={HomeIcon} /> </span> Home</Link>
                     </li>
                     <li className={pathname === '/live' ? "active" : ''}>
                         <Link className={`cg fm ox anl url-link`} to={"/live"}
-                           title="Live"><img src={LiveIcon} alt="" className="svg-menu-img-icon hide1" />Live</Link>
+                           title="Live"><span className=" space-icons"><FontAwesomeIcon icon={faVideo} /> </span>Live</Link>
                     </li>
 
                     <li className={pathname === '/jackpot' ? 'active' : ''}>
                         <Link className="cg fm ox anl url-link" to={"/jackpot"}>
-                            <img src={JackpotIcon} alt="" className="svg-menu-img-icon hide1" /> Jackpot
+                            <span className=" space-icons"><FontAwesomeIcon icon={faCoins} /> </span> Jackpot
                         </Link>
                     </li>
                     <li className={pathname === '/app' ? 'active' : ''}>
@@ -99,13 +101,13 @@ const HeaderNav = (props) => {
                    
                     <li className={pathname === '/promotions' || pathname.includes("promotions") ? 'active' : ''}>
                         <Link className="g url-link" to={"/promotions"}>
-                            <img src={PromotionIcon} alt="" className="svg-menu-img-icon hide1" /> Promotions
+                            <span className=" space-icons"><FontAwesomeIcon icon={faVolumeUp} /> </span> Promotions
                         </Link>
                     </li>
 
                     <li className={pathname === '/print-matches' ? 'active py-3' : 'py-md-0 py-lg-3 py-sm-0 d-flex align-items-center'}>
                         <Link className="g url-link fix-print" to={"/print-matches"}>
-                            <span className=" space-icons hide1"><FontAwesomeIcon icon={faPrint}/> </span>Print <span>Matches</span>
+                            <span className=" space-icons hide1"><FontAwesomeIcon icon={faPrint}/> </span>Print  Matches
                         </Link>
                     </li>
                     
