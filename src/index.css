@@ -213,3 +213,15 @@ h5, h4, h3, h2 {
   background: #f5f5f5 !important;
   margin: 0px auto 0;
 }
+
+.pc .navbar-nav > li > a {
+  margin-right: 0;
+  margin-left: 0;
+  font-size: 15px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.space-icons {
+  padding-right: 5px;
+}
