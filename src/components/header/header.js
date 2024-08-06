@@ -17,6 +17,7 @@ import {Menu, MenuItem, ProSidebar, SidebarContent, SidebarHeader, SubMenu} from
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import SidebarMobile from "../sidebar/awesome/SidebarMobile";
+import MobileMenu from './mobile-menu';
 
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
@@ -83,11 +84,17 @@ const Header = (props) => {
         <>
             <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark">
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
-                    <Navbar.Brand href="/" className="e col-md-5 logo align-self-start" title="surebet">
+                    <div className='inline-block md:hidden text-white col-sm-2'>
+                        <MobileMenu />
+                    </div>
+                    <Navbar.Brand href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
                                 <LazyLoadImage src={logo} alt="surebet" title="surebet" effects="blur"/>
                     </Navbar.Brand>
+                    <div className='inline-block md:hidden text-white col-sm-5'>
+                        search and slip
+                    </div>
                     <div className="col-md-7 change-size" id="navbar-collapse-main">
-                            {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
+                        {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
                     </div>
                    
                     <Row className="second-nav ck pc os app-navbar app-header-nav">
