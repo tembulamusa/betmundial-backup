@@ -623,9 +623,9 @@ const MatchRow = (props) => {
                     </div>
                 </a>
             </div>
-            <div className="col justify-content-between" key="24">
+            <div className="col block md:flex justify-content-between" key="24">
                 {/* Mobile only datetime */}
-                <div className="md:hidden flex" key="22">
+                <div className="md:hidden block" key="22">
                     {live &&
                         <div className=''>
                             <small style={{color: "red"}}> {match?.match_status} </small>
