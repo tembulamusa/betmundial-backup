@@ -264,6 +264,11 @@ h5, h4, h3, h2 {
     scrollbar-color: transparent transparent;
 }
 
+
+.main-tabs.reduced-mobile-text {
+  font-size: 11px;
+}
+
 .pc .navbar-nav > li > a {
   margin-right: 0;
   margin-left: 0;
@@ -272,6 +277,12 @@ h5, h4, h3, h2 {
   font-weight: bold;
 }
 
+.main-tabs-submenu {
+  text-wrap: nowrap;
+  display: inline-block;
+  margin: 0px;
+  width: auto;
+}
 .navbar-nav > li > a {
   line-height: 12px;
 }

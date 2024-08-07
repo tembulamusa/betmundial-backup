@@ -223,8 +223,8 @@ const MainTabs = (props) => {
 
     return (
         <div className='bg-white shadow-sm border-b border-gray-200 mb-3 block relative'>
-            <Row className="border-b border-gray-200 !uppercase font-bold">
-                <div className='col-4'>
+            <Row className="border-b border-gray-200 !uppercase font-bold main-tabs reduced-mobile-text">
+                <div className='col-4 !mr-0 pr-0'>
                     <div className="filter-group-icon mb-0" key="1">
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-custom-components" variant="transparent-selector" >
@@ -244,7 +244,7 @@ const MainTabs = (props) => {
                         </Dropdown>
                     </div>
                 </div>
-                <div className='col-8 text-gray-500 cursor-pointer'>
+                <div className='col-8 text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto'>
                     <div className='row'>
                         <div className="col-4">
                             <div className={`home-tabs hover:text-hover ${activeTab === 'highlights' && 'home-tab-active'}`} 
@@ -320,7 +320,7 @@ const MainTabs = (props) => {
                 </div> 
                } */}
             </Row>
-            <div className='py-2 my-2 mx-2 flex'>
+            <div className='py-2 my-2 mx-2 flex mobile-custom-scrollbar px-2 overflow-auto w-full'>
                 <a href={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
                     All
                 </a>
@@ -328,7 +328,7 @@ const MainTabs = (props) => {
                     <>
                         
                         <a href={`/competition/${competition.sport_id}/${competition.category_id}/${competition.competition_id}`}
-                        className='mx-3' style={{fontSize: "13px"}}>
+                        className='mx-3 main-tabs-submenu' style={{fontSize: "13px"}}>
                             <img style={{borderRadius: '1px', height: '13px', width:"13px" }}
                             src={getSportImageIcon(competition?.flag, 'img/flags-1-1', true)}
                             alt='' className='inline-block mr-2'/>
