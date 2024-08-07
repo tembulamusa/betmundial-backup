@@ -11,22 +11,18 @@ import {setLocalStorage} from '../utils/local-storage';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import logo from '../../assets/img/logo2.png';
-import {Navbar, Nav, Offcanvas} from "react-bootstrap";
-import SideBar from "../sidebar/awesome/Sidebar";
-import {Menu, MenuItem, ProSidebar, SidebarContent, SidebarHeader, SubMenu} from "react-pro-sidebar";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
-import SidebarMobile from "../sidebar/awesome/SidebarMobile";
+import {Navbar} from "react-bootstrap";
 import MobileMenu from './mobile-menu';
-
+import MobileRightMenu from './mobile-right-menu';
+import MobileTabsMenu from "./mobile-tabs-menu.js";
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const HeaderNav = React.lazy(() => import('./header-nav'));
+const MobileCurrentNavItems = React.lazy(()=> import('./mobile-current-nav-items'));
 
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
     const [state, dispatch] = useContext(Context);
-    const history = useNavigate();
     const containerRef = useRef();
     const {current} = containerRef;
 
@@ -90,14 +86,16 @@ const Header = (props) => {
                     <Navbar.Brand href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
                                 <LazyLoadImage src={logo} alt="surebet" title="surebet" effects="blur"/>
                     </Navbar.Brand>
+
                     <div className='inline-block md:hidden text-white col-sm-5'>
-                        search and slip
+                        <MobileRightMenu />
                     </div>
+
                     <div className="col-md-7 change-size" id="navbar-collapse-main">
                         {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
                     </div>
                    
-                    <Row className="second-nav ck pc os app-navbar app-header-nav">
+                    <Row className="hidden md:block second-nav ck pc os app-navbar app-header-nav">
                         <HeaderNav/>
                     </Row>
         { /** <Navbar.Offcanvas
@@ -121,6 +119,23 @@ const Header = (props) => {
                     </Navbar.Offcanvas> */}
                 </Container>
             </Navbar>
+
+            {/* mobile bottom menu */}
+
+            <Row className="block md:hidden second-nav ck pc os app-navbar relative mobile-custom-scrollbar px-3">
+                <div className="hidden-icons"><HeaderNav/></div>
+                
+            </Row>
+
+            {/* Only show if they are visible/third nav is available */}
+            <Row className="third-mobile-nav border-b border-gray-200 mobile-custom-scrollbar">
+                <MobileCurrentNavItems />
+            </Row>
+
+            {/* Only show if fourth nav is available/ tabs or so */}
+            {/* <Row className="tabs">
+                <MobileTabsMenu />
+            </Row> */}
         </>
 
     )

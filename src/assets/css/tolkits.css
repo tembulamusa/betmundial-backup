@@ -96,7 +96,7 @@
 }
 
 .top-login-btn {
-    background: #4d4093;
+    background: rgba(255, 255, 255, 0.2);
     border: 1px solid #6c5cc0 !important;
     font-weight: 700;
     padding: 6px 15px !important;
@@ -1567,9 +1567,8 @@ header {
     }
 
     .second-nav {
-        /*top: 80px !important;*/
-        margin-top: 140px;
-        background: #24367e !important;
+        /* top: 80px !important; */
+        margin-top: 65px;
     }
 
     .e {
@@ -1968,6 +1967,15 @@ events-header {
     z-index: 9999 !important;
     padding-bottom: 45px;
 }
+
+/* On screens that are 992px or less, set the background color to blue */
+@media screen and (max-width: 680px) {
+    .top-nav {
+        top: -2px;
+        padding-top: 0;
+        padding-bottom: 7px;
+    }
+  }
 
 .pro-sub-menu.open .react-slidedown.pro-inner-list-item.transitioning {
     background: #f0f0f0 !important;
@@ -7157,7 +7165,7 @@ ul.sport {
     }
 
     .second-nav {
-        top: 90px;
+        /* top: 90px; */
     }
 
     .e {
@@ -15492,9 +15500,9 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 
 @media only screen and (max-width: 576px) {
     .amt {
-        margin-top: 60px !important;
-        padding-top: 20px !important;
-        /*scroll-margin-top: 140px;*/
+        margin-top: 0 !important;
+        padding-top: 6px !important;
+        scroll-margin-top: 0;
     }
 }
 

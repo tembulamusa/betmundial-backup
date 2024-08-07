@@ -231,3 +231,77 @@ h5, h4, h3, h2 {
   overflow-y: scroll;
   display: block;
 }
+
+.offcanvas.show:not(.hiding), .offcanvas.showing {
+  transform: none;
+  z-index: 9999;
+}
+
+.mobile-betslip-link {
+
+}
+
+.top-nav .slip-counter {
+  background: #bc1b56;
+  text-align: center;
+  color: #fff;
+  font-size: 12px;
+  padding: 0 2px;
+  display: inline-block;
+  margin: -5px -1px -5px;
+  border-radius: 100px;
+  width: 20px;
+  position: absolute;
+  top: 0px;
+  right: 0;
+}
+
+/* custom mobile horizontal scrollbar */
+
+@media screen and (max-width:768px){
+  .mobile-custom-scrollbar {
+    scrollbar-width: none !important;
+    scrollbar-color: transparent transparent;
+}
+
+.pc .navbar-nav > li > a {
+  margin-right: 0;
+  margin-left: 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  font-weight: bold;
+}
+
+.navbar-nav > li > a {
+  line-height: 12px;
+}
+
+.hidden-icons .space-icons {
+  display: none;
+}
+.header-menu li {
+  box-shadow: none !important;
+  border-radius: 0;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  border-bottom: 3px solid transparent;
+  margin-left: 10px;
+}
+}
+
+.mobile-second-nav-icon {
+  width: 40px;
+  height: 20px;
+}
+
+.third-mobile-nav {
+  padding: 5px 10px;
+  background: #ffffffb8;
+  border-bottom: 1px solid #fff;
+}
+
+.mobile-categories-item {
+  margin-right: 6px;
+}

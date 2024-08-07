@@ -88,7 +88,7 @@ const App = () => {
                         {/* Conditional load live or otherwise */}
                         <Sidebar />
                 
-                        <div className="col-7 home mx-auto">
+                        <div className="col-md-7 home mx-auto">
                         <Routes>
                             
                             <Route exact path="/" element={<Index/>}/>
