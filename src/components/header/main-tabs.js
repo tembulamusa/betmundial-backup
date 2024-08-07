@@ -320,7 +320,7 @@ const MainTabs = (props) => {
                 </div> 
                } */}
             </Row>
-            <div className='py-2 my-2 mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto w-full'>
+            <div className='py-2 my-2 mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
                 <a href={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
                     All
                 </a>
