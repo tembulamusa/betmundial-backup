@@ -283,6 +283,45 @@ h5, h4, h3, h2 {
   margin: 0px;
   width: auto;
 }
+.c-btn-group {
+  margin-left: 0% !important;
+}
+.more-markets-container {
+  min-width: 0 !important;
+  display: block;
+  position: absolute;
+  right: 20px;
+  text-align: right !important;
+  padding-right: 0 !important;
+  bottom: 20%;
+}
+
+
+.justify-content-between {
+  padding-right: 0 !important;
+}
+.matches .top-matches {
+  background: #fff;
+  padding-top: 10px;
+  padding-bottom: 3px;
+  margin-bottom: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+  font-weight: normal;
+  color: #797979;
+  font-size: 12px;
+  margin: 0px;
+}
+.match-detail-container {
+  width: 40% !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 2%;
+  /* max-width: 20% !important; */
+  /* margin-right: 2% !important; */
+}
 .navbar-nav > li > a {
   line-height: 12px;
 }

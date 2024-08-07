@@ -172,10 +172,10 @@ const MatchHeaderRow = (props) => {
         <Container className="full-mobile sticky-top" style={{position: "sticky"}}>
             <div className="top-matches d-flex position-sticky sticky-top "
                  style={{opacity: "1", top: "100px"}}>
-                <div className="col-sm-2 col-xs-12 pad left-text" key="d5">
+                <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
                     <div className="align-self-center col">
 
-                   { fetching && <div className="filter-group-icon" >
+                   { fetching && <div className="filter-group-icon " >
                            <Spinner animation="border" size="sm" variant="secondary" />
                        </div>
                    }
@@ -194,35 +194,35 @@ const MatchHeaderRow = (props) => {
                                     3 WAY
                                 </div>
                                 <div className={'c-btn-group align-self-end'}>
-                                    <a className="c-btn-header">1</a>
-                                    <a className="c-btn-header">X</a>
-                                    <a className="c-btn-header">2</a>
+                                    <a className="c-btn-header" href='#/'>1</a>
+                                    <a className="c-btn-header" href='#/'>X</a>
+                                    <a className="c-btn-header" href='#/'>2</a>
                                 </div>
                             </div>
                         </div>
                     }
                     {!live && !jackpot && extraMarketDisplays.length > 0 && (
-                        <>
+                        <div className='hidden md:flex flex-row'>
                             {extraMarketDisplays?.map((extra_market) => (
                                 <div className={'d-flex flex-column'} key={extra_market.name}>
                                     <span className={'small text-center text-uppercase bold'}>
                                         {extra_market.name}
                                     </span>
                                     <div className={'c-btn-group'}>
-                                        <a className="c-btn-header">
+                                        <a className="c-btn-header" href='#/'>
                                             {(extra_market.extra_markets_display[0])}
                                         </a>
-                                        <a className="c-btn-header">
+                                        <a className="c-btn-header" href='#/'>
                                             {(extra_market.extra_markets_display[1])}
                                         </a>
                                         {extra_market?.extra_market_cols > 2 &&
-                                            <a className={`c-btn-header`}>
+                                            <a className={`c-btn-header`} href='#/'>
                                                 {(extra_market.extra_markets_display[2])}
                                             </a>}
                                     </div>
                                 </div>
                             ))}
-                        </>
+                        </div>
                     )}
                     <div
                         className="bet-fix events-odd pad undefined align-self-center more-markets-container m-lg-2 col-3">
@@ -585,7 +585,7 @@ const MatchRow = (props) => {
     return (
         <>
         <div className="top-matches d-flex">
-            <div className="col-sm-2 col-xs-12 pad left-text" key="22">
+            <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="22">
                 {live &&
                     <>
                         <small style={{color: "red"}}> {match?.match_status} </small>
@@ -601,7 +601,7 @@ const MatchRow = (props) => {
                 </div>
 
             </div>
-            <div className="col-2 col-xs-12 match-detail-container" key="23">
+            <div className="col-md-2 col-sm-4 col-xs-12 match-detail-container" key="23">
                 <a href={jackpot ? '#' : `/match/${live ? 'live/' + match.parent_match_id : match.match_id}`}>
                     <div className="d-flex flex-column primary-text">
                         <div className="compt-detail overflow-ellipsis" key="0034">
@@ -623,7 +623,23 @@ const MatchRow = (props) => {
                     </div>
                 </a>
             </div>
-            <div className="col d-flex flex-row justify-content-between" key="24">
+            <div className="col justify-content-between" key="24">
+                {/* Mobile only datetime */}
+                <div className="md:hidden flex" key="22">
+                    {live &&
+                        <div className=''>
+                            <small style={{color: "red"}}> {match?.match_status} </small>
+                        </div>
+                    }
+                    <div className="" key="20">
+                        <span className={'mr-2 small'}>
+                            {(live && match?.match_time) ?
+                                <>{`${match.match_time}'`}</> : match?.start_time}
+                        </span>
+                        <span className=''>ID: {match?.game_id}</span>
+                    </div>
+
+                </div>
                 <div className="c-btn-group align-self-center" key="222">
                     {
                         match?.odds?.["1x2"]?.map((marketOdd, idx) => {
@@ -639,7 +655,7 @@ const MatchRow = (props) => {
                 </div>
 
                 
-                <div className={`c-btn-group align-self-center`} key="223">
+                <div className={`hidden md:flex c-btn-group align-self-center`} key="223">
                    {
                         match?.odds?.["Double Chance"]?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};
@@ -654,7 +670,7 @@ const MatchRow = (props) => {
                     
                 </div>
 
-                <div className={`c-btn-group align-self-center`} key="224">
+                <div className={`hidden md:flex c-btn-group align-self-center`} key="224">
                     {    
                         match?.odds?.["Total"]?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};

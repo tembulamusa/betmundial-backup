@@ -223,7 +223,7 @@ const MainTabs = (props) => {
 
     return (
         <div className='bg-white shadow-sm border-b border-gray-200 mb-3 block relative'>
-            <Row className="border-b border-gray-200 !uppercase font-bold main-tabs reduced-mobile-text">
+            <Row className="border-b border-gray-200 !uppercase font-bold main-tabs reduced-mobile-text px-2">
                 <div className='col-4 !mr-0 pr-0'>
                     <div className="filter-group-icon mb-0" key="1">
                         <Dropdown>
@@ -320,7 +320,7 @@ const MainTabs = (props) => {
                 </div> 
                } */}
             </Row>
-            <div className='py-2 my-2 mx-2 flex mobile-custom-scrollbar px-2 overflow-auto w-full'>
+            <div className='py-2 my-2 mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto w-full'>
                 <a href={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
                     All
                 </a>
