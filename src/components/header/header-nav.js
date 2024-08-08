@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState, useRef} from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
 import {Context} from '../../context/store';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faHome as HomeIcon,
     faSearch,
@@ -15,7 +15,7 @@ import {
     faVideo,
     faMagic, faInfo, faChessBoard, faDice,
     faVolumeUp
-} from '@fortawesome/free-solid-svg-icons'
+} from '@fortawesome/free-solid-svg-icons';
 import makeRequest from "../utils/fetch-request";
 import {faMobile, faCoins} from "@fortawesome/free-solid-svg-icons";
 // import { MdHome as HomeIcon} from "react-icons/md";
