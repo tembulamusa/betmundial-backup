@@ -182,7 +182,7 @@ const MainTabs = (props) => {
                         </Dropdown>
                     </div>
                 </div>
-                <div className='md:col-8 text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto'>
+                <div className='md:col-8 md:w-8/12 text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto md:!overflow-hidden'>
                     <div className='row'>
                         <div className="col-4">
                             <div className={`home-tabs hover:text-hover ${activeTab === 'highlights' && 'home-tab-active'}`} 

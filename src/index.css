@@ -361,6 +361,11 @@ h5, h4, h3, h2 {
   font-weight: bold;
 }
 
+/* .amt {
+  margin-top: 85px !important;
+  scroll-margin-top: 140px;
+} */
+
 .offcanvas-header .btn-close {
   padding: calc(var(--bs-offcanvas-padding-y) * .5) calc(var(--bs-offcanvas-padding-x) * .5);
   margin: calc(-.5 * var(--bs-offcanvas-padding-y)) calc(-.5 * var(--bs-offcanvas-padding-x)) calc(-.5 * var(--bs-offcanvas-padding-y)) auto;
