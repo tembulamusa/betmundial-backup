@@ -1,43 +1,20 @@
 import React, {useState, useEffect, useContext, useCallback} from 'react';
 import {useParams} from 'react-router-dom'
-import {Row, Col, Dropdown, Form} from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
-import MarketFilter from "../filters/MarketFilter";
-import {forEach} from "react-bootstrap/ElementChildren";
-
-import filterIconSvg from "../../assets/svg/filter-icon.svg" 
-import searchIconSvg from "../../assets/svg/search-icon.svg" 
-import highlightsIconSvg from "../../assets/svg/toggle-off-icon.svg" 
+import {Row, Col, Dropdown} from 'react-bootstrap';
 import { faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Context} from '../../context/store';
-import {
-    ProSidebar, 
-    Menu, 
-    MenuItem, 
-    SubMenu, 
-    SidebarHeader, 
-    SidebarContent 
-} from 'react-pro-sidebar';
 
-import {
-    faSearch,
-    faToggleOn,
-    faTasks,
-} from '@fortawesome/free-solid-svg-icons'
-import { getFromLocalStorage } from '../utils/local-storage';
 
 const MainTabs = (props) => {
-    const {tab, fetching} = props;
+    const {tab} = props;
     const [sports, setSports] = useState();
-    const [sportCategories, setSportCategories] = useState();
     const [competitions, setCompetitions] = useState();
     const [state, dispatch] = useContext(Context);
     const {sportid, categoryid, competitionid} = useParams();
     const [activeTab, setActiveTab] = useState(tab);
 
     const getSportOptionLabel = (sport_name, showCaret=false) => {
-        const sport_image = require(`../../assets/svg/${sport_name}.svg`); 
         return (<Row className="d-flex justify-content-start f-menu-item">
             {/* <Col className="col-auto"><img src={sport_image} alt="" style={{width:"30px"}}/> </Col> */}
                     <Col className="col-auto">{sport_name}</Col>
@@ -86,45 +63,6 @@ const MainTabs = (props) => {
            setSports(sportOptions);
        }
     };
-
-    const setCategroyOptions = () => {
-       if(selectedSport) {
-           let selectedRawSportData = state?.categories?.all_sports.find((sport) => sport.sport_id === selectedSport.sport_id)
-           const categoryOptions = selectedRawSportData?.categories?.map((category) => {
-               return {
-                  category_id: category.category_id,
-                  label: getCategoryOptionLabel(category.category_name, category.cat_flag),
-                  category_name:category.category_name,
-                  cat_flag:category.cat_flag
-               } 
-           });
-           setSportCategories(categoryOptions);
-       }
-    };
-
-
-    const setCompetitionOptions = () => {
-       if(selectedSport.sport_id && selectedCategory) {
-           let thisSport = state?.categories?.all_sports.find((sport) => sport.sport_id === selectedSport.sport_id)
-           let selectedRawCompetitionData = thisSport?.categories.find((category) => category.category_id === selectedCategory.category_id)
-           const competitionOptions = selectedRawCompetitionData?.competitions?.map((competition) => {
-               return {
-                  competition_id: competition.competition_id,
-                  label: getCompetitionOptionLabel(competition.competition_name),
-                  competition_name:competition.competition_name,
-               } 
-           });
-           setCompetitions(competitionOptions);
-       }
-    };
-
-    useEffect(() => {
-        setCompetitionOptions();
-    }, [selectedCategory]);
-
-    useEffect(() => {
-        setCategroyOptions();
-    }, [selectedSport]);
 
     useEffect(() => {
         setSportOptions() 
@@ -224,7 +162,7 @@ const MainTabs = (props) => {
     return (
         <div className='bg-white shadow-sm border-b border-gray-200 mb-3 block relative'>
             <Row className="border-b border-gray-200 !uppercase font-bold main-tabs reduced-mobile-text px-2">
-                <div className='col-4 !mr-0 pr-0'>
+                <div className='col-4 hidden md:flex !mr-0 pr-0'>
                     <div className="filter-group-icon mb-0" key="1">
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-custom-components" variant="transparent-selector" >
@@ -244,7 +182,7 @@ const MainTabs = (props) => {
                         </Dropdown>
                     </div>
                 </div>
-                <div className='col-8 text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto'>
+                <div className='md:col-8 text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto'>
                     <div className='row'>
                         <div className="col-4">
                             <div className={`home-tabs hover:text-hover ${activeTab === 'highlights' && 'home-tab-active'}`} 

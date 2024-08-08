@@ -290,7 +290,7 @@ h5, h4, h3, h2 {
   min-width: 0 !important;
   display: block;
   position: absolute;
-  right: 20px;
+  right: 8px;
   text-align: right !important;
   padding-right: 0 !important;
   bottom: 20%;
@@ -314,11 +314,11 @@ h5, h4, h3, h2 {
   margin: 0px;
 }
 .match-detail-container {
-  width: 40% !important;
+  width: 42% !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-right: 2%;
+  margin-right: 6%;
   /* max-width: 20% !important; */
   /* margin-right: 2% !important; */
 }

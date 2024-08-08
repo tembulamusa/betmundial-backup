@@ -1,9 +1,5 @@
 import React, {useState, useEffect, useContext, useCallback, useRef, useLayoutEffect} from 'react';
 import {Context} from '../../context/store';
-import Row from 'react-bootstrap/Row';
-import Spinner from 'react-bootstrap/Spinner';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
 import {
     addToSlip,
     removeFromSlip,
@@ -11,13 +7,10 @@ import {
     addToJackpotSlip,
     getBetslip
 } from '../utils/betslip';
-
+import {Col, Container, Dropdown,Spinner, Row} from 'react-bootstrap';
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-
 import padlock from '../../assets/img/padlock.png';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChartLine, faFire} from "@fortawesome/free-solid-svg-icons";
 import {getFromLocalStorage} from "../utils/local-storage";
 
 
@@ -58,7 +51,6 @@ const MatchHeaderRow = (props) => {
         jackpot, 
         fetching, 
         three_way, 
-        sub_types
     } = props;
 
     //const [state, ]  = useContext(Context);
@@ -171,10 +163,11 @@ const MatchHeaderRow = (props) => {
     return (
         <Container className="full-mobile sticky-top" style={{position: "sticky"}}>
             <div className="top-matches d-flex position-sticky sticky-top "
-                 style={{opacity: "1", top: "100px"}}>
+                 style={{opacity: "1", top: "100px"}}>      
+
                 <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
                     <div className="align-self-center col">
-
+                    
                    { fetching && <div className="filter-group-icon " >
                            <Spinner animation="border" size="sm" variant="secondary" />
                        </div>
@@ -185,12 +178,16 @@ const MatchHeaderRow = (props) => {
                         </h3> */} 
                     </div>
                 </div>
-                <div className={'col-2 col-xs-12 match-detail-container'} key="d4"></div>
+                <div className={'col-2 col-xs-12 match-detail-container'} key="d4">
+                    <span className='md:hidden text-gray-500 font-bold'>
+                        {sportName}
+                    </span>
+                </div>
                 <div className={'col d-flex flex-row justify-content-between'}>
                     {three_way &&
                         <div className="d-flex flex-row" key="d3">
                             <div className="d-flex flex-column text-center">
-                                <div className={'bold'}>
+                                <div className={'bold hidden md:block'}>
                                     3 WAY
                                 </div>
                                 <div className={'c-btn-group align-self-end'}>
