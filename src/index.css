@@ -296,6 +296,18 @@ h5, h4, h3, h2 {
   bottom: 20%;
 }
 
+.carousel-indicators {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  z-index: 15;
+  width: 60%;
+  margin-left: -30%;
+  padding-left: 0;
+  list-style: none;
+  text-align: center;
+}
+
 
 .justify-content-between {
   padding-right: 0 !important;
