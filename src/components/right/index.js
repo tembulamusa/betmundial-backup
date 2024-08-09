@@ -69,7 +69,7 @@ const LoadedBetslip = (props) => {
         <>
             {!hasBetslip ? <SharedBetslip /> : ""}
 
-            <div className="betslip-container d-none d-md-block">
+            <div className="betslip-container block">
                 {props?.message && <AlertMessage classname={props.classname} message={props.message}/>}
                 <div className="bet-option-list sticky-top" id=''>
                     <div className="bet alu block-shadow">
@@ -131,7 +131,7 @@ const Right = (props) => {
                 </div>
             </section>
             <section className='betslip-paybill bg-secondary'>
-                <div className="paybillnumbers bg-secondary">
+                <div className="paybillnumbers pt-3 bg-secondary">
                     <h2>Paybill Numbers</h2>
                     <p>Your account/reference number should be your registered number.</p>
                     <ul>
@@ -148,7 +148,7 @@ const Right = (props) => {
             </section>
 
             <section className='betslip-paybill bg-secondary'>
-                <div className="paybillnumbers bg-secondary">
+                <div className="paybillnumbers pt-3 bg-secondary">
                     <h2>Customer Care</h2>
                     <p>Surebet is the place to be all day long for 24/7 customer support.</p>
                     <div className='text-3xl py-3'>0724599488</div>
