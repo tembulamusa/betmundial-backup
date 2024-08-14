@@ -100,7 +100,7 @@ const ProSidebar = (props) => {
 
     const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
 
-        let default_img = 'hipo'
+        let default_img = 'sure'
         let sport_image;
         try {
             sport_image = topLeagues ? require(`../../../assets${sport_name}`) : require(`../../../assets/${folder}/${sport_name}.svg`);

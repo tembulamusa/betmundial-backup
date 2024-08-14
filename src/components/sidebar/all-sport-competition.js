@@ -37,13 +37,13 @@ export const SportItem = (props) => {
         initActiveClass();
     }, [initActiveClass]);
 
-    const default_img = 'default_sport';
+    const default_img = 'sure';
     let sport_image;
 
     try { 
         sport_image = require(`../../assets/svg/${sport?.sport_name}.svg`);
     } catch(error){
-        sport_image = require(`../../assets/svg/${default_img}.svg`);
+        sport_image = require(`../../assets/svg/${default_img}.png`);
     }
     
     return (
