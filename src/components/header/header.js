@@ -128,7 +128,7 @@ const Header = (props) => {
             </Row>
 
             {/* Only show if they are visible/third nav is available */}
-            <Row className="third-mobile-nav border-b border-gray-200 mobile-custom-scrollbar">
+            <Row className="third-mobile-nav md:hidden border-b border-gray-200 mobile-custom-scrollbar">
                 <MobileCurrentNavItems />
             </Row>
 

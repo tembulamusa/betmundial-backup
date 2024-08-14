@@ -23,7 +23,6 @@ const HeaderLogin = (props) => {
 
     const Notify = (message) => {
         let options = {
-            position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
             hideProgressBar: true,
             closeOnClick: true,
