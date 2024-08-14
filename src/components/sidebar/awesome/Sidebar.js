@@ -18,6 +18,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import {Context} from '../../../context/store';
 import LiveSideBar from '../live-sidebar';
+import { Link } from 'react-router-dom';
 
 const ProSidebar = (props) => {
 
@@ -152,10 +153,10 @@ const ProSidebar = (props) => {
                                                          src={getSportImageIcon(country.cat_flag, 'img/flags-1-1')}
                                                          alt=''/>} key={countryKey} >
     
-                                                            <a href={`/competition/${competition.sport_id}/${country.category_id}/all`}
+                                                            <Link to={`/competition/${competition.sport_id}/${country.category_id}/all`}
                                                                onClick={() => setLocalStorage('active_item', competition.sport_id)}>
                                                                 {country.category_name}
-                                                            </a>
+                                                            </Link>
                                                 </MenuItem>
                                         ))}
                                         </PerfectScrollbar >
