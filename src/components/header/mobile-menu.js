@@ -22,6 +22,7 @@ import {
     faMobile
 } from '@fortawesome/free-solid-svg-icons';
 import makeRequest from "../utils/fetch-request";
+import { Link } from 'react-router-dom';
 
 function MobileMenu() {
   const [show, setShow] = useState(false);
@@ -35,44 +36,44 @@ function MobileMenu() {
       <>
         <ul className='canvas-links'>
           <li>
-            <a href='/'>
+            <Link to='/'>
               <FontAwesomeIcon icon={HomeIcon} /> Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href='/live'>
+            <Link to='/live'>
               <FontAwesomeIcon icon={faVideo} /> Live Games
-            </a>
+            </Link>
           </li>
           {/* <li>
-            <a href='/'>
+            <Link to='/'>
               <FaHome className='inline-block'/>Aviator
-            </a>
+            </Link>
           </li> */}
           {/* <li>
-            <a href='/'>
+            <Link to='/'>
               <FaHome className='inline-block'/>Casino
-            </a>
+            </Link>
           </li>
           <li>
-            <a href='/'>
+            <Link to='/'>
               <FaHome className='inline-block'/>Virtuals
-            </a>
+            </Link>
           </li> */}
           <li>
-            <a href='/jackpot'>
+            <Link to='/jackpot'>
               <FontAwesomeIcon icon={faCoins} />Jackpots
-            </a>
+            </Link>
           </li>
           <li>
-            <a href='/'>
+            <Link to='/'>
               <FontAwesomeIcon icon={faMobile} />App
-            </a>
+            </Link>
           </li>
           <li>
-            <a href='/'>
+            <Link to='/'>
               <FontAwesomeIcon icon={faVolumeUp} />Promotions
-            </a>
+            </Link>
           </li>
         </ul>
       </>
@@ -83,24 +84,24 @@ function MobileMenu() {
       <>
         <ul className='canvas-links'>
           <li>
-            <a href='/deposit'>
+            <Link to='/deposit'>
               <FontAwesomeIcon icon={faCoins} />Deposit
-            </a>
+            </Link>
           </li>
           <li>
-            <a href='/withdraw'>
+            <Link to='/withdraw'>
               <FontAwesomeIcon icon={faDollarSign} />Withdraw
-            </a>
+            </Link>
           </li>
           <li>
-            <a href='/history'>
+            <Link to='/history'>
               <FontAwesomeIcon icon={faCalendarCheck} />Bet History
-            </a>
+            </Link>
           </li>
           <li>
-            <a href='/transactions'>
+            <Link to='/transactions'>
               <FontAwesomeIcon icon={faClock} />Transaction History
-            </a>
+            </Link>
           </li>
         </ul>
       </>

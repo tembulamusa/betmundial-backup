@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext, useCallback} from 'react';
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import {Row, Col, Dropdown} from 'react-bootstrap';
 import { faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -259,19 +259,19 @@ const MainTabs = (props) => {
                } */}
             </Row>
             <div className='py-2 my-2 mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
-                <a href={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
+                <Link to={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
                     All
-                </a>
+                </Link>
                 {state?.categories?.top_soccer?.map((competition, idx) => (
                     <>
                         
-                        <a href={`/competition/${competition.sport_id}/${competition.category_id}/${competition.competition_id}`}
+                        <Link to={`/competition/${competition.sport_id}/${competition.category_id}/${competition.competition_id}`}
                         className='mx-3 main-tabs-submenu' style={{fontSize: "13px"}}>
                             <img style={{borderRadius: '1px', height: '13px', width:"13px" }}
                             src={getSportImageIcon(competition?.flag, 'img/flags-1-1', true)}
                             alt='' className='inline-block mr-2'/>
                             <span className='inline-block leading-0'>{competition?.competition_name}</span>
-                        </a>
+                        </Link>
                     </>
                 ))}
             </div>

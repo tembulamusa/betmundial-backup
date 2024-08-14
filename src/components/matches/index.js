@@ -12,6 +12,7 @@ import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import padlock from '../../assets/img/padlock.png';
 import {getFromLocalStorage} from "../utils/local-storage";
+import { Link } from 'react-router-dom';
 
 
 const clean = (_str) => {
@@ -599,7 +600,7 @@ const MatchRow = (props) => {
 
             </div>
             <div className="col-md-2 col-sm-4 col-xs-12 match-detail-container" key="23">
-                <a href={jackpot ? '#' : `/match/${live ? 'live/' + match.parent_match_id : match.match_id}`}>
+                <Link to={jackpot ? '#' : `/match/${live ? 'live/' + match.parent_match_id : match.match_id}`}>
                     <div className="d-flex flex-column primary-text">
                         <div className="compt-detail overflow-ellipsis" key="0034">
                             <small>{match.category} | {match.competition_name}</small>
@@ -618,7 +619,7 @@ const MatchRow = (props) => {
                             </div>
                         </div>
                     </div>
-                </a>
+                </Link>
             </div>
             <div className="col block md:flex justify-content-between" key="24">
                 {/* Mobile only datetime */}

@@ -147,11 +147,11 @@ const HeaderNav = (props) => {
                     <div
                         className={`autocomplete-box position-fixed bg-white border-dark col-md-5 mt-1 shadow-lg text-start`}>
                         {matches.map((match, index) => (
-                            <a href={`/?search=${match.home_team}`} key={index}>
+                            <Link to={`/?search=${match.home_team}`} key={index}>
                                 <li style={{borderBottom: "1px solid #eee"}}>
                                     {match.home_team}
                                 </li>
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </ListGroup>
