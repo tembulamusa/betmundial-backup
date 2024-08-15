@@ -25,7 +25,7 @@ const ProSidebar = (props) => {
     const [collapsed, setCollapsed] = useState(false)
     const [toggled, setToggled] = useState(false)
     const [sport, setSport] = useState(79)
-    const [, dispatch] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
 
     const handleCollapsedChange = (checked) => {
         setCollapsed(checked);
@@ -35,6 +35,12 @@ const ProSidebar = (props) => {
         setToggled(value);
     };
 
+    const changeMatches = (gameType, competition) => {
+        setLocalStorage('active_item', competition.sport_id);
+        if(gameType === "competition") {
+            dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: competition?.competition_id}})
+        }
+    }
     const [competitions, setCompetitions] = useState(props?.competitions);
 
     const fetchData = useCallback(async () => {
@@ -92,6 +98,7 @@ const ProSidebar = (props) => {
         return (Number(sport) === Number(matchId))
 
     }
+    
     useEffect(() => {
         updateDimensions()
         updateSidebarState()
@@ -115,7 +122,6 @@ const ProSidebar = (props) => {
         return competition?.default_display_markets
     }
     const pathname = window.location.pathname;
-
 
     return (
         <>
@@ -148,16 +154,30 @@ const ProSidebar = (props) => {
                                              style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}
                                         <PerfectScrollbar >
                                         {competition?.categories.map((country, countryKey) => (
-                                                <MenuItem title={country.category_name}
-                                                         icon={<img style={{borderRadius: '50%', height: '15px'}}
-                                                         src={getSportImageIcon(country.cat_flag, 'img/flags-1-1')}
-                                                         alt=''/>} key={countryKey} >
-    
-                                                            <Link to={`/competition/${competition.sport_id}/${country.category_id}/all`}
-                                                               onClick={() => setLocalStorage('active_item', competition.sport_id)}>
-                                                                {country.category_name}
-                                                            </Link>
-                                                </MenuItem>
+                                                <SubMenu
+                                                        title={country.category_name}
+                                                        label = {country.category_name}
+                                                        icon={<img style={{borderRadius: '50%', height: '15px'}}
+                                                        src={getSportImageIcon(country.cat_flag, 'img/flags-1-1')}
+                                                        alt=''/>}
+                                                        className='inner-submenu'
+                                                        key={countryKey}>
+
+                                                            {country?.competitions?.map((league, leagueKey) => (
+                                                                <MenuItem
+                                                                title={league.competition_name}
+                                                                // label = {country.category_name}
+                                                                key={league?.competition_id}
+                                                                >
+                                                                    <Link className='country-competition-item' to={`/competition/country/league/${league.competition_id}/all`}
+                                                                        onClick={() => changeMatches("competition", league)}>
+                                                                        <span>{league?.competition_name}</span> <span className='game-count float-end'>{league?.games_count}</span>
+                                                                    </Link>
+                                                                </MenuItem>
+                                                            ))                                                                
+                                                            }
+                                                            
+                                                </SubMenu>
                                         ))}
                                         </PerfectScrollbar >
                                 { /* </SubMenu> */}

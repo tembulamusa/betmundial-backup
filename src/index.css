@@ -435,3 +435,12 @@ h5, h4, h3, h2 {
 .mobile-categories-item {
   margin-right: 6px;
 }
+
+.ps-menu-button.ps-open {
+
+}
+
+.country-competition-item {
+  padding-left: 20px;
+  font-size: 12px;
+}
