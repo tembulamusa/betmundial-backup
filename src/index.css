@@ -437,7 +437,8 @@ h5, h4, h3, h2 {
 }
 
 .ps-menu-button.ps-open {
-
+  background: #ffffff;
+  font-weight: 500;
 }
 
 .country-competition-item {

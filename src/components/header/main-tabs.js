@@ -259,14 +259,19 @@ const MainTabs = (props) => {
                } */}
             </Row>
             <div className='py-2 my-2 mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
-                <Link to={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
+                <Link
+                onClick={() => dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: 0}})}
+                to={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
                     All
                 </Link>
                 {state?.categories?.top_soccer?.map((competition, idx) => (
                     <>
                         
-                        <Link to={`/competition/${competition.sport_id}/${competition.category_id}/${competition.competition_id}`}
-                        className='mx-3 main-tabs-submenu' style={{fontSize: "13px"}}>
+                        <Link
+                        onClick={() =>  dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: competition?.competition_id}})}
+                        to={`/sports/competition/matches?id=${competition.competition_id}`}
+                        className='mx-3 main-tabs-submenu' style={{fontSize: "13px"}}
+                        >
                             <img style={{borderRadius: '1px', height: '13px', width:"13px" }}
                             src={getSportImageIcon(competition?.flag, 'img/flags-1-1', true)}
                             alt='' className='inline-block mr-2'/>

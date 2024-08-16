@@ -57,20 +57,23 @@ const Index = (props) => {
         } else if(categoryid && !state?.filtermenuclicked === true) {
             endpoint += "&category_id =" + categoryid;
         }
-        if(state?.filtercompetition ) {
-            endpoint += "&competition_id =" + state?.filtercompetition?.competition_id;
-        } else if(competitionid && !state?.filtermenuclicked === true) {
-            endpoint += "&competition_id =" +  competitionid;
-        }
-
+        
         if(state?.active_tab) {
             tab = state?.active_tab;
         }
         
         endpoint += "&tab=" + tab;
-        endpoint = endpoint.replaceAll(" ", '')
+        
+        if(state?.filtercompetition ) {
+            endpoint = `/v1/sports/competition/matches?id=${state?.filtercompetition?.competition_id}`;
 
-        endpoint += `&sub_type_id=` + subTypes;
+            if (state?.filtercompetition?.competition_id == 0){
+                endpoint = "/v1/matches?page=" + (page || 1) + `&limit=${limit || 50}`;
+                endpoint += "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79);
+            }
+        }
+        endpoint = endpoint.replaceAll(" ", '');
+        
         await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
             if (status == 200) {
                 setMatches(matches?.length > 0 ? {...matches, ...result?.data} : result?.data || result)
@@ -95,7 +98,7 @@ const Index = (props) => {
         state?.filtersport, 
         state?.filtercategory, 
         state?.filtercompetition, 
-        state?.active_tab, 
+        state?.active_tab
     ]
     )
 
