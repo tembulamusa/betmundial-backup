@@ -444,3 +444,8 @@ h5, h4, h3, h2 {
   padding-left: 20px;
   font-size: 12px;
 }
+
+.force-reduce-img img {
+  height: 20px !important;
+  opacity: 0.4;
+}

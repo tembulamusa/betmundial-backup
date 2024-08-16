@@ -149,6 +149,7 @@ const ProSidebar = (props) => {
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}
                                         label={competition.sport_name}
+                                        className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football'].includes(competition?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
                                         key={index}>
                                 {/* <SubMenu title={'Countries'}
                                              style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}

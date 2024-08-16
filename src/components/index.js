@@ -12,27 +12,21 @@ import makeRequest from './utils/fetch-request';
 import {getBetslip} from './utils/betslip' ;
 import useInterval from "../hooks/set-interval.hook";
 import {Spinner} from "react-bootstrap";
-import WorldCupModal from './world_cup_modal' ;
-
-const Header = React.lazy(() => import('./header/header'));
-const Footer = React.lazy(() => import('./footer/footer'));
-// const SideBar = React.lazy(()=>import('./sidebar/sidebar'));
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 const MatchList = React.lazy(() => import('./matches/index'));
-const Right = React.lazy(() => import('./right/index'));
-const SideBar = React.lazy(() => import('./sidebar/awesome/Sidebar'))
+
 
 const Index = (props) => {
     const location = useLocation();
-    const {id, sportid, categoryid, competitionid } = useParams();
+    const {sportid, categoryid, competitionid } = useParams();
 
     const [matches, setMatches] = useState([]);
     const [limit, setLimit] = useState(50);
     const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(false);
-    const [page, setPage] = useState(1);
-    const [userSlipsValidation, setUserSlipsValidation] = useState();
+    const [page, ] = useState(1);
+    const [, setUserSlipsValidation] = useState();
     const [state, dispatch] = useContext(Context);
     const [fetching, setFetching] = useState(false)
     const homePageRef = useRef()
@@ -49,7 +43,6 @@ const Index = (props) => {
     const fetchData = async () => {
         setFetching(true)
         let tab = 'highlights';
-        let betslip = findPostableSlip();
         let method = "GET";
         let endpoint = "/v1/matches?page=" + (page || 1) + `&limit=${limit || 50}` ;
 
