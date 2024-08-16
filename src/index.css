@@ -449,3 +449,7 @@ h5, h4, h3, h2 {
   height: 20px !important;
   opacity: 0.4;
 }
+
+:focus-visible {
+  outline: 1px solid #3e1bf5;
+}

@@ -149,7 +149,7 @@ const ProSidebar = (props) => {
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}
                                         label={competition.sport_name}
-                                        className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football'].includes(competition?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
+                                        className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football', 'gaelic hurling', 'gaelic football'].includes(competition?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
                                         key={index}>
                                 {/* <SubMenu title={'Countries'}
                                              style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}
@@ -172,7 +172,7 @@ const ProSidebar = (props) => {
                                                                 >
                                                                     <Link className='country-competition-item' to={`/competition/country/league/${league.competition_id}/all`}
                                                                         onClick={() => changeMatches("competition", league)}>
-                                                                        <span>{league?.competition_name}</span> <span className='game-count float-end'>{league?.games_count}</span>
+                                                                        <span>{league?.competition_name}</span>
                                                                     </Link>
                                                                 </MenuItem>
                                                             ))                                                                
