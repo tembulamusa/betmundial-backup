@@ -13,6 +13,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import padlock from '../../assets/img/padlock.png';
 import {getFromLocalStorage} from "../utils/local-storage";
 import { Link } from 'react-router-dom';
+import NoEvents from '../utils/no-events';
 
 
 const clean = (_str) => {
@@ -787,7 +788,7 @@ const MatchList = (props) => {
     return (
         <div className="matches full-width">
 
-            {matches && <MatchHeaderRow 
+            {matches.length > 0 && <MatchHeaderRow 
                  live={live} 
                 first_match={matches ? matches[0] : {}} 
                 fetching={fetching}
@@ -795,24 +796,26 @@ const MatchList = (props) => {
                 sub_types={subTypes}
                 />}
 
-            <Container className="web-element">
-                {matches &&
-                    Object.entries(matches).map(([key, match]) => (
-                        <MatchRow 
-                            match={match} 
-                            key={key} 
-                            live={live} 
-                            pdown={pdown} 
-                            three_way={three_way}
-                            sub_types={subTypes}/>
-                    ))
-                }
-                {(!matches && fetching === false) &&
-                    <div className="top-matches row">
-                        No events found.
-                    </div>
-                }
-            </Container>
+            {
+
+                <Container className="web-element">
+                    {matches &&
+                        Object.entries(matches).map(([key, match]) => (
+                            <MatchRow 
+                                match={match} 
+                                key={key} 
+                                live={live} 
+                                pdown={pdown} 
+                                three_way={three_way}
+                                sub_types={subTypes}/>
+                        ))
+                    }
+                    {(matches.length === 0  && fetching === false) &&
+
+                        <NoEvents/>
+                    }
+                </Container>
+            }
         </div>
     )
 }

@@ -12,6 +12,7 @@ import makeRequest from './utils/fetch-request';
 import {getBetslip} from './utils/betslip' ;
 import useInterval from "../hooks/set-interval.hook";
 import {Spinner} from "react-bootstrap";
+import NoEvents from "./utils/no-events";
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 const MatchList = React.lazy(() => import('./matches/index'));
@@ -68,8 +69,7 @@ const Index = (props) => {
             endpoint = `/v1/sports/competition/matches?id=${state?.filtercompetition?.competition_id}`;
 
             if (state?.filtercompetition?.competition_id == 0){
-                endpoint = "/v1/matches?page=" + (page || 1) + `&limit=${limit || 50}`;
-                endpoint += "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79);
+                endpoint = "/v1/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
             }
         }
         endpoint = endpoint.replaceAll(" ", '');
@@ -157,14 +157,20 @@ const Index = (props) => {
                 <CarouselLoader/>
                 <MainTabs tab={location.pathname.replace("/", "") || 'highlights'} />
                 {/* <MobileCategories/> */}
-                <MatchList
-                    live={false}
-                    matches={matches}
-                    pdown={producerDown}
-                    three_way={threeWay}
-                    fetching={fetching}
-                    subTypes={subTypes}
-                />
+
+                {
+                    <MatchList
+                        live={false}
+                        matches={matches}
+                        pdown={producerDown}
+                        three_way={threeWay}
+                        fetching={fetching}
+                        subTypes={subTypes}
+                    />
+                    
+
+                }
+                
             </div>
             <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}>
                 <Spinner animation={'grow'} size={'lg'}/>

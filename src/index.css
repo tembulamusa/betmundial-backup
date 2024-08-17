@@ -454,3 +454,9 @@ h5, h4, h3, h2 {
 :focus-visible {
   outline: 1px solid #3e1bf5;
 }
+
+.no-events-div {
+  border: 2px dashed #dddddd;
+  font-weight: 700;
+  color: #aaaaaa;
+}
