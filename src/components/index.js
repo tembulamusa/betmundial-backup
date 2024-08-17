@@ -73,7 +73,15 @@ const Index = (props) => {
         }
         if (search_term && search_term.length >= 3) {
             endpoint = `/v1/matches?limit=10&search=${search_term}`;
-        }
+        } else {
+            if(state?.filtercompetition ) {
+                endpoint = `/v1/sports/competition/matches?id=${state?.filtercompetition?.competition_id}`;
+    
+                if (state?.filtercompetition?.competition_id == 0){
+                    endpoint = "/v1/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
+                }
+            }
+        } 
         endpoint = endpoint.replaceAll(" ", '');
         
         await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
