@@ -48,9 +48,8 @@ const Index = (props) => {
         let endpoint = "/v1/matches?page=" + (page || 1) + `&limit=${limit || 50}` ;
 
         let url = new URL(window.location.href)
-        endpoint += "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79);
-        let search_term = state?.searchterm || url.searchParams.get('search')
-        endpoint += search_term ? '&search=' + search_term : ""; 
+        endpoint += "&sport_id = " + (state?.filtersport?.sport_id || sportid || 79);
+        let search_term = state?.searchterm || ""; 
 
         
         if(state?.filtercategory) {
@@ -71,6 +70,9 @@ const Index = (props) => {
             if (state?.filtercompetition?.competition_id == 0){
                 endpoint = "/v1/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
             }
+        }
+        if (search_term && search_term.length >= 3) {
+            endpoint = `/v1/matches?limit=10&search=${search_term}`;
         }
         endpoint = endpoint.replaceAll(" ", '');
         
@@ -94,7 +96,6 @@ const Index = (props) => {
 
     useEffect(() => {
         fetchData();
-        console.log("THe search term:::", state?.searchterm);
     }, [
         state?.filtersport, 
         state?.filtercategory, 

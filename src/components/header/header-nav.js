@@ -22,7 +22,7 @@ import {faMobile, faCoins} from "@fortawesome/free-solid-svg-icons";
 import LiveIcon from "../../assets/svg/Live.svg";
 import JackpotIcon from "../../assets/svg/JP.svg";
 import PromotionIcon from "../../assets/svg/Promotions.svg";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HeaderNav = (props) => {
     const [, dispatch] = useContext(Context);
@@ -31,9 +31,16 @@ const HeaderNav = (props) => {
     const [matches, setMatches] = useState([])
     const searchInputRef = useRef(null)
     const [time, setTime] = useState();
+    const navigate = useNavigate();
     
+    useEffect(() => {
+        if(searching === true) {
+            navigate("/home");
+        }
+    }, [searching]);
+
     const updateSearchTerm = (event) => {
-        if(event.target.value >= 3 ){
+        if(event.target.value.length >= 3 ){
             dispatch({type:"SET", key:"searchterm", payload: event.target.value});
         }
     }
@@ -49,7 +56,6 @@ const HeaderNav = (props) => {
 
     const showSearchBar = () => {
         setSearching(true)
-        searchInputRef.current.focus()
     }
 
     const dismissSearch = () => {
@@ -124,7 +130,6 @@ const HeaderNav = (props) => {
                             <input type="text"
                                 onChange={(ev) => updateSearchTerm(ev)}
                                 placeholder={'Start typing to search for team ...'} 
-                                ref={searchInputRef}
                                 className={'form-control input-field border-0  no-border-radius'}
                                 />
                         </div>
@@ -132,16 +137,6 @@ const HeaderNav = (props) => {
                         <button className={'btn text-white -align-right'} onClick={() => dismissSearch()}>
                             <FontAwesomeIcon icon={faTimes}/> Close
                         </button>
-                    </div>
-                    <div
-                        className={`autocomplete-box position-fixed bg-white border-dark col-md-5 mt-1 shadow-lg text-start`}>
-                        {matches.map((match, index) => (
-                            <Link to={`/?search=${match.home_team}`} key={index}>
-                                <li style={{borderBottom: "1px solid #eee"}}>
-                                    {match.home_team}
-                                </li>
-                            </Link>
-                        ))}
                     </div>
                 </ListGroup>
             </Container>
