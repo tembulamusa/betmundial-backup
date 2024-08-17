@@ -49,7 +49,7 @@ const Index = (props) => {
 
         let url = new URL(window.location.href)
         endpoint += "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79);
-        let search_term = url.searchParams.get('search')
+        let search_term = state?.searchterm || url.searchParams.get('search')
         endpoint += search_term ? '&search=' + search_term : ""; 
 
         
@@ -94,11 +94,13 @@ const Index = (props) => {
 
     useEffect(() => {
         fetchData();
+        console.log("THe search term:::", state?.searchterm);
     }, [
         state?.filtersport, 
         state?.filtercategory, 
         state?.filtercompetition, 
-        state?.active_tab
+        state?.active_tab,
+        state?.searchterm
     ]
     )
 

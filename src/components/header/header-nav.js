@@ -25,19 +25,18 @@ import PromotionIcon from "../../assets/svg/Promotions.svg";
 import { Link } from 'react-router-dom';
 
 const HeaderNav = (props) => {
-    const [state,] = useContext(Context);
+    const [, dispatch] = useContext(Context);
     const pathname = window.location.pathname;
     const [searching, setSearching] = useState(false)
     const [matches, setMatches] = useState([])
     const searchInputRef = useRef(null)
     const [time, setTime] = useState();
     
-
-    useEffect(() => {
-        fetchMatches()
-    }, [searching])
-
-
+    const updateSearchTerm = (event) => {
+        if(event.target.value >= 3 ){
+            dispatch({type:"SET", key:"searchterm", payload: event.target.value});
+        }
+    }
     useEffect(() => {
         const timer = setInterval(() => {
           setTime(new Date().toLocaleString().slice(10,22));
@@ -47,19 +46,6 @@ const HeaderNav = (props) => {
           clearInterval(timer);
         };
       }, []);
-
-    const fetchMatches = async (search) => {
-        if (search && search.length >= 3) {
-            let method = "POST"
-            let endpoint = "/v1/matches?page=" + (1) + `&limit=${10}&search=${search}`;
-            await makeRequest({url: endpoint, method: method, data: []}).then(([status, result]) => {
-                if (status === 200) {
-                    setMatches(result?.data || result)
-                }
-            });
-        }
-
-    };
 
     const showSearchBar = () => {
         setSearching(true)
@@ -75,7 +61,7 @@ const HeaderNav = (props) => {
             <Container id="navbar-collapse-main"
                        className={`d-sm-flex d-flex flex-row  header-menu ${searching ? 'hidden' : 'd-block'}`}>
 
-                <ListGroup as="ul" xs="12" horizontal className="font-bold nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display">
+                <ListGroup as="ul" xs="12" horizontal className={`font-bold nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display ${searching && "!hidden"}`}>
                     
                     <li className={pathname === '/' ? "active" : ''}>
                         <Link className="cg fm ox anl url-link not-selectable " to={"/"} title="Home"><span className=" space-icons"><FontAwesomeIcon icon={HomeIcon} /> </span> Home</Link>
@@ -135,9 +121,12 @@ const HeaderNav = (props) => {
                 <ListGroup as="ul" xs="9" horizontal className="nav navbar-nav og ale ss col-md-6 text-center">
                     <div className="d-flex">
                         <div className="col-md-10">
-                            <input type="text" placeholder={'Start typing to search for team ...'} ref={searchInputRef}
-                                   onInput={(event) => fetchMatches(event.target.value)}
-                                   className={'form-control input-field border-0  no-border-radius'}/>
+                            <input type="text"
+                                onChange={(ev) => updateSearchTerm(ev)}
+                                placeholder={'Start typing to search for team ...'} 
+                                ref={searchInputRef}
+                                className={'form-control input-field border-0  no-border-radius'}
+                                />
                         </div>
 
                         <button className={'btn text-white -align-right'} onClick={() => dismissSearch()}>
