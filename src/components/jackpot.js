@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useState} from "react";
+import React, {useEffect, useCallback, useState, useContext} from "react";
 
 import Header from './header/header';
 import Footer from './footer/footer';
@@ -9,49 +9,60 @@ import dailyJackpot from '../assets/img/banner/jackpots/DailyJackpot.png'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Container from "react-bootstrap/Container";
+import {Context} from '../context/store';
+import {
+    getJackpotBetslip,
+} from './utils/betslip';
 
 const Right = React.lazy(() => import('./right/index'));
 
 const Jackpot = (props) => {
     const [matches, setMatches] = useState(null);
+    const [state, dispatch] = useContext(Context);
 
     const fetchData = useCallback(async () => {
         let match_endpoint = "/v1/matches/jackpot";
-        const [match_result] = await Promise.all([
-            makeRequest({url: match_endpoint, method: "GET"})
-        ]);
+        makeRequest({url: match_endpoint, method: "GET"}).then(([m_status, result]) =>  {
         
-        let [m_status, m_result] = match_result;
-        if (m_status === 200) {
-            setMatches(m_result);
-        }
+            if (m_status === 200) {
+                setMatches(result);
+                dispatch({type: "SET", key: "jackpotdata", payload: result?.meta});
+            }
+            let jackpotbetslip = getJackpotBetslip(); 
+            dispatch({type: "SET", key: "jackpotbetslip", payload: jackpotbetslip});
+        })
 
     }, []);
+
 
     useEffect(() => {
 
         const abortController = new AbortController();
         fetchData();
-
         return () => {
+            dispatch({type: "DEL", key: "jackpotbetslip"});
+            dispatch({type: "DEL", key: "jackpotdata"});
             abortController.abort();
         };
     }, [fetchData]);
+
+
 
     return (
         <>
             
             <img src={dailyJackpot}/>
+            { matches && 
             <Tabs
                 variant={'tabs'}
-                defaultActiveKey={matches?.meta.status == 'ACTIVE' ? "home":"results"}
+                defaultActiveKey={matches?.meta.status === 'ACTIVE' ? "home":"results"}
                 id=""
                 className="background-primary "
                 justify>
                 <Tab eventKey="home" 
                     title="Jackpot" 
                     className={'background-primary'}
-                    disabled = {matches?.meta.status == 'INACTIVE'}
+                    disabled = {matches?.meta.status === 'INACTIVE'}
                     >
                     {matches?.data?.length > 0 ? (
                         <>
@@ -67,8 +78,8 @@ const Jackpot = (props) => {
                 </Tab>
                 <Tab 
                     eventKey="results" 
-                    title="Results"
-                    disabled = {matches?.meta.status == 'ACTIVE'}
+                    title="Jackpot Results"
+                    disabled = {matches?.meta.status === 'ACTIVE'}
                     >
                     <JackpotHeader jackpot={matches?.meta}/>
                     <div className="matches full-mobile sticky-top container">
@@ -116,6 +127,8 @@ const Jackpot = (props) => {
                     ))}
                 </Tab>
             </Tabs>
+            
+            }
                         
         </>
     )

@@ -50,7 +50,7 @@ import CasinoGamePlay from './components/pages/casino/GamePlay';
 import Promotions from './components/pages/promotions/Promotions';
 import Login from './components/pages/login';
 import LiveScore from './components/pages/livescore/LiveScore';
-import Right from "./components/right/index-biko";
+import Right from "./components/right/index";
 import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
 import { Row } from "react-bootstrap";

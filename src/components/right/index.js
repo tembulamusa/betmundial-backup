@@ -12,6 +12,7 @@ import {
     getBetslip,
     getJackpotBetslip,
 } from '../utils/betslip';
+
 import Mpesa from "../../assets/img/mpesa-1.png";
 import Airtelmoney from "../../assets/img/airtelmoney.png";
 import { useLocation } from 'react-router-dom';
@@ -51,6 +52,7 @@ const SharedBetslip = (props) => {
     )
 }
 const LoadedBetslip = (props) => {
+
     const {jackpot, betslipValidationData, jackpotData} = props;
     const [betSlipMobile, setBetSlipMobile] = useState(false);
     const [state, dispatch] = useContext(Context);
@@ -59,7 +61,7 @@ const LoadedBetslip = (props) => {
 
     useEffect(() => {
         if(state?.betslip || state?.jackpotbetslip){
-            if(Object.entries(state?.betslip).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
+            if(Object.entries(state?.betslip||state?.jackpotbetslip || {}).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
         } else {
             setHasBetslip(false);
         }

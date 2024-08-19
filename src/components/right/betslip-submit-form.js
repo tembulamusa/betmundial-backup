@@ -30,7 +30,7 @@ const BetslipSubmitForm = (props) => {
     const [message, setMessage] = useState(null);
     const [state, dispatch] = useContext(Context);
 
-    const [stake, setStake] = useState(100);
+    const [stake, setStake] = useState(jackpotData?.bet_amount ?? 100);
     const [stakeAfterTax, setStakeAfterTax] = useState(0);
     const [exciseTax, setExciseTax] = useState(0);
     const [withholdingTax, setWithholdingTax] = useState(0);
@@ -357,7 +357,7 @@ const BetslipSubmitForm = (props) => {
 
                             <tr className="bet-win-tr hide-on-affix">
                                 <td className='opacity-60'> Excise Tax (12.5%)</td>
-                                <td className='text-right'>KSH. <span id="tax">{formatNumber(exciseTax)}</span></td>
+                                <td className='text-right'>KSH. <span id="tax">{formatNumber(exciseTax)} </span></td>
                             </tr>
                             
                             </tbody>

@@ -18,32 +18,37 @@ const clean_rep = (str) => {
 
 const BetSlip = (props) => {
     const {jackpot, betslipValidationData, jackpotData} = props;
-    const [betslipKey, setBetslipKey] = useState("betslip");
-    const [betslipsData, setBetslipsData] = useState(null);
+
+    const [is_jackpot, setIsJackpot] = useState(jackpot);
+    const [localJPData, setLocalJPData] = useState(jackpotData);
+
     const [state, dispatch] = useContext(Context);
+    const [betslipKey, setBetslipKey] = useState(
+       () => state?.jackpotbetslip === 1? "jackpotbestslip":"bestslip"
+    );
+
+    const [betslipsData, setBetslipsData] = useState({});
     const [hasBetslip, setHasBetslip] = useState(false);
     const [totalOdds, setTotalOdds] = useState(1);
 
     //initial betslip loading
-    const loadBetslip = useCallback(() => {
-        if (!betslipsData) {
-            let b = jackpot === true
-                ? getJackpotBetslip()
-                : getBetslip();
-            setBetslipsData(b);
-        }
-    }, []);
 
     useEffect(() => {
-        loadBetslip();
-    }, [loadBetslip]);
+        let b = (state?.jackpotbetslip)
+            ? getJackpotBetslip()
+            : getBetslip();
+
+        setBetslipsData(b);
+    }, [state?.betslip, state?.jackpotbetslip]);
 
     useEffect(() => {
         if(state?.betslip || state?.jackpotbetslip){
-            if(Object.entries(state?.betslip||{}).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
+            setHasBetslip(true);
         } else {
             setHasBetslip(false);
         }
+        setIsJackpot(state?.jackpotbetslip !== null);
+        setLocalJPData(state?.jackpotdata);
     },[state?.betslip, state?.jackpotbetslip]);
 
     useEffect(() => {
@@ -116,17 +121,17 @@ const BetSlip = (props) => {
 
     // betslip key watch
     const setJackpotSlipkey = useCallback(() => {
-        if (jackpot === true) {
+        if (state?.jackpotbetslip) {
             setBetslipKey("jackpotbetslip");
         }
-    }, [jackpot]);
+    }, [is_jackpot]);
 
     useEffect(() => {
         setJackpotSlipkey();
     }, [setJackpotSlipkey]);
 
     const handledRemoveSlip = (match) => {
-        let betslip = jackpot !== true
+        let betslip = (state?.jackpotbetslip)
             ? removeFromSlip(match.match_id)
             : removeFromJackpotSlip(match.match_id);
 
@@ -157,10 +162,10 @@ const BetSlip = (props) => {
     return (
         
         <div className="">
-            {hasBetslip || state?.jackpotbetslip && <>
+            {hasBetslip  && <>
             <div className="flow" style={{maxHeight: "50vh", overflowY: "auto"}}>
                 <ul>
-                    {Object.entries(betslipsData || {}).map(([match_id, slip]) => {
+                    {Object.entries(betslipsData ?? {}).map(([match_id, slip]) => {
                         let odd = slip.odd_value;
                         let no_odd_bg = odd === 1 ? '#f29f7a' : '';
 
@@ -214,13 +219,13 @@ const BetSlip = (props) => {
             </div>
             <div className="bottom">
                 <BetslipSubmitForm
-                    jackpotData={jackpotData}
+                    jackpotData={localJPData}
                     totalOdds={totalOdds}
                     betslip={betslipsData}
                     setBetslipsData={setBetslipsData}
                     totalGames={betslipsData
                         ? Object.keys(betslipsData).length : 0}
-                    jackpot={jackpot}
+                    jackpot={is_jackpot}
                 />
             </div>
             </>
