@@ -50,7 +50,7 @@ import CasinoGamePlay from './components/pages/casino/GamePlay';
 import Promotions from './components/pages/promotions/Promotions';
 import Login from './components/pages/login';
 import LiveScore from './components/pages/livescore/LiveScore';
-import Right from "./components/right";
+import Right from "./components/right/index-biko";
 import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
 import { Row } from "react-bootstrap";
@@ -125,7 +125,6 @@ const App = () => {
                             <Route exact path="/logout" element={<Logout/>}/>
                             <Route exact path="/print-matches" element={<PrintMatches/>}/>
                             <Route exact path="/promotions" element={<Promotions/>}/>
-
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
                             <Route exact path="/withdraw"

@@ -579,7 +579,10 @@ const MatchRow = (props) => {
         sub_types} = props;
 
     match.market_active = 1
-    match.odds.home_odd_active = 1
+    if(match.odds.home_odd_active) {
+        match.odds.home_odd_active = 1
+    }
+    
    
     return (
         <>
@@ -639,7 +642,7 @@ const MatchRow = (props) => {
                     </div>
 
                 </div>
-                <div className="c-btn-group align-self-center" key="222">
+                <div className={`c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
                     {
                         match?.odds?.["1x2"]?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};
@@ -685,6 +688,8 @@ const MatchRow = (props) => {
                 
                 
             </div>
+
+            {/* Jackpot buttons */}
             {!pdown && !jackpot &&
                     <SideBets match={match} live={live} style={{d: "inline"}}/>}
         </div>

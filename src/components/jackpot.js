@@ -17,10 +17,10 @@ const Jackpot = (props) => {
 
     const fetchData = useCallback(async () => {
         let match_endpoint = "/v1/matches/jackpot";
-
         const [match_result] = await Promise.all([
-            makeRequest({url: match_endpoint, method: "get", data: null})
+            makeRequest({url: match_endpoint, method: "GET"})
         ]);
+        
         let [m_status, m_result] = match_result;
         if (m_status === 200) {
             setMatches(m_result);
@@ -60,7 +60,7 @@ const Jackpot = (props) => {
                         </>
                     ) : (
                         <div
-                            className={'col-md-12 text-center background-primary  mt-2 p-3'}>
+                            className={'col-md-12 text-center background-primary mt-2 p-5 no-events-div'}>
                             There are no active jackpots at the moment.
                         </div>
                     )}

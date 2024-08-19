@@ -49,7 +49,7 @@ const BetslipSubmitForm = (props) => {
 
     useEffect(() => {
         if(state?.betslip || state?.jackpotbetslip){
-            if(Object.entries(state?.betslip).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
+            if(Object.entries(state?.betslip || {}).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
         } else {
             setHasBetslip(false);
         }

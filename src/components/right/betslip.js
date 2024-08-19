@@ -40,7 +40,7 @@ const BetSlip = (props) => {
 
     useEffect(() => {
         if(state?.betslip || state?.jackpotbetslip){
-            if(Object.entries(state?.betslip).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
+            if(Object.entries(state?.betslip||{}).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
         } else {
             setHasBetslip(false);
         }
@@ -157,7 +157,7 @@ const BetSlip = (props) => {
     return (
         
         <div className="">
-            {hasBetslip && <>
+            {hasBetslip || state?.jackpotbetslip && <>
             <div className="flow" style={{maxHeight: "50vh", overflowY: "auto"}}>
                 <ul>
                     {Object.entries(betslipsData || {}).map(([match_id, slip]) => {

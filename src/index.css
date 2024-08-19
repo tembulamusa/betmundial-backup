@@ -460,3 +460,8 @@ h5, h4, h3, h2 {
   font-weight: 700;
   color: #aaaaaa;
 }
+
+
+.is-jackpot-bet-group-btns {
+  margin-left: auto !important
+}
