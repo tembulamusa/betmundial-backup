@@ -24,7 +24,7 @@ const AlertMessage = (props) => {
 const Right = (props) => {
     const [state, dispatch] = useContext(Context);
     const { jackpot, betslipValidationData, jackpotData,showBetSlipFromTop, mobileslip } = props;
-    const [bongeBonusMessage, setBongeBonusMessage] = useState('Chagua mechi 3 au zaidi uweze kupata Bonge Bonus');
+    const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 games to win big Bonus');
     const [betslip] = useState(Object.keys(state?.betslip || {}).length);
     const [total_odds, setTotalOdds] = useState(1.0);
     const [showAppSlipPage, setShowAppSlipPage] = useState(false);
@@ -54,24 +54,24 @@ const Right = (props) => {
         }
         let centage = win_matrix[total_games];
         if (!(total_games in win_matrix)) {
-            setBongeBonusMessage("Chagua mechi 3 au zaidi uweze kupata Bonge Bonus")
+            setBongeBonusMessage("Select 3 games to win big Bonus")
             return;
         }
 
         let bonusAdvice = "";
         if (total_games == 1) {
-            bonusAdvice = "Ongeza mechi 2 uweza kupata WIN bonus ya 3% kuanzia mechi 3.";
+            bonusAdvice = "Add 2 more games to get 3% bonus starting from 3 games.";
         } else if (total_games == 2) {
-            bonusAdvice = "Ongeza mechi 1 uweza kupata WIN bonus ya 3% kuanzia mechi 3.";
+            bonusAdvice = "Add 1 more games to get 3% bonus starting from 3 games.";
         } else {
             if (total_games > 2 && total_games <= 16) {
                 var next_centage = win_matrix[total_games + 1]
-                bonusAdvice = "Hongera umepokea WIN bonus ya "
-                    + centage + "% kwa mechi " + total_games
-                    + " Ongeza mechi 1 uweza kupata WIN bonus ya " + next_centage + "%";
+                bonusAdvice = "Congratulations, you have Won "
+                    + centage + "% for " + total_games + "Games"
+                    + " Add 1 more to get " + next_centage + "%";
             } else if (total_games > 16) {
-                bonusAdvice = "Hongera umepokea WIN bonus ya "
-                    + centage + "% kwa mechi " + total_games;
+                bonusAdvice = "Congratulations, you have Won "
+                    + centage + "% for " + total_games + "games";
             }
         }
         setBongeBonusMessage(bonusAdvice);
@@ -112,24 +112,25 @@ const Right = (props) => {
     }
 
     return (
-        <div className="col-md-3 gn betslip-container sticky-top">
+        <div className="col-md-3 betslip-container sticky-top">
             <div className={`betslip-container ${mobileslip ? '' : 'd-none d-md-block'}` } >
                 {props?.message && <AlertMessage classname={props.classname} message={props.message} />}
                 <div className="bet-option-list sticky-top" id=''>
-                    <div className="bet alu block-shadow">
-                        <header>
-                            <div className="betslip-header">
-                                <span className="col-sm-2 bkmrk">
-                                    <i className="fa fa-bookmark" aria-hidden="true"></i></span>
-                                <span className="col-sm-8 slp">BETSLIP/JAMVI </span>
-                                <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
+                    <div className="bet alu block-shadow betslip-v2">
+                        <header className='betslip-header bg-secondary uppercase'>
+                            <div className="d-flx justify-content-between">
+                                <span className=" bkmrk">
+                                    <i className="fa fa-bookmark" aria-hidden="true"></i>
+                                </span>
+                                <span className="slp">{!jackpot ? "BETSLIP" : "JACKPOT"} </span>
+                                <span className="slip-counter">({Object.keys(state?.betslip || {}).length})</span>
                                 {Object.keys(state?.betslip || {}).length > 0 && (<span className="col-sm-2 float-end share-btn btn btn-light"
                                     style={{ marginTop: "4px", width: "fit-content" }}
                                     onClick={showShareModalDialog} ><span><FontAwesomeIcon icon={faShare} /> </span><span>Share</span></span>)}
 
                             </div>
                         </header>
-                        <div id="betslip" className="betslip">
+                        <div id="betslip-content" className="betslip-content">
                             { (!jackpot && bongeBonusMessage) && <BongeBetMarkupMessage /> }
                             <BetSlip jackpot={jackpot} betslipValidationData={betslipValidationData}
                                 jackpotData={jackpotData} />

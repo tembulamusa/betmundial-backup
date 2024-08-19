@@ -182,8 +182,20 @@ const BetSlip = (props) => {
         dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
     }
 
+    const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
+
+        let default_img = 'hipo'
+        let sport_image;
+        try {
+            sport_image = topLeagues ? require(`../../assets${sport_name}`) : require(`../../assets/${folder}/${sport_name}.svg`);
+        } catch (error) {
+            sport_image = require(`../../assets/${folder}/${default_img}.png`);
+        }
+        return sport_image
+    }
+
     return (
-        <div className="bet-body text-white">
+        <div className="">
             <div className="flow betslip-body" style={{maxHeight: "35vh", overflowY: "auto"}}>
                 <ul>
                     { Object.keys(betslipsData || {}).length === 0 &&
@@ -213,24 +225,31 @@ const BetSlip = (props) => {
                                     <input id={slip.match_id} type="submit" value="X"
                                            onClick={() => handledRemoveSlip(slip)}/>
                                 </div>
-                                
-                                <div className="row">
-                                    <div className="bet-value">{slip.bet_type ==  1 && <span style={{color:"red"}}>Live &nbsp;</span> }{`${slip.home_team} vs ${slip.away_team}`}
-                                        <br/><span className="sp_sport"></span>
-                                    </div>
+                                <div className="bet-value">
+                                        {
+                                            <span 
+                                                style={{
+                                                float: "left",
+                                                width: "auto",
+                                                fontWeight: "500"
+                                            }}>
+                                                <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
+                                                {`${slip.home_team} VS ${slip.away_team}`}
+                                            </span>}
+                                        {slip.bet_type === 0 && ' Pre-match'}
+                                        {slip.bet_type === 1 && ' Live'}
                                 </div>
                                 <div className="row">
                                     <div className="bet-value">
-                                        <span className="dark-primary-text">{slip.odd_type}</span>
+                                        {slip.odd_type} - {slip.bet_pick}
+                                        <span className="bet-odd">{slip.odd_value}
+                                                    {slip.odd_value === 1 &&
+                                                        (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
+                                                    }
+                                        </span>
                                     </div>
                                 </div>
-                                <div className="bet-pick">Pick: {slip.bet_pick}
-                                    <span className="bet-odd">{slip.odd_value}
-                                        {slip.odd_value === 1 &&
-                                            (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
-                                        }
-                            </span>
-                                </div>
+                                
                                 <div className="row">
                                     <div className="warn">{slip?.comment} </div>
                                 </div>
