@@ -26,7 +26,6 @@ const Float = (equation, precision = 4) => {
 const BetslipSubmitForm = (props) => {
 
     const {jackpot, totalGames, totalOdds, betslip, setBetslipsData, jackpotData, bonusBet} = props;
-    const [ipv4, setIpv4] = useState(null);
     const [message, setMessage] = useState(null);
     const [state, dispatch] = useContext(Context);
 
@@ -37,34 +36,7 @@ const BetslipSubmitForm = (props) => {
     const [possibleWin, setPossibleWin] = useState(0);
     const [netWin, setNetWin] = useState(0);
 
-    const [betslipKey, setBetslipKey] = useState("betslip");
-    const [hasBetslip, setHasBetslip] = useState(false);
-
     console.log("Loading jackpot", jackpot, state);
-
-    useEffect(() => {
-        if (jackpot) {
-            setBetslipKey("jackpotbetslip");
-        }
-    }, [jackpot]);
-
-    useEffect(() => {
-        if(state?.betslip || state?.jackpotbetslip){
-            if(Object.entries(state?.betslip || {}).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
-        } else {
-            setHasBetslip(false);
-        }
-    },[state?.betslip, state?.jackpotbetslip]);
-
-    const ipAddress = useCallback(async () => {
-        let ip = await publicIp.v4({
-            fallbackUrls: ['https://ifconfig.co/ip']
-        }).then((result) => {
-            return result
-        });
-
-        setIpv4(ip);
-    }, [ipv4]);
 
     const Alert = (props) => {
         let c = message?.status == 201 ? 'success' : 'danger';
@@ -85,9 +57,6 @@ const BetslipSubmitForm = (props) => {
         </>);
 
     };
-    useEffect(() => {
-        ipAddress();
-    }, [ipAddress])
 
 
     const handlePlaceBet = useCallback((values,
@@ -119,6 +88,14 @@ const BetslipSubmitForm = (props) => {
             setSubmitting(false);
             return false;
         }
+        const getIp = async () => {
+            let ipv4 = await publicIp.v4({
+                fallbackUrls: ['https://ifconfig.co/ip']
+            }).then((result) => {
+                return result
+            });
+            return ipv4;
+        }
 
         let payload = {
             bet_string: 'web',
@@ -128,7 +105,7 @@ const BetslipSubmitForm = (props) => {
             stake_amount: values.bet_amount,
             amount: values.bet_amount,
             bet_total_odds: totalOdds,
-            endCustomerIP: ipv4,
+            endCustomerIP: getIp(),
             channelID: 'web',
             slip: bs,
             account: 1,
@@ -303,8 +280,6 @@ const BetslipSubmitForm = (props) => {
             return (<FormikForm name="betslip-submit-form">
                 <Alert/>
 
-                {
-                hasBetslip && 
                     <div className='uppercase'>
                         <table className="bet-table !p-3 border-t border-gray-300 m-auto" style={{width:"96%"}}>
                             <tbody>
@@ -409,7 +384,6 @@ const BetslipSubmitForm = (props) => {
                             </tbody>
                         </table>
                     </div>
-            }
             </FormikForm>)
         }}
         </Formik>)

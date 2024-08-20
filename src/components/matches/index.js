@@ -251,10 +251,9 @@ const OddButton = (props) => {
     const [ucn, setUcn] = useState('');
     const [picked, setPicked] = useState('');
     const [oddValue, setOddValue] = useState(null);
-
+    let reference = match.match_id + "_selected";
     const [state, dispatch] = useContext(Context);
     const ref = useRef();
-    let reference = match.match_id + "_selected";
     const [betslip_key, setBetslipKey] = useState('betslip');
 
     const updateBeslipKey = useCallback(() => {
@@ -266,32 +265,6 @@ const OddButton = (props) => {
     useEffect(() => {
         updateBeslipKey();
     }, [updateBeslipKey])
-
-    // here
-
-    const updatePickedChoices = useCallback(() => {
-        let betslip = jackpot ? state?.[betslip_key] : (getBetslip() || {});
-        // let betslip = getBetslip() || {};
-        //console.log("UCN MATCH::::::::",match.sub_type_id)
-        let uc = clean(
-            match.match_id
-            + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
-            + (match?.[mkt] || match?.odd_key || mkt)
-        );
-        // here
-        // console.log(betslip?.[match.match_id]?.match_id)
-        // console.log(uc)
-        if ((betslip?.[match.match_id]?.match_id == match.match_id)
-            && uc == betslip?.[match.match_id]?.ucn) {
-            setPicked('picked');
-        } else {
-            setPicked('');
-        }
-    }, [picked, state[betslip_key]])
-
-    useEffect(() => {
-        updatePickedChoices();
-    }, [updatePickedChoices]);
 
     const updateOddValue = useCallback(() => {
         if (match) {
@@ -311,28 +284,47 @@ const OddButton = (props) => {
         updateOddValue();
     }, [updateOddValue]);
 
-    const updateMatchPicked = useCallback(() => {
-        if (state?.[reference]) {
-            if (state?.[reference].startsWith('remove.')) {
-                setPicked('');
-            } else {
-                let uc = clean(
-                    match.match_id
-                    + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
-                    + (match?.[mkt] || match?.odd_key || mkt)
-                );
-                // console.log(uc)
-                //
-                // console.log(state?.[reference])
-
-                if (state?.[reference] === uc) {
-                    setPicked('picked')
-                } else {
-                    setPicked('');
-                }
-            }
+    const updatePickedChoices = () => {
+        let betslip = state?.[betslip_key]
+        let uc = clean(
+            match.match_id
+            + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
+            + (match?.[mkt] || match?.odd_key || mkt)
+        );
+        if ((betslip?.[match.match_id]?.match_id == match.match_id)
+            && uc == betslip?.[match.match_id]?.ucn) {
+            setPicked('picked');
+        } else {
+            setPicked('');
         }
-    }, [state?.[reference]])
+    }
+    useEffect(() => {
+        updatePickedChoices();
+    }, [])
+
+
+   const updateMatchPicked = useCallback(() => {
+       if (state?.[reference]) {
+           if (state?.[reference].startsWith('remove.')) {
+               setPicked('');
+           } else {
+               let uc = clean(
+                   match.match_id
+                   + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
+                   + (match?.[mkt] || match?.odd_key || mkt)
+               );
+
+               if (state?.[reference] === uc) {
+                   console.log("match -- picked ", match.match_id);
+                   setPicked('picked')
+               } else {
+                   console.log("match not picked ", match.match_id);
+                   setPicked('');
+               }
+          }
+       }
+    }, [state?.[betslip_key][match.match_id]])
+
 
     useEffect(() => {
         updateMatchPicked();
@@ -352,7 +344,7 @@ const OddButton = (props) => {
         let away_team = event.currentTarget.getAttribute("away_team");
         let sport_name = event.currentTarget.getAttribute("sport_name");
         let market_active = event.currentTarget.getAttribute("market_active");
-        let cstm = clean(mid + "" + stid + oddk + (marketKey !== undefined ? marketKey : ''))
+        let cstm = clean(mid + "" + stid + oddk + (marketKey != undefined ? marketKey : ''))
 
         let slip = {
             "match_id": mid,
@@ -371,9 +363,7 @@ const OddButton = (props) => {
             "market_active": market_active,
         }
 
-        // console.log("Slip", slip)
-        // console.log(cstm)
-
+        setPicked('');
         if (cstm === ucn) {
             let betslip;
             if (picked === 'picked') {
@@ -381,13 +371,13 @@ const OddButton = (props) => {
                     ? removeFromSlip(mid)
                     : removeFromJackpotSlip(mid);
 
-                setPicked('');
+                dispatch({type: "SET", key: reference, payload: "remove."+cstm });
             } else {
                 betslip = jackpot !== true
                     ? addToSlip(slip)
                     : addToJackpotSlip(slip);
 
-                dispatch({type: "SET", key: reference, payload: cstm});
+                dispatch({type: "SET", key: reference, payload: cstm });
             }
             dispatch({type: "SET", key: betslip_key, payload: betslip});
         }

@@ -39,10 +39,8 @@ const BetSlip = (props) => {
             : getBetslip();
 
         setBetslipsData(b);
-    }, [state?.betslip, state?.jackpotbetslip]);
 
-    useEffect(() => {
-        if(state?.betslip || state?.jackpotbetslip){
+        if(b){
             setHasBetslip(true);
         } else {
             setHasBetslip(false);
@@ -50,7 +48,9 @@ const BetSlip = (props) => {
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
         console.log("This is state jackpotbetslip", state?.jackpotbetslip)
-    },[state?.betslip, state?.jackpotbetslip]);
+
+    }, [state?.betslip, state?.jackpotbetslip]);
+
 
     useEffect(() => {
         if (state[betslipKey]) {
@@ -160,6 +160,7 @@ const BetSlip = (props) => {
         }
         return sport_image
     }
+
     return (
         
         <div className="">
@@ -224,8 +225,7 @@ const BetSlip = (props) => {
                     totalOdds={totalOdds}
                     betslip={betslipsData}
                     setBetslipsData={setBetslipsData}
-                    totalGames={betslipsData
-                        ? Object.keys(betslipsData).length : 0}
+                    totalGames={betslipsData ? Object.keys(betslipsData).length : 0}
                     jackpot={is_jackpot}
                 />
             </div>
