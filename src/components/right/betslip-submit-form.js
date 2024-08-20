@@ -25,7 +25,7 @@ const Float = (equation, precision = 4) => {
 
 const BetslipSubmitForm = (props) => {
 
-    const {jackpot, totalGames, totalOdds, betslip, setBetslipsData, jackpotData, bonusBet} = props;
+    const {jackpot, jackpotData, bonusBet} = props;
     const [message, setMessage] = useState(null);
     const [state, dispatch] = useContext(Context);
 
@@ -35,6 +35,10 @@ const BetslipSubmitForm = (props) => {
     const [withholdingTax, setWithholdingTax] = useState(0);
     const [possibleWin, setPossibleWin] = useState(0);
     const [netWin, setNetWin] = useState(0);
+    const [betslipkey, setBetslipKey] = useState(() => jackpot ? "jackpotbetslip": "betslip")
+
+    const [totalGames, setTotalGames] = useState(0);
+    const [totalOdds, setTotalOdds] = useState(1);
 
     console.log("Loading jackpot", jackpot, state);
 
@@ -61,7 +65,7 @@ const BetslipSubmitForm = (props) => {
 
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
-        let bs = Object.values(betslip || []);
+        let bs = Object.values(state?.[betslipkey] || []);
 
         let slipHasOddsChange = false;
 
@@ -137,8 +141,7 @@ const BetslipSubmitForm = (props) => {
                     } else {
                         clearSlip();
                     }
-                    setBetslipsData(null);
-                    dispatch({type: "SET", key: jackpot ? 'jackpotbetslip' : 'betslip', payload: {}});
+                    dispatch({type: "DEL", key: jackpot ? 'jackpotbetslip' : 'betslip'});
                 } else {
                     let qmessage = {
                         status: status,
@@ -150,11 +153,22 @@ const BetslipSubmitForm = (props) => {
             })
     });
 
+
+
+
     const updateWinnings = useCallback(() => {
-        if (betslip) {
-            let stake_after_tax = Float(stake) / Float(112.5) * 100
+        if (state?.[betslipkey]) {
+
+            setTotalGames(Object.keys(state?.[betslipkey] ||{}).length);
+            
+            let odds = Object.values(state?.[betslipkey]||{}).reduce((previous, {odd_value}) => {
+                return previous * odd_value;
+            }, 1);
+            setTotalOdds(odds);
+
+            let stake_after_tax = Float(stake) / Float(107.5) * 100
             let ext = Float(stake) - Float(stake_after_tax);
-            let raw_possible_win = Float(stake_after_tax) * Float(totalOdds);
+            let raw_possible_win = Float(stake_after_tax) * Float(odds);
             if (jackpot) {
                 raw_possible_win = jackpotData?.jackpot_amount
             }
@@ -180,7 +194,7 @@ const BetslipSubmitForm = (props) => {
         if (message && message.status > 299) {
             setMessage(null);
         }
-    }, [betslip, stake, totalOdds]);
+    }, [state?.[betslipkey], stake]);
 
     const handleRemoveAll = useCallback(() => {
         let betslips = getBetslip();
@@ -195,7 +209,7 @@ const BetslipSubmitForm = (props) => {
 
             dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
         });
-        dispatch({type: "SET", key: "betslip", payload: {}});
+        dispatch({type: "DEL", key: jackpot ? "jackpotbetslip":"betslip"});
         setMessage(null);
     }, []);
 
@@ -207,7 +221,7 @@ const BetslipSubmitForm = (props) => {
         bet_amount: jackpot ? jackpotData?.bet_amount : bonusBet ? 30 : 100,
         accept_all_odds_change: true,
         user_id: state?.user?.profile_id,
-        total_games: totalGames,
+        total_games: state?.[betslipkey]?.length,
         total_odd: totalOdds,
     };
 
@@ -226,7 +240,7 @@ const BetslipSubmitForm = (props) => {
             setMessage({status: 400, message: errors.bet_amount});
             return errors;
         }
-        if (!betslip || Object.keys(betslip).length === 0) {
+        if (!state?.[betslipkey] || Object.keys(state?.[betslipkey]).length === 0) {
             errors.user_id = "No betlip selected";
             setMessage({status: 400, message: errors.user_id});
             return errors;
@@ -376,7 +390,7 @@ const BetslipSubmitForm = (props) => {
                                     </td>
                                     <td>
                                         <SubmitButton id="place_bet_button"
-                                                    disabled={jackpot && Object.entries(betslip || []).length != JSON.stringify(jackpotData?.total_games)}
+                                                    disabled={jackpot && Object.entries(state?.[betslipkey] || []).length != JSON.stringify(jackpotData?.total_games)}
                                                     className="place-bet-btn bold"
                                                     title="PLACE BET"/>
                                     </td>

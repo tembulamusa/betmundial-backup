@@ -29,7 +29,6 @@ const BetSlip = (props) => {
 
     const [betslipsData, setBetslipsData] = useState({});
     const [hasBetslip, setHasBetslip] = useState(false);
-    const [totalOdds, setTotalOdds] = useState(1);
 
     //initial betslip loading
 
@@ -41,6 +40,7 @@ const BetSlip = (props) => {
         setBetslipsData(b);
 
         if(b){
+
             setHasBetslip(true);
         } else {
             setHasBetslip(false);
@@ -106,19 +106,6 @@ const BetSlip = (props) => {
         validateBetslipwithDbData();
     }, [validateBetslipwithDbData]);
 
-    //betslip update
-    const updateBetslip = useCallback(() => {
-        if (betslipsData) {
-            let odds = Object.values(betslipsData).reduce((previous, {odd_value}) => {
-                return previous * odd_value;
-            }, 1);
-            setTotalOdds(odds);
-        }
-    }, [betslipsData]);
-
-    useEffect(() => {
-        updateBetslip();
-    }, [updateBetslip]);
 
     // betslip key watch
     const setJackpotSlipkey = useCallback(() => {
@@ -222,10 +209,6 @@ const BetSlip = (props) => {
             <div className="bottom">
                 <BetslipSubmitForm
                     jackpotData={localJPData}
-                    totalOdds={totalOdds}
-                    betslip={betslipsData}
-                    setBetslipsData={setBetslipsData}
-                    totalGames={betslipsData ? Object.keys(betslipsData).length : 0}
                     jackpot={is_jackpot}
                 />
             </div>

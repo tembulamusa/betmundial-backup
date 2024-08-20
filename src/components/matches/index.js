@@ -7,6 +7,7 @@ import {
     addToJackpotSlip,
     getBetslip
 } from '../utils/betslip';
+import {isDeepEqual} from '../utils/deep-equal';
 import {Col, Container, Dropdown,Spinner, Row} from 'react-bootstrap';
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
@@ -145,7 +146,7 @@ const MatchHeaderRow = (props) => {
                             {extraMarketDisplays?.map((extra_market) => (
                                 <div className={'d-flex flex-column'} key={extra_market.name}>
                                     <span className={'small text-center text-uppercase bold'}>
-                                        {extra_market.name}
+                                        {extra_market.name} 
                                     </span>
                                     <div className={'c-btn-group'}>
                                         <a className="c-btn-header" href='#/'>
@@ -315,7 +316,6 @@ const OddButton = (props) => {
                );
 
                if (state?.[reference] === uc) {
-                   console.log("match -- picked ", match.match_id);
                    setPicked('picked')
                } else {
                    console.log("match not picked ", match.match_id);
@@ -323,7 +323,7 @@ const OddButton = (props) => {
                }
           }
        }
-    }, [state?.[betslip_key][match.match_id]])
+    }, [state?.[betslip_key]?.[match.match_id]])
 
 
     useEffect(() => {
@@ -749,4 +749,4 @@ const MatchList = (props) => {
         </div>
     )
 }
-export default MatchList;
+export default React.memo(MatchList);

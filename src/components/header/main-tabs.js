@@ -16,7 +16,6 @@ const MainTabs = (props) => {
 
     const getSportOptionLabel = (sport_name, showCaret=false) => {
         return (<Row className="d-flex justify-content-start f-menu-item">
-            {/* <Col className="col-auto"><img src={sport_image} alt="" style={{width:"30px"}}/> </Col> */}
                     <Col className="col-auto">{sport_name}</Col>
                 
                     { showCaret && <Col className="col-auto"><FontAwesomeIcon icon={faCaretDown} /> </Col> }
@@ -198,65 +197,6 @@ const MainTabs = (props) => {
                         </div>
                     </div>
                 </div>
-                {/* <div className="filter-group-icon" key="1">
-                    <Dropdown>
-                        <Dropdown.Toggle id="dropdown-custom-components" variant="secondary" >
-                            { selectedSport?.label }
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu >
-                          {
-                              sports && sports.map((sport) => { 
-                                 return <Dropdown.Item 
-                                     key={sport.sport_id}
-                                     eventKey={sport.sport_id} 
-                                     onClick={() => handleSportsSelect(sport)}>{ sport.label}</Dropdown.Item> 
-                              })
-                          }
-                        </Dropdown.Menu>
-                      </Dropdown>
-                </div> */}
-                {/* <div className="filter-group-icon" key="2">
-                    <Dropdown>
-                        <Dropdown.Toggle id="dropdown-custom-components" variant="secondary" >
-                            { selectedCategory?.label }
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu variant="default">
-                          {
-                              sportCategories && sportCategories.map((category) => { 
-                                 return <Dropdown.Item 
-                                  key={category.category_id}
-                                  eventKey={category.category_id} 
-                                  onClick={() => handleCategorySelect(category)}>{ category.label}</Dropdown.Item> 
-                              })
-                          }
-                        </Dropdown.Menu>
-                      </Dropdown>
-                </div> */}
-
-                {/* { competitions && <div className="filter-group-icon" key="3">
-                    <Dropdown>
-                        <Dropdown.Toggle id="dropdown-custom-components" variant="secondary" >
-                            { selectedCompetition?.label }
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu variant="default">
-                          {
-                              competitions.top_soccer?.map((competition) => { 
-                                 return <Dropdown.Item 
-                                  key={competition.competition_id}
-                                  eventKey={competition.competition_id}>
-                                    <a href={`/competition/${competition.sport_id}/${competition.category_id}/${competition.competition_id}`}>
-                                        {competition?.competition_name}
-                                    </a>
-                                    </Dropdown.Item> 
-                              })
-                          }
-                        </Dropdown.Menu>
-                      </Dropdown>
-                </div> 
-               } */}
             </Row>
             <div className='py-2 my-2 mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
                 <Link

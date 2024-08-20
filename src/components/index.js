@@ -13,6 +13,7 @@ import {getBetslip} from './utils/betslip' ;
 import useInterval from "../hooks/set-interval.hook";
 import {Spinner} from "react-bootstrap";
 import NoEvents from "./utils/no-events";
+
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 const MatchList = React.lazy(() => import('./matches/index'));
@@ -26,21 +27,16 @@ const Index = (props) => {
     const [matches, setMatches] = useState([]);
     const [limit, setLimit] = useState(50);
     const [producerDown, setProducerDown] = useState(false);
-    const [threeWay, setThreeWay] = useState(false);
+    const [threeWay, setThreeWay] = useState(true);
     const [page, ] = useState(1);
     const [, setUserSlipsValidation] = useState();
     const [state, dispatch] = useContext(Context);
     const [fetching, setFetching] = useState(false)
     const homePageRef = useRef()
-    const [subTypes, setSubTypes] = useState("1,18,29");
-    const findPostableSlip = () => {
-        let betslips = getBetslip() || {};
-        var values = Object.keys(betslips).map(function (key) {
-            return betslips[key];
-        });
-        return values;
-    };
+    const [subTypes, setSubTypes] = useState("1,10,18");
 
+
+    console.log("Index is loading ", state)
 
     const fetchData = async () => {
         setFetching(true)
@@ -124,36 +120,16 @@ const Index = (props) => {
             let sp = state.categories.all_sports.find((sport) => sport.sport_id === spid);
             setSubTypes(state?.selectedmarkets || sp.default_display_markets);
         } 
-        let cachedSlips = getBetslip("betslip");
-        if (cachedSlips) {
-            dispatch({type: "SET", key: "betslip", payload: cachedSlips});
+        let cbetslip = getBetslip();
+
+        if(cbetslip) {
+            dispatch({type:"SET", key:"betslip", payload:cbetslip})
         }
         return () => {
             setDelay(null);
         };
     }, []);
 
-    useEffect(() => {
-        fetchData();
-    }, [subTypes]);
-
-    useEffect(() => {
-        checkThreeWay()
-    }, [subTypes]);
-
-
-    useEffect(() => {
-        let url = new URL(window.location);
-        setSubTypes(
-             state?.selectedmarkets ||  "1,18,29"
-        );
-    }, [state?.selectedmarkets]);
-
-    const listInnerRef = useRef();
-
-    const checkThreeWay = () => {
-        setThreeWay(subTypes.split(",").includes("1"))
-    }
 
     document.addEventListener('scrollEnd', (event) => {
         if (!fetching) {
@@ -168,8 +144,6 @@ const Index = (props) => {
             <div className="homepage" ref={homePageRef}>
                 <CarouselLoader/>
                 <MainTabs tab={location.pathname.replace("/", "") || 'highlights'} />
-                {/* <MobileCategories/> */}
-
                 {
                     <MatchList
                         live={false}
