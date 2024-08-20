@@ -21,6 +21,7 @@ const MatchList = React.lazy(() => import('./matches/index'));
 const Index = (props) => {
     const location = useLocation();
     const {sportid, categoryid, competitionid } = useParams();
+    const [delay, setDelay] = useState(5000);
 
     const [matches, setMatches] = useState([]);
     const [limit, setLimit] = useState(50);
@@ -99,7 +100,7 @@ const Index = (props) => {
 
     useInterval(async () => {
       fetchData();
-    }, 10000); 
+    }, delay); 
 
 
     useEffect(() => {
@@ -128,7 +129,7 @@ const Index = (props) => {
             dispatch({type: "SET", key: "betslip", payload: cachedSlips});
         }
         return () => {
-            setMatches(null);
+            setDelay(null);
         };
     }, []);
 

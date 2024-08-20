@@ -64,13 +64,10 @@ const MatchHeaderRow = (props) => {
     const [showX, setShowX] = useState(true);
     const [market, setMarket] = useState('1x2');
     const [marketCols, setMarketCols] = useState(3)
-    const [extraMarketDisplays, setExtraMarketDisplays] = useState([])
-
-    const getSelectedMarkets = () => {
 
 
-        const markets = [
-            
+
+    const extraMarketDisplays = [
             {
                 id: "10", 
                 name: "Double Chance", 
@@ -79,49 +76,6 @@ const MatchHeaderRow = (props) => {
                     "1X", "X2", "12"
                 ]
             },
-            // {
-            //     id: "29", 
-            //     name: "Both Teams to Score", 
-            //     extra_market_cols: 2, 
-            //     extra_markets_display: [
-            //         "NO", "YES"
-            //     ]
-            // },
-            // {
-            //     id: "219", 
-            //     name: "Winner (incl. overtime)", 
-            //     extra_market_cols: 2, 
-            //     extra_markets_display: [2, 1]
-            // },
-            // {
-            //     id: "186", 
-            //     name: "Winner", 
-            //     extra_market_cols: 2, 
-            //     extra_markets_display: [1, 2]
-            // },
-
-            // {
-            //     id: "202", 
-            //     name: "1 Set Winner", 
-            //     extra_market_cols: 2, 
-            //     extra_markets_display: [1, 2]
-            // },
-            // {
-            //     id: "406",
-            //     name: "Winner (incl. overtime and penalties)",
-            //     extra_market_cols: 2,
-            //     extra_markets_display: [
-            //         2, 1
-            //     ]
-            // },
-            // {
-            //     id: "340",
-            //     name: "Winner (incl. super over)",
-            //     extra_market_cols: 2,
-            //     extra_markets_display: [
-            //         1, 2
-            //     ]
-            // },
             {
                 id: "18", 
                 name: "Over/Under 2.5", 
@@ -130,26 +84,12 @@ const MatchHeaderRow = (props) => {
                     "Under", "Over"
                 ]
             }
-        ]
+        ];
 
 
-        let extraMarkets = markets
-
-        // sub_types?.split(",")?.forEach((sub_type) => {
-        //     let selectedMarket = markets.filter((market) => Number(market.id) === Number(sub_type))
-
-        //     if (selectedMarket.length > 0) {
-        //         extraMarkets.push(selectedMarket[0])
-        //     }
-        // })
-
-        setExtraMarketDisplays(extraMarkets)
-
-    }
 
 
     useEffect(() => {
-        getSelectedMarkets()
         if (first_match) {
             setSportName(first_match.sport_name);
             setMarket(first_match.market_name);
@@ -200,8 +140,8 @@ const MatchHeaderRow = (props) => {
                             </div>
                         </div>
                     }
-                    {!live && !jackpot && extraMarketDisplays.length > 0 && (
-                        <div className='hidden md:flex flex-row'>
+                    {!live && !jackpot && (
+                       <div className='hidden md:flex flex-row'>
                             {extraMarketDisplays?.map((extra_market) => (
                                 <div className={'d-flex flex-column'} key={extra_market.name}>
                                     <span className={'small text-center text-uppercase bold'}>
@@ -221,7 +161,7 @@ const MatchHeaderRow = (props) => {
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </div> 
                     )}
                     <div
                         className="bet-fix events-odd pad undefined align-self-center more-markets-container m-lg-2 col-3">
@@ -791,35 +731,31 @@ const MatchList = (props) => {
 
     return (
         <div className="matches full-width">
-
-            {matches.length > 0 && <MatchHeaderRow 
+            <MatchHeaderRow 
                  live={live} 
                 first_match={matches ? matches[0] : {}} 
                 fetching={fetching}
                 three_way={three_way}
                 sub_types={subTypes}
-                />}
+                />
 
-            {
+            <Container className="web-element">
+                {matches &&
+                    Object.entries(matches).map(([key, match]) => (
+                        <MatchRow 
+                            match={match} 
+                            key={key} 
+                            live={live} 
+                            pdown={pdown} 
+                            three_way={three_way}
+                            sub_types={subTypes}/>
+                    ))
+                }
+                {(matches.length === 0  && fetching === false) &&
 
-                <Container className="web-element">
-                    {matches &&
-                        Object.entries(matches).map(([key, match]) => (
-                            <MatchRow 
-                                match={match} 
-                                key={key} 
-                                live={live} 
-                                pdown={pdown} 
-                                three_way={three_way}
-                                sub_types={subTypes}/>
-                        ))
-                    }
-                    {(matches.length === 0  && fetching === false) &&
-
-                        <NoEvents/>
-                    }
-                </Container>
-            }
+                    <NoEvents/>
+                }
+            </Container>
         </div>
     )
 }
