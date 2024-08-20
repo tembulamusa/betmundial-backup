@@ -42,13 +42,12 @@ const BetSlip = (props) => {
 
         if(b){
             setHasBetslip(true);
+            
         } else {
             setHasBetslip(false);
         }
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
-        console.log("This is state jackpotbetslip", state?.jackpotbetslip)
-
     }, [state?.betslip, state?.jackpotbetslip]);
 
 
@@ -219,18 +218,21 @@ const BetSlip = (props) => {
                     }
                 </ul>
             </div>
+            </>
+            }
             <div className="bottom">
                 <BetslipSubmitForm
                     jackpotData={localJPData}
                     totalOdds={totalOdds}
                     betslip={betslipsData}
+                    hasbetslip = {hasBetslip}
                     setBetslipsData={setBetslipsData}
                     totalGames={betslipsData ? Object.keys(betslipsData).length : 0}
                     jackpot={is_jackpot}
                 />
             </div>
-            </>
-        }
+            
+        
         </div>
         
     )

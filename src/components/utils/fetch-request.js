@@ -33,6 +33,8 @@ const makeRequest = async ({url, method, data = null, use_jwt = false}) => {
         headers = {...headers, ...{"content-type": "application/json"}}
     }
 
+    
+
     const token = user?.token;
 
     if (token) {

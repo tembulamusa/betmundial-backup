@@ -1,8 +1,10 @@
+import { useContext } from 'react';
 import { 
     getFromLocalStorage, 
     setLocalStorage,
     removeItem
 } from './local-storage';
+import { Context } from '../../context/store';
 
 export const addToSlip = (slip) => {
     let current_slip = getFromLocalStorage('betslip');

@@ -17,6 +17,7 @@ import {
     useFormikContext,
     Field
 } from 'formik';
+import { isNull } from 'util';
 
 const Float = (equation, precision = 4) => {
     return Math.round(equation * (10 ** precision)) / (10 ** precision);
@@ -25,18 +26,24 @@ const Float = (equation, precision = 4) => {
 
 const BetslipSubmitForm = (props) => {
 
-    const {jackpot, totalGames, totalOdds, betslip, setBetslipsData, jackpotData, bonusBet} = props;
+    const {jackpot, totalGames, totalOdds, betslip, setBetslipsData, jackpotData, bonusBet, hasbetslip, showbetslipalert} = props;
     const [message, setMessage] = useState(null);
     const [state, dispatch] = useContext(Context);
-
     const [stake, setStake] = useState(jackpotData?.bet_amount ?? 100);
     const [stakeAfterTax, setStakeAfterTax] = useState(0);
     const [exciseTax, setExciseTax] = useState(0);
     const [withholdingTax, setWithholdingTax] = useState(0);
     const [possibleWin, setPossibleWin] = useState(0);
     const [netWin, setNetWin] = useState(0);
+    const [updatedErrors, setUpdatedErrors] = useState({})
+    // function to reset the message after a change in bet to be submitted
+    useEffect(() => {
+        if(totalGames > 0 ){setMessage(null)}
+        if(state?.user){
+            setMessage({});
+        }
+    }, [totalGames, state?.user]);
 
-    console.log("Loading jackpot", jackpot, state);
 
     const Alert = (props) => {
         let c = message?.status == 201 ? 'success' : 'danger';
@@ -58,14 +65,14 @@ const BetslipSubmitForm = (props) => {
 
     };
 
+    
 
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
         let bs = Object.values(betslip || []);
-
         let slipHasOddsChange = false;
-
         let jackpotMessage = 'jp'
+
 
         for (let slip of bs) {
             if (jackpot) {
@@ -114,7 +121,6 @@ const BetslipSubmitForm = (props) => {
         };
         let endpoint = '/bet';
         let method = "POST"
-        let use_jwt = !jackpot
         if (jackpot) {
             payload.message = jackpotMessage
             payload.jackpot_id = jackpotData?.jackpot_event_id
@@ -123,11 +129,12 @@ const BetslipSubmitForm = (props) => {
             method = "POST"
         }
 
-        makeRequest({url: endpoint, method: method, data: payload})
+        makeRequest({url: endpoint, method: method, data: payload, is_bet: true})
             .then(([status, response]) => {
-                setMessage(response)
+
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
-                    //all is good am be quiet
+                    setMessage(response);
+                    
                     if (jackpot) {
                         clearJackpotSlip();
                         setMessage({
@@ -231,7 +238,8 @@ const BetslipSubmitForm = (props) => {
             setMessage({status: 400, message: errors.user_id});
             return errors;
         }
-        return errors;
+        setUpdatedErrors(errors)
+        return updatedErrors;
     };
 
 
@@ -249,6 +257,7 @@ const BetslipSubmitForm = (props) => {
                     disabled={isSubmitting || disabled}>{isSubmitting ? " WAIT ... " : title}</button>
         );
     };
+
 
     return (
 
@@ -278,8 +287,8 @@ const BetslipSubmitForm = (props) => {
             }
 
             return (<FormikForm name="betslip-submit-form">
-                <Alert/>
-
+                    {<div className='mx-auto w-[95%]'><Alert/></div>}
+                    {hasbetslip &&
                     <div className='uppercase'>
                         <table className="bet-table !p-3 border-t border-gray-300 m-auto" style={{width:"96%"}}>
                             <tbody>
@@ -384,6 +393,7 @@ const BetslipSubmitForm = (props) => {
                             </tbody>
                         </table>
                     </div>
+                }
             </FormikForm>)
         }}
         </Formik>)
