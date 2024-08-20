@@ -249,7 +249,6 @@ const SideBets = (props) => {
 const OddButton = (props) => {
     const {match, mkt, detail, live, jackpot, subType, marketKey} = props
     const [ucn, setUcn] = useState('');
-    // console.log(ucn)
     const [picked, setPicked] = useState('');
     const [oddValue, setOddValue] = useState(null);
     let reference = match.match_id + "_selected";
@@ -700,7 +699,7 @@ export const JackpotMatchList = (props) => {
                     <MatchRow match={match} jackpot key={key}/>
                 ))
                 }
-                {(matches !== null && matches.length === 0) &&
+                {!matches &&
                     <div className="top-matches row">
                         No events found.
                     </div>
@@ -736,7 +735,7 @@ const MatchList = (props) => {
                         <MatchRow 
                             match={match} 
                             key={key} 
-                            live={live} 
+                            live={live}
                             pdown={pdown} 
                             three_way={three_way}
                             sub_types={subTypes}/>
