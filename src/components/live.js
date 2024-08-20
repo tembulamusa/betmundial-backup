@@ -38,7 +38,7 @@ const Live = (props) => {
             endpoint += "?spid=" + spid;
         }
         let betslip = findPostableSlip();
-        let method = betslip ? "POST" : "GET";
+        let method =  "GET";
         await makeRequest({url: endpoint, method: method, data: betslip}).then(([status, result]) => {
             if (status == 200) {
                 setMatches(result?.data || result)
@@ -56,7 +56,7 @@ const Live = (props) => {
             endpoint += "?spid=" + spid;
         }
         let betslip = findPostableSlip();
-        let method = betslip ? "POST" : "GET";
+        let method = "GET";
         const [match_result] = await Promise.all([
             makeRequest({url: endpoint, method: method, data: betslip})
         ]);

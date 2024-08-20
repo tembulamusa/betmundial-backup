@@ -40,6 +40,7 @@ const BetslipSubmitForm = (props) => {
     const [betslipKey, setBetslipKey] = useState("betslip");
     const [hasBetslip, setHasBetslip] = useState(false);
 
+    console.log("Loading jackpot", jackpot, state);
 
     useEffect(() => {
         if (jackpot) {

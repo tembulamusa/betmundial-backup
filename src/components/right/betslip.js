@@ -47,8 +47,9 @@ const BetSlip = (props) => {
         } else {
             setHasBetslip(false);
         }
-        setIsJackpot(state?.jackpotbetslip !== null);
+        setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
+        console.log("This is state jackpotbetslip", state?.jackpotbetslip)
     },[state?.betslip, state?.jackpotbetslip]);
 
     useEffect(() => {
