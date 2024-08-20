@@ -245,8 +245,6 @@ const BetslipSubmitForm = (props) => {
             setMessage({status: 400, message: errors.user_id});
             return errors;
         }
-        setUpdatedErrors(errors)
-        return updatedErrors;
     };
 
 
@@ -295,7 +293,6 @@ const BetslipSubmitForm = (props) => {
 
             return (<FormikForm name="betslip-submit-form">
                     {<div className='mx-auto w-[95%]'><Alert/></div>}
-                    {hasbetslip &&
                     <div className='uppercase'>
                         <table className="bet-table !p-3 border-t border-gray-300 m-auto" style={{width:"96%"}}>
                             <tbody>
@@ -400,7 +397,6 @@ const BetslipSubmitForm = (props) => {
                             </tbody>
                         </table>
                     </div>
-                }
             </FormikForm>)
         }}
         </Formik>)
