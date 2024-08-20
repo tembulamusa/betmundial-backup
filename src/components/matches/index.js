@@ -735,7 +735,7 @@ const MatchList = (props) => {
                         <MatchRow 
                             match={match} 
                             key={key} 
-                            live={live} 
+                            live={live}
                             pdown={pdown} 
                             three_way={three_way}
                             sub_types={subTypes}/>

@@ -24,7 +24,7 @@ const BetSlip = (props) => {
 
     const [state, dispatch] = useContext(Context);
     const [betslipKey, setBetslipKey] = useState(
-       () => state?.jackpotbetslip === 1? "jackpotbestslip":"bestslip"
+       () => state?.jackpotbetslip ? "jackpotbestslip":"bestslip"
     );
 
     const [betslipsData, setBetslipsData] = useState({});
@@ -36,19 +36,14 @@ const BetSlip = (props) => {
         let b = (state?.jackpotbetslip)
             ? getJackpotBetslip()
             : getBetslip();
-
         setBetslipsData(b);
-
         if(b){
-
             setHasBetslip(true);
         } else {
             setHasBetslip(false);
         }
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
-        console.log("This is state jackpotbetslip", state?.jackpotbetslip)
-
     }, [state?.betslip, state?.jackpotbetslip]);
 
 
@@ -206,14 +201,16 @@ const BetSlip = (props) => {
                     }
                 </ul>
             </div>
+            </>
+            }
             <div className="bottom">
                 <BetslipSubmitForm
                     jackpotData={localJPData}
                     jackpot={is_jackpot}
                 />
             </div>
-            </>
-        }
+            
+        
         </div>
         
     )
