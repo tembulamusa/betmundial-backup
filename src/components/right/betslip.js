@@ -106,6 +106,8 @@ const BetSlip = (props) => {
     const setJackpotSlipkey = useCallback(() => {
         if (state?.jackpotbetslip) {
             setBetslipKey("jackpotbetslip");
+        } else {
+            setBetslipKey("betslip")
         }
     }, [is_jackpot]);
 
@@ -114,7 +116,7 @@ const BetSlip = (props) => {
     }, [setJackpotSlipkey]);
 
     const handledRemoveSlip = (match) => {
-        let betslip = (state?.jackpotbetslip)
+        let betslip = (betslipKey === "betslip")
             ? removeFromSlip(match.match_id)
             : removeFromJackpotSlip(match.match_id);
 
