@@ -4,6 +4,7 @@ import CompanyInfo from './company-info';
 import BetSlip from './betslip';
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
 import {Badge} from "react-bootstrap";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -116,17 +117,22 @@ const LoadedBetslip = (props) => {
 
 
 const Right = (props) => {
-    const [tabKey, setTabKey] = useState("normal");
     const {jackpot, betslipValidationData, jackpotData} = props;
-    const location = useLocation();
-    const {pathname} = location;
+    const [state, dispatch] = useContext(Context);
 
+    const showShareModalDialog = () => {
+        dispatch({ type: "SET", key: "showsharemodal", payload: true })
+    }
     return (
         <>
         <div className="col-md-3 betslip-container sticky-top">
             <section id='betslip' className='betslip-v2'>
                 <div className='betslip-header bg-secondary uppercase'>
-                    Betslip
+                    Betslip 
+                    <span className="col-sm-2 slip-counter"> ({Object.keys(state?.betslip || {}).length})</span>
+                    {Object.keys(state?.betslip || {}).length > 0 && (<span className="col-sm-2 float-end share-btn btn btn-light"
+                                    style={{ width: "fit-content" }}
+                                    onClick={showShareModalDialog} ><span><FontAwesomeIcon icon={faShare} /> </span><span>Share</span></span>)}
                 </div>
                 <div id='betslip-content' className='betslip-content'>
                     <LoadedBetslip sliptype = "normal" jackpot={jackpot} jackpotData={jackpotData} betslipValidationData={betslipValidationData} />

@@ -461,6 +461,9 @@ h5, h4, h3, h2 {
   color: #aaaaaa;
 }
 
+.resp-sharing-button__icon svg {
+  width: 30px;
+}
 
 .is-jackpot-bet-group-btns {
   margin-left: auto !important

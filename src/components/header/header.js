@@ -1,5 +1,4 @@
 import React, {useEffect, useCallback, useState, useContext, useRef} from 'react';
-import {useNavigate} from "react-router-dom"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import {LazyLoadImage} from 'react-lazy-load-image-component';
@@ -9,12 +8,11 @@ import {ToastContainer} from 'react-toastify';
 import makeRequest from '../utils/fetch-request';
 import {setLocalStorage} from '../utils/local-storage';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-
+import ShareModal from "../sharemodal";
 import logo from '../../assets/img/logo2.png';
 import {Navbar} from "react-bootstrap";
 import MobileMenu from './mobile-menu';
 import MobileRightMenu from './mobile-right-menu';
-import MobileTabsMenu from "./mobile-tabs-menu.js";
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const HeaderNav = React.lazy(() => import('./header-nav'));
@@ -136,6 +134,9 @@ const Header = (props) => {
             {/* <Row className="tabs">
                 <MobileTabsMenu />
             </Row> */}
+
+        <ShareModal shown={state?.showsharemodal === true} />
+
         </>
 
     )
