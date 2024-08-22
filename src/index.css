@@ -237,9 +237,7 @@ h5, h4, h3, h2 {
   z-index: 9999;
 }
 
-.mobile-betslip-link {
 
-}
 
 .top-nav .slip-counter {
   background: #bc1b56;
@@ -379,6 +377,7 @@ h5, h4, h3, h2 {
 
 .justify-content-between {
   padding-right: 0 !important;
+  position: relative;
 }
 .matches .top-matches {
   background: #fff;
@@ -438,6 +437,17 @@ h5, h4, h3, h2 {
   margin-right: 6px;
 }
 
+.mobile-betslip-link {
+  display: inline-table;
+  background: rgba(255,255,255, 0.3);
+  padding: 10px;
+  position: absolute;
+  right: 0;
+  /* margin-left: 9px; */
+  height: 100%;
+  /* bottom: 0; */
+  top: 0px;
+}
 .mobile-menu-item-wrap {
   text-wrap: nowrap;
 }

@@ -1565,7 +1565,7 @@ header {
 
     .second-nav {
         /* top: 80px !important; */
-        margin-top: 65px;
+        margin-top: 60px;
     }
 
     .e {
@@ -1970,7 +1970,7 @@ events-header {
     .top-nav {
         top: -2px;
         padding-top: 0;
-        padding-bottom: 7px;
+        padding-bottom: 0px;
     }
   }
 

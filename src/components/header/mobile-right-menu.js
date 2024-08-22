@@ -30,7 +30,7 @@ const MobileRightMenu = (props) => {
                 <a href="#betslip" className="uppercase mobile-betslip-link text-center inline-block float-end ml-2" >
                     <div className="relative">
                         <FaFileAlt className="text-center m-auto" size={15}/>
-                        <span className="secondary-bg slip-counter">{ Object.entries(state?.betslip || {}).length || 0 }</span>
+                        <span className="secondary-bg slip-counter">{ Object.entries(state?.betslip || {}).length}</span>
                     </div>
                     <div className="mt-1 text-sm font-bold">betslip</div>
                 </a>
@@ -40,7 +40,7 @@ const MobileRightMenu = (props) => {
 
     return (
         <>
-            <div className=" mt-2">
+            <div className=" mt-2 mr-4">
                 <LoginLink />
                 <MobileSearch />
                 <MobileSlipLink />
