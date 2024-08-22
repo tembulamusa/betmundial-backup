@@ -187,7 +187,7 @@ const MyBets = (props) => {
 
     const PageTitle = () => {
        return (
-            <div className='col-md-12 primary-bg p-4 text-center'>
+            <div className='col-md-12 page-title p-4 text-center'>
                 <h4 className="inline-block">
                     MY BETS
                 </h4>
@@ -196,21 +196,11 @@ const MyBets = (props) => {
     }
     return (
         <>
-            <Header user={state?.user}/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <SideBar loadCompetitions/>
-                    <div className="gz home" style={{width: '100%'}}>
-                        <div className="homepage">
-                            <CarouselLoader/>
-                            <PageTitle />
-                            <MyBetsList  />
-                        </div>
-                    </div>
-                    <Right/>
-                </div>
+            <div className="homepage">
+                {/* <CarouselLoader/> */}
+                <PageTitle />
+                <MyBetsList  />
             </div>
-            <Footer/>
         </>
     )
 }

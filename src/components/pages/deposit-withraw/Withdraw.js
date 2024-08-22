@@ -47,7 +47,7 @@ const Withdrawal = (props) => {
 
     const FormTitle = () => {
        return (
-            <div className='col-md-12 primary-bg p-4 text-center'>
+            <div className='col-md-12 page-title p-4 text-center'>
                 <h4 className="inline-block">
                     WITHDRAW FUNDS (MOBILE MONEY)
                 </h4>
@@ -168,25 +168,13 @@ const Withdrawal = (props) => {
 
     return (
          <React.Fragment>
-             <Header/>
-             <div className="amt">
-                 <div className="d-flex flex-row justify-content-between">
-                     <SideBar loadCompetitions/>
-                     <div className="gz home" style={{width: '100%'}}>
-                         <div className="homepage">
-                      <FormTitle />
-                        <div className="col-md-12 mt-2  p-2">
-                            <Alert />
-                            <div className="modal-body pb-0" data-backdrop="static">
-                                 <WithdrawalForm />
-                            </div>
-                        </div>
-                    </div>
+            <FormTitle />
+            <div className="col-md-12 mt-2  p-2">
+                <Alert />
+                <div className="modal-body pb-0" data-backdrop="static">
+                    <WithdrawalForm />
                 </div>
-                <Right/>
-             </div>
-           </div>
-           <Footer/>
+            </div>
        </React.Fragment>
     )
 }
