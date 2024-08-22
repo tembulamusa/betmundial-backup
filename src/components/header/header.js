@@ -126,9 +126,11 @@ const Header = (props) => {
             </Row>
 
             {/* Only show if they are visible/third nav is available */}
-            <Row className="third-mobile-nav md:hidden border-b border-gray-200 mobile-custom-scrollbar">
-                <MobileCurrentNavItems />
-            </Row>
+            <div className='md:hidden w-full  mobile-custom-scrollbar overflow-scroll bg-[#ffffffb8]'>
+                <Row className="third-mobile-nav border-b border-gray-200 ml-0">
+                    <MobileCurrentNavItems />
+                </Row>
+            </div>
 
             {/* Only show if fourth nav is available/ tabs or so */}
             {/* <Row className="tabs">

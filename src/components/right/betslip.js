@@ -10,7 +10,9 @@ import {
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import CompanyInfo from "./company-info";
-
+import makeRequest from '../utils/fetch-request';
+import { setLocalStorage } from '../utils/local-storage';
+import { useParams } from 'react-router-dom';
 const clean_rep = (str) => {
     str = str.replace(/[^A-Za-z0-9\-]/g, '');
     return str.replace(/-+/g, '-');
@@ -21,12 +23,12 @@ const BetSlip = (props) => {
 
     const [is_jackpot, setIsJackpot] = useState(jackpot);
     const [localJPData, setLocalJPData] = useState(jackpotData);
-
+    const { code } = useParams();
     const [state, dispatch] = useContext(Context);
     const [betslipKey, setBetslipKey] = useState(
        () => state?.jackpotbetslip ? "jackpotbestslip":"bestslip"
     );
-
+    const [inputShareCode, setInputShareCode] = useState();
     const [betslipsData, setBetslipsData] = useState({});
     const [hasBetslip, setHasBetslip] = useState(false);
 
@@ -46,6 +48,35 @@ const BetSlip = (props) => {
         setLocalJPData(state?.jackpotdata);
     }, [state?.betslip, state?.jackpotbetslip]);
 
+    const fetchSharedBetslip = useCallback((code) => {
+        let endpoint = "/v1/share?code=" + code
+        makeRequest({url: endpoint, method: "GET", data: null}).then(([status, result]) => {
+            if (status == 200) {
+               //load betslip
+                if(result?.betslip) {
+                    setLocalStorage("betslip",result?.betslip);
+                    setBetslipsData(result?.betslip);
+                    dispatch({type: "SET", key: betslipKey, payload: result?.betslip});
+                }
+            }
+        });
+    }, [code])
+
+    const handleCodeInputChange = (event) => {
+        setInputShareCode(event.target.value);
+     };
+ 
+     const loadBetslipFromCode = () => {
+         if(inputShareCode) {
+             fetchSharedBetslip(inputShareCode); 
+         }
+     }
+ 
+     useEffect(() => {
+         if(code){
+             fetchSharedBetslip(code);
+         }
+     }, [fetchSharedBetslip])
 
     useEffect(() => {
         if (state[betslipKey]) {
@@ -148,9 +179,25 @@ const BetSlip = (props) => {
     return (
         
         <div className="">
+            { Object.keys(betslipsData || {}).length === 0 &&
+                <li className="bet-option hide-on-affix" key="no-slip-ai"
+                    style={{margin:"10px 0px 5px 0px", borderBottom:"none", padding:"0px 2px"}}>
+                    <div className='my-3 text-center text-2xl'>You have not selected any bet. <br/>Make your first pick to start playing.</div>
+                    <hr className='mb-3'/>
+                    <div className='flex px-2'>
+                        <input  type="text" name="sharecode"  placeholder=""  
+                            onChange={handleCodeInputChange}
+                            style={{border:"1px solid #ddd", borderRadius:"2px", margin:"0px 0px 0px", height:"30px"}}/>
+                        <button className="capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none rounded-xl text-white uppercase hover:opacity-80" style={{padding:"0px", fontSize:"10px", height:"30px", borderRadius:"0"}} onClick={loadBetslipFromCode}>Submit</button>
+                    </div>
+                </li>
+            }
             {hasBetslip  && <>
             <div className="flow" style={{maxHeight: "50vh", overflowY: "auto"}}>
                 <ul>
+
+                    
+
                     {Object.entries(betslipsData ?? {}).map(([match_id, slip]) => {
                         let odd = slip.odd_value;
                         let no_odd_bg = odd === 1 ? '#f29f7a' : '';

@@ -21,9 +21,9 @@ const MobileCurrentNavItems = (props) => {
         return (
             <>
                 {categories?.all_sports?.map((category, idx) => (
-                    <div className="inline mobile-categories-item px-3 py-1 bg-white border border-gray-100 rounded-md" style={{maxWidth:"100px"}}>
+                    <div className="inline mobile-categories-item px-2 py-2 bg-white border border-gray-100 rounded-md" style={{maxWidth:"100px"}}>
                         <img src={getSportImageIcon(category?.sport_name)} alt="" className="mx-auto mobile-second-nav-icon" />
-                        <div className="text-center">{category?.sport_name}</div>
+                        <div className="text-center mobile-menu-item-wrap">{category?.sport_name}</div>
                     </div>
                 ))}
             </>

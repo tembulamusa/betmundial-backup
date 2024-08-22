@@ -422,18 +422,24 @@ h5, h4, h3, h2 {
 }
 
 .mobile-second-nav-icon {
-  width: 40px;
-  height: 20px;
+  width: 40px !important;
+  height: 40px;
 }
 
 .third-mobile-nav {
-  padding: 5px 10px;
+  padding: 5px 4px;
   background: #ffffffb8;
   border-bottom: 1px solid #fff;
+  flex-wrap: nowrap;
+  width: 105%;
 }
 
 .mobile-categories-item {
   margin-right: 6px;
+}
+
+.mobile-menu-item-wrap {
+  text-wrap: nowrap;
 }
 
 .ps-menu-button.ps-open {
@@ -465,6 +471,12 @@ h5, h4, h3, h2 {
   width: 30px;
 }
 
+.bonge-bonus {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}
 .is-jackpot-bet-group-btns {
   margin-left: auto !important
 }
