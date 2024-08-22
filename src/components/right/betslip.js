@@ -47,7 +47,7 @@ const BetSlip = (props) => {
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
     }, [state?.betslip, state?.jackpotbetslip]);
-
+    
     const fetchSharedBetslip = useCallback((code) => {
         let endpoint = "/v1/share?code=" + code
         makeRequest({url: endpoint, method: "GET", data: null}).then(([status, result]) => {
@@ -140,6 +140,7 @@ const BetSlip = (props) => {
         } else {
             setBetslipKey("betslip")
         }
+        dispatch({type: "SET", key:"isjackpot", payload: is_jackpot})
     }, [is_jackpot]);
 
     useEffect(() => {
@@ -171,7 +172,12 @@ const BetSlip = (props) => {
         try {
             sport_image = topLeagues ? require(`../../assets${sport_name}`) : require(`../../assets/${folder}/${sport_name}.svg`);
         } catch (error) {
+            
             sport_image = require(`../../assets/${folder}/${default_img}.png`);
+            if (is_jackpot) {
+                sport_image = require(`../../assets/${folder}/Soccer.svg`);
+            }
+            
         }
         return sport_image
     }

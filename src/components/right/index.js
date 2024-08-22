@@ -39,11 +39,11 @@ const SlipCounter = (props) => {
 }
 const LoadedBetslip = (props) => {
 
-    const {jackpot, betslipValidationData, jackpotData} = props;
+    const {betslipValidationData, jackpotData} = props;
     const [betSlipMobile, setBetSlipMobile] = useState(false);
-    const [state, dispatch] = useContext(Context);
-
-    const [hasBetslip, setHasBetslip] = useState(false);
+    const [state,] = useContext(Context);
+    const [, setHasBetslip] = useState(false);
+    const [jackpot, ] = useState(state?.isjackpot);
 
     useEffect(() => {
         if(state?.betslip || state?.jackpotbetslip){
@@ -52,7 +52,6 @@ const LoadedBetslip = (props) => {
             setHasBetslip(false);
         }
     },[state?.betslip, state?.jackpotbetslip]);
-    
     return (
         <>
             <div className="betslip-container block">
@@ -100,10 +99,10 @@ const LoadedBetslip = (props) => {
 
 
 const Right = (props) => {
-    const {jackpot, betslipValidationData, jackpotData} = props;
+    const {betslipValidationData, jackpotData} = props;
     const [state, dispatch] = useContext(Context);
-    const [bongeBonusMessage, setBongeBonusMessage] = useState('Chagua mechi 3 au zaidi uweze kupata Bonge Bonus');
-
+    const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
+    // const [jackpot, set] = useState(state?.isjackpot)
 
     
     const showShareModalDialog = () => {
@@ -122,24 +121,24 @@ const Right = (props) => {
         }
         let centage = win_matrix[total_games];
         if (!(total_games in win_matrix)) {
-            setBongeBonusMessage("Chagua mechi 3 au zaidi uweze kupata Bonge Bonus")
+            setBongeBonusMessage("Select 3 or more games to win big bonus")
             return;
         }
 
         let bonusAdvice = "";
         if (total_games == 1) {
-            bonusAdvice = "Ongeza mechi 2 uweza kupata WIN bonus ya 3% kuanzia mechi 3.";
+            bonusAdvice = "Add 2 games to WIN a bonus of 3%";
         } else if (total_games == 2) {
-            bonusAdvice = "Ongeza mechi 1 uweza kupata WIN bonus ya 3% kuanzia mechi 3.";
+            bonusAdvice = "Add 1 game to WIN a bonus of 3%";
         } else {
             if (total_games > 2 && total_games <= 16) {
                 var next_centage = win_matrix[total_games + 1]
-                bonusAdvice = "Hongera umepokea WIN bonus ya "
-                    + centage + "% kwa mechi " + total_games
-                    + " Ongeza mechi 1 uweza kupata WIN bonus ya " + next_centage + "%";
+                bonusAdvice = "Congratulations! You have won a bonus of "
+                    + centage + "% on " + total_games
+                    + " games. Add 1 game to WIN a " + next_centage + "% bonus";
             } else if (total_games > 16) {
-                bonusAdvice = "Hongera umepokea WIN bonus ya "
-                    + centage + "% kwa mechi " + total_games;
+                bonusAdvice = "Congratulations! You have won a bonus of "
+                    + centage + "% on " + total_games + " games";
             }
         }
         setBongeBonusMessage(bonusAdvice);
@@ -158,10 +157,11 @@ const Right = (props) => {
         updateBongeBonusMessage();
     }, [state?.betslip])
 
-
     const BongeBetMarkupMessage = () => {
         return (
-            Object.keys(state?.betslip || {}).length > 0 && <div className="bonge-bonus" style={{padding: "5px", background: "#fbd702", marginTop: "10px" }} >
+            (!state?.isjackpot && Object.keys(state?.betslip || {}).length > 0) 
+            && 
+            <div className="bonge-bonus" style={{padding: "5px", background: "#fbd702", marginTop: "10px" }} >
                 <div className="" >
                     <div className="" id="bonus-centage-advice" style={{ fontWeight: "100" }}>{bongeBonusMessage}</div>
                 </div>
@@ -173,15 +173,15 @@ const Right = (props) => {
         <div className="col-md-3 betslip-container sticky-top">
             <section id='betslip' className='betslip-v2'>
                 <div className='betslip-header bg-secondary uppercase'>
-                    Betslip 
-                    <span className="col-sm-2 slip-counter"> ({Object.keys(state?.betslip || {}).length})</span>
-                    {Object.keys(state?.betslip || {}).length > 0 && (<span className="col-sm-2 float-end share-btn btn btn-light"
+                    {state?.isjackpot ? "jackpot" : "Betslip" }
+                    {!state?.isjackpot  && <span className="col-sm-2 slip-counter"> ({Object.keys(state?.betslip || {}).length})</span>}
+                    {Object.keys(state?.betslip || {}).length > 0 && (<span className="col-sm-2 !float-end share-btn btn btn-light"
                                     style={{ width: "fit-content" }}
                                     onClick={showShareModalDialog} ><span><FontAwesomeIcon icon={faShare} /> </span><span>Share</span></span>)}
                 </div>
                 <div id='betslip-content' className='betslip-content'>
-                    { (!jackpot && bongeBonusMessage) && <BongeBetMarkupMessage /> }
-                    <LoadedBetslip sliptype = "normal" jackpot={jackpot} jackpotData={jackpotData} betslipValidationData={betslipValidationData} />
+                    { (!state?.jackpot && bongeBonusMessage) && <BongeBetMarkupMessage /> }
+                    <LoadedBetslip sliptype = "normal" jackpot={state?.jackpot} jackpotData={jackpotData} betslipValidationData={betslipValidationData} />
                 </div>
             </section>
             <section className='betslip-paybill bg-secondary'>

@@ -1520,15 +1520,7 @@ header {
     }
 
     .slip-counter {
-        background: #bc1b56;
-        text-align: center;
-        color: #fff;
-        font-size: 20px;
-        padding: 0 5px;
-        display: inline-block;
-        margin: -5px -1px -5px;
-        border-radius: 100px;
-        width: 30px;
+       
     }
 
     #slip-holder {
@@ -7117,17 +7109,7 @@ ul.sport {
         font-size: 12px;
     }
 
-    .slip-counter {
-        background: #bc1b56;
-        text-align: center;
-        color: #fff;
-        font-size: 20px;
-        padding: 0 5px;
-        display: inline-block;
-        margin: -5px -1px -5px;
-        border-radius: 100px;
-        width: 30px;
-    }
+  
 
     #slip-holder {
         position: fixed;
