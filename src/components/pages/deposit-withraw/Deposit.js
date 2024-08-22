@@ -183,25 +183,15 @@ const Deposit = (props) => {
 
     return (
         <React.Fragment>
-            <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <SideBar loadCompetitions/>
-                    <div className="gz home" style={{width: '100%'}}>
-                        <div className="homepage">
-                            <FormTitle/>
-                            <div className="col-md-12 mt-2  p-2">
-                                <Alert/>
-                                <div className="modal-body pb-0" data-backdrop="static">
-                                    <DepositForm/>
-                                </div>
-                            </div>
-                        </div>
+            <div className="homepage">
+                <FormTitle/>
+                <div className="col-md-12 mt-2  p-2">
+                    <Alert/>
+                    <div className="modal-body pb-0" data-backdrop="static">
+                        <DepositForm/>
                     </div>
-                    <Right/>
                 </div>
             </div>
-            <Footer/>
         </React.Fragment>
     )
 

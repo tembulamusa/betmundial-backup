@@ -175,7 +175,7 @@ const Right = (props) => {
                 <div className='betslip-header bg-secondary uppercase'>
                     {state?.isjackpot ? "jackpot" : "Betslip" }
                     {!state?.isjackpot  && <span className="col-sm-2 slip-counter"> ({Object.keys(state?.betslip || {}).length})</span>}
-                    {Object.keys(state?.betslip || {}).length > 0 && (<span className="col-sm-2 !float-end share-btn btn btn-light"
+                    {Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0 && (<span className="col-sm-2 !float-end share-btn btn btn-light"
                                     style={{ width: "fit-content" }}
                                     onClick={showShareModalDialog} ><span><FontAwesomeIcon icon={faShare} /> </span><span>Share</span></span>)}
                 </div>
