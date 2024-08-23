@@ -10,6 +10,10 @@ import {
 } from 'react-accessible-accordion';
 
 import '../assets/css/accordion.react.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import 'react-accessible-accordion/dist/fancy-example.css';
+import { FaCheckCircle } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
 
 const Header = React.lazy(()=>import('./header/header'));
 const Footer = React.lazy(()=>import('./footer/footer'));
@@ -19,30 +23,31 @@ const Right = React.lazy(()=>import('./right/index'));
 
 const Styles = {
    container: {
-       background:'#22323e !important',
    },
    headers: {
-       background:'#613354',
-       color:'#ffffff',
-       padding: '10px 40px 10px',
-       fontSize: '12px'
+    //    background:'#613354',
+    //    color:'#ffffff',
+    //    padding: '10px 40px 10px',
+    //    fontSize: '12px'
    },
    bet:{
-       background:'#947389',
-       color:'#fff',
-       padding: '5px',
+    //    background:'#947389',
+    //    color:'#fff',
+    //    padding: '5px',
    }
 };
 
 const MyBets = (props) => {
     const [state, dispatch] = useContext(Context);
     const [isLoading, setIsLoading] = useState(false);
+    const [betslip, setCurrentBetDetail] = useState([]);
+    const [selectedBetId, setSelectedBetId] = useState(null);
 
     const fetchData = useCallback(async() => {
         if(isLoading) return;
         setIsLoading(true);
-        let endpoint = "/v1/full/betdetails?limit=";
-        makeRequest({url: endpoint, method: "POST", data: null}).then(([status, result]) => {
+        let endpoint = "/v1/mybets";
+        makeRequest({url: endpoint, method: "POST", data: {limit:"100", page:"1"}}).then(([status, result]) => {
             dispatch({type: "SET", key: "mybets", payload: result});
             setIsLoading(false);
         });
@@ -53,16 +58,30 @@ const MyBets = (props) => {
        fetchData();
     }, [fetchData]);
 
+    const fetchBetDetail = useCallback(async() => {
+        if(isLoading) return;
+        setIsLoading(true);
+        let endpoint = "/v1/betdetails";
+        makeRequest({url: endpoint, method: "POST", data: {id:selectedBetId}}).then(([status, result]) => {
+            setCurrentBetDetail(result?.data);
+            setIsLoading(false);
+        });
+
+    }, [selectedBetId])
+
+    useEffect(() => {
+        fetchBetDetail();
+    }, [fetchBetDetail])
     const BetItemHeader = (props) => {
         return (
-            <div className={`container`} style={Styles.headers}>
-                <div className="row">
-                    <div className="col">CREATED</div>
+            <div className={`my-bets-header`} style={Styles.headers}>
+                <div className="row uppercase">
                     <div className="col">ID</div>
+                    <div className="col">SECTION</div>
+                    <div className="col">CREATED</div>
                     <div className="col">GAMES</div>
-                    <div className="col">BET AMOUNT</div>
-                    <div className="col">POSSIBLE WIN</div>
-                    <div className="col">TAX</div>
+                    <div className="col">AMOUNT</div>
+                    <div className="col">Payout</div>
                     <div className="col">Status</div>
                 </div>
             </div>
@@ -70,7 +89,6 @@ const MyBets = (props) => {
     }
     const BetItem = (props) => {
         const { bet } = props;
-
         const [betStatus, setBetStatus] = useState(bet.status_desc);
         const [canCancel, setCanCancel] = useState(bet.can_cancel === 1);
 
@@ -88,100 +106,196 @@ const MyBets = (props) => {
             });
         };
 
-        const cancelBetMarkup = () => {
+        const CancelBetMarkup = () => {
             return (
-                <div className="col">
-                    <button
+                    canCancel && <button
                          title="Cancel Bet"
-                         className="col btn btn-sm place-bet-btn "
-                         onClick={()=> cancelBet()} 
+                         className="secondary-text btn btn-sm cancel-bet secondary-ation"
+                         onClick={()=> cancelBet()}
                          >
-                         Cancel
+                         Cashout
                     </button>
-                </div>
             )
         }
 
+        
+
+        const statusMarkup = (bet) => {
+            let btnClass;
+            let btnText; 
+            let statusText;
+            switch (bet?.status) {
+                
+                case 1:
+                    btnClass = "active-bet";
+                    btnText = "active";
+                    break;
+                case 2:
+                    btnClass = "won-bet";
+                    btnText = "won";
+                    break;
+                case 3:
+                    btnClass = "lost-bet";
+                    btnText = "lost"
+                    break;
+                case 4:
+                    btnClass = "cancelled-bet"
+                    btnText = "cancelled"
+                    break;
+                default:
+                    statusText = "pending"
+            }
+            return (
+                <>
+                  {btnClass && <button className = {`btn btn-bet-hist ${btnClass}`}>{btnText}</button>}
+                  {statusText && statusText}
+                </>
+            )
+        }
         return (
-            <div className={`container`} style={Styles.bet} key={bet.bet_id}>
-                <div className="row">
-                    <div className="col">Time { bet.created}</div>
-                    <div className="col">Bet ID { bet.bet_id}</div>
-                    <div className="col">Amount KES { bet.bet_amount}</div>
-                    <div className="col">Possible Win KES { bet.possible_win}</div>
-                    { canCancel == false 
-                        ? <div className="col"> Status { betStatus}</div>
-                        : cancelBetMarkup() 
-                    }
-                </div>
-            </div>
+                    <AccordionItem onClick={() => setSelectedBetId(bet.bet_id)} key={bet?.bet_id}>
+                        <AccordionItemHeading>
+                            <AccordionItemButton>
+                                <div className="col text-gray-400 font-light">{ bet.bet_id}</div>
+                                <div className="col">{ bet.bet_type}</div>
+                                <div className="col">{ bet.created}</div>
+                                <div className="col">{ bet.total_matches}</div>
+                                <div className="col">{ bet.bet_amount}</div>
+                                <div className="col">{ bet.possible_win}</div>
+                                { CancelBetMarkup() } 
+                                { statusMarkup(bet) }
+                            </AccordionItemButton>
+                        </AccordionItemHeading>
+                        <AccordionItemPanel>
+                            <div className="bet-detail-header">
+                                <span>Share</span><span>Cashout</span>
+                            </div>
+                            <table className="table !mt-3 !mb-0">
+                                <thead>
+                                    <BetslipHeader />
+                                </thead>
+                                <tbody>
+                                    { (betslip && betslip[0]?.bet_id == bet?.bet_id) && betslip?.map((slip) => (
+                                        <BetslipItem
+                                        slip={slip}
+                                        key={slip.game_id}
+                                        />
+                                    ))
+                                    }
+                                    { isLoading && <tr><td>Loading ...</td></tr>}
+                                </tbody>
+                            </table>    
+                        </AccordionItemPanel>
+                    </AccordionItem>            
         );
     }
 
     const BetslipHeader = () => {
         
         return (
-            <div className={`container slipheader`} >
-                <div className="row">
-                    <div className="col">Start</div>
-                    <div className="col">Home</div>
-                    <div className="col">Away</div>
-                    <div className="col">MKT</div>
-                    <div className="col">Odds</div>
-                    <div className="col">Pick</div>
-                    <div className="col">Outcome</div>
-                    <div className="col">FT</div>
-                    <div className="col">Status</div>
-                </div>
-            </div>
+            <tr className={`betslip-header`} >
+                    <td className="">No.</td>
+                    <td className="">ID</td>
+                    <td className="">Date</td>
+                    <td className="">Game</td>
+                    <td className="">Odds</td>
+                    <td className="">Market</td>
+                    <td className="">Pick</td>
+                    <td className="">Results</td>
+                    <td className="">3/4</td>
+                    
+            </tr>
         )
     }
 
-    const BetslipItem = (props) => {
-        const { betslip } = props;
+    const gameBetStatus = (props) => {
+        const {status} = props;
 
-		
+        let icon;
+        let colorClass;
+        let textDisp;
+        switch (status){
+            case 2:
+                icon = <FaCheckCircle />
+                // textDisp = "";
+                colorClass = "blue"
+                break;
+
+            case 3:
+                icon= <MdCancel />
+                // textDisp = "";
+                colorClass = "lost"
+                break;
+
+            case 1:
+                textDisp = "";
+                // colorClass = "success";
+                break;
+            case 4:
+                textDisp = "cancelled"
+                break;
+            case 5:
+                textDisp = ""
+                break;
+            default:
+                textDisp = "";
+                // colorClass = "lost";
+            
+        }
+
         return (
-            <div className={`container kumbafu`}  key={betslip.game_id}>
-                <div className="row">
-                    <div className="col">{ betslip.start_time}</div>
-                    <div className="col">{ betslip.home_team}</div>
-                    <div className="col">{ betslip.away_team}</div>
-                    <div className="col">{ betslip.market}</div>
-                    <div className="col">{ betslip.odd_value}</div>
-                    <div className="col">{ betslip.bet_pick}</div>
-                    <div className="col">{ betslip.outcomes}</div>
-                    <div className="col">{ betslip.ft_result}</div>
-                    <div className="col">{ betslip.status}</div>
-                </div>
-            </div>
+            <>
+                
+                {icon && <span className={`results-icon ${colorClass}`}>{icon}</span>}
+                {textDisp && textDisp}
+            </>
+        )
+    
+    }
+    const BetslipItem = (props) => {
+		const {slip} = props
+        return (
+            <tr className={`my-bets`}  key={slip.game_id}>
+                <td className="">{ 1}</td>
+                <td className="">{ slip.game_id}</td>
+                <td className="">{ slip.start_time}</td>
+                <td className="">{ slip.home_team} - {slip.away_team}</td>
+                <td className="">{ slip.odd_value}</td>
+                <td className="">{ slip.market}</td>
+                <td className="">{ slip.bet_pick}</td>
+                <td className="">{ slip.results?.length > 0 ? slip.results : "--"}</td>
+                {/* <td className="">{ slip.ft_result}</td> */}
+                <td className="">{ gameBetStatus(slip.status)}</td>
+            </tr>
         )
     }
 
     const MyBetsList = (props) => {
 		return (
-         <div className="row" >
-			{state?.mybets && state.mybets.map((bet) => (
+            <>
+            <BetItemHeader />
+            <Accordion 
+                className="accordion"
+                allowMultipleExpanded={false}
+                // uuid = {}
+                >
+			    {state?.mybets && (state?.mybets || []).map((bet) => (
+                <>
+                
 				<div className="mybet-list" 
                     key = {bet.bet_id} 
                     uuid = { bet.bet_id }
+                    onClick={() => setSelectedBetId(bet.bet_id)}
 					>
-					<div className="bet-item">
-							<BetItem bet={bet}  key={bet.id}/>
-					</div>
-                     <BetslipHeader />
-					{  bet.betslip?.map((betslip) => (
-                         <BetslipItem 
-                            betslip={betslip}  
-                            key={betslip.bet_slip_id}
-                         />  
-                       ))
-                    }
-                    { isLoading && <p>Loading ... </p>}
+						<BetItem bet={bet}  key={bet.bet_id}/>
+                    
 				</div>
+                </>
 			))}
-		</div>
-	    );
+            </Accordion>
+        
+            </>
+        );
 
     }
 

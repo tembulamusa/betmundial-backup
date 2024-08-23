@@ -110,6 +110,7 @@ code {
   font-weight: 500;
   text-transform: capitalize;
   font-size: 20px;
+  margin-bottom: 15px;
 }
 
 h5, h4, h3, h2 {
@@ -489,4 +490,125 @@ h5, h4, h3, h2 {
 }
 .is-jackpot-bet-group-btns {
   margin-left: auto !important
+}
+
+.my-bets-header {
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.results-icon {
+  display: inline-block;
+}
+
+.results-icon.success {
+  color: #00A8FA;
+}
+.results-icon.lost {
+  color: #999999;
+}
+
+.table>:not(caption)>*>* {
+  padding: 0;
+  border-bottom: none;
+}
+
+.my-bets td {
+  padding: 10px;
+}
+
+.betslip-header td {
+  padding: 5px 10px;
+}
+
+
+.mybet-list .accordion__panel {
+  padding: 10px 10px 0;
+}
+
+.mybet-list table {
+  margin-top: 30px !important;
+}
+
+.mybet-list thead td {
+  background: rgba(0,0,0,0.20);
+}
+
+tr.my-bets {
+  border-bottom: 5px solid #ffffff;
+}
+tr.my-bets td {
+  background: rgba(0,0,0, 0.042) !important;
+}
+
+.accordion .mybet-list {
+  margin-bottom: 10px;
+  width: 98%;
+  margin-left: auto;
+  border-radius: 5px;
+  margin-right: auto;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.31);
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.31);
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.31);
+}
+
+.accordion {
+  border: 0;
+  border-radius: 2px;
+}
+
+.accordion__button {
+  background-color: rgba(0,0,0,0.04);
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  font-weight: 500;
+  text-align: left;
+  border: none;
+}
+
+.cancel-bet {
+  border: 2px solid #FFB200 !important;
+  border-radius: 5px !important;
+  outline: none;
+  height: auto;
+  font-weight: 500;
+  margin-right: 7px;
+  font-size: 12px;
+}
+
+.btn-sm {
+  padding: 6px 12px !important;
+}
+
+.mybet-list .accordion__button:before {
+  display: none;
+}
+
+
+
+.btn-bet-hist {
+  background: #99999E;
+  color: #17242F;
+  text-transform: uppercase;
+  margin-left: 3px;
+  font-weight: bold;
+  font-size: 12px;
+  border-radius: 3px;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+
+.btn-bet-hist.active-bet {
+  color: #ffffff;
+  background: green;
+}
+
+.btn-bet-hist.won-bet {
+  color: #ffffff;
+  background: #0000ffad;
 }
