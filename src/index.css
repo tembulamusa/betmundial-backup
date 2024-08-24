@@ -526,15 +526,15 @@ h5, h4, h3, h2 {
 
 
 .mybet-list .accordion__panel {
-  padding: 10px 10px 0;
+  padding: 10px 10px 20px;
 }
 
 .mybet-list table {
-  margin-top: 30px !important;
+  margin-top: 10px !important;
 }
 
 .mybet-list thead td {
-  background: rgba(0,0,0,0.20);
+  background: rgba(0,0,0,0.020);
 }
 
 tr.my-bets {
@@ -611,4 +611,18 @@ tr.my-bets td {
 .btn-bet-hist.won-bet {
   color: #ffffff;
   background: #0000ffad;
+}
+
+
+.light-btn {
+  background: transparent;
+  border: 1px solid #aaaaaa !important;
+}
+
+
+.open-close-accordion {
+  font-size: 22px;
+  font-weight: bolder;
+  margin-top: 5px;
+  margin-left: 5px;
 }

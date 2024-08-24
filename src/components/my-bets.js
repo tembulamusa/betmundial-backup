@@ -10,16 +10,11 @@ import {
 } from 'react-accessible-accordion';
 
 import '../assets/css/accordion.react.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import 'react-accessible-accordion/dist/fancy-example.css';
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaShare } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
+import { IoMdRemoveCircleOutline } from "react-icons/io";
+import { GrAddCircle } from "react-icons/gr";
 
-const Header = React.lazy(()=>import('./header/header'));
-const Footer = React.lazy(()=>import('./footer/footer'));
-const SideBar = React.lazy(()=>import('./sidebar/awesome/Sidebar'));
-const CarouselLoader = React.lazy(()=>import('./carousel/index'));
-const Right = React.lazy(()=>import('./right/index'));
 
 const Styles = {
    container: {
@@ -58,20 +53,7 @@ const MyBets = (props) => {
        fetchData();
     }, [fetchData]);
 
-    const fetchBetDetail = useCallback(async() => {
-        if(isLoading) return;
-        setIsLoading(true);
-        let endpoint = "/v1/betdetails";
-        makeRequest({url: endpoint, method: "POST", data: {id:selectedBetId}}).then(([status, result]) => {
-            setCurrentBetDetail(result?.data);
-            setIsLoading(false);
-        });
-
-    }, [selectedBetId])
-
-    useEffect(() => {
-        fetchBetDetail();
-    }, [fetchBetDetail])
+    
     const BetItemHeader = (props) => {
         return (
             <div className={`my-bets-header`} style={Styles.headers}>
@@ -91,6 +73,21 @@ const MyBets = (props) => {
         const { bet } = props;
         const [betStatus, setBetStatus] = useState(bet.status_desc);
         const [canCancel, setCanCancel] = useState(bet.can_cancel === 1);
+        const [isOpen, setIsOpen] = useState(false);
+        const [currentBetDetail, setCurrentBetDetail] = useState([])
+        const [isLoadingBetItems, setIsLoadingBetItems] = useState(false);
+
+        const fetchBetDetail = () => {
+            setIsOpen(!isOpen);
+            if(isLoadingBetItems || currentBetDetail?.length > 0) return;
+            setIsLoadingBetItems(true);
+            let endpoint = "/v1/betdetails";
+            makeRequest({url: endpoint, method: "POST", data: {id:bet?.bet_id}}).then(([status, result]) => {
+                setCurrentBetDetail(result?.data);
+                setIsLoadingBetItems(false);
+            });
+    
+        }
 
         const cancelBet = () => {
             let endpoint = '/bet-cancel';
@@ -106,14 +103,15 @@ const MyBets = (props) => {
             });
         };
 
-        const CancelBetMarkup = () => {
+        const CancelBetMarkup = (props) => {
+            const {txt} = props;
             return (
                     canCancel && <button
                          title="Cancel Bet"
                          className="secondary-text btn btn-sm cancel-bet secondary-ation"
                          onClick={()=> cancelBet()}
                          >
-                         Cashout
+                         {txt?txt:"Cashout"}
                     </button>
             )
         }
@@ -152,9 +150,27 @@ const MyBets = (props) => {
                 </>
             )
         }
+
+        const shareMarkup = (bet) => {
+
+            return (
+                <>
+                    <button className="btn btn-bet-hist light-btn"><FaShare  className="inline-block mr-2"/>Share</button>
+                </>
+            )
+        }
+
+        const IsOpenMarkup = (props) => {
+
+            return (
+                <>
+                    {!isOpen ? <GrAddCircle className="ml-2 font-bold open-close-accordion"/> : <IoMdRemoveCircleOutline  className="ml-2 font-bold open-close-accordion"/>}
+                </>
+            )
+        }
         return (
-                    <AccordionItem onClick={() => setSelectedBetId(bet.bet_id)} key={bet?.bet_id}>
-                        <AccordionItemHeading>
+                    <AccordionItem key={bet?.bet_id}>
+                        <AccordionItemHeading onClick={() => fetchBetDetail()}>
                             <AccordionItemButton>
                                 <div className="col text-gray-400 font-light">{ bet.bet_id}</div>
                                 <div className="col">{ bet.bet_type}</div>
@@ -162,27 +178,28 @@ const MyBets = (props) => {
                                 <div className="col">{ bet.total_matches}</div>
                                 <div className="col">{ bet.bet_amount}</div>
                                 <div className="col">{ bet.possible_win}</div>
-                                { CancelBetMarkup() } 
+                                <CancelBetMarkup /> 
                                 { statusMarkup(bet) }
+                                <IsOpenMarkup />
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
                             <div className="bet-detail-header">
-                                <span>Share</span><span>Cashout</span>
+                                <span><CancelBetMarkup txt="Cashout Early" /></span> <span>{shareMarkup(bet)}</span>
                             </div>
                             <table className="table !mt-3 !mb-0">
                                 <thead>
                                     <BetslipHeader />
                                 </thead>
                                 <tbody>
-                                    { (betslip && betslip[0]?.bet_id == bet?.bet_id) && betslip?.map((slip) => (
+                                    { currentBetDetail?.map((slip) => (
                                         <BetslipItem
                                         slip={slip}
                                         key={slip.game_id}
                                         />
                                     ))
                                     }
-                                    { isLoading && <tr><td>Loading ...</td></tr>}
+                                    { isLoadingBetItems && <tr><td>fetching ...</td></tr>}
                                 </tbody>
                             </table>    
                         </AccordionItemPanel>
@@ -191,7 +208,6 @@ const MyBets = (props) => {
     }
 
     const BetslipHeader = () => {
-        
         return (
             <tr className={`betslip-header`} >
                     <td className="">No.</td>
@@ -285,7 +301,6 @@ const MyBets = (props) => {
 				<div className="mybet-list" 
                     key = {bet.bet_id} 
                     uuid = { bet.bet_id }
-                    onClick={() => setSelectedBetId(bet.bet_id)}
 					>
 						<BetItem bet={bet}  key={bet.bet_id}/>
                     
