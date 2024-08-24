@@ -13,6 +13,7 @@ import logo from '../../assets/img/logo2.png';
 import {Navbar} from "react-bootstrap";
 import MobileMenu from './mobile-menu';
 import MobileRightMenu from './mobile-right-menu';
+import MobileDownloadBanner from './mobile-download-banner';
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const HeaderNav = React.lazy(() => import('./header-nav'));
@@ -76,7 +77,9 @@ const Header = (props) => {
     const expand = "md"
     return (
         <>
+            
             <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark">
+                <MobileDownloadBanner />
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
                     <div className='inline-block md:hidden text-white col-sm-2'>
                         <MobileMenu />
@@ -93,7 +96,7 @@ const Header = (props) => {
                         {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
                     </div>
                    
-                    <Row className="hidden md:block second-nav ck pc os app-navbar app-header-nav">
+                    <Row className={`hidden md:block second-nav ck pc os app-navbar app-header-nav`}>
                         <HeaderNav/>
                     </Row>
         { /** <Navbar.Offcanvas
@@ -120,7 +123,7 @@ const Header = (props) => {
 
             {/* mobile bottom menu */}
 
-            <Row className="block md:hidden second-nav ck pc os app-navbar relative mobile-custom-scrollbar px-3">
+            <Row className={`${state?.showmobiletop && "show-mobile-top"} block md:hidden second-nav ck pc os app-navbar relative mobile-custom-scrollbar px-3`}>
                 <div className="hidden-icons"><HeaderNav/></div>
                 
             </Row>

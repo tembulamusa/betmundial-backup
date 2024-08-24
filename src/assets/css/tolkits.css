@@ -1560,6 +1560,10 @@ header {
         margin-top: 60px;
     }
 
+    .show-mobile-top.second-nav {
+        /* top: 80px !important; */
+        margin-top: 90px;
+    }
     .e {
         padding: 14px 5px !important;
     }

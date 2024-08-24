@@ -18,7 +18,7 @@ const MobileRightMenu = (props) => {
     const LoginLink = () => {
 
         return (
-            <Link to={"/login"} className="top-login-btn mobile-top-login rounded-md uppercase !px-4 inline-block !text-sm mx-2 py-2" style={{}}>
+            !state?.user && <Link to={"/login"} className="top-login-btn mobile-top-login rounded-md uppercase !px-4 inline-block !text-sm mx-2 py-2" style={{}}>
                 Login
             </Link>
         )

@@ -423,7 +423,7 @@ h5, h4, h3, h2 {
 
 .mobile-second-nav-icon {
   width: 40px !important;
-  height: 40px;
+  height: 25px;
 }
 
 .third-mobile-nav {
@@ -625,4 +625,36 @@ tr.my-bets td {
   font-weight: bolder;
   margin-top: 5px;
   margin-left: 5px;
+}
+
+.mobile-download-banner {
+  background: rgb(73 73 73);
+  border-bottom: 1px solid #919191;
+}
+
+.mobile-app-download-btn {
+  color: #fff;
+  font-weight: 500;
+  background: rgba(231,6,84,.958);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 9px !important;
+  padding: 4px 5px;
+}
+
+.ticker-module_tickerText__ryjAR {
+  color: inherit !important;
+  font-size: 12px !important;
+  line-height: 1.5;
+  padding: 0 16px;
+  white-space: nowrap;
+}
+.toggle-show-top-nav {
+  position: absolute;
+  left: 0;
+  /* width: 20px; */
+  top: 0;
+  /* box-shadow: 0px 0px 3px rgba(255,255,255,.7); */
+  /* background: black; */
+  z-index: 9999;
 }
