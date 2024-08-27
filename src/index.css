@@ -671,3 +671,10 @@ tr.my-bets td {
   border: 1px solid rgba(255,255,255,0.4);
   margin-top: 5px;
 }
+
+.matches .top-matches .match-detail button {
+  transition: all ease-in-out 500ms;
+}
+.matches .top-matches .match-detail button:hover {
+  transition: all ease-in-out 500ms;
+}
