@@ -150,6 +150,10 @@ h5, h4, h3, h2 {
   color: #FFB200;
 }
 
+.bright-blue-text {
+  color: #00A8FA;
+}
+
 .tertiary-text {
 
 }
@@ -628,8 +632,8 @@ tr.my-bets td {
 }
 
 .mobile-download-banner {
-  background: rgb(73 73 73);
-  border-bottom: 1px solid #919191;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
 }
 
 .mobile-app-download-btn {
@@ -638,13 +642,13 @@ tr.my-bets td {
   background: rgba(231,6,84,.958);
   font-weight: bold;
   text-transform: uppercase;
-  font-size: 9px !important;
-  padding: 4px 5px;
+  font-size: 11px !important;
+  padding: 5px 5px;
 }
 
 .ticker-module_tickerText__ryjAR {
-  color: inherit !important;
-  font-size: 12px !important;
+  color: #666!important;
+  font-size: 16px !important;
   line-height: 1.5;
   padding: 0 16px;
   white-space: nowrap;
@@ -657,4 +661,13 @@ tr.my-bets td {
   /* box-shadow: 0px 0px 3px rgba(255,255,255,.7); */
   /* background: black; */
   z-index: 9999;
+}
+
+.light-blue {
+  background: #071960;
+}
+
+.btn-deposit-withdraw {
+  border: 1px solid rgba(255,255,255,0.4);
+  margin-top: 5px;
 }

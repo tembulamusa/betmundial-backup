@@ -14,6 +14,7 @@ import {Navbar} from "react-bootstrap";
 import MobileMenu from './mobile-menu';
 import MobileRightMenu from './mobile-right-menu';
 import MobileDownloadBanner from './mobile-download-banner';
+import MobileLoggedInBals from './mobile-logged-in-bals';
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const HeaderNav = React.lazy(() => import('./header-nav'));
@@ -95,10 +96,11 @@ const Header = (props) => {
                     <div className="col-md-7 change-size" id="navbar-collapse-main">
                         {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
                     </div>
-                   
                     <Row className={`hidden md:block second-nav ck pc os app-navbar app-header-nav`}>
                         <HeaderNav/>
                     </Row>
+                    
+                        
         { /** <Navbar.Offcanvas
                         style={{width: "100% !important", height: "100%"}}
                         className='off-canvas background-primary p-0'
@@ -122,10 +124,9 @@ const Header = (props) => {
             </Navbar>
 
             {/* mobile bottom menu */}
-
-            <Row className={`${state?.showmobiletop && "show-mobile-top"} block md:hidden second-nav ck pc os app-navbar relative mobile-custom-scrollbar px-3`}>
-                <div className="hidden-icons"><HeaderNav/></div>
-                
+            <Row className={`${state?.showmobiletop && "show-mobile-top"} block md:hidden second-nav ck pc os app-navbar relative mobile-custom-scrollbar`}>
+                <div className='light-blue text-white py-1'><MobileLoggedInBals/></div>
+                <div className="hidden-icons px-4"><HeaderNav/></div>
             </Row>
 
             {/* Only show if they are visible/third nav is available */}

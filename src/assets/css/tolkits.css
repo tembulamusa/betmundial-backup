@@ -1557,12 +1557,12 @@ header {
 
     .second-nav {
         /* top: 80px !important; */
-        margin-top: 60px;
+        margin-top: 54px;
     }
 
     .show-mobile-top.second-nav {
         /* top: 80px !important; */
-        margin-top: 90px;
+        margin-top: 93px;
     }
     .e {
         padding: 14px 5px !important;
@@ -6889,9 +6889,9 @@ ul.sport {
     align-items: end;
     align-items: baseline;
 }
-
 .os {
     border-width: 0 0 1px;
+    border-bottom-color: rgba(0,0,0,0.2);
 }
 
 .of {
@@ -7146,7 +7146,7 @@ ul.sport {
     }
 
     .e.logo {
-        padding: 8px 5px !important;
+        padding: 5px 5px !important;
     }
 
     .second-nav {
