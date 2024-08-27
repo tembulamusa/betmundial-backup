@@ -37,13 +37,41 @@ const MyBets = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [betslip, setCurrentBetDetail] = useState([]);
     const [selectedBetId, setSelectedBetId] = useState(null);
+    const [message, setMessage] = useState({});
+
+
+
+
+    const Alert = (props) => {
+        let c = message?.status == 201 ? 'success' : 'danger';
+        let x_style = {
+            float: "right",
+            display: "block",
+            fontSize: "22px",
+            color: "orangered",
+            cursor: "pointer",
+            padding: "3px"
+        }
+        return (<>{message?.status &&
+            <div role="alert"
+                 className={`fade alert alert-${c} show alert-dismissible`}>
+                {message.message}
+                <span aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</span>
+            </div>}
+        </>);
+
+    };
 
     const fetchData = useCallback(async() => {
         if(isLoading) return;
         setIsLoading(true);
         let endpoint = "/v1/mybets";
         makeRequest({url: endpoint, method: "POST", data: {limit:"100", page:"1"}}).then(([status, result]) => {
-            dispatch({type: "SET", key: "mybets", payload: result});
+            if ([200, 201].includes(status)){
+                dispatch({type: "SET", key: "mybets", payload: result});
+            } else {
+                setMessage({status: status, message:result?.message})
+            }
             setIsLoading(false);
         });
 
@@ -59,9 +87,9 @@ const MyBets = (props) => {
             <div className={`my-bets-header`} style={Styles.headers}>
                 <div className="row uppercase">
                     <div className="col">ID</div>
-                    <div className="col">SECTION</div>
+                    <div className="col hidden md:flex">SECTION</div>
                     <div className="col">CREATED</div>
-                    <div className="col">GAMES</div>
+                    <div className="col hidden md:flex">GAMES</div>
                     <div className="col">AMOUNT</div>
                     <div className="col">Payout</div>
                     <div className="col">Status</div>
@@ -172,12 +200,12 @@ const MyBets = (props) => {
                     <AccordionItem key={bet?.bet_id}>
                         <AccordionItemHeading onClick={() => fetchBetDetail()}>
                             <AccordionItemButton>
-                                <div className="col text-gray-400 font-light">{ bet.bet_id}</div>
-                                <div className="col">{ bet.bet_type}</div>
-                                <div className="col">{ bet.created}</div>
-                                <div className="col">{ bet.total_matches}</div>
-                                <div className="col">{ bet.bet_amount}</div>
-                                <div className="col">{ bet.possible_win}</div>
+                                <div className="col text-gray-400 font-light">{ bet?.bet_id}</div>
+                                <div className="col">{ bet?.bet_type}</div>
+                                <div className="col">{ bet?.created}</div>
+                                <div className="col">{ bet?.total_matches}</div>
+                                <div className="col">{ bet?.bet_amount}</div>
+                                <div className="col">{ bet?.possible_win}</div>
                                 <CancelBetMarkup /> 
                                 { statusMarkup(bet) }
                                 <IsOpenMarkup />
@@ -295,11 +323,11 @@ const MyBets = (props) => {
                 allowMultipleExpanded={false}
                 // uuid = {}
                 >
-			    {state?.mybets && (state?.mybets || []).map((bet) => (
+			    {state?.mybets && state?.mybets || [].map((bet) => (
                 <>
                 
 				<div className="mybet-list" 
-                    key = {bet.bet_id} 
+                    key = {bet.bet_id}
                     uuid = { bet.bet_id }
 					>
 						<BetItem bet={bet}  key={bet.bet_id}/>
@@ -327,6 +355,8 @@ const MyBets = (props) => {
         <>
             <div className="homepage">
                 {/* <CarouselLoader/> */}
+
+                <Alert />
                 <PageTitle />
                 <MyBetsList  />
             </div>

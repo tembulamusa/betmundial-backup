@@ -94,7 +94,7 @@ function MobileMenu() {
             </Link>
           </li>
           <li>
-            <Link to='/history'>
+            <Link to='/my-bets'>
               <FontAwesomeIcon icon={faCalendarCheck} />Bet History
             </Link>
           </li>

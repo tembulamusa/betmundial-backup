@@ -431,7 +431,7 @@ h5, h4, h3, h2 {
 }
 
 .third-mobile-nav {
-  padding: 5px 4px;
+  /* padding: 5px 4px; */
   background: #ffffffb8;
   border-bottom: 1px solid #fff;
   flex-wrap: nowrap;
