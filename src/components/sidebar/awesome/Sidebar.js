@@ -18,19 +18,24 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import {Context} from '../../../context/store';
 import LiveSideBar from '../live-sidebar';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const ProSidebar = (props) => {
 
     const [collapsed, setCollapsed] = useState(false)
     const [toggled, setToggled] = useState(false)
     const [sport, setSport] = useState(79)
+    const [loc, setLoc] = useState("/");
     const [state, dispatch] = useContext(Context);
+    const location = useLocation()
 
     const handleCollapsedChange = (checked) => {
         setCollapsed(checked);
     };
 
+    useEffect(() => {
+        setLoc(location?.pathname)
+    }, [location])
     const handleToggleSidebar = (value) => {
         setToggled(value);
     };
@@ -121,11 +126,10 @@ const ProSidebar = (props) => {
     const getDefaultMarketsForSport = (competition) => {
         return competition?.default_display_markets
     }
-    const pathname = window.location.pathname;
 
     return (
         <>
-        {pathname == "/live" ? <LiveSideBar /> : 
+        {loc.includes("/live") ? <LiveSideBar /> : 
             <div style={{
                 display: 'flex',
                 overflow: 'scroll initial',

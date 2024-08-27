@@ -15,6 +15,7 @@ import padlock from '../../assets/img/padlock.png';
 import {getFromLocalStorage} from "../utils/local-storage";
 import { Link } from 'react-router-dom';
 import NoEvents from '../utils/no-events';
+import { match } from 'assert';
 
 
 const clean = (_str) => {
@@ -204,7 +205,7 @@ const MoreMarketsHeaderRow = (props) => {
                     </Row>
                 }
                 <Row className="header-text">
-                    <Col>{category} {competition}</Col>
+                    <Col>{category} - {competition}</Col>
                 </Row>
                 {match_status !== 'Ended' &&
                     <Row className="start-time">
@@ -640,6 +641,7 @@ export const MarketList = (props) => {
                 : <MoreMarketsHeaderRow
                     {...matchwithmarkets?.match}
                     score={matchwithmarkets?.match?.score}
+                    competition = {matchwithmarkets?.competition_name}
                     live={live}
                 />
             }
@@ -741,7 +743,7 @@ const MatchList = (props) => {
                             sub_types={subTypes}/>
                     ))
                 }
-                {(matches.length === 0  && fetching === false) &&
+                {((matches || []).length === 0  && fetching === false) &&
 
                     <NoEvents/>
                 }

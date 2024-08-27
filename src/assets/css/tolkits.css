@@ -665,9 +665,11 @@ header, li a, .thedate span {
     background: #824571;
     color: #fff;
 }
-.matches .panel-header.primary-bg{
-   background:#eaeaea;
-   color:#781c5d;
+.matches .panel-header.primary-bg {
+    background: #eaeaea;
+    color: #000;
+    padding-bottom: 18px;
+    font-weight: 500 !important;
 }
 .betslipJ .bet-table td {
     padding: 4px;
@@ -2434,7 +2436,7 @@ img {
 .panel-header .header-text, .panel-header .start-time {
     text-align: center;
     font-size: 14px;
-    font-weight: normal;
+    /* font-weight: normal; */
     opacity: 0.7;
 }
 
@@ -15488,7 +15490,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 @media only screen and (max-width: 576px) {
     .amt {
         margin-top: 0 !important;
-        padding-top: 6px !important;
+        padding-top: 0px !important;
         scroll-margin-top: 0;
     }
 }

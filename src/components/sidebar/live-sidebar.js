@@ -9,20 +9,19 @@ import {Menu, MenuItem, Sidebar, SubMenu} from "react-pro-sidebar";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {setLocalStorage} from "../utils/local-storage";
+import { Link } from 'react-router-dom';
 
 const LiveSideBar = (props) => {
 
-    const [liveSports, setLiveSports] = useState()
-
-    console.log(liveSports)
+    const [liveSports, setLiveSports] = useState([])
 
     const fetchData = useCallback(() => {
         let endpoint = "/v1/sports?live=1";
-        makeRequest({url: endpoint, method: "get", data: null})
+        makeRequest({url: endpoint, method: "GET"})
             .then(([c_status, c_result]) => {
-                console.log("V1 sports result ", c_result, c_status);
-                if (c_status === 200) {
-                    setLiveSports(c_result?.data)
+                console.log("STATUS:::::::::", c_status, "LIVE CATEGORIES:::::::::::", c_result)
+                if (c_status == 200) {
+                    setLiveSports(c_result)
                 }
             });
     }, []);
@@ -79,11 +78,11 @@ const LiveSideBar = (props) => {
                         </div>
                     </div>
                         <Menu iconShape="circle">
-                            {liveSports && Object.entries(liveSports).map(([index, livesport]) => (
+                            {liveSports && Object.entries(liveSports)?.map(([index, livesport]) => (
                                     <Menu iconShape="circle">
                                         <MenuItem>
-                                            <a className="col-12"
-                                               href={`/live/${livesport.sport_id}`}>
+                                            <Link className="col-12 font-[500]"
+                                               to={`/live/${livesport.sport_id}`}>
                                                 <Row>
                                                     <Col lg="11" md="11" sm="11" xs="11" className="topl">
                                                         <Row style={{color: "#69819a"}}>
@@ -99,7 +98,7 @@ const LiveSideBar = (props) => {
                                                         </Row>
                                                     </Col>
                                                 </Row>
-                                            </a>
+                                            </Link>
                                         </MenuItem>
                                     </Menu>
                                 )

@@ -12,8 +12,6 @@ import makeRequest from './utils/fetch-request';
 import {getBetslip} from './utils/betslip' ;
 import useInterval from "../hooks/set-interval.hook";
 import {Spinner} from "react-bootstrap";
-import NoEvents from "./utils/no-events";
-
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 const MatchList = React.lazy(() => import('./matches/index'));
@@ -35,9 +33,6 @@ const Index = (props) => {
     const homePageRef = useRef()
     const [subTypes, setSubTypes] = useState("1,10,18");
 
-
-    console.log("Index is loading ", state)
-
     const fetchData = async () => {
         setFetching(true)
         let tab = 'highlights';
@@ -46,9 +41,7 @@ const Index = (props) => {
 
         let url = new URL(window.location.href)
         endpoint += "&sport_id = " + (state?.filtersport?.sport_id || sportid || 79);
-        let search_term = state?.searchterm || ""; 
-
-        
+        let search_term = state?.searchterm || "";
         if(state?.filtercategory) {
             endpoint += "&category_id =" + state?.filtercategory?.category_id;
         } else if(categoryid && !state?.filtermenuclicked === true) {

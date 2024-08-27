@@ -80,21 +80,13 @@ const MatchAllMarkets = (props) => {
 
    return (
        <>
-        <Header />
-           <div className="amt">
-               <div className="d-flex flex-row justify-content-between">
-                   <SideBar loadCompetitions />
-                   <div className="gz home"  style={{width:'100%'}}>
-                       <div className="homepage">
-                    <MarketList live={live}  
-                        matchwithmarkets={matchwithmarkets} 
-                        pdown={producerDown} />
-                </div> 
-            </div>  
-            <Right betslipValidationData={userSlipsValidation} />
-          </div>
-        </div>
-       <Footer />
+           
+        <div className="homepage">
+            <MarketList live={live}  
+                matchwithmarkets={matchwithmarkets} 
+                pdown={producerDown} />
+        </div> 
+           
        </>
    )
 }
