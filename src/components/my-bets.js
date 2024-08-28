@@ -201,10 +201,10 @@ const MyBets = (props) => {
                         <AccordionItemHeading onClick={() => fetchBetDetail()}>
                             <AccordionItemButton>
                                 <div className="col text-gray-400 font-light">{ bet?.bet_id}</div>
-                                <div className="col">{ bet?.bet_type}</div>
+                                <div className="col hidden md:flex">{ bet?.bet_type}</div>
                                 <div className="col">{ bet?.created}</div>
-                                <div className="col">{ bet?.total_matches}</div>
-                                <div className="col">{ bet?.bet_amount}</div>
+                                <div className="col hidden md:flex">{ bet?.total_matches}</div>
+                                <div className="col text-center">{ bet?.bet_amount}</div>
                                 <div className="col">{ bet?.possible_win}</div>
                                 <CancelBetMarkup /> 
                                 { statusMarkup(bet) }
@@ -238,15 +238,15 @@ const MyBets = (props) => {
     const BetslipHeader = () => {
         return (
             <tr className={`betslip-header`} >
-                    <td className="">No.</td>
+                    <td className="hidden md:flex">No.</td>
                     <td className="">ID</td>
                     <td className="">Date</td>
                     <td className="">Game</td>
-                    <td className="">Odds</td>
-                    <td className="">Market</td>
+                    <td className="hidden md:flex">Odds</td>
+                    <td className="hidden md:flex">Market</td>
                     <td className="">Pick</td>
                     <td className="">Results</td>
-                    <td className="">3/4</td>
+                    <td className="hidden md:flex">3/4</td>
                     
             </tr>
         )
@@ -300,16 +300,16 @@ const MyBets = (props) => {
 		const {slip} = props
         return (
             <tr className={`my-bets`}  key={slip.game_id}>
-                <td className="">{ 1}</td>
-                <td className="">{ slip.game_id}</td>
-                <td className="">{ slip.start_time}</td>
-                <td className="">{ slip.home_team} - {slip.away_team}</td>
-                <td className="">{ slip.odd_value}</td>
-                <td className="">{ slip.market}</td>
-                <td className="">{ slip.bet_pick}</td>
-                <td className="">{ slip.results?.length > 0 ? slip.results : "--"}</td>
+                <td className="hidden md:flex">{ 1}</td>
+                <td className="">{ slip?.game_id}</td>
+                <td className="">{ slip?.start_time}</td>
+                <td className="">{ slip?.home_team} - {slip.away_team}</td>
+                <td className="hidden md:flex">{ slip?.odd_value}</td>
+                <td className="hidden md:flex">{ slip?.market}</td>
+                <td className="">{ slip?.bet_pick}</td>
+                <td className="">{ slip?.results?.length > 0 ? slip.results : "--"} <span className="md:hidden">{ gameBetStatus(slip.status)}</span></td>
                 {/* <td className="">{ slip.ft_result}</td> */}
-                <td className="">{ gameBetStatus(slip.status)}</td>
+                <td className="hidden md:flex">{ gameBetStatus(slip.status)}</td>
             </tr>
         )
     }
@@ -323,14 +323,14 @@ const MyBets = (props) => {
                 allowMultipleExpanded={false}
                 // uuid = {}
                 >
-			    {state?.mybets && state?.mybets || [].map((bet) => (
+			    {(state?.mybets || []).map((bet, idx) => (
                 <>
                 
 				<div className="mybet-list" 
-                    key = {bet.bet_id}
-                    uuid = { bet.bet_id }
+                    key = {bet?.bet_id}
+                    uuid = { bet?.bet_id }
 					>
-						<BetItem bet={bet}  key={bet.bet_id}/>
+						<BetItem bet={bet}  key={bet?.bet_id}/>
                     
 				</div>
                 </>

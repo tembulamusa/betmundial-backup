@@ -38,7 +38,7 @@ const MobileDownloadBanner = () => {
     return (
             
             <section className="mobile-download-banner md:hidden w-full mx-auto">
-                <div onClick={() => changeShowTop()} className={`toggle-show-top-nav ${showTop ? 'can-hide': 'can-show' }`}>{showTop ? <MdCancel className="text-red-500" style={{fontSize:"20px"}}/> : <BsBookmarkPlusFill className="text-white"/>}</div>
+                <div onClick={() => changeShowTop()} className={`toggle-show-top-nav ${showTop ? 'can-hide': 'can-show' }`}>{showTop ? <MdCancel className="text-red-500" style={{fontSize:"20px"}}/> : ""}</div>
                 {showTop && <div className="row px-2 flex py-2">
                     <div className="col flex-col col-6 col-sm-6 px-2 text-gray-100 py-1"><SMSTicker /></div>
                     <div className="col flex-col col-6 col-sm-6 px-2"><Link to={"/app"} className="float-end"><button className="mx-auto mobile-app-download-btn btn font-bold">Download App</button></Link></div>

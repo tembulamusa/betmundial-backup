@@ -58,7 +58,7 @@ const LoadedBetslip = (props) => {
                 {props?.message && <AlertMessage classname={props.classname} message={props.message}/>}
                 <div className="bet-option-list sticky-top" id=''>
                     <div className="bet alu block-shadow">
-                        <button id="slip-button-close" type="button" className="close mobi" aria-hidden="true">×</button>
+                        {/* <button id="slip-button-close" type="button" className="close mobi" aria-hidden="true">×</button> */}
                         <div id="betslip" className="betslip">
                             <BetSlip jackpot={jackpot} betslipValidationData={betslipValidationData}
                                      jackpotData={jackpotData}/>
@@ -68,7 +68,8 @@ const LoadedBetslip = (props) => {
                 </div>
                 
             </div>
-            <div
+            
+            {/* <div
                 className={`fixed-bottom text-white d-block d-md-none shadow-sm betslip-container-mobile ${betSlipMobile ? 'd-block' : 'd-none'}`}>
                 <div className="bet-option-list sticky-top" id=''>
                     <div className="bet alu  block-shadow">
@@ -87,12 +88,11 @@ const LoadedBetslip = (props) => {
                         <QuickLogin/>
                     </div>
                 </div>
-            </div>
-            <div
-                className={`${betSlipMobile ? 'd-none' : 'd-block'} d-block d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle`}
-                onClick={() => setBetSlipMobile(true)}>
-                Click to show BetSlip
-            </div>
+            </div> */}
+            <a href="#betslip" className={`${!betSlipMobile ? 'd-none' : 'd-block'} d-block d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle font-[500] capitalize`}
+                >
+                show BetSlip
+            </a>
         </>
     )
 }
