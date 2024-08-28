@@ -15103,6 +15103,25 @@ img.zoom-img {
         padding: 2px 10px !important;
     }
 
+    .match-detail button .label {
+        font-weight: bold;
+        /* max-width: 100%;
+        display: block; */
+        text-wrap: balance;
+    }
+
+    .matches .top-matches .match-detail button {
+        
+        margin-right: 0px;
+        /* border-radius: 0px !important; */
+        text-align: left;
+        padding-right: 10px;
+        border-radius: 3px !important;
+        margin-bottom: 4px;
+        min-height: 40px;
+        text-align: center;
+    }
+
     tr.my-bets {
         border-bottom: 5px solid #ffffff;
         width: 100% !important;
