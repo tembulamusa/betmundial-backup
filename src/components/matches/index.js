@@ -692,7 +692,7 @@ export const JackpotMatchList = (props) => {
     const {matches, jackpotData} = props;
 
     return (
-        <div className="matches full-width mt-5">
+        <div className="matches full-width mt-3">
 
             <MatchHeaderRow jackpot={true} first_match={matches ? matches[0] : []}/>
 

@@ -1,8 +1,5 @@
 import React, {useEffect, useCallback, useState, useContext} from "react";
 
-import Header from './header/header';
-import Footer from './footer/footer';
-import SideBar from './sidebar/awesome/Sidebar';
 import {JackpotMatchList, JackpotHeader} from './matches/index';
 import makeRequest from "./utils/fetch-request";
 import dailyJackpot from '../assets/img/banner/jackpots/DailyJackpot.png'
@@ -11,14 +8,19 @@ import Tabs from 'react-bootstrap/Tabs';
 import Container from "react-bootstrap/Container";
 import {Context} from '../context/store';
 import {
-    getJackpotBetslip,
+    removeFromSlip,
+    getBetslip,
+    clearSlip,
+    clearJackpotSlip, 
+    formatNumber,
+    addToJackpotSlip,
+    getJackpotBetslip
 } from './utils/betslip';
 
-const Right = React.lazy(() => import('./right/index'));
 
 const Jackpot = (props) => {
     const [matches, setMatches] = useState(null);
-    const [state, dispatch] = useContext(Context);
+    const [, dispatch] = useContext(Context);
 
     const fetchData = useCallback(async () => {
         let match_endpoint = "/v1/matches/jackpot";
@@ -46,7 +48,50 @@ const Jackpot = (props) => {
         };
     }, [fetchData]);
 
+    const AutoPickAllMatches = () => {
+ 
+        const clean = (_str) => {
+            _str = _str.replace(/[^A-Za-z0-9\-]/g, '');                                 
+            return _str.replace(/-+/g, '-'); 
+        }
 
+        const randomPick = (min, max) => {
+            return Math.floor(min + Math.random()*(max - min + 1));
+        }
+
+        if(matches) {
+            let betslip;
+
+            Object.entries(matches?.data).map(([key, match]) => {
+               let reference = match.match_id + "_selected";
+               let pick = randomPick(1, 3);
+               let pickedValue = (pick === 1 ? match.home_team : (pick ===  2 ? 'draw': match.away_team));
+               let oddValue = (pick === 1 ? match.odds.home_odd : (pick ===  2 ? match.odds.neutral_odd: match.odds.away_odd));
+               let cstm = clean(match.match_id + "" + 1 + pickedValue );
+
+               let slip = {                                                            
+                    "match_id": match.match_id,                                                    
+                    "parent_match_id": match.parent_match_id,                                            
+                    "special_bet_value": '',                                           
+                    "sub_type_id": 1,                                                
+                    "bet_pick":  pickedValue,  
+                    "odd_value": oddValue,
+                    "home_team": match.home_team,                                             
+                    "away_team": match.away_team,                                             
+                    "bet_type": "jackpot",                                               
+                    "odd_type": "3",                                               
+                    "sport_name": "soccer",                                           
+                    "live": 0,                                                       
+                    "ucn": cstm,                                                        
+                    "market_active": 1,                                     
+                }                                                           
+                betslip = addToJackpotSlip(slip);                                   
+
+                dispatch({type: "SET", key: reference, payload: cstm});         
+            })
+            dispatch({type: "SET", key: "jackpotbetslip", payload: betslip});        
+        }
+    }
 
     return (
         <>
@@ -66,7 +111,17 @@ const Jackpot = (props) => {
                     >
                     {matches?.data?.length > 0 ? (
                         <>
-                            <JackpotHeader jackpot={matches?.meta}/>
+                            <div className="jackpot-header row">
+                                <div className="col-md-6"><JackpotHeader jackpot={matches?.meta}/></div>
+                                <div className="col-md-6">
+                                    <div className="autopick-button-div my-3">
+                                        <span></span> <span className="" id="total-games"></span>
+                                        <button 
+                                            onClick={() => AutoPickAllMatches()}
+                                            className="btn btn-auto-pick mt-3">Auto Pick</button>
+                                    </div>
+                                </div>
+                            </div>                            
                             <JackpotMatchList matches={matches}/>
                         </>
                     ) : (
