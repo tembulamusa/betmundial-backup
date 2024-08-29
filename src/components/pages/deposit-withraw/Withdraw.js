@@ -162,7 +162,7 @@ const Withdrawal = (props) => {
 
     const Alert = (props) => {
         let c = success ? 'success' : 'danger';
-        return (<>{ message  && <div role="alert" className={`fade alert alert-${c} show`}>{message}</div> } </>) ;
+        return (<>{ message  && <div role="alert" className={`fade alert alert-${c} show`}>{message?.message}</div> } </>) ;
 
     };
 
