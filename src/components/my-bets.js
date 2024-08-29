@@ -103,7 +103,7 @@ const MyBets = (props) => {
         const [betStatus, setBetStatus] = useState(bet.status_desc);
         const [canCancel, setCanCancel] = useState(bet.can_cancel === 1);
         const [isOpen, setIsOpen] = useState(false);
-        const [currentBetDetail, setCurrentBetDetail] = useState([])
+        const [currentBetDetail, setCurrentBetDetail] = useState(null)
         const [isLoadingBetItems, setIsLoadingBetItems] = useState(false);
         const [betType, setBetType] = useState();
 
@@ -205,7 +205,7 @@ const MyBets = (props) => {
 
             return (
                 <>
-                    {!isOpen ? <GrAddCircle className="ml-2 font-bold open-close-accordion inline-block"/> : <IoMdRemoveCircleOutline  className="ml-2 font-bold open-close-accordion"/>}
+                    {!isOpen ? <GrAddCircle className="ml-2 font-bold open-close-accordion inline-block"/> : <IoMdRemoveCircleOutline  className="ml-2 font-bold open-close-accordion inline-block"/>}
                 </>
             )
         }
