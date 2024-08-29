@@ -566,13 +566,17 @@ tr.my-bets td {
 
 .accordion__button {
   background-color: rgba(0,0,0,0.04);
-  color: #444;
+  /* color: #444; */
   cursor: pointer;
-  padding: 18px;
+  padding: 18px 4px !important;
   width: 100%;
   font-weight: 500;
   text-align: left;
   border: none;
+}
+
+.accordion {
+  border: none !important;
 }
 
 .cancel-bet {
@@ -608,8 +612,9 @@ tr.my-bets td {
 }
 
 .btn-bet-hist.active-bet {
-  color: #ffffff;
-  background: green;
+  color: #444;
+  background: #19BC54;
+  font-weight: 500;
 }
 
 .btn-bet-hist.won-bet {
@@ -628,7 +633,8 @@ tr.my-bets td {
   font-size: 22px;
   font-weight: bolder;
   margin-top: 5px;
-  margin-left: 5px;
+  color: #888888;
+  margin-left: 20px;
 }
 
 .mobile-download-banner {
