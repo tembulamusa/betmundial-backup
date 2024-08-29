@@ -15,6 +15,7 @@ import MobileMenu from './mobile-menu';
 import MobileRightMenu from './mobile-right-menu';
 import MobileDownloadBanner from './mobile-download-banner';
 import MobileLoggedInBals from './mobile-logged-in-bals';
+import LoginModal from '../loginmodal';
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const HeaderNav = React.lazy(() => import('./header-nav'));
@@ -77,6 +78,8 @@ const Header = (props) => {
     }, [updateUserOnLogin])
 
     const expand = "md"
+
+    
     return (
         <>
             
@@ -143,7 +146,9 @@ const Header = (props) => {
             </Row> */}
 
         <ShareModal shown={state?.showsharemodal === true} />
-
+        
+        {/* Login modal */}
+        <LoginModal />
         </>
 
     )

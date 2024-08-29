@@ -68,7 +68,7 @@ const BetslipSubmitForm = (props) => {
         let bs = Object.values(state?.[betslipkey] || []);
 
         let slipHasOddsChange = false;
-        let jackpotMessage = 'jp'
+        let jackpotMessage = 'jp';
 
 
         for (let slip of bs) {
@@ -76,7 +76,7 @@ const BetslipSubmitForm = (props) => {
                 jackpotMessage += "#" + slip.bet_pick
             }
             if (slip.prev_odds
-                && slip.prev_odds != slip.odd_value
+                && slip.prev_odds !== slip.odd_value
                 && values.accept_all_odds_change === false) {
                 slipHasOddsChange = true;
                 break;
@@ -230,6 +230,7 @@ const BetslipSubmitForm = (props) => {
         let errors = {}
 
         if (!values.user_id) {
+            dispatch({type: "SET", key: "showloginmodal", payload: true})
             errors.user_id = 'Kindly login to proceed';
             setMessage({status: 400, message: errors.user_id});
             return errors;

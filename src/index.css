@@ -684,3 +684,13 @@ tr.my-bets td {
 .matches .top-matches .match-detail button:hover {
   transition: all ease-in-out 500ms;
 }
+
+.popover-login-modal {
+  background: #ffffff;
+}
+
+.popover-login-modal .modal-fullscreen .modal-content {
+  height: auto;
+  border: 0;
+  border-radius: 0;
+}

@@ -39,6 +39,7 @@ const BodyLogin = (props) => {
             setLocalStorage('user', message.user);
             setUser(message.user);
             dispatch({type:"SET", key: "user", payload: message?.user});
+            dispatch({type:"SET", key:"showloginmodal", payload:false});
             navigate("/");
             toast.success(`🚀 ${message.message}`, options);
         } else {

@@ -1,30 +1,27 @@
-import React, {useState, useCallback, useEffect, useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import { Modal } from "react-bootstrap";
-import makeRequest from './utils/fetch-request';
-import {getFromLocalStorage} from './utils/local-storage'; 
 import { Context } from "../context/store"
 import "../App.css";
-
 import BodyLogin from './header/mobile-login';
 
 
 
 const LoginModal = (props) => {
-    const user = getFromLocalStorage("user");
-    const app_name = "desktop-web";
+    
     const [state, dispatch] = useContext(Context);
-
+    
     return (
         <>
             <Modal
+            fullscreen={true}
             show={state?.showloginmodal === true}
             onHide={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}
-            dialogClassName="modal-90w popover-login-modal"
+            dialog className="modal-90w popover-login-modal"
             aria-labelledby="contained-modal-title-vcenter">
-                     <Modal.Header closeButton className="primary-bg">
-                      <Modal.Title>BIKO SPORTS LOGIN</Modal.Title>
+                     <Modal.Header closeButton className="no-header">
+                      <Modal.Title>LOGIN IN TO SUREBET</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body className="p-0">
                         <BodyLogin />
                     </Modal.Body>
             </Modal>
