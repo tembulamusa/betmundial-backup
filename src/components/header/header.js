@@ -49,15 +49,16 @@ const Header = (props) => {
             token: user.token
         }
         makeRequest({url: endpoint, method: "post", data: udata}).then(([_status, response]) => {
+
             if (_status == 200) {
-                let u = {...user, ...response.user};
+                let u = {...user, ...response?.data};
                 setLocalStorage('user', u);
                 setUser(u)
                 dispatch({type: "SET", key: "user", payload: user});
             }
         });
 
-    }, [current]);
+    }, [current, state?.toggleuserbalance]);
 
     const updateUserOnLogin = useCallback(() => {
         dispatch({type: "SET", key: "user", payload: user});
@@ -66,10 +67,10 @@ const Header = (props) => {
     useEffect(()=>{
         setUser(getFromLocalStorage("user"));
     },[state?.user]);
+    
     useEffect(() => {
         updateUserOnHistory()
     }, [updateUserOnHistory])
-
 
     useEffect(() => {
         updateUserOnLogin()

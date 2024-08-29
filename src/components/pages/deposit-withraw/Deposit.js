@@ -28,6 +28,12 @@ const Deposit = (props) => {
         makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
             setSuccess(status === 200 || status === 201);
             setMessage(response);
+
+            if(status == 200 || status === 201) {
+                setTimeout({function(){
+                   dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
+                }}, 60000)
+            }
         })
     }
 

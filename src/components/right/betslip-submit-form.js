@@ -131,7 +131,7 @@ const BetslipSubmitForm = (props) => {
 
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
                     setMessage(response);
-                    
+                    dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                     if (jackpot) {
                         clearJackpotSlip();
                         setMessage({
