@@ -15429,7 +15429,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 }
 
 .jp-header-text {
-    text-align: center;
+    /* text-align: center; */
     color: rgba(231, 6, 84, 0.958);
     text-transform: uppercase;
     font-size: 18px;

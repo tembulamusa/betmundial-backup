@@ -677,7 +677,7 @@ export const JackpotHeader = (props) => {
                     </div>
                 </Row>
                 <Row className="jp-header-text mb-2">
-                    <div className="jackpot-amount mt-3">
+                    <div className="jackpot-amount mt-3 !pl-0">
                         KES  { Intl.NumberFormat('en-US').format(jackpot?.jackpot_amount) }
                     </div>
                 </Row>
