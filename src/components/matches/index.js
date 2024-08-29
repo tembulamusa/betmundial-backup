@@ -743,8 +743,7 @@ const MatchList = (props) => {
                             sub_types={subTypes}/>
                     ))
                 }
-                {((matches || []).length === 0) &&
-
+                {((matches || []).length === 0 || !matches) &&
                     <NoEvents/>
                 }
             </Container>
