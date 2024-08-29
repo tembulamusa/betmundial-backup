@@ -35,12 +35,12 @@ function MobileMenu() {
     return (
       <>
         <ul className='canvas-links'>
-          <li>
+          <li onClick={() => handleClose()}>
             <Link to='/'>
               <FontAwesomeIcon icon={HomeIcon} /> Home
             </Link>
           </li>
-          <li>
+          <li onClick={() => handleClose()}>
             <Link to='/live'>
               <FontAwesomeIcon icon={faVideo} /> Live Games
             </Link>
@@ -60,17 +60,17 @@ function MobileMenu() {
               <FaHome className='inline-block'/>Virtuals
             </Link>
           </li> */}
-          <li>
+          <li onClick={() => handleClose()}>
             <Link to='/jackpot'>
               <FontAwesomeIcon icon={faCoins} />Jackpots
             </Link>
           </li>
-          <li>
+          <li onClick={() => handleClose()}>
             <Link to='/'>
               <FontAwesomeIcon icon={faMobile} />App
             </Link>
           </li>
-          <li>
+          <li onClick={() => handleClose()}>
             <Link to='/'>
               <FontAwesomeIcon icon={faVolumeUp} />Promotions
             </Link>
@@ -83,24 +83,54 @@ function MobileMenu() {
     return (
       <>
         <ul className='canvas-links'>
-          <li>
+          <li onClick={() => handleClose()}>
             <Link to='/deposit'>
               <FontAwesomeIcon icon={faCoins} />Deposit
             </Link>
           </li>
-          <li>
+          <li onClick={() => handleClose()}>
             <Link to='/withdraw'>
               <FontAwesomeIcon icon={faDollarSign} />Withdraw
             </Link>
           </li>
-          <li>
+          <li onClick={() => handleClose()}>
             <Link to='/my-bets'>
               <FontAwesomeIcon icon={faCalendarCheck} />Bet History
             </Link>
           </li>
-          <li>
+          <li onClick={() => handleClose()}>
             <Link to='/transactions'>
               <FontAwesomeIcon icon={faClock} />Transaction History
+            </Link>
+          </li>
+        </ul>
+      </>
+    )
+  }
+
+  const MainMenu = () => {
+
+    return (
+      <>
+        <ul className='canvas-links'>
+          <li onClick={() => handleClose()}>
+            <Link to='/terms'>
+              <FontAwesomeIcon icon={faCoins} />Terms and Conditions
+            </Link>
+          </li>
+          <li onClick={() => handleClose()}>
+            <Link to='/casino'>
+              <FontAwesomeIcon icon={faDollarSign} />Casino
+            </Link>
+          </li>
+          <li onClick={() => handleClose()}>
+            <Link to='/app'>
+              <FontAwesomeIcon icon={faCalendarCheck} />App
+            </Link>
+          </li>
+          <li onClick={() => handleClose()}>
+            <Link to='/logout'>
+              <FontAwesomeIcon icon={faClock} />Logout
             </Link>
           </li>
         </ul>
@@ -128,6 +158,17 @@ function MobileMenu() {
               <h1 className='title font-bold uppercase text-gray-700 mb-2'>Account</h1>
               <AccountMenu />
             </div>
+
+
+            {/* <hr className='canvas-content-box-separator'/> */}
+            {/* Common Menu */}
+            <div className='px-4 mt-4'>
+              <h1 className='title font-bold uppercase text-gray-700 mb-2'>Surebet</h1>
+              <MainMenu />
+            </div>
+
+
+
 
         </Offcanvas.Body>
       </Offcanvas>

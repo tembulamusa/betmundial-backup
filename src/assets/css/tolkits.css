@@ -15122,6 +15122,10 @@ img.zoom-img {
         text-align: center;
     }
 
+
+    .carousel-item img {
+        height: 200px;
+    }
     tr.my-bets {
         border-bottom: 5px solid #ffffff;
         width: 100% !important;
