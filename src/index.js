@@ -135,7 +135,8 @@ const App = () => {
                             <Route exact path="/my-bets"
                                 element={<ProtectedRoute><MyBets/> </ProtectedRoute>}/>
                             <Route path="*" element={<Index/>}/>
-                        </Routes>
+                            <Route path="/*" element={<Index/>}/>
+                            </Routes>
                     </div>
                     <Right />
                  
