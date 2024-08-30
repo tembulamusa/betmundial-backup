@@ -1,12 +1,11 @@
 import React from "react";
 
 
-const NoEvents = (props) => {
-
+const NoEvents = ({message}) => {
 
     return (
         <div className="text-center p-5 no-events-div my-5 rounded-2xl">
-            Sorry, no events found for your current selection. 
+            {message ? message: "Sorry, no events found for your current selection."} 
         </div>
     )
 }

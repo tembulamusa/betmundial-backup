@@ -14,6 +14,7 @@ import { FaCheckCircle, FaShare } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { GrAddCircle } from "react-icons/gr";
+import NoEvents from "./utils/no-events";
 
 
 const Styles = {
@@ -330,24 +331,28 @@ const MyBets = (props) => {
 		return (
             <>
             <BetItemHeader />
-            <Accordion 
-                className="accordion"
-                allowMultipleExpanded={false}
-                // uuid = {}
-                >
-			    {(state?.mybets || []).map((bet, idx) => (
-                <>
-                
-				<div className="mybet-list" 
-                    key = {bet?.bet_id}
-                    uuid = { bet?.bet_id }
-					>
-						<BetItem bet={bet}  key={bet?.bet_id}/>
-                    
-				</div>
-                </>
-			))}
-            </Accordion>
+            {
+                (state?.mybets || []).length > 1 ?
+                    <Accordion 
+                    className="accordion"
+                    allowMultipleExpanded={false}
+                    // uuid = {}
+                    >
+                    {(state?.mybets || []).map((bet, idx) => (
+                        <>
+                        
+                        <div className="mybet-list" 
+                            key = {bet?.bet_id}
+                            uuid = { bet?.bet_id }
+                            >
+                                <BetItem bet={bet}  key={bet?.bet_id}/>
+                            
+                        </div>
+                        </>
+                    ))}
+                    </Accordion> :
+                    <div className="px-3"><NoEvents message="You have not yet placed any bets yet"/></div>
+            }
         
             </>
         );

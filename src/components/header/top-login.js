@@ -110,7 +110,7 @@ const HeaderLogin = (props) => {
                                     className={`top-login-input-field ${errors.msisdn && 'text-danger'} !px-2 !py-2`}
                                     // style={{borderRight:"1px solid #dddddd"}}
                                     data-action="grow"
-                                    placeholder={errors.msisdn || "+254........."}
+                                    placeholder={errors.msisdn || "07xxxxxxx"}
                                     onChange={ev => onFieldChanged(ev)}
                                     value={values.msisdn}
                                 />

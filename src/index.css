@@ -727,13 +727,13 @@ tr.my-bets td {
 
 
 input.std-input {
-  border: 1px solid var(--light-gray);
+  /* border: 1px solid var(--light-gray); */
   height: 35px;
   width: calc(100% - 20px);
   padding: 2.5px 10px;
   border-radius: 8px;
   background: #e8e8e8;
-  color: var(--black);
+  /* color: var(--black); */
 }
 
 :disabled {
@@ -744,10 +744,9 @@ input.std-input {
   margin-top: 5px;
   margin-bottom: 8px;
 }
-
 .betslip {
-  font-family: "Open Sans";
   font-size: 12px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   position: relative;
+  color: #070707;
 }

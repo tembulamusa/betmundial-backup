@@ -109,7 +109,7 @@ const BodyLogin = (props) => {
                                    name="msisdn"
                                    className={`form-control block px-3 py-3 w-full rounded-2xl std-input ${errors.msisdn && 'text-danger'} `}
                                    data-action="grow"
-                                   placeholder={errors.msisdn || "+254........."}
+                                   placeholder={errors.msisdn || "07xxxxxxxx"}
                                    onChange={ev => onFieldChanged(ev)}
                                    value={values.msisdn}
                             />
