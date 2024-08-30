@@ -69,7 +69,6 @@ const ProSidebar = (props) => {
             setCompetitions(cached_competitions);
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
         }
-
     }, []);
 
     useEffect(() => {
@@ -138,18 +137,14 @@ const ProSidebar = (props) => {
             }}
                  className={`vh-100 sticky-top d-none d-md-block up col-md-2`}>
                 <Sidebar
-    
                     style={{backgroundColor: '#16202c !important'}}
                     image={false}
                     onToggle={handleToggleSidebar}
                     collapsed={collapsed}
                     toggled={toggled}>
                         <Menu iconShape="circle">
-    
-                            
                             {competitions?.all_sports.map((competition, index) => (
-    
-                                <SubMenu title={competition.sport_name} defaultOpen={getActiveSport(competition.sport_id) && index !== 0}
+                                    <SubMenu title={competition.sport_name} defaultOpen={getActiveSport(competition.sport_id) && index !== 0}
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}
                                         label={competition.sport_name}
@@ -158,11 +153,34 @@ const ProSidebar = (props) => {
                                 {/* <SubMenu title={'Countries'}
                                              style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}
                                         <PerfectScrollbar >
+                                        
+                                        {/* For soccer, let's have the top soccer leagues here as well */}
+                                        {
+                                            competition.sport_name =="Soccer"
+                                            &&
+                                            competitions?.top_soccer?.map ((league, idx) => (
+                                                <MenuItem
+                                                    title={league.competition_name}
+                                                    // label = {country.category_name}
+                                                    key={league?.competition_id}
+                                                    icon = {<img style={{borderRadius: '1px', height: '13px', width:"13px" }}
+                                                    src={getSportImageIcon(league?.flag, 'img/flags-1-1', true)}
+                                                    alt='' className='inline-block mr-2'/>}
+                                                    >
+                                                        <Link className='' to={`/sports/competition/matches?id=${league.competition_id}`}
+                                                            onClick={() => changeMatches("competition", league)}>
+                                                            <span>{league?.competition_name}</span>
+                                                        </Link>
+                                                </MenuItem>
+                                            ))
+                                        
+                                        }
                                         {competition?.categories.map((country, countryKey) => (
                                                 <SubMenu
                                                         title={country.category_name}
                                                         label = {country.category_name}
                                                         icon={<img style={{borderRadius: '50%', height: '15px'}}
+                                                        className=''
                                                         src={getSportImageIcon(country.cat_flag, 'img/flags-1-1')}
                                                         alt=''/>}
                                                         className='inner-submenu'
