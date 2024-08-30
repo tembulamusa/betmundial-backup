@@ -739,3 +739,15 @@ input.std-input {
 :disabled {
   cursor: not-allowed !important;
 }
+
+.betslip-game {
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
+
+.betslip {
+  font-family: "Open Sans";
+  font-size: 12px;
+  margin-bottom: 30px;
+  position: relative;
+}

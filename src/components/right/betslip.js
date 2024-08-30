@@ -219,7 +219,7 @@ const BetSlip = (props) => {
                                     <input id={slip.match_id} type="submit" value="X"
                                            onClick={() => handledRemoveSlip(slip)}/>
                                 </div>
-                                <div className="bet-value">
+                                <div className="bet-value betslip-game">
                                         {
                                             <span 
                                                 style={{
@@ -235,7 +235,7 @@ const BetSlip = (props) => {
                                 </div>
                                 <div className="row">
                                     <div className="bet-value">
-                                        {slip.odd_type} - {slip.bet_pick}
+                                        {slip.odd_type} - <span className='font-[500]'>{slip.bet_pick}</span>
                                         <span className="bet-odd">{slip.odd_value}
                                                     {slip.odd_value === 1 &&
                                                         (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
