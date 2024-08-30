@@ -108,7 +108,11 @@ const Right = (props) => {
     
     
     const showShareModalDialog = () => {
-        dispatch({ type: "SET", key: "showsharemodal", payload: true })
+        if(!state?.user) {
+            dispatch({type: "SET", key: "showloginmodal", payload: true})
+        } else {
+            dispatch({ type: "SET", key: "showsharemodal", payload: true })
+        }
     }
 
     const updateBongeBonusMessage = () => {

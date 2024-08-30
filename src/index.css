@@ -735,3 +735,7 @@ input.std-input {
   background: #e8e8e8;
   color: var(--black);
 }
+
+:disabled {
+  cursor: not-allowed !important;
+}

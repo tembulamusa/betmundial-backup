@@ -69,7 +69,10 @@ const Logout = () => {
         out();
     }, [out]);
     localStorage.clear();
-    return null;
+    return (
+        <>
+        </>
+    );
 }
 
 const container = document.getElementById("app");

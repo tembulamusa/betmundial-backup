@@ -3934,10 +3934,8 @@ output {
     background-color: transparent;
 }
 
-.form-control[disabled],
-.form-control[readonly],
-fieldset[disabled] .form-control {
-    background-color: #c5c5c5;
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #e8e8e8;
     opacity: 1;
 }
 

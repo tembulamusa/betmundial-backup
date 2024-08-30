@@ -31,7 +31,7 @@ const BetSlip = (props) => {
     const [inputShareCode, setInputShareCode] = useState();
     const [betslipsData, setBetslipsData] = useState({});
     const [hasBetslip, setHasBetslip] = useState(false);
-
+    const [sharedBetLoading, setSharedBetLoading] = useState(false);
     //initial betslip loading
 
     useEffect(() => {
@@ -50,7 +50,9 @@ const BetSlip = (props) => {
     
     const fetchSharedBetslip = useCallback((code) => {
         let endpoint = "/v1/share?code=" + code
+        setSharedBetLoading(true);
         makeRequest({url: endpoint, method: "GET", data: null}).then(([status, result]) => {
+            console.log("GET THE SHARED CODE SLIP::::::::", result);
             if (status == 200) {
                //load betslip
                 if(result?.betslip) {
@@ -59,6 +61,7 @@ const BetSlip = (props) => {
                     dispatch({type: "SET", key: betslipKey, payload: result?.betslip});
                 }
             }
+            setSharedBetLoading(false);
         });
     }, [code])
 
@@ -194,7 +197,7 @@ const BetSlip = (props) => {
                         <input  type="text" name="sharecode"  placeholder=""  
                             onChange={handleCodeInputChange}
                             style={{border:"1px solid #ddd", borderRadius:"2px", margin:"0px 0px 0px", height:"30px"}}/>
-                        <button className="capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none rounded-xl text-white uppercase hover:opacity-80" style={{padding:"0px", fontSize:"10px", height:"30px", borderRadius:"0"}} onClick={loadBetslipFromCode}>Submit</button>
+                        <button disabled={sharedBetLoading} className="capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none rounded-xl text-white uppercase hover:opacity-80" style={{padding:"0px", fontSize:"10px", height:"30px", borderRadius:"0"}} onClick={loadBetslipFromCode}>{sharedBetLoading ? "wait...":"Submit"}</button>
                     </div>
                 </li>
             }
