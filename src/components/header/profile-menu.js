@@ -59,11 +59,11 @@ const ProfileMenu = (props) => {
               </span>
             </div>
             <div>
-              <a href="/logout">
+              <Link href="/logout">
                 <span className="font-tbt py-1 font-bold">
                 <span className=" space-icons"> <FontAwesomeIcon icon={faLock} /> </span>Logout
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="col-1 button-toggle space-button">
