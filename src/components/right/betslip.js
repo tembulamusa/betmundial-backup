@@ -194,7 +194,7 @@ const BetSlip = (props) => {
                     <div className='my-3 text-center text-2xl'>You have not selected any bet. <br/>Make your first pick to start playing.</div>
                     <hr className='mb-3'/>
                     <div className='flex px-2'>
-                        <input  type="text" name="sharecode"  placeholder=""  
+                        <input  type="text" name="sharecode"  placeholder="Eg HLRTMRV"  
                             onChange={handleCodeInputChange}
                             style={{border:"1px solid #ddd", borderRadius:"2px", margin:"0px 0px 0px", height:"30px"}}/>
                         <button disabled={sharedBetLoading} className="capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none rounded-xl text-white uppercase hover:opacity-80" style={{padding:"0px", fontSize:"10px", height:"30px", borderRadius:"0"}} onClick={loadBetslipFromCode}>{sharedBetLoading ? "wait...":"Submit"}</button>
