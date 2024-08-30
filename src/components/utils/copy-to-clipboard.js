@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 const ClipboardCopy = ({ copyText }) => {
-  const [isCopied, setIsCopied] = useState(false);
 
+  const [isCopied, setIsCopied] = useState(false);
   const copyTextToClipboard = async (text) => {
     if ('clipboard' in navigator) {
       return await navigator.clipboard.write(text);
@@ -17,7 +17,7 @@ const ClipboardCopy = ({ copyText }) => {
         setIsCopied(true);
         setTimeout(() => {
           setIsCopied(false);
-        }, 3000);
+        }, 10000);
       })
       .catch((err) => {
       });
@@ -26,7 +26,7 @@ const ClipboardCopy = ({ copyText }) => {
   return (
     <div className="row">
       <div className="col-10 ">
-          <input type="text" className="disabled" style={{width:"100%"}} value={copyText} readOnly />
+          <input type="text" className="disabled form-control std-input" style={{width:"100%"}} value={copyText} readOnly />
       </div>
       <div className="col-2">
           <button onClick={handleCopyClick} style = {{background:"#0c3c5a", color:"#fff", padding: "2px 10px"}}>

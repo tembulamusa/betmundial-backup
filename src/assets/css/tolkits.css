@@ -15363,7 +15363,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 }
 
 .home-team.disabled, .disabled, .draw.disabled, .away_team.disabled, .market-butt.disabled {
-    background-color: #999999 !important;
+    background-color: #e8e8e8 !important;
     color: #000 !important;
 }
 

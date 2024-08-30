@@ -724,3 +724,14 @@ tr.my-bets td {
   line-height: 19px;
   text-transform: uppercase;
 }
+
+
+input.std-input {
+  border: 1px solid var(--light-gray);
+  height: 35px;
+  width: calc(100% - 20px);
+  padding: 2.5px 10px;
+  border-radius: 8px;
+  background: #e8e8e8;
+  color: var(--black);
+}

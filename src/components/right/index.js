@@ -17,6 +17,7 @@ import {
 import Mpesa from "../../assets/img/mpesa-1.png";
 import Airtelmoney from "../../assets/img/airtelmoney.png";
 import { useLocation } from 'react-router-dom';
+import makeRequest from '../utils/fetch-request';
 
 const AlertMessage = (props) => {
     return (
@@ -104,6 +105,7 @@ const Right = (props) => {
     const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
     // const [jackpot, set] = useState(state?.isjackpot)
 
+    
     
     const showShareModalDialog = () => {
         dispatch({ type: "SET", key: "showsharemodal", payload: true })
