@@ -30,9 +30,9 @@ const HowToPlay = (props) => {
     return (
         <>
             
-            <div className='col-md-12 page-title p-4 text-center'>
-                HOW TO PLAY - BETTING RULES
-            </div>
+                <div className='col-md-12 page-title p-4 text-center'>
+                    HOW TO PLAY - BETTING RULES
+                </div>
                 <div className="col-md-12 p-5">
                 <h2>INTRODUTION</h2>
                 <p>The betting rules are subject to the general terms and conditions and shall be read in conjunction with those provisions found on our online platform</p>

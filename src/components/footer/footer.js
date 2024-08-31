@@ -10,10 +10,10 @@ const Footer = (props) => {
         <footer className="footer-custom">
             <div className="row">
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 text-white">
-                    <h5>surebet</h5>
+                    <h5 className='text-2x uppercase font-bld'>Surebet</h5>
                     <ul>
                         <li className="">
-                            BOX 347856-00100, NAIROBI
+                            BOX 2772 - 00606, NAIROBI
                         </li>
                         <li className="">
                             <a href="mailto:customercare@surebet.co.ke">
@@ -26,7 +26,7 @@ const Footer = (props) => {
                             </a>
                         </li>
                         <li className="footer-icon">
-                            <a href="https://www.instagram.com/surebet_kenya">
+                            <a href="https://www.x.com/surebet_kenya">
                                 <FontAwesomeIcon icon={faTwitter}/> Twitter/X
                             </a>
                         </li>

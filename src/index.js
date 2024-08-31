@@ -56,7 +56,6 @@ import Header from "./components/header/header";
 import { Row } from "react-bootstrap";
 import Sidebar from "./components/sidebar/awesome/Sidebar";
 import { Context } from './context/store';
-import LiveSideBar from "./components/sidebar/live-sidebar";
 
 const Logout = () => {
     let navigate = useNavigate();
@@ -76,7 +75,6 @@ const Logout = () => {
 }
 
 const container = document.getElementById("app");
-const location = window.location;
 
 
 const App = () => {
