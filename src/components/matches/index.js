@@ -105,13 +105,12 @@ const MatchHeaderRow = (props) => {
 
 
     return (
-        <Container className="full-mobile sticky-top" style={{position: "sticky"}}>
+        <Container className={`${live && 'live'} full-mobile sticky-top`} style={{position: "sticky"}}>
             <div className="top-matches d-flex position-sticky sticky-top "
-                 style={{opacity: "1", top: "100px"}}>      
+                 style={{opacity: "1", top: "100px", height:"50px"}}>      
 
                 <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
                     <div className="align-self-center col">
-                    
                    { fetching && <div className="filter-group-icon " >
                            <Spinner animation="border" size="sm" variant="secondary" />
                        </div>
@@ -127,10 +126,10 @@ const MatchHeaderRow = (props) => {
                         {sportName}
                     </span>
                 </div>
-                <div className={'col d-flex flex-row justify-content-between'}>
+                <div className={`col ${!live && 'd-flex flex-row justify-content-between'}`}>
                     {three_way &&
-                        <div className="d-flex flex-row" key="d3">
-                            <div className="d-flex flex-column text-center">
+                        <div className={`markets-header ${!live && 'd-flex flex-row'}`} key="d3">
+                            <div className={`d-flex flex-column text-center`}>
                                 <div className={'bold hidden md:block'}>
                                     3 WAY
                                 </div>
@@ -520,14 +519,14 @@ const MatchRow = (props) => {
             <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="22">
                 {live &&
                     <>
-                        <small style={{color: "red"}}> {match?.match_status} </small>
+                        <small style={{color: "red"}}> {} </small>
                         <br/>
                     </>
                 }
                 <div className="d-flex flex-column" key="20">
                     <span className={'small'}>
                         {(live && match?.match_time) ?
-                            <>{`${match.match_time}'`}</> : match?.start_time}
+                            <span className='font-[500] uppercase'>{match?.match_status}  <span className='text-red-500'>{`${match.match_time}`}</span></span> : match?.start_time}
                     </span>
                     <>ID: {match?.game_id}</>
                 </div>
@@ -541,7 +540,6 @@ const MatchRow = (props) => {
                         </div>
                         <div className="compt-teams d-flex flex-column" key="0035">
                             <div className={'bold'}>
-                                {live && (match?.match_status !== 'ended') && <ColoredCircle color="red"/>}
                                 { match.home_team }
                                 <span className="opacity-reduce-txt vs-styling">
                                 {live && match?.score}

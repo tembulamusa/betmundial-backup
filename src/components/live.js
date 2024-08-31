@@ -72,7 +72,7 @@ const Live = (props) => {
     return (
         <>
             <CarouselLoader />
-            {<MatchList fetching={fetching} live matches={matches} pdown={producerDown}/>}
+            {<MatchList fetching={fetching} three_way live matches={matches} pdown={producerDown}/>}
                
         </>
     )
