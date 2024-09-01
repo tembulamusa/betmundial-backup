@@ -116,12 +116,21 @@ const Withdrawal = (props) => {
     const PaymentInstructions = (props) => {
          return (
              <>
-                <label className='header text-info'>Withdrawal Instructions</label>
+                <h2 className='text-2x font-[500]'>Withdrawal Instructions</h2>
                 <div className="container">
                     <div className="row"><div className="col"> 1. Enter the phone M-Pesa phone number to receive the funds.  </div></div>
                     <div className="row"><div className="col"> 2. Enter the amount you wish to withdraw.</div></div>
                     <div className="row"><div className="col"> 3. Click on the withdraw funds button.</div></div>
                     <div className="row"><div className="col"> 4. Check your phone for an M-Pesa Confirmation.</div></div>
+                </div>
+                <hr className='my-3'/>
+                <h2 className='text-2x font-[500]'>Withdraw Via SMS</h2>
+                <div className="container">
+                    <div className="row">
+                        <div className="col"> To withdraw via SMS, send <span className='font-bold'>w#amount</span> or <span className='font-bold'>withdraw#amount</span> to <span className='font-bold'>29488</span> </div>
+                        <div className='mt-2'>eg send SMS<span className='font-bold'>w#500</span> to <span className='font-bold'>29488</span></div>
+                    </div>
+                    
                 </div>
             </>
         );
@@ -138,8 +147,8 @@ const Withdrawal = (props) => {
             <Form className=" rounded border-0" >
                 <div className="pt-0">
                     <div className="row">
-                        <div className='col-md-7 text-center'>
-                            <img src={mpesa} alt=""/>
+                        <div className='col text-center md:text-left'>
+                            <img src={mpesa} alt="" className='' style={{maxWidth:"100px"}}/>
                         </div>
                         <hr/>
                         <WithdrawFormFields  onFieldChanged ={ onFieldChanged} values ={values } errors={errors} />
