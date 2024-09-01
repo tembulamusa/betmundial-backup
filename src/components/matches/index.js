@@ -425,18 +425,26 @@ const OddButton = (props) => {
 }
 
 
+const teamScore = (allscore, is_home_team) => {
+    let allScores = allscore.split(":");
+    let homeScore = allScores[0];
+    let awayScore = allScores[1];
+    let score = homeScore;
+    if(is_home_team == false) {
+        score = awayScore
+    }
+    return score;
+}
+
 const MarketRow = (props) => {
     const {markets, match, market_id, width, live, pdown} = props;
 
     const MktOddsButton = (props) => {
         const {match, mktodds, live, pdown} = props;
         const fullmatch = {...match, ...mktodds};
-        console.log("Market odds", match)
         return (
             !pdown
             && fullmatch?.odd_value !== 'NaN'
-            // && fullmatch.market_active == 1
-            // && fullmatch.odd_active == 1
         )
             ? <OddButton match={fullmatch} detail mkt={"detail"} live={live}/>
             : <EmptyTextRow odd_key={fullmatch?.odd_key}/>;
@@ -511,6 +519,8 @@ const MatchRow = (props) => {
     if(match.odds.home_odd_active) {
         match.odds.home_odd_active = 1
     }
+
+    console.log("LIVE GAME ODDS::::::::::", match)
     
    
     return (
@@ -541,10 +551,7 @@ const MatchRow = (props) => {
                         <div className="compt-teams d-flex flex-column" key="0035">
                             <div className={'bold'}>
                                 { match.home_team }
-                                <span className="opacity-reduce-txt vs-styling">
-                                {live && match?.score}
-                                    {!live && ''}
-                            </span>
+                                
                             </div>
                             <div className={'bold'}>
                                 {match.away_team}
@@ -553,7 +560,18 @@ const MatchRow = (props) => {
                     </div>
                 </Link>
             </div>
-            <div className="col block md:flex justify-content-between" key="24">
+            
+            {live && 
+                <div className="text-red-500 font-bold">
+                    <br/>
+                    {teamScore(match?.score, true)}
+                    <br/>
+                    {teamScore(match?.score, false)}
+                        
+                </div>
+            }
+
+            <div className={`${live && 'live'} col block md:flex justify-content-between`} key="24">
                 {/* Mobile only datetime */}
                 <div className="md:hidden block" key="22">
                     {live &&
@@ -570,7 +588,7 @@ const MatchRow = (props) => {
                     </div>
 
                 </div>
-                <div className={`c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
+                <div className={`${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
                     {
                         match?.odds?.["1x2"]?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};
@@ -580,7 +598,7 @@ const MatchRow = (props) => {
                                 : <EmptyTextRow key={`${match?.match_id}-${idx}`} odd_key={marketOdd?.odd_key}/>) 
                            
                             
-                        }) 
+                        })
                     }
                 </div>
 

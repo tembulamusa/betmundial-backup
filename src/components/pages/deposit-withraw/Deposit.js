@@ -28,12 +28,6 @@ const Deposit = (props) => {
         makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
             setSuccess(status === 200 || status === 201);
             setMessage(response);
-
-            if(status == 200 || status === 201) {
-                setTimeout({function(){
-                   dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
-                }}, 60000)
-            }
         })
     }
 
@@ -51,8 +45,21 @@ const Deposit = (props) => {
         }
         return errors
     }
+    const pollBal = () => {
+        const pollBalID = setInterval(function(){
+            dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
+            console.log("I AM LOGGING THE BALANCE RIGHT NOW:::")
+        }, 3000)
 
+        // stop polling after 1 minute
+        
+        setTimeout(function(){clearInterval(pollBalID)}, 60000)
+
+    }
+    
     useEffect(() => {
+        // Upon loading this page call the function that polls for balance every 3 seconds and then stops after 1 minute
+        pollBal()
         let betslip = getBetslip();
         if (betslip) {
             dispatch({type: "SET", key: "betslip", payload: betslip});
@@ -120,7 +127,7 @@ const Deposit = (props) => {
     const PaymentInstructions = (props) => {
         return (
             <>
-                <label className='text-info'>Deposit Instructions</label>
+                <h2 className='text-2x text-gray-700 mt-2 font-[500]'>Deposit Instructions</h2>
                 <div className="container">
                     <div className="row">
                         <div className="col"> 1. Enter the amount you want to deposit.</div>
@@ -140,6 +147,32 @@ const Deposit = (props) => {
                         </div>
                     </div>
                 </div>
+
+                <hr className='my-3'/>
+
+                <div className='' id='pay-via-mobile'>
+                    <h2 className='text-2x text-gray-700 font-[500] mb-3 '>Direct Mpesa Deposit</h2>
+                    <div className="row">
+                        <div className="col"> 1. Go to Mpesa.</div>
+                    </div>
+                    <div className="row">
+                        <div className="col"> 2. Select Lipa na mpesa</div>
+                    </div>
+                    <div className="row">
+                        <div className="col"> 3. Enter Paybill number: <span className='text-2x font-bold'>599488</span></div>
+                    </div>
+                    <div className="row">
+                        <div className="col"> 4. Account Number: <span className='text-2x font-bold'>Enter your phone number</span></div>
+                    </div>
+                    <div className="row">
+                        <div className="col"> 5. Enter Amount</div>
+                    </div>
+                    <div className="row">
+                        <div className="col"> 5. Enter PIN and accept</div>
+                    </div>
+
+                </div>
+
             </>
         );
     }

@@ -465,7 +465,7 @@ header, li a, .thedate span {
 
 
 .homepage img {
-    width: 100%;
+    /* width: 100%; */
 }
 
 .homepage .header-holder {
@@ -798,7 +798,7 @@ header, li a, .thedate span {
 }
 
 .text-center img {
-    max-width: 80px;
+    /* max-width: 80px; */
 }
 
 .bet-fix {
