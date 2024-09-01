@@ -16,7 +16,7 @@ export default function MatchesList() {
     const [matches, setMatches] = useState([]);
     const [section, setSection] = useState('highlights');
     const [title, setTitle] = useState('highlights');
-    const [eventsOption, setEventsOption] = useState({});
+    const [eventsOption, setEventsOption] = useState({value:100});
     const [loaded, setLoaded] = useState(false)
     const [jackpotData, setJackpotData] = useState([])
     const [key, setKey] = useState('home');
@@ -28,7 +28,6 @@ export default function MatchesList() {
         let method = 'GET'
         let endpoint = "/v1/matches?dooood&page=" + (1) + `&limit=${eventsOption?.value}&tab=` + section + '&sub_type_id=1,10,29,18';
         makeRequest({url: endpoint, method: method}).then(([status, result]) => {
-            console.log("MATCHES::::::::::::", result);
             if (status == 200) {
                 setMatches(result)
                 if (result.length > 0) {
@@ -38,6 +37,9 @@ export default function MatchesList() {
         });
     }
 
+    useEffect(()=> {
+        fetchMatches();
+    }, []);
     const sectionOptions = [
         {value: 'upcoming', label: 'Upcoming'},
         {value: 'highlights', label: 'Highlights'},
@@ -77,14 +79,14 @@ export default function MatchesList() {
     const MatchesPreview = () => {
 
         return (
-            <div className="">
+            <div className="border border-gray-100">
                 <table width={"100%"} className="table table-striped">
                     <tbody className="min-scroll-table-content">
                         <tr className="uppercase">
                             <td>Date/Time</td>
                             <td>Game</td>
-                            <td colSpan={3}>Match</td>
-                            <td>
+                            <td className="text-center">Match</td>
+                            <td className="" colSpan={3}>
                                 <table>
                                     <tbody>
                                         <tr>
@@ -106,7 +108,7 @@ export default function MatchesList() {
                                     </tbody>
                                 </table>
                             </td>
-                            <td>
+                            <td colSpan={3}>
                                 <table>
                                     <tbody>
                                         <tr>
@@ -129,7 +131,7 @@ export default function MatchesList() {
                                     </tbody>
                                 </table>
                             </td>
-                            <td>
+                            <td colSpan={3}>
                                 <table>
                                     <tbody>
                                         <tr>
@@ -156,10 +158,8 @@ export default function MatchesList() {
                             <tr>
                                 <td className="!p-0 !py-2 text-sm font-bold">{match?.start_time}</td>
                                 <td>{match?.game_id}</td>
-                                <td className="text-left">{match?.home_team}</td>
-                                <td className="text-center">VS</td>
-                                <td className="text-left">{match?.away_team}</td>
-                                <td className="">
+                                <td className="text-center px-3">{match?.home_team} <span className="font-bold"> VS </span> {match?.away_team}</td>
+                                <td className="" colSpan={3}>
                                     <table>
                                         <tbody>
                                             <tr>
@@ -172,7 +172,7 @@ export default function MatchesList() {
                                     
                                 </td>
 
-                                <td>
+                                <td colSpan={3}>
                                     <table>
                                         <tbody>
                                             <tr>
@@ -184,7 +184,7 @@ export default function MatchesList() {
                                     </table>
                                     
                                 </td>
-                                <td>
+                                <td colSpan={3}>
                                     <table>
                                         <tbody>
                                             <tr>
@@ -258,6 +258,7 @@ export default function MatchesList() {
 
                                 </div>
                                 <div className="col-md-6">
+                                    <br/>
                                     <button 
                                     onClick={generatePDFDocument}
                                     className={`mt-3 btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
@@ -274,7 +275,7 @@ export default function MatchesList() {
 
                             <MatchesPreview />
 
-                        <div className="md-col-12 text-start float-start py-3">
+                        <div className="md-col-12 text-start py-3 ">
                               <button 
                                   onClick={generatePDFDocument}
                                   className={`btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
