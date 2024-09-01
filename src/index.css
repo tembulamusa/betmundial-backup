@@ -750,3 +750,10 @@ input.std-input {
   position: relative;
   color: #070707;
 }
+
+.yellow-btn {
+  background: rgb(251, 215, 2);
+  border: 1px solid rgb(211, 180, 6);
+  color: #070707;
+
+}
