@@ -46,7 +46,7 @@ const Promotions = () => {
                         <span><u>How to get it</u></span>
                         <ul>
                             <li>
-                                Deposit KES.50 and above to SUREBET Paybill 4093333 using your phone number as the account number
+                                Deposit KES.50 and above to SUREBET Paybill 599488 using your phone number as the account number
                             </li>
                         </ul>
                         <div className="col-md-12">
@@ -87,7 +87,7 @@ const Promotions = () => {
                             <img src={earlyBirdDailyDepositBonus} className={'rounded'}/>
                             <span><u>How to get it</u></span>
                             <ul>
-                                    <li>Make your first deposit of the day to SUREBET paybill 4093333 account number your mobile number</li>
+                                    <li>Make your first deposit of the day to SUREBET paybill 599488 account number your mobile number</li>
                             </ul>
                             <div className="col-md-12">
                                 <span><u>Terms and conditions</u></span>
