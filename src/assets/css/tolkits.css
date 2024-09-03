@@ -15491,13 +15491,11 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 }
 
 .jackpot-amount {
-    font-family: 'Times New Roman', serif;
-    letter-spacing: 5px;
-    font-size: 30px;
+    /* font-family: 'Times New Roman', serif; */
+    letter-spacing: 3px;
+    font-size: 35px;
     font-weight: bold;
-    color: #f9a744;
-    -webkit-background-clip: text;
-
+    color: #000000;
 }
 
 .login-button {

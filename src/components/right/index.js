@@ -196,7 +196,7 @@ const Right = (props) => {
                     <p>Your account/reference number should be your registered number.</p>
                     <ul>
                         <li class="mpesa">
-                        <span class="lazy lazy-loaded"><img src={Mpesa} style={{maxWidth:"50px"}} alt='paybill'/></span>
+                        <span class="lazy lazy-loaded"><img src={Mpesa} style={{maxWidth:"110px"}} alt='paybill'/></span>
                         <span>599488</span>
                         </li>
                         {/* <li class="airtelmoney">

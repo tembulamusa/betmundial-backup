@@ -150,7 +150,7 @@ const HeaderLogin = (props) => {
                         </div>
                         <div className="col-3">
                             <Link className="top-login-btn btn yellow-btn ml-3" to="/signup" title="Join now" style={{ fontSize: "13px", fontWeight: "bold"}}>
-                                <span className="register-label uppercase">Register</span>
+                                <span className="register-labl uppercase">Register</span>
                             </Link>
                         </div>
                     </Row>

@@ -512,16 +512,14 @@ const MatchRow = (props) => {
         match, 
         jackpot, 
         live, 
-        pdown, 
+        pdown,
+        jackpotstatus,
         sub_types} = props;
 
     match.market_active = 1
     if(match.odds.home_odd_active) {
         match.odds.home_odd_active = 1
     }
-
-    console.log("LIVE GAME ODDS::::::::::", match)
-    
    
     return (
         <>
@@ -590,16 +588,19 @@ const MatchRow = (props) => {
                 </div>
                 <div className={`${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
                     {
-                        match?.odds?.["1x2"]?.map((marketOdd, idx) => {
+                        
+                        (!jackpot || (jackpot && jackpotstatus === "ACTIVE")) && match?.odds?.["1x2"]?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};
                             delete matchWithDetails.odds;
-                            return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
-                                ? <OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="1x2" live={live} jackpot={jackpot}/>
+                            return (
+                                marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || (jackpot && jackpotstatus === "ACTIVE")
+                                ? <><OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="1x2" live={live} jackpot={jackpot}/></>
                                 : <EmptyTextRow key={`${match?.match_id}-${idx}`} odd_key={marketOdd?.odd_key}/>) 
                            
                             
                         })
                     }
+                    {(jackpot && jackpotstatus === "INACTIVE") && <>{match?.outcome || "--" } </>}
                 </div>
 
                 
@@ -693,7 +694,7 @@ export const JackpotHeader = (props) => {
                     </div>
                 </Row>
                 <Row className="jp-header-text mb-2">
-                    <div className="jackpot-amount mt-3 !pl-0">
+                    <div className="jackpot-amount !pl-0">
                         KES  { Intl.NumberFormat('en-US').format(jackpot?.jackpot_amount) }
                     </div>
                 </Row>
@@ -714,7 +715,7 @@ export const JackpotMatchList = (props) => {
 
             <Container className="web-element">
                 {matches && Object.entries(matches?.data).map(([key, match]) => (
-                    <MatchRow match={match} jackpot key={key}/>
+                    <MatchRow match={match} jackpot key={key} jackpotstatus={matches?.meta.status}/>
                 ))
                 }
                 {!matches &&

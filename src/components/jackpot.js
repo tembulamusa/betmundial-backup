@@ -97,91 +97,36 @@ const Jackpot = (props) => {
         <>
             
             <img src={dailyJackpot}/>
-            { matches && 
-            <Tabs
-                variant={'tabs'}
-                defaultActiveKey={matches?.meta.status === 'ACTIVE' ? "home":"results"}
-                id=""
-                className="background-primary "
-                justify>
-                <Tab eventKey="home" 
-                    title="Jackpot" 
-                    className={'background-primary'}
-                    disabled = {matches?.meta.status === 'INACTIVE'}
-                    >
-                    {matches?.data?.length > 0 ? (
-                        <>
-                            <div className="jackpot-header row">
-                                <div className="col-md-6"><JackpotHeader jackpot={matches?.meta}/></div>
-                                <div className="col-md-6">
-                                    <div className="autopick-button-div my-3">
-                                        <span></span> <span className="" id="total-games"></span>
-                                        <button 
-                                            onClick={() => AutoPickAllMatches()}
-                                            className="btn btn-auto-pick mt-3">Auto Pick</button>
-                                    </div>
-                                </div>
-                            </div>                            
-                            <JackpotMatchList matches={matches}/>
-                        </>
-                    ) : (
-                        <div
-                            className={'col-md-12 text-center background-primary mt-2 p-5 no-events-div'}>
-                            There are no active jackpots at the moment.
+            { matches &&
+                <>
+                    <div className="jackpot-header row">
+                    <div className="col-md-6"><JackpotHeader jackpot={matches?.meta}/></div>
+                    
+                    {matches?.meta?.status === "ACTIVE" && <div className="col-md-6">
+                        <div className="autopick-button-div my-3">
+                            <span></span> <span className="" id="total-games"></span>
+                            <button 
+                                onClick={() => AutoPickAllMatches()}
+                                className="btn btn-auto-pick mt-3">Auto Pick</button>
                         </div>
-                    )}
-                </Tab>
-                <Tab 
-                    eventKey="results" 
-                    title="Jackpot Results"
-                    disabled = {matches?.meta.status === 'ACTIVE'}
-                    >
-                    <JackpotHeader jackpot={matches?.meta}/>
-                    <div className="matches full-mobile sticky-top container">
-                        <div
-                            className="top-matches d-flex position-sticky  p-4">
-                            <div className="col-md-3 bold">
-                                TIME
-                            </div>
-                            <div className="col-md-6 bold">
-                                MATCH
-                            </div>
-                            <div className="col-md-3 bold">
-                                OUTCOME
-                            </div>
-                        </div>
+                    </div>}
                     </div>
 
-                    {matches?.data.map((match, index) => (
-                        <div className={'matches full-width'} key={index}>
-                            <Container className="web-element">
-                                <div
-                                    className="col-md-12 d-flex flex-row p-2 top-matches">
-                                    <div className="col-md-3">
-                                        {match?.start_time}
-                                    </div>
-                                    <div className="col-md-6 d-flex flex-column">
-                                        <div className={'small'}>
-                                            {match?.category} | {match?.competition_name}
-                                        </div>
-                                        <div>
-                                            <div className={'bold'}>
-                                                {match?.home_team}
-                                            </div>
-                                            <div className={'bold'}>
-                                                {match?.away_team}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-3">
-                                        {match?.outcome || '-'}
-                                    </div>
-                                </div>
-                            </Container>
-                        </div>
-                    ))}
-                </Tab>
-            </Tabs>
+                    {/* If games are available, then show games */}
+                    {matches?.data?.length > 0
+                        ?
+                        (
+                            <JackpotMatchList matches={matches}/>
+                        )
+                        :
+                        (
+                            <div
+                                className={'col-md-12 text-center background-primary mt-2 p-5 no-events-div'}>
+                                There are no jackpots at the moment.
+                            </div>
+                        )
+                    }
+                </>
             
             }
                         

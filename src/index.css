@@ -59,7 +59,8 @@ code {
 }
 .paybillnumbers ul li span {
   font-weight: 700;
-  padding: 6px 12px;
+  padding: 6px 0px 0 12px;
+  font-size: 25px;
 }
 
 .bg-pink {
@@ -715,7 +716,7 @@ tr.my-bets td {
   max-width: 244px;
   padding: 0px;
   border-radius: 8px;
-  background: rgb(255, 178, 0);
+  background: rgb(255, 178, 0) !important;
   border: 0px;
   cursor: pointer;
   color: rgb(19, 30, 40);
@@ -723,8 +724,17 @@ tr.my-bets td {
   font-weight: 700;
   line-height: 19px;
   text-transform: uppercase;
+  transition: all ease-in 0.3s;
+  -webkit-transition: all ease-in 0.3s;
+  -moz-transition: all ease-in 0.3s;
 }
 
+.btn-auto-pick:hover {
+  opacity: 0.6;
+  transition: all ease-in 0.3s;
+  -webkit-transition: all ease-in 0.3s;
+  -moz-transition: all ease-in 0.3s;
+}
 
 input.std-input {
   /* border: 1px solid var(--light-gray); */
