@@ -18,7 +18,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import {Context} from '../../../context/store';
 import LiveSideBar from '../live-sidebar';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 const ProSidebar = (props) => {
 
@@ -28,6 +28,8 @@ const ProSidebar = (props) => {
     const [loc, setLoc] = useState("/");
     const [state, dispatch] = useContext(Context);
     const location = useLocation()
+    const [searchParams, setSearchParams] = useSearchParams();
+    const queryParamValue = searchParams.get('id');
 
     const handleCollapsedChange = (checked) => {
         setCollapsed(checked);
@@ -36,6 +38,7 @@ const ProSidebar = (props) => {
     useEffect(() => {
         setLoc(location?.pathname)
     }, [location])
+
     const handleToggleSidebar = (value) => {
         setToggled(value);
     };
@@ -144,7 +147,7 @@ const ProSidebar = (props) => {
                     toggled={toggled}>
                         <Menu iconShape="circle">
                             {competitions?.all_sports.map((competition, index) => (
-                                    <SubMenu title={competition.sport_name} defaultOpen={getActiveSport(competition.sport_id) && index !== 0}
+                                    <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name === "Soccer"}
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}
                                         label={competition.sport_name}
@@ -167,7 +170,7 @@ const ProSidebar = (props) => {
                                                     src={getSportImageIcon(league?.flag, 'img/flags-1-1', true)}
                                                     alt='' className='inline-block mr-2'/>}
                                                     >
-                                                        <Link className='' to={`/sports/competition/matches?id=${league.competition_id}`}
+                                                        <Link className={`sidebar-link ${(queryParamValue == league.competition_id) && 'active'}`} to={`/sports/competition/matches?id=${league.competition_id}`}
                                                             onClick={() => changeMatches("competition", league)}>
                                                             <span>{league?.competition_name}</span>
                                                         </Link>

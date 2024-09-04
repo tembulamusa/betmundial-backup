@@ -7,14 +7,14 @@ import useInterval from "../hooks/set-interval.hook";
 import {Context} from '../context/store';
 
 
-const CarouselLoader = React.lazy(() => import('./carousel/index'));
-const MatchList = React.lazy(() => import('./matches/index'));
+const CarouselLoader = React.lazy(() => import('./carousel/index.js'));
+const MatchList = React.lazy(() => import('./matches/index.js'));
 
 
 const Live = (props) => {
     const [matches, setMatches] = useState();
-    const [state, dispatch] = useContext(Context);
-    const [delay, setDelay] = useState(2000);
+    const [, dispatch] = useContext(Context);
+    const [delay,  ] = useState(2000);
     const [fetching, setFetching] = useState(false)
 
     const {spid} = useParams();
