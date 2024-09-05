@@ -106,7 +106,7 @@ const MatchHeaderRow = (props) => {
 
     return (
         <Container className={`${live && 'live'} full-mobile sticky-top`} style={{position: "sticky"}}>
-            <div className="top-matches d-flex position-sticky sticky-top "
+            <div className={`${jackpot && 'jackpot-zero-top'} top-matches d-flex position-sticky sticky-top `}
                  style={{opacity: "1", top: "100px", height:"50px"}}>      
 
                 <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
@@ -314,16 +314,14 @@ const OddButton = (props) => {
                    + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
                    + (match?.[mkt] || match?.odd_key || mkt)
                );
-
                if (state?.[reference] === uc) {
-                   setPicked('picked')
+                setPicked('picked')
                } else {
-                   console.log("match not picked ", match.match_id);
                    setPicked('');
                }
           }
        }
-    }, [state?.[betslip_key]?.[match.match_id]])
+    }, [state?.[betslip_key]?.[match.match_id], state?.betslip, state?.[betslip_key]])
 
 
     useEffect(() => {
@@ -589,7 +587,7 @@ const MatchRow = (props) => {
                 <div className={`${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
                     {
                         
-                        (!jackpot || (jackpot && jackpotstatus === "ACTIVE")) && match?.odds?.["1x2"]?.map((marketOdd, idx) => {
+                        (!jackpot || (jackpot && jackpotstatus === "ACTIVE") || live) && match?.odds?.["1x2"]?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};
                             delete matchWithDetails.odds;
                             return (
@@ -688,16 +686,16 @@ export const JackpotHeader = (props) => {
     return (
         <Container>
             <Row className="top-matches">
-                <Row className="jp-header-text">
+                <Row className="jp-header-text text-center">
                     <div className="jp-header-top">
                         {jackpot?.type} - {jackpot?.total_games} GAMES {jackpot?.name}
                     </div>
                 </Row>
-                <Row className="jp-header-text mb-2">
+                {/* <Row className="jp-header-text mb-2">
                     <div className="jackpot-amount !pl-0">
                         KES  { Intl.NumberFormat('en-US').format(jackpot?.jackpot_amount) }
                     </div>
-                </Row>
+                </Row> */}
 
             </Row>
         </Container>

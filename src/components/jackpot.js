@@ -96,20 +96,35 @@ const Jackpot = (props) => {
     return (
         <>
             
-            <img src={dailyJackpot}/>
+            {/* <img src={dailyJackpot}/> */}
             { matches &&
                 <>
-                    <div className="jackpot-header row">
-                    <div className="col-md-6"><JackpotHeader jackpot={matches?.meta}/></div>
                     
-                    {matches?.meta?.status === "ACTIVE" && <div className="col-md-6">
-                        <div className="autopick-button-div my-3">
-                            <span></span> <span className="" id="total-games"></span>
-                            <button 
-                                onClick={() => AutoPickAllMatches()}
-                                className="btn btn-auto-pick mt-3">Auto Pick</button>
+                    <div className="jackpot-header row bg-secondary">
+                        <div className="col-12">
+                            <JackpotHeader jackpot={matches?.meta}/>
                         </div>
-                    </div>}
+                    </div>
+                    <div className="row">
+                        <div className="col-md-8 !px-3">
+                            {
+                                <div className="!px-2">
+                                    <div className="jackpot-amount !pl-0 pt-3">
+                                    Let the quick pick randomly choose the Jackpot Pro selections for you! KES  {Intl.NumberFormat('en-US').format(matches?.meta?.jackpot_amount) }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        {
+                            <div className="col-md-4">
+                                <div className="autopick-button-div my-2 !px-3">
+                                    <span></span> <span className="" id="total-games"></span>
+                                    <button 
+                                        onClick={() => AutoPickAllMatches()}
+                                        className="btn btn-auto-pick mt-3">Auto Pick</button>
+                                </div>
+                            </div>
+                        }
                     </div>
 
                     {/* If games are available, then show games */}

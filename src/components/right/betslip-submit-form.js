@@ -132,6 +132,7 @@ const BetslipSubmitForm = (props) => {
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
                     setMessage(response);
                     dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
+                    handleRemoveAll();
                     if (jackpot) {
                         clearJackpotSlip();
                         setMessage({
@@ -198,7 +199,8 @@ const BetslipSubmitForm = (props) => {
 
     const handleRemoveAll = useCallback(() => {
         let betslips = getBetslip();
-        Object.entries(betslips).map(([match_id, match]) => {
+        if (betslips)
+        {Object.entries(betslips).map(([match_id, match]) => {
             removeFromSlip(match_id);
             let match_selector = match.match_id + "_selected";
             let ucn = clean_rep(
@@ -210,7 +212,7 @@ const BetslipSubmitForm = (props) => {
             dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
         });
         dispatch({type: "DEL", key: jackpot ? "jackpotbetslip":"betslip"});
-        setMessage(null);
+        setMessage(null);}
     }, []);
 
     useEffect(() => {

@@ -28,7 +28,7 @@ const ProSidebar = (props) => {
     const [loc, setLoc] = useState("/");
     const [state, dispatch] = useContext(Context);
     const location = useLocation()
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, ] = useSearchParams();
     const queryParamValue = searchParams.get('id');
 
     const handleCollapsedChange = (checked) => {

@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext, useCallback} from 'react';
-import {Link, useParams} from 'react-router-dom'
+import {Link, useParams, useSearchParams} from 'react-router-dom'
 import {Row, Col, Dropdown} from 'react-bootstrap';
 import { faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -13,6 +13,8 @@ const MainTabs = (props) => {
     const [state, dispatch] = useContext(Context);
     const {sportid, categoryid, competitionid} = useParams();
     const [activeTab, setActiveTab] = useState(tab);
+    const [searchParams, ] = useSearchParams();
+    const queryParamValue = searchParams.get('id');
 
     const getSportOptionLabel = (sport_name, showCaret=false) => {
         return (<Row className="d-flex justify-content-start f-menu-item">
@@ -198,26 +200,26 @@ const MainTabs = (props) => {
                     </div>
                 </div>
             </Row>
-            <div className='py-2 my-2 mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
+            <div className='mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
                 <Link
                 onClick={() => dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: 0}})}
                 to={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
                     All
                 </Link>
                 {state?.categories?.top_soccer?.map((competition, idx) => (
-                    <>
+                <>
                         
-                        <Link
-                        onClick={() =>  dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: competition?.competition_id}})}
-                        to={`/sports/competition/matches?id=${competition.competition_id}`}
-                        className='mx-3 main-tabs-submenu' style={{fontSize: "13px"}}
-                        >
-                            <img style={{borderRadius: '1px', height: '13px', width:"13px" }}
-                            src={getSportImageIcon(competition?.flag, 'img/flags-1-1', true)}
-                            alt='' className='inline-block mr-2'/>
-                            <span className='inline-block leading-0'>{competition?.competition_name}</span>
-                        </Link>
-                    </>
+                    <Link
+                    onClick={() =>  dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: competition?.competition_id}})}
+                    to={`/sports/competition/matches?id=${competition.competition_id}`}
+                    className={`mx-3 main-tabs-submenu item ${(queryParamValue == competition.competition_id) && 'active'}`} style={{fontSize: "13px"}}
+                    >
+                        <img style={{borderRadius: '1px', height: '13px', width:"13px" }}
+                        src={getSportImageIcon(competition?.flag, 'img/flags-1-1', true)}
+                        alt='' className='inline-block mr-2'/>
+                        <span className='inline-block leading-0'>{competition?.competition_name}</span>
+                    </Link>
+                </>
                 ))}
             </div>
         </div>

@@ -770,5 +770,26 @@ input.std-input {
 
 .sidebar-link.active {
   font-weight: bold;
-  
+
+}
+
+.main-tabs-submenu {
+  border-bottom: 3px solid  transparent;
+  padding: 7px 0;
+  font-weight: 500;
+  transition: all ease-in 0.4s;
+  -moz-transition: all ease-in 0.4s;
+  -webkit-transition: all ease-in 0.4s;
+}
+.main-tabs-submenu.active,
+.main-tabs-submenu:hover {
+  border-bottom-color: rgba(231, 6, 84, 0.958) ;
+  color: rgba(231, 6, 84, 0.958);
+  transition: all ease-in 0.4s;
+  -moz-transition: all ease-in 0.4s;
+  -webkit-transition: all ease-in 0.4s;
+}
+
+.jackpot-zero-top {
+  height: 0 !important;
 }
