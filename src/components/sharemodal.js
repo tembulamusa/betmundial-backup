@@ -49,11 +49,17 @@ const ShareModal = (props) => {
     }, []);
 
     const ipAddress = useCallback(async () => {
-        let ip = await publicIp.v4({
-            fallbackUrls: ['https://ifconfig.co/ip']
-        }).then((result) => {
-            return result
-        });
+        let ip;
+        try {
+            ip = await publicIp.v4({
+                fallbackUrls: ['https://ifconfig.co/ip']
+            }).then((result) => {
+                return result
+            });
+        } catch(err) {
+            ip = "";
+        }
+        
 
         setIpv4(ip);
     }, [ipv4]);

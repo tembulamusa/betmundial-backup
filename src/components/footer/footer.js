@@ -26,7 +26,7 @@ const Footer = (props) => {
                             </a>
                         </li>
                         <li className="footer-icon">
-                            <a href="https://www.x.com/surebet_kenya">
+                            <a href="https://x.com/SurebetsKenya">
                                 <FontAwesomeIcon icon={faTwitter}/> Twitter/X
                             </a>
                         </li>
