@@ -15561,6 +15561,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
         padding-top: 0px !important;
         scroll-margin-top: 0;
     }
+    
 }
 
 .overflow-ellipsis {
@@ -15800,3 +15801,12 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
    
     margin-top: 0;
 }
+
+@media only screen and (max-width: 768px) {
+    .promo-pannel {
+        border: 1px solid #bebebe;
+        width: 95%;
+        margin: 0px 4px;
+        border-radius: 5px;
+    }
+  }

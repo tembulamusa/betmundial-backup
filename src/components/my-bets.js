@@ -36,8 +36,6 @@ const Styles = {
 const MyBets = (props) => {
     const [state, dispatch] = useContext(Context);
     const [isLoading, setIsLoading] = useState(false);
-    const [betslip, setCurrentBetDetail] = useState([]);
-    const [selectedBetId, setSelectedBetId] = useState(null);
     const [message, setMessage] = useState({});
 
 
@@ -68,7 +66,6 @@ const MyBets = (props) => {
         setIsLoading(true);
         let endpoint = "/v1/mybets";
         makeRequest({url: endpoint, method: "POST", data: {limit:"100", page:"1"}}).then(([status, result]) => {
-            
             if ([200, 201].includes(status)){
                 dispatch({type: "SET", key: "mybets", payload: result});
             } else {
@@ -127,6 +124,7 @@ const MyBets = (props) => {
             makeRequest({url: endpoint, method: "POST", data: {id:bet?.bet_id}}).then(([status, result]) => {
                 setCurrentBetDetail(result?.data);
                 setIsLoadingBetItems(false);
+
             });
     
         }
@@ -214,14 +212,14 @@ const MyBets = (props) => {
                     <AccordionItem key={bet?.bet_id}>
                         <AccordionItemHeading onClick={() => fetchBetDetail()}>
                             <AccordionItemButton>
-                                <div className="col font-ligt">{ bet?.bet_id}</div>
-                                <div className="col hidden md:flex">{ betType}</div>
-                                <div className="col">{ bet?.created}</div>
-                                <div className="col hidden md:flex text-center">{ bet?.total_matches}</div>
-                                <div className="col text-cente">{ bet?.bet_amount}</div>
-                                <div className="col">{ bet?.possible_win}</div>
-                                <div className="col"><CancelBetMarkup /> { statusMarkup(bet) } <IsOpenMarkup />
-                                </div>
+                                    <div className="col font-ligt">{ bet?.bet_id}</div>
+                                    <div className="col hidden md:flex">{ betType}</div>
+                                    <div className="col">{ bet?.created}</div>
+                                    <div className="col hidden md:flex text-center">{ bet?.total_matches}</div>
+                                    <div className="col text-cente">{ bet?.bet_amount}</div>
+                                    <div className="col">{ bet?.possible_win}</div>
+                                    <div className="col"><CancelBetMarkup /> { statusMarkup(bet) } <IsOpenMarkup />
+                                    </div>
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>

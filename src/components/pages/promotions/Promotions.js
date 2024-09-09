@@ -17,7 +17,7 @@ const Promotions = () => {
                     Promotions
             </div>
             <div className={'row  p-3 d-flex justify-content-center'}>
-                <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                <div className="col-md-6 mb-2 px-3 shadow-lg promo-pannel">
                     <div className="d-flex flex-column">
                         <h5 className="uppercase">SUREBET 3000 KARIBU BONUS</h5>
                         <img src={karibuBonus} className={'rounded'}/>
@@ -39,7 +39,7 @@ const Promotions = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                <div className="col-md-6 mb-2 px-3 shadow-lg promo-pannel">
                     <div className="d-flex flex-column">
                         <h5>100% FIRST DEPOSIT SUREBET BONUS </h5>
                         <img src={hundredPercentDepositBonus} className={'rounded'}/>
@@ -60,7 +60,7 @@ const Promotions = () => {
                     </div>
                 </div>
                 </div>
-                <div className="row p-3  d-flex justify-content-center"> 
+                <div className="row px-3  d-flex justify-content-center"> 
                     <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
                         <div className="d-flex flex-column">
                             <h5>SUREBET MSHIPI BONUS</h5>
@@ -81,7 +81,7 @@ const Promotions = () => {
                         </div>
                     </div> 
 
-                    <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                    <div className="col-md-6 mb-2 px-3 shadow-lg promo-pannel">
                         <div className="d-flex flex-column">
                             <h5>SUREBET DAILY DEPOSIT BONUS</h5>
                             <img src={earlyBirdDailyDepositBonus} className={'rounded'}/>

@@ -62,16 +62,14 @@ const Logout = () => {
     localStorage.clear();
     const out = useCallback(() => {
         localStorage.clear();
-        navigate("/");
-    }, [navigate]);
+        navigate("/"); 
+    }, []);
     useEffect(() => {
         out();
     }, [out]);
     localStorage.clear();
-    return (
-        <>
-        </>
-    );
+    navigate("/");
+    return null
 }
 
 const container = document.getElementById("app");

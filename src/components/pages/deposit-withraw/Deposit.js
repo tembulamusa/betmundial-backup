@@ -17,6 +17,7 @@ const Deposit = (props) => {
     const [state, dispatch] = useContext(Context);
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const initialValues = {
         amount: '',
@@ -25,9 +26,14 @@ const Deposit = (props) => {
 
     const handleSubmit = values => {
         let endpoint = '/stk/deposit';
+        setIsLoading(true);
         makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
             setSuccess(status === 200 || status === 201);
+            if (status === 200 || status === 201) {
+                pollBal();
+            }
             setMessage(response);
+            setIsLoading(false)
         })
     }
 
@@ -48,7 +54,6 @@ const Deposit = (props) => {
     const pollBal = () => {
         const pollBalID = setInterval(function(){
             dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
-            console.log("I AM LOGGING THE BALANCE RIGHT NOW:::")
         }, 3000)
 
         // stop polling after 1 minute
@@ -57,14 +62,8 @@ const Deposit = (props) => {
 
     }
     
-    useEffect(() => {
         // Upon loading this page call the function that polls for balance every 3 seconds and then stops after 1 minute
-        pollBal()
-        let betslip = getBetslip();
-        if (betslip) {
-            dispatch({type: "SET", key: "betslip", payload: betslip});
-        }
-    }, [])
+        
 
     const FormTitle = () => {
         return (
@@ -114,8 +113,9 @@ const Deposit = (props) => {
                 <div className="form-group row d-flex justify-content-left mb-4">
                     <div className="col-md-3">
                         <button
+                            disabled={isLoading}
                             className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button'>
-                            Deposit
+                            {isLoading ? "wait..." : "Deposit"}
                         </button>
                     </div>
                 </div>
