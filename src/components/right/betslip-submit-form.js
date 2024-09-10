@@ -61,6 +61,9 @@ const BetslipSubmitForm = (props) => {
 
     };
 
+    useEffect(() => {
+        setBetslipKey(state?.isjackpot ? "jackpotbetslip": "betslip")
+    }, [state?.isjackpot])
     
 
     const handlePlaceBet = useCallback((values,
@@ -212,7 +215,10 @@ const BetslipSubmitForm = (props) => {
             dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
         });
         dispatch({type: "DEL", key: jackpot ? "jackpotbetslip":"betslip"});
-        setMessage(null);}
+        if (message?.status !== 201){
+            setMessage(null);
+        }
+    }
     }, []);
 
     useEffect(() => {

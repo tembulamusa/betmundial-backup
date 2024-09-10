@@ -47,6 +47,7 @@ const LoadedBetslip = (props) => {
     const [jackpot, ] = useState(state?.isjackpot);
 
     useEffect(() => {
+        console.log("IS JACKPOT::: ", state)
         if(state?.betslip || state?.jackpotbetslip){
             if(Object.entries(state?.betslip||state?.jackpotbetslip || {}).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
         } else {

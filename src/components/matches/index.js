@@ -522,7 +522,7 @@ const MatchRow = (props) => {
     return (
         <>
         <div className="top-matches d-flex">
-            <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="22">
+            <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="21">
                 {live &&
                     <>
                         <small style={{color: "red"}}> {} </small>

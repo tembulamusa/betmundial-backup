@@ -61,7 +61,6 @@ const Jackpot = (props) => {
 
         if(matches) {
             let betslip;
-
             Object.entries(matches?.data).map(([key, match]) => {
                let reference = match.match_id + "_selected";
                let pick = randomPick(1, 3);
@@ -93,6 +92,15 @@ const Jackpot = (props) => {
         }
     }
 
+    useEffect(() => {
+        dispatch({type:"SET", key: "isjackpot", payload: true});
+
+        return () => {
+            dispatch({type:"SET", key: "isjackpot", payload: false});
+
+        }
+    }, [])
+
     return (
         <>
             
@@ -115,7 +123,7 @@ const Jackpot = (props) => {
                                 </div>
                             }
                         </div>
-                        {
+                        {matches?.meta?.status === "ACTIVE" &&
                             <div className="col-md-4">
                                 <div className="autopick-button-div my-2 !px-3">
                                     <span></span> <span className="" id="total-games"></span>
