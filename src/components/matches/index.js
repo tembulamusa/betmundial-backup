@@ -519,6 +519,17 @@ const MatchRow = (props) => {
         match.odds.home_odd_active = 1
     }
    
+    const TimeToLiveStarting = (props) => {
+        const {starttime} = props;
+        let startDiff = Date.parse(starttime) - Date.now();
+        let diffHrs = Math.floor((startDiff % 86400000) / 3600000);
+        let diffMins = Math.round(((startDiff % 86400000) % 3600000) / 60000);
+        return (
+            <>
+                <span className='text-blue-700'>{diffHrs > 0 && diffHrs + " Hrs"} {startDiff >= 0 && diffMins + " Mins"}</span> to start
+            </>
+        )
+    }
     return (
         <>
         <div className="top-matches d-flex">
@@ -556,21 +567,20 @@ const MatchRow = (props) => {
                     </div>
                 </Link>
             </div>
-            
-            {live && 
+             
+            {(live && match?.score !=="-") && 
                 <div className="text-red-500 font-bold">
                     <br/>
                     {teamScore(match?.score, true)}
                     <br/>
                     {teamScore(match?.score, false)}
-                        
                 </div>
             }
 
-            <div className={`${live && 'live'} col block md:flex justify-content-between`} key="24">
+            <div className={`${live && 'live-game'} col block md:flex justify-content-between`} key="24">
                 {/* Mobile only datetime */}
                 <div className="md:hidden block" key="22">
-                    {live &&
+                    {(live && match?.status) &&
                         <div className=''>
                             <small style={{color: "red"}}> {match?.match_status} </small>
                         </div>
@@ -584,7 +594,8 @@ const MatchRow = (props) => {
                     </div>
 
                 </div>
-                <div className={`${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
+                <div className={`${(live && match?.score == "-") && "live-unstarted"} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
+                    {(live && Date.parse(match?.start_time) > Date.now()) && <div className='float-right font-[500]'><TimeToLiveStarting starttime = {match?.start_time} /></div>}
                     {
                         
                         (!jackpot || (jackpot && jackpotstatus === "ACTIVE") || live) && match?.odds?.["1x2"]?.map((marketOdd, idx) => {

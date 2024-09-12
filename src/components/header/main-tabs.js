@@ -203,12 +203,11 @@ const MainTabs = (props) => {
             <div className='mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
                 <Link
                 onClick={() => dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: 0}})}
-                to={`/competition/${selectedSport.sport_id}`} className='mx-3 font-bold'>
+                to={`/competition/${selectedSport.sport_id}`} className={`mx-3 main-tabs-submenu item ${(!queryParamValue) && 'active'}`}>
                     All
                 </Link>
                 {state?.categories?.top_soccer?.map((competition, idx) => (
                 <>
-                        
                     <Link
                     onClick={() =>  dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: competition?.competition_id}})}
                     to={`/sports/competition/matches?id=${competition.competition_id}`}

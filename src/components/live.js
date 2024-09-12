@@ -14,7 +14,7 @@ const MatchList = React.lazy(() => import('./matches/index.js'));
 const Live = (props) => {
     const [matches, setMatches] = useState();
     const [, dispatch] = useContext(Context);
-    const [delay,  ] = useState(2000);
+    const [delay,  ] = useState(3000);
     const [fetching, setFetching] = useState(false)
 
     const {spid} = useParams();

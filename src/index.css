@@ -793,3 +793,8 @@ input.std-input {
 .jackpot-zero-top {
   height: 0 !important;
 }
+
+.live-unstarted.live-group-buttons {
+  width: 100%;
+  display: block;
+}
