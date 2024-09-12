@@ -67,7 +67,7 @@ const Header = (props) => {
 
     useEffect(()=>{
         setUser(getFromLocalStorage("user"));
-    },[state?.user]);
+    },[user]);
     
     useEffect(() => {
         updateUserOnHistory()

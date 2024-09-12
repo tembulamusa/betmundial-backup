@@ -62,13 +62,14 @@ const Logout = () => {
     localStorage.clear();
     const out = useCallback(() => {
         localStorage.clear();
-        navigate("/"); 
+        // window.location.href = "/"; 
     }, []);
     useEffect(() => {
         out();
     }, [out]);
     localStorage.clear();
     navigate("/");
+
     return null
 }
 
