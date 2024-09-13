@@ -23,7 +23,6 @@ const MatchAllMarkets = (props) => {
     const { live } = props;
     const [matchwithmarkets, setMatchWithMarkets] = useState();
     const [userSlipsValidation, setUserSlipsValidation] = useState();
-
     const params = useParams();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -40,10 +39,9 @@ const MatchAllMarkets = (props) => {
 			: "/v1/matches?id="+params.id;
 
         let betslip = findPostableSlip();
-        let method = betslip ? "POST" : "GET";
+        let method = "GET";
 
-		makeRequest({url:endpoint, method:method, data:betslip}).then(([_status, response]) => {
-            console.log("GAME DEATILS11111111111111111111 !:::::::::========", response)
+		makeRequest({url:endpoint, method:method}).then(([_status, response]) => {
 			setMatchWithMarkets(response?.data || response );
             if(response?.slip_data) {
                 setUserSlipsValidation(response?.slip_data);
@@ -62,7 +60,6 @@ const MatchAllMarkets = (props) => {
                 : "/v1/matches?id="+params.id;
 
             await makeRequest({url: endpoint, method: "GET"}).then(([status, result]) => {
-                console.log("GAME DEATILS2222222222222222 !:::::::::========", result)
                 setMatchWithMarkets(result?.data|| result)
                 setProducerDown(result?.producer_status === 1);
                 setIsLoading(false);

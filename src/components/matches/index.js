@@ -550,7 +550,7 @@ const MatchRow = (props) => {
 
             </div>
             <div className="col-md-2 col-sm-4 col-xs-12 match-detail-container" key="23">
-                <Link to={jackpot ? '#' : `/match/${live ? 'live/' + match.parent_match_id : match.match_id}`}>
+                <Link to={(jackpot || (live && match?.match_status == null) ) ? '#' : `/match/${live ? 'live/' + match.parent_match_id : match.match_id}`}>
                     <div className="d-flex flex-column primary-text">
                         <div className="compt-detail overflow-ellipsis" key="0034">
                             <small>{match.category} | {match.competition_name}</small>
@@ -605,8 +605,6 @@ const MatchRow = (props) => {
                                 marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || (jackpot && jackpotstatus === "ACTIVE")
                                 ? <><OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="1x2" live={live} jackpot={jackpot}/></>
                                 : <EmptyTextRow key={`${match?.match_id}-${idx}`} odd_key={marketOdd?.odd_key}/>) 
-                           
-                            
                         })
                     }
                     {(jackpot && jackpotstatus === "INACTIVE") && <>{match?.outcome || "--" } </>}
@@ -660,10 +658,20 @@ export const MarketList = (props) => {
 
     const {live, matchwithmarkets, pdown} = props;
 
+
+    const EventUnavailable = (props) => {
+        return (
+            <div className="px-3">
+                <NoEvents message="Event not available for betting" />
+                <Link className='font-bold hover:underline text-blue-700' to={live?"/live":"/matches"}>Back to {live && "live "} Matches</Link>
+            </div>
+        )
+    }
+
     return (
         <div className="matches full-width">
             {!matchwithmarkets
-                ? <div className="top-matches">Event not available for betting.</div>
+                ? <EventUnavailable match = {matchwithmarkets?.match} />
                 : <MoreMarketsHeaderRow
                     {...matchwithmarkets?.match}
                     score={matchwithmarkets?.match?.score}
@@ -672,8 +680,8 @@ export const MarketList = (props) => {
                 />
             }
             <div className="web-element">
+                {(!matchwithmarkets || Object.entries(matchwithmarkets?.odds || {}).length ===0) && <EventUnavailable />}
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
-                    console.log("Math with markets::", matchwithmarkets)
                     return <MarketRow
                         market_id={mkt_id}
                         markets={markets}
