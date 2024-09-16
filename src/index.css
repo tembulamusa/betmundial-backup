@@ -522,7 +522,7 @@ h5, h4, h3, h2 {
 }
 
 .my-bets td {
-  padding: 10px;
+  padding: 4px;
 }
 
 .betslip-header td {
@@ -543,7 +543,7 @@ h5, h4, h3, h2 {
 }
 
 tr.my-bets {
-  border-bottom: 5px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
 }
 tr.my-bets td {
   background: rgba(0,0,0, 0.042) !important;
@@ -591,7 +591,7 @@ tr.my-bets td {
 }
 
 .btn-sm {
-  padding: 6px 12px !important;
+  padding: 5px 12px !important;
 }
 
 .mybet-list .accordion__button:before {

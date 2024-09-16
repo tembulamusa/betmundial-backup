@@ -149,12 +149,12 @@ const MyBets = (props) => {
         const CancelBetMarkup = (props) => {
             const {txt} = props;
             return (
-                    canCancel && <button
+                    !canCancel && <button
                          title="Cancel Bet"
-                         className="secondary-text btn btn-sm cancel-bet secondary-ation"
+                         className="secondary-text uppercase btn btn-sm cancel-bet secondary-ation"
                          onClick={()=> cancelBet()}
                          >
-                         {txt?txt:"Cashout"}
+                         {txt?txt:"Cancel"}
                     </button>
             )
         }
@@ -188,7 +188,7 @@ const MyBets = (props) => {
             }
             return (
                 <>
-                  {btnClass && <button className = {`btn btn-bet-hist ${btnClass}`}>{btnText}</button>}
+                  {btnClass && <button className = {`btn btn-bet-hist mb-1 ${btnClass}`}>{btnText}</button>}
                   {statusText && statusText}
                 </>
             )
@@ -198,19 +198,12 @@ const MyBets = (props) => {
 
             return (
                 <>
-                    <button className="btn btn-bet-hist light-btn"><FaShare  className="inline-block mr-2"/>Share</button>
+                    <button className="btn btn-bet-hist light-btn mb-1"><FaShare  className="inline-block mr-2"/>Share</button>
                 </>
             )
         }
 
-        const IsOpenMarkup = (props) => {
-
-            return (
-                <>
-                    {!isOpen ? <GrAddCircle className="ml-2 font-bold open-close-accordion inline-block"/> : <IoMdRemoveCircleOutline  className="ml-2 font-bold open-close-accordion inline-block"/>}
-                </>
-            )
-        }
+        
         return (
                     <Accordion.Item eventKey={bet?.bet_id}>
                         <Accordion.Header>
@@ -221,12 +214,12 @@ const MyBets = (props) => {
                             <div className="col hidden md:flex">{ bet?.total_matches}</div>
                             <div className="col text-cente">{ bet?.bet_amount}</div>
                             <div className="col">{ bet?.possible_win}</div>
-                            <div className="col"><shareMarkup /> <CancelBetMarkup /> { statusMarkup(bet) }</div>
+                            <div className="col">{ statusMarkup(bet) }</div>
                             </div>
                         </Accordion.Header>
                         <Accordion.Body>
                             <div className="bet-detail-header">
-                                <span><CancelBetMarkup txt="Cashout Early" /></span> <span>{shareMarkup(bet)}</span>
+                                <span><CancelBetMarkup txt="Cancel  Bet" /></span> <span>{shareMarkup(bet)}</span>
                             </div>
                             <table className="table !mt-3 !mb-0">
                                 <thead>

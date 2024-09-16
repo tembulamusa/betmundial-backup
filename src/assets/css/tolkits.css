@@ -273,7 +273,7 @@ header, li a, .thedate span {
 .accordion-button {
     outline: none;
     border: thin solid white;
-    background: #fbfbfb !important;
+    background: #eeeeee !important;
     padding: 14px;
     font-size: 14px;
     /* color: whitesmoke; */
