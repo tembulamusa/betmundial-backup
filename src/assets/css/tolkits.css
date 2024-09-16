@@ -744,14 +744,15 @@ header, li a, .thedate span {
     min-width: 100%;
     margin-right: 0px;
     /* border-radius: 0px !important; */
-    text-align: left;
-    padding-right: 10px;
+    text-align: left !important;
+    padding-right: 5px;
     border-radius: 3px !important;
     margin-bottom: 4px;
+    padding-left: 5px;
     height: 40px;
 }
 .match-detail button .label {
-    font-weight:bold;
+    font-weight: 400;
 }
 .matches .top-matches .match-detail button.home-team{
     background: #e3e3e3 !important;

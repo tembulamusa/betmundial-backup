@@ -680,10 +680,14 @@ tr.my-bets td {
 }
 
 .matches .top-matches .match-detail button {
-  transition: all ease-in-out 500ms;
+  transition: all ease-in-out 100ms;
+  -moz-transition: all ease-in-out 100ms;
+  -webkit-transition: all ease-in-out 100ms;
 }
 .matches .top-matches .match-detail button:hover {
-  transition: all ease-in-out 500ms;
+  transition: all ease-in-out 100ms;
+  -moz-transition: all ease-in-out 100ms;
+  -webkit-transition: all ease-in-out 100ms;
 }
 
 .popover-login-modal {
