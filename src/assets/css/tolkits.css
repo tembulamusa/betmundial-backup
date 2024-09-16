@@ -266,21 +266,19 @@ header, li a, .thedate span {
 }
 
 .accordion-button:not(.collapsed) {
-    color: white;
+    /* color: white; */
     border: none;
 }
 
 .accordion-button {
     outline: none;
-    border: none;
-    color: whitesmoke;
-    background: #22323e !important;
-    padding: 20px;
-    font-size: 16px;
-    color: whitesmoke;
-    border-bottom: thin solid white;
+    border: thin solid white;
+    background: #fbfbfb !important;
+    padding: 14px;
+    font-size: 14px;
+    /* color: whitesmoke; */
+    /* border-bottom: thin solid white; */
 }
-
 .no-border-radius {
     -webkit-border-radius: 0px 0px 0px 0px;
     -moz-border-radius: 0px 0px 0px 0px;
@@ -5884,9 +5882,6 @@ input[type="button"].btn-block {
     opacity: 1;
 }
 
-.collapse {
-    display: none;
-}
 
 .collapse.in {
     display: block;

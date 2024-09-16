@@ -63,11 +63,15 @@ const Header = (props) => {
 
     const updateUserOnLogin = useCallback(() => {
         dispatch({type: "SET", key: "user", payload: user});
-    }, [user?.msisdn, user?.balance]);
+        // setUser(getFromLocalStorage("user" ));
+    }, [user]);
 
-    useEffect(()=>{
-        setUser(getFromLocalStorage("user"));
-    },[user]);
+    // const updateUser = () => {
+    //     setUser(getFromLocalStorage("user"));
+    // }
+    // useEffect(()=>{
+    //     updateUser();
+    // },[user]);
     
     useEffect(() => {
         updateUserOnHistory()

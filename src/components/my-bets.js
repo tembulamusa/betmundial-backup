@@ -1,13 +1,16 @@
 import React, {useContext, useEffect, useState, useCallback} from "react";
 import {Context} from '../context/store';
 import makeRequest from './utils/fetch-request';
-import {
-    Accordion,
-    AccordionItem,
-    AccordionItemButton,
-    AccordionItemHeading,
-    AccordionItemPanel,
-} from 'react-accessible-accordion';
+// import {
+//     Accordion,
+//     AccordionItem,
+//     AccordionItemButton,
+//     AccordionItemHeading,
+//     AccordionItemPanel,
+// } from 'react-accessible-accordion';
+
+import Accordion from 'react-bootstrap/Accordion';
+
 
 import '../assets/css/accordion.react.css';
 import { FaCheckCircle, FaShare } from "react-icons/fa";
@@ -117,7 +120,7 @@ const MyBets = (props) => {
         }, [bet])
 
         const fetchBetDetail = () => {
-            setIsOpen(!isOpen);
+            // setIsOpen(!isOpen);
             if(isLoadingBetItems || currentBetDetail?.length > 0) return;
             setIsLoadingBetItems(true);
             let endpoint = "/v1/betdetails";
@@ -209,20 +212,19 @@ const MyBets = (props) => {
             )
         }
         return (
-                    <AccordionItem key={bet?.bet_id}>
-                        <AccordionItemHeading onClick={() => fetchBetDetail()}>
-                            <AccordionItemButton>
-                                    <div className="col font-ligt">{ bet?.bet_id}</div>
-                                    <div className="col hidden md:flex">{ betType}</div>
-                                    <div className="col">{ bet?.created}</div>
-                                    <div className="col hidden md:flex text-center">{ bet?.total_matches}</div>
-                                    <div className="col text-cente">{ bet?.bet_amount}</div>
-                                    <div className="col">{ bet?.possible_win}</div>
-                                    <div className="col"><CancelBetMarkup /> { statusMarkup(bet) } <IsOpenMarkup />
-                                    </div>
-                            </AccordionItemButton>
-                        </AccordionItemHeading>
-                        <AccordionItemPanel>
+                    <Accordion.Item eventKey={bet?.bet_id}>
+                        <Accordion.Header>
+                            <div className="row w-full" onClick={() => fetchBetDetail()}>
+                            <div className="col font-ligt">{ bet?.bet_id}</div>
+                            <div className="col hidden md:flex">{ betType}</div>
+                            <div className="col">{ bet?.created}</div>
+                            <div className="col hidden md:flex">{ bet?.total_matches}</div>
+                            <div className="col text-cente">{ bet?.bet_amount}</div>
+                            <div className="col">{ bet?.possible_win}</div>
+                            <div className="col"><shareMarkup /> <CancelBetMarkup /> { statusMarkup(bet) }</div>
+                            </div>
+                        </Accordion.Header>
+                        <Accordion.Body>
                             <div className="bet-detail-header">
                                 <span><CancelBetMarkup txt="Cashout Early" /></span> <span>{shareMarkup(bet)}</span>
                             </div>
@@ -241,8 +243,8 @@ const MyBets = (props) => {
                                     { isLoadingBetItems && <tr><td>fetching ...</td></tr>}
                                 </tbody>
                             </table>    
-                        </AccordionItemPanel>
-                    </AccordionItem>            
+                        </Accordion.Body>
+                    </Accordion.Item>            
         );
     }
 
@@ -250,11 +252,11 @@ const MyBets = (props) => {
         return (
             <tr className={`betslip-header`} >
                     <td className="hidden md:table-cell">No.</td>
-                    <td className="">ID</td>
+                    {/* <td className="">ID</td> */}
                     <td className="">Date</td>
                     <td className="">Game</td>
-                    <td className="hidden md:table-cell">Odds</td>
-                    <td className="hidden md:table-cell">Market</td>
+                    {/* <td className="hidden md:table-cell">Odds</td> */}
+                    {/* <td className="hidden md:table-cell">Market</td> */}
                     <td className="">Pick</td>
                     <td className="">Results</td>
                     <td className="hidden md:table-cell">3/4</td>
@@ -312,11 +314,11 @@ const MyBets = (props) => {
         return (
             <tr className={`my-bets`}  key={slip.game_id}>
                 <td className="hidden md:table-cell">{ 1}</td>
-                <td className="">{ slip?.game_id}</td>
+                {/* <td className="">{ slip?.game_id}</td> */}
                 <td className="">{ slip?.start_time}</td>
                 <td className="">{ slip?.home_team} - {slip.away_team}</td>
-                <td className="hidden md:table-cell">{ slip?.odd_value}</td>
-                <td className="hidden md:table-cell">{ slip?.market}</td>
+                {/* <td className="hidden md:table-cell">{ slip?.odd_value}</td> */}
+                {/* <td className="hidden md:table-cell">{ slip?.market}</td> */}
                 <td className="">{ slip?.bet_pick}</td>
                 <td className="">{ slip?.results?.length > 0 ? slip.results : "--"} <span className="md:hidden">{ gameBetStatus(slip.status)}</span></td>
                 {/* <td className="">{ slip.ft_result}</td> */}
@@ -333,6 +335,7 @@ const MyBets = (props) => {
                 (state?.mybets || []).length > 1 ?
                     <Accordion 
                     className="accordion"
+                    defaultActiveKey={0}
                     allowMultipleExpanded={false}
                     // uuid = {}
                     >
@@ -357,6 +360,8 @@ const MyBets = (props) => {
 
     }
 
+    
+
     const PageTitle = () => {
        return (
             <div className='col-md-12 page-title p-4 text-center'>
@@ -374,6 +379,7 @@ const MyBets = (props) => {
                 <Alert />
                 <PageTitle />
                 <MyBetsList  />
+
             </div>
         </>
     )
