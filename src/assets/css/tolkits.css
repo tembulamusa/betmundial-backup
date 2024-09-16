@@ -789,10 +789,6 @@ header, li a, .thedate span {
 
 .text-center {
     text-align: center;
-    display: block;
-    margin: auto;
-    max-width: 100%;
-    overflow: auto;
 }
 
 .text-center img {
