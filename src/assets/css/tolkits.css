@@ -1554,7 +1554,7 @@ header {
 
     .second-nav {
         /* top: 80px !important; */
-        margin-top: 54px;
+        margin-top: 85px;
     }
 
     .show-mobile-top.second-nav {
@@ -7138,7 +7138,7 @@ ul.sport {
     }
 
     .e.logo {
-        padding: 5px 5px !important;
+        padding: 0px 0px !important;
     }
 
     .second-nav {
@@ -15118,7 +15118,7 @@ img.zoom-img {
 
 
     .carousel-item img {
-        height: 200px;
+        height: 120px;
     }
     tr.my-bets {
         border-bottom: 5px solid #ffffff;

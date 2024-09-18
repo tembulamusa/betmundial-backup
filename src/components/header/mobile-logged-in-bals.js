@@ -15,20 +15,18 @@ const MobileLoggedInBals = (props) => {
         }
     },[])
     return (
-        <div className="row">
-            <div style={{color:"#dddddd", fontWeight:"500"}} className="capitalize px-3 col-6">
+        <div className="text-center">
+            {/* <div style={{color:"#dddddd", fontWeight:"500"}} className="capitalize px-3 col-6">
                 <div style={{}}>Balance <span className="secondary-text font-bold">{state?.user ? state?.user?.balance : "--"}</span></div>
                 <div style={{}}>Bonus <span className="secondary-text font-bold">{state?.user ? state?.user?.bonus : "--"}</span></div>
-            </div>
-            <div className="col-6">
-                <div className="float-end text-white">
+            </div> */}
+                <div className="text-white">
                     <Link to='/deposit' className="btn btn-deposit-withdraw text-white mr-2">
-                        <FontAwesomeIcon icon={faCoins} className="secondary-text text-2xl mr-2"/>Deposit
+                        <FontAwesomeIcon icon={faCoins} className="text-white text-2xl mr-4"/>Deposit
                     </Link>
-                    <Link to='/withdraw' className="btn btn-deposit-withdraw text-white">
+                    {/* <Link to='/withdraw' className="btn btn-deposit-withdraw text-white">
                         <FontAwesomeIcon icon={faDollarSign} className="bright-blue-text text-2xl mr-2"/>Withdraw
-                    </Link>
-            </div>
+                    </Link> */}
             </div>
         </div>
     )

@@ -162,8 +162,8 @@ const MainTabs = (props) => {
 
     return (
         <div className='bg-white shadow-sm border-b border-gray-200 mb-3 block relative'>
-            <Row className="border-b border-gray-200 !uppercase font-bold main-tabs reduced-mobile-text px-2">
-                <div className='col-4 hidden md:flex !mr-0 pr-0'>
+            <div className="border-b border-gray-200 !uppercase font-bold main-tabs reduced-mobile-text px-2">
+                <div className='col-4 col-md-4 col-sm-4 hidden md:flex !mr-0 pr-0'>
                     <div className="filter-group-icon mb-0" key="1">
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-custom-components" variant="transparent-selector" >
@@ -185,22 +185,22 @@ const MainTabs = (props) => {
                 </div>
                 <div className='md:col-8 md:w-8/12 text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto md:!overflow-hidden'>
                     <div className='row'>
-                        <div className="col-4">
+                        <div className="col-4 col-md-4 col-sm-4">
                             <div className={`home-tabs hover:text-hover ${activeTab === 'highlights' && 'home-tab-active'}`} 
                             onClick = {() => setActiveTabSpace('highlights')} >Highlights</div>
                         </div>
-                        <div className="col-4">
+                        <div className="col-4 col-md-4 col-sm-4">
                                 <div className={`home-tabs hover:text-hover ${activeTab === 'today' && 'home-tab-active'}`} 
                                     onClick ={() => setActiveTabSpace('today')}>Today's</div>
                         </div>
-                        <div className="col-4">
+                        <div className="col-4 col-md-4 col-sm-4">
                                 <div className={`home-tabs hover:text-hover ${activeTab === 'tomorrow' && 'home-tab-active'}`}
                                     onClick={() => setActiveTabSpace('tomorrow')}>Tomorrow</div>
                         </div>
                     </div>
                 </div>
-            </Row>
-            <div className='mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
+            </div>
+            <div className='md:mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
                 <Link
                 onClick={() => dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: 0}})}
                 to={`/competition/${selectedSport.sport_id}`} className={`mx-3 main-tabs-submenu item ${(!queryParamValue) && 'active'}`}>

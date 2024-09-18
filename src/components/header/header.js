@@ -16,6 +16,7 @@ import MobileRightMenu from './mobile-right-menu';
 import MobileDownloadBanner from './mobile-download-banner';
 import MobileLoggedInBals from './mobile-logged-in-bals';
 import LoginModal from '../loginmodal';
+import { FaDivide } from 'react-icons/fa';
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const HeaderNav = React.lazy(() => import('./header-nav'));
@@ -88,16 +89,15 @@ const Header = (props) => {
         <>
             
             <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark">
-                <MobileDownloadBanner />
+                {/* <MobileDownloadBanner /> */}
+                <div className='light-blue md:hidden text-white py-2 w-full'><MobileLoggedInBals/></div>
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
-                    <div className='inline-block md:hidden text-white col-sm-2'>
-                        <MobileMenu />
+                    
+                    <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
+                        <span className='inline-block md:!hidden text-white mr-3'><MobileMenu /></span><a href='/'><LazyLoadImage className='inline-block' src={logo} alt="surebet" title="surebet" effects="blur"/></a>
                     </div>
-                    <Navbar.Brand href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
-                                <LazyLoadImage src={logo} alt="surebet" title="surebet" effects="blur"/>
-                    </Navbar.Brand>
 
-                    <div className='inline-block md:hidden text-white col-sm-5'>
+                    <div className='inline-block md:hidden text-white col-sm-6'>
                         <MobileRightMenu />
                     </div>
 
@@ -132,16 +132,15 @@ const Header = (props) => {
             </Navbar>
 
             {/* mobile bottom menu */}
-            <Row className={`${state?.showmobiletop && "show-mobile-top"} block md:hidden second-nav ck pc os app-navbar relative mobile-custom-scrollbar`}>
-                <div className='light-blue text-white py-1'><MobileLoggedInBals/></div>
+            <div className={`${state?.showmobiletop && "show-mobile-top"} block md:hidden second-nav ck pc os app-navbar relative mobile-custom-scrollbar diminish-mobile-row row`}>
                 <div className="hidden-icons px-4"><HeaderNav/></div>
-            </Row>
+            </div>
 
             {/* Only show if they are visible/third nav is available */}
             <div className='md:hidden w-full  mobile-custom-scrollbar overflow-scroll bg-[#ffffffb8]'>
-                <Row className="third-mobile-nav border-b border-gray-200 ml-0 px-2">
+                <div className="md:row third-mobile-nav border-b border-gray-200 ml-0 px-2 flex">
                     <MobileCurrentNavItems />
-                </Row>
+                </div>
             </div>
 
             {/* Only show if fourth nav is available/ tabs or so */}

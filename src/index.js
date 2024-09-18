@@ -84,7 +84,7 @@ const App = () => {
                 <Suspense fallback={<p></p>}>
                 <Header />
                 <div className="amt">
-                    <Row>
+                    <div className="diminish-mobile-row row">
                         {/* Conditional load live or otherwise */}
                         <Sidebar />
                 
@@ -136,7 +136,7 @@ const App = () => {
                     </div>
                     <Right />
                  
-                </Row>
+                </div>
             </div>
             <Footer />
             </Suspense>

@@ -432,21 +432,25 @@ h5, h4, h3, h2 {
 }
 
 .third-mobile-nav {
-  /* padding: 5px 4px; */
+  /* padding: 5px 4px;
   background: #ffffffb8;
   border-bottom: 1px solid #fff;
   flex-wrap: nowrap;
-  width: 105%;
+  width: 105%; */
 }
 
 .mobile-categories-item {
   margin-right: 6px;
+  /* width: 108px !important; */
+  /* max-width: 155px !important; */
+  padding-right: 13px !important;
+  padding-left: 13px !important;
 }
 
 .mobile-betslip-link {
   display: inline-table;
   background: rgba(255,255,255, 0.3);
-  padding: 10px;
+  padding: 7px;
   position: absolute;
   right: 0;
   /* margin-left: 9px; */
@@ -675,8 +679,12 @@ tr.my-bets td {
 }
 
 .btn-deposit-withdraw {
-  border: 1px solid rgba(255,255,255,0.4);
-  margin-top: 5px;
+  border: #00A8FA;
+  /* margin-top: 5px; */
+  background: #00A8FA;
+  padding: 7px 15px;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .matches .top-matches .match-detail button {
@@ -813,4 +821,11 @@ input.std-input {
   z-index: 3;
   outline: 0;
   box-shadow: none;
+}
+
+@media screen and (max-width: 640px) {
+  .diminish-mobile-row.row {
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
