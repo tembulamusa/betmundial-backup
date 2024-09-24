@@ -1,6 +1,5 @@
 import React, {useEffect, useCallback, Suspense, useContext} from "react";
 import { createRoot } from 'react-dom/client';
-
 import {
     BrowserRouter,
     Route,
@@ -8,7 +7,6 @@ import {
     useLocation,
     useNavigate,
 } from 'react-router-dom'
-
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/application.css';
@@ -16,9 +14,7 @@ import './assets/css/tolkits.css';
 import './assets/css/sidebar-menu.css';
 import './index.css';
 import Store from './context/store';
-
 import Index from './components/index';
-
 import MatchAllMarkets from './components/all-markets';
 import Jackpot from './components/jackpot';
 import Live from './components/live';
@@ -35,25 +31,19 @@ import Deposit from './components/pages/deposit-withraw/Deposit';
 import Signup from './components/pages/signup';
 import ResetPassword from './components/pages/auth/reset-password';
 import VerifyAccount from './components/pages/auth/verify-account';
-
 import MobileApp from './components/pages/app';
 import ProtectedRoute from './components/utils/protected-route';
-
 import PrintMatches from './components/pages/downloads';
-
 import Casino from './components/pages/casino/Casino';
 import LiveCasino from './components/pages/casino/LiveCasino';
 import Virtuals from './components/pages/casino/Virtuals';
-
 import CasinoGamePlay from './components/pages/casino/GamePlay';
-
 import Promotions from './components/pages/promotions/Promotions';
 import Login from './components/pages/login';
 import LiveScore from './components/pages/livescore/LiveScore';
 import Right from "./components/right/index";
 import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
-import { Row } from "react-bootstrap";
 import Sidebar from "./components/sidebar/awesome/Sidebar";
 import { Context } from './context/store';
 
