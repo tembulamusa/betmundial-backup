@@ -169,7 +169,7 @@ const BetslipSubmitForm = (props) => {
                 return previous * odd_value;
             }, 1);
             setTotalOdds(odds);
-
+            
             let stake_after_tax = Float(stake) / Float(107.5) * 100
             let ext = Float(stake) - Float(stake_after_tax);
             let raw_possible_win = Float(stake_after_tax) * Float(odds);
@@ -188,6 +188,10 @@ const BetslipSubmitForm = (props) => {
             setNetWin(Float(nw, 2));
             setPossibleWin(Float(raw_possible_win, 2));
             setWithholdingTax(Float(wint, 2));
+
+            // update state espcially for the footer
+            dispatch({type:"SET", key:"totalodds", payload: Float(odds)})
+            dispatch({type:"SET", key:"slipnetwin", payload:Float(nw,2)})
         } else {
             setNetWin(0);
             setWithholdingTax(0);

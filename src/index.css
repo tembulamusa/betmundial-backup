@@ -836,3 +836,42 @@ input.std-input {
     margin: 0px -15px;
 }
 }
+
+.mobile-sticky-footer-slip {
+  font-size: 11px;
+}
+
+.mobile-footer-slip {
+  padding: 7px 11px;
+  border-radius: 4px;
+  display: block;
+  /* margin-top: 10px; */
+  width: auto !important;
+  max-width: fit-content;
+  font-weight: 500;
+  /* margin-left: auto; */
+  margin-right: auto;
+}
+.bet-slip-footer-toggle {
+  border-top-right-radius: 4px;
+  padding-top: 10px;
+  border-top-left-radius: 4px;
+  background: rgba(231,6,84, 1);
+  padding-bottom: 4px;
+  font-weight: 400;
+}
+.mobile-footer-slip-counter {
+  /* line-height: 1; */
+  padding: 0px 3px;
+  margin-left: 3px;
+}
+.bet-button {
+  font-weight: 700;
+  padding: 10px;
+  line-height: 1;
+}
+
+.mobile-sticky-footer-slip .capture-input {
+  max-width: 80px;
+  height: 30px;
+}

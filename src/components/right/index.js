@@ -42,12 +42,12 @@ const LoadedBetslip = (props) => {
 
     const {betslipValidationData, jackpotData} = props;
     const [betSlipMobile, setBetSlipMobile] = useState(false);
-    const [state,] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
     const [, setHasBetslip] = useState(false);
     const [jackpot, ] = useState(state?.isjackpot);
+    const [footerMobileValue, setFooterMobileValue] = useState(jackpot ? jackpotData?.bet_amount : 100)
 
     useEffect(() => {
-        console.log("IS JACKPOT::: ", state)
         if(state?.betslip || state?.jackpotbetslip){
             if(Object.entries(state?.betslip||state?.jackpotbetslip || {}).length > 0){setHasBetslip(true)} else {setHasBetslip(false)};
         } else {
@@ -91,20 +91,22 @@ const LoadedBetslip = (props) => {
                     </div>
                 </div>
             </div>
-            <section href="#betslip" className={`${betSlipMobile ? 'd-none' : 'd-block'} d-block d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle font-[500] capitalize`}
+            <section href="#betslip" className={`${betSlipMobile ? 'd-none' : 'd-block'} d-block d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle capitalize`}
                 >
-                    <div className='row'>
-                        <div className='col-3'>
-                            slip
+                    <div className='flex mobile-sticky-footer-slip'>
+                        <div className='col-3 text-left' style={{paddingLeft:"10px"}}>
+                            <a href='#betslip' className='bg-primary text-white mobile-footer-slip'>slip <span className='mobile-footer-slip-counter rounded-full yellow-bg'>{Object.entries(state?.betslip||state?.jackpotbetslip || {}).length}</span></a>
+                        </div>
+                        <div className='col-3 text-left'>
+                            {/* <div>Amount</div> */}
+                            <input className='capture-input' type='number' onChange={(ev) => dispatch({type: "SET", key: "mobilefooteramount", payload: ev.target.value})} value={state?.mobilefooteramount ?? 100}/>
+                        </div>
+                        <div className='col-3 text-left'>
+                            <div className=''>Odds: <span className='font-[500]'>{state?.totalodds}</span></div>
+                            <div>Win: <span className='font-[500]'>{state?.slipnetwin}</span></div> 
                         </div>
                         <div className='col-3'>
-                            amt
-                        </div>
-                        <div className='col-3'>
-                            odds
-                        </div>
-                        <div className='col-3'>
-                            bet
+                            <button className='bet-button yellow-bg uppercase btn'>Bet Now</button>
                         </div>
                     </div>
             </section>

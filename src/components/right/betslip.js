@@ -52,7 +52,6 @@ const BetSlip = (props) => {
         let endpoint = "/v1/share?code=" + code
         setSharedBetLoading(true);
         makeRequest({url: endpoint, method: "GET", data: null}).then(([status, result]) => {
-            console.log("GET THE SHARED CODE SLIP::::::::", result);
             if (status == 200) {
                //load betslip
                 if(result?.betslip) {
