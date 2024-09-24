@@ -1,7 +1,6 @@
 import React, {useEffect, useCallback, useState, useContext, useRef} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import {LazyLoadImage} from 'react-lazy-load-image-component';
 import {Context} from '../../context/store';
 import {getFromLocalStorage} from '../utils/local-storage';
 import {ToastContainer} from 'react-toastify';
@@ -94,7 +93,7 @@ const Header = (props) => {
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
                     
                     <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
-                        <span className='inline-block md:!hidden text-white mr-3'><MobileMenu /></span><a href='/'><LazyLoadImage className='inline-block' src={logo} alt="surebet" title="surebet" effects="blur"/></a>
+                        <span className='inline-block md:!hidden text-white mr-3'><MobileMenu /></span><a href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
                     </div>
 
                     <div className='inline-block md:hidden text-white col-sm-6'>
@@ -109,25 +108,6 @@ const Header = (props) => {
                     </Row>
                     
                         
-        { /** <Navbar.Offcanvas
-                        style={{width: "100% !important", height: "100%"}}
-                        className='off-canvas background-primary p-0'
-                        id={`offcanvasNavbar-expand-${expand}`}
-                        aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-                        placement="start">
-                        <Offcanvas.Header closeButton className='text-white'>
-                            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                                <div className="col-3">
-                                    <div>
-                                        <LazyLoadImage src={logo} alt="surebet" title="surebet" effects="blur"/>
-                                    </div>
-                                </div>
-                            </Offcanvas.Title>
-                        </Offcanvas.Header>
-                        <Offcanvas.Body>
-                            <SidebarMobile/>
-                        </Offcanvas.Body>
-                    </Navbar.Offcanvas> */}
                 </Container>
             </Navbar>
 
@@ -143,14 +123,10 @@ const Header = (props) => {
                 </div>
             </div>
 
-            {/* Only show if fourth nav is available/ tabs or so */}
-            {/* <Row className="tabs">
-                <MobileTabsMenu />
-            </Row> */}
+            
 
         <ShareModal shown={state?.showsharemodal === true} />
         
-        {/* Login modal */}
         <LoginModal />
         </>
 

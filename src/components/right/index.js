@@ -71,7 +71,7 @@ const LoadedBetslip = (props) => {
                 
             </div>
             
-            {/* <div
+            <div
                 className={`fixed-bottom text-white d-block d-md-none shadow-sm betslip-container-mobile ${betSlipMobile ? 'd-block' : 'd-none'}`}>
                 <div className="bet-option-list sticky-top" id=''>
                     <div className="bet alu  block-shadow">
@@ -90,11 +90,24 @@ const LoadedBetslip = (props) => {
                         <QuickLogin/>
                     </div>
                 </div>
-            </div> */}
-            <a href="#betslip" className={`${!betSlipMobile ? 'd-none' : 'd-block'} d-block d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle font-[500] capitalize`}
+            </div>
+            <section href="#betslip" className={`${betSlipMobile ? 'd-none' : 'd-block'} d-block d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle font-[500] capitalize`}
                 >
-                show BetSlip
-            </a>
+                    <div className='row'>
+                        <div className='col-3'>
+                            slip
+                        </div>
+                        <div className='col-3'>
+                            amt
+                        </div>
+                        <div className='col-3'>
+                            odds
+                        </div>
+                        <div className='col-3'>
+                            bet
+                        </div>
+                    </div>
+            </section>
         </>
     )
 }

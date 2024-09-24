@@ -4,14 +4,14 @@ import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 // import banner5 from '../../assets/img/banner/products/Daily-JackPot.png'
-import banner4 from '../../assets/img/banner/products/Mshipi-Bonus.png'
-import banner2 from '../../assets/img/banner/products/Live-Betting.png'
-import banner3 from '../../assets/img/banner/products/freebet.jpeg'
-import banner1 from '../../assets/img/banner/products/Welcome-Bonus.png'
+import Breakfast from '../../assets/img/banner/carousel/breakfast.png';
+import App from '../../assets/img/banner/carousel/app.png';
+import Sharebet from '../../assets/img/banner/carousel/Sharebet.png';
+import Tick from '../../assets/img/banner/carousel/Tick.png';
+import Epl from '../../assets/img/banner/carousel/epl.png';
+import Live from '../../assets/img/banner/carousel/Live-Betting.png';
+import { Link } from 'react-router-dom';
 
-const banners = [
-    banner3, banner1, banner2, banner4
-]
 
 const CarouselLoader = (props) => {
     const [imageLoaded, setImageLoaded] = useState(false);
@@ -21,19 +21,74 @@ const CarouselLoader = (props) => {
 
     return (
         <Carousel>
-            {banners.map((banner, idx) => (
-                <Carousel.Item key={idx}>
-                    <LazyLoadImage
-                        className="d-block w-100"
-                        style={{display: imageLoaded ? 'block' : 'none'}}
-                        src={banner}
-                        onLoad={onImageLoaded}
-                        alt="surebet"
-                        effects="blur"
-                    />
-                </Carousel.Item>
-            ))
-            }
+            
+            <Carousel.Item >
+                <LazyLoadImage
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Breakfast}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+
+            <Carousel.Item >
+                <LazyLoadImage
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={App}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+
+            <Carousel.Item >
+                <LazyLoadImage
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Sharebet}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+
+            <Carousel.Item >
+                <LazyLoadImage
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Tick}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <LazyLoadImage
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Epl}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+
+            <Carousel.Item >
+                <Link to={"/live"}>
+                <LazyLoadImage
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Live}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+                </Link>
+            </Carousel.Item>
 
         </Carousel>
     )

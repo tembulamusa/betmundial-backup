@@ -16,7 +16,8 @@ const Signup = (props) => {
 
     const initialValues = {
         msisdn: '',
-        password: ''
+        password: '',
+        created_by:"web"
     }
 
     const handleSubmit = values => {
@@ -28,7 +29,6 @@ const Signup = (props) => {
             setSuccess(status === 200 || status === 201)
             if([200, 201, 204].includes(status)){
                 setTimeout(() => {
-                    
                 }, 3000);
                 navigate("/verify-account");
             } else {

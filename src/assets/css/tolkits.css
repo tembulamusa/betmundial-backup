@@ -14952,9 +14952,11 @@ img.zoom-img {
 }
 
 .bet-slip-footer-toggle {
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
+    border-top-right-radius: 4px;
+    padding-top: 5px;
+    border-top-left-radius: 4px;
     background: rgba(231,6,84,.958);
+    padding-bottom: 6px;
 }
 
 .logo-sign-inner {
@@ -15521,8 +15523,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 }
 
 .bet-slip-footer-toggle {
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    
 }
 
 
