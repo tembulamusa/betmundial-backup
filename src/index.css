@@ -421,8 +421,10 @@ h5, h4, h3, h2 {
   justify-content: center;
   align-items: center;
   margin-right: 5px;
+  padding-bottom: 5px;
   border-bottom: 3px solid transparent;
   margin-left: 10px;
+  padding-top: 5px;
 }
 }
 
@@ -431,19 +433,10 @@ h5, h4, h3, h2 {
   height: 25px;
 }
 
-.third-mobile-nav {
-  /* padding: 5px 4px;
-  background: #ffffffb8;
-  border-bottom: 1px solid #fff;
-  flex-wrap: nowrap;
-  width: 105%; */
-}
-
 .mobile-categories-item {
   margin-right: 6px;
-  /* width: 108px !important; */
-  /* max-width: 155px !important; */
   padding-right: 13px !important;
+  font-size: 11px;
   padding-left: 13px !important;
 }
 
@@ -460,6 +453,7 @@ h5, h4, h3, h2 {
 }
 .mobile-menu-item-wrap {
   text-wrap: nowrap;
+  line-height: 1;
 }
 
 .ps-menu-button.ps-open {
@@ -681,8 +675,8 @@ tr.my-bets td {
 .btn-deposit-withdraw {
   border: #00A8FA;
   /* margin-top: 5px; */
-  background: #00A8FA;
-  padding: 7px 15px;
+  background: #0879b1;
+  padding: 5px 15px;
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -828,4 +822,17 @@ input.std-input {
     margin-right: 0;
     margin-left: 0;
   }
+}
+
+@media (max-width: 767px) {
+
+  .logo {
+    display: flex;
+  }
+  .mobile-pad-top {
+    padding-top: 10px;
+  }
+  .navbar-nav {
+    margin: 0px -15px;
+}
 }

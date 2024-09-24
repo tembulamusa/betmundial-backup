@@ -21,7 +21,7 @@ const MobileCurrentNavItems = (props) => {
         return (
             <>
                 {categories?.all_sports?.map((category, idx) => (
-                    <div className="inline-block mobile-categories-item px-2 py-2 my-2 bg-white border border-gray-100 rounded-md">
+                    <div className="inline-block mobile-categories-item px-2 py-1 pb-2 my-2 bg-white border border-gray-100 rounded-md">
                         <img src={getSportImageIcon(category?.sport_name)} alt="" className="mx-auto mobile-second-nav-icon" />
                         <div className="text-center mobile-menu-item-wrap">{category?.sport_name}</div>
                     </div>

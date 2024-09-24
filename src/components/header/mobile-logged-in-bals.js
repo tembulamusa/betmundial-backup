@@ -21,7 +21,7 @@ const MobileLoggedInBals = (props) => {
                 <div style={{}}>Bonus <span className="secondary-text font-bold">{state?.user ? state?.user?.bonus : "--"}</span></div>
             </div> */}
                 <div className="text-white">
-                    <Link to='/deposit' className="btn btn-deposit-withdraw text-white mr-2">
+                    <Link to='/deposit' className="btn btn-deposit-withdraw text-white">
                         <FontAwesomeIcon icon={faCoins} className="text-white text-2xl mr-4"/>Deposit
                     </Link>
                     {/* <Link to='/withdraw' className="btn btn-deposit-withdraw text-white">
