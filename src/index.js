@@ -59,7 +59,6 @@ const Logout = () => {
     }, [out]);
     localStorage.clear();
     navigate("/");
-
     return null
 }
 

@@ -23,7 +23,7 @@ const CarouselLoader = (props) => {
         <Carousel>
             
             <Carousel.Item >
-                <LazyLoadImage
+                <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Breakfast}
@@ -34,7 +34,7 @@ const CarouselLoader = (props) => {
             </Carousel.Item>
 
             <Carousel.Item >
-                <LazyLoadImage
+                <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={App}
@@ -45,7 +45,7 @@ const CarouselLoader = (props) => {
             </Carousel.Item>
 
             <Carousel.Item >
-                <LazyLoadImage
+                <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Sharebet}
@@ -56,7 +56,7 @@ const CarouselLoader = (props) => {
             </Carousel.Item>
 
             <Carousel.Item >
-                <LazyLoadImage
+                <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Tick}
@@ -67,7 +67,7 @@ const CarouselLoader = (props) => {
             </Carousel.Item>
             
             <Carousel.Item >
-                <LazyLoadImage
+                <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Epl}
@@ -79,7 +79,7 @@ const CarouselLoader = (props) => {
 
             <Carousel.Item >
                 <Link to={"/live"}>
-                <LazyLoadImage
+                <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Live}
