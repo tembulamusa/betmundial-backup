@@ -32,9 +32,9 @@ const HeaderLogin = (props) => {
             toastId: 673738 /* this is hack to prevent multiple toasts */
         }
         if (message.status === 200) {
-            toast.success(`${message.message}`, options);
+            toast.success(`${message.message || "Login Successful"}`, options);
         } else {
-            toast.error(`${message.message}`, options);
+            toast.error(`${message.message || "error logging in"}`, options);
         }
 
     };

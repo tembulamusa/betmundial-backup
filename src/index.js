@@ -46,21 +46,7 @@ import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
 import Sidebar from "./components/sidebar/awesome/Sidebar";
 import { Context } from './context/store';
-
-const Logout = () => {
-    let navigate = useNavigate();
-    localStorage.clear();
-    const out = useCallback(() => {
-        localStorage.clear();
-        // window.location.href = "/"; 
-    }, []);
-    useEffect(() => {
-        out();
-    }, [out]);
-    localStorage.clear();
-    navigate("/");
-    return null
-}
+import Logout from "./components/pages/auth/logout";
 
 const container = document.getElementById("app");
 

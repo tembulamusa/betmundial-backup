@@ -31,6 +31,7 @@ const ProSidebar = (props) => {
     const location = useLocation()
     const [searchParams, ] = useSearchParams();
     const queryParamValue = searchParams.get('id');
+    const [competitions, setCompetitions] = useState(null);
 
     const handleCollapsedChange = (checked) => {
         setCollapsed(checked);
@@ -50,7 +51,6 @@ const ProSidebar = (props) => {
             dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: competition?.competition_id}})
         }
     }
-    const [competitions, setCompetitions] = useState(props?.competitions);
 
     const fetchData = useCallback(async () => {
         let cached_competitions = getFromLocalStorage('categories');

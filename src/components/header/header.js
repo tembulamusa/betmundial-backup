@@ -16,11 +16,10 @@ import MobileDownloadBanner from './mobile-download-banner';
 import MobileLoggedInBals from './mobile-logged-in-bals';
 import LoginModal from '../loginmodal';
 import { FaDivide } from 'react-icons/fa';
-import MobileCurrentNavItems from './mobile-current-nav-items';
-
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const HeaderNav = React.lazy(() => import('./header-nav'));
+const MobileCurrentNavItems = React.lazy(()=> import('./mobile-current-nav-items'));
 
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
@@ -63,10 +62,18 @@ const Header = (props) => {
     }, [current, state?.toggleuserbalance]);
 
     const updateUserOnLogin = useCallback(() => {
-        dispatch({type: "SET", key: "user", payload: user});
-        // setUser(getFromLocalStorage("user" ));
+        if (!state?.user) {
+            dispatch({type: "SET", key: "user", payload: user});
+        }
+        
+
     }, [user]);
 
+    useEffect(() => {
+        if (!user) {
+            setUser(state?.user)
+        }
+    }, [state?.user])
     // const updateUser = () => {
     //     setUser(getFromLocalStorage("user"));
     // }
@@ -90,11 +97,11 @@ const Header = (props) => {
             
             <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark">
                 {/* <MobileDownloadBanner /> */}
-                <div className='light-blue md:hidden text-white py-1 w-full'><MobileLoggedInBals/></div>
+                <div className='light-blue md:hidden text-white py-2 w-full'><MobileLoggedInBals/></div>
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
                     
                     <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
-                        <span className='inline-block md:!hidden text-white mr-3 mobile-pad-top'><MobileMenu /></span><a href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
+                        <span className='inline-block md:!hidden text-white mr-3 '><MobileMenu /></span><a href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
                     </div>
 
                     <div className='inline-block md:hidden text-white col-sm-6'>

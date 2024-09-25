@@ -41,7 +41,7 @@ const BodyLogin = (props) => {
             dispatch({type:"SET", key: "user", payload: message?.user});
             dispatch({type:"SET", key:"showloginmodal", payload:false});
             navigate("/");
-            toast.success(`🚀 ${message.message}`, options);
+            toast.success(`🚀 ${message.message || "Login successful"}`, options);
         } else {
             toast.error(`🦄 ${message.message}`, options);
         }

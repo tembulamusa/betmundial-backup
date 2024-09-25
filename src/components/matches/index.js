@@ -83,7 +83,7 @@ const MatchHeaderRow = (props) => {
                 name: "Over/Under 2.5", 
                 extra_market_cols: 2, 
                 extra_markets_display: [
-                    "Under", "Over"
+                    "Over", "Under"
                 ]
             }
         ];
