@@ -875,3 +875,32 @@ input.std-input {
   max-width: 80px;
   height: 30px;
 }
+
+.alert-betslip-success-box{
+
+}
+
+.alert-betslip-success-box {
+  border: 1px solid rgba(11, 96, 28, 0.3);
+  background-color: #469866;
+  color: #fff;
+  font-weight: 600;
+  padding: 0 8px 10px 8px;
+  align-items: flex-start;
+  -ms-flex-align: start;
+}
+
+.betslip-rebet-button {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid #77B18E;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 2px 4px 0 #277a47;
+  font-size: 15px;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  text-shadow: 0 1px 8px rgba(44, 121, 74, 0.6);
+  transition: all 0.25s;
+}

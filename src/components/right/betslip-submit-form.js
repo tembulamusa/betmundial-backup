@@ -18,6 +18,7 @@ import {
     Field
 } from 'formik';
 import { isNull } from 'util';
+import { TbRefreshAlert } from "react-icons/tb";
 
 const Float = (equation, precision = 4) => {
     return Math.round(equation * (10 ** precision)) / (10 ** precision);
@@ -42,20 +43,34 @@ const BetslipSubmitForm = (props) => {
 
 
     const Alert = (props) => {
-        let c = message?.status == 201 ? 'success' : 'danger';
+        let c = message?.status == 201 ? 'betslip-success-box' : 'danger';
         let x_style = {
+            fontWeight: "bold",
             float: "right",
             display: "block",
-            fontSize: "22px",
-            color: "orangered",
+            color: message?.status == 201 ? "white" : "orangered",
             cursor: "pointer",
-            padding: "3px"
         }
         return (<>{message?.status &&
             <div role="alert"
-                 className={`fade alert alert-${c} show alert-dismissible`}>
-                {message.message}
-                <span aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</span>
+                 className={`placebet-response fade alert alert-${c} show alert-dismissible`}>
+
+                    <div className=''>
+                        <div className='alert-title text-2xl flex font-bold w-full py-3'>
+                            <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div>
+                            <div aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</div>
+                        </div>
+                        <div className='text-2xl mb-3 font-normal'>{message.message}</div>
+
+                        {message?.status == 201 &&
+                            <div className='my-3'>
+                                <button class="betslip-rebet-button text-3xl" ng-click="$ctrl.unifiedBetslip.rebet($ctrl.type)">
+                                    <TbRefreshAlert size={25} className='inline-block mr-4 '/>Rebet
+                                </button>
+                            </div>
+                        }
+                    </div>
+                
             </div>}
         </>);
 
@@ -65,7 +80,29 @@ const BetslipSubmitForm = (props) => {
         setBetslipKey(state?.isjackpot ? "jackpotbetslip": "betslip")
     }, [state?.isjackpot])
     
+    useEffect(() => {
+        if (Object.keys(state?.[betslipkey] ||{}).length > 0){
+            setMessage({})
+        }
+    }, [state?.betslip, state?.jackpotbetslip]);
 
+    const successfulBetHeading = () => {
+        let betType = "";
+        if(!jackpot) {
+            if (state?.islive) {
+                betType = betType + "Live"
+            }
+            if(Object.keys(state?.betslip ||{}).length > 1) {
+                betType = betType + " Multibet"
+            } else {
+                betType = betType + " Single Bet"
+            }
+
+
+        }
+        betType = betType + " placed successfully"
+        return betType;
+    }
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
         let bs = Object.values(state?.[betslipkey] || []);
@@ -85,6 +122,7 @@ const BetslipSubmitForm = (props) => {
                 break;
             }
         }
+
 
         if (slipHasOddsChange === true) {
             setMessage({
@@ -133,7 +171,6 @@ const BetslipSubmitForm = (props) => {
             .then(([status, response]) => {
 
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
-                    setMessage(response);
                     dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                     handleRemoveAll();
                     if (jackpot) {
@@ -146,6 +183,8 @@ const BetslipSubmitForm = (props) => {
                         clearSlip();
                     }
                     dispatch({type: "DEL", key: jackpot ? 'jackpotbetslip' : 'betslip'});
+                    response = {...response, ...{title: successfulBetHeading()}}
+                    setMessage(response);
                 } else {
                     let qmessage = {
                         status: status,
@@ -156,9 +195,6 @@ const BetslipSubmitForm = (props) => {
                 setSubmitting(false);
             })
     });
-
-
-
 
     const updateWinnings = useCallback(() => {
         if (state?.[betslipkey]) {
@@ -219,9 +255,6 @@ const BetslipSubmitForm = (props) => {
             dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
         });
         dispatch({type: "DEL", key: jackpot ? "jackpotbetslip":"betslip"});
-        if (message?.status !== 201){
-            setMessage(null);
-        }
     }
     }, []);
 
@@ -243,7 +276,7 @@ const BetslipSubmitForm = (props) => {
 
         if (!values.user_id) {
             dispatch({type: "SET", key: "showloginmodal", payload: true})
-            errors.user_id = 'Kindly login to proceed';
+            // errors.user_id = 'Kindly login to proceed';
             setMessage({status: 400, message: errors.user_id});
             return errors;
         }

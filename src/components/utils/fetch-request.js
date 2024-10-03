@@ -68,4 +68,3 @@ const makeRequest = async ({url, method, data = null, use_jwt = false}) => {
 };
 
 export default makeRequest;
-
