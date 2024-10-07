@@ -59,10 +59,11 @@ const BodyLogin = (props) => {
     }, [dispatchUser]);
 
     const handleSubmit = values => {
-        let endpoint = '/v1/login';
+        let endpoint = 'v2/auth/login';
         setIsLoading(true)
-        makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
+        makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
             setIsLoading(false)
+            console.log("THE LOGIN ATTEMPT::: ", response)
             if (status === 200 || status == 201 || status == 204) {
                 setMessage(response);
             } else {
@@ -90,6 +91,12 @@ const BodyLogin = (props) => {
 
         return errors
     }
+
+    useEffect(() => {
+        if (user) {
+            navigate("/")
+        }
+    }, [])
 
 
     const MyLoginForm = (props) => {
@@ -146,7 +153,7 @@ const BodyLogin = (props) => {
                                 </button>
                         </div>        
 
-                        <Link to="/reset-password" title="Reset password"
+                        <Link to="/forgot-password" title="Forgot password"
                                >
                                 <span className="">Forgot Password?</span>
                             </Link>
@@ -163,13 +170,25 @@ const BodyLogin = (props) => {
 
     const LoginForm = (props) => {
         return (
-            <Formik
+            <>
+            {user &&
+                <div className='px-2 text-center'>
+                    <div className='text-2xl'>You are already logged in.</div>
+                    <div className='mt-2'>
+                    <Link to={"/"} className='btn mr-3  w-[] btn-default rounded-md bg-gray-100'>Go Home</Link>
+                    <Link to={"/logout"} className='btn btn-danger'>Logout</Link>
+                    </div>
+                </div>
+            }
+            {!user && <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 validateOnChange={false}
                 validateOnBlur={false}
                 validate={validate}
-            >{(props) => <MyLoginForm {...props} />}</Formik>
+            >{(props) => <MyLoginForm {...props} />}</Formik> }
+            </>
+            
         );
     }
 

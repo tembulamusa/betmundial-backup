@@ -28,7 +28,7 @@ const ResetPassword = (props) => {
 
     const handleSubmit = values => {
         setMobile(values.mobile)
-        let endpoint = '/v1/code';
+        let endpoint = '/v2/code';
         makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
             setSuccess(status === 200 || status === 201);
             setMessage(response.success.message);
@@ -258,26 +258,16 @@ const ResetPassword = (props) => {
 
     return (
         <React.Fragment>
-            <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <SideBar loadCompetitions />
-                    <div className="gz home">
-                        <div className="homepage">
-                            <FormTitle/>
-                            <div className="col-md-12 mt-2 p-2">
-                                {message && <Alert/>}
-                                <div className="modal-body pb-0" data-backdrop="static">
-                                    <OptForm/>
-                                    <PasswordResetForm/>
-                                </div>
-                            </div>
-                        </div>
+            <div className="homepage">
+                <FormTitle/>
+                <div className="col-md-12 mt-2 p-2">
+                    {message && <Alert/>}
+                    <div className="modal-body pb-0" data-backdrop="static">
+                        <OptForm/>
+                        <PasswordResetForm/>
                     </div>
-                    <Right/>
                 </div>
             </div>
-            <Footer/>
         </React.Fragment>
     );
 }

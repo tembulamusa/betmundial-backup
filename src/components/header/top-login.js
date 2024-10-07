@@ -56,13 +56,12 @@ const HeaderLogin = (props) => {
     }, [dispatchUser]);
 
     const handleSubmit = values => {
-        let endpoint = '/v1/login';
+        let endpoint = '/v2/auth/login';
         setIsLoading(true)
-        makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
-
+        makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
             setIsLoading(false)
             if (status === 200 || status == 201 || status == 204) {
-                setMessage(response);
+                setMessage({user:response?.data, status:200});
             } else {
                 let message = {
                     status: status,
@@ -140,7 +139,7 @@ const HeaderLogin = (props) => {
                                         </Link>
                                     </label>
                                     <input type="hidden" name="ref" value="{props.refURL}"/>
-                                    <Link to="/reset-password" title="Reset password" className='ml-4'>
+                                    <Link to="/forgot-password" title="Reset password" className='ml-4'>
                                         <span className="sticky-hidden">Forgot Password?</span>
                                     </Link>
                                 </span>

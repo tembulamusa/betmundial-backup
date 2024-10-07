@@ -16,6 +16,7 @@ import {getFromLocalStorage} from "../utils/local-storage";
 import { Link } from 'react-router-dom';
 import NoEvents from '../utils/no-events';
 import { match } from 'assert';
+import { ShimmerTable } from "react-shimmer-effects";
 
 
 const clean = (_str) => {
@@ -662,7 +663,7 @@ export const MarketList = (props) => {
     const EventUnavailable = (props) => {
         return (
             <div className="px-3">
-                <NoEvents message="Event not available for betting" />
+                <ShimmerTable />
                 <Link className='font-bold hover:underline text-blue-700' to={live?"/live":"/matches"}>Back to {live && "live "} Matches</Link>
             </div>
         )
@@ -777,8 +778,12 @@ const MatchList = (props) => {
                             sub_types={subTypes}/>
                     ))
                 }
-                {((matches || []).length === 0 || !matches) &&
-                    <NoEvents/>
+                
+                {(((matches || []).length) === 0 || fetching) && 
+                    <ShimmerTable row={3}/>
+                }
+                {((matches?.length === 0 && !fetching)) &&
+                    <NoEvents message={"fetching"}/>
                 }
             </Container>
         </div>

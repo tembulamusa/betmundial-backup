@@ -26,7 +26,7 @@ const ProfileMenu = (props) => {
           
           <div className="user-menu-col col-md-3  d-flex flex-column right justify-content-end w-change1">
           <div>
-              <span className="font-tbt py-2 px-2">Bonus  <span className="ml-1 tertiary-text font-bold">KSH {formatNumber(user.bonus) || 0} </span></span>
+              <span className="font-tbt py-2 px-2">Bonus  <span className="ml-1 tertiary-text font-bold">KSH {formatNumber(user.bonus_balance) || 0} </span></span>
               </div>
               <div>
               <Link to={{ pathname: "/my-bets" }} className={"btn text-white w-100 d-content"}>

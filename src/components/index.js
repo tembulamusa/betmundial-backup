@@ -37,10 +37,9 @@ const Index = (props) => {
         setFetching(true)
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v1/matches?page=" + (page || 1) + `&limit=${limit || 50}` ;
+        let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || sportid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}` ;
 
         let url = new URL(window.location.href)
-        endpoint += "&sport_id = " + (state?.filtersport?.sport_id || sportid || 79);
         let search_term = state?.searchterm || "";
         if(state?.filtercategory) {
             endpoint += "&category_id =" + state?.filtercategory?.category_id;
@@ -55,7 +54,7 @@ const Index = (props) => {
         endpoint += "&tab=" + tab;
         
         if(state?.filtercompetition ) {
-            endpoint = `/v1/sports/competition/matches?id=${state?.filtercompetition?.competition_id}`;
+            endpoint = `/v2/sports/competitions/matches/${state?.filtercompetition?.competition_id}`;
 
             if (state?.filtercompetition?.competition_id == 0){
                 endpoint = "/v1/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
@@ -73,10 +72,12 @@ const Index = (props) => {
             }
         } 
         endpoint = endpoint.replaceAll(" ", '');
+
         
-        await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
+        await makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
+            console.log("THE GOTTEN GAMES:::: ", result);
             if (status == 200) {
-                setMatches(matches?.length > 0 ? {...matches, ...result?.data} : result?.data || result)
+                setMatches(matches?.length > 0 ? {...matches, ...result?.content} : result?.content || result)
                 setFetching(false)
                 if (result?.slip_data) {
                     setUserSlipsValidation(result?.slip_data);

@@ -47,6 +47,7 @@ import Header from "./components/header/header";
 import Sidebar from "./components/sidebar/awesome/Sidebar";
 import { Context } from './context/store';
 import Logout from "./components/pages/auth/logout";
+import ForgotPassword from "./components/pages/auth/forgot-password";
 
 const container = document.getElementById("app");
 
@@ -95,6 +96,7 @@ const App = () => {
                             <Route exact path="/signup" element={<Signup/>}/>
                             <Route exact path="/login" element={<Login/>}/>
                             <Route exact path="/reset-password" element={<ResetPassword/>}/>
+                            <Route exact path="/forgot-password" element={<ForgotPassword/>}/>
                             <Route exact path="/verify-account" element={<VerifyAccount/>}/>
                             <Route exact path="/app" element={<MobileApp/>}/>
                             <Route exact path="/logout" element={<Logout/>}/>
