@@ -7,7 +7,7 @@ import {
     clearJackpotSlip, formatNumber
 } from '../utils/betslip';
 import {toast} from 'react-toastify';
-import publicIp from 'public-ip';
+import {publicIp} from 'public-ip';
 import makeRequest from '../utils/fetch-request';
 import 'react-toastify/dist/ReactToastify.css';
 

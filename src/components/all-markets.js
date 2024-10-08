@@ -35,13 +35,13 @@ const MatchAllMarkets = (props) => {
     };
     useInterval(() => {
 		let endpoint = live 
-			? "/v1/matches/live?id="+params.id
-			: "/v1/matches?id="+params.id;
+			? "/v2/sports/match/live/" + params.id
+			: "/v2/sports/match/"+params.id;
 
         let betslip = findPostableSlip();
         let method = "GET";
 
-		makeRequest({url:endpoint, method:method}).then(([_status, response]) => {
+		makeRequest({url:endpoint, method:method, api_version:2}).then(([_status, response]) => {
 			setMatchWithMarkets(response?.data || response );
             if(response?.slip_data) {
                 setUserSlipsValidation(response?.slip_data);
@@ -56,10 +56,9 @@ const MatchAllMarkets = (props) => {
             setIsLoading(true);
             let betslip = findPostableSlip();
             let endpoint = live 
-                ? "/v1/matches/live?id="+params.id
-                : "/v1/matches?id="+params.id;
-
-            await makeRequest({url: endpoint, method: "GET"}).then(([status, result]) => {
+                ? "/v2/sports/match/live/" + params.id
+                : "/v2/sports/match/"+params.id;
+            await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
                 setMatchWithMarkets(result?.data|| result)
                 setProducerDown(result?.producer_status === 1);
                 setIsLoading(false);

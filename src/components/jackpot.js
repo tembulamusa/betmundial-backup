@@ -1,160 +1,164 @@
-import React, {useEffect, useCallback, useState, useContext} from "react";
-
-import {JackpotMatchList, JackpotHeader} from './matches/index';
+import React, { useEffect, useCallback, useState, useContext } from "react";
+import { JackpotMatchList, JackpotResultsList, JackpotHeader } from './matches/index';
 import makeRequest from "./utils/fetch-request";
-import dailyJackpot from '../assets/img/banner/jackpots/DailyJackpot.png'
+import dailyJackpot from '../assets/img/banner/jackpots/DailyJackpot.png';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Container from "react-bootstrap/Container";
-import {Context} from '../context/store';
+import { Context } from '../context/store';
 import {
     removeFromSlip,
     getBetslip,
     clearSlip,
-    clearJackpotSlip, 
+    clearJackpotSlip,
     formatNumber,
     addToJackpotSlip,
     getJackpotBetslip
 } from './utils/betslip';
 
-
 const Jackpot = (props) => {
     const [matches, setMatches] = useState(null);
+    const [results, setResults] = useState(null);
     const [, dispatch] = useContext(Context);
 
-    const fetchData = useCallback(async () => {
-        let match_endpoint = "/v1/matches/jackpot";
-        makeRequest({url: match_endpoint, method: "GET"}).then(([m_status, result]) =>  {
+    const fetchMatches = useCallback(async () => {
+        const matchEndpoint = "/v2/jackpot/matches";
+        const [m_status, result] = await makeRequest({ url: matchEndpoint, method: "GET", api_version: 2 });
         
-            if (m_status === 200) {
-                setMatches(result);
-                dispatch({type: "SET", key: "jackpotdata", payload: result?.meta});
-            }
-            let jackpotbetslip = getJackpotBetslip(); 
-            dispatch({type: "SET", key: "jackpotbetslip", payload: jackpotbetslip});
-        })
+        if (m_status === 200) {
+            setMatches(result);
+            dispatch({ type: "SET", key: "jackpotdata", payload: result?.meta });
+        }
+        let jackpotbetslip = getJackpotBetslip();
+        dispatch({ type: "SET", key: "jackpotbetslip", payload: jackpotbetslip });
+    }, [dispatch]);
 
+    const fetchResults = useCallback(async () => {
+        const resultsEndpoint = "/v2/jackpot/results";
+        const [r_status, result] = await makeRequest({ url: resultsEndpoint, method: "GET", api_version: 2 });
+        
+        if (r_status === 200) {
+            setResults(result); 
+        } else {
+            // Handle error if needed
+        }
     }, []);
 
-
     useEffect(() => {
-
         const abortController = new AbortController();
-        fetchData();
+        fetchMatches();
+        fetchResults();
         return () => {
-            dispatch({type: "DEL", key: "jackpotbetslip"});
-            dispatch({type: "DEL", key: "jackpotdata"});
+            dispatch({ type: "DEL", key: "jackpotbetslip" });
+            dispatch({ type: "DEL", key: "jackpotdata" });
             abortController.abort();
         };
-    }, [fetchData]);
+    }, [fetchMatches, fetchResults, dispatch]);
 
     const AutoPickAllMatches = () => {
- 
         const clean = (_str) => {
-            _str = _str.replace(/[^A-Za-z0-9\-]/g, '');                                 
-            return _str.replace(/-+/g, '-'); 
+            _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
+            return _str.replace(/-+/g, '-');
         }
 
         const randomPick = (min, max) => {
-            return Math.floor(min + Math.random()*(max - min + 1));
+            return Math.floor(min + Math.random() * (max - min + 1));
         }
 
-        if(matches) {
+        if (matches) {
             let betslip;
             Object.entries(matches?.data).map(([key, match]) => {
-               let reference = match.match_id + "_selected";
-               let pick = randomPick(1, 3);
-               let pickedValue = (pick === 1 ? match.home_team : (pick ===  2 ? 'draw': match.away_team));
-               let oddValue = (pick === 1 ? match.odds.home_odd : (pick ===  2 ? match.odds.neutral_odd: match.odds.away_odd));
-               let cstm = clean(match.match_id + "" + 1 + pickedValue );
+                let reference = match.match_id + "_selected";
+                let pick = randomPick(1, 3);
+                let pickedValue = (pick === 1 ? match.home_team : (pick === 2 ? 'draw' : match.away_team));
+                let oddValue = (pick === 1 ? match.odds.home_odd : (pick === 2 ? match.odds.neutral_odd : match.odds.away_odd));
+                let cstm = clean(match.match_id + "" + 1 + pickedValue);
 
-               let slip = {                                                            
-                    "match_id": match.match_id,                                                    
-                    "parent_match_id": match.parent_match_id,                                            
-                    "special_bet_value": '',                                           
-                    "sub_type_id": 1,                                                
-                    "bet_pick":  pickedValue,  
+                let slip = {
+                    "match_id": match.match_id,
+                    "parent_match_id": match.parent_match_id,
+                    "special_bet_value": '',
+                    "sub_type_id": 1,
+                    "bet_pick": pickedValue,
                     "odd_value": oddValue,
-                    "home_team": match.home_team,                                             
-                    "away_team": match.away_team,                                             
-                    "bet_type": "jackpot",                                               
-                    "odd_type": "3",                                               
-                    "sport_name": "soccer",                                           
-                    "live": 0,                                                       
-                    "ucn": cstm,                                                        
-                    "market_active": 1,                                     
-                }                                                           
-                betslip = addToJackpotSlip(slip);                                   
+                    "home_team": match.home_team,
+                    "away_team": match.away_team,
+                    "bet_type": "jackpot",
+                    "odd_type": "3",
+                    "sport_name": "soccer",
+                    "live": 0,
+                    "ucn": cstm,
+                    "market_active": 1,
+                }
+                betslip = addToJackpotSlip(slip);
 
-                dispatch({type: "SET", key: reference, payload: cstm});         
-            })
-            dispatch({type: "SET", key: "jackpotbetslip", payload: betslip});        
+                dispatch({ type: "SET", key: reference, payload: cstm });
+            });
+            dispatch({ type: "SET", key: "jackpotbetslip", payload: betslip });
         }
     }
 
     useEffect(() => {
-        dispatch({type:"SET", key: "isjackpot", payload: true});
-
+        dispatch({ type: "SET", key: "isjackpot", payload: true });
         return () => {
-            dispatch({type:"SET", key: "isjackpot", payload: false});
-
+            dispatch({ type: "SET", key: "isjackpot", payload: false });
         }
-    }, [])
+    }, [dispatch]);
 
     return (
         <>
-            
-            {/* <img src={dailyJackpot}/> */}
-            { matches &&
+            {/* <img src={dailyJackpot} /> */}
+            {matches && (
                 <>
-                    
                     <div className="jackpot-header row bg-secondary">
                         <div className="col-12">
-                            <JackpotHeader jackpot={matches?.meta}/>
+                            <JackpotHeader jackpot={matches?.meta} />
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-md-8 !px-3">
-                            {
-                                <div className="!px-2">
-                                    <div className="jackpot-amount !pl-0 pt-3">
-                                    Let the quick pick randomly choose the Jackpot Pro selections for you! KES  {Intl.NumberFormat('en-US').format(matches?.meta?.jackpot_amount) }
+                    <Tabs defaultActiveKey="matches" id="jackpot-tabs">
+                        <Tab eventKey="matches" title="Matches">
+                            <div className="row">
+                                <div className="col-md-8 !px-3">
+                                    <div className="!px-2">
+                                        <div className="jackpot-amount !pl-0 pt-3">
+                                            Let the quick pick randomly choose the Jackpot Pro selections for you! KES {Intl.NumberFormat('en-US').format(matches?.meta?.jackpot_amount)}
+                                        </div>
                                     </div>
                                 </div>
-                            }
-                        </div>
-                        {matches?.meta?.status === "ACTIVE" &&
-                            <div className="col-md-4">
-                                <div className="autopick-button-div my-2 !px-3">
-                                    <span></span> <span className="" id="total-games"></span>
-                                    <button 
-                                        onClick={() => AutoPickAllMatches()}
-                                        className="btn btn-auto-pick mt-3">Auto Pick</button>
+                                {matches?.meta?.status === "ACTIVE" && (
+                                    <div className="col-md-4">
+                                        <div className="autopick-button-div my-2 !px-3">
+                                            <button
+                                                onClick={() => AutoPickAllMatches()}
+                                                className="btn btn-auto-pick mt-3">Auto Pick</button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* If games are available, then show games */}
+                            {matches?.data?.length > 0 ? (
+                                <JackpotMatchList matches={matches} />
+                            ) : (
+                                <div className={'col-md-12 text-center background-primary mt-2 p-5 no-events-div'}>
+                                    There are no jackpots at the moment.
                                 </div>
-                            </div>
-                        }
-                    </div>
-
-                    {/* If games are available, then show games */}
-                    {matches?.data?.length > 0
-                        ?
-                        (
-                            <JackpotMatchList matches={matches}/>
-                        )
-                        :
-                        (
-                            <div
-                                className={'col-md-12 text-center background-primary mt-2 p-5 no-events-div'}>
-                                There are no jackpots at the moment.
-                            </div>
-                        )
-                    }
+                            )}
+                        </Tab>
+                        <Tab eventKey="results" title="Results">
+                            {results ?.data?.length > 0 ? (
+                                <JackpotResultsList results={results} /> 
+                            ) : (
+                                <div className={'text-center mt-5'}>
+                                    Loading results...
+                                </div>
+                            )}
+                        </Tab>
+                    </Tabs>
                 </>
-            
-            }
-                        
+            )}
         </>
-    )
-}
+    );
+};
 
-export default Jackpot
+export default Jackpot;

@@ -6,7 +6,7 @@ import {
 } from './utils/betslip';
 import makeRequest from './utils/fetch-request';
 import {getFromLocalStorage} from './utils/local-storage'; 
-import publicIp from 'public-ip';
+import {publicIp} from 'public-ip';
 import { Context } from "../context/store"
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 

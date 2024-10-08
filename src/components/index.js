@@ -56,28 +56,29 @@ const Index = (props) => {
         if(state?.filtercompetition ) {
             endpoint = `/v2/sports/competitions/matches/${state?.filtercompetition?.competition_id}`;
 
-            if (state?.filtercompetition?.competition_id == 0){
-                endpoint = "/v1/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
-            }
+            // if (state?.filtercompetition?.competition_id == 0){
+            //     endpoint = "/v2/sports/competitions/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
+            // }
         }
         if (search_term && search_term.length >= 3) {
             endpoint = `/v1/matches?limit=10&search=${search_term}`;
-        } else {
-            if(state?.filtercompetition ) {
-                endpoint = `/v1/sports/competition/matches?id=${state?.filtercompetition?.competition_id}`;
-    
-                if (state?.filtercompetition?.competition_id == 0){
-                    endpoint = "/v1/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
-                }
-            }
         } 
+        // else {
+        //     if(state?.filtercompetition ) {
+        //         endpoint = `/v1/sports/competition/matches?id=${state?.filtercompetition?.competition_id}`;
+    
+        //         if (state?.filtercompetition?.competition_id == 0){
+        //             endpoint = "/v1/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
+        //         }
+        //     }
+        // } 
         endpoint = endpoint.replaceAll(" ", '');
 
         
         await makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
             console.log("THE GOTTEN GAMES:::: ", result);
             if (status == 200) {
-                setMatches(matches?.length > 0 ? {...matches, ...result?.content} : result?.content || result)
+                setMatches(matches?.length > 0 ? {...matches, ...result?.data?.items} : result?.data?.items || result)
                 setFetching(false)
                 if (result?.slip_data) {
                     setUserSlipsValidation(result?.slip_data);

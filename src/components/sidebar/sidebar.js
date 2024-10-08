@@ -67,7 +67,7 @@ const SideBar = (props) => {
                         </span>
                     </div>
                 </header>
-                <Competitions  competitions={competitions?.top_soccer || []} /> }
+                <Competitions  competitions={competitions?.top_soccer || []} /> 
             </div>
             <div className="web-element block-shadow bottom-std-margin-spacing">
                 <header>

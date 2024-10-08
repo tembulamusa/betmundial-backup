@@ -746,6 +746,28 @@ export const JackpotMatchList = (props) => {
     )
 }
 
+export const JackpotResultsList = (props) => {
+    const { results } = props;
+
+    return (
+        <div className="results full-width mt-3">
+            <MatchHeaderRow jackpot={false} first_match={results ? results.data.matches[0] : []} />
+
+            <Container className="web-element">
+                {results && results.data.matches.length > 0 ? (
+                    results.data.matches.map((match, key) => (
+                        <MatchRow match={match} key={key} jackpot={false} jackpotstatus={results.data.status} />
+                    ))
+                ) : (
+                    <div className="top-matches row">
+                        No results found.
+                    </div>
+                )}
+            </Container>
+        </div>
+    );
+};
+
 const MatchList = (props) => {
     const {
         live, 
