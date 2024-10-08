@@ -63,7 +63,6 @@ const BodyLogin = (props) => {
         setIsLoading(true)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
             setIsLoading(false)
-            console.log("THE LOGIN ATTEMPT::: ", response)
             if (status === 200 || status == 201 || status == 204) {
                 setMessage(response);
             } else {

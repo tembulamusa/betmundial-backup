@@ -1,19 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Formik, Form} from 'formik';
 import makeRequest from "../../utils/fetch-request";
-
-const Header = React.lazy(() => import('../../header/header'));
-const SideBar = React.lazy(() => import('../../sidebar/awesome/Sidebar'));
-const Right = React.lazy(() => import('../../right/index'));
-const Footer = React.lazy(() => import('../../footer/footer'));
+import { useNavigate } from 'react-router-dom';
+import Notify from '../../utils/Notify';
 
 const ResetPassword = (props) => {
 
-    const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
     const [otp_sent, setOtpSent] = useState(false)
-    const [resetID, setResetID] = useState('')
-    const [msisdn, setmsisdn] = useState('')
+    const [msisdn, setMsisdn] = useState('')
+    const navigate = useNavigate();
 
     const initialValues = {
         msisdn: '',
@@ -21,38 +17,49 @@ const ResetPassword = (props) => {
 
     const initialResetFormValues = {
         id: '',
-        code: '',
+        verificationCode: '',
         password: '',
         repeat_password: ''
     }
-
+    
     const handleSubmit = values => {
-        setmsisdn(values.msisdn)
+        setMsisdn(values.msisdn)
         let endpoint = '/v2/auth/forgot-password';
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
-            console.log("THE RESPONSE IS")
             if(status === 200){
-                setSuccess(status === 200);
-                setMessage(response.success.message);
-                setOtpSent(true)
-                setResetID(response.success.id)
+                console.log("THE RESET STUFF::: == ", response);
+                if(response?.status == 200) 
+                    {
+                        setMessage({status:200, message: "Verification verification Code sent to your phone number"});
+                        setOtpSent(true);
+                    } else {
+                        setMessage({status: 400, message: response?.result})
+                    }
+                
+            } else {
+                setMessage(response?.error)
             }
             
         })
     }
     const handleSubmitPasswordReset = values => {
-        values.msisdn = msisdn
-        values.id = resetID;
-        let endpoint = '/v1/reset-password';
-        makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
-            setSuccess(status === 200 || status === 201);
-            setMessage(response.error ? response.error.message : response.success.message);
-            response.error ? setSuccess(false) : setSuccess(true)
+        values.msisdn = msisdn;
+        values = {msisdn: msisdn, verification_code: values.verificationCode, password:values.password}
 
-            let timer = setInterval(() => {
-                clearInterval(timer)
-                window.location.href = "/"
-            }, 3000)
+        let endpoint = '/v2/auth/reset-password';
+        makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
+            
+            if ([200, 201].includes(status)) {
+
+                if (response?.status == 200) {
+                    Notify({status: 200, message:"Password reset successfully. Login to continue"})
+                    navigate("/login");
+                } else {
+                    setMessage({status: 400, message: "Error occured. Wrong or stale code used."})
+                }
+            } else {
+                setMessage({status:status, message: response?.error?.message})
+            }
         })
     }
 
@@ -71,12 +78,12 @@ const ResetPassword = (props) => {
 
         let password_reset_errors = {}
 
-        if (!password_reset_values.code) {
-            password_reset_errors.code = "Please enter your One Time Pin (OTP)"
+        if (!password_reset_values.verificationCode) {
+            password_reset_errors.verificationCode = "Please enter your One Time Pin (OTP)"
         }
 
-        if (password_reset_values.code.length < 4) {
-            password_reset_errors.code = "Your OTP should be greater than 4 numbers."
+        if (password_reset_values.verificationCode.length < 4) {
+            password_reset_errors.verificationCode = "Your OTP should be greater than 4 numbers."
         }
 
         if (!password_reset_values.password) {
@@ -116,7 +123,7 @@ const ResetPassword = (props) => {
             <Form className={`${otp_sent ? 'd-none' : 'd-block'}`}>
                 <div className="pt-0">
                     <div className="row">
-                        <div className="form-group row d-flex justify-content-center mt-5">
+                        <div className="form-group row d-flex justify-content-center mt-2">
                             <div className="col-md-12">
                                 <label>msisdn Number</label>
                                 <input
@@ -158,29 +165,34 @@ const ResetPassword = (props) => {
         }
         return (
             <Form className={`${otp_sent ? 'd-block' : 'd-none'}`}>
-                <div className="pt-0">
                     <div className="row">
-                        <hr/>
                         <div className="col-md-12">
                             <div className="col-md-12">
-                                <div className="form-group row d-flex justify-content-center mt-5">
-                                    <label>OTP</label>
+                                <div className="form-group row d-flex justify-content-center mt-3">
                                     <input
-                                        value={values.code}
+                                        value={msisdn}
+                                        className="mb-3 block text-dark deposit-input form-control col-md-12 input-field"
+                                        name="msisdn"
+                                        type="text"
+                                        disabled={true}
+                                    />
+                                    <label className='block mt-2'>OTP</label>
+                                    <input
+                                        value={values.verificationCode}
                                         className="text-dark deposit-input form-control col-md-12 input-field"
                                         id="otp"
-                                        name="code"
+                                        name="verificationCode"
                                         type="text"
                                         placeholder='OTP'
                                         onChange={ev => onFieldChanged(ev)}
                                     />
-                                    {errors.code && <div className='text-danger'>
-                                        {errors.code}
+                                    {errors.verificationCode && <div className='text-danger'>
+                                        {errors.verificationCode}
                                     </div>}
                                 </div>
                             </div>
                             <div className="form-group row d-flex justify-content-center mt-5">
-                                <div className="col-md-12">
+                                <div className="col-md-6">
                                     <label>Password</label>
                                     <input
                                         value={values.password}
@@ -195,9 +207,7 @@ const ResetPassword = (props) => {
                                         {errors.password}
                                     </div>}
                                 </div>
-                            </div>
-                            <div className="form-group row d-flex justify-content-center mt-5">
-                                <div className="col-md-12">
+                                <div className="col-md-6">
                                     <label>Confirm Password</label>
                                     <input
                                         value={values.repeat_password}
@@ -214,7 +224,6 @@ const ResetPassword = (props) => {
                                         </div>}
                                 </div>
                             </div>
-                        </div>
 
                         <div className="form-group row d-flex justify-content-left mb-4">
                             <div className="col-md-3">
@@ -255,8 +264,8 @@ const ResetPassword = (props) => {
     }
 
     const Alert = (props) => {
-        let c = success ? 'success' : 'danger';
-        return (<div role="alert" className={`fade alert alert-${c} show`}>{message}</div>);
+        let c = message?.status === (200 || 201) ? 'success' : 'danger';
+        return (<div role="alert" className={`fade alert alert-${c} show`}>{message?.message}</div>);
 
     };
 
@@ -264,9 +273,9 @@ const ResetPassword = (props) => {
         <React.Fragment>
             <div className="homepage">
                 <FormTitle/>
-                <div className="col-md-12 mt-2 p-2">
+                <div className="col-md-12 mt-2 p-2 px-4">
                     {message && <Alert/>}
-                    <div className="modal-body pb-0" data-backdrop="static">
+                    <div className="pb-0" data-backdrop="static">
                         <OptForm/>
                         <PasswordResetForm/>
                     </div>
