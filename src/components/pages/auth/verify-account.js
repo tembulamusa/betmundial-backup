@@ -1,44 +1,45 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Formik, Form} from 'formik';
 import makeRequest from "../../utils/fetch-request";
 import { Context } from '../../../context/store';
-
-const Header = React.lazy(() => import('../../header/header'));
-const SideBar = React.lazy(() => import('../../sidebar/awesome/Sidebar'));
-const Right = React.lazy(() => import('../../right/index'));
-const Footer = React.lazy(() => import('../../footer/footer'));
+import { useNavigate } from 'react-router-dom';
+import Notify from '../../utils/Notify';
+import Alert from '../../utils/alert';
 
 const VerifyAccount = (props) => {
 
-    const [success, setSuccess] = useState(false);
-    const [message, setMessage] = useState(null);
+    const [message, setMessage] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const verifyRef = useRef();
+    const [disabledResend, setDisabledResend] = useState(false);
     const [state, _] = useContext(Context);
+    const navigate = useNavigate();
 
     const initialValues = {
-        mobile: state?.regmsisdn,
+        msisdn: state?.regmsisdn,
         code: ''
     }
 
     const handleSubmit = values => {
-        let endpoint = '/v1/verify';
+        let endpoint = '/v2/auth/verify';
         setIsLoading(true);
         console.log(values);
-        makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
-            setSuccess(status === 200 || status === 201)
-            setMessage(response.success ? response.success.message : response.error.message);
-            response.success ? setSuccess(true) : setSuccess(false);
-            setIsLoading(false);
-            if (response.success) {
-                let timer = setInterval(() => {
-                    clearInterval(timer)
-                    window.location.href = "/login"
-                }, 3000);
+        makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
+            if ([200, 201].includes(status)) {
+                if (response?.status == 200) {
+                    Notify({status: 200, message:"Password reset successfully. Login to continue"})
+                    navigate("/login");
+                } else {
+                    setMessage({status: 400, message: "Code invalid"})
+                }
+            } else {
+                setMessage({status:status, message: response?.error?.message})
             }
-            
-        }).catch((err) => {
 
+
+            setIsLoading(false);
+
+            
         })
     }
 
@@ -47,8 +48,8 @@ const VerifyAccount = (props) => {
         let errors = {}
 
 
-        if (!values.mobile || !values.mobile.match(/(254|0|)?[71]\d{8}/g)) {
-            errors.mobile = 'Please enter a valid phone number'
+        if (!values.msisdn || !values.msisdn.match(/(254|0|)?[71]\d{8}/g)) {
+            errors.msisdn = 'Please enter a valid phone number'
         }
 
         if (!values.code || values.code.length < 4) {
@@ -60,22 +61,29 @@ const VerifyAccount = (props) => {
 
     const resendOTP = () => {
 
-        let endpoint = '/v1/code';
+        let endpoint = '/v2/auth/verification-code';
 
         let values = {
-            mobile: verifyRef.current.values.mobile
+            msisdn: state?.regmsisdn
         }
 
-        makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
-            setSuccess(status === 200 || status === 201);
-            setMessage(response.success ? response.success.message : response.error.message);
-            response.error ? setSuccess(false) : setSuccess(true)
+        makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
+            console.log("THE RESEND RESPONSE::::", status, "RESPONSE:::: ", response)
+            if ([200, 201].includes(status)) {
+                if (response?.status == 200) {
+                    Notify({status: 200, message:"Verification code send to phone"})
+                } else {
+                    setMessage({status: 400, message: "Error fetching code"})
+                }
+            } else {
+                setMessage({status:status, message: "Error fetching code"})
+            } 
         })
     }
 
     const FormTitle = () => {
         return (
-            <div className='col-md-12 page-title p-4 text-center'>
+            <div className='col-md-12 primary-bg p-4 text-center'>
                 <h4 className="inline-block">
                     Verify Account
                 </h4>
@@ -94,22 +102,18 @@ const VerifyAccount = (props) => {
         return (
             <form onReset={props.handleReset} onSubmit={props.handleSubmit} {...props} >
                 
-                <div className="pt-0">
-                    <div className="row">
-                        <hr/>
-                        <div className='alert alert-success'>
-                            Thanks for registering. Kindly check your phone for the sms and enter code in the field below
-                        </div>
-                        <div className="form-group row d-flex justify-content-center mt-5">
+                <div className="pt-0 px-2">
+                    <div className="row">                        
+                        <div className='col-md-12 col-sm-12'>{message && <Alert message={message}/>}</div>
                             <div className="col-md-12">
-                                <label>Mobile Number</label>
+                                <label>msisdn Number</label>
                                 <div className="row">
                                     <div className="col-12">
                                         <input
                                             value={state?.regmsisdn}
                                             className="block px-3 py-3 w-full rounded-2xl std-input form-control"
-                                            id="mobile"
-                                            name="mobile"
+                                            id="msisdn"
+                                            name="msisdn"
                                             type="text"
                                             placeholder='Phone number'
                                             disabled = {true}
@@ -120,7 +124,6 @@ const VerifyAccount = (props) => {
                                 </div>
 
                             </div>
-                        </div>
 
                         <div className="form-group row d-flex  mt-5">
                             <div className="col-12">
@@ -130,7 +133,7 @@ const VerifyAccount = (props) => {
                                     className="block px-3 py-3 w-full rounded-2xl std-input form-control"
                                     id="code"
                                     name="code"
-                                    type="code"
+                                    type="text"
                                     placeholder='Code'
                                     onChange={ev => onFieldChanged(ev)}
                                 />
@@ -139,10 +142,10 @@ const VerifyAccount = (props) => {
 
                             <div className="col-12 my-2">
                                 <span className=''>
-                                    Didn't receive code? Resend Code
+                                    Didn't receive code? 
                                 </span>
                                 <button onClick={() => resendOTP()} type={"button"}
-                                        className='btn text-white ml-2 btn-sm bg-green-500'>Resend OTP
+                                        className='btn text-white ml-2 btn-sm !bg-green-500 hover:opacity-70' disabled={disabledResend}>Click Resend Code
                                 </button>
                             </div>
                         </div>
@@ -177,18 +180,14 @@ const VerifyAccount = (props) => {
         );
     }
 
-    const Alert = (props) => {
-        let c = success ? 'success' : 'danger';
-        return (<div role="alert" className={`fade alert alert-${c} show`}>{message}</div>);
-
-    };
+    
 
     return (
         <>
             <FormTitle/>
             <div className="col-md-12 mt-2 p-2">
                 {message && <Alert/>}
-                <div className="modal-body pb-0" data-backdrop="static">
+                <div className="pb-0" data-backdrop="static">
                     <VerifyAccountForm/>
                 </div>
             </div>

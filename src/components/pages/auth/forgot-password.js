@@ -1,3 +1,7 @@
+
+// This component is also in charge of verifying phone number/account.
+// We use the same thing to forgot password and 
+
 import React, {useState, useCallback, useEffect} from 'react';
 import {Formik, Form} from 'formik';
 import makeRequest from "../../utils/fetch-request";

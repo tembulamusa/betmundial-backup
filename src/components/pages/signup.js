@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { Context } from '../../context/store';
 import { useNavigate } from 'react-router-dom';
+import Notify from '../utils/Notify';
 
 const Signup = (props) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -21,13 +22,14 @@ const Signup = (props) => {
     }
 
     const handleSubmit = values => {
-        let endpoint = '/v1/signup';
+        let endpoint = '/v2/auth/signup';
         setIsLoading(true);
-        makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
+        let data = {msisdn:values.msisdn, password: values.password}
+        makeRequest({url: endpoint, method: 'POST', data: data, api_version:2}).then(([status, response]) => {
             setMessage(response?.message);
             dispatch({type: "SET", key: "regmsisdn", payload: values?.msisdn})
-            setSuccess(status === 200 || status === 201)
             if([200, 201, 204].includes(status)){
+                Notify({status: 200, message: "Registration successful. Please Verify the code sent to your phone"})
                 setTimeout(() => {
                 }, 3000);
                 navigate("/verify-account");
@@ -145,9 +147,11 @@ const Signup = (props) => {
 
             
                         <div className="">
-                            <div className='col-md-12 page-title p-4 text-center profound-text'>
-                                <h4 className="inline-block"> Signup | Create New Account </h4>
-                            </div>
+                        <div className='col-md-12 primary-bg p-4 text-center'>
+                            <h4 className="inline-block">
+                                Signup/Register
+                            </h4>
+                        </div>
                             <div className="col-md-12 mt-2  p-2">
                                 {message ? <Alert/>:""}
                                 <div className="modal-body pb-0" data-backdrop="static">
