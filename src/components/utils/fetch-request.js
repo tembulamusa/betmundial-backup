@@ -3,7 +3,7 @@ import {setLocalStorage, getFromLocalStorage} from './local-storage';
 const ENC_KEY = '2bdVweTeI42s5mkLdYHyklTMxQS5gLA7MDS6FA9cs1uobDXeruACDic0YSU3si04JGZe4Y';
 // const BASE_URL = 'https://bikoapi.bikosports.co.tz';
 const BASE_URL = 'https://api.surebet.co.ke';
-const BASE2_URL = 'https://apisb.surebet.co.ke';
+const BASE2_URL = 'https://apisb.surebet.co.ke/bet-service';
 
 const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1}) => {
 
