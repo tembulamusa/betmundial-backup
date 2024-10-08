@@ -41,7 +41,9 @@ const HeaderLogin = (props) => {
 
     const dispatchUser = useCallback(() => {
         if (message !== null) {
-            Notify(message);
+            if (message?.status !== 200) {
+                Notify(message);
+            }
 
             if (message.status == 200) {
                 setLocalStorage('user', message.user);
