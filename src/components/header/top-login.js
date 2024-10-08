@@ -136,7 +136,7 @@ const HeaderLogin = (props) => {
                                 <span className="sticky-hidden">
                                     <label>
                                     <input type="hidden" name="remember" value="1"/> 
-                                        <Link className="m-lg-2" to="/verify-account" title="Verify Account">
+                                        <Link className="m-lg-2" to="/forgot-password?forgot-type=verify" title="Verify Account">
                                             <span className="register-label">registered?, Verify</span>
                                         </Link>
                                     </label>

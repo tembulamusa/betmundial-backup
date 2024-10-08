@@ -1,7 +1,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {Formik, Form} from 'formik';
 import makeRequest from "../../utils/fetch-request";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Notify from '../../utils/Notify';
 
 const ResetPassword = (props) => {
@@ -10,6 +10,9 @@ const ResetPassword = (props) => {
     const [otp_sent, setOtpSent] = useState(false)
     const [msisdn, setMsisdn] = useState('')
     const navigate = useNavigate();
+    const [searchParams, ] = useSearchParams();
+    const forgotType = searchParams.get("forgot-type");
+
 
     const initialValues = {
         msisdn: '',
@@ -105,7 +108,7 @@ const ResetPassword = (props) => {
         return (
             <div className='col-md-12 primary-bg p-4 text-center'>
                 <h4 className="inline-block">
-                    RECOVER YOUR ACCOUNT
+                    {forgotType === "verify" ? "Verify Account": "Account Recovery"}
                 </h4>
             </div>
         )
