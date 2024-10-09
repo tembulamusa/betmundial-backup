@@ -4,11 +4,12 @@ const ENC_KEY = '2bdVweTeI42s5mkLdYHyklTMxQS5gLA7MDS6FA9cs1uobDXeruACDic0YSU3si0
 // const BASE_URL = 'https://bikoapi.bikosports.co.tz';
 const BASE_URL = 'https://api.surebet.co.ke';
 const BASE2_URL = 'https://apisb.surebet.co.ke/bet-service';
+const ACCOUNTS_URL = 'https://apisb.surebet.co.ke/account-service';
 
-const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1}) => {
+const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1, serviceType}) => {
 
-    if (api_version == 2) {
-        url = BASE2_URL + url;
+    if (api_version == 2) {        
+        url = (serviceType === 'account' ? ACCOUNTS_URL : BASE2_URL) + url;
     } else {
         url = BASE_URL + url;
     }
