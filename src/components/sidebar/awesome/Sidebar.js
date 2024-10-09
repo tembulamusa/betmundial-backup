@@ -344,8 +344,8 @@ const ProSidebar = (props) => {
                                             <div 
                                             onClick={() => getSportCategories() }
                                             ><SubMenu
-                                                title = "More"
-                                                label = "More"
+                                                title = "Countries"
+                                                label = "Countries"
                                                 icon={<img style={{borderRadius: '50%', height: '15px'}}
                                                 className=''
                                                 src={getSportImageIcon("more", 'img/flags-1-1')}
@@ -390,15 +390,6 @@ const ProSidebar = (props) => {
                             }
                         </Menu>
                 </Sidebar>
-
-
-
-
-
-
-
-
-
                 
             </div>
         }
