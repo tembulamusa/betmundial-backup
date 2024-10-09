@@ -48,6 +48,7 @@ const ProSidebar = (props) => {
     };
 
     const changeMatches = (gameType, competition) => {
+        
         setLocalStorage('active_item', competition.sport_id);
         if(gameType === "competition") {
             dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: competition?.competition_id}})
@@ -310,6 +311,7 @@ const ProSidebar = (props) => {
                         <Menu iconShape="circle">
                             {
                                 competitions?.map((sport, idx) => (
+                                    <div onClick={() => setFocusSportId(sport.sport_id)}>
                                     <SubMenu title={sport?.sport_name} defaultOpen={sport?.sport_name === "Soccer"}
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(sport?.sport_name)} alt=''/>}
@@ -386,6 +388,7 @@ const ProSidebar = (props) => {
                                         </PerfectScrollbar >
                                 { /* </SubMenu> */}
                                 </SubMenu>
+                                </div>
                                 ))
                             }
                         </Menu>
