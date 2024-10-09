@@ -105,23 +105,23 @@ const Index = (props) => {
     )
 
     useEffect(() => {
-        if(state?.selectedmarkets){ 
-            setSubTypes(state.selectedmarkets);
-        } 
+        // if(state?.selectedmarkets){ 
+        //     setSubTypes(state.selectedmarkets);
+        // } 
 
-        if(state?.categories) {
-            let spid = Number(sportid || 79);
-            let sp = state.categories.all_sports.find((sport) => sport.sport_id === spid);
-            setSubTypes(state?.selectedmarkets || sp.default_display_markets);
-        } 
-        let cbetslip = getBetslip();
+        // if(state?.categories) {
+        //     let spid = Number(sportid || 79);
+        //     let sp = state.categories.all_sports.find((sport) => sport.sport_id === spid);
+        //     setSubTypes(state?.selectedmarkets || sp.default_display_markets);
+        // } 
+        // let cbetslip = getBetslip();
 
-        if(cbetslip) {
-            dispatch({type:"SET", key:"betslip", payload:cbetslip})
-        }
-        return () => {
-            setDelay(null);
-        };
+        // if(cbetslip) {
+        //     dispatch({type:"SET", key:"betslip", payload:cbetslip})
+        // }
+        // return () => {
+        //     setDelay(null);
+        // };
     }, []);
 
 

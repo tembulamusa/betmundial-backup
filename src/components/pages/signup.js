@@ -34,6 +34,7 @@ const Signup = (props) => {
                 }, 3000);
                 navigate("/verify-account");
             } else {
+                Notify({status: 400, message: "Error Making registration"})
                 setIsLoading(false);
             }
             
