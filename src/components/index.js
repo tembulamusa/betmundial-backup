@@ -76,7 +76,6 @@ const Index = (props) => {
 
         
         await makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
-            console.log("THE GOTTEN GAMES:::: ", result);
             if (status == 200) {
                 setMatches(matches?.length > 0 ? {...matches, ...result?.data?.items} : result?.data?.items || result)
                 setFetching(false)

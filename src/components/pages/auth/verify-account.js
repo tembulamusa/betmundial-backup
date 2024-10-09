@@ -68,7 +68,6 @@ const VerifyAccount = (props) => {
         }
 
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
-            console.log("THE RESEND RESPONSE::::", status, "RESPONSE:::: ", response)
             if ([200, 201].includes(status)) {
                 if (response?.status == 200) {
                     Notify({status: 200, message:"Verification code send to phone"})

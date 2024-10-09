@@ -20,6 +20,7 @@ import {Context} from '../../../context/store';
 import LiveSideBar from '../live-sidebar';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import gameCategories from '../../utils/static-data';
+import Notify from '../../utils/Notify';
 
 const ProSidebar = (props) => {
 
@@ -52,29 +53,33 @@ const ProSidebar = (props) => {
         }
     }
 
-    const fetchData = useCallback(async () => {
+    const fetchData = async() => {
+
+
+        // get all categories
+        let cached_competitions2 = getFromLocalStorage("categories2");
+        let endpoint2 = "/v2/sports";
         let cached_competitions = getFromLocalStorage('categories');
-        let endpoint = "/v1/categories";
 
         if (!cached_competitions) {
             const [competition_result] = await Promise.all([
-                makeRequest({url: endpoint, method: "get", data: null}),
+                makeRequest({url: endpoint2, method: "get", api_version:2}),
             ]);
             let [c_status, c_result] = competition_result
 
             if (c_status === 200) {
-                setCompetitions(c_result);
-                setLocalStorage('categories', c_result);
+                setCompetitions(c_result?.data);
+                setLocalStorage('categories', c_result?.data);
                 dispatch({type:"SET", key:"categories", payload:c_result});
             } else {
-                fetchData()
+                Notify({status: 400, message: "Sport categories not found"});
             }
         } else {
             setCompetitions(cached_competitions);
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
         }
         
-    }, []);
+    };
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -83,7 +88,7 @@ const ProSidebar = (props) => {
         return () => {
             abortController.abort();
         };
-    }, [fetchData]);
+    }, []);
 
     const [width, setWidth] = useState(window.innerWidth);
 
@@ -131,7 +136,6 @@ const ProSidebar = (props) => {
         return competition?.default_display_markets
     }
 
-    useEffect(()=>{console.log("THE COMPETITIONS ARE HERE:::::::::::: ", competitions);},[competitions])
 
     return (
         <>
@@ -151,7 +155,7 @@ const ProSidebar = (props) => {
                     collapsed={collapsed}
                     toggled={toggled}>
                         <Menu iconShape="circle">
-                            {gameCategories.map((competition, index) => (
+                            {gameCategories?.map((competition, index) => (
                                     <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name === "Soccer"}
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}
@@ -218,7 +222,10 @@ const ProSidebar = (props) => {
                 </Sidebar>
                 }
 
-                
+
+
+                {/* The new  */}
+
                 <Sidebar
                     style={{backgroundColor: '#16202c !important'}}
                     image={false}
@@ -226,7 +233,90 @@ const ProSidebar = (props) => {
                     collapsed={collapsed}
                     toggled={toggled}>
                         <Menu iconShape="circle">
-                            {competitions?.all_sports.map((competition, index) => (
+                            {
+                                competitions?.map((sport, idx) => (
+                                    <SubMenu title={sport?.sport_name} defaultOpen={sport?.sport_name === "Soccer"}
+                                        icon={<img style={{borderRadius: '50%', height: '30px'}}
+                                                    src={getSportImageIcon(sport?.sport_name)} alt=''/>}
+                                        label={sport?.sport_name}
+                                        className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football', 'gaelic hurling', 'gaelic football'].includes(sport?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
+                                        key={idx}>
+                                {/* <SubMenu title={'Countries'}
+                                             style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}
+                                        <PerfectScrollbar >
+                                        
+                                        {/* For soccer, let's have the top soccer leagues here as well */}
+                                        {
+                                            sport?.sport_name =="Soccer"
+                                            &&
+                                            sport?.top_soccer?.map ((league, idx) => (
+                                                <MenuItem
+                                                    title={league?.competition_name}
+                                                    // label = {country.category_name}
+                                                    key={league?.competition_id}
+                                                    icon = {<img style={{borderRadius: '1px', height: '13px', width:"13px" }}
+                                                    src={getSportImageIcon(league?.flag, 'img/flags-1-1', true)}
+                                                    alt='' className='inline-block mr-2'/>}
+                                                    >
+                                                        <Link className={`sidebar-link ${(queryParamValue == league.competition_id) && 'active'}`} to={`/sports/competition/matches?id=${league.competition_id}`}
+                                                            onClick={() => changeMatches("competition", league)}>
+                                                            <span>{league?.competition_name}</span>
+                                                        </Link>
+                                                </MenuItem>
+                                            ))
+                                        
+                                        }
+                                        {sport?.categories.map((country, countryKey) => (
+                                                <SubMenu
+                                                        title={country.category_name}
+                                                        label = {country.category_name}
+                                                        icon={<img style={{borderRadius: '50%', height: '15px'}}
+                                                        className=''
+                                                        src={getSportImageIcon(country.cat_flag, 'img/flags-1-1')}
+                                                        alt=''/>}
+                                                        className='inner-submenu'
+                                                        key={countryKey}>
+
+                                                            {country?.competitions?.map((league, leagueKey) => (
+                                                                <MenuItem
+                                                                title={league.competition_name}
+                                                                // label = {country.category_name}
+                                                                key={league?.competition_id}
+                                                                >
+                                                                    <Link className='country-competition-item' to={`/competition/country/league/${league.competition_id}/all`}
+                                                                        onClick={() => changeMatches("competition", league)}>
+                                                                        <span>{league?.competition_name}</span>
+                                                                    </Link>
+                                                                </MenuItem>
+                                                            ))                                                                
+                                                            }
+                                                            
+                                                </SubMenu>
+                                        ))}
+                                        </PerfectScrollbar >
+                                { /* </SubMenu> */}
+                                </SubMenu>
+                                ))
+                            }
+                        </Menu>
+                </Sidebar>
+
+
+
+
+
+
+
+
+
+                <Sidebar
+                    style={{backgroundColor: '#16202c !important'}}
+                    image={false}
+                    onToggle={handleToggleSidebar}
+                    collapsed={collapsed}
+                    toggled={toggled}>
+                        <Menu iconShape="circle">
+                            {competitions?.all_sports?.map((competition, index) => (
                                     <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name === "Soccer"}
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}

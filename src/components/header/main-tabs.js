@@ -53,7 +53,7 @@ const MainTabs = (props) => {
 
     const setSportOptions = () => {
        if(state?.categories) {
-           const sportOptions = state.categories.all_sports.map((sport) => {
+           const sportOptions = state?.categories?.all_sports?.map((sport) => {
                return {
                   sport_id: sport.sport_id,
                   label: getSportOptionLabel(sport.sport_name),
