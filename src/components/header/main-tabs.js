@@ -4,6 +4,7 @@ import {Row, Col, Dropdown} from 'react-bootstrap';
 import { faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Context} from '../../context/store';
+import {getFromLocalStorage} from "../utils/local-storage";
 
 
 const MainTabs = (props) => {
@@ -15,11 +16,19 @@ const MainTabs = (props) => {
     const [activeTab, setActiveTab] = useState(tab);
     const [searchParams, ] = useSearchParams();
     const queryParamValue = searchParams.get('id');
+    
 
+    useEffect(() => {
+        let topCompetitions = getFromLocalStorage("topcompetitions");
+        if (!state?.topcompetitions){
+            if (topCompetitions) {
+                dispatch({type:"SET", key:"topcompetitions", payload:topCompetitions})
+            }
+        }
+    }, [])
     const getSportOptionLabel = (sport_name, showCaret=false) => {
         return (<Row className="d-flex justify-content-start f-menu-item">
                     <Col className="col-auto">{sport_name}</Col>
-                
                     { showCaret && <Col className="col-auto"><FontAwesomeIcon icon={faCaretDown} /> </Col> }
                </Row> 
               )
@@ -206,7 +215,7 @@ const MainTabs = (props) => {
                 to={`/competition/${selectedSport.sport_id}`} className={`mx-3 main-tabs-submenu item ${(!queryParamValue) && 'active'}`}>
                     All
                 </Link>
-                {state?.categories?.top_soccer?.map((competition, idx) => (
+                {state?.topcompetitions?.slice(0, 5)?.map((competition, idx) => (
                 <>
                     <Link
                     onClick={() =>  dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: competition?.competition_id}})}

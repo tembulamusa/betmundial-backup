@@ -5,6 +5,7 @@ import makeRequest from "../../utils/fetch-request";
 import mpesa from '../../../assets/img/mpesa.png'
 import {Context} from '../../../context/store';
 import {getBetslip} from '../../utils/betslip'
+import Notify from '../../utils/Notify';
 
 const Header = React.lazy(() => import('../../header/header'));
 const Footer = React.lazy(() => import('../../footer/footer'));
@@ -25,14 +26,18 @@ const Deposit = (props) => {
     }
 
     const handleSubmit = values => {
-        let endpoint = '/stk/deposit';
+        let endpoint = '/v2/deposits/stk/new';
         setIsLoading(true);
-        makeRequest({url: endpoint, method: 'POST', data: values}).then(([status, response]) => {
-            setSuccess(status === 200 || status === 201);
-            if (status === 200 || status === 201) {
-                pollBal();
+        makeRequest({url: endpoint, method: 'POST', data: values, api_version:3}).then(([status, response]) => {
+            
+            console.log("THE DEPOSIT STUFF IS HERE:::::: ", status);
+
+            if(status == 200) {
+                setSuccess(true)
+                setMessage("Check your phone and enter pin to complete deposit")
+            } else {
+                Notify({status: 400, message:"Error making a deposit. Seek custome care support"})
             }
-            setMessage(response);
             setIsLoading(false)
         })
     }
@@ -40,7 +45,6 @@ const Deposit = (props) => {
     const validate = values => {
 
         let errors = {}
-        console.log("This os the ofending number ", values.msisdn);
 
         if (!values.msisdn || !values.msisdn.match(/(254|0|)?[71]\d{8}/g)) {
             errors.msisdn = 'Please enter a valid phone number'
@@ -95,6 +99,8 @@ const Deposit = (props) => {
                         {errors.msisdn && <div className='text-danger'> {errors.msisdn} </div>}
                     </div>
                 </div>
+
+                {success && <div className='border border-gray-100 rounded-md p-3 bg-gray-100 text-black'>{message}</div>}
                 <div className="form-group row d-flex justify-content-center mt-5">
                     <div className="col-md-12">
                         <label>Amount to Deposit</label>

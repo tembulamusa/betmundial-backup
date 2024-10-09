@@ -157,6 +157,15 @@ const ProSidebar = (props) => {
                 // update the sport with competitions
                 if (status === 200) {
                     sport.competitions = response?.data?.items
+                    
+                    // for now, we just want to set the top competitions as soccer. later we'll set for every sport,
+                    // so, on the basis of current situation
+                    // if it's soccer, we take a slice of the games and set to top soccer
+                    
+                    if (focusSportId == 79) {
+                        dispatch({type:"SET", key:"topcompetitions", payload:sport.competitions});
+                        setLocalStorage("topcompetitions", sport.competitions);
+                    }
                     let newCompetitions = competitions;
 
                     // get new competitions with the updated stuff

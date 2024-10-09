@@ -59,12 +59,12 @@ const BodyLogin = (props) => {
     }, [dispatchUser]);
 
     const handleSubmit = values => {
-        let endpoint = 'v2/auth/login';
+        let endpoint = '/v2/auth/login';
         setIsLoading(true)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
             setIsLoading(false)
             if (status === 200 || status == 201 || status == 204) {
-                setMessage(response);
+                setMessage({user:response?.data, status:200});
             } else {
                 let message = {
                     status: status,

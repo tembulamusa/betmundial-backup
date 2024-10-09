@@ -34,7 +34,6 @@ const ResetPassword = (props) => {
         let endpoint = '/v2/auth/forgot-password';
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
             if(status === 200){
-                console.log("THE RESET STUFF::: == ", response);
                 if(response?.status == 200) 
                     {
                         setMessage({status:200, message: "Verification verification Code sent to your phone number"});
@@ -44,7 +43,7 @@ const ResetPassword = (props) => {
                     }
                 
             } else {
-                setMessage(response?.error)
+                setMessage({status:400, message: "Unable to process"})
             }
             
         })
@@ -65,7 +64,7 @@ const ResetPassword = (props) => {
                     setMessage({status: 400, message: "Error occured. Wrong or stale code used."})
                 }
             } else {
-                setMessage({status:status, message: response?.error?.message})
+                setMessage({status:status, message: "unable to process request"})
             }
         })
     }

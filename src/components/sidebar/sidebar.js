@@ -22,7 +22,7 @@ const SideBar = (props) => {
 
     const fetchData = useCallback(async() => {
         let cached_competitions = getFromLocalStorage('categories');
-        let endpoint = "/v1/categories";     
+        let endpoint = "/v2/categories";     
         
         if(!cached_competitions) {
             const [competition_result] =  await Promise.all([

@@ -2,17 +2,18 @@ import {setLocalStorage, getFromLocalStorage} from './local-storage';
 
 const ENC_KEY = '2bdVweTeI42s5mkLdYHyklTMxQS5gLA7MDS6FA9cs1uobDXeruACDic0YSU3si04JGZe4Y';
 // const BASE_URL = 'https://bikoapi.bikosports.co.tz';
-const BASE_URL = 'https://api.surebet.co.ke';
+const BASE_URL = 'https://apisb.surebet.co.ke/';
 const BASE2_URL = 'https://apisb.surebet.co.ke/bet-service';
-const ACCOUNTS_URL = 'https://apisb.surebet.co.ke/account-service';
+const ACCOUNTS_URL = 'https://api.surebet.co.ke';
 
 const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1, serviceType}) => {
 
     if (api_version == 2) {        
-        url = (serviceType === 'account' ? ACCOUNTS_URL : BASE2_URL) + url;
-    } else {
-        url = BASE_URL + url;
+        url = BASE2_URL + url;
+    } else { if (api_version == 3){
+        url = ACCOUNTS_URL + url}
     }
+    
     
     let headers = {
         "accept": "application/json",
@@ -45,11 +46,11 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
 
     
 
-    // const token = user?.token;
+    const token = user?.token;
 
-    // if (token) {
-    //     headers = {...headers, ...{Authorization: "Bearer " + token}}
-    // }
+    if (token) {
+        headers = {...headers, ...{Authorization: "Bearer " + token}}
+    }
 
     try {
         let request = {
@@ -65,8 +66,11 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
             request['body'] = JSON.stringify(data)
         }
         const response = await fetch(url, request);
-        let result = await response.json();
+        if (api_version == 3){console.log("THE ANTOS response:::: ",  response)}
+        
+        let result = await response?.json();
         let status = response?.status;
+        if (api_version ==3 ){console.log("THE RESPONSE as PACKAGED:::: ", status, "THE WHOLE RESPONSE FROM ANTO:::: ", result)}
         return [status, result];
     } catch (err) {
         let status = err.response?.status,
