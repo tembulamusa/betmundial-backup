@@ -50,7 +50,7 @@ const Withdrawal = (props) => {
 
     const FormTitle = () => {
        return (
-            <div className='col-md-12 page-title p-4 text-center'>
+            <div className='col-md-12 bg-primary p-4 text-center'>
                 <h4 className="inline-block">
                     WITHDRAW FUNDS (MOBILE MONEY)
                 </h4>

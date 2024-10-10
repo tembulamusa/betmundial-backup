@@ -28,14 +28,16 @@ const Deposit = (props) => {
     const handleSubmit = values => {
         let endpoint = '/v2/deposits/stk/new';
         setIsLoading(true);
+        setMessage(null);
+        setSuccess(false)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:3}).then(([status, response]) => {
             
-            console.log("THE DEPOSIT STUFF IS HERE:::::: ", status);
 
             if(status == 200) {
                 setSuccess(true)
-                setMessage("Check your phone and enter pin to complete deposit")
+                setMessage({status: 200, message: "Check your phone and enter pin to complete deposit"})
             } else {
+                setMessage({status: 400, message: "Error pushing stk. Please deposit directly"})
                 Notify({status: 400, message:"Error making a deposit. Seek custome care support"})
             }
             setIsLoading(false)
@@ -71,7 +73,7 @@ const Deposit = (props) => {
 
     const FormTitle = () => {
         return (
-            <div className='col-md-12 page-title p-4 text-center'>
+            <div className='col-md-12 bg-primary p-4 text-center'>
                 <h4 className="inline-block">
                     DEPOSIT FUNDS (MOBILE MONEY)
                 </h4>
@@ -100,8 +102,7 @@ const Deposit = (props) => {
                     </div>
                 </div>
 
-                {success && <div className='border border-gray-100 rounded-md p-3 bg-gray-100 text-black'>{message}</div>}
-                <div className="form-group row d-flex justify-content-center mt-5">
+                <div className="form-group row d-flex justify-content-center mt-4">
                     <div className="col-md-12">
                         <label>Amount to Deposit</label>
                         <input
@@ -116,11 +117,12 @@ const Deposit = (props) => {
                         {errors.amount && <div className='text-danger'> {errors.amount} </div>}
                     </div>
                 </div>
+                {message && <div className='mt-3 font-bold'><Alert/></div> }
                 <div className="form-group row d-flex justify-content-left mb-4">
                     <div className="col-md-3">
                         <button
                             disabled={isLoading}
-                            className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button'>
+                            className='btn btn-lg btn-primary mt-3 col-md-12 deposit-withdraw-button'>
                             {isLoading ? "wait..." : "Deposit"}
                         </button>
                     </div>
@@ -222,7 +224,7 @@ const Deposit = (props) => {
 
     const Alert = (props) => {
         let c = success ? 'success' : 'danger';
-        return (<>{message && <div role="alert" className={`fade alert alert-${c} show`}>{message?.message}</div>} </>);
+        return (<>{message && <div role="alert" className={`rounded-md fade alert alert-${c} show`}>{message?.message}</div>} </>);
 
     };
 
@@ -231,7 +233,6 @@ const Deposit = (props) => {
             <div className="homepage">
                 <FormTitle/>
                 <div className="col-md-12 mt-2  p-2">
-                    <Alert/>
                     <div className="modal-body pb-0" data-backdrop="static">
                         <DepositForm/>
                     </div>
