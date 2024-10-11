@@ -516,7 +516,7 @@ const MatchRow = (props) => {
         sub_types} = props;
 
     match.market_active = 1
-    if(match.odds.home_odd_active) {
+    if(match?.odds?.home_odd_active) {
         match.odds.home_odd_active = 1
     }
    
@@ -723,6 +723,8 @@ export const JackpotHeader = (props) => {
 
 }
 
+
+
 export const JackpotMatchList = (props) => {
     const {matches, jackpotData} = props;
 
@@ -746,17 +748,32 @@ export const JackpotMatchList = (props) => {
     )
 }
 
+const JackpotResultsHeader = (props) => {
+    const {metadata} = props;
+
+    return (
+        <div className='px-3'>
+            <div className='row my-3 pb-1 font-bold border-b border-gray-200'>
+            <div className='col-sm-3 !pl-0 col-md-2'>Date</div>
+            <div className='col-sm-6 !pl-0 col-md-7'>Game</div>
+            <div className='col-md-3 col-sm-3 text-right'>
+                    Results
+                </div>
+            </div>
+        </div>
+    )
+}
+
 export const JackpotResultsList = (props) => {
     const { results } = props;
 
     return (
         <div className="results full-width mt-3">
-            <MatchHeaderRow jackpot={false} first_match={results ? results.data.matches[0] : []} />
-
+            <JackpotResultsHeader />
             <Container className="web-element">
-                {results && results.data.matches.length > 0 ? (
-                    results.data.matches.map((match, key) => (
-                        <MatchRow match={match} key={key} jackpot={false} jackpotstatus={results.data.status} />
+                {(results && results?.matches?.length > 0) ? (
+                    results?.matches?.map((match, key) => (
+                        <MatchRow match={match} key={key} jackpot={false} jackpotstatus={results?.status} />
                     ))
                 ) : (
                     <div className="top-matches row">

@@ -904,3 +904,22 @@ input.std-input {
   text-shadow: 0 1px 8px rgba(44, 121, 74, 0.6);
   transition: all 0.25s;
 }
+
+.plain-tabs {
+  background: #f3f3f3 !important;
+}
+.plain-tabs.nav-tabs .nav-item .nav-link {
+  font-weight: 600;
+  color: inherit;
+  border-bottom: 3px solid transparent;
+}
+.plain-tabs.nav-tabs .nav-item.show .nav-link, .plain-tabs.nav-tabs .nav-link.active {
+  background-color: transparent;
+  color: inherit;
+  border-bottom-color: red !important;
+}
+
+.plain-tabs .tab-content {
+  padding-left: 10px;
+  padding-right: 10px;
+}
