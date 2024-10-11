@@ -24,8 +24,9 @@ const Withdrawal = (props) => {
     }
 
     const handleSubmit = values => {
-        let endpoint = '/withdraw';
-        makeRequest({url: endpoint, method: 'POST', data: {user:values}, use_jwt:true}).then(([status, response]) => {
+        let endpoint = '/v2/withdrawals/new';
+        let data = {msisdn: state?.user?.msisdn, amount: values?.amount}
+        makeRequest({url: endpoint, method: 'POST', data: data, api_version:2}).then(([status, response]) => {
             setSuccess(status === 200 || status === 201);
             if (status === 200 || status === 201){
                 dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 

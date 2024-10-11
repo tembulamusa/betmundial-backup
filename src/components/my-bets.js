@@ -45,7 +45,7 @@ const MyBets = (props) => {
 
 
     const Alert = (props) => {
-        let c = message?.status == 201 ? 'success' : 'danger';
+        let c = message?.status == (200 || 201) ? 'success' : 'danger';
         let x_style = {
             float: "right",
             display: "block",
@@ -67,16 +67,17 @@ const MyBets = (props) => {
     const fetchData = useCallback(async() => {
         if(isLoading) return;
         setIsLoading(true);
-        let endpoint = "/v1/mybets";
-        makeRequest({url: endpoint, method: "POST", data: {limit:"100", page:"1"}}).then(([status, result]) => {
+        setMessage(null);
+        let endpoint = "/v2/user/bets?size=20&page=1";
+        makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
+            
             if ([200, 201].includes(status)){
-                dispatch({type: "SET", key: "mybets", payload: result});
+                dispatch({type: "SET", key: "mybets", payload: result?.data || result});
             } else {
-                setMessage({status: status, message:result?.message})
+                setMessage({status: status, message:"Unable to process"})
             }
             setIsLoading(false);
         });
-
     }, []);
 
     useEffect(() => {
@@ -111,26 +112,12 @@ const MyBets = (props) => {
         useEffect(( )=> {
             if(bet?.jackpot_bet_id){
                 setBetType("Jackpot");
-            } else if(bet?.total_matches > 1){
+            } else if(bet?.total_games > 1){
                 setBetType("Multibet");
             } else {
                 setBetType("Single Bet")
             }
-
         }, [bet])
-
-        const fetchBetDetail = () => {
-            // setIsOpen(!isOpen);
-            if(isLoadingBetItems || currentBetDetail?.length > 0) return;
-            setIsLoadingBetItems(true);
-            let endpoint = "/v1/betdetails";
-            makeRequest({url: endpoint, method: "POST", data: {id:bet?.bet_id}}).then(([status, result]) => {
-                setCurrentBetDetail(result?.data);
-                setIsLoadingBetItems(false);
-
-            });
-    
-        }
 
         const cancelBet = () => {
             let endpoint = '/bet-cancel';
@@ -165,26 +152,26 @@ const MyBets = (props) => {
             let btnClass;
             let btnText; 
             let statusText;
-            switch (bet?.status) {
+            switch (bet?.status?.toLowerCase()) {
                 
-                case 1:
+                case "pending":
                     btnClass = "active-bet";
                     btnText = "active";
                     break;
-                case 5:
+                case "won":
                     btnClass = "won-bet";
                     btnText = "won";
                     break;
-                case 3:
+                case "lost":
                     btnClass = "lost-bet";
                     btnText = "lost"
                     break;
-                case 24:
+                case "cancelled":
                     btnClass = "cancelled-bet"
                     btnText = "cancelled"
                     break;
                 default:
-                    statusText = "pending"
+                    statusText = "Unknown"
             }
             return (
                 <>
@@ -207,11 +194,11 @@ const MyBets = (props) => {
         return (
                     <Accordion.Item eventKey={bet?.bet_id}>
                         <Accordion.Header>
-                            <div className="row w-full" onClick={() => fetchBetDetail()}>
+                            <div className="row w-full" onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
                             <div className="col font-ligt">{ bet?.bet_id}</div>
                             <div className="col hidden md:flex">{ betType}</div>
                             <div className="col">{ bet?.created}</div>
-                            <div className="col hidden md:flex">{ bet?.total_matches}</div>
+                            <div className="col hidden md:flex">{ bet?.total_games}</div>
                             <div className="col text-cente">{ bet?.bet_amount}</div>
                             <div className="col">{ bet?.possible_win}</div>
                             <div className="col">{ statusMarkup(bet) }</div>
@@ -219,14 +206,16 @@ const MyBets = (props) => {
                         </Accordion.Header>
                         <Accordion.Body>
                             <div className="bet-detail-header">
-                                <span><CancelBetMarkup txt="Cancel  Bet" /></span> <span>{shareMarkup(bet)}</span>
+                                <span><CancelBetMarkup txt="Cancel  Bet" /></span>
+                                <span>{shareMarkup(bet)}</span>
                             </div>
                             <table className="table !mt-3 !mb-0">
                                 <thead>
-                                    <BetslipHeader />
+                                    <BetslipHeader betslip={bet?.betslip}/>
                                 </thead>
                                 <tbody>
-                                    { currentBetDetail?.map((slip) => (
+                                    { currentBetDetail?.betId == bet?.bet_id && 
+                                        currentBetDetail?.games?.map((slip) => (
                                         <BetslipItem
                                         slip={slip}
                                         key={slip.game_id}
@@ -241,7 +230,9 @@ const MyBets = (props) => {
         );
     }
 
-    const BetslipHeader = () => {
+    const BetslipHeader = (props) => {
+        const {betslip} = props;
+        const winsCount = betslip.filter(item => item?.status?.toLowerCase() === "won").length;
         return (
             <tr className={`betslip-header`} >
                     <td className="hidden md:table-cell">No.</td>
@@ -252,34 +243,33 @@ const MyBets = (props) => {
                     {/* <td className="hidden md:table-cell">Market</td> */}
                     <td className="">Pick</td>
                     <td className="">Results</td>
-                    <td className="hidden md:table-cell">3/4</td>
+                    <td className="hidden md:table-cell">{`${winsCount}/${betslip?.length}`}</td>
                     
             </tr>
         )
     }
 
-    const gameBetStatus = (props) => {
-        const {status} = props;
+    const gameBetStatus = (status) => {
 
         let icon;
         let colorClass;
         let textDisp;
-        switch (status){
-            case 2:
+        switch (status.toLowerCase()){
+            case "won":
                 icon = <FaCheckCircle />
                 // textDisp = "";
-                colorClass = "blue"
+                colorClass = "won"
                 break;
 
-            case 3:
+            case "lost":
                 icon= <MdCancel />
                 // textDisp = "";
                 colorClass = "lost"
                 break;
 
-            case 1:
-                textDisp = "";
-                // colorClass = "success";
+            case "pending":
+                textDisp = "--";
+                colorClass = "pending";
                 break;
             case 4:
                 textDisp = "cancelled"
@@ -357,9 +347,9 @@ const MyBets = (props) => {
 
     const PageTitle = () => {
        return (
-            <div className='col-md-12 page-title p-4 text-center'>
+            <div className='col-md-12 bg-primary p-4 text-center'>
                 <h4 className="inline-block">
-                    MY BETS
+                    My Bets
                 </h4>
             </div>
        )
@@ -369,8 +359,8 @@ const MyBets = (props) => {
             <div className="homepage">
                 {/* <CarouselLoader/> */}
 
-                <Alert />
                 <PageTitle />
+                <Alert />
                 <MyBetsList  />
 
             </div>

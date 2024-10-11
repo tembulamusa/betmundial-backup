@@ -507,7 +507,7 @@ h5, h4, h3, h2 {
   display: inline-block;
 }
 
-.results-icon.success {
+.results-icon.won {
   color: #00A8FA;
 }
 .results-icon.lost {

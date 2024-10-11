@@ -61,25 +61,24 @@ const ProSidebar = (props) => {
         // get all categories
         let endpoint2 = "/v2/sports";
         let cached_competitions = getFromLocalStorage('categories');
-
         if (!cached_competitions) {
             const [competition_result] = await Promise.all([
                 makeRequest({url: endpoint2, method: "get", api_version:2}),
             ]);
             let [c_status, c_result] = competition_result
-
             if (c_status === 200) {
-                await setCompetitions(c_result?.data);
+                setCompetitions(c_result?.data);
                 setLocalStorage('categories', c_result?.data);
                 dispatch({type:"SET", key:"categories", payload:c_result});
             } else {
                 Notify({status: 400, message: "Sport categories not found"});
             }
         } else {
-            await setCompetitions(cached_competitions);
-            await dispatch({type:"SET", key:"categories", payload:cached_competitions});
+             setCompetitions(cached_competitions);
+             dispatch({type:"SET", key:"categories", payload:cached_competitions});
 
         }
+
         setFocusSportId(79);
         
     };
@@ -94,7 +93,7 @@ const ProSidebar = (props) => {
     }, []);
 
     const [width, setWidth] = useState(window.innerWidth);
-
+    
     const updateDimensions = () => {
         setWidth(window.innerWidth);
         if (width >= 768 && width <= 991) {
@@ -142,7 +141,7 @@ const ProSidebar = (props) => {
     const getSportCompetitions = async () => {
 
         let endpoint = `/v2/sports/competitions/${focusSportId}`;
-        let cached_competitions = getFromLocalStorage('categories');
+        let cached_competitions = getFromLocalStorage('categories') || state?.categories;
 
         // get item whose id is equal the id
         
