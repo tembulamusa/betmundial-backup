@@ -100,7 +100,7 @@ const Header = (props) => {
                 <div className='light-blue md:hidden text-white py-2 w-full'><MobileLoggedInBals/></div>
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
                     
-                    <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
+                    <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet"  style={{ marginTop: '-20px' }}>
                         <span className='inline-block md:!hidden text-white mr-3 '><MobileMenu /></span><a href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
                     </div>
 

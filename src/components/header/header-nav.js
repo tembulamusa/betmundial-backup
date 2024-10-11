@@ -1,147 +1,403 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
-import {Context} from '../../context/store';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { Context } from '../../context/store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faHome as HomeIcon,
-    faSearch,
-    faPrint,
-    faQuestionCircle,
-    faTimes,
-    faLaptop,
-    faClock,
-    faMagnet,
-    faVideo,
-    faMagic, faInfo, faChessBoard, faDice,
-    faVolumeUp
+  faHome as HomeIcon,
+  faPrint,
+  faQuestionCircle,
+  faMobile,
+  faCoins,
+  faClock,
+  faVideo,
+  faInfo,
+  faDice,
+  faVolumeUp,
 } from '@fortawesome/free-solid-svg-icons';
-import makeRequest from "../utils/fetch-request";
-import {faMobile, faCoins} from "@fortawesome/free-solid-svg-icons";
-// import { MdHome as HomeIcon} from "react-icons/md";
-import LiveIcon from "../../assets/svg/Live.svg";
-import JackpotIcon from "../../assets/svg/JP.svg";
-import PromotionIcon from "../../assets/svg/Promotions.svg";
+import { FaMagic } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { FiMoreVertical } from 'react-icons/fi';
 
 const HeaderNav = (props) => {
-    const [, dispatch] = useContext(Context);
-    const pathname = window.location.pathname;
-    const [searching, setSearching] = useState(false)
-    const [matches, setMatches] = useState([])
-    const searchInputRef = useRef(null)
-    const [time, setTime] = useState();
-    const navigate = useNavigate();
+  const [, dispatch] = useContext(Context);
+  const pathname = window.location.pathname;
+  const [searching, setSearching] = useState(false);
+  const searchInputRef = useRef(null);
+  const [time, setTime] = useState();
+  const navigate = useNavigate();
+  const [showMore, setShowMore] = useState(false); 
+  const [allItemsShown, setAllItemsShown] = useState(false); 
+  const [showMoreButton, setShowMoreButton] = useState(true); 
+
+  // Media query to check for mobile screen
+  const isMobile = window.innerWidth <= 768;
+
+  useEffect(() => {
+    if (searching === true) {
+      navigate('/home');
+    }
+  }, [searching]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(new Date().toLocaleString().slice(10, 22));
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  const updateSearchTerm = (event) => {
+    if (event.target.value.length >= 3) {
+      dispatch({ type: 'SET', key: 'searchterm', payload: event.target.value });
+    }
+  };
+
+  const showSearchBar = () => {
+    setSearching(true);
+  };
+
+  const dismissSearch = () => {
+    setSearching(false);
+  };
+
+  const toggleMoreItems = () => {
+    setShowMore((prev) => !prev);
     
-    useEffect(() => {
-        if(searching === true) {
-            navigate("/home");
-        }
-    }, [searching]);
-
-    const updateSearchTerm = (event) => {
-        if(event.target.value.length >= 3 ){
-            dispatch({type:"SET", key:"searchterm", payload: event.target.value});
-        }
+    if (!showMore) {
+      setAllItemsShown(true);
+      setShowMoreButton(false); 
+    } else {
+      setShowMoreButton(true);
     }
-    useEffect(() => {
-        const timer = setInterval(() => {
-          setTime(new Date().toLocaleString().slice(10,22));
-        }, 1000);
+  };
 
-        return () => {
-          clearInterval(timer);
-        };
-      }, []);
+  const handleClose = () => {
+    setShowMore(false); 
+    setShowMoreButton(true); 
+    setAllItemsShown(false);
+  };
 
-    const showSearchBar = () => {
-        setSearching(true)
-    }
+  const iconBoxStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: isMobile ? '40px' : '50px', 
+    height: isMobile ? '30px' : '40px',
+    borderRadius: '10px',
+    backgroundColor: '#e00c54',  
+    //backgroundColor: '#28347c',
+    color: 'white', 
+    marginBottom: '8px',
+  };
 
-    const dismissSearch = () => {
-        setSearching(false)
-        setMatches([])
-    }
-    return (
-        <>
-            <Container id="navbar-collapse-main"
-                       className={`d-sm-flex d-flex flex-row  header-menu ${searching ? 'hidden' : 'd-block'}`}>
+  const listItemStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    width: isMobile ? (allItemsShown ? '20%' : '70px') : (allItemsShown ? '100px' : '100px'),
+    padding: '8px',
+    cursor: 'pointer',
+  };
 
-                <ListGroup as="ul" xs="12" horizontal className={`font-bold nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display ${searching && "!hidden"}`}>
-                    
-                    <li className={pathname === '/' ? "active" : ''}>
-                        <Link className="cg fm ox anl url-link not-selectable " to={"/"} title="Home"><span className=" space-icons"><FontAwesomeIcon icon={HomeIcon} /> </span> Home</Link>
-                    </li>
-                    <li className={pathname === '/live' ? "active" : ''}>
-                        <Link className={`cg fm ox anl url-link`} to={"/live"}
-                           title="Live"><span className=" space-icons"><FontAwesomeIcon icon={faVideo} /> </span>Live</Link>
-                    </li>
+  const menuItemStyle = {
+    fontSize: isMobile ? '10px' : '12px',
+     color: 'white',
+  };
 
-                    <li className={pathname === '/jackpot' ? 'active' : ''}>
-                        <Link className="cg fm ox anl url-link" to={"/jackpot"}>
-                            <span className=" space-icons"><FontAwesomeIcon icon={faCoins} /> </span> Jackpot
-                        </Link>
-                    </li>
-                    <li className={pathname === '/app' ? 'active' : ''}>
-                        <Link className="g url-link" to={"/app"}>
-                            <span>
-                                <FontAwesomeIcon icon={faMobile} className="hide1"/> APP
-                            </span>
-                        </Link>
-                    </li>
+  const closeButtonStyle = {
+    display: showMore ? 'block' : 'none',
+    width: '70%',
+    backgroundColor: '#f0f0f0',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '10px',
+    cursor: 'pointer',
+    margin: '20px auto 0', 
+  };
 
-                   
-                    <li className={pathname === '/promotions' || pathname.includes("promotions") ? 'active' : ''}>
-                        <Link className="g url-link" to={"/promotions"}>
-                            <span className=" space-icons"><FontAwesomeIcon icon={faVolumeUp} /> </span> Promotions
-                        </Link>
-                    </li>
+  return (
+    <>
+      <Container
+        id="navbar-collapse-main"
+        className={`d-sm-flex d-flex flex-row header-menu ${searching ? 'hidden' : 'd-block'}`}
+      >
+        <ListGroup
+          as="ul"
+          horizontal
+          className={`font-bold nav navbar-nav d-flex align-items-center justify-content-around col-lg-12 col-md-12 col-sm-12 overflow-auto`}
+          style={{ overflowX: 'auto' }} 
+        >
+          {/* Render all items for desktop view */}
+          {!isMobile &&
+            <>
+              <li style={listItemStyle} className={pathname === '/' ? 'active' : ''}>
+                <Link to="/" className="url-link not-selectable">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={HomeIcon} />
+                  </div>
+                  <span style={menuItemStyle}>Home</span>
+                </Link>
+              </li>
 
-                    <li className={pathname === '/print-matches' ? 'active py-3' : 'py-md-0 py-lg-3 py-sm-0 d-flex align-items-center'}>
-                        <Link className="g url-link fix-print" to={"/print-matches"}>
-                            <span className=" space-icons hide1"><FontAwesomeIcon icon={faPrint}/> </span>Print  Matches
-                        </Link>
-                    </li>
-                    
-                    <li className={pathname === '/print-matches' ? 'spacing-end' : 'spacing-end'}>
-                        <Link className="g url-link fix-display" to="#" title="Search"
-                           onClick={() => showSearchBar()}>
-                            <span className=" space-icons"><FontAwesomeIcon icon={faSearch} /> </span><span className={'hide2'}>Search</span>
-                        </Link>
-                    </li>
-                    <li className={pathname === '/how-to-play' ? 'active' : ''}>
-                        <Link className="g url-link fix-display" to={"/how-to-play"}>
-                            <span className=" space-icons"><FontAwesomeIcon icon={faQuestionCircle}/> </span> <span className={'hide2'}>Help</span>
-                        </Link>
-                    </li>
-                    <li className={""}>
-                        <Link className="g url-link fix-display" to="#" title="Current Time">
-                            <span className=" space-icons"><FontAwesomeIcon icon={faClock}/> </span> <span className={'hide2'}>{time}</span>
-                        </Link>
-                    </li>
-                </ListGroup>
+              <li style={listItemStyle} className={pathname === '/live' ? 'active' : ''}>
+                <Link to="/live" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faVideo} />
+                  </div>
+                  <span style={menuItemStyle}>Live</span>
+                </Link>
+              </li>
 
-            </Container>
-            <Container id="navbar-collapse-main"
-                       className={`fadeIn header-menu d-flex justify-content-center px-4 ${searching ? 'd-block' : 'd-none'}`}>
-                <ListGroup as="ul" xs="9" horizontal className="nav navbar-nav og ale ss col-md-6 text-center">
-                    <div className="d-flex">
-                        <div className="col-md-10">
-                            <input type="text"
-                                onChange={(ev) => updateSearchTerm(ev)}
-                                placeholder={'Start typing to search for team ...'} 
-                                className={'form-control input-field border-0  no-border-radius'}
-                                />
-                        </div>
+              <li style={listItemStyle} className={pathname === '/jackpot' ? 'active' : ''}>
+                <Link to="/jackpot" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faCoins} />
+                  </div>
+                  <span style={menuItemStyle}>Jackpot</span>
+                </Link>
+              </li>
 
-                        <button className={'btn text-white -align-right'} onClick={() => dismissSearch()}>
-                            <FontAwesomeIcon icon={faTimes}/> Close
-                        </button>
+              <li style={listItemStyle} className={pathname === '/app' ? 'active' : ''}>
+                <Link to="/app" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faMobile} />
+                  </div>
+                  <span style={menuItemStyle}>APP</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle} className={pathname === '/promotions' ? 'active' : ''}>
+                <Link to="/promotions" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faVolumeUp} />
+                  </div>
+                  <span style={menuItemStyle}>Promotions</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle}>
+                <Link to="#" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faDice} />
+                  </div>
+                  <span style={menuItemStyle}>Casino</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle}>
+                <Link to="#" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faInfo} />
+                  </div>
+                  <span style={menuItemStyle}>Aviator</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle}>
+                <Link to="#" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FaMagic />
+                  </div>
+                  <span style={menuItemStyle}>Virtuals</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle}>
+                <Link to="#" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FaMagic />
+                  </div>
+                  <span style={menuItemStyle}>Live Score</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle} className={pathname === '/print-matches' ? 'active' : ''}>
+                <Link className="g url-link fix-print" to={"/print-matches"}>
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faPrint} />
+                  </div>
+                  <span style={menuItemStyle}>Print  Matches</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle} className={pathname === '/how-to-play' ? 'active' : ''}>
+                <Link className="url-link" to="/how-to-play">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faQuestionCircle} />
+                  </div>
+                  <span style={menuItemStyle}>Help</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle}>
+                <div style={iconBoxStyle}>
+                  <FontAwesomeIcon icon={faClock} />
+                </div>
+                <span style={menuItemStyle}>{time}</span>
+              </li>
+            </>
+          }
+
+          {/* Mobile layout */}
+          {isMobile && (
+            <>
+              {/* First four items */}
+              <li style={listItemStyle} className={pathname === '/' ? 'active' : ''}>
+                <Link to="/" className="url-link not-selectable">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={HomeIcon} />
+                  </div>
+                  <span style={menuItemStyle}>Home</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle} className={pathname === '/live' ? 'active' : ''}>
+                <Link to="/live" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faVideo} />
+                  </div>
+                  <span style={menuItemStyle}>Live</span>
+                </Link>
+              </li>
+
+              <li style={listItemStyle} className={pathname === '/jackpot' ? 'active' : ''}>
+                <Link to="/jackpot" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faCoins} />
                     </div>
-                </ListGroup>
-            </Container>
-        </>
-    )
+                  <span style={menuItemStyle}>Jackpot</span>
+                </Link>
+              </li>
 
-}
-export default React.memo(HeaderNav);
+              <li style={listItemStyle} className={pathname === '/app' ? 'active' : ''}>
+                <Link to="/app" className="url-link">
+                  <div style={iconBoxStyle}>
+                    <FontAwesomeIcon icon={faMobile} />
+                  </div>
+                  <span style={menuItemStyle}>APP</span>
+                </Link>
+              </li>
+
+              {/* Other items (hidden if 'showMore' is false) */}
+              {showMore && (
+                <>
+                  <li style={listItemStyle} className={pathname === '/promotions' ? 'active' : ''}>
+                    <Link to="/promotions" className="url-link">
+                      <div style={iconBoxStyle}>
+                        <FontAwesomeIcon icon={faVolumeUp} />
+                      </div>
+                      <span style={menuItemStyle}>Promotions</span>
+                    </Link>
+                  </li>
+
+                  <li style={listItemStyle}>
+                    <Link to="#" className="url-link">
+                      <div style={iconBoxStyle}>
+                        <FontAwesomeIcon icon={faDice} />
+                      </div>
+                      <span style={menuItemStyle}>Casino</span>
+                    </Link>
+                  </li>
+
+                  <li style={listItemStyle}>
+                    <Link to="#" className="url-link">
+                      <div style={iconBoxStyle}>
+                        <FontAwesomeIcon icon={faInfo} />
+                      </div>
+                      <span style={menuItemStyle}>Aviator</span>
+                    </Link>
+                  </li>
+
+                  <li style={listItemStyle}>
+                    <Link to="#" className="url-link">
+                      <div style={iconBoxStyle}>
+                        <FaMagic />
+                      </div>
+                      <span style={menuItemStyle}>Virtuals</span>
+                    </Link>
+                  </li>
+
+                  <li style={listItemStyle}>
+                    <Link to="#" className="url-link">
+                      <div style={iconBoxStyle}>
+                        <FaMagic />
+                      </div>
+                      <span style={menuItemStyle}>Live Score</span>
+                    </Link>
+                  </li>
+
+                  <li style={listItemStyle} className={pathname === '/print-matches' ? 'active' : ''}>
+                    <Link className="g url-link fix-print" to={"/print-matches"}>
+                      <div style={iconBoxStyle}>
+                        <FontAwesomeIcon icon={faPrint} />
+                      </div>
+                      <span style={menuItemStyle}>Print  Matches</span>
+                    </Link>
+                  </li>
+
+                  <li style={listItemStyle} className={pathname === '/how-to-play' ? 'active' : ''}>
+                    <Link className="url-link" to="/how-to-play">
+                      <div style={iconBoxStyle}>
+                        <FontAwesomeIcon icon={faQuestionCircle} />
+                      </div>
+                      <span style={menuItemStyle}>Help</span>
+                    </Link>
+                  </li>
+
+                  <li style={listItemStyle}>
+                    <div style={iconBoxStyle}>
+                      <FontAwesomeIcon icon={faClock} />
+                    </div>
+                    <span style={menuItemStyle}>{time}</span>
+                  </li>
+                </>
+              )}
+
+              {/* "More" button to toggle visibility of extra items */}
+              {showMoreButton && (
+                <li style={listItemStyle} onClick={toggleMoreItems}>
+                  <div style={iconBoxStyle}>
+                    <FiMoreVertical />
+                  </div>
+                  <span style={menuItemStyle}>More</span>
+                </li>
+              )}
+            </>
+          )}
+          {/* Close button for mobile view */}
+          {isMobile && (
+            <button onClick={handleClose} style={closeButtonStyle}>
+              Close
+            </button>
+          )}
+        </ListGroup>
+
+        
+      </Container>
+
+      {/* Search Bar Handling */}
+      {searching && (
+        <div className="search-bar-container">
+          <input
+            type="text"
+            placeholder="Search..."
+            onChange={updateSearchTerm}
+            ref={searchInputRef}
+            className="search-input"
+          />
+          <button onClick={dismissSearch} className="close-search">
+            X
+          </button>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default HeaderNav;
+
