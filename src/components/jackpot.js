@@ -117,7 +117,7 @@ const Jackpot = (props) => {
                             <JackpotHeader />
                         </div>
                     </div>
-                    <Tabs defaultActiveKey={matches ? "matches": "results"} id="jackpot-tabs" className="plain-tabs">
+                    <Tabs defaultActiveKey={matches ? "matches": "results"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
                         <Tab eventKey="matches" title="Matches" className="p-3">
                             { matches?.active && (
                                 <div className="row">

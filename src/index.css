@@ -923,3 +923,10 @@ input.std-input {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.jackpot-tabs .nav-item {
+  width: 50%;
+}
+.jackpot-tabs button {
+  width: 100%;
+}
