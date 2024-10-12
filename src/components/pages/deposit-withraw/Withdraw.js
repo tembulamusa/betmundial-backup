@@ -5,12 +5,6 @@ import { Formik,  Form} from 'formik';
 import { Context } from '../../../context/store';
 import {getBetslip} from '../../utils/betslip'
 
-
-const Header = React.lazy(()=>import('../../header/header'));
-const SideBar = React.lazy(()=>import('../../sidebar/awesome/Sidebar'));
-const Right = React.lazy(()=>import('../../right/index'));
-const Footer = React.lazy(()=>import('../../footer/footer'));
-
 const Withdrawal = (props) => {
     //todo get the phone number from logged in user ....
     const [state, dispatch] = useContext(Context);
@@ -26,9 +20,11 @@ const Withdrawal = (props) => {
     const handleSubmit = values => {
         let endpoint = '/v2/withdrawals/new';
         let data = {msisdn: state?.user?.msisdn, amount: values?.amount}
-        makeRequest({url: endpoint, method: 'POST', data: data, api_version:2}).then(([status, response]) => {
+        makeRequest({url: endpoint, method: 'POST', data: data, api_version:3}).then(([status, response]) => {
             setSuccess(status === 200 || status === 201);
+
             if (status === 200 || status === 201){
+                setMessage({status: 200, message: "withdrawal request sent successfully."})
                 dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
             }
             setMessage(response);
@@ -101,10 +97,11 @@ const Withdrawal = (props) => {
                     {errors.amount &&  <div className='text-danger'> {errors.amount} </div>  }
                 </div>
             </div>
+            <div className='mt-3'><Alert /></div>
             <div className="form-group row d-flex justify-content-left mb-4">
                 <div className="col-md-3">
                     <button
-                        className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button'>
+                        className='btn btn-lg btn-primary mt-3 col-md-12 deposit-withdraw-button'>
                         Withdraw
                     </button>
                 </div>
@@ -151,8 +148,10 @@ const Withdrawal = (props) => {
                         <div className='col text-center md:text-left'>
                             <img src={mpesa} alt="" className='' style={{maxWidth:"100px"}}/>
                         </div>
-                        <hr/>
-                        <WithdrawFormFields  onFieldChanged ={ onFieldChanged} values ={values } errors={errors} />
+                        <div className='my-3'><hr/></div>
+                        <div className=''>
+                            <WithdrawFormFields  onFieldChanged ={ onFieldChanged} values ={values } errors={errors} />
+                        </div>
                         <hr/>
                         <PaymentInstructions />
                     </div>
@@ -183,7 +182,6 @@ const Withdrawal = (props) => {
          <React.Fragment>
             <FormTitle />
             <div className="col-md-12 mt-2  p-2">
-                <Alert />
                 <div className="modal-body pb-0" data-backdrop="static">
                     <WithdrawalForm />
                 </div>

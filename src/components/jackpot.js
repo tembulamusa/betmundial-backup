@@ -38,12 +38,10 @@ const Jackpot = (props) => {
     const fetchResults = useCallback(async () => {
         const resultsEndpoint = "/v2/jackpot/results";
         const [r_status, result] = await makeRequest({ url: resultsEndpoint, method: "GET", api_version: 2 });
-        console.log("THE JACKPOT AND ITS MATCHES", r_status, "MATCHES::::::: ", result);
-
         if (r_status === 200) {
             setResults(result?.data); 
         } else {
-            Notify({status: 400, message: "Error fetching results"})
+            Notify({status: 400, message: "Error fetching Jackpot results"})
         }
     }, []);
 
