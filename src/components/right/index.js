@@ -1,17 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import QuickLogin from './quick-login';
-import CompanyInfo from './company-info';
 import BetSlip from './betslip';
 import { FiX } from 'react-icons/fi';
-import { Badge } from 'react-bootstrap';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
 import { Context } from '../../context/store';
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Mpesa from "../../assets/img/mpesa-1.png";
-import Airtelmoney from "../../assets/img/airtelmoney.png";
-import { useLocation } from 'react-router-dom';
+
+import MiniGames from './mini-games';
 
 const AlertMessage = (props) => {
   return (
@@ -31,14 +27,40 @@ const SlipCounter = (props) => {
   return <span className="">{state?.sliptype?.count || 0}</span>;
 };
 
-const LoadedBetslip = (props) => {
-  const {betslipValidationData, jackpotData} = props;
+const PaybillNumbersSection = () => (
+  <section className='betslip-paybill bg-secondary'>
+    <div className="paybillnumbers pt-3">
+      <h2>Paybill Numbers</h2>
+      <p>Your account/reference number should be your registered number.</p>
+      <ul>
+        <li className="mpesa">
+          <span className="lazy lazy-loaded">
+            <img src={Mpesa} style={{ maxWidth: "110px" }} alt='paybill' />
+          </span>
+          <span>599488</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+);
+
+const CustomerCareSection = () => (
+  <section className='betslip-paybill bg-secondary'>
+    <div className="paybillnumbers pt-3">
+      <h2>Customer Care</h2>
+      <p>Surebet is the place to be all day long for 24/7 customer support.</p>
+      <div className='text-3xl py-3'>0724599488</div>
+      <p>customercare@surebet.co.ke</p>
+    </div>
+  </section>
+);
+
+
+const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
   const [betSlipMobile, setBetSlipMobile] = useState(false);
   const [state, dispatch] = useContext(Context);
-  const [, setHasBetslip] = useState(false);
-  const [jackpot, ] = useState(state?.isjackpot);
-  const [footerMobileValue, setFooterMobileValue] = useState(jackpot ? jackpotData?.bet_amount : 100)
-
+  const [footerMobileValue, setFooterMobileValue] = useState(state?.isjackpot ? jackpotData?.bet_amount : 100);
+  const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
 
 
   // UseEffect to determine if there's a betslip or jackpotbetslip
@@ -54,20 +76,24 @@ const LoadedBetslip = (props) => {
     }
   }, [state?.betslip, state?.jackpotbetslip]);
 
+  const showShareModalDialog = () => {
+    if (!state?.user) {
+      dispatch({ type: 'SET', key: 'showloginmodal', payload: true });
+    } else {
+      dispatch({ type: 'SET', key: 'showsharemodal', payload: true });
+    }
+  };
+
+  const BongeBetMarkupMessage = () => {
+    return !state?.isjackpot && Object.keys(state?.betslip || {}).length > 0 && (
+      <div className="bonge-bonus" style={{ padding: '5px', background: '#fbd702', marginTop: '10px' }}>
+        <div id="bonus-centage-advice" style={{ fontWeight: '100' }}>{bongeBonusMessage}</div>
+      </div>
+    );
+  };
+
   return (
     <>
-      {/* Desktop BetSlip remains as it is */}
-      <div className="betslip-container d-none d-md-block">
-        <div className="bet-option-list sticky-top">
-          <div className="bet alu block-shadow">
-            <div id="betslip" className="betslip">
-              <BetSlip jackpot={jackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
-            </div>
-            <QuickLogin />
-          </div>
-        </div>
-      </div>
-
       {/* Mobile BetSlip Modal */}
       <div
         className={`betslip-container-mobile d-block d-md-none ${betSlipMobile ? 'd-block' : 'd-none'}`}
@@ -106,23 +132,36 @@ const LoadedBetslip = (props) => {
               <FiX size={20} /> Cancel
             </button>
             {/* Share Bet Button */}
-            <button
-              className="btn btn-primary"
-              style={{ marginRight: '10px' }}
-              onClick={() => alert('Share Bet')}
-            >
-              <FontAwesomeIcon icon={faShare} /> Share Bet
-            </button>
+            <div className="betslip-header bg-secondary uppercase">
+              {state?.isjackpot ? 'jackpot' : 'Betslip'}
+              {!state?.isjackpot && (
+                <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
+              )}
+              {Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0 && (
+                <span className="col-sm-2 yellow-btn font-bold !float-end share-btn btn btn-light"
+                  style={{ width: 'fit-content' }}
+                  onClick={showShareModalDialog}
+                >
+                  <span><FontAwesomeIcon icon={faShare} /></span>
+                  <span>Share</span>
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="bet-option-list" style={{ paddingTop: '60px', height: 'calc(100% - 60px)', overflowY: 'auto' }}>
           <div className="bet alu block-shadow">
             <div id="betslip" className="betslip">
-              <BetSlip jackpot={jackpot} betslipValidationData={betslipValidationData} />
+              {Object.keys(state?.betslip || {}).length === 0 && <BongeBetMarkupMessage />}
+              <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
+              <QuickLogin />
             </div>
-            <QuickLogin />
           </div>
+
+          <PaybillNumbersSection />
+          <CustomerCareSection />
+          
         </div>
       </div>
 
@@ -161,6 +200,7 @@ const LoadedBetslip = (props) => {
     </>
   );
 };
+
 
 const Right = (props) => {
   const { betslipValidationData, jackpotData } = props;
@@ -206,32 +246,10 @@ const Right = (props) => {
           <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
           <QuickLogin />
         </section>
-        <section className='betslip-paybill bg-secondary'>
-            <div className="paybillnumbers pt-3 bg-secondary">
-                <h2>Paybill Numbers</h2>
-                <p>Your account/reference number should be your registered number.</p>
-                <ul>
-                    <li class="mpesa">
-                    <span class="lazy lazy-loaded"><img src={Mpesa} style={{maxWidth:"110px"}} alt='paybill'/></span>
-                    <span>599488</span>
-                    </li>
-                    {/* <li class="airtelmoney">
-                        <span class="lazy lazy-loaded"><img src={Airtelmoney} style={{maxWidth:"50px"}}/></span>
-                        <span>599488 or SPORTMULA</span>
-                    </li> */}
-                </ul>
-            </div>
-        </section>
-
-        <section className='betslip-paybill bg-secondary'>
-            <div className="paybillnumbers pt-3 bg-secondary">
-                <h2>Customer Care</h2>
-                <p>Surebet is the place to be all day long for 24/7 customer support.</p>
-                <div className='text-3xl py-3'>0724599488</div>
-                <p>customercare@surebet.co.ke</p>
-            </div>
-        </section>
-        <section id='nav-tabs'></section>
+        <PaybillNumbersSection />
+        <CustomerCareSection />
+        <MiniGames />
+       
       </div>
 
       {/* Mobile version of BetSlip */}

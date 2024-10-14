@@ -19,15 +19,16 @@ const MobileLoggedInBals = (props) => {
             {/* <div style={{color:"#dddddd", fontWeight:"500"}} className="capitalize px-3 col-6">
                 <div style={{}}>Balance <span className="secondary-text font-bold">{state?.user ? state?.user?.balance : "--"}</span></div>
                 <div style={{}}>Bonus <span className="secondary-text font-bold">{state?.user ? state?.user?.bonus : "--"}</span></div>
-            </div> */}
+            </div> */}            
                 <div className="text-white">
-                    <Link to='/deposit' className="btn btn-deposit-withdraw text-white">
+                    Mpesa Paybill: 599488 
+                    <Link to='/deposit' className="btn btn-deposit-withdraw text-white" style={{ marginLeft: '2rem', paddingRight: '2rem' }}>
                         <FontAwesomeIcon icon={faCoins} className="text-white text-2xl mr-4"/>Deposit
                     </Link>
                     {/* <Link to='/withdraw' className="btn btn-deposit-withdraw text-white">
                         <FontAwesomeIcon icon={faDollarSign} className="bright-blue-text text-2xl mr-2"/>Withdraw
                     </Link> */}
-            </div>
+            </div>            
         </div>
     )
 }

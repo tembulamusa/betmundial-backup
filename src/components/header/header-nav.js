@@ -7,17 +7,18 @@ import {
   faHome as HomeIcon,
   faPrint,
   faQuestionCircle,
-  faMobile,
   faCoins,
   faClock,
   faVideo,
-  faInfo,
   faDice,
-  faVolumeUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { FaMagic } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { FaMagic, FaPlaneDeparture } from 'react-icons/fa';
 import { FiMoreVertical } from 'react-icons/fi';
+import { GiSoccerKick } from "react-icons/gi";
+import { RiStarSmileLine } from "react-icons/ri";
+import { TbDeviceMobileDollar } from "react-icons/tb";
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const HeaderNav = (props) => {
   const [, dispatch] = useContext(Context);
@@ -87,8 +88,8 @@ const HeaderNav = (props) => {
     width: isMobile ? '40px' : '50px', 
     height: isMobile ? '30px' : '40px',
     borderRadius: '10px',
-    backgroundColor: '#e00c54',  
-    //backgroundColor: '#28347c',
+   // backgroundColor: '#e00c54',  
+    backgroundColor: '#28347c',
     color: 'white', 
     marginBottom: '8px',
   };
@@ -99,7 +100,7 @@ const HeaderNav = (props) => {
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    width: isMobile ? (allItemsShown ? '20%' : '70px') : (allItemsShown ? '100px' : '100px'),
+    width: isMobile ? (allItemsShown ? '20%' : '55px') : (allItemsShown ? '100px' : '100px'),
     padding: '8px',
     cursor: 'pointer',
   };
@@ -165,7 +166,7 @@ const HeaderNav = (props) => {
               <li style={listItemStyle} className={pathname === '/app' ? 'active' : ''}>
                 <Link to="/app" className="url-link">
                   <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faMobile} />
+                    <TbDeviceMobileDollar />
                   </div>
                   <span style={menuItemStyle}>APP</span>
                 </Link>
@@ -174,7 +175,7 @@ const HeaderNav = (props) => {
               <li style={listItemStyle} className={pathname === '/promotions' ? 'active' : ''}>
                 <Link to="/promotions" className="url-link">
                   <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faVolumeUp} />
+                    <RiStarSmileLine />
                   </div>
                   <span style={menuItemStyle}>Promotions</span>
                 </Link>
@@ -192,7 +193,7 @@ const HeaderNav = (props) => {
               <li style={listItemStyle}>
                 <Link to="#" className="url-link">
                   <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faInfo} />
+                    <FaPlaneDeparture />
                   </div>
                   <span style={menuItemStyle}>Aviator</span>
                 </Link>
@@ -210,7 +211,7 @@ const HeaderNav = (props) => {
               <li style={listItemStyle}>
                 <Link to="#" className="url-link">
                   <div style={iconBoxStyle}>
-                    <FaMagic />
+                    <GiSoccerKick />
                   </div>
                   <span style={menuItemStyle}>Live Score</span>
                 </Link>
@@ -277,7 +278,7 @@ const HeaderNav = (props) => {
               <li style={listItemStyle} className={pathname === '/app' ? 'active' : ''}>
                 <Link to="/app" className="url-link">
                   <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faMobile} />
+                    <TbDeviceMobileDollar />
                   </div>
                   <span style={menuItemStyle}>APP</span>
                 </Link>
@@ -289,7 +290,7 @@ const HeaderNav = (props) => {
                   <li style={listItemStyle} className={pathname === '/promotions' ? 'active' : ''}>
                     <Link to="/promotions" className="url-link">
                       <div style={iconBoxStyle}>
-                        <FontAwesomeIcon icon={faVolumeUp} />
+                        <RiStarSmileLine />
                       </div>
                       <span style={menuItemStyle}>Promotions</span>
                     </Link>
@@ -307,7 +308,7 @@ const HeaderNav = (props) => {
                   <li style={listItemStyle}>
                     <Link to="#" className="url-link">
                       <div style={iconBoxStyle}>
-                        <FontAwesomeIcon icon={faInfo} />
+                        <FaPlaneDeparture />
                       </div>
                       <span style={menuItemStyle}>Aviator</span>
                     </Link>
@@ -325,7 +326,7 @@ const HeaderNav = (props) => {
                   <li style={listItemStyle}>
                     <Link to="#" className="url-link">
                       <div style={iconBoxStyle}>
-                        <FaMagic />
+                        <GiSoccerKick />
                       </div>
                       <span style={menuItemStyle}>Live Score</span>
                     </Link>
