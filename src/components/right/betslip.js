@@ -13,6 +13,8 @@ import CompanyInfo from "./company-info";
 import makeRequest from '../utils/fetch-request';
 import { setLocalStorage } from '../utils/local-storage';
 import { useParams } from 'react-router-dom';
+import Notify from "../utils/Notify";
+import Alert from '../utils/alert';
 const clean_rep = (str) => {
     str = str.replace(/[^A-Za-z0-9\-]/g, '');
     return str.replace(/-+/g, '-');
@@ -32,6 +34,7 @@ const BetSlip = (props) => {
     const [betslipsData, setBetslipsData] = useState({});
     const [hasBetslip, setHasBetslip] = useState(false);
     const [sharedBetLoading, setSharedBetLoading] = useState(false);
+    const [sharedBetError, setSharedBetError] = useState(null);
     //initial betslip loading
 
     useEffect(() => {
@@ -49,18 +52,24 @@ const BetSlip = (props) => {
     }, [state?.betslip, state?.jackpotbetslip]);
     
     const fetchSharedBetslip = useCallback((code) => {
-        let endpoint = "/v1/share?code=" + code
+        let endpoint = "/v2/bet/share?share-code=" + code
         setSharedBetLoading(true);
-        makeRequest({url: endpoint, method: "GET", data: null}).then(([status, result]) => {
+        makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
+            console.log("THE BETSLIP FETCHED:::::::: ", status, "THE SHARE RESPONSE:::: ", result);
+            
             if (status == 200) {
                //load betslip
-                if(result?.betslip) {
-                    setLocalStorage("betslip", result?.betslip);
-                    setBetslipsData(result?.betslip);
-                    dispatch({type: "SET", key: betslipKey, payload: result?.betslip});
+                if(result?.data?.betslip) {
+                    setLocalStorage("betslip", result?.data?.betslip);
+                    setBetslipsData(result?.data?.betslip);
+                    dispatch({type: "SET", key: betslipKey, payload: result?.data?.betslip});
                 }
+            } else {
+                setSharedBetError({status:400, message: "Error processing shared slip. Select own games"})
+                // Notify({status: 400, message: "unable to fetch shared bet"});
             }
             setSharedBetLoading(false);
+            setSharedBetError(null);
         });
     }, [code])
 
@@ -69,7 +78,7 @@ const BetSlip = (props) => {
      };
  
      const loadBetslipFromCode = () => {
-         if(inputShareCode) {
+         if(inputShareCode.length >= 5) {
              fetchSharedBetslip(inputShareCode); 
          }
      }
@@ -194,11 +203,12 @@ const BetSlip = (props) => {
                     <hr className='mb-3'/>
                     <div className='px-2'>
                         <div className='my-3 font-[500] text-2xl text-center'>Do you have a shared betslip code? Enter it here.</div>
+                        {sharedBetError && <Alert message={sharedBetError} />}
                         <input  type="text" name="sharecode"  placeholder="Eg HLRTMRV"  
                             onChange={handleCodeInputChange}
                             className='block w-full px-2 text-center rounded-2xl'
                             style={{border:"1px solid #ddd", margin:"0px 0px 0px", height:"40px"}}/>
-                        <button disabled={sharedBetLoading} className="my-3 w-full block capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none text-white uppercase hover:opacity-80 rounded-2xl" style={{padding:"0px", height:"40px"}} onClick={loadBetslipFromCode}>{sharedBetLoading ? "wait...":"Load Betslip"}</button>
+                        <button disabled={sharedBetLoading} className="my-3 w-full block capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none text-white uppercase hover:opacity-80 rounded-2xl" style={{padding:"0px", height:"40px"}} onClick={() => loadBetslipFromCode()}>{sharedBetLoading ? "wait...":"Load Betslip"}</button>
                     </div>
                 </li>
             }
