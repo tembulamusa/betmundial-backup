@@ -1,16 +1,8 @@
 import React, {useContext, useEffect, useState, useCallback} from "react";
 import {Context} from '../context/store';
 import makeRequest from './utils/fetch-request';
-// import {
-//     Accordion,
-//     AccordionItem,
-//     AccordionItemButton,
-//     AccordionItemHeading,
-//     AccordionItemPanel,
-// } from 'react-accessible-accordion';
 
 import Accordion from 'react-bootstrap/Accordion';
-
 
 import '../assets/css/accordion.react.css';
 import { FaCheckCircle, FaShare } from "react-icons/fa";

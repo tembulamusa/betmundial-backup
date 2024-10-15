@@ -4,13 +4,10 @@ import {Formik, Form} from 'formik';
 import makeRequest from "../../utils/fetch-request";
 import mpesa from '../../../assets/img/mpesa.png'
 import {Context} from '../../../context/store';
-import {getBetslip} from '../../utils/betslip'
 import Notify from '../../utils/Notify';
-
-const Header = React.lazy(() => import('../../header/header'));
-const Footer = React.lazy(() => import('../../footer/footer'));
-const SideBar = React.lazy(() => import('../../sidebar/awesome/Sidebar'));
-const Right = React.lazy(() => import('../../right/index'));
+import Accordion from 'react-bootstrap/Accordion';
+import '../../../assets/css/accordion.react.css';
+import StdTable from '../../utils/std-table';
 
 
 const Deposit = (props) => {
@@ -19,7 +16,9 @@ const Deposit = (props) => {
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [pastDeposits, setPastDeposits] = useState([]);
+    const [tableHeaders, ] = useState(["Date", "Amount", "Surebet Balance"])
+    
     const initialValues = {
         amount: '',
         msisdn: state?.user?.msisdn || ''
@@ -42,6 +41,22 @@ const Deposit = (props) => {
             }
             setIsLoading(false)
         })
+    }
+
+    const requestUserDeposits = () => {
+        let endpoint = '/v2/deposits';
+        
+        makeRequest({url: endpoint, method: 'GET', api_version:3}).then(([status, response]) => {
+            
+
+            if(status == 200) {
+                setPastDeposits(response?.data?.deposits)
+            } else {
+                Notify({status: 400, message:"Error fetching deposits"})
+            }
+            setIsLoading(false)
+        })
+
     }
 
     const validate = values => {
@@ -194,19 +209,65 @@ const Deposit = (props) => {
         }
 
         return (
-            <Form className="rounded border-0">
-                <div className="pt-0">
-                    <div className="row">
-                        <div className='col-md-7 text-center'>
-                            <img src={mpesa} alt=""/>
+            <>
+                <Form className="rounded border-0">
+                    <div className="pt-0">
+                        <div className="row">
+                            <div className='col-md-7 text-center'>
+                                <img src={mpesa} alt=""/>
+                            </div>
+                            <hr/>
+                            <div className='row'>
+                                <div className='col-md-6'>
+                                    <DepositFormFields onFieldChanged={onFieldChanged} values={values} errors={errors}/>
+                                    
+                                    <hr className='my-5'/>
+                                    <div className=''>
+                                        <Accordion
+                                        className='accordion'>
+                                            <Accordion.Item eventKey={2}>
+                                                <Accordion.Header>
+                                                    <h1 className='capitalize font-[500]'>missing Deposit?</h1>
+                                                </Accordion.Header>
+                                                <Accordion.Body>
+                                                    <input
+                                                        className='text-dark deposit-input form-control col-md-12 input-field'
+                                                        placeholder='Enter Mpesa Code'
+                                                    />
+                                                    <button className='btn btn-lg btn-primary mt-3 col-md-12 deposit-withdraw-button'>Check Status</button>
+                                                </Accordion.Body>
+                                            </Accordion.Item>
+                                        </Accordion>
+                                        
+                                    </div>
+                                </div>
+                                <div className='col-md-6'>
+                                    <Accordion 
+                                    className="accordion mt-4"
+                                    defaultActiveKey={0}
+                                    allowMultipleExpanded={false}
+                                    // uuid = {}
+                                    >
+                                        <Accordion.Item eventKey={1}>
+                                            <Accordion.Header>
+                                                Deposit via paybil number
+                                            </Accordion.Header>
+                                            <Accordion.Body>
+                                                <PaymentInstructions/> 
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    </Accordion>
+                                </div>
+                                
+                            </div>
+                            
                         </div>
-                        <hr/>
-                        <DepositFormFields onFieldChanged={onFieldChanged} values={values} errors={errors}/>
-                        <hr/>
-                        <PaymentInstructions/>
                     </div>
-                </div>
-            </Form>
+                </Form>
+
+                {/* The deposits table */}
+                <div></div>
+            </>
         );
     }
 
@@ -233,9 +294,12 @@ const Deposit = (props) => {
             <div className="homepage">
                 <FormTitle/>
                 <div className="col-md-12 mt-2  p-2">
-                    <div className="modal-body pb-0" data-backdrop="static">
+                    <div className="pb-0" data-backdrop="static">
                         <DepositForm/>
                     </div>
+                </div>
+                <div className='mx-2 mt-3'>
+                    <StdTable headers={tableHeaders} data={pastDeposits} emptymessage="No Deposits. Please make your first deposit"/>
                 </div>
             </div>
         </React.Fragment>

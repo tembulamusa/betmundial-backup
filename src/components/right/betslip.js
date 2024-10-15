@@ -62,14 +62,11 @@ const BetSlip = (props) => {
                     let betslip = {}
                     // change slip type
                     result?.data?.betslip?.map((item, idx) => {
-                        
                         let item_id = item.match_id
                         betslip[item_id] = item;
                     })
-                    console.log("THE LOGGED BETSLIP::::::::: ", betslip);
-                    setLocalStorage("betslip", betslip);
-                    // setBetslipsData(betslip);
                     dispatch({type: "SET", key: "betslip", payload: betslip});
+                    setLocalStorage("betslip", betslip);
                 }
             } else {
                 setSharedBetError({status:400, message: "Error processing shared slip. Select own games"})

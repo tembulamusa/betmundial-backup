@@ -25,9 +25,10 @@ const Jackpot = (props) => {
     const fetchMatches = useCallback(async () => {
         const matchEndpoint = "/v2/jackpot/matches";
         const [m_status, result] = await makeRequest({ url: matchEndpoint, method: "GET", api_version: 2 });
-        
-        if (m_status === 200) {
-            setMatches(result?.data);
+        console.log("THE JACKPOT MATCHES::::::::: ", m_status, "  THE MATCHES::::: ", result);
+        if (m_status == 200) {
+            console.log("THE matches got here:::: ", result)
+            setMatches(result?.data?.matches);
             dispatch({ type: "SET", key: "jackpotdata", payload: result });
         }
 
@@ -56,6 +57,7 @@ const Jackpot = (props) => {
         };
     }, [fetchMatches, fetchResults, dispatch]);
 
+    useEffect(() => {console.log("THE NEW MATCHES ::: ", matches)},[matches])
     const AutoPickAllMatches = () => {
         const clean = (_str) => {
             _str = _str.replace(/[^A-Za-z0-9\-]/g, '');

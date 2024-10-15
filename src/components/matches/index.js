@@ -276,7 +276,6 @@ const OddButton = (props) => {
                 + (match?.[mkt] || match?.odd_key || mkt || "draw")
             );
             setUcn(uc);
-
             setOddValue(match?.odd_value);
             
         }
@@ -287,6 +286,7 @@ const OddButton = (props) => {
     }, [updateOddValue]);
 
     const updatePickedChoices = () => {
+        
         let betslip = state?.[betslip_key]
         let uc = clean(
             match.match_id
@@ -299,7 +299,12 @@ const OddButton = (props) => {
         } else {
             setPicked('');
         }
+
     }
+    useEffect(() => {
+        updatePickedChoices();
+    }, [state?.[betslip_key], state?.betslip])
+    
     useEffect(() => {
         updatePickedChoices();
     }, [])
