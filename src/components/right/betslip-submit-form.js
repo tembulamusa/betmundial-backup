@@ -190,14 +190,14 @@ const BetslipSubmitForm = (props) => {
                     handleRemoveAll();
                     if (jackpot) {
                         // save betslip into state before proceeding
-                        dispatch({type:"SET", key:"jackpotrebetslip", payload:payload?.slip})
+                        dispatch({type:"SET", key:"jackpotrebetslip", payload:state?.jackpotbetslip})
                         clearJackpotSlip();
                         setMessage({
                             status: 201,
                             message: "Jackpot bet placed successfully."
                         })
                     } else {
-                        dispatch({type:"SET", key:"rebetslip", payload:payload?.slip})
+                        dispatch({type:"SET", key:"rebetslip", payload:state?.betslip})
                         clearSlip();
                     }
                     
