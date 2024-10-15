@@ -357,7 +357,7 @@ const OddButton = (props) => {
             "bet_type": bet_type,
             "odd_type": odd_type,
             "sport_name": sport_name,
-            "live": live,
+            "live": live? 1: 0,
             "ucn": cstm,
             "market_active": market_active,
         }

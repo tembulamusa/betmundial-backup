@@ -55,7 +55,7 @@ const BetSlip = (props) => {
             if (status == 200) {
                //load betslip
                 if(result?.betslip) {
-                    setLocalStorage("betslip",result?.betslip);
+                    setLocalStorage("betslip", result?.betslip);
                     setBetslipsData(result?.betslip);
                     dispatch({type: "SET", key: betslipKey, payload: result?.betslip});
                 }
@@ -203,7 +203,7 @@ const BetSlip = (props) => {
                 </li>
             }
             {hasBetslip  && <>
-            <div className="flow" style={{maxHeight: "50vh", overflowY: "auto"}}>
+            <div className="flow" style={{maxHeight: "50vh", overflowY: "auto", overflowX:"hidden", padding:"8px"}}>
                 <ul>
 
                     
@@ -226,7 +226,7 @@ const BetSlip = (props) => {
                                                 style={{
                                                 float: "left",
                                                 width: "auto",
-                                                fontWeight: "500"
+                                                fontWeight: "400"
                                             }}>
                                                 <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
                                                 {`${slip.home_team} VS ${slip.away_team}`}

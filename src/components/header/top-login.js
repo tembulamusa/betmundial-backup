@@ -90,7 +90,9 @@ const HeaderLogin = (props) => {
         return errors
     }
 
-
+    // an independent function that runs every 1 minute to check for user session
+    // and request a refresh. However, currently, we are just requesting a relogin
+    
     const MyLoginForm = (props) => {
         const {isValid, errors, values, submitForm, setFieldValue} = props;
 

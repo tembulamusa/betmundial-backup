@@ -19,6 +19,7 @@ import {
 } from 'formik';
 import { isNull } from 'util';
 import { TbRefreshAlert } from "react-icons/tb";
+import { setLocalStorage } from '../utils/local-storage';
 
 const Float = (equation, precision = 4) => {
     return Math.round(equation * (10 ** precision)) / (10 ** precision);
@@ -42,13 +43,29 @@ const BetslipSubmitForm = (props) => {
     const [totalOdds, setTotalOdds] = useState(1);
 
 
+    const rebet = async() => {
+        // check for the betslip to be reloaded
+        if (state?.jackpotrebetslip) {
+            
+            dispatch({type:"SET", key:"jackpotbetslip", payload: state?.jackpotrebetslip});
+            setLocalStorage('jackpotbetslip', state?.jackpotrebetslip, 1*60*60*1000);
+            dispatch({type:"DEL", key:"jackpotrebetslip"});
+
+
+        } else {
+            dispatch({type:"SET", key:"betslip", payload: state?.rebetslip});
+            setLocalStorage('betslip', state?.rebetslip, 1*60*60*1000);
+            dispatch({type:"DEL", key:"rebetslip"})
+        }
+
+    }
     const Alert = (props) => {
-        let c = message?.status == 201 ? 'betslip-success-box' : 'danger';
+        let c = message?.status ==  200 ? 'betslip-success-box' : 'danger';
         let x_style = {
             fontWeight: "bold",
             float: "right",
             display: "block",
-            color: message?.status == 201 ? "white" : "orangered",
+            color: message?.status == 200 ? "white" : "orangered",
             cursor: "pointer",
         }
         return (<>{message?.status &&
@@ -62,9 +79,9 @@ const BetslipSubmitForm = (props) => {
                         </div>
                         <div className='text-2xl mb-3 font-normal'>{message.message}</div>
 
-                        {message?.status == 201 &&
+                        {message?.status ==  200 &&
                             <div className='my-3'>
-                                <button class="betslip-rebet-button text-3xl" ng-click="$ctrl.unifiedBetslip.rebet($ctrl.type)">
+                                <button class="betslip-rebet-button text-3xl" onClick={() => rebet()}>
                                     <TbRefreshAlert size={25} className='inline-block mr-4 '/>Rebet
                                 </button>
                             </div>
@@ -106,7 +123,7 @@ const BetslipSubmitForm = (props) => {
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
         let bs = Object.values(state?.[betslipkey] || []);
-
+        
         let slipHasOddsChange = false;
         let jackpotMessage = 'jp';
 
@@ -133,62 +150,64 @@ const BetslipSubmitForm = (props) => {
             setSubmitting(false);
             return false;
         }
-        const getIp = async () => {
-            let ipv4 = await publicIp.v4({
-                fallbackUrls: ['https://ifconfig.co/ip']
-            }).then((result) => {
-                return result
-            });
-            return ipv4;
-        }
+        // const getIp = async () => {
+        //     let ipv4 = await publicIp.v4({
+        //         fallbackUrls: ['https://ifconfig.co/ip']
+        //     }).then((result) => {
+        //         return result
+        //     });
+        //     return ipv4;
+        // }
 
         let payload = {
             bet_string: 'web',
             app_name: 'desktop',
             possible_win: possibleWin,
-            profile_id: values.user_id,
             stake_amount: values.bet_amount,
             amount: values.bet_amount,
-            bet_total_odds: totalOdds,
-            endCustomerIP: getIp(),
-            channelID: 'web',
+            bet_total_odds: Float(totalOdds, 2),
+            // endCustomerIP: getIp(),
+            channel_id: 'web',
             slip: bs,
+            profile_id: state?.user?.profile_id,
             account: 1,
             msisdn: state?.user?.msisdn,
-            accept_all_odds_change: values.accept_all_odds_change
+            accept_all_odds_change: values.accept_all_odds_change == true ? 1 : 0,
+            bet_type: state?.islive ? "1" : "3" // update for live
         };
-        let endpoint = '/bet';
+
+        let endpoint = '/v2/user/place-bet';
         let method = "POST"
         if (jackpot) {
             payload.message = jackpotMessage
             payload.jackpot_id = jackpotData?.jackpot_event_id
-            payload.slip = ''
-            endpoint = "/jp/bet"
-            method = "POST"
         }
 
-        makeRequest({url: endpoint, method: method, data: payload, is_bet: true})
+        makeRequest({url: endpoint, method: method, data: payload, api_version:2})
             .then(([status, response]) => {
-
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
                     dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                     handleRemoveAll();
                     if (jackpot) {
+                        // save betslip into state before proceeding
+                        dispatch({type:"SET", key:"jackpotrebetslip", payload:payload?.slip})
                         clearJackpotSlip();
                         setMessage({
                             status: 201,
                             message: "Jackpot bet placed successfully."
                         })
                     } else {
+                        dispatch({type:"SET", key:"rebetslip", payload:payload?.slip})
                         clearSlip();
                     }
+                    
                     dispatch({type: "DEL", key: jackpot ? 'jackpotbetslip' : 'betslip'});
                     response = {...response, ...{title: successfulBetHeading()}}
-                    setMessage(response);
+                    setMessage({status: status, message: response?.data?.message, title:successfulBetHeading()})
                 } else {
                     let qmessage = {
                         status: status,
-                        message: response?.message || "Error attempting to login"
+                        message: response?.message || response?.error?.message || "Error attempting to login"
                     };
                     setMessage(qmessage);
                 }
@@ -274,7 +293,7 @@ const BetslipSubmitForm = (props) => {
 
         let errors = {}
 
-        if (!values.user_id) {
+        if (!state.user) {
             dispatch({type: "SET", key: "showloginmodal", payload: true})
             // errors.user_id = 'Kindly login to proceed';
             setMessage({status: 400, message: errors.user_id});

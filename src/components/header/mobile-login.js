@@ -171,7 +171,7 @@ const BodyLogin = (props) => {
         return (
             <>
             {user &&
-                <div className='px-2 text-center'>
+                <div className='px-2 text-center py-5'>
                     <div className='text-2xl'>You are already logged in.</div>
                     <div className='mt-2'>
                     <Link to={"/"} className='btn mr-3  w-[] btn-default rounded-md bg-gray-100'>Go Home</Link>

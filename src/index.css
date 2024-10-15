@@ -758,7 +758,7 @@ input.std-input {
 
 .betslip-game {
   margin-top: 5px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 .betslip {
   font-size: 12px;
@@ -929,4 +929,10 @@ input.std-input {
 }
 .jackpot-tabs button {
   width: 100%;
+}
+
+li.bet-option {
+  border-bottom: 1px dashed #e5e7eb;
+  padding-top: 4px;
+  padding-bottom: 8px;
 }
