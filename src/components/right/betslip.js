@@ -55,14 +55,21 @@ const BetSlip = (props) => {
         let endpoint = "/v2/bet/share?share-code=" + code
         setSharedBetLoading(true);
         makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
-            console.log("THE BETSLIP FETCHED:::::::: ", status, "THE SHARE RESPONSE:::: ", result);
             
             if (status == 200) {
                //load betslip
                 if(result?.data?.betslip) {
-                    setLocalStorage("betslip", result?.data?.betslip);
-                    setBetslipsData(result?.data?.betslip);
-                    dispatch({type: "SET", key: betslipKey, payload: result?.data?.betslip});
+                    let betslip = {}
+                    // change slip type
+                    result?.data?.betslip?.map((item, idx) => {
+                        
+                        let item_id = item.match_id
+                        betslip[item_id] = item;
+                    })
+                    console.log("THE LOGGED BETSLIP::::::::: ", betslip);
+                    setLocalStorage("betslip", betslip);
+                    // setBetslipsData(betslip);
+                    dispatch({type: "SET", key: "betslip", payload: betslip});
                 }
             } else {
                 setSharedBetError({status:400, message: "Error processing shared slip. Select own games"})
@@ -93,6 +100,8 @@ const BetSlip = (props) => {
         if (state[betslipKey]) {
             setBetslipsData(state[betslipKey]);
         }
+
+        console.log("THE LOGGED INTERNAL BETSLIP::::::: ", state?.betslip)
     }, [state[betslipKey]]);
 
     //Handle db validation of betslip
