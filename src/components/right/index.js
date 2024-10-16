@@ -231,9 +231,7 @@ const Right = (props) => {
     if (total_games > max_games) {
         total_games = max_games;
     }
-    console.log("THE TOTAL GAMES ::: ", total_games);
     let centage = win_matrix[total_games];
-    console.log("THE CENTAGE IS HERE::::::: ", centage);
     if (!(total_games in win_matrix)) {
         setBongeBonusMessage("Select 3 games or more above 1.25 to get a bonus")
     }

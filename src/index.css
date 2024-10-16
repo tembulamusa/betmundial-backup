@@ -936,3 +936,89 @@ li.bet-option {
   padding-top: 4px;
   padding-bottom: 8px;
 }
+
+.highlights-board {
+  /* border-top: 10px solid #dddddd; */
+  /* border-bottom: 10px  solid #dddddd; */
+  /* box-shadow: 0px 2px 6px rgba(0,0,0,0.6); */
+  z-index: 999999;
+  margin-bottom: 10px;
+  margin-top: 0;
+  background: #f1f1f1;
+  padding: 8px 10px;
+}
+.highlights .marquee-card {
+  text-align: left;
+  vertical-align: top;
+  color: #222222;
+  background-color: rgba(255,255,255,0.9);
+  background-size: cover;
+  border: 0;
+  border-radius: .25rem;
+  width: 17.5em;
+  height: 8.75em;
+  margin-right: 8px;
+  padding: .5em .2em .6em;
+  font-weight: 400;
+  display: inline-block;
+  box-shadow: 0 1px 3px 1px rgba(0,0,0,.2);
+  margin-top: 0!important;
+}
+
+.marquee-card .market-type {
+  margin-bottom: 5px;
+  /* margin-left: 1em; */
+  /* margin-right: 1em; */
+  font-size: 12px;
+  display: flex;
+}
+
+.marquee-card .market-type .line-span {
+  border-bottom: 1px solid rgba(0,0,0,.3);
+  flex: 1 1;
+  margin-bottom: 6px;
+}
+
+.marquee-card .market-type .market-name-span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #adadad;
+  max-width: 93.59%;
+  padding: 0 8px;
+  overflow: hidden;
+}
+
+.marquee-card .card-option-group {
+  height: 32px;
+  margin-top: 1px;
+  margin-bottom: 0;
+  display: flex;
+}
+
+
+.marquee-card .btn-count-3 .ng-star-inserted{
+  width: 33.3%;
+}
+
+.ng-star-inserted .option-indicator {
+  display: flex;
+  background: rgba(0,0,0, 0.04);
+  border: 1px solid #eeeeee;
+  width: 90%;
+  padding: 3px 5px;
+}
+
+.marquee-card .card-result-name-text-alt {
+  color: #777777;
+  font-size: 11px;
+}
+.marquee-card .main {
+  height: 2.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  color: #555;
+  text-transform: capitalize;
+}

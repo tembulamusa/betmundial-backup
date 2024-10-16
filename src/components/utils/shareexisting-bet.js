@@ -1,19 +1,20 @@
 import React, {useState, useCallback, useEffect, useContext} from "react";
 import { Modal } from "react-bootstrap";
-import ClipboardCopy from "./utils/copy-to-clipboard"
+import ClipboardCopy from "../utils/copy-to-clipboard"
 import {
     getBetslip, getJackpotBetslip
-} from './utils/betslip';
-import makeRequest from './utils/fetch-request';
-import {getFromLocalStorage} from './utils/local-storage'; 
+} from '../utils/betslip';
+import makeRequest from '../utils/fetch-request';
+import {getFromLocalStorage} from '../utils/local-storage'; 
 import {publicIp} from 'public-ip';
-import { Context } from "../context/store"
+import { Context } from "../../context/store"
 import { ShimmerTitle, ShimmerTable } from "react-shimmer-effects";
 
-import "../App.css";
-import Alert from "./utils/alert";
+import "../../App.css";
+import Alert from "../utils/alert";
 
-const ShareModal = (props) => {
+const ShareExistingbet = (props) => {
+    const {bet, showshare} = props;
     const user = getFromLocalStorage("user");
     const app_name = "desktop-web";
     const [ipv4, setIpv4] = useState(null);
@@ -22,6 +23,7 @@ const ShareModal = (props) => {
     const [state, dispatch] = useContext(Context);
     const [doneShare, setDoneShare] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+    const [showShareModal, setShowShareModal] = useState(showshare);
 
     const Float = (equation, precision = 4) => {
         return Math.round(equation * (10 ** precision)) / (10 ** precision);
@@ -29,8 +31,6 @@ const ShareModal = (props) => {
     const createSharableBet = useCallback(async () => {
         let endpoint = "/v2/bet/share";
         setDoneShare(false);
-        let betslip = getBetslip();
-        let sharedSlip = state?.betsharetype == "placedbet" ? state?.sharedbet?.betslip : Object.values(betslip || []);
         let payload = {
             bet_string: 'web',
             app_name: 'desktop',
@@ -40,17 +40,16 @@ const ShareModal = (props) => {
             bet_total_odds: 10.20,
             // endCustomerIP: getIp(),
             channel_id: 'web',
-            slip: sharedSlip,
+            slip: bet.betslip,
             profile_id: state?.user?.profile_id,
             account: 1,
             msisdn: state?.user?.msisdn,
             accept_all_odds_change: 1,
-            bet_type: state?.islive ? "1" : "3", // update for live,
+            bet_type: "3", // update for live,
+            bet_id: bet.bet_id
 
         }
-        if (state?.betsharetype == "placedbet") {
-            payload.bet_id = state?.sharedbet?.bet_id;
-        }
+        
         makeRequest({url: endpoint, method: "POST", data: payload, api_version:2}).then(([status, result]) => {
             if(status === 200) {
                 setShareId(result?.data?.message);
@@ -83,21 +82,19 @@ const ShareModal = (props) => {
     }, [ipAddress])
 
     useEffect(() => {
-        if(state?.showsharemodal === true) {
+        if(showShareModal === true) {
             createSharableBet();
         }
-    }, [state?.showsharemodal])
+    }, [])
 
     const destroyShareModal = () => {
-        dispatch({type:"DEL", key: "betsharetype"})
-        dispatch({type:"DEL", key: "sharedbet"})
-        dispatch({type:"SET", key:"showsharemodal", payload:false});
+        setShowShareModal(false)
     }
 
     return (
         <>
             <Modal
-            show={state?.showsharemodal === true}
+            show={showShareModal}
             onHide={() => destroyShareModal()}
             dialogClassName="modal-90w world-cup-ad"
             aria-labelledby="contained-modal-title-vcenter">
@@ -163,4 +160,4 @@ const ShareModal = (props) => {
     )
 }
 
-export default ShareModal;
+export default ShareExistingbet;

@@ -10,6 +10,7 @@ import { MdCancel } from "react-icons/md";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { GrAddCircle } from "react-icons/gr";
 import NoEvents from "./utils/no-events";
+import ShareExistingbet from "./utils/shareexisting-bet";
 
 
 const Styles = {
@@ -32,7 +33,8 @@ const MyBets = (props) => {
     const [state, dispatch] = useContext(Context);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState({});
-
+    const [sharableBet, setSharableBet] = useState(null);
+    const [showSharableBet, setShowSharableBet] = useState(false);
 
 
 
@@ -174,10 +176,14 @@ const MyBets = (props) => {
         }
 
         const shareMarkup = (bet) => {
-
+            const shareBet = () => {
+                setSharableBet(bet);
+                setShowSharableBet(true)
+            }
             return (
                 <>
-                    <button className="btn btn-bet-hist light-btn mb-1"><FaShare  className="inline-block mr-2"/>Share</button>
+                    {sharableBet == bet && <ShareExistingbet bet={bet} showshare={true}/>}
+                    <button className="btn btn-bet-hist light-btn mb-1" onClick={() => shareBet() }><FaShare  className="inline-block mr-2"/>Share</button>
                 </>
             )
         }
@@ -199,7 +205,7 @@ const MyBets = (props) => {
                         <Accordion.Body>
                             <div className="bet-detail-header">
                                 <span><CancelBetMarkup txt="Cancel  Bet" /></span>
-                                <span>{shareMarkup(bet)}</span>
+                                {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
                             </div>
                             <table className="table !mt-3 !mb-0">
                                 <thead>
@@ -224,7 +230,7 @@ const MyBets = (props) => {
 
     const BetslipHeader = (props) => {
         const {betslip} = props;
-        const winsCount = betslip.filter(item => item?.status?.toLowerCase() === "won").length;
+        const winsCount = betslip?.filter(item => item?.status?.toLowerCase() === "won")?.length;
         return (
             <tr className={`betslip-header`} >
                     <td className="hidden md:table-cell">No.</td>

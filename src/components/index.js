@@ -12,6 +12,7 @@ import makeRequest from './utils/fetch-request';
 import {getBetslip} from './utils/betslip' ;
 import useInterval from "../hooks/set-interval.hook";
 import {Spinner} from "react-bootstrap";
+import HighlightsBoard from "./highlights-board";
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 const MatchList = React.lazy(() => import('./matches/index'));
@@ -137,6 +138,12 @@ const Index = (props) => {
         <>
             <div className="homepage" ref={homePageRef}>
                 <CarouselLoader/>
+                {/* The highlights board  for running adverts and exposing high interest items */}
+
+                <section className="highlights-board"><HighlightsBoard /></section>
+                {/* End of highlights board */}
+
+                {/* Start tabs */}
                 <MainTabs tab={location.pathname.replace("/", "") || 'highlights'} />
                 {
                     <MatchList
