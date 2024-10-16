@@ -98,7 +98,7 @@ const BetslipSubmitForm = (props) => {
     }, [state?.isjackpot])
     
     useEffect(() => {
-        if (Object.keys(state?.[betslipkey] ||{}).length > 0){
+        if (Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0){
             setMessage({})
         }
     }, [state?.betslip, state?.jackpotbetslip]);
@@ -173,41 +173,51 @@ const BetslipSubmitForm = (props) => {
             account: 1,
             msisdn: state?.user?.msisdn,
             accept_all_odds_change: values.accept_all_odds_change == true ? 1 : 0,
-            bet_type: state?.islive ? "1" : "3" // update for live
+            bet_type: state?.islive ? "1" : jackpot ? "9" : "3" // update for live
         };
 
         let endpoint = '/v2/user/place-bet';
         let method = "POST"
         if (jackpot) {
-            payload.message = jackpotMessage
+            endpoint = '/v2/user/jackpot/place-bet'
             payload.jackpot_id = jackpotData?.jackpot_event_id
         }
 
         makeRequest({url: endpoint, method: method, data: payload, api_version:2})
             .then(([status, response]) => {
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
-                    dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
-                    handleRemoveAll();
-                    if (jackpot) {
-                        // save betslip into state before proceeding
-                        dispatch({type:"SET", key:"jackpotrebetslip", payload:state?.jackpotbetslip})
-                        clearJackpotSlip();
-                        setMessage({
-                            status: 201,
-                            message: "Jackpot bet placed successfully."
-                        })
-                    } else {
-                        dispatch({type:"SET", key:"rebetslip", payload:state?.betslip})
-                        clearSlip();
-                    }
+                    
+                    if (response?.status == 200) {
+                        dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
+                        handleRemoveAll();
+                        if (jackpot) {
+                            // save betslip into state before proceeding
+                            dispatch({type:"SET", key:"jackpotrebetslip", payload:state?.jackpotbetslip})
+                            clearJackpotSlip();
+                            setMessage({
+                                status: 201,
+                                message: "Jackpot bet placed successfully."
+                            })
+                        } else {
+                            dispatch({type:"SET", key:"rebetslip", payload:state?.betslip})
+                            clearSlip();
+                        }
+                    
                     
                     dispatch({type: "DEL", key: jackpot ? 'jackpotbetslip' : 'betslip'});
                     response = {...response, ...{title: successfulBetHeading()}}
                     setMessage({status: status, message: response?.data?.message, title:successfulBetHeading()})
+                    } else {
+                        let qmessage = {
+                            status: 400,
+                            message: response?.message || response?.error?.message || response?.result || "Error attempting to place bet"
+                        };
+                        setMessage(qmessage);
+                    }
                 } else {
                     let qmessage = {
                         status: status,
-                        message: response?.message || response?.error?.message || "Error attempting to login"
+                        message: response?.message || response?.error?.message || "Error attempting to place bet"
                     };
                     setMessage(qmessage);
                 }

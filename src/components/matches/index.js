@@ -604,7 +604,7 @@ const MatchRow = (props) => {
                     {(live && Date.parse(match?.start_time) > Date.now()) && <div className='float-right font-[500]'><TimeToLiveStarting starttime = {match?.start_time} /></div>}
                     {
                         
-                        (!jackpot || (jackpot && jackpotstatus === "ACTIVE") || live) && match?.odds?.["1x2"]?.map((marketOdd, idx) => {
+                        (!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live) && match?.odds?.["1x2"]?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};
                             delete matchWithDetails.odds;
                             return (
@@ -731,7 +731,7 @@ export const JackpotHeader = (props) => {
 
 
 export const JackpotMatchList = (props) => {
-    const {matches, jackpotData} = props;
+    const {matches} = props;
 
     return (
         <div className="matches full-width mt-3">
@@ -739,8 +739,8 @@ export const JackpotMatchList = (props) => {
             <MatchHeaderRow jackpot={true} first_match={matches ? matches[0] : []}/>
 
             <Container className="web-element">
-                {matches && Object.entries(matches?.data).map(([key, match]) => (
-                    <MatchRow match={match} jackpot key={key} jackpotstatus={matches?.meta.status}/>
+                {matches && Object.entries(matches?.matches).map(([key, match]) => (
+                    <MatchRow match={match} jackpot key={key} jackpotstatus={matches?.status}/>
                 ))
                 }
                 {!matches &&

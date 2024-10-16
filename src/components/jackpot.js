@@ -18,18 +18,20 @@ import {
 import Notify from "./utils/Notify";
 
 const Jackpot = (props) => {
-    const [matches, setMatches] = useState(null);
+    const [jackpotData, setJackpotData] = useState(null);
     const [results, setResults] = useState(null);
     const [, dispatch] = useContext(Context);
-
+    
+    const Float = (equation, precision = 4) => {
+        return Math.round(equation * (10 ** precision)) / (10 ** precision);
+    }
     const fetchMatches = useCallback(async () => {
         const matchEndpoint = "/v2/jackpot/matches";
         const [m_status, result] = await makeRequest({ url: matchEndpoint, method: "GET", api_version: 2 });
-        console.log("THE JACKPOT MATCHES::::::::: ", m_status, "  THE MATCHES::::: ", result);
+
         if (m_status == 200) {
-            console.log("THE matches got here:::: ", result)
-            setMatches(result?.data?.matches);
-            dispatch({ type: "SET", key: "jackpotdata", payload: result });
+            setJackpotData(result?.data);
+            dispatch({ type: "SET", key: "jackpotdata", payload: result?.data });
         }
 
         let jackpotbetslip = getJackpotBetslip();
@@ -57,7 +59,6 @@ const Jackpot = (props) => {
         };
     }, [fetchMatches, fetchResults, dispatch]);
 
-    useEffect(() => {console.log("THE NEW MATCHES ::: ", matches)},[matches])
     const AutoPickAllMatches = () => {
         const clean = (_str) => {
             _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
@@ -68,15 +69,14 @@ const Jackpot = (props) => {
             return Math.floor(min + Math.random() * (max - min + 1));
         }
 
-        if (matches) {
+        if (jackpotData) {
             let betslip;
-            Object.entries(matches?.data).map(([key, match]) => {
+            Object.entries(jackpotData?.matches).map(([key, match]) => {
                 let reference = match.match_id + "_selected";
                 let pick = randomPick(1, 3);
                 let pickedValue = (pick === 1 ? match.home_team : (pick === 2 ? 'draw' : match.away_team));
-                let oddValue = (pick === 1 ? match.odds.home_odd : (pick === 2 ? match.odds.neutral_odd : match.odds.away_odd));
+                let oddValue = (pick === 1 ? Float(match.odds["1x2"][0].odd_value, 2) : (pick === 2 ? Float(match.odds["1x2"][1].odd_value, 2) : Float(match.odds["1x2"][2].odd_value, 2)));
                 let cstm = clean(match.match_id + "" + 1 + pickedValue);
-
                 let slip = {
                     "match_id": match.match_id,
                     "parent_match_id": match.parent_match_id,
@@ -86,7 +86,7 @@ const Jackpot = (props) => {
                     "odd_value": oddValue,
                     "home_team": match.home_team,
                     "away_team": match.away_team,
-                    "bet_type": "jackpot",
+                    "bet_type": "9",
                     "odd_type": "3",
                     "sport_name": "soccer",
                     "live": 0,
@@ -102,11 +102,14 @@ const Jackpot = (props) => {
     }
 
     useEffect(() => {
+        dispatch({type:"SET", key:"betslipkey", payload:"jackpotbetslip"})
         dispatch({ type: "SET", key: "isjackpot", payload: true });
         return () => {
             dispatch({ type: "SET", key: "isjackpot", payload: false });
+            dispatch({type:"SET", key:"betslipkey", payload:"betslip"})
+
         }
-    }, [dispatch]);
+    }, []);
 
     return (
         <>
@@ -117,14 +120,14 @@ const Jackpot = (props) => {
                             <JackpotHeader />
                         </div>
                     </div>
-                    <Tabs defaultActiveKey={matches ? "matches": "results"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
+                    <Tabs defaultActiveKey={jackpotData ? "matches": "results"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
                         <Tab eventKey="matches" title="Matches" className="p-3">
-                            { matches?.active && (
+                            { jackpotData?.status?.toLowerCase() === "active" && (
                                 <div className="row">
                                     <div className="col-md-8 !px-3">
                                         <div className="!px-2">
                                             <div className="jackpot-amount !pl-0 pt-3">
-                                                Let the quick pick randomly choose the Jackpot Pro selections for you! KES {Intl.NumberFormat('en-US').format(matches?.meta?.jackpot_amount)}
+                                                Let the quick pick randomly choose the Jackpot Pro selections for you! KES {Intl.NumberFormat('en-US').format(jackpotData?.jackpot_amount)}
                                             </div>
                                         </div>
                                     </div>
@@ -140,8 +143,8 @@ const Jackpot = (props) => {
                             )}
 
                             {/* If games are available, then show games */}
-                            {matches?.data?.length > 0 ? (
-                                <JackpotMatchList matches={matches} />
+                            {jackpotData?.matches?.length > 0 ? (
+                                <JackpotMatchList matches={jackpotData} />
                             ) : (
                                 <div className={'col-md-12 text-center background-primary mt-2 p-5 no-events-div'}>
                                     There are no jackpots at the moment.

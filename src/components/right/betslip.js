@@ -202,20 +202,24 @@ const BetSlip = (props) => {
     return (
         
         <div className="">
-            { Object.keys(betslipsData || {}).length === 0 &&
+            { (Object.keys(betslipsData || {}).length === 0) &&
+                
                 <li className="bet-option hide-on-affix" key="no-slip-ai"
-                    style={{margin:"10px 0px 5px 0px", borderBottom:"none", padding:"0px 2px"}}>
+                    style={{margin:"10px 0px 5px 0px", borderBottom:"none", padding:"0px 2px", listStyle:"none"}}>
                     <div className='my-3 text-center text-2xl'>You have not selected any bet. <br/>Make your first pick to start playing.</div>
                     <hr className='mb-3'/>
-                    <div className='px-2'>
-                        <div className='my-3 font-[500] text-2xl text-center'>Do you have a shared betslip code? Enter it here.</div>
-                        {sharedBetError && <Alert message={sharedBetError} />}
-                        <input  type="text" name="sharecode"  placeholder="Eg HLRTMRV"  
-                            onChange={handleCodeInputChange}
-                            className='block w-full px-2 text-center rounded-2xl'
-                            style={{border:"1px solid #ddd", margin:"0px 0px 0px", height:"40px"}}/>
-                        <button disabled={sharedBetLoading} className="my-3 w-full block capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none text-white uppercase hover:opacity-80 rounded-2xl" style={{padding:"0px", height:"40px"}} onClick={() => loadBetslipFromCode()}>{sharedBetLoading ? "wait...":"Load Betslip"}</button>
-                    </div>
+                    {state?.betslipKey}
+                    {!state?.isjackpot &&
+                        <div className='px-2'>
+                            <div className='my-3 font-[500] text-2xl text-center'>Do you have a shared betslip code? Enter it here.</div>
+                            {sharedBetError && <Alert message={sharedBetError} />}
+                            <input  type="text" name="sharecode"  placeholder="Eg HLRTMRV"  
+                                onChange={handleCodeInputChange}
+                                className='block w-full px-2 text-center rounded-2xl'
+                                style={{border:"1px solid #ddd", margin:"0px 0px 0px", height:"40px"}}/>
+                            <button disabled={sharedBetLoading} className="my-3 w-full block capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none text-white uppercase hover:opacity-80 rounded-2xl" style={{padding:"0px", height:"40px"}} onClick={() => loadBetslipFromCode()}>{sharedBetLoading ? "wait...":"Load Betslip"}</button>
+                        </div>
+                    }
                 </li>
             }
             {hasBetslip  && <>

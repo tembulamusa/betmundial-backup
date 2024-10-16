@@ -24,8 +24,8 @@ const MobileCurrentNavItems = React.lazy(()=> import('./mobile-current-nav-items
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
     const [state, dispatch] = useContext(Context);
-    const containerRef = useRef();
-    const {current} = containerRef;
+    // const containerRef = useRef();
+    // const {current} = containerRef;
 
 
     const NotifyToastContaner = () => {
@@ -45,12 +45,9 @@ const Header = (props) => {
         if (!user) {
             return false;
         }
-        let endpoint = "/v1/balance";
-        let udata = {
-            token: user.token
-        }
-        makeRequest({url: endpoint, method: "post", data: udata}).then(([_status, response]) => {
-
+        let endpoint = "/v2/user/balance";
+        
+        makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
             if (_status == 200) {
                 let u = {...user, ...response?.data};
                 setLocalStorage('user', u);
@@ -59,7 +56,7 @@ const Header = (props) => {
             }
         });
 
-    }, [current, state?.toggleuserbalance]);
+    }, [state?.toggleuserbalance]);
 
     const updateUserOnLogin = useCallback(() => {
         if (!state?.user) {

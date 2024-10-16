@@ -232,7 +232,7 @@ const Right = (props) => {
             {!state?.isjackpot && (
               <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
             )}
-            {Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0 && (
+            {Object.keys(state?.betslip || {}).length > 0 && (
               <span className="col-sm-2 yellow-btn font-bold !float-end share-btn btn btn-light"
                 style={{ width: 'fit-content' }}
                 onClick={showShareModalDialog}
@@ -242,7 +242,7 @@ const Right = (props) => {
               </span>
             )}
           </div>
-          {Object.keys(state?.betslip || {}).length === 0 && <BongeBetMarkupMessage />}
+          {Object.keys(state?.betslip || {}).length > 0 && <BongeBetMarkupMessage />}
           <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
           <QuickLogin />
         </section>
