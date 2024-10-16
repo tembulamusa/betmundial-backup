@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaGamepad } from 'react-icons/fa'; 
 
+const image = 'https://images.unsplash.com/photo-1626775238053-4315516eedc9?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
 const gamesList = [
     'European Roulette',
     'Pig Banker',
@@ -11,18 +13,24 @@ const gamesList = [
     'Buffalo Collector',
     'Sweet Bonanza',
     'Black Berries',
+    'Six Dice',
+    'Spin Up',
+    'Calico Jack',
 ];
 
 const colors = [
-    '#FF5733',
-    '#33FF57',
-    '#3357FF',
-    '#F3FF33', 
+    '#FF5733', 
+    '#33FF57', 
+    '#3357FF', 
+    '#F3FF33',
     '#FF33A8', 
     '#33FFF6', 
-    '#FF8333', 
-    '#A833FF',
+    '#FF8333',
+    '#A833FF', 
     '#FFD333', 
+    '#FF8C00', 
+    '#8A2BE2', 
+    '#5F9EA0', 
 ];
 
 const MiniGames = () => {
@@ -48,12 +56,15 @@ const MiniGames = () => {
                         key={index}
                         style={{
                             ...styles.gameCard,
-                            backgroundColor: colors[index % colors.length], 
+                            borderColor: colors[index % colors.length], 
+                            backgroundImage: `url(${image})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
                         }}
                         className="game-card"
                     >
-                        <FaGamepad />
-                        <span style={{ marginLeft: '10px' }}>{game}</span>
+                        <FaGamepad style={styles.icon} />
+                        <span style={styles.gameName}>{game}</span>
                     </div>
                 ))}
             </div>
@@ -63,7 +74,7 @@ const MiniGames = () => {
 
 const styles = {
     miniGamesSection: {
-        marginTop: '50px',
+        marginTop: '15px',
         padding: '15px',
         backgroundColor: '#f8f9fa',
         border: '1px solid #ddd', 
@@ -86,11 +97,19 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center', 
         width: '120px',
-        height: '200px', 
-        border: '1px solid #ddd',
+        height: '120px', 
+        border: '2px solid', 
         borderRadius: '5px',
         cursor: 'pointer',
-        transition: 'transform 0.2s', 
+        transition: 'transform 0.2s',
+        color: '#fff',
+    },
+    gameName: {
+        marginLeft: '10px',
+        fontWeight: 'bold',
+    },
+    icon: {
+        fontSize: '24px',
     },
 };
 
