@@ -215,6 +215,49 @@ const Right = (props) => {
     }
   };
 
+  const updateBongeBonusMessage = () => {
+
+    let str_configs = state?.bgconfigs?.multibet_bonus_event_award_ratio?.split(",");
+    let odd_limit = state?.bgconfigs?.multibet_bonus_odd_limit || 1.25;
+
+    let win_matrix = {
+        3: 3, 4: 5, 5: 10, 6: 15, 7: 20, 8: 25, 9: 30, 10: 35, 11: 40, 12: 45, 13: 50, 14: 55
+    }
+
+    let max_games = state?.bonusconfigs?.multibet_bonus_max_event_hard_limit || 14;
+    let total_games = Object.values(state?.betslip||{}).filter(
+        (slip) => slip.odd_value > (state?.bonusconfigs?.multibet_bonus_odd_limit || 1.25) ).length;
+
+    if (total_games > max_games) {
+        total_games = max_games;
+    }
+    console.log("THE TOTAL GAMES ::: ", total_games);
+    let centage = win_matrix[total_games];
+    console.log("THE CENTAGE IS HERE::::::: ", centage);
+    if (!(total_games in win_matrix)) {
+        setBongeBonusMessage("Select 3 games or more above 1.25 to get a bonus")
+    }
+
+    let bonusAdvice = "";
+    if (total_games == 1) {
+        bonusAdvice = "Add 2 more games " + odd_limit + " to win a bonus of 3% from 3 games";
+    } else if (total_games == 2) {
+        bonusAdvice = "Add 1 more game of odds " + odd_limit + " to win a bonus of 3% on 3 games";
+    } else {
+        if (total_games > 2 && total_games <= max_games) {
+            var next_centage = win_matrix[total_games + 1]
+            bonusAdvice = "Congratulations, You have won a bonus of "
+                + centage + "% on " + total_games + " games of "+ odd_limit + " odds"
+                + ". add 1 more game of "+ odd_limit +" odds to win a bonus of " + next_centage + "%";
+        } else if (total_games > max_games) {
+            bonusAdvice = "Congratulations: you have won a bonus of "
+                + centage + "% on " + total_games + " games of more than " + odd_limit +  " odds";
+        }
+    }
+
+    setBongeBonusMessage(bonusAdvice);
+  }
+
   const BongeBetMarkupMessage = () => {
     return !state?.isjackpot && Object.keys(state?.betslip || {}).length > 0 && (
       <div className="bonge-bonus" style={{ padding: '5px', background: '#fbd702', marginTop: '10px' }}>
@@ -222,6 +265,13 @@ const Right = (props) => {
       </div>
     );
   };
+
+  useEffect(() => {
+    updateBongeBonusMessage()
+  }, [state?.betslip])
+
+
+
 
   return (
     <>

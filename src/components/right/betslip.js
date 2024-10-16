@@ -98,7 +98,6 @@ const BetSlip = (props) => {
             setBetslipsData(state[betslipKey]);
         }
 
-        console.log("THE LOGGED INTERNAL BETSLIP::::::: ", state?.betslip)
     }, [state[betslipKey]]);
 
     //Handle db validation of betslip
