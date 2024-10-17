@@ -944,7 +944,8 @@ li.bet-option {
   z-index: 999999;
   margin-bottom: 10px;
   margin-top: 0;
-  background: #f1f1f1;
+  background: #f9f9f9;
+  border-bottom: 1px solid #f2f2f2;
   padding: 8px 10px;
 }
 .highlights .marquee-card {
@@ -955,13 +956,13 @@ li.bet-option {
   background-size: cover;
   border: 0;
   border-radius: .25rem;
-  width: 17.5em;
+  /* width: 98%; */
   height: 8.75em;
   margin-right: 8px;
   padding: .5em .2em .6em;
   font-weight: 400;
   display: inline-block;
-  box-shadow: 0 1px 3px 1px rgba(0,0,0,.2);
+  box-shadow: 0 0px 0px 1px rgba(0,0,0,.1);
   margin-top: 0!important;
 }
 
@@ -1021,4 +1022,35 @@ li.bet-option {
   font-size: 14px;
   color: #555;
   text-transform: capitalize;
+}
+
+.marquee-card .image-main {
+  height: 60px;
+}
+
+img.highlights-content-img {
+  height: 60px;
+}
+
+.btn-count-2 .ng-star-inserted {
+  width: 50%;
+}
+
+.popular-game {
+  width: 20%;
+  display: inline-block;
+  /* margin-right: 8px; */
+  padding-right: 10px;
+}
+.popular-games:last-child {
+  padding-right: 0;
+}
+
+.highlights-board .popular-game img {
+  width: 100%;
+}
+
+.highlights-board-panel {
+  height: 100px;
+  background: #ffffff;
 }

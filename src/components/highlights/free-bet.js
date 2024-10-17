@@ -51,6 +51,7 @@ const FreeBet = (props) => {
                                         <div className="uppercase"><span className="type">Pre</span> 2H 30:20</div>
                                     </div>
                                 </div>
+                            </div>
 
                                 <div className="main teams">
                                     <div className="row">
@@ -105,7 +106,6 @@ const FreeBet = (props) => {
                                 
                                 </div></span></span></div>
                                 </div>
-                            </div>
                         </div>
                     </Link>
                 }
