@@ -45,7 +45,7 @@ const FreeBet = (props) => {
                             <div className="card-top-sub-heading">
                                 <div className="row">
                                     <div className="col-8">
-                                       <GiSoccerBall className="inline-block text-3xl mr-2"/><span className="">Surebet Free Bets</span> 
+                                       <GiSoccerBall className="inline-block text-3xl mr-2"/><span className="font-bold freebet-highlight highlight-color blink-me uppercase">Free Bet</span> 
                                     </div>
                                     <div className="col-4" style={{fontSize:"11px", fontWeight:"500"}}>
                                         <div className="uppercase"><span className="type">Pre</span> 2H 30:20</div>

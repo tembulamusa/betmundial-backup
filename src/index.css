@@ -958,7 +958,7 @@ li.bet-option {
   border-radius: .25rem;
   /* width: 98%; */
   height: 8.75em;
-  margin-right: 8px;
+  /* margin-right: 8px; */
   padding: .5em .2em .6em;
   font-weight: 400;
   display: inline-block;
@@ -1053,4 +1053,18 @@ img.highlights-content-img {
 .highlights-board-panel {
   height: 100px;
   background: #ffffff;
+}
+
+.highlight-color {
+  color: rgba(231, 6, 84, 0.958);
+}
+
+.blink-me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
