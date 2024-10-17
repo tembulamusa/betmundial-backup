@@ -191,7 +191,7 @@ const HeaderNav = (props) => {
               </li>
 
               <li style={listItemStyle}>
-                <Link to="#" className="url-link">
+                <Link to="/aviator-demo" className="url-link">
                   <div style={iconBoxStyle}>
                     <FaPlaneDeparture />
                   </div>
@@ -306,7 +306,7 @@ const HeaderNav = (props) => {
                   </li>
 
                   <li style={listItemStyle}>
-                    <Link to="#" className="url-link">
+                    <Link to="/aviator-demo" className="url-link">
                       <div style={iconBoxStyle}>
                         <FaPlaneDeparture />
                       </div>

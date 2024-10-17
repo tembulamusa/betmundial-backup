@@ -1,54 +1,55 @@
 import React, { useState } from 'react';
-import { FaGamepad } from 'react-icons/fa'; 
 
-const image = 'https://images.unsplash.com/photo-1626775238053-4315516eedc9?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+import game1 from '../../assets/img/advertgames/game1.png';
+import game2 from '../../assets/img/advertgames/game2.png';
+import game3 from '../../assets/img/advertgames/game3.png';
+import game4 from '../../assets/img/advertgames/game4.png';
+import game5 from '../../assets/img/advertgames/game5.png';
+import game6 from '../../assets/img/advertgames/game6.png';
+import game7 from '../../assets/img/advertgames/game7.png';
+import game8 from '../../assets/img/advertgames/game8.png';
+import game9 from '../../assets/img/advertgames/game9.png';
+import game10 from '../../assets/img/advertgames/game10.png';
+import game11 from '../../assets/img/advertgames/game11.png';
+import game12 from '../../assets/img/advertgames/game12.png';
 
-const gamesList = [
-    'European Roulette',
-    'Pig Banker',
-    'Book of Dead',
-    'Legacy of Dead',
-    'Outlaw Bounty',
-    'Majestic Fury',
-    'Buffalo Collector',
-    'Sweet Bonanza',
-    'Black Berries',
-    'Six Dice',
-    'Spin Up',
-    'Calico Jack',
-];
-
-const colors = [
-    '#FF5733', 
-    '#33FF57', 
-    '#3357FF', 
-    '#F3FF33',
-    '#FF33A8', 
-    '#33FFF6', 
-    '#FF8333',
-    '#A833FF', 
-    '#FFD333', 
-    '#FF8C00', 
-    '#8A2BE2', 
-    '#5F9EA0', 
+const games = [
+    { name: 'Rocketman', image: game1 },
+    { name: 'Spaceman', image: game2 },
+    { name: 'Roulette', image: game3 },
+    { name: 'Spin 2 Win', image: game4 },
+    { name: 'High Flyer', image: game5 },
+    { name: 'Football X', image: game6 },
+    { name: '777 Strike', image: game7 },
+    { name: 'Stock Market', image: game8 },
+    { name: 'Sweet Bonanza', image: game9 },
+    { name: 'Big Bass', image: game10 },
+    { name: 'Baccarat', image: game11 },
+    { name: 'Extra Juicy', image: game12 },
 ];
 
 const MiniGames = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [isFocused, setIsFocused] = useState(false); 
 
-    const filteredGames = gamesList.filter(game =>
-        game.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredGames = games.filter(game =>
+        game.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
         <div style={styles.miniGamesSection}>
-            <h3>Mini Games</h3>
+            <h3 style={styles.headingText}>Mini Games</h3>
             <input
                 type="text"
                 placeholder="Search games..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                style={styles.searchInput}
+                onFocus={() => setIsFocused(true)} 
+                onBlur={() => setIsFocused(false)} 
+                style={{
+                    ...styles.searchInput,
+                    backgroundColor: isFocused ? '#fff' : 'transparent', 
+                }}
             />
             <div style={styles.gamesList}>
                 {filteredGames.map((game, index) => (
@@ -56,15 +57,13 @@ const MiniGames = () => {
                         key={index}
                         style={{
                             ...styles.gameCard,
-                            borderColor: colors[index % colors.length], 
-                            backgroundImage: `url(${image})`,
+                            backgroundImage: `url(${game.image})`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
                         }}
                         className="game-card"
                     >
-                        <FaGamepad style={styles.icon} />
-                        <span style={styles.gameName}>{game}</span>
+                        <span className="game-name" style={styles.gameName}>{game.name}</span>
                     </div>
                 ))}
             </div>
@@ -76,48 +75,62 @@ const styles = {
     miniGamesSection: {
         marginTop: '15px',
         padding: '15px',
-        backgroundColor: '#f8f9fa',
-        border: '1px solid #ddd', 
+        backgroundColor: '#24367e',
+        border: '1px solid #ddd',
         borderRadius: '5px',
+    },
+    headingText: {
+        color: '#fff',
     },
     searchInput: {
         width: '100%',
         padding: '8px',
-        marginBottom: '10px',
+        margin: '0 auto 10px auto',
         border: '1px solid #ccc',
         borderRadius: '5px',
     },
     gamesList: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)', 
-        gap: '10px',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '1rem',
     },
     gameCard: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center', 
-        width: '120px',
-        height: '120px', 
-        border: '2px solid', 
+        justifyContent: 'center',
+        width: '90%', 
+        maxWidth: '150px', 
+        height: 'auto',
+        aspectRatio: '1 / 1', 
+        border: '2px solid',
         borderRadius: '5px',
         cursor: 'pointer',
         transition: 'transform 0.2s',
         color: '#fff',
+        position: 'relative',
+        overflow: 'hidden',
     },
     gameName: {
-        marginLeft: '10px',
+        position: 'absolute',
+        bottom: '10px',
+        left: '10px',
         fontWeight: 'bold',
-    },
-    icon: {
-        fontSize: '24px',
+        color: '#fff',
+        opacity: 0, 
+        transition: 'opacity 0.3s ease-in-out', 
     },
 };
 
-// CSS for hover effect
 const styleSheet = document.styleSheets[0];
 styleSheet.insertRule(`
     .game-card:hover {
-        transform: scale(1.05); // Scale up on hover
+        transform: scale(1.05);
+    }
+`, styleSheet.cssRules.length);
+
+styleSheet.insertRule(`
+    .game-card:hover .game-name {
+        opacity: 1; // Show game name on hover
     }
 `, styleSheet.cssRules.length);
 

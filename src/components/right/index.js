@@ -247,8 +247,9 @@ const Right = (props) => {
           <QuickLogin />
         </section>
         <PaybillNumbersSection />
-        <CustomerCareSection />
         <MiniGames />
+        <CustomerCareSection />
+      
        
       </div>
 
