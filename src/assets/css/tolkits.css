@@ -8900,11 +8900,11 @@ fieldset[disabled] .pa .fu:focus {
     display: flex !important;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
-    border-bottom: 3px solid transparent;
-    margin-left: 10px;
+    /* margin-right: 10px; */
+    /* border-bottom: 3px solid transparent; */
+    /* margin-left: 10px; */
+    padding: 20px 15px 2px;
 }
-
 
 .header-menu li.active {
     color: #fff;

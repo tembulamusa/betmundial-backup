@@ -19,19 +19,49 @@ const BigIconMenu = () => {
 
 
     const linkItems = [
-        {name: "home", icon:""}
+        {name: "home", icon:"home.png", link:"/", parentTo:null},
+        {name: "live", icon:"sure-live.png", link:"/live", parentTo:null},
+        {name: "jackpot", icon:"jackpot.png", link:"/jackpot", parentTo:null},
+        {name: "aviator", icon:"aviator.png", link:"/aviator", parentTo:null},
+        {name: "casino", icon:"casino.png", link:"/casino", parentTo:null},
+        {name: "sport", icon:"sport.png", link:null, parentTo:"sportscategories"},
+        {name: "virtuals", icon:"virtuals.png", link:"/virtuals", parentTo:null},
+        {name: "promotions", icon:"promotions.png", link:"/promotions", parentTo:null},
+        {name: "livescore", icon:"livescore.png", link:"/", parentTo:null},
+        {name: "print", icon:"print-matches.png", link:"/print-matches", parentTo:null},
+        {name: "help", icon:"help.png", link:"/how-to-play", parentTo:null},
+        {name: "app", icon:"app.png", link:"/app", parentTo:null},
     ]
 
+    const getSportImageIcon = (sport_name) => {
+
+        let default_img = 'sure'
+        let sport_image;
+        try {
+            sport_image = require(`../../assets/img/header-images/${sport_name}`);
+        } catch (error) {
+            sport_image = require(`../../assets/img/header-images/default.png`);
+        }
+        return sport_image
+    }
     return (
 
         <>
             <Container id="navbar-collapse-main"
                        className={`d-sm-flex d-flex flex-row  header-menu `}>
-                <ListGroup as="ul" xs="12" horizontal className={`font-bold nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display ${searching && "!hidden"}`}>
+                <ListGroup as="ul" xs="12" horizontal className={`nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display`}>
                     
-                    <li className={pathname === '/' ? "active" : ''}>
-                        <Link className="cg fm ox anl url-link not-selectable " to={"/"} title="Home"><span className=" space-icons"><FontAwesomeIcon icon={HomeIcon} /> </span> Home</Link>
-                    </li>
+                    {linkItems.map((item, idx) => (
+                        <>
+                            <li className={`${pathname === item.link ? "active" : ''} menu-item text-center capitalize`}>
+                                <Link className="" to={item.link} title={item.name}>
+                                    <div className="menu-icon"><img src={getSportImageIcon(item.icon)} alt={item.name}/></div>
+                                    <div className="menu-name">{item.name}</div>
+                                </Link>
+                            </li>   
+                        </>
+                    ))}
+                    
                     
                 </ListGroup>
 

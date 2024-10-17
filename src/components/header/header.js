@@ -16,6 +16,7 @@ import MobileDownloadBanner from './mobile-download-banner';
 import MobileLoggedInBals from './mobile-logged-in-bals';
 import LoginModal from '../loginmodal';
 import { FaDivide } from 'react-icons/fa';
+import BigIconNav from './big-icon-nav';
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const HeaderNav = React.lazy(() => import('./header-nav'));
@@ -108,8 +109,12 @@ const Header = (props) => {
                     <div className="col-md-7 change-size" id="navbar-collapse-main">
                         {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
                     </div>
-                    <Row className={`hidden md:block second-nav ck pc os app-navbar app-header-nav`}>
-                        <HeaderNav/>
+
+
+                    {/* The header for both mobile and desktop */}
+                    <Row className={`big-icon second-nav ck pc os app-navbar app-header-nav`}>
+                        {/* <HeaderNav/> */}
+                        <BigIconNav />
                     </Row>
                     
                         

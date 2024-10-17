@@ -225,7 +225,7 @@ h5, h4, h3, h2 {
   margin-left: 0;
   font-size: 15px;
   color: #fff;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 .space-icons {
@@ -1072,3 +1072,13 @@ img.highlights-content-img {
 .banner-imgs img {
   height: 150px;
 }
+
+.menu-icon {
+  width: 5rem;
+  height: 5rem;
+}
+
+.menu-icon img {
+  width: 100%;
+}
+

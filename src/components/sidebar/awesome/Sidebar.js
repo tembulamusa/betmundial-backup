@@ -195,7 +195,6 @@ const ProSidebar = (props) => {
                 let sportIndex = competitions?.findIndex(obj => obj?.sport_id == focusSportId);
                 // update the sport with competitions
                 if (status === 200) {
-                    console.log("THE API RESULT::::: ", response)
                     sport.categories = response?.data[0].categories
                     let newCompetitions = competitions;
 
