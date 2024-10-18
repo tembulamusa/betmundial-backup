@@ -205,7 +205,7 @@ const BetSlip = (props) => {
                 
                 <li className="bet-option hide-on-affix" key="no-slip-ai"
                     style={{margin:"10px 0px 5px 0px", borderBottom:"none", padding:"0px 2px", listStyle:"none"}}>
-                    <div className='my-3 text-center text-2xl'>You have not selected any bet. <br/>Make your first pick to start playing.</div>
+                    <div className='my-3 text-center text-2xl'>You have not selected any bet.</div>
                     <hr className='mb-3'/>
                     {state?.betslipKey}
                     {!state?.isjackpot &&
@@ -222,7 +222,7 @@ const BetSlip = (props) => {
                 </li>
             }
             {hasBetslip  && <>
-            <div className="flow" style={{maxHeight: "50vh", overflowY: "auto", overflowX:"hidden", padding:"8px"}}>
+            <div className="flow" style={{maxHeight: "50vh", overflowY: "auto", overflowX:"hidden"}}>
                 <ul>
 
                     
