@@ -366,7 +366,11 @@ const BetslipSubmitForm = (props) => {
                 }
             }
 
-            return (<FormikForm name="betslip-submit-form">
+            return (
+                <>
+                {   
+                (((Object.keys(state?.betslip || {}) || []).length > 0) || ((Object.keys(state?.jackpotbetslip || {}) || []).length > 0) || (message?.status) ) &&
+                    <FormikForm name="betslip-submit-form">
                     {<div className='mx-auto w-[95%]'><Alert/></div>}
                     <div className='uppercase'>
                         <table className="bet-table !p-3 border-t border-gray-300 m-auto" style={{width:"96%"}}>
@@ -472,8 +476,14 @@ const BetslipSubmitForm = (props) => {
                             </tbody>
                         </table>
                     </div>
-            </FormikForm>)
+                </FormikForm>
+            
+            }
+        </>
+        )
         }}
-        </Formik>)
+        </Formik>
+    
+    )
 }
 export default React.memo(BetslipSubmitForm);
