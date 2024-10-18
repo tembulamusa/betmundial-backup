@@ -158,8 +158,8 @@ const Signup = (props) => {
                                 Signup/Register
                             </h4>
                         </div>
-                        <div className="col-md-12 mt-2 p-2" 
-                            style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', boxShadow: '0px 4px 8px 0px rgba(0,0,0,0.2)', marginTop: '50px' }}
+                        <div className="col-md-12 mt-2 p-2 std-boxed-form-page" 
+                            style={{}}
                         >
                             {message ? <Alert/>:""}
                             <div className="modal-body pb-0" data-backdrop="static">

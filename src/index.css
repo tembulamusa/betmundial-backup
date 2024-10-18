@@ -1211,3 +1211,11 @@ img.highlights-content-img {
 .in-blue-highlight {
   /* background: blue; */
 }
+.std-boxed-form-page {
+  max-width: 500px;
+  margin: 80px auto 0 !important;
+  /* text-align: center; */
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  border: 1px solid #f5f5f5;
+  background: #fdfdfd;
+}
