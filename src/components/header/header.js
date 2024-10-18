@@ -93,7 +93,7 @@ const Header = (props) => {
     return (
         <>
             
-            <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark">
+            <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark" style={{paddingTop:"20px"}}>
                 {/* <MobileDownloadBanner /> */}
                 <div className='light-blue md:hidden text-white py-2 w-full'><MobileLoggedInBals/></div>
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
