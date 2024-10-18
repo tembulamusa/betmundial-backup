@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatNumber } from "../utils/betslip";
 import { Link } from "react-router-dom";
 import {Navbar} from "react-bootstrap";
+import MobileMenu from "./mobile-menu";
 
 const ProfileMenu = (props) => {
   const { user } = props;
@@ -24,52 +25,27 @@ const ProfileMenu = (props) => {
             </Link>
           </div>
           
-          <div className="user-menu-col col-md-3  d-flex flex-column right justify-content-end w-change1">
-          <div>
-              <span className="font-tbt py-2 px-2">Bonus  <span className="ml-1 tertiary-text font-bold">KSH {formatNumber(user.bonus_balance) || 0} </span></span>
-              </div>
-              <div>
-              <Link to={{ pathname: "/my-bets" }} className={"btn text-white w-100 d-content"}>
-                <span className="font-tbt pad-2 font-bold">
-                <span className=" space-icons"><FontAwesomeIcon icon={faCoins} /> </span>My Bets
-                </span>
-              </Link>
-              </div>
-          </div>
+         
          
 
           <div className=" user-menu-col col-md-3 d-flex flex-column right justify-content-end w-change2">
               <div>
-              <span className="font-tbt py-2 flex-wrap text-gray-200">Balance <span className="font-bold ml-1 secondary-text"> KSH {formatNumber(user.balance) || 0} </span></span>
-              </div>
-              <div>
-              <Link to={{ pathname: "/withdraw" }} className={"btn text-white w-100 d-content"}>
-                <span className="font-tbt font-bold pad-2">
-                <span className=" space-icons"><FontAwesomeIcon icon={faCoins} /> </span>Withdraw
-                </span>
-              </Link>
-              </div>
-             
+                <span className="font-tbt py-2 flex-wrap text-gray-200 font-[500]">Bal. <span className="font-bold ml-1 secondary-text"> KSH {formatNumber(user.balance) || 0} </span></span>
+              </div>             
           </div>
 
+          
+          
           <div className="user-menu-col col-md-3 d-flex flex-column nav-option-content w-change2">
-            <div>
+            <div className="header-account">
               <span className="font-tbt py-1">
-              <span className=" space-icons"><FontAwesomeIcon icon={faUser} /> </span>{user?.msisdn}
+                <span className="space-icons">
+                  <MobileMenu />
+                </span>
               </span>
             </div>
-            <div>
-              <Link to="/logout">
-                <span className="font-tbt py-1 font-bold">
-                <span className=" space-icons"> <FontAwesomeIcon icon={faLock} /> </span>Logout
-                </span>
-              </Link>
-            </div>
+
           </div>
-          <div className="col-1 button-toggle space-button">
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${"md"}`} className="px-3 py-3"/>
-          </div>
-        
         </div>
         </>
       )}

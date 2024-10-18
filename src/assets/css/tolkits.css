@@ -1940,6 +1940,7 @@ events-header {
     box-shadow: 0 1px 2px rgba(231, 6, 84, 0.4);
     -moz-box-shadow: 0 1px 2px rgba(231, 6, 84, 0.4);
     -webkit-box-shadow: 0 1px 2px rgba(231, 6, 84, 0.4);
+    margin-bottom: 10px !important;
 }
 
 .leftpad a {
@@ -1948,14 +1949,12 @@ events-header {
 
 .top-nav {
     top: -2px;
-    padding-top: 10px;
+    padding-top: 0px;
     background: #24367e !important;
-    background-size: cover;
     background-position: center center;
-    padding-bottom: 5px;
+    padding-bottom: 0px;
     background-size: cover;
     z-index: 9999 !important;
-    padding-bottom: 45px;
 }
 
 /* On screens that are 992px or less, set the background color to blue */
@@ -7400,7 +7399,7 @@ ul.sport {
 
 @media (min-width: 768px) {
     .amt {
-        margin-top: 110px !important;
+        margin-top: 45px !important;
     }
 
     .disp-sidebar {
@@ -7667,7 +7666,7 @@ ul.sport {
     }
 
     .app-header-nav {
-        margin-top: 100px;
+        /* margin-top: 100px; */
     }
 
 }
@@ -7692,16 +7691,16 @@ ul.sport {
     }
 
     .app-header-nav {
-        margin-top: 130px;
+        /* margin-top: 130px; */
     }
 
     .shrink-header .second-nav {
-        top: 68px;
+        /* top: 68px; */
     }
 
     .amt {
-        margin-top: 145px !important;
-        scroll-margin-top: 140px;
+        /* margin-top: 145px !important; */
+        /* scroll-margin-top: 140px; */
     }
 }
 
@@ -8893,17 +8892,13 @@ fieldset[disabled] .pa .fu:focus {
     color: #ffffff;
     background-color: transparent;
 }
-
 .header-menu li {
     box-shadow: none !important;
     border-radius: 0;
     display: flex !important;
     justify-content: center;
     align-items: center;
-    /* margin-right: 10px; */
-    /* border-bottom: 3px solid transparent; */
-    /* margin-left: 10px; */
-    padding: 20px 15px 2px;
+    padding: 10px 3px 2px;
 }
 
 .header-menu li.active {
@@ -10459,35 +10454,7 @@ button.close {
     overflow: hidden;
 }
 
-.cd {
-    display: none;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1050;
-    -webkit-overflow-scrolling: touch;
-    outline: 0;
-}
 
-.cd.fade .modal-dialog {
-    -webkit-transform: translate(0, -25%);
-    transform: translate(0, -25%);
-    transition: -webkit-transform 0.3s ease-out;
-    transition: transform 0.3s ease-out;
-}
-
-.cd.in .modal-dialog {
-    -webkit-transform: translate(0, 0);
-    transform: translate(0, 0);
-}
-
-.modal-open .cd {
-    overflow-x: hidden;
-    overflow-y: auto;
-}
 
 .modal-dialog {
     position: relative;
@@ -14131,8 +14098,8 @@ fieldset[disabled] .tw.active {
 }
 
 .amt {
-    margin-top: 130px;
-    scroll-margin-top: 140px;
+    /* margin-top: 130px; */
+    /* scroll-margin-top: 140px; */
 }
 
 .amu {

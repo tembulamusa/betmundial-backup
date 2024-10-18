@@ -13,10 +13,9 @@ const LoginModal = (props) => {
     return (
         <>
             <Modal
-            fullscreen={true}
             show={state?.showloginmodal === true}
             onHide={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}
-            dialog className="modal-90w popover-login-modal"
+            dialog className="popover-login-modal"
             aria-labelledby="contained-modal-title-vcenter">
                      <Modal.Header closeButton className="no-header">
                       <Modal.Title>LOGIN IN TO SUREBET</Modal.Title>

@@ -19,7 +19,8 @@ import {
     faVolumeUp,
     faCalendarCheck,
     faDollarSign,
-    faMobile
+    faMobile,
+    faUser
 } from '@fortawesome/free-solid-svg-icons';
 import makeRequest from "../utils/fetch-request";
 import { Link } from 'react-router-dom';
@@ -31,145 +32,46 @@ function MobileMenu() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const SurebetMenu = (props) => {
+  const UserBalance = (props) => {
     return (
-      <>
-        <ul className='canvas-links'>
-          <li onClick={() => handleClose()}>
-            <Link to='/'>
-              <FontAwesomeIcon icon={HomeIcon} /> Home
-            </Link>
-          </li>
-          <li onClick={() => handleClose()}>
-            <Link to='/live'>
-              <FontAwesomeIcon icon={faVideo} /> Live Games
-            </Link>
-          </li>
-          {/* <li>
-            <Link to='/'>
-              <FaHome className='inline-block'/>Aviator
-            </Link>
-          </li> */}
-          {/* <li>
-            <Link to='/'>
-              <FaHome className='inline-block'/>Casino
-            </Link>
-          </li>
-          <li>
-            <Link to='/'>
-              <FaHome className='inline-block'/>Virtuals
-            </Link>
-          </li> */}
-          <li onClick={() => handleClose()}>
-            <Link to='/jackpot'>
-              <FontAwesomeIcon icon={faCoins} />Jackpots
-            </Link>
-          </li>
-          <li onClick={() => handleClose()}>
-            <Link to='/'>
-              <FontAwesomeIcon icon={faMobile} />App
-            </Link>
-          </li>
-          <li onClick={() => handleClose()}>
-            <Link to='/'>
-              <FontAwesomeIcon icon={faVolumeUp} />Promotions
-            </Link>
-          </li>
-        </ul>
-      </>
-    )
-  }
-  const AccountMenu = (props) => {
-    return (
-      <>
-        <ul className='canvas-links'>
-          <li onClick={() => handleClose()}>
-            <Link to='/deposit'>
-              <FontAwesomeIcon icon={faCoins} />Deposit
-            </Link>
-          </li>
-          <li onClick={() => handleClose()}>
-            <Link to='/withdraw'>
-              <FontAwesomeIcon icon={faDollarSign} />Withdraw
-            </Link>
-          </li>
-          <li onClick={() => handleClose()}>
-            <Link to='/my-bets'>
-              <FontAwesomeIcon icon={faCalendarCheck} />Bet History
-            </Link>
-          </li>
-          <li onClick={() => handleClose()}>
-            <Link to='/transactions'>
-              <FontAwesomeIcon icon={faClock} />Transaction History
-            </Link>
-          </li>
-        </ul>
-      </>
+      <div class="bx">
+        <div class="bx-1">BALANCE</div>
+        <div class="bx-2 secondary-text">KSh. {state?.user?.balance}</div>
+        <div class="bx-3"><div class="bx-3-1">Bonus: <span>KSh. {state?.user?.bonus_balance}</span></div></div></div>
     )
   }
 
-  const MainMenu = () => {
+  const CanvasBottom = (props) => {
 
     return (
-      <>
-        <ul className='canvas-links'>
-          <li onClick={() => handleClose()}>
-            <Link to='/terms'>
-              <FontAwesomeIcon icon={faCoins} />Terms and Conditions
-            </Link>
-          </li>
-          <li onClick={() => handleClose()}>
-            <Link to='/casino'>
-              <FontAwesomeIcon icon={faDollarSign} />Casino
-            </Link>
-          </li>
-          <li onClick={() => handleClose()}>
-            <Link to='/app'>
-              <FontAwesomeIcon icon={faCalendarCheck} />App
-            </Link>
-          </li>
-          <li onClick={() => handleClose()}>
-            <Link to='/logout'>
-              <FontAwesomeIcon icon={faClock} />Logout
-            </Link>
-          </li>
-        </ul>
-      </>
+      <div className='canvas-bottom'>
+        <div className='bot1'>Dark Mode</div>
+        <div className='bot-1'><Link to={"/logout"}>Logout</Link></div>
+      </div>
     )
   }
+  
   return (
-    <span class="inline-block">
+    <span className="inline-block">
       
-      <FaBars variant="toggle-menu" size={25} onClick={handleShow} className='inline-block'/>
+      <span className='font-[500] cursor-pointer'  onClick={handleShow} ><FontAwesomeIcon variant="toggle-menu"  icon={faUser}/> Profile</span>
+      {/* <FaBars size={25}  className='inline-block'/> */}
 
-      <Offcanvas show={show} onHide={handleClose}>
+      <Offcanvas placement="end" show={show} onHide={handleClose} className="header-account">
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>SureBet</Offcanvas.Title>
+          <Offcanvas.Title><FontAwesomeIcon variant="toggle-menu"  icon={faUser} className='mr-3'/>{state?.user?.msisdn}</Offcanvas.Title>
         </Offcanvas.Header>
-        <Offcanvas.Body>
+        <Offcanvas.Body className='off-canvas'>
             {/* The  main menu*/}
-            <div className='off-canvas-content-box'>
-              <SurebetMenu />
-            </div>
-
-            <hr className='canvas-content-box-separator'/>
-            {/* Account Menu */}
-            <div className='off-canvas-content-box'>
-              <h1 className='title font-bold uppercase text-gray-700 mb-2'>Account</h1>
-              <AccountMenu />
+            <div className='highlight-box'>
+              <UserBalance />
             </div>
 
 
-            {/* <hr className='canvas-content-box-separator'/> */}
-            {/* Common Menu */}
-            <div className='px-4 mt-4'>
-              <h1 className='title font-bold uppercase text-gray-700 mb-2'>Surebet</h1>
-              <MainMenu />
-            </div>
-
-
-
-
+            <div className="cd"><div className="cd-l"><FontAwesomeIcon icon={faCoins} className='inline-block mr-3'/>Deposit</div>
+            <div className="cd-l"><FontAwesomeIcon icon={faCoins} className='mr-3 inline-block' />Withdraw winnings</div><div className="cd-l">Confirm MPESA Deposit status</div><div className="cd-l">Transfer Money to Casino</div><a href="/bets" className="cd-l">My bets</a><a href="/promotions" className="cd-l">Promotions</a><a href="/exclude" className="cd-l">Exclude myself from betting</a></div>
+        
+          <div className=''><CanvasBottom /></div>
         </Offcanvas.Body>
       </Offcanvas>
     </span>

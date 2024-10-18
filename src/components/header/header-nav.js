@@ -1,239 +1,145 @@
-import React, {useCallback, useContext, useEffect, useState, useRef} from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
 import {Context} from '../../context/store';
-import {getFromLocalStorage, setLocalStorage} from "../utils/local-storage";
-
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
+    faHome as HomeIcon,
     faSearch,
     faPrint,
     faQuestionCircle,
     faTimes,
     faLaptop,
+    faClock,
     faMagnet,
-    faMagic, faInfo, faChessBoard, faDice
-} from '@fortawesome/free-solid-svg-icons'
+    faVideo,
+    faMagic, faInfo, faChessBoard, faDice,
+    faVolumeUp
+} from '@fortawesome/free-solid-svg-icons';
 import makeRequest from "../utils/fetch-request";
 import {faMobile, faCoins} from "@fortawesome/free-solid-svg-icons";
-import useAnalyticsEventTracker from "../analytics/useAnalyticsEventTracker";
-import { Link, useLocation } from 'react-router-dom';
-import { IoMdHome } from "react-icons/io";
-
-const VissibleItemsMobile = React.lazy(() => import('./mobile-menu/vissible-items'));
+// import { MdHome as HomeIcon} from "react-icons/md";
+import LiveIcon from "../../assets/svg/Live.svg";
+import JackpotIcon from "../../assets/svg/JP.svg";
+import PromotionIcon from "../../assets/svg/Promotions.svg";
+import { Link, useNavigate } from 'react-router-dom';
 
 const HeaderNav = (props) => {
-    const gaEventTracker = useAnalyticsEventTracker('Navigation');
-    const [state, dispatch] = useContext(Context);
-    const location = useLocation(); // Hook to get current location
-    const [searching, setSearching] = useState(false);
-    const [matches, setMatches] = useState([]);
-    const [search, setSearch] = useState("");
-    const searchInputRef = useRef(null);
-    const { pathname } = location;
-
+    const [, dispatch] = useContext(Context);
+    const pathname = window.location.pathname;
+    const [searching, setSearching] = useState(false)
+    const [matches, setMatches] = useState([])
+    const searchInputRef = useRef(null)
+    const [time, setTime] = useState();
+    const navigate = useNavigate();
+    
     useEffect(() => {
-        fetchMatches()
-    }, [searching, search])
-
-    const fetchMatches = async (search) => {
-        if (search && search.length >= 3) {
-            gaEventTracker('Searching')
-            let method = "GET"
-            let endpoint = "/v1/matches?page=" + (1) + `&limit=${10}&search=${search}`;
-            await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
-                if ([200, 201, 202, 204].includes(status)) {
-                    setMatches(result?.data || result)
-                }
-            });
+        if(searching === true) {
+            navigate("/home");
         }
+    }, [searching]);
 
-    };
+    const updateSearchTerm = (event) => {
+        if(event.target.value.length >= 3 ){
+            dispatch({type:"SET", key:"searchterm", payload: event.target.value});
+        }
+    }
+    useEffect(() => {
+        const timer = setInterval(() => {
+          setTime(new Date().toLocaleString().slice(10,22));
+        }, 1000);
+
+        return () => {
+          clearInterval(timer);
+        };
+      }, []);
 
     const showSearchBar = () => {
         setSearching(true)
-        searchInputRef.current.focus()
-        gaEventTracker('Clicked on Search')
     }
 
     const dismissSearch = () => {
         setSearching(false)
         setMatches([])
     }
-
-    // The competitions menu
-
-    const [sport, setSport] = useState(79)
-    const [competitions, setCompetitions] = useState(props?.competitions);
-
-    const fetchData = useCallback(async () => {
-        let cached_competitions = getFromLocalStorage('categories');
-        let endpoint = "/v1/categories";
-
-        if (!cached_competitions) {
-            const [competition_result] = await Promise.all([
-                makeRequest({url: endpoint, method: "get", data: null}),
-            ]);
-            let [c_status, c_result] = competition_result
-
-            if (c_status === 200) {
-                setCompetitions(c_result);
-                setLocalStorage('categories', c_result);
-            } else {
-                fetchData()
-            }
-        } else {
-            setCompetitions(cached_competitions);
-        }
-
-    }, []);
-
-    useEffect(() => {
-        const abortController = new AbortController();
-        fetchData();
-
-        return () => {
-            abortController.abort();
-        };
-    }, [fetchData]);
-
-
-    const updateMenubarState = () => {
-        let sport_id = (new URL(window.location.href).searchParams.get('sport_id'))
-        if (sport_id === null && window.location.pathname === '/') {
-            sport_id = 79
-        }
-        setSport(sport_id)
-    }
-
-    const getActiveSport = (matchId) => {
-        return (Number(sport) === Number(matchId))
-
-    }
-
-    useEffect(() => {
-
-    },[])
-
-    const updateCurrentPage = (url) => {
-        setLocalStorage('currentpath', url);
-        dispatch({type:"SET", key: "currentpath", payload: pathname})
-    }
     return (
         <>
+            <Container id="navbar-collapse-main"
+                       className={`d-sm-flex d-flex flex-row  header-menu ${searching ? 'hidden' : 'd-block'}`}>
 
-            <div id="navbar-collapse-main" className={`navbar text-2xl ${searching ? 'hidden' : 'd-block'}`}>
-                    <ListGroup as="ul" xs="12" horizontal
-                               className="nav navbar-nav px-3 col-md-8 col-sm-12 change-display font-medium capitalize">
+                <ListGroup as="ul" xs="12" horizontal className={`font-bold nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display ${searching && "!hidden"}`}>
+                    
+                    <li className={pathname === '/' ? "active" : ''}>
+                        <Link className="cg fm ox anl url-link not-selectable " to={"/"} title="Home"><span className=" space-icons"><FontAwesomeIcon icon={HomeIcon} /> </span> Home</Link>
+                    </li>
+                    <li className={pathname === '/live' ? "active" : ''}>
+                        <Link className={`cg fm ox anl url-link`} to={"/live"}
+                           title="Live"><span className=" space-icons"><FontAwesomeIcon icon={faVideo} /> </span>Live</Link>
+                    </li>
 
-                        <li className={pathname === '/' ? "active" : ''} onClick={() => gaEventTracker('Visit Homepage')}>
-                            <Link className="g url-link " to="/" title="Home"><IoMdHome size={20} className='text-white inline-block'/> Home</Link>
-                        </li>
-                        <li className={pathname === '/live' ? "active" : ''} onClick={() => gaEventTracker('Visit Live Page')}>
-                            <Link className={`g url-link  ${pathname === '/live' ? 'active' : ''}`} to="/live"
-                               title="Live">Live</Link>
-                        </li>
+                    <li className={pathname === '/jackpot' ? 'active' : ''}>
+                        <Link className="cg fm ox anl url-link" to={"/jackpot"}>
+                            <span className=" space-icons"><FontAwesomeIcon icon={faCoins} /> </span> Jackpot
+                        </Link>
+                    </li>
+                    <li className={pathname === '/app' ? 'active' : ''}>
+                        <Link className="g url-link" to={"/app"}>
+                            <span>
+                                <FontAwesomeIcon icon={faMobile} className="hide1"/> APP
+                            </span>
+                        </Link>
+                    </li>
 
-                        <li className={pathname === '/jackpot' ? 'active' : ''}
-                            onClick={() => gaEventTracker('Visit Jackpot Page')}>
-                            <Link className="g url-link" to="/jackpot" title="Jackpot">
-                                Jackpots
-                            </Link>
-                        </li>
-                        <li className={pathname === '/app' ? 'active' : ''}
-                            onClick={() => gaEventTracker('Visit App Page')}>
-                            <Link className="g url-link" to="/aviator" title="App">
-                                <span>
-                                    aviator
-                                </span>
-                            </Link>
-                        </li>
+                   
+                    <li className={pathname === '/promotions' || pathname.includes("promotions") ? 'active' : ''}>
+                        <Link className="g url-link" to={"/promotions"}>
+                            <span className=" space-icons"><FontAwesomeIcon icon={faVolumeUp} /> </span> Promotions
+                        </Link>
+                    </li>
 
-                        <li className={pathname === '/app' ? 'active' : ''}
-                            onClick={() => gaEventTracker('Visit App Page')}>
-                            <Link className="g url-link" to="/casino" title="App">
-                                <span>
-                                    casino
-                                </span>
-                            </Link>
-                        </li>
-                        
-                        <li className={pathname.includes("promotions") ? 'active' : ''}
-                            onClick={() => gaEventTracker('Visit Promotions Page')}>
-                            <Link className="g url-link" to="/promotions" title="Promotions">
-                                Promotions
-                            </Link>
-                        </li>
-                        <li className={pathname.includes("livescore") ? 'active' : ''}>
-                            <Link className="g url-link" to="/livescore"
-                               title="Live Score" onClick={() => gaEventTracker('Visit Live Score Page')}>
-                                <span>
-                                   Live Score
-                                </span>
-                            </Link>
-                        </li>
-                        
-                    </ListGroup>
+                    <li className={pathname === '/print-matches' ? 'active py-3' : 'py-md-0 py-lg-3 py-sm-0 d-flex align-items-center'}>
+                        <Link className="g url-link fix-print" to={"/print-matches"}>
+                            <span className=" space-icons hide1"><FontAwesomeIcon icon={faPrint}/> </span>Print  Matches
+                        </Link>
+                    </li>
+                    
+                    <li className={pathname === '/print-matches' ? 'spacing-end' : 'spacing-end'}>
+                        <Link className="g url-link fix-display" to="#" title="Search"
+                           onClick={() => showSearchBar()}>
+                            <span className=" space-icons"><FontAwesomeIcon icon={faSearch} /> </span><span className={'hide2'}>Search</span>
+                        </Link>
+                    </li>
+                    <li className={pathname === '/how-to-play' ? 'active' : ''}>
+                        <Link className="g url-link fix-display" to={"/how-to-play"}>
+                            <span className=" space-icons"><FontAwesomeIcon icon={faQuestionCircle}/> </span> <span className={'hide2'}>Help</span>
+                        </Link>
+                    </li>
+                    <li className={""}>
+                        <Link className="g url-link fix-display" to="#" title="Current Time">
+                            <span className=" space-icons"><FontAwesomeIcon icon={faClock}/> </span> <span className={'hide2'}>{time}</span>
+                        </Link>
+                    </li>
+                </ListGroup>
 
-                    <ListGroup as="ul" xs="12" horizontal className="nav navbar-nav col-md-4 change-display px-4">
-
-                        
-                        <li className={pathname === '/how-to-play' ? 'active' : ''}
-                            onClick={() => gaEventTracker('Visit How To Play Page')}>
-                            <Link className="g url-link" to="/how-to-play" title="How to play">
-                                <span className=" space-icons">
-                                    <FontAwesomeIcon icon={faQuestionCircle} className='secondary-color'/> </span> <span
-                                className={'hide2'}>Help & Support</span>
-                            </Link>
-                        </li>
-                        <li className={pathname === '/print-matches' ? 'active py-3' : ''}
-                            onClick={() => gaEventTracker('Visit Print Matches')}>
-                            <Link className="g url-link" to="/print-matches" title="Print Matches">
-                                <span className=" space-icons">
-                                    <FontAwesomeIcon icon={faPrint} className='secondary-color'/> </span>Print <span
-                                className={'hide1'}>Matches</span>
-                            </Link>
-                        </li>
-
-                        <li className={pathname === '/print-matches' ? 'spacing-end' : 'spacing-end'}>
-                            <Link className="g url-link" to="#" title="Search"
-                               onClick={() => showSearchBar()}>
-                                <span className=" space-icons">
-                                <FontAwesomeIcon icon={faSearch} className='secondary-color'/> </span><span
-                                className={'hide2'}>Search</span>
-                            </Link>
-                        </li>
-                    </ListGroup>
-
-            </div>
-
-
-            <section id="" className={`high-first-z-index fadeIn header-menu d-flex justify-content-center px-4 ${searching ? 'd-block' : 'd-none'}`}>
+            </Container>
+            <Container id="navbar-collapse-main"
+                       className={`fadeIn header-menu d-flex justify-content-center px-4 ${searching ? 'd-block' : 'd-none'}`}>
                 <ListGroup as="ul" xs="9" horizontal className="nav navbar-nav og ale ss col-md-6 text-center">
-                    <div className="d-flex w-full">
+                    <div className="d-flex">
                         <div className="col-md-10">
-                            <input type="text" placeholder={'Start typing to search for team ...'} ref={searchInputRef}
-                                   onChange={(event) => fetchMatches(event.target.value)}
-                                   className={'form-control input-field border-0 bg-dark text-white no-border-radius'}/>
+                            <input type="text"
+                                onChange={(ev) => updateSearchTerm(ev)}
+                                placeholder={'Start typing to search for team ...'} 
+                                className={'form-control input-field border-0  no-border-radius'}
+                                />
                         </div>
 
                         <button className={'btn text-white -align-right'} onClick={() => dismissSearch()}>
-                            <FontAwesomeIcon icon={faTimes} /> Close
+                            <FontAwesomeIcon icon={faTimes}/> Close
                         </button>
                     </div>
-                    <div
-                        className={`autocomplete-box bg-dark2 position-fi border-dark col-md-5 mt-1 shadow-sm text-start w-full`}
-                        onClick={() => gaEventTracker('View Search Results')}>
-                        {matches.map((match, index) => (
-                            <a href={`/?search=${match.home_team}`} key={index}>
-                                <li>
-                                    {match.home_team}
-                                </li>
-                            </a>
-                        ))}
-                    </div>
                 </ListGroup>
-            </section>
+            </Container>
         </>
     )
 

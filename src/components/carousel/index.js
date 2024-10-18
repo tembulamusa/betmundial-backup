@@ -10,6 +10,8 @@ import Sharebet from '../../assets/img/banner/carousel/Sharebet.png';
 import Tick from '../../assets/img/banner/carousel/Tick.png';
 import Epl from '../../assets/img/banner/carousel/epl.png';
 import Live from '../../assets/img/banner/carousel/Live-Betting.png';
+import Casino from '../../assets/img/banner/carousel/casino.png';
+import Jackpot from '../../assets/img/banner/carousel/jackpot.png';
 import { Link } from 'react-router-dom';
 
 
@@ -90,7 +92,38 @@ const CarouselLoader = (props) => {
                 </Link>
             </Carousel.Item>
 
+
+            
+            <Carousel.Item >
+                <Link to={"/casino"}>
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Casino}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+                </Link>
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <Link to={"/jackpot"}>
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Jackpot}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+                </Link>
+            </Carousel.Item>
+
         </Carousel>
+
+
+
     )
 }
 export default CarouselLoader;

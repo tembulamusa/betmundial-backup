@@ -8,7 +8,7 @@ import makeRequest from '../utils/fetch-request';
 import {setLocalStorage} from '../utils/local-storage';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShareModal from "../sharemodal";
-import logo from '../../assets/img/logo2.png';
+import logo from '../../assets/img/logo.png';
 import {Navbar} from "react-bootstrap";
 import MobileMenu from './mobile-menu';
 import MobileRightMenu from './mobile-right-menu';
@@ -99,7 +99,7 @@ const Header = (props) => {
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
                     
                     <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet"  style={{ marginTop: '-20px' }}>
-                        <span className='inline-block md:!hidden text-white mr-3 '><MobileMenu /></span><a href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
+                        <span className='inline-block md:!hidden text-white mr-3 '></span><a href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
                     </div>
 
                     <div className='inline-block md:hidden text-white col-sm-6'>
@@ -109,22 +109,12 @@ const Header = (props) => {
                     <div className="col-md-7 change-size" id="navbar-collapse-main">
                         {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
                     </div>
-
-
-                    {/* The header for both mobile and desktop */}
-                    <Row className={`big-icon second-nav ck pc os app-navbar app-header-nav`}>
-                        {/* <HeaderNav/> */}
-                        <BigIconNav />
-                    </Row>
-                    
                         
                 </Container>
             </Navbar>
 
             {/* mobile bottom menu */}
-            <div className={`${state?.showmobiletop && "show-mobile-top"} block md:hidden second-nav ck pc os app-navbar relative mobile-custom-scrollbar diminish-mobile-row row`}>
-                <div className="hidden-icons px-4"><HeaderNav/></div>
-            </div>
+           
 
             {/* Only show if they are visible/third nav is available */}
             <div className='md:hidden w-full  mobile-custom-scrollbar overflow-scroll bg-[#ffffffb8]'>
