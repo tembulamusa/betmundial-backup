@@ -7,6 +7,8 @@ import Row from 'react-bootstrap/Row';
 import { Context } from '../../context/store';
 import { useNavigate } from 'react-router-dom';
 import Notify from '../utils/Notify';
+import { Link } from 'react-router-dom';
+
 
 const Signup = (props) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -83,7 +85,7 @@ const Signup = (props) => {
                                 <label>Mobile Number</label>
                                 <input
                                     value={values.msisdn}
-                                    className="block px-3 py-3 w-full rounded-2xl std- form-control"
+                                    className="form-control block px-3 py-3 w-full rounded-2xl std-input "
                                     id="msisdn"
                                     name="msisdn"
                                     type="text"
@@ -118,6 +120,9 @@ const Signup = (props) => {
                                     Signup
                                 </button>
                             </div>
+                            <Link to="/login" title="Already Registered?">
+                                <span className="" style={{ marginTop: '60px' }}>Already Registered?</span>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -147,19 +152,21 @@ const Signup = (props) => {
         <React.Fragment>
 
             
-                        <div className="">
+                    <div className='signup-container' >
                         <div className='col-md-12 primary-bg p-4 text-center'>
                             <h4 className="inline-block">
                                 Signup/Register
                             </h4>
                         </div>
-                            <div className="col-md-12 mt-2  p-2">
-                                {message ? <Alert/>:""}
-                                <div className="modal-body pb-0" data-backdrop="static">
-                                                <SignupForm/>
-                                            </div>
-                                </div>
+                        <div className="col-md-12 mt-2 p-2" 
+                            style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', boxShadow: '0px 4px 8px 0px rgba(0,0,0,0.2)', marginTop: '50px' }}
+                        >
+                            {message ? <Alert/>:""}
+                            <div className="modal-body pb-0" data-backdrop="static">
+                                <SignupForm/>
                             </div>
+                        </div>
+                        </div>
         </React.Fragment>
     );
 }

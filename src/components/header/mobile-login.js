@@ -107,18 +107,18 @@ const BodyLogin = (props) => {
             setFieldValue(field, value);
         }
         return (
-            <div className='mt-5 mx-auto w-11/12'>
+            <div className='mt-5 mx-auto w-11/12' style={{ maxWidth: '600px'}}>
                 <Form className="">
                     <Row>
                         <div className="">
                             <label className='modal-label'>Mobile Phone</label>
                             <input type="text"
-                                   name="msisdn"
-                                   className={`form-control block px-3 py-3 w-full rounded-2xl std-input ${errors.msisdn && 'text-danger'} `}
-                                   data-action="grow"
-                                   placeholder={errors.msisdn || "07xxxxxxxx"}
-                                   onChange={ev => onFieldChanged(ev)}
-                                   value={values.msisdn}
+                                name="msisdn"
+                                className={`form-control block px-3 py-3 w-full rounded-2xl std-input ${errors.msisdn && 'text-danger'} `}
+                                data-action="grow"
+                                placeholder={errors.msisdn || "07xxxxxxxx"}
+                                onChange={ev => onFieldChanged(ev)}
+                                value={values.msisdn}
                             />
                             <br/>
                             
@@ -153,10 +153,9 @@ const BodyLogin = (props) => {
                                 </button>
                         </div>        
 
-                        <Link to="/forgot-password" title="Forgot password"
-                               >
-                                <span className="">Forgot Password?</span>
-                            </Link>
+                        <Link to="/forgot-password" title="Forgot password">
+                            <span className="">Forgot Password?</span>
+                        </Link>
                         <div className="col-sm-2">
                             <Link className="" to="/signup" title="Join now">
                                 <span className="register-label">Register now!</span>
