@@ -1,404 +1,241 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, {useCallback, useContext, useEffect, useState, useRef} from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Container from 'react-bootstrap/Container';
-import { Context } from '../../context/store';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faHome as HomeIcon,
-  faPrint,
-  faQuestionCircle,
-  faCoins,
-  faClock,
-  faVideo,
-  faDice,
-} from '@fortawesome/free-solid-svg-icons';
-import { FaMagic, FaPlaneDeparture } from 'react-icons/fa';
-import { FiMoreVertical } from 'react-icons/fi';
-import { GiSoccerKick } from "react-icons/gi";
-import { RiStarSmileLine } from "react-icons/ri";
-import { TbDeviceMobileDollar } from "react-icons/tb";
-import { Link, useNavigate } from 'react-router-dom';
+import {Context} from '../../context/store';
+import {getFromLocalStorage, setLocalStorage} from "../utils/local-storage";
 
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {
+    faSearch,
+    faPrint,
+    faQuestionCircle,
+    faTimes,
+    faLaptop,
+    faMagnet,
+    faMagic, faInfo, faChessBoard, faDice
+} from '@fortawesome/free-solid-svg-icons'
+import makeRequest from "../utils/fetch-request";
+import {faMobile, faCoins} from "@fortawesome/free-solid-svg-icons";
+import useAnalyticsEventTracker from "../analytics/useAnalyticsEventTracker";
+import { Link, useLocation } from 'react-router-dom';
+import { IoMdHome } from "react-icons/io";
+
+const VissibleItemsMobile = React.lazy(() => import('./mobile-menu/vissible-items'));
 
 const HeaderNav = (props) => {
-  const [, dispatch] = useContext(Context);
-  const pathname = window.location.pathname;
-  const [searching, setSearching] = useState(false);
-  const searchInputRef = useRef(null);
-  const [time, setTime] = useState();
-  const navigate = useNavigate();
-  const [showMore, setShowMore] = useState(false); 
-  const [allItemsShown, setAllItemsShown] = useState(false); 
-  const [showMoreButton, setShowMoreButton] = useState(true); 
+    const gaEventTracker = useAnalyticsEventTracker('Navigation');
+    const [state, dispatch] = useContext(Context);
+    const location = useLocation(); // Hook to get current location
+    const [searching, setSearching] = useState(false);
+    const [matches, setMatches] = useState([]);
+    const [search, setSearch] = useState("");
+    const searchInputRef = useRef(null);
+    const { pathname } = location;
 
-  // Media query to check for mobile screen
-  const isMobile = window.innerWidth <= 768;
+    useEffect(() => {
+        fetchMatches()
+    }, [searching, search])
 
-  useEffect(() => {
-    if (searching === true) {
-      navigate('/home');
-    }
-  }, [searching]);
+    const fetchMatches = async (search) => {
+        if (search && search.length >= 3) {
+            gaEventTracker('Searching')
+            let method = "GET"
+            let endpoint = "/v1/matches?page=" + (1) + `&limit=${10}&search=${search}`;
+            await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
+                if ([200, 201, 202, 204].includes(status)) {
+                    setMatches(result?.data || result)
+                }
+            });
+        }
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(new Date().toLocaleString().slice(10, 22));
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
     };
-  }, []);
 
-  const updateSearchTerm = (event) => {
-    if (event.target.value.length >= 3) {
-      dispatch({ type: 'SET', key: 'searchterm', payload: event.target.value });
+    const showSearchBar = () => {
+        setSearching(true)
+        searchInputRef.current.focus()
+        gaEventTracker('Clicked on Search')
     }
-  };
 
-  const showSearchBar = () => {
-    setSearching(true);
-  };
-
-  const dismissSearch = () => {
-    setSearching(false);
-  };
-
-  const toggleMoreItems = () => {
-    setShowMore((prev) => !prev);
-    
-    if (!showMore) {
-      setAllItemsShown(true);
-      setShowMoreButton(false); 
-    } else {
-      setShowMoreButton(true);
+    const dismissSearch = () => {
+        setSearching(false)
+        setMatches([])
     }
-  };
 
-  const handleClose = () => {
-    setShowMore(false); 
-    setShowMoreButton(true); 
-    setAllItemsShown(false);
-  };
+    // The competitions menu
 
-  const iconBoxStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: isMobile ? '40px' : '50px', 
-    height: isMobile ? '30px' : '40px',
-    borderRadius: '10px',
-   // backgroundColor: '#e00c54',  
-    backgroundColor: '#28347c',
-    color: 'white', 
-    marginBottom: '8px',
-  };
+    const [sport, setSport] = useState(79)
+    const [competitions, setCompetitions] = useState(props?.competitions);
 
-  const listItemStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    width: isMobile ? (allItemsShown ? '20%' : '55px') : (allItemsShown ? '100px' : '100px'),
-    padding: '8px',
-    cursor: 'pointer',
-  };
+    const fetchData = useCallback(async () => {
+        let cached_competitions = getFromLocalStorage('categories');
+        let endpoint = "/v1/categories";
 
-  const menuItemStyle = {
-    fontSize: isMobile ? '10px' : '12px',
-     color: 'white',
-  };
+        if (!cached_competitions) {
+            const [competition_result] = await Promise.all([
+                makeRequest({url: endpoint, method: "get", data: null}),
+            ]);
+            let [c_status, c_result] = competition_result
 
-  const closeButtonStyle = {
-    display: showMore ? 'block' : 'none',
-    width: '70%',
-    backgroundColor: '#f0f0f0',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '10px',
-    cursor: 'pointer',
-    margin: '20px auto 0', 
-  };
+            if (c_status === 200) {
+                setCompetitions(c_result);
+                setLocalStorage('categories', c_result);
+            } else {
+                fetchData()
+            }
+        } else {
+            setCompetitions(cached_competitions);
+        }
 
-  return (
-    <>
-      <Container
-        id="navbar-collapse-main"
-        className={`d-sm-flex d-flex flex-row header-menu ${searching ? 'hidden' : 'd-block'}`}
-      >
-        <ListGroup
-          as="ul"
-          horizontal
-          className={`font-bold nav navbar-nav d-flex align-items-center justify-content-around col-lg-12 col-md-12 col-sm-12 overflow-auto`}
-          style={{ overflowX: 'auto' }} 
-        >
-          {/* Render all items for desktop view */}
-          {!isMobile &&
-            <>
-              <li style={listItemStyle} className={pathname === '/' ? 'active' : ''}>
-                <Link to="/" className="url-link not-selectable">
-                  <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={HomeIcon} />
-                  </div>
-                  <span style={menuItemStyle}>Home</span>
-                </Link>
-              </li>
+    }, []);
 
-              <li style={listItemStyle} className={pathname === '/live' ? 'active' : ''}>
-                <Link to="/live" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faVideo} />
-                  </div>
-                  <span style={menuItemStyle}>Live</span>
-                </Link>
-              </li>
+    useEffect(() => {
+        const abortController = new AbortController();
+        fetchData();
 
-              <li style={listItemStyle} className={pathname === '/jackpot' ? 'active' : ''}>
-                <Link to="/jackpot" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faCoins} />
-                  </div>
-                  <span style={menuItemStyle}>Jackpot</span>
-                </Link>
-              </li>
+        return () => {
+            abortController.abort();
+        };
+    }, [fetchData]);
 
-              <li style={listItemStyle} className={pathname === '/app' ? 'active' : ''}>
-                <Link to="/app" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <TbDeviceMobileDollar />
-                  </div>
-                  <span style={menuItemStyle}>APP</span>
-                </Link>
-              </li>
 
-              <li style={listItemStyle} className={pathname === '/promotions' ? 'active' : ''}>
-                <Link to="/promotions" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <RiStarSmileLine />
-                  </div>
-                  <span style={menuItemStyle}>Promotions</span>
-                </Link>
-              </li>
+    const updateMenubarState = () => {
+        let sport_id = (new URL(window.location.href).searchParams.get('sport_id'))
+        if (sport_id === null && window.location.pathname === '/') {
+            sport_id = 79
+        }
+        setSport(sport_id)
+    }
 
-              <li style={listItemStyle}>
-                <Link to="#" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faDice} />
-                  </div>
-                  <span style={menuItemStyle}>Casino</span>
-                </Link>
-              </li>
+    const getActiveSport = (matchId) => {
+        return (Number(sport) === Number(matchId))
 
-              <li style={listItemStyle}>
-                <Link to="/aviator-demo" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <FaPlaneDeparture />
-                  </div>
-                  <span style={menuItemStyle}>Aviator</span>
-                </Link>
-              </li>
+    }
 
-              <li style={listItemStyle}>
-                <Link to="#" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <FaMagic />
-                  </div>
-                  <span style={menuItemStyle}>Virtuals</span>
-                </Link>
-              </li>
+    useEffect(() => {
 
-              <li style={listItemStyle}>
-                <Link to="#" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <GiSoccerKick />
-                  </div>
-                  <span style={menuItemStyle}>Live Score</span>
-                </Link>
-              </li>
+    },[])
 
-              <li style={listItemStyle} className={pathname === '/print-matches' ? 'active' : ''}>
-                <Link className="g url-link fix-print" to={"/print-matches"}>
-                  <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faPrint} />
-                  </div>
-                  <span style={menuItemStyle}>Print  Matches</span>
-                </Link>
-              </li>
+    const updateCurrentPage = (url) => {
+        setLocalStorage('currentpath', url);
+        dispatch({type:"SET", key: "currentpath", payload: pathname})
+    }
+    return (
+        <>
 
-              <li style={listItemStyle} className={pathname === '/how-to-play' ? 'active' : ''}>
-                <Link className="url-link" to="/how-to-play">
-                  <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faQuestionCircle} />
-                  </div>
-                  <span style={menuItemStyle}>Help</span>
-                </Link>
-              </li>
+            <div id="navbar-collapse-main" className={`navbar text-2xl ${searching ? 'hidden' : 'd-block'}`}>
+                    <ListGroup as="ul" xs="12" horizontal
+                               className="nav navbar-nav px-3 col-md-8 col-sm-12 change-display font-medium capitalize">
 
-              <li style={listItemStyle}>
-                <div style={iconBoxStyle}>
-                  <FontAwesomeIcon icon={faClock} />
-                </div>
-                <span style={menuItemStyle}>{time}</span>
-              </li>
-            </>
-          }
+                        <li className={pathname === '/' ? "active" : ''} onClick={() => gaEventTracker('Visit Homepage')}>
+                            <Link className="g url-link " to="/" title="Home"><IoMdHome size={20} className='text-white inline-block'/> Home</Link>
+                        </li>
+                        <li className={pathname === '/live' ? "active" : ''} onClick={() => gaEventTracker('Visit Live Page')}>
+                            <Link className={`g url-link  ${pathname === '/live' ? 'active' : ''}`} to="/live"
+                               title="Live">Live</Link>
+                        </li>
 
-          {/* Mobile layout */}
-          {isMobile && (
-            <>
-              {/* First four items */}
-              <li style={listItemStyle} className={pathname === '/' ? 'active' : ''}>
-                <Link to="/" className="url-link not-selectable">
-                  <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={HomeIcon} />
-                  </div>
-                  <span style={menuItemStyle}>Home</span>
-                </Link>
-              </li>
+                        <li className={pathname === '/jackpot' ? 'active' : ''}
+                            onClick={() => gaEventTracker('Visit Jackpot Page')}>
+                            <Link className="g url-link" to="/jackpot" title="Jackpot">
+                                Jackpots
+                            </Link>
+                        </li>
+                        <li className={pathname === '/app' ? 'active' : ''}
+                            onClick={() => gaEventTracker('Visit App Page')}>
+                            <Link className="g url-link" to="/aviator" title="App">
+                                <span>
+                                    aviator
+                                </span>
+                            </Link>
+                        </li>
 
-              <li style={listItemStyle} className={pathname === '/live' ? 'active' : ''}>
-                <Link to="/live" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faVideo} />
-                  </div>
-                  <span style={menuItemStyle}>Live</span>
-                </Link>
-              </li>
+                        <li className={pathname === '/app' ? 'active' : ''}
+                            onClick={() => gaEventTracker('Visit App Page')}>
+                            <Link className="g url-link" to="/casino" title="App">
+                                <span>
+                                    casino
+                                </span>
+                            </Link>
+                        </li>
+                        
+                        <li className={pathname.includes("promotions") ? 'active' : ''}
+                            onClick={() => gaEventTracker('Visit Promotions Page')}>
+                            <Link className="g url-link" to="/promotions" title="Promotions">
+                                Promotions
+                            </Link>
+                        </li>
+                        <li className={pathname.includes("livescore") ? 'active' : ''}>
+                            <Link className="g url-link" to="/livescore"
+                               title="Live Score" onClick={() => gaEventTracker('Visit Live Score Page')}>
+                                <span>
+                                   Live Score
+                                </span>
+                            </Link>
+                        </li>
+                        
+                    </ListGroup>
 
-              <li style={listItemStyle} className={pathname === '/jackpot' ? 'active' : ''}>
-                <Link to="/jackpot" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <FontAwesomeIcon icon={faCoins} />
+                    <ListGroup as="ul" xs="12" horizontal className="nav navbar-nav col-md-4 change-display px-4">
+
+                        
+                        <li className={pathname === '/how-to-play' ? 'active' : ''}
+                            onClick={() => gaEventTracker('Visit How To Play Page')}>
+                            <Link className="g url-link" to="/how-to-play" title="How to play">
+                                <span className=" space-icons">
+                                    <FontAwesomeIcon icon={faQuestionCircle} className='secondary-color'/> </span> <span
+                                className={'hide2'}>Help & Support</span>
+                            </Link>
+                        </li>
+                        <li className={pathname === '/print-matches' ? 'active py-3' : ''}
+                            onClick={() => gaEventTracker('Visit Print Matches')}>
+                            <Link className="g url-link" to="/print-matches" title="Print Matches">
+                                <span className=" space-icons">
+                                    <FontAwesomeIcon icon={faPrint} className='secondary-color'/> </span>Print <span
+                                className={'hide1'}>Matches</span>
+                            </Link>
+                        </li>
+
+                        <li className={pathname === '/print-matches' ? 'spacing-end' : 'spacing-end'}>
+                            <Link className="g url-link" to="#" title="Search"
+                               onClick={() => showSearchBar()}>
+                                <span className=" space-icons">
+                                <FontAwesomeIcon icon={faSearch} className='secondary-color'/> </span><span
+                                className={'hide2'}>Search</span>
+                            </Link>
+                        </li>
+                    </ListGroup>
+
+            </div>
+
+
+            <section id="" className={`high-first-z-index fadeIn header-menu d-flex justify-content-center px-4 ${searching ? 'd-block' : 'd-none'}`}>
+                <ListGroup as="ul" xs="9" horizontal className="nav navbar-nav og ale ss col-md-6 text-center">
+                    <div className="d-flex w-full">
+                        <div className="col-md-10">
+                            <input type="text" placeholder={'Start typing to search for team ...'} ref={searchInputRef}
+                                   onChange={(event) => fetchMatches(event.target.value)}
+                                   className={'form-control input-field border-0 bg-dark text-white no-border-radius'}/>
+                        </div>
+
+                        <button className={'btn text-white -align-right'} onClick={() => dismissSearch()}>
+                            <FontAwesomeIcon icon={faTimes} /> Close
+                        </button>
                     </div>
-                  <span style={menuItemStyle}>Jackpot</span>
-                </Link>
-              </li>
-
-              <li style={listItemStyle} className={pathname === '/app' ? 'active' : ''}>
-                <Link to="/app" className="url-link">
-                  <div style={iconBoxStyle}>
-                    <TbDeviceMobileDollar />
-                  </div>
-                  <span style={menuItemStyle}>APP</span>
-                </Link>
-              </li>
-
-              {/* Other items (hidden if 'showMore' is false) */}
-              {showMore && (
-                <>
-                  <li style={listItemStyle} className={pathname === '/promotions' ? 'active' : ''}>
-                    <Link to="/promotions" className="url-link">
-                      <div style={iconBoxStyle}>
-                        <RiStarSmileLine />
-                      </div>
-                      <span style={menuItemStyle}>Promotions</span>
-                    </Link>
-                  </li>
-
-                  <li style={listItemStyle}>
-                    <Link to="#" className="url-link">
-                      <div style={iconBoxStyle}>
-                        <FontAwesomeIcon icon={faDice} />
-                      </div>
-                      <span style={menuItemStyle}>Casino</span>
-                    </Link>
-                  </li>
-
-                  <li style={listItemStyle}>
-                    <Link to="/aviator-demo" className="url-link">
-                      <div style={iconBoxStyle}>
-                        <FaPlaneDeparture />
-                      </div>
-                      <span style={menuItemStyle}>Aviator</span>
-                    </Link>
-                  </li>
-
-                  <li style={listItemStyle}>
-                    <Link to="#" className="url-link">
-                      <div style={iconBoxStyle}>
-                        <FaMagic />
-                      </div>
-                      <span style={menuItemStyle}>Virtuals</span>
-                    </Link>
-                  </li>
-
-                  <li style={listItemStyle}>
-                    <Link to="#" className="url-link">
-                      <div style={iconBoxStyle}>
-                        <GiSoccerKick />
-                      </div>
-                      <span style={menuItemStyle}>Live Score</span>
-                    </Link>
-                  </li>
-
-                  <li style={listItemStyle} className={pathname === '/print-matches' ? 'active' : ''}>
-                    <Link className="g url-link fix-print" to={"/print-matches"}>
-                      <div style={iconBoxStyle}>
-                        <FontAwesomeIcon icon={faPrint} />
-                      </div>
-                      <span style={menuItemStyle}>Print  Matches</span>
-                    </Link>
-                  </li>
-
-                  <li style={listItemStyle} className={pathname === '/how-to-play' ? 'active' : ''}>
-                    <Link className="url-link" to="/how-to-play">
-                      <div style={iconBoxStyle}>
-                        <FontAwesomeIcon icon={faQuestionCircle} />
-                      </div>
-                      <span style={menuItemStyle}>Help</span>
-                    </Link>
-                  </li>
-
-                  <li style={listItemStyle}>
-                    <div style={iconBoxStyle}>
-                      <FontAwesomeIcon icon={faClock} />
+                    <div
+                        className={`autocomplete-box bg-dark2 position-fi border-dark col-md-5 mt-1 shadow-sm text-start w-full`}
+                        onClick={() => gaEventTracker('View Search Results')}>
+                        {matches.map((match, index) => (
+                            <a href={`/?search=${match.home_team}`} key={index}>
+                                <li>
+                                    {match.home_team}
+                                </li>
+                            </a>
+                        ))}
                     </div>
-                    <span style={menuItemStyle}>{time}</span>
-                  </li>
-                </>
-              )}
+                </ListGroup>
+            </section>
+        </>
+    )
 
-              {/* "More" button to toggle visibility of extra items */}
-              {showMoreButton && (
-                <li style={listItemStyle} onClick={toggleMoreItems}>
-                  <div style={iconBoxStyle}>
-                    <FiMoreVertical />
-                  </div>
-                  <span style={menuItemStyle}>More</span>
-                </li>
-              )}
-            </>
-          )}
-          {/* Close button for mobile view */}
-          {isMobile && (
-            <button onClick={handleClose} style={closeButtonStyle}>
-              Close
-            </button>
-          )}
-        </ListGroup>
-
-        
-      </Container>
-
-      {/* Search Bar Handling */}
-      {searching && (
-        <div className="search-bar-container">
-          <input
-            type="text"
-            placeholder="Search..."
-            onChange={updateSearchTerm}
-            ref={searchInputRef}
-            className="search-input"
-          />
-          <button onClick={dismissSearch} className="close-search">
-            X
-          </button>
-        </div>
-      )}
-    </>
-  );
-};
-
-export default HeaderNav;
-
+}
+export default React.memo(HeaderNav);

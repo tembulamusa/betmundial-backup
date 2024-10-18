@@ -1068,3 +1068,7 @@ img.highlights-content-img {
     opacity: 0;
   }
 }
+
+.banner-imgs img {
+  height: 150px;
+}
