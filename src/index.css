@@ -513,7 +513,10 @@ h5, h4, h3, h2 {
   width: 95%;
   margin-left: auto;
   margin-right: auto;
+  background: #24367e3d;
+  color: #041b7a;
   border-radius: 4px;
+  font-weight: 400;
 }
 .is-jackpot-bet-group-btns {
   margin-left: auto !important
@@ -1198,4 +1201,13 @@ img.highlights-content-img {
   font-weight: 500;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.purple-bg {
+  background: #8d2585 !important;
+  color: #dddddd !important;
+}
+
+.in-blue-highlight {
+  /* background: blue; */
 }
