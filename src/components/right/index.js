@@ -258,8 +258,8 @@ const Right = (props) => {
 
   const BongeBetMarkupMessage = () => {
     return !state?.isjackpot && Object.keys(state?.betslip || {}).length > 0 && (
-      <div className="bonge-bonus" style={{ padding: '5px', background: '#fbd702', marginTop: '10px' }}>
-        <div id="bonus-centage-advice" style={{ fontWeight: '100' }}>{bongeBonusMessage}</div>
+      <div className="bonge-bonus" style={{ padding: '5px',marginTop: '10px' }}>
+        <div id="bonus-centage-advice">{bongeBonusMessage}</div>
       </div>
     );
   };
