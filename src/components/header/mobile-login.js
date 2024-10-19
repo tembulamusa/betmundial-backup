@@ -110,7 +110,7 @@ const BodyLogin = (props) => {
             <div className='mt-5 mx-auto w-11/12' style={{ maxWidth: '600px'}}>
                 <Form className="">
                     <Row>
-                        <div className="">
+                        <div className="px-0">
                             <label className='modal-label'>Mobile Phone</label>
                             <input type="text"
                                 name="msisdn"
@@ -123,7 +123,7 @@ const BodyLogin = (props) => {
                             <br/>
                             
                         </div>
-                        <div className="">
+                        <div className="px-0">
                             <label className='modal-label'>Password</label>
                             <input type="password"
                                        name="password"
@@ -141,10 +141,10 @@ const BodyLogin = (props) => {
 
                             
                         </div>
-                        <span className="">
+                        <span className="px-0">
                             <label><input type="checkbox" name="remember" value="1"/>Remember me</label>
                         </span>
-                        <div className='row !pr-0'>
+                        <div className='row !pr-0 px-0 !mr-0'>
 
                             <div className='col-3'><button className='mt-4 btn btn-default btn-lg bg-gray-200 hover:bg-gray-300'  style={{marginTop: "10px",
                             padding: "8px 12px", fontSize: "14px"}} onClick={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}>Cancel</button></div>
@@ -158,10 +158,10 @@ const BodyLogin = (props) => {
                             </div>
                         </div>        
 
-                        <Link className='mt-3 hover:underline' to="/forgot-password" title="Forgot password">
+                        <Link className='px-0 mt-4 font-[500] hover:underline' to="/forgot-password" title="Forgot password">
                             <span className="">Forgot Password</span>
                         </Link>
-                        <div className="my-5">
+                        <div className="my-5 px-0">
                             <Link className="capitalize font-bold text-gray-500 hover:text-gray-600 hover:underline" to="/signup" title="Join now">
                                 <span className="">Don't have an account? Register now!</span>
                             </Link>
