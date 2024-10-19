@@ -5,6 +5,7 @@ import {Context} from '../../context/store';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
+import { FaSearch } from 'react-icons/fa';
 
 const HeaderLogin = (props) => {
     const [, dispatch] = useContext(Context)
@@ -22,19 +23,22 @@ const HeaderLogin = (props) => {
             <>
                 <div className="header">
                     <div className="onboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                        <input 
-                            type="text" 
-                            placeholder="Search..." 
-                            onFocus={() => setIsFocused(true)} 
-                            onBlur={() => setIsFocused(false)} 
+                    <div 
                             style={{ 
-                                padding: '5px 30px 5px 10px', 
-                                borderRadius: '5px', 
-                                border: '1px solid #ccc', 
-                                backgroundColor: isFocused ? '#fff' : 'transparent', 
-                                marginRight: '1rem' 
-                            }} 
-                        />
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center', 
+                                padding: '5px 10px',  
+                                backgroundColor: 'transparent', 
+                                marginRight: '1rem',
+                                cursor: 'pointer',
+                                transition: 'background-color 0.3s'
+                            }}
+                            onMouseEnter={() => setIsFocused(true)} 
+                            onMouseLeave={() => setIsFocused(false)}
+                        >
+                            <FaSearch style={{ color: '#fff', fontSize: '16px' }} />
+                        </div>
                         
                         <button 
                             className="e font-black mr-4 top-login-btn btn" 
