@@ -144,21 +144,26 @@ const BodyLogin = (props) => {
                         <span className="">
                             <label><input type="checkbox" name="remember" value="1"/>Remember me</label>
                         </span>
-                        <div>
-                            <button
-                            className={`btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button`}
-                            type="submit" style={{marginTop: "10px",
-                        padding: "5px", fontSize: "14px"}}>
-                                {isLoading ? <span>Logging In ...</span> : <span>Login</span>}
-                                </button>
+                        <div className='row !pr-0'>
+
+                            <div className='col-3'><button className='mt-4 btn btn-default btn-lg bg-gray-200 hover:bg-gray-300'  style={{marginTop: "10px",
+                            padding: "8px 12px", fontSize: "14px"}} onClick={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}>Cancel</button></div>
+                            <div className='col-9 !pr-0'>
+                                <button
+                                className={`btn btn-lg btn-primary mt-4 deposit-withdraw-button`}
+                                type="submit" style={{marginTop: "10px",
+                            padding: "5px", fontSize: "14px"}}>
+                                    {isLoading ? <span>Logging In ...</span> : <span>Login</span>}
+                                    </button>
+                            </div>
                         </div>        
 
-                        <Link to="/forgot-password" title="Forgot password">
-                            <span className="">Forgot Password?</span>
+                        <Link className='mt-3 hover:underline' to="/forgot-password" title="Forgot password">
+                            <span className="">Forgot Password</span>
                         </Link>
-                        <div className="col-sm-2">
-                            <Link className="" to="/signup" title="Join now">
-                                <span className="register-label">Register now!</span>
+                        <div className="my-5">
+                            <Link className="capitalize font-bold text-gray-500 hover:text-gray-600 hover:underline" to="/signup" title="Join now">
+                                <span className="">Don't have an account? Register now!</span>
                             </Link>
                         </div>
                     </Row>

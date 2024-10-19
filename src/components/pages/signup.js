@@ -62,7 +62,7 @@ const Signup = (props) => {
         return (
             <div className='col-md-12 primary-bg p-4 text-center'>
                 <h4 className="inline-block">
-                    SIGNUP | CREATE A NEW ACCOUNT
+                    CREATE AN ACCOUNT
                 </h4>
             </div>
         )
@@ -79,7 +79,11 @@ const Signup = (props) => {
         return (
             <Form>
                 <div className="pt-0">
-                    <div className="row">
+                    <div className="row form-block">
+                        <div className='text-center'>
+                            <h1 className='std-title'>Join Surebet</h1>
+                            <p className='text-xl'>Home to the best Odds, instant Payouts and many bonuses</p>
+                        </div>
                         <div className="form-group row d-flex justify-content-center mt-5">
                             <div className="col-md-12">
                                 <label>Mobile Number</label>
@@ -114,15 +118,24 @@ const Signup = (props) => {
                         <div className="form-group row d-flex justify-content-left mb-4">
                             <div className="">
                                 <button type="submit"
-                                    className={`btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button`}
+                                    className={`btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button font-bold`}
                                     disabled={isLoading}
                                     >
                                     Signup
                                 </button>
                             </div>
-                            <Link to="/login" title="Already Registered?">
-                                <span className="" style={{ marginTop: '60px' }}>Already Registered?</span>
+                            <Link to="/login" title="Already Registered?" className='mt-4 text-2xl hover:underline'>
+                                <span className="">Have an account? Login here</span>
                             </Link>
+                        </div>
+
+                        <div className='disclaimer mt-5 text-center'>
+                            <p>
+                                By registering for an account, you agree to our <Link to={"/terms"}>Terms of Use,</Link> <Link to={"/privacy-policy"}>Privacy Policy</Link> and Responsible Gambling Policy.
+                            </p>
+                            <p className='mt-4'>
+                                You must be 18yrs and above in order to sign up.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -155,12 +168,13 @@ const Signup = (props) => {
                     <div className='signup-container' >
                         <div className='col-md-12 primary-bg p-4 text-center'>
                             <h4 className="inline-block">
-                                Signup/Register
+                                CREATE AN ACCOUNT
                             </h4>
                         </div>
                         <div className="col-md-12 mt-2 p-2 std-boxed-form-page" 
                             style={{}}
                         >
+
                             {message ? <Alert/>:""}
                             <div className="modal-body pb-0" data-backdrop="static">
                                 <SignupForm/>
