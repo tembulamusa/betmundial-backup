@@ -209,7 +209,7 @@ const BetSlip = (props) => {
                     <hr className='mb-3'/>
                     {state?.betslipKey}
                     {!state?.isjackpot &&
-                        <div className='px-2'>
+                        <div className='px-2 py-1'>
                             <div className='my-3 font-[500] text-2xl text-center'>Do you have a shared betslip code? Enter it here.</div>
                             {sharedBetError && <Alert message={sharedBetError} />}
                             <input  type="text" name="sharecode"  placeholder="Eg HLRTMRV"  

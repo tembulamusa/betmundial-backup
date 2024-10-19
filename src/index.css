@@ -772,7 +772,7 @@ tr.my-bets td {
 input.std-input {
   /* border: 1px solid var(--light-gray); */
   height: 40px;
-  width: calc(100% - 20px);
+  /* width: calc(100% - 20px); */
   padding: 2.5px 10px;
   border-radius: 8px;
   background: #e8e8e8;
@@ -1213,9 +1213,35 @@ img.highlights-content-img {
 }
 .std-boxed-form-page {
   max-width: 500px;
-  margin: 80px auto 0 !important;
+  margin: 40px auto 0 !important;
   /* text-align: center; */
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-  border: 1px solid #f5f5f5;
-  background: #fdfdfd;
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; */
+  /* border: 1px solid #f5f5f5; */
+  /* background: #fdfdfd; */
+}
+
+h1.std-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #666666;
+}
+
+.form-block .disclaimer {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
+  --tw-text-opacity: 1;
+  color: rgb(163 163 163 / 70);
+}
+
+.btn-default {
+  background: #dddddd;
+}
+
+.popover-login-modal .modal-header {
+  background: #fbfbfb;
+  box-shadow: 0 0 5px -1px rgba(0,0,0,.43);
+  -webkit-box-shadow: 0 0 5px -1px rgba(0,0,0,.43);
+  border-bottom: 1px solid rgba(255,255,255, 0.7);
 }
