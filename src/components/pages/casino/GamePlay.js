@@ -84,27 +84,17 @@ const GamePlay = (props) => {
     }, [])
     return (
         <>
-            <Header/>
-            <div className="amt">
-                <div className="d-flex flex-row justify-content-between">
-                    <div className="col-md-12">
-                        <div className="homepage">
-                            <CategoryGames/>
-                            <div
-                                className={`col-md-12 ${gameUrlLoaded ? 'd-none' : 'd-block'}`}>
-                                <SkeletonTheme baseColor="#0e131b" highlightColor="#3f6878">
-                                    <Skeleton height={'100px'}/>
-                                </SkeletonTheme>
-                            </div>
-                            {gameUrlLoaded && <>
-                                <iframe className={'mt-3 shadow-lg'}
-                                    src={gameUrl} title="Gadme" width={'100%'} height={'600px'} allowFullScreen={true} webkitAllowFullScreen={true} mozAllowFullScreen={true} ></iframe>
-                            </>}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <Footer/>
+        <h1>Game play</h1>
+        <div
+            className={`col-md-12 ${gameUrlLoaded ? 'd-none' : 'd-block'}`}>
+            <SkeletonTheme baseColor="#0e131b" highlightColor="#3f6878">
+                <Skeleton height={'100px'}/>
+            </SkeletonTheme>
+        </div>
+        {gameUrlLoaded && <>
+            <iframe className={'mt-3 shadow-lg'}
+                src={gameUrl} title="Gadme" width={'100%'} height={'600px'} allowFullScreen={true} webkitAllowFullScreen={true} mozAllowFullScreen={true} ></iframe>
+        </>}
         </>
     )
 }

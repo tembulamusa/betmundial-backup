@@ -113,32 +113,31 @@ const Jackpot = (props) => {
 
     return (
         <>
-            <img src={dailyJackpot} />
+            <img src={dailyJackpot} alt="jackpot" className="std-carousel-image"/>
             
                     <div className="jackpot-header row bg-secondary">
                         <div className="col-12">
-                            <JackpotHeader />
+                            <JackpotHeader jackpot={jackpotData}/>
                         </div>
                     </div>
-                    <Tabs defaultActiveKey={jackpotData ? "matches": "results"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
+                    <Tabs defaultActiveKey={"matches"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
                         <Tab eventKey="matches" title="Matches" className="p-3">
                             { jackpotData?.status?.toLowerCase() === "active" && (
                                 <div className="row">
                                     <div className="col-md-8 !px-3">
                                         <div className="!px-2">
                                             <div className="jackpot-amount !pl-0 pt-3">
-                                                Let the quick pick randomly choose the Jackpot Pro selections for you! KES {Intl.NumberFormat('en-US').format(jackpotData?.jackpot_amount)}
+                                                Autopick randomly picks jackpot for you! KES {Intl.NumberFormat('en-US').format(jackpotData?.jackpot_amount)}
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                        <div className="col-md-4">
-                                            <div className="autopick-button-div my-2 !px-3">
-                                                <button
-                                                    onClick={() => AutoPickAllMatches()}
-                                                    className="btn btn-auto-pick mt-3">Auto Pick</button>
-                                            </div>
+                                    <div className="col-md-4">
+                                        <div className="autopick-button-div !px-3">
+                                            <button
+                                                onClick={() => AutoPickAllMatches()}
+                                                className="btn btn-auto-pick mt-3">Auto Pick</button>
                                         </div>
+                                    </div>
                                 </div>
                             )}
 
