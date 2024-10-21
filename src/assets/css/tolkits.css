@@ -15395,8 +15395,10 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
     /* text-align: center; */
     color: #fff;
     text-transform: uppercase;
-    font-size: 18px;
-    padding-bottom: 5px;
+    font-size: 16px;
+    padding-bottom: 10px !important;
+    font-weight: 500;
+    padding-top: 3px;
 }
 .jp-header-text .jp-header-amount {
     padding: 5px 0;

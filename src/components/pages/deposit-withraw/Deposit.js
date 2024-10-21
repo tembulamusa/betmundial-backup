@@ -8,6 +8,8 @@ import Notify from '../../utils/Notify';
 import Accordion from 'react-bootstrap/Accordion';
 import '../../../assets/css/accordion.react.css';
 import StdTable from '../../utils/std-table';
+import { Link } from 'react-router-dom';
+import { GoAlertFill } from "react-icons/go";
 
 
 const Deposit = (props) => {
@@ -102,27 +104,16 @@ const Deposit = (props) => {
 
         return (
             <>
-                <div className="form-group row d-flex justify-content-center">
-                    <div className="col-md-12">
-                        <label>Phone Number</label>
-                        <input
-                            className="text-dark deposit-input form-control input-field"
-                            id="msisdn"
-                            name="msisdn"
-                            type="text"
-                            value={values.msisdn}
-                            readOnly={true}
-                        />
-                        {errors.msisdn && <div className='text-danger'> {errors.msisdn} </div>}
-                    </div>
-                </div>
-
+                
                 <div className="form-group row d-flex justify-content-center mt-4">
-                    <div className="col-md-12">
-                        <label>Amount to Deposit</label>
+                    
+                    <div className="row">
+                        <label className=''>Amount to Deposit</label>
+                        {message && <div className='mt-3 font-bold'><Alert/></div> }
                         <input
                             onChange={ev => onFieldChanged(ev)}
-                            className="text-dark deposit-input form-control col-md-12 input-field"
+                            style={{borderTopRightRadius:"0px", borderBottomRightRadius:"0px"}}
+                            className="text-dark deposit-input form-control !w-9/12 input-field"
                             id="amount"
                             name="amount"
                             type="text"
@@ -130,14 +121,10 @@ const Deposit = (props) => {
                             placeholder='Enter Amount'
                         />
                         {errors.amount && <div className='text-danger'> {errors.amount} </div>}
-                    </div>
-                </div>
-                {message && <div className='mt-3 font-bold'><Alert/></div> }
-                <div className="form-group row d-flex justify-content-left mb-4">
-                    <div className="col-md-3">
                         <button
                             disabled={isLoading}
-                            className='btn btn-lg btn-primary mt-3 col-md-12 deposit-withdraw-button'>
+                            style={{borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}
+                            className='btn btn-lg btn-primary bg-primary !w-3/12 deposit-withdraw-button'>
                             {isLoading ? "wait..." : "Deposit"}
                         </button>
                     </div>
@@ -208,59 +195,59 @@ const Deposit = (props) => {
             setFieldValue(field, value);
         }
 
+        const DepositSelfService = (props) => {
+
+            return (
+                <Link to={"/self-service"}>
+                    <div className='flex'>
+                        <GoAlertFill className='text-3xl mr-4 align-middle mt' size={30}/>
+                        <div className=''>
+                            <div className='font-bold'>Missing Deposit</div>
+                            <div className='block font-[500] opacity-70'>Deposit not reflecting? sort your missing deposit here</div>
+                        </div>
+                    </div>
+                </Link>
+            )
+        }
+
         return (
             <>
                 <Form className="rounded border-0">
                     <div className="pt-0">
-                        <div className="row">
-                            <div className='col-md-7 text-center'>
+                        <div className="row px-3">
+                            <div className='col-6 text-center'>
                                 <img src={mpesa} alt=""/>
                             </div>
-                            <hr/>
-                            <div className='row'>
-                                <div className='col-md-6'>
-                                    <DepositFormFields onFieldChanged={onFieldChanged} values={values} errors={errors}/>
-                                    
-                                    <hr className='my-5'/>
-                                    <div className=''>
-                                        <Accordion
-                                        className='accordion'>
-                                            <Accordion.Item eventKey={2}>
-                                                <Accordion.Header>
-                                                    <h1 className='capitalize font-[500]'>missing Deposit?</h1>
-                                                </Accordion.Header>
-                                                <Accordion.Body>
-                                                    <input
-                                                        className='text-dark deposit-input form-control col-md-12 input-field'
-                                                        placeholder='Enter Mpesa Code'
-                                                    />
-                                                    <button className='btn btn-lg btn-primary mt-3 col-md-12 deposit-withdraw-button'>Check Status</button>
-                                                </Accordion.Body>
-                                            </Accordion.Item>
-                                        </Accordion>
-                                        
-                                    </div>
-                                </div>
-                                <div className='col-md-6'>
-                                    <Accordion 
-                                    className="accordion mt-4"
-                                    defaultActiveKey={0}
-                                    allowMultipleExpanded={false}
-                                    // uuid = {}
-                                    >
-                                        <Accordion.Item eventKey={1}>
-                                            <Accordion.Header>
-                                                Deposit via paybil number
-                                            </Accordion.Header>
-                                            <Accordion.Body>
-                                                <PaymentInstructions/> 
-                                            </Accordion.Body>
-                                        </Accordion.Item>
-                                    </Accordion>
-                                </div>
-                                
+
+                            <div className='col-6'>
+                                <div className='font-bold text-gray-400 md:text-right'>{state?.user?.msisdn}</div>
                             </div>
-                            
+                        </div>
+                        <hr className='my-2'/>
+                        <div className='row'>
+                            <div className='col-md-6'>
+                                <DepositFormFields onFieldChanged={onFieldChanged} values={values} errors={errors}/>
+                                
+                                <div className='md:hidden'><DepositSelfService /></div>
+
+                                <Accordion 
+                                className="accordion mt-4"
+                                defaultActiveKey={0}
+                                allowMultipleExpanded={false}
+                                // uuid = {}
+                                >
+                                    <Accordion.Item eventKey={0}>
+                                        <Accordion.Header className='capitalize'>
+                                            <span className='capitalize'>Deposit via paybill number (599488)</span>
+                                        </Accordion.Header>
+                                        <Accordion.Body>
+                                            <PaymentInstructions/> 
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                </Accordion>
+                            </div>
+
+                            <div className='col-md-6 mt-4 hidden md:block pl-5'><DepositSelfService /></div>
                         </div>
                     </div>
                 </Form>

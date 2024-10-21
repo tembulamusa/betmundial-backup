@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const ProtectedRoute = ({children}) => {
 
     const user = getFromLocalStorage("user");
-    return user?.token ? children : <Navigate to="/" />;
+    return user?.token ? children : <Navigate to="/login" />;
 }
 
 export default ProtectedRoute;

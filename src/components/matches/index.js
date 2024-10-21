@@ -127,7 +127,7 @@ const MatchHeaderRow = (props) => {
                         {sportName}
                     </span>
                 </div>
-                <div className={`col ${!live && 'd-flex flex-row justify-content-between'}`}>
+                <div className={`${jackpot && "is-jackpot-buttons"} col ${!live && 'd-flex flex-row justify-content-between'}`}>
                     {three_way &&
                         <div className={`markets-header ${!live && 'd-flex flex-row'}`} key="d3">
                             <div className={`d-flex flex-column text-center`}>
@@ -583,7 +583,7 @@ const MatchRow = (props) => {
                 </div>
             }
 
-            <div className={`${live && 'live-game'} col block md:flex justify-content-between`} key="24">
+            <div className={`${jackpot && "is-jackpot"} ${live && 'live-game'} col block md:flex justify-content-between`} key="24">
                 {/* Mobile only datetime */}
                 <div className="md:hidden block" key="22">
                     {(live && match?.status) &&
@@ -707,13 +707,12 @@ export const MarketList = (props) => {
 
 export const JackpotHeader = (props) => {
     const {jackpot} = props
-
     return (
         <Container>
             <Row className="top-matches">
                 <Row className="jp-header-text text-center">
                     <div className="jp-header-top">
-                        {jackpot?.type} - {jackpot?.total_games} GAMES {jackpot?.name}
+                        {jackpot?.jackpot_name} - {jackpot?.total_games} GAMES
                     </div>
                 </Row>
                 {/* <Row className="jp-header-text mb-2">
@@ -734,7 +733,7 @@ export const JackpotMatchList = (props) => {
     const {matches} = props;
 
     return (
-        <div className="matches full-width mt-3">
+        <div className="matches is-jackpot-matches full-width mt-3">
 
             <MatchHeaderRow jackpot={true} first_match={matches ? matches[0] : []}/>
 
@@ -778,7 +777,7 @@ export const JackpotResultsList = (props) => {
             <Container className="web-element">
                 {(results && results?.matches?.length > 0) ? (
                     results?.matches?.map((match, key) => (
-                        <MatchRow match={match} key={key} jackpot={false} jackpotstatus={results?.status} />
+                        <MatchRow match={match} key={key} jackpot jackpotstatus={results?.status} />
                     ))
                 ) : (
                     <div className="top-matches row">

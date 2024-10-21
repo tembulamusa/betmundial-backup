@@ -125,7 +125,7 @@ const Signup = (props) => {
                                 </button>
                             </div>
                             <Link to="/login" title="Already Registered?" className='mt-4 text-2xl hover:underline'>
-                                <span className="">Have an account? Login here</span>
+                                <span className="font-[500]">Have an account? Login here</span>
                             </Link>
                         </div>
 
