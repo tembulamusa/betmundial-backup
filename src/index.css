@@ -1260,3 +1260,12 @@ h1.std-title {
   
   width: 80px !important;
 }
+
+.is-jackpot {
+  padding-right: 0 !important;
+}
+
+.is-jackpot-bet-group-btns {
+  margin-left: auto !important;
+  padding-right: 0 !important;
+}
