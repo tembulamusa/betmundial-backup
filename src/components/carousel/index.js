@@ -22,7 +22,10 @@ const CarouselLoader = (props) => {
     }
 
     return (
-        <Carousel className='banner-imgs'>
+        <Carousel
+            controls={false}
+            indicators={false}
+            className='banner-imgs'>
             
             <Carousel.Item >
                 <img

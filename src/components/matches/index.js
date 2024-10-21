@@ -404,7 +404,7 @@ const OddButton = (props) => {
             custom={ucn}
             sport_name={match.sport_name}
             sub_type_id={match?.odds?.sub_type_id || match?.sub_type_id}
-            special_bet_value={match?.odds?.special_bet_value || ''}
+            special_bet_value={match?.odds?.special_bet_value || match?.special_bet_value || ''}
             onClick={handleButtonOnClick}>
             {!detail &&
                 (
