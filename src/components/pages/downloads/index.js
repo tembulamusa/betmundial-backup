@@ -227,7 +227,7 @@ export default function MatchesList() {
 
     return (
         <>
-            <div className='col-md-12 page-title p-4 text-center'>
+            <div className='col-md-12 bg-primary p-4 text-center'>
                 <h4 className="inlin-block">
                     <span className="fa fa-chevron-left"></span>
                     Download Matches

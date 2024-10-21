@@ -115,7 +115,7 @@ function MobileMenu() {
   return (
     <span className="inline-block" style={{ height: 'auto' }}>
       <span className='font-[500] cursor-pointer' onClick={handleShow}>
-        <FaRegUser /> Profile
+        <FaRegUser /> My Account
       </span>
 
       <Offcanvas

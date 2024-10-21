@@ -107,6 +107,7 @@ const Header = (props) => {
                     </div>
 
                     <div className="col-md-7 change-size" id="navbar-collapse-main">
+                        {/* {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>} */}
                         {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
                     </div>
                         

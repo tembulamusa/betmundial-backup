@@ -5,14 +5,14 @@ import {faFacebook, faInstagram, faTwitter, faYoutube} from "@fortawesome/free-b
 
 
 const Footer = (props) => {
-
+//#24367e
     return (
         <footer className="footer-custom">
             <div className="row">
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 text-white">
                     <h5 className='text-2x uppercase font-bld'>Surebet</h5>
                     <ul>
-                        <li className="">
+                        <li className="text-white">
                             BOX 2772 - 00606, NAIROBI
                         </li>
                         <li className="">

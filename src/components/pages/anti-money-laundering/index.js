@@ -17,7 +17,7 @@ const AntiMoneyLaundering = () => {
         <>
            
        
-            <div className='col-md-12 page-title p-4 text-center profound-text'>
+            <div className='col-md-12 bg-primary p-4 text-center profound-text'>
                 <h4 className="inline-block"> Anti Money Laundering </h4>
             </div>                                             
             <div className="col-md-12 p-5"> 

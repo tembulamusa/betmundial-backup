@@ -22,7 +22,7 @@ const MobileApp = () => {
         <>
             
             <h4
-                className='text-center col-md-12 page-title p-4 text-center d-flex flex-row justify-content-between sticky-top'>
+                className='text-center col-md-12 bg-primary p-4 text-center d-flex flex-row justify-content-between sticky-top'>
                     SUREBET APP
             </h4>
 

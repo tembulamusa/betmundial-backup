@@ -2600,7 +2600,7 @@ footer a {
     border-bottom: 0px solid #fff;
     font-family: arial;
     font-size: 15px;
-    background: #2f2952 !important;
+    background: #111834 !important;
     padding: 30px;
 }
 
@@ -15105,7 +15105,7 @@ img.zoom-img {
         padding-right: 10px;
     }
 
-    .page-title {
+    .bg-primary {
         border-bottom: 1px solid #ebebeb;
         font-weight: 500;
         text-transform: capitalize;

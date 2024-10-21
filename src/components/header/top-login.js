@@ -7,6 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 
+import { faUser, faLock, faCoins } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const HeaderLogin = (props) => {
     const [, dispatch] = useContext(Context)
 
@@ -22,7 +25,8 @@ const HeaderLogin = (props) => {
         return (
             <>
                 <div className="header">
-                    <div className="onboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                    <div className="onboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>                    
+                   
                     <div 
                             style={{ 
                                 display: 'flex', 
@@ -38,6 +42,15 @@ const HeaderLogin = (props) => {
                             onMouseLeave={() => setIsFocused(false)}
                         >
                             <FaSearch style={{ color: '#fff', fontSize: '16px' }} />
+                        </div>
+
+                        <div >
+                            <Link
+                            to={{ pathname: "/deposit" }} >
+                            <span className="e font-black mr-4 top-login-btn btn">
+                            <span className=" space-icons"> <FontAwesomeIcon icon={faCoins} /></span> Deposit 
+                            </span>
+                            </Link>
                         </div>
                         
                         <button 
