@@ -777,7 +777,7 @@ export const JackpotResultsList = (props) => {
             <Container className="web-element">
                 {(results && results?.matches?.length > 0) ? (
                     results?.matches?.map((match, key) => (
-                        <MatchRow match={match} key={key} jackpot={false} jackpotstatus={results?.status} />
+                        <MatchRow match={match} key={key} jackpot jackpotstatus={results?.status} />
                     ))
                 ) : (
                     <div className="top-matches row">
