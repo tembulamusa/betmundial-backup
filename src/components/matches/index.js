@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import NoEvents from '../utils/no-events';
 import { match } from 'assert';
 import { ShimmerTable } from "react-shimmer-effects";
-
+import MatchDetailBetrandder from "../../assets/img/betrader/test-game-details.png"
 
 const clean = (_str) => {
     _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
@@ -175,49 +175,76 @@ const MatchHeaderRow = (props) => {
     )
 }
 
+const convertDateToLocalString = (date) => {
+    let monthMapper = {0:"jan", 1:"feb", 2:"mar", 3:"apr", 4:"may", 5:"jun", 6:'jul', 7:"aug", 8:"sep", 9:"oct", 10:"nov", 11:"dec"}
+    var theDate = new Date(date);
+    let options = {month:"short", day: "numeric", hour: "2-digit", minute:"2-digit"}
+    theDate.toLocaleString("en-us", options);
+    let reconvert  = new Date(theDate);
+    
+
+    let formattedString = " " + reconvert.getDate() + " " + monthMapper[reconvert.getMonth()] + " / " + reconvert.getHours() + ":" + reconvert.getMinutes()
+
+    return formattedString
+}
+
 const MoreMarketsHeaderRow = (props) => {
     const {
-        home_team,
-        away_team,
-        game_id,
-        category,
-        competition,
-        start_time,
-        match_time,
-        score,
-        live,
-        match_status
+        
+        match,
+        live
     } = props;
 
-    return (
-        <Container className="mt-2">
-            <div className="panel-header primary-bg">
+    const LivescoreFooter = () => {
 
-                <h4 className="inline-block">
-                    {home_team} <small> - </small> {away_team}
-                </h4>
-                {live &&
-                    <Row className="header-text">
-                        <Col style={{
-                            color: "#cc5500",
-                            marginBottom: "5px"
-                        }}> {match_status === 'Ended' && 'Ended '} {score}</Col>
-                    </Row>
-                }
-                <Row className="header-text">
-                    <Col>{category} - {competition}</Col>
-                </Row>
-                {match_status !== 'Ended' &&
-                    <Row className="start-time">
-                        {live
-                            ? <Col>Live: <span style={{color: "#cc5500"}}>{match_time || match_status}</span></Col>
-                            : <Col>Start: {start_time}</Col>}
+        return (
 
-                        <Col>Game ID: {game_id} </Col>
-                    </Row>
-                }
+            <div className="livescore-footer-links flex capitalize px-3">
+                <div className="footer-item">Match</div>
+                <div className="footer-item">Head to head</div>
+                <div className="footer-item">standings</div>
+                <div className="footer-item">lineups</div>
             </div>
-        </Container>
+        )
+    }
+    return (
+        <>
+            <div className="match-detail-header panel-header primary-bg pt-3">
+                <div className="text-center">
+
+                    <div className="inline-block text-center mb-3">
+                        {match?.home_team} <small> - </small> {match?.away_team}
+                    </div>
+
+                    {live &&
+                        <Row className="header-text">
+                            <Col style={{
+                                color: "#cc5500",
+                                marginBottom: "5px"
+                            }}> {match?.status === 'Ended' && 'Ended '} {match?.score}</Col>
+                        </Row>
+                    }
+                    <Row className="header-text font-[400]">
+                        <Col>{match?.category} - {match?.competition_name}</Col>
+                    </Row>
+                    {match?.status !== 'Ended' &&
+                        <Row className="start-time text-center my-3">
+                            {live
+                                ? <Col>Live: <span style={{color: "#cc5500"}}>{convertDateToLocalString(match?.match_time) || match?.status}</span></Col>
+                                : <Col className="capitalize font-[400]"><span className='opacity-70'></span> {convertDateToLocalString(match?.start_time)}</Col>}
+
+                            <Col className='font-normal opacity-70' style={{fontSize:"1.2rem"}}>Game ID: {match?.game_id} </Col>
+                        </Row>
+                    }
+                </div>
+            </div>
+            
+            {/* The livescore filter */}
+            <div id='livescore' className=''>
+                <div id='livescore-content'><img src={MatchDetailBetrandder} className="main-img" alt="" /></div>
+                <div id='livescore-footer-links'><LivescoreFooter /></div>
+            </div>
+        </>
     )
 }
 
@@ -663,8 +690,18 @@ const MatchRow = (props) => {
 export const MarketList = (props) => {
 
     const {live, matchwithmarkets, pdown} = props;
+    const [marketsFilter, setMarketsFilter] = useState(null);
 
-
+    // comes from the markets with filter
+    const marketFilters = [
+        {name:"all", value: null},
+        {name: "full time", value:"full time"},
+        {name: "inplay", value: "inplay"},
+        {name: "handicaps", value: "handicaps"},
+        {name: "combo", value: "combo"},
+        {name: "teams", value: "teams"}, 
+        {name: "marginals", value: "marginals"}
+    ]
     const EventUnavailable = (props) => {
         return (
             <div className="px-3">
@@ -674,25 +711,45 @@ export const MarketList = (props) => {
         )
     }
 
+    const MatchDetailFilter = () => {
+        // const [activeItem]
+        return (
+            <div className='flex match-markets-filter'>
+                {marketFilters?.map((item, idx) => (
+                    <div className={`cursor-pointer item capitalize ${marketsFilter == item ? "active": ""}`} onClick={() => setMarketsFilter(item)}>{item?.name}</div>
+                ))}
+            </div>
+        )
+    }
+
     return (
         <div className="matches full-width">
             {!matchwithmarkets
                 ? <EventUnavailable match = {matchwithmarkets?.match} />
                 : <MoreMarketsHeaderRow
-                    {...matchwithmarkets?.match}
-                    score={matchwithmarkets?.match?.score}
-                    competition = {matchwithmarkets?.competition_name}
+
+                    match={matchwithmarkets}
                     live={live}
                 />
             }
+
+            {
+                /* filter for match with more markets */
+
+                <MatchDetailFilter />
+            }
+
             <div className="web-element">
-                {(!matchwithmarkets || Object.entries(matchwithmarkets?.odds || {}).length ===0) && <EventUnavailable />}
+                {(!matchwithmarkets || Object.entries(matchwithmarkets?.odds || {}).length === 0) && <EventUnavailable />}
+                
+                {/* filter here */}
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
+                    console.log("THE ODDS ARE HERE FOR NOW::: ", markets)
                     return <MarketRow
                         market_id={mkt_id}
                         markets={markets}
                         width={markets.length === 3 ? "33.333%" : "50%"}
-                        match={matchwithmarkets?.match}
+                        match={matchwithmarkets}
                         key={mkt_id}
                         live={live}
                         pdown={pdown}
