@@ -33,7 +33,7 @@ const HowToPlay = (props) => {
                 <div className='col-md-12 bg-primary p-4 text-center'>
                     HOW TO PLAY - BETTING RULES
                 </div>
-                <div className="col-md-12 p-5">
+                <div className="col-md-12 py-5 px-4">
                 <h2>INTRODUTION</h2>
                 <p>The betting rules are subject to the general terms and conditions and shall be read in conjunction with those provisions found on our online platform</p>
                 <h2>DEFINITION OF BETTING TERMS</h2>

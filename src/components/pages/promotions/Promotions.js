@@ -17,7 +17,7 @@ const Promotions = () => {
                     Promotions
             </div>
             <div className={'row  p-3 d-flex justify-content-center'}>
-                <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                     <div className="d-flex flex-column">
                         <h5 className="uppercase">SUREBET 3000 KARIBU BONUS</h5>
                         <img src={karibuBonus} className={'rounded'}/>
@@ -39,7 +39,7 @@ const Promotions = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                     <div className="d-flex flex-column">
                         <h5>100% FIRST DEPOSIT SUREBET BONUS </h5>
                         <img src={hundredPercentDepositBonus} className={'rounded'}/>
@@ -61,7 +61,7 @@ const Promotions = () => {
                 </div>
                 </div>
                 <div className="row p-3  d-flex justify-content-center"> 
-                    <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                    <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                         <div className="d-flex flex-column">
                             <h5>FREE BET</h5>
                             <img src={MshipiBonusImg} className={'rounded'}/>
@@ -84,7 +84,7 @@ const Promotions = () => {
                         </div>
                     </div> 
 
-                    <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                    <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                         <div className="d-flex flex-column">
                             <h5>VUNA CHAPAA NA EPL</h5>
                             <img src={earlyBirdDailyDepositBonus} className={'rounded'}/>
@@ -108,7 +108,7 @@ const Promotions = () => {
                             <p><b>Promo runs from 16th August 2024 to 25th May 2025</b> <br/>Terms and conditions apply</p>
                         </div>
                     </div>
-                    <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                    <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                         <div className="d-flex flex-column">
                             <h5>SUREBET APP BONUS</h5>
                             <img alt="" src={earlyBirdDailyDepositBonus} className={'rounded'}/>
@@ -130,7 +130,7 @@ const Promotions = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                    <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                         <div className="d-flex flex-column">
                             <h5>CASH BACK BONUS!</h5>
                             <img alt="" src={earlyBirdDailyDepositBonus} className={'rounded'}/>
@@ -150,7 +150,7 @@ const Promotions = () => {
                         </div>
                     </div>
 
-                    <div className="col-md-6 mb-2 p-3 shadow-lg promo-pannel">
+                    <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                         <div className="d-flex flex-column">
                             <h5>SHAREBET PROMO</h5>
                             <img alt="" src={earlyBirdDailyDepositBonus} className={'rounded'}/>

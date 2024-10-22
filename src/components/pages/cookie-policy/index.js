@@ -18,7 +18,7 @@ const CookiePolicy = () => {
             <div className='col-md-12 bg-primary p-4 text-center profound-text'>
                 <h4 className="inline-block"> Cookie Policy </h4>
             </div>                                                  
-            <div className="col-md-12 p-5"> 
+            <div className="col-md-12 py-5 px-4"> 
                 <p>Cookies are files with small amount of data that are commonly used an anonymous unique identifier. These are
                 sent to your browser from the website that you visit and are stored on your phone/computer. We use cookies
                 for the following purposes:</p>

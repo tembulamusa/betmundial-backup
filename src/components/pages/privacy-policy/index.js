@@ -18,7 +18,7 @@ const PrivacyPolicy = () => {
             <div className='col-md-12 bg-primary p-4 text-center profound-text'>
                 <h4 className="inline-block"> Privacy Policy </h4>
             </div>                                                  
-            <div className="col-md-12 p-5"> 
+            <div className="col-md-12 py-5 px-4"> 
 
             <h1>Introduction and general terms</h1>
 

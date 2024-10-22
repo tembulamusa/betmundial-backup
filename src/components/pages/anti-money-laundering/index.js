@@ -20,7 +20,7 @@ const AntiMoneyLaundering = () => {
             <div className='col-md-12 bg-primary p-4 text-center profound-text'>
                 <h4 className="inline-block"> Anti Money Laundering </h4>
             </div>                                             
-            <div className="col-md-12 p-5"> 
+            <div className="col-md-12 py-5 px-4"> 
 
             <h1 className="text-2xl font-bold">Purpose</h1>
             <p>The purpose of this policy is to prohibit and actively prevent money laundering and any activity that facilitates money laundering or the funding of terrorist or criminal activities within surebet by complying with all applicable requirements under the Proceeds of Crime and Anti-Money Laundering (Amendment) Act of Kenya, 2017 and its implementing regulations.</p>

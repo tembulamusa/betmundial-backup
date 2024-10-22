@@ -19,7 +19,7 @@ const DisputeResolution = () => {
            <div className='col-md-12 bg-primary p-4 text-center profound-text'>
                 <h4 className="inline-block"> Dispute Resolution </h4>
             </div>
-            <div className="col-md-12 mt-2 p-5 ">
+            <div className="col-md-12 mt-2 py-5 px-4 ">
                 <p>
                     Surebet aims to offer all of the company’s clients from the Kenya the
                     greatest possible Customer experience in the industry. We want to make

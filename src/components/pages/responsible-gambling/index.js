@@ -18,7 +18,7 @@ const ResponsibleGambling = () => {
             <div className='col-md-12 bg-primary p-4 text-center profound-text'>
                 <h4 className="inline-block"> Responsible Gambling </h4>
             </div>        
-            <div className="col-md-12 mt-2 p-5">
+            <div className="col-md-12 mt-2 py-5 px-4">
             <h2>1 INTRODUCTION</h2>
 
                 <p>As surebet we are committed to responsible gambling and take our customers and our social

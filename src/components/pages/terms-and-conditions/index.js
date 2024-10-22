@@ -39,7 +39,7 @@ const TermsAndConditions = (props) => {
                 <div className='col-md-12 bg-primary p-4 text-center profound-text'>
                     <h4 className="inline-block"> Terms and Conditions </h4>
                 </div>
-                <div className="col-md-12 p-5">
+                <div className="col-md-12 py-5 px-4">
                 Please ensure that You read and understand these terms prior to using the Service. The terms contain important information about the
                 legal agreement between You and us and provide information about what other documents form part of our relationship with You.
 
@@ -57,7 +57,7 @@ const TermsAndConditions = (props) => {
 
                 • Reference to “You” “Your’ the “Player” or “Customer(s)” is reference to any person using the Service.
                         </div>
-                        <div className="col-md-12 p-5">
+                        <div className="col-md-12 py-5 px-4">
                 <h2>1. INTRODUCTION</h2>
                 <p>1.1. These Terms constitute a binding contract between You and surebet. These Terms apply to all services offered
                 by surebet as described in paragraph 1.2. below. By using the Service, You agree to be bound by these Terms
