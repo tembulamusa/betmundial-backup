@@ -90,11 +90,11 @@ const Header = (props) => {
             
             <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark" style={{}}>
                 {/* <MobileDownloadBanner /> */}
-                <div className='light-blue md:hidden text-white py-2 w-full px-3'><MobileLoggedInBals/></div>
+                <div className='light-blue md:hidden text-white py-1 w-full px-3'><MobileLoggedInBals/></div>
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
                     
                     <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
-                        <a className='my-3' href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
+                        <a className='my-2' href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
                     </div>
 
                     <div className="col-md-7 col-sm-6 mr-3" id="navbar-collapse-main">

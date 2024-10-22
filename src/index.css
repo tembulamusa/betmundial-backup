@@ -448,7 +448,7 @@ h5, h4, h3, h2 {
   padding-bottom: 5px;
   border-bottom: 3px solid transparent;
   margin-left: 5px;
-  padding-top: 10px;
+  padding-top: 5px;
 }
 }
 
@@ -1118,7 +1118,7 @@ img.highlights-content-img {
   margin: auto;
 }
 .menu-item .menu-name {
-  margin-top: 7px;
+  margin-top: 5px;
   font-size: 12px;
   font-weight: 400;
 }
@@ -1335,8 +1335,7 @@ h1.std-title {
     height: 30px;
     width: 30px;
 }
-
 .banner-imgs img {
-  height: 110px;
+  height: 90px;
 }
 }
