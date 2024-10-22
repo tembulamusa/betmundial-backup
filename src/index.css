@@ -885,12 +885,17 @@ input.std-input {
   margin-right: auto;
 }
 .bet-slip-footer-toggle {
-  border-top-right-radius: 4px;
-  padding-top: 10px;
-  border-top-left-radius: 4px;
-  background: rgba(231,6,84, 1);
-  padding-bottom: 4px;
-  font-weight: 400;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 20;
+  height: 3.5rem;
+  width: 100%;
+  --tw-bg-opacity: 1;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+
 }
 .mobile-footer-slip-counter {
   /* line-height: 1; */

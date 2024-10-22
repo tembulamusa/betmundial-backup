@@ -8,6 +8,7 @@ import {
     getJackpotBetslip,
 } from '../utils/betslip';
 
+import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import CompanyInfo from "./company-info";
 import makeRequest from '../utils/fetch-request';
@@ -239,6 +240,7 @@ const BetSlip = (props) => {
                                     <input id={slip.match_id} type="submit" value="X"
                                            onClick={() => handledRemoveSlip(slip)}/>
                                 </div>
+                                <Link to={`/match/${slip.match_id}`} style={{}} className='hover:underline'>
                                 <div className="bet-value betslip-game">
                                         {
                                             <span 
@@ -253,6 +255,7 @@ const BetSlip = (props) => {
                                         {slip.bet_type === 0 && ' Pre-match'}
                                         {slip.bet_type === 1 && ' Live'}
                                 </div>
+                                </Link>
                                 <div className="row">
                                     <div className="bet-value">
                                         {slip.odd_type} - <span className='font-[500]'>{slip.bet_pick}</span>

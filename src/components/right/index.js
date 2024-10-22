@@ -30,8 +30,8 @@ const SlipCounter = (props) => {
 const PaybillNumbersSection = () => (
   <section className='betslip-paybill bg-secondary'>
     <div className="paybillnumbers">
-      <h2>Paybill Numbers</h2>
-      <p>Your account/reference number should be your registered number.</p>
+      <h2 style={{ marginBottom: "3px" }}>Paybill Numbers</h2>
+      <p style={{ marginTop: "0" }}>Your account/reference number should be your registered number.</p>
       <ul>
         <li className="mpesa">
           <span className="lazy lazy-loaded">

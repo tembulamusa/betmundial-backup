@@ -64,7 +64,7 @@ const MatchAllMarkets = (props) => {
                 setIsLoading(false);
             });
         }
-    }, []);
+    }, [params.id]);
 
     useLayoutEffect(() => {
         const abortController = new AbortController();                          
@@ -72,7 +72,7 @@ const MatchAllMarkets = (props) => {
         return () => {                                                          
             abortController.abort();                                            
         };                                                                      
-    }, [fetchPagedData]);
+    }, [fetchPagedData, params.id]);
 
    return (
        <>
