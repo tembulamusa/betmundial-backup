@@ -655,19 +655,18 @@ header, li a, .thedate span {
 }
 
 .light-primary-bg {
-    background: #d96189;
+    /* background: #d96189; */
     color: #000;
 }
 
 .panel-header.primary-bg{
-    background: #824571;
+    /* background: #824571; */
     color: #fff;
 }
 .matches .panel-header.primary-bg {
-    background: #eaeaea;
-    color: #000;
     padding-bottom: 18px;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
+    padding-top: 25px !important;
 }
 .betslipJ .bet-table td {
     padding: 4px;
@@ -830,7 +829,6 @@ header, li a, .thedate span {
     border-radius: 3px;
     margin-bottom: 10px;
 }
-
 .matches .top-matches.header {
     background: #fff;
     font-weight: bold;
@@ -839,6 +837,7 @@ header, li a, .thedate span {
     font-size: 12px;
     font-family: inherit;
     text-transform: uppercase;
+    padding-left: 0;
 }
 
 .match-header {
@@ -1754,14 +1753,13 @@ events-header {
 .matches .label, .top-matches .label {
     color: inherit;
     padding: 0;
-    font-weight: inherit;
-    font-size: inherit;
+    /* font-weight: inherit; */
+    /* font-size: inherit; */
     line-height: 1.7;
 }
 
-
 .neutral .mobi-odd {
-    color:;
+    /* color:; */
 }
 
 .helpline {
@@ -2422,12 +2420,12 @@ img {
     padding: 10px;
     margin-top: 0px;
     line-height: 1;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     border-radius: 2px !important;
     font-size: 18px;
 }
 
-.panel-header .header-text, .panel-header .start-time {
+.panel-header .header-text {
     text-align: center;
     font-size: 14px;
     /* font-weight: normal; */
