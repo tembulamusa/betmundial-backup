@@ -36,10 +36,8 @@ const FreeBet = (props) => {
     return (
         <>
             <div>
-                {freebet && 
-                    <div></div>
-                }
-                {!freebet &&
+                
+                {freebet &&
                     <Link to={"/promotions"} className="highlights">
                         <div className="marquee-card free-bet">
                             <div className="card-top-sub-heading">
