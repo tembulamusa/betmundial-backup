@@ -10,16 +10,11 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShareModal from "../sharemodal";
 import logo from '../../assets/img/logo.png';
 import {Navbar} from "react-bootstrap";
-import MobileMenu from './mobile-menu';
 import MobileRightMenu from './mobile-right-menu';
-import MobileDownloadBanner from './mobile-download-banner';
 import MobileLoggedInBals from './mobile-logged-in-bals';
 import LoginModal from '../loginmodal';
-import { FaDivide } from 'react-icons/fa';
-import BigIconNav from './big-icon-nav';
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
-const HeaderNav = React.lazy(() => import('./header-nav'));
 const MobileCurrentNavItems = React.lazy(()=> import('./mobile-current-nav-items'));
 
 const Header = (props) => {
@@ -93,20 +88,16 @@ const Header = (props) => {
     return (
         <>
             
-            <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark" style={{paddingTop:"20px"}}>
+            <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark" style={{}}>
                 {/* <MobileDownloadBanner /> */}
-                <div className='light-blue md:hidden text-white py-2 w-full'><MobileLoggedInBals/></div>
+                <div className='light-blue md:hidden text-white py-2 w-full px-3'><MobileLoggedInBals/></div>
                 <Container fluid className={'d-flex justify-content-between mobile-change'}>
                     
-                    <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet"  style={{ marginTop: '-20px' }}>
-                        <span className='inline-block md:!hidden text-white mr-3 '></span><a href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
+                    <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
+                        <a className='my-3' href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
                     </div>
 
-                    <div className='inline-block md:hidden text-white col-sm-6'>
-                        <MobileRightMenu />
-                    </div>
-
-                    <div className="col-md-7 change-size" id="navbar-collapse-main">
+                    <div className="col-md-7 col-sm-6 mr-3" id="navbar-collapse-main">
                         {/* {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>} */}
                         {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
                     </div>
@@ -118,15 +109,11 @@ const Header = (props) => {
            
 
             {/* Only show if they are visible/third nav is available */}
-            <div className='md:hidden w-full  mobile-custom-scrollbar overflow-scroll bg-[#ffffffb8]'>
-                <div className="md:row third-mobile-nav border-b border-gray-200 ml-0 px-2 flex">
-                    <MobileCurrentNavItems />
-                </div>
-            </div>
+            
 
             
 
-        <ShareModal shown={state?.showsharemodal === true} />
+        <ShareModal shown={state?.showsharemodal === false} />
         
         <LoginModal />
         </>

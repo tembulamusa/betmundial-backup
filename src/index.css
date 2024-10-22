@@ -444,11 +444,11 @@ h5, h4, h3, h2 {
   display: flex !important;
   justify-content: center;
   align-items: center;
-  margin-right: 5px;
+  margin-right: 0px;
   padding-bottom: 5px;
   border-bottom: 3px solid transparent;
-  margin-left: 10px;
-  padding-top: 5px;
+  margin-left: 5px;
+  padding-top: 10px;
 }
 }
 
@@ -1118,7 +1118,7 @@ img.highlights-content-img {
   margin: auto;
 }
 .menu-item .menu-name {
-  /* margin-top: 4px; */
+  margin-top: 7px;
   font-size: 12px;
   font-weight: 400;
 }
@@ -1322,4 +1322,21 @@ h1.std-title {
   border-bottom-color: rgba(231, 6, 84, 0.958) !important;
   color: rgba(231, 6, 84, 0.958) !important;
   opacity: 1;
+}
+
+.header-login-links .top-item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  
+}
+
+@media screen and (max-width:640px) {
+  .menu-icon img {
+    height: 30px;
+    width: 30px;
+}
+
+.banner-imgs img {
+  height: 110px;
+}
 }

@@ -1553,7 +1553,7 @@ header {
 
     .second-nav {
         /* top: 80px !important; */
-        margin-top: 75px;
+        /* margin-top: 75px; */
     }
 
     .show-mobile-top.second-nav {
@@ -1938,7 +1938,6 @@ events-header {
     box-shadow: 0 1px 2px rgba(231, 6, 84, 0.4);
     -moz-box-shadow: 0 1px 2px rgba(231, 6, 84, 0.4);
     -webkit-box-shadow: 0 1px 2px rgba(231, 6, 84, 0.4);
-    margin-bottom: 10px !important;
 }
 
 .leftpad a {
@@ -7002,12 +7001,9 @@ ul.sport {
 
 @media (max-width: 574px) {
     .mobile-change {
-        /*display: grid !important;*/
-        /*grid-template-columns: [col-1]100px[col2]50px[col-end];*/
     }
 
     .app-header-nav {
-        margin-top: -4px !important;
     }
 }
 
@@ -7032,7 +7028,6 @@ ul.sport {
 
 @media (max-width: 767px) {
     .amt {
-        margin-top: 0px !important;
     }
 
     .rescale {
@@ -7148,7 +7143,6 @@ ul.sport {
     }
 
     .amt {
-        padding-top: 90px !important;
     }
 
     .shrink-header .icon-holder img {
@@ -8669,9 +8663,8 @@ ul.sport {
 @media (max-width: 1014px) {
 
     .amt {
-        margin-top: 110px;
+        margin-top: 90px;
     }
-
     .move-up {
         margin-top: -10px
     }
@@ -8683,8 +8676,13 @@ ul.sport {
         font-size: 11px;
         grid-template-columns: [col0]0px[col1]60px[col2]70px[col3]100px[col4]80px[col5]120px[col6]120px[col7]140px[col8]120px[col9]90px[col10]70px[col11]108px[col-end];
         overflow: auto;
+        scrollbar-width: none;
     }
 
+    .change-display::-webkit-scrollbar {
+        
+        display: none;
+    }
     .hide1 {
         display: none;
     }
@@ -15033,7 +15031,6 @@ img.zoom-img {
 
     .app-header-nav {
         padding-left: 4px;
-        margin-top: -25px !important;
     }
 
     .password-change {
@@ -15088,8 +15085,8 @@ img.zoom-img {
     }
 
 
-    .carousel-item img {
-        height: 120px;
+    .carousel-item img,  {
+        height: 100px;
     }
     tr.my-bets {
         border-bottom: 5px solid #ffffff;
@@ -15521,9 +15518,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 
 @media only screen and (max-width: 576px) {
     .amt {
-        margin-top: 0 !important;
-        padding-top: 0px !important;
-        scroll-margin-top: 0;
+       
     }
     
 }
