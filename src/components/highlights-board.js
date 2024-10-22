@@ -5,9 +5,9 @@ const HighlightsBoard = (props) => {
 
     return (
         <>
-            <div className="row">
-                <div className="col-md-4"><FreeBet /></div>
-                <div className="col-md-8 highlights"><PopularGames /></div>              
+            <div className="flex popular-highlight-games">
+                <div className=""><FreeBet /></div>
+                <div className="highlights"><PopularGames /></div>              
             </div>
         </>
     )

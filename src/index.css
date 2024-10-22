@@ -968,17 +968,16 @@ li.bet-option {
   padding-top: 4px;
   padding-bottom: 8px;
 }
-
 .highlights-board {
   /* border-top: 10px solid #dddddd; */
   /* border-bottom: 10px  solid #dddddd; */
   /* box-shadow: 0px 2px 6px rgba(0,0,0,0.6); */
   z-index: 999999;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   margin-top: 0;
   background: #f9f9f9;
   border-bottom: 1px solid #f2f2f2;
-  padding: 8px 10px;
+  padding: 5px 7px;
 }
 .highlights .marquee-card {
   text-align: left;
@@ -1069,13 +1068,17 @@ img.highlights-content-img {
 }
 
 .popular-game {
-  width: 20%;
+  width: 120px;
   display: inline-block;
   /* margin-right: 8px; */
   padding-right: 10px;
 }
 .popular-games:last-child {
   padding-right: 0;
+}
+
+.popular-games {
+  display: flex !important;
 }
 
 .highlights-board .popular-game img {
@@ -1087,6 +1090,18 @@ img.highlights-content-img {
   background: #ffffff;
 }
 
+/* Generalized design for the popular games */
+.popular-highlight-games {
+  flex-wrap: nowrap;
+  /* font-size: 11px; */
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.popular-highlight-games::-webkit-scrollbar {
+        
+  display: none;
+}
 .highlight-color {
   color: rgba(231, 6, 84, 0.958);
 }
@@ -1338,4 +1353,8 @@ h1.std-title {
 .banner-imgs img {
   height: 90px;
 }
+}
+
+.marquee-card.free-bet {
+  width: 240px;
 }
