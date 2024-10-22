@@ -744,11 +744,12 @@ export const MarketList = (props) => {
                 
                 {/* filter here */}
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
+                    console.log("THE ODDS ARE HERE FOR NOW::: ", markets)
                     return <MarketRow
                         market_id={mkt_id}
                         markets={markets}
                         width={markets.length === 3 ? "33.333%" : "50%"}
-                        match={matchwithmarkets?.match}
+                        match={matchwithmarkets}
                         key={mkt_id}
                         live={live}
                         pdown={pdown}
