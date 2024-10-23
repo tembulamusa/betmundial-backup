@@ -45,61 +45,32 @@ function MobileMenu() {
     };
       
     return (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-          justifyContent: 'space-between',
-          padding: '10px',
-          borderTop: '1px solid #e9ecef',
-          margin: '20px',
-          marginBottom: '0',
-          boxSizing: 'border-box',
-          borderWidth: '0',
-          borderStyle: 'solid',
-          borderColor: '#fff',
-        }}
-      >
+      <div className='row text-center '>
         <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-            backgroundColor: isHoveredMode ? 'white' : 'transparent', 
-            transition: 'background-color 0.3s',
-            padding: '5px', 
-            borderRadius: '5px', 
-          }}
+          className='col-6 offcanvas-big-icon p-5'
           onMouseEnter={() => setIsHoveredMode(true)}
           onMouseLeave={() => setIsHoveredMode(false)}
           onClick={toggleDarkMode}
         >
            {darkMode ? (
-          <LuSunMedium />
+          <><LuSunMedium  className='big-offcanvas-icon mx-auto'/> Light Theme</>
         ) : (
-          <IoMoon />
+          <><IoMoon  className='big-offcanvas-icon mx-auto'/> Dark Theme</>
         )}
         </div>
-  
-        <Link
-          to="/logout"
-          style={{
-            color: '#dc3545',
-            textDecoration: 'none',
-            backgroundColor: isHoveredLogout ? 'white' : 'transparent', 
-            transition: 'background-color 0.3s', 
-            padding: '5px', 
-            borderRadius: '5px', 
-            fontSize: '20px', 
-          }}
-          onMouseEnter={() => setIsHoveredLogout(true)}
-          onMouseLeave={() => setIsHoveredLogout(false)}
-          onMouseOver={(e) => (e.currentTarget.style.color = '#c82333')}
-          onMouseOut={(e) => (e.currentTarget.style.color = '#dc3545')}
-        >
-          <IoMdLogOut style={{ marginRight: '8px' }} />
-          Logout
-        </Link>
+        
+        <div className='col-6 offcanvas-big-icon p-5'>
+          <Link
+            to="/logout"
+            onMouseEnter={() => setIsHoveredLogout(true)}
+            onMouseLeave={() => setIsHoveredLogout(false)}
+            onMouseOver={(e) => (e.currentTarget.style.color = '#c82333')}
+            onMouseOut={(e) => (e.currentTarget.style.color = '#dc3545')}
+          >
+            <IoMdLogOut className='big-offcanvas-icon mx-auto' />
+            Logout
+          </Link>
+        </div>
       </div>
     );
   };
@@ -128,7 +99,7 @@ function MobileMenu() {
             <UserBalance />
           </div>
 
-          <div className="cd">
+          <div className="cd" onClick={() => setShow(false)}>
             <Link to={"/deposit"}  className="cd-l"><GiTwoCoins className='inline-block mr-3' /> Deposit</Link>
             <Link to={"/withdraw"} className="cd-l"><BiMoneyWithdraw className='mr-3 inline-block' /> Withdraw winnings</Link>
             <Link to="/check-deposit-status" className="cd-l"><FaCheckToSlot className='mr-3 inline-block' /> Confirm MPESA Deposit status</Link>

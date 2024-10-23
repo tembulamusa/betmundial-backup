@@ -1440,3 +1440,14 @@ h1.std-title {
   padding: 4px;
   border-radius: 100%;
 }
+
+svg.big-offcanvas-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 5px;
+  opacity: 0.6;
+}
+
+.offcanvas-big-icon:hover {
+  background: #ffffff !important;
+}
