@@ -1340,7 +1340,6 @@ h1.std-title {
   opacity: 1;
 }
 
-<<<<<<< HEAD
 /* Default for larger screens */
 .icon {
   font-size: 20px;
@@ -1369,7 +1368,6 @@ h1.std-title {
     font-size: 20px;
   }
 }
-=======
 .header-login-links .top-item {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -1395,9 +1393,9 @@ h1.std-title {
   display: inline-block;
   padding-right: 10px;
 }
-}
+
 
 .marquee-card.free-bet {
   width: 240px;
 }
->>>>>>> 577621345516ba96dbfe0e7ac971f3ae02882a1a
+}
