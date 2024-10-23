@@ -1,8 +1,5 @@
 import React from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
-import {faFacebook, faInstagram, faTwitter, faYoutube} from "@fortawesome/free-brands-svg-icons"
-
+import { FaEnvelope, FaFacebook, FaXTwitter, FaInstagram, FaWhatsapp  } from "react-icons/fa6";
 
 const Footer = (props) => {
 //#24367e
@@ -13,26 +10,34 @@ const Footer = (props) => {
                     <h5 className='text-2x uppercase font-bld'>Surebet</h5>
                     <ul>
                         <li className="text-white">
-                            BOX 2772 - 00606, NAIROBI
+                        BOX 2772 - 00606, NAIROBI
                         </li>
-                        <li className="">
-                            <a href="mailto:customercare@surebet.co.ke">
-                                <FontAwesomeIcon icon={faEnvelope}/> customercare@surebet.co.ke
+                        <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <a href="mailto:customercare@surebet.co.ke" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <FaEnvelope className="icon" /> 
+                                <span>customercare@surebet.co.ke</span>
                             </a>
                         </li>
-                        <li className="footer-icon">
+                        <li className="footer-icon" style={{ display: 'flex', justifyContent: 'flex-start', gap: '15px' }}>
                             <a href="https://www.facebook.com/kesurebet">
-                                <FontAwesomeIcon icon={faFacebook}/> Facebook
+                                <span><FaFacebook className="social-icon" /></span>
                             </a>
-                        </li>
-                        <li className="footer-icon">
                             <a href="https://x.com/SurebetsKenya">
-                                <FontAwesomeIcon icon={faTwitter}/> Twitter/X
+                                <span><FaXTwitter className="social-icon" /></span>
+                            </a>
+                            <a href="https://www.instagram.com/surebet_ke">
+                                <span><FaInstagram className="social-icon" /></span>
                             </a>
                         </li>
-                        <li className="footer-icon">
-                            <a href="https://www.instagram.com/surebet_ke">
-                                <FontAwesomeIcon icon={faInstagram}/> Instagram
+                        <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <a 
+                                href="https://wa.me/254724599488" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+                            >
+                                <FaWhatsapp className="icon" /> 
+                                <span>Chat with Us</span>
                             </a>
                         </li>
                     </ul>

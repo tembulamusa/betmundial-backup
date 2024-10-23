@@ -1323,3 +1323,32 @@ h1.std-title {
   color: rgba(231, 6, 84, 0.958) !important;
   opacity: 1;
 }
+
+/* Default for larger screens */
+.icon {
+  font-size: 20px;
+}
+
+.social-icon {
+  font-size: 24px;
+}
+
+@media (max-width: 768px) {
+  .icon {
+    font-size: 18px;
+  }
+
+  .social-icon {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .icon {
+    font-size: 16px;
+  }
+
+  .social-icon {
+    font-size: 20px;
+  }
+}
