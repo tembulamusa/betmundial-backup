@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getFromLocalStorage } from '../utils/local-storage';
 import { Context } from '../../context/store';
 import { IoMdLogOut } from "react-icons/io";
-import { BiMoneyWithdraw, BiTransfer } from "react-icons/bi";
+import { BiMoneyWithdraw } from "react-icons/bi";
 import { FaGifts, FaRegUser } from "react-icons/fa";
 import { FaCheckToSlot } from "react-icons/fa6";
 import { GiTwoCoins } from "react-icons/gi";
@@ -114,8 +114,9 @@ function MobileMenu() {
   
   return (
     <span className="inline-block" style={{ height: 'auto' }}>
-      <span className='font-[500] cursor-pointer' onClick={handleShow}>
-        <FaRegUser className='inline-block'/> My Account
+      <span className='font-[500] cursor-pointer flex items-center gap-2' onClick={handleShow}>
+        <FaRegUser className='inline-block' /> 
+        <span>My Account</span>
       </span>
 
       <Offcanvas
@@ -127,7 +128,11 @@ function MobileMenu() {
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
-            <FaRegUser className='mr-3' /> {state?.user?.msisdn}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <FaRegUser className='mr-3' /> 
+            <span>{state?.user?.msisdn}</span>
+          </div>
+
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className='off-canvas' style={{ marginBottom: '20px', overflowY: 'auto' }}>
@@ -137,10 +142,9 @@ function MobileMenu() {
           </div>
 
           <div className="cd">
-            <div className="cd-l"><GiTwoCoins className='inline-block mr-3' /> Deposit</div>
+            <Link to={"/deposit"}  className="cd-l"><GiTwoCoins className='inline-block mr-3' /> Deposit</Link>
             <Link to={"/withdraw"} className="cd-l"><BiMoneyWithdraw className='mr-3 inline-block' /> Withdraw winnings</Link>
-            <div className="cd-l"><FaCheckToSlot className='mr-3 inline-block' /> Confirm MPESA Deposit status</div>
-            <div className="cd-l"><BiTransfer className='mr-3 inline-block' /> Transfer Money to Casino</div>
+            <Link to="/check-deposit-status" className="cd-l"><FaCheckToSlot className='mr-3 inline-block' /> Confirm MPESA Deposit status</Link>
             <Link to="/bets" className="cd-l"><IoListCircleOutline className='mr-3 inline-block' /> My bets</Link>
             <Link to="/promotions" className="cd-l"><FaGifts className='mr-3 inline-block' /> Promotions</Link>
             <Link to="/exclude" className="cd-l"><MdCancel className='mr-3 inline-block' /> Exclude myself from betting</Link>

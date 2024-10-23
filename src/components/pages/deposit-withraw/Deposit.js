@@ -136,30 +136,8 @@ const Deposit = (props) => {
 
     const PaymentInstructions = (props) => {
         return (
-            <>
-                <h2 className='text-2x text-gray-700 mt-2 font-[500]'>Deposit Instructions</h2>
-                <div className="container">
-                    <div className="row">
-                        <div className="col"> 1. Enter the amount you want to deposit.</div>
-                    </div>
-                    <div className="row">
-                        <div className="col"> 2. Click on the deposit button.</div>
-                    </div>
-                    <div className="row">
-                        <div className="col"> 3. Check your phone for an M-Pesa Request.</div>
-                    </div>
-                    <div className="row">
-                        <div className="col"> 4. Enter your M-Pesa Pin to confirm the transaction.</div>
-                    </div>
-                    <div className="row">
-                        <div className="col"> 5. On successful payment, you will receive an M-Pesa
-                            Confirmation.
-                        </div>
-                    </div>
-                </div>
-
+            <>               
                 <hr className='my-3'/>
-
                 <div className='' id='pay-via-mobile'>
                     <h2 className='text-2x text-gray-700 font-[500] mb-3 '>Direct Mpesa Deposit</h2>
                     <div className="row">

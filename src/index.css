@@ -1398,4 +1398,18 @@ h1.std-title {
 .marquee-card.free-bet {
   width: 240px;
 }
+
+.exclude-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 100px;
+  max-width: 600px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 }

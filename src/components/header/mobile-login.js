@@ -111,7 +111,7 @@ const BodyLogin = (props) => {
                 <Form className="">
                     <Row>
                         <div className="px-0">
-                            <label className='modal-label'>Mobile Phone</label>
+                            <label className='modal-label'>Mobile Phoneyyy</label>
                             <input type="text"
                                 name="msisdn"
                                 className={`form-control block px-3 py-3 w-full rounded-2xl std-input ${errors.msisdn && 'text-danger'} `}

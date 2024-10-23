@@ -36,6 +36,8 @@ import Casino from './components/pages/casino/Casino';
 import LiveCasino from './components/pages/casino/LiveCasino';
 import Virtuals from './components/pages/casino/Virtuals';
 import CasinoGamePlay from './components/pages/casino/GamePlay';
+import CheckDepositStatus from "./components/check-deposit-status";
+import Exclude from "./components/pages/exclude";
 import Promotions from './components/pages/promotions/Promotions';
 import Login from './components/pages/login';
 import LiveScore from './components/pages/livescore/LiveScore';
@@ -104,6 +106,8 @@ const App = () => {
                             <Route exact path="/app" element={<MobileApp/>}/>
                             <Route exact path="/logout" element={<Logout/>}/>
                             <Route exact path="/print-matches" element={<PrintMatches/>}/>
+                            <Route path="/check-deposit-status" element={<CheckDepositStatus />} />
+                            <Route exact path="/exclude" element={<Exclude/>}/>
                             <Route exact path="/promotions" element={<Promotions/>}/>
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
