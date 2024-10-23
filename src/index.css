@@ -342,13 +342,14 @@ h5, h4, h3, h2 {
   margin-left: 0% !important;
 }
 .more-markets-container {
-  min-width: 0 !important;
+  min-width: 28px !important;
   display: block;
   position: absolute;
-  right: 8px;
+  right: 18px;
+  font-weight: bolder !important;
   text-align: right !important;
   padding-right: 0 !important;
-  bottom: 20%;
+  bottom: 10%;
 }
 
 .carousel-indicators {
@@ -1351,7 +1352,18 @@ h1.std-title {
     width: 30px;
 }
 .banner-imgs img {
-  height: 90px;
+  height: 75px;
+}
+
+.highlights .marquee-card {
+ 
+  height: 5.75em;
+}
+
+.popular-game {
+  width: 80px;
+  display: inline-block;
+  padding-right: 10px;
 }
 }
 

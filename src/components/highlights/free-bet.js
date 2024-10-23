@@ -13,30 +13,31 @@ const FreeBet = (props) => {
     const [state, dispatch] = useContext(Context);
     const [freebet, setFreebet] = useState(null)
 
-    const fetchFreeBet = useCallback(async() => {
+    const fetchFreeBet = () => {
         if(isLoading) return;
         setIsLoading(true);
         setMessage(null);
-        let endpoint = "/v2/user/free-bet";
+        let endpoint = "/v2/user/freebet";
         makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
-            
+            console.log("THE FREEBET REQUEST RESULT:::: ", status, "AND RESPONSE COULD BE NULL :::: ", result);
             if ([200, 201].includes(status)){
-                setFreebet(result);
-            } else {
-                Notify({status: 400, message: "Unable to fetch free bet"})
+                if(result.data != null) {
+                    setFreebet(result);
+                };
             }
-            setIsLoading(false);
         });
-    }, []);
+    };
 
     useEffect(() => {
-        fetchFreeBet();
-    }, [fetchFreeBet]);
+        if(state?.user?.has_freebet == 1) {
+            fetchFreeBet();
+        }
+    }, [state?.user]);
 
     return (
         <>
         {
-        !freebet &&
+        freebet &&
             <Link to={"/promotions"} className="highlights">
                 <div className="marquee-card free-bet">
                     <div className="card-top-sub-heading">
