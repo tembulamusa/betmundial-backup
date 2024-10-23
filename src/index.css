@@ -1432,3 +1432,11 @@ h1.std-title {
   padding-left: 0;
 }
 }
+
+.user-profile-icon {
+  background: rgba(231,6,84, 1);
+  width: 20px;
+  height: 20px;
+  padding: 4px;
+  border-radius: 100%;
+}

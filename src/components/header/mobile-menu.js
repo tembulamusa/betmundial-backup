@@ -43,15 +43,7 @@ function MobileMenu() {
     const toggleDarkMode = () => {
       setDarkMode(!darkMode);
     };
-
-    const iconStyle = {
-      fontSize: '24px', 
-    };
-  
-    const responsiveIconStyle = {
-      fontSize: '18px', 
-    };
-  
+      
     return (
       <div
         style={{
@@ -83,9 +75,9 @@ function MobileMenu() {
           onClick={toggleDarkMode}
         >
            {darkMode ? (
-          <LuSunMedium style={window.innerWidth < 768 ? responsiveIconStyle : iconStyle} />
+          <LuSunMedium />
         ) : (
-          <IoMoon style={window.innerWidth < 768 ? responsiveIconStyle : iconStyle} />
+          <IoMoon />
         )}
         </div>
   
@@ -114,8 +106,8 @@ function MobileMenu() {
   
   return (
     <span className="inline-block" style={{ height: 'auto' }}>
-      <span className='font-[500] cursor-pointer' onClick={handleShow}>
-        <FaRegUser className='inline-block'/> <span className='hidden md:inline-block'>My</span> Account
+      <span className='font-[500] cursor-pointer user-profile' onClick={handleShow}>
+        <FaRegUser className='inline-block user-profile-icon'/> <span className='hidden md:inline-block'>My</span> Account
       </span>
 
       <Offcanvas
