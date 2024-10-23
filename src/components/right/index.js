@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
-import QuickLogin from './quick-login';
 import BetSlip from './betslip';
 import { FiX } from 'react-icons/fi';
 import { Context } from '../../context/store';
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Mpesa from "../../assets/img/mpesa-1.png";
-
+import Float from "../utils/mathematical-formulas";
 import MiniGames from './mini-games';
+import { Modal } from 'react-bootstrap';
 
 const AlertMessage = (props) => {
   return (
@@ -57,24 +57,10 @@ const CustomerCareSection = () => (
 
 
 const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
-  const [betSlipMobile, setBetSlipMobile] = useState(false);
+  const [showMobileSlip, setShowMobileSlip] = useState(false);
   const [state, dispatch] = useContext(Context);
   const [footerMobileValue, setFooterMobileValue] = useState(state?.isjackpot ? jackpotData?.bet_amount : 100);
   const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
-
-
-  // UseEffect to determine if there's a betslip or jackpotbetslip
-  useEffect(() => {
-    if (state?.betslip || state?.jackpotbetslip) {
-      if (Object.entries(state?.betslip || state?.jackpotbetslip || {}).length > 0) {
-        setBetSlipMobile(true); // Show the betslip modal on mobile when bets are present
-      } else {
-        setBetSlipMobile(false);
-      }
-    } else {
-      setBetSlipMobile(false);
-    }
-  }, [state?.betslip, state?.jackpotbetslip]);
 
   const showShareModalDialog = () => {
     if (!state?.user) {
@@ -83,6 +69,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
       dispatch({ type: 'SET', key: 'showsharemodal', payload: true });
     }
   };
+  
 
   const BongeBetMarkupMessage = () => {
     return !state?.isjackpot && Object.keys(state?.betslip || {}).length > 0 && (
@@ -91,90 +78,73 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
       </div>
     );
   };
+  
+  const MobileSlipHeader = () => {
 
-  return (
-    <>
-      {/* Mobile BetSlip Modal */}
-      <div
-        className={`betslip-container-mobile d-block d-md-none ${betSlipMobile ? 'd-block' : 'd-none'}`}
-        style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: '10%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '90%',
-          height: '80%',
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        }}
-      >
-        <div
-          className="betslip-header d-flex justify-content-between align-items-center"
-          style={{
-            padding: '10px',
-            borderBottom: '1px solid #ccc',
-            backgroundColor: '#f8f8f8',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1001,
-          }}
-        >
-          <span className="col-8 slp">BETSLIP</span>
-          <div className="col-4 d-flex justify-content-end align-items-center">
-            {/* Cancel Button */}
-            <button
-              className="btn btn-outline-danger"
-              style={{ marginRight: '10px' }}
-              onClick={() => setBetSlipMobile(false)}
-            >
-              <FiX size={20} /> Cancel
-            </button>
-            {/* Share Bet Button */}
-            <div className="betslip-header bg-secondary uppercase">
-              {state?.isjackpot ? 'jackpot' : 'Betslip'}
-              {!state?.isjackpot && (
-                <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
-              )}
-              {Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0 && (
-                <span className="col-sm-2 yellow-btn font-bold !float-end share-btn btn btn-light"
+    return (
+      <>
+          {state?.isjackpot ? 'jackpot' : 'Betslip'}
+            {!state?.isjackpot && (
+              <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
+            )}
+            
+            <div className='float-end'>
+              {Object.keys(state?.betslip || {}).length > 0 && (
+
+                <span className="col-sm-2 yellow-btn font-bold share-btn btn btn-light mr-2"
                   style={{ width: 'fit-content' }}
                   onClick={showShareModalDialog}
                 >
                   <span><FontAwesomeIcon icon={faShare} /></span>
                   <span>Share</span>
+
                 </span>
               )}
-            </div>
-          </div>
-        </div>
 
-        <div className="bet-option-list" style={{ paddingTop: '60px', height: 'calc(100% - 60px)', overflowY: 'auto' }}>
-          <div className="bet alu block-shadow">
-            <div id="betslip" className="betslip">
-              {Object.keys(state?.betslip || {}).length === 0 && <BongeBetMarkupMessage />}
-              <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
-              <QuickLogin />
-            </div>
+              <button className='btn btn-default' onClick={() => setShowMobileSlip(false)}><span className='text-red-700 font-bold mr-3'>X</span>Close</button>
           </div>
+      </>
+    )
+  }
+  return (
+    <>
+    {/* Lets use a modal over here */}
+    <Modal
+            show={showMobileSlip}
+            onHide={() => setShowMobileSlip(false)}
+            dialogClassName="mobile-betslip-modal"
+            
+            aria-labelledby="contained-modal-title-vcenter">
+                     
+                    <Modal.Header
+                      closeVariant="black"
+                      closeLabel="close"
+                      // closeButton
+                      className="block text-white" style={{background:"rgba(231,6,84, 1)"}}>
+                      <Modal.Title><MobileSlipHeader /> </Modal.Title>
+                    </Modal.Header>
+                    
+                    
+                    <Modal.Body className="bg-white px-0 py-0">
+                      <div id="betslip" className="betslip">
+                        {Object.keys(state?.betslip || {}).length === 0 && <BongeBetMarkupMessage />}
+                        <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
+                      </div>
+                    </Modal.Body>
+                 
+            </Modal>
 
-          <PaybillNumbersSection />
-          <CustomerCareSection />
-          
-        </div>
-      </div>
 
       {/* Mobile Toggle Button */}
       <section
-        className={`d-block d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle capitalize`}
-        style={{ position: 'fixed', zIndex: 1000, bottom: '5%', left: 0, right: 0 }}
+        className={`${showMobileSlip == false ? 'd-block' : "d-none"}  d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle capitalize`}
+        style={{ position: 'fixed', zIndex: 9999999, left: 0, right: 0 }}
       >
         <div className="flex mobile-sticky-footer-slip">
-          <div className="col-3 text-left" style={{ paddingLeft: '10px' }}>
-            <a href="#betslip" className="bg-primary text-white mobile-footer-slip" onClick={() => setBetSlipMobile(true)}>
+          <div className="col-3 text-left" style={{ paddingLeft: '' }}>
+            <div className="bg-primary text-white mobile-footer-slip" onClick={() => setShowMobileSlip(true)}>
               slip <span className="mobile-footer-slip-counter rounded-full yellow-bg">{Object.entries(state?.betslip || state?.jackpotbetslip || {}).length}</span>
-            </a>
+            </div>
           </div>
           <div className="col-3 text-left">
             <input
@@ -186,13 +156,13 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
           </div>
           <div className="col-3 text-left">
             <div>
-              Odds: <span className="font-[500]">{state?.totalodds}</span>
+              Odds: <span className="font-[500]">{Float(state?.totalodds, 2) || 1}</span>
             </div>
             <div>
               Win: <span className="font-[500]">{state?.slipnetwin}</span>
             </div>
           </div>
-          <div className="col-3">
+          <div className="col-3 pr-0">
             <button className="bet-button yellow-bg uppercase btn">Bet Now</button>
           </div>
         </div>
@@ -292,7 +262,6 @@ const Right = (props) => {
           </div>
           {Object.keys(state?.betslip || {}).length > 0 && <BongeBetMarkupMessage />}
           <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
-          <QuickLogin />
         </section>
         <PaybillNumbersSection />
         <MiniGames />
