@@ -3,9 +3,7 @@ import { createRoot } from 'react-dom/client';
 import {
     BrowserRouter,
     Route,
-    Routes,
-    useLocation,
-    useNavigate,
+    Routes
 } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -61,7 +59,7 @@ const App = () => {
                 <Suspense fallback={<p></p>}>
                 <Header />
                 <div className="amt">
-                    <div className={`row big-icon second-nav ck pc app-navbar app-header-nav`}>
+                    <div className={`flex big-icon second-nav ck pc app-navbar app-header-nav`}>
                         {/* <HeaderNav/> */}
                         <BigIconNav />
                     </div>

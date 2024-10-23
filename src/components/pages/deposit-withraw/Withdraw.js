@@ -39,8 +39,8 @@ const Withdrawal = (props) => {
             errors.msisdn = 'Please enter a valid phone number'
         }
 
-        if (!values.amount || values.amount < 50 || values.amount > 70000) {
-            errors.amount = "Please enter amount between KES 50 and KES 70, 000";
+        if (!values.amount || values.amount < 0) {
+            errors.amount = "Please enter a valid amount";
         }
         return errors
     }

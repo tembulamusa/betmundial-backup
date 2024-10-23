@@ -342,13 +342,14 @@ h5, h4, h3, h2 {
   margin-left: 0% !important;
 }
 .more-markets-container {
-  min-width: 0 !important;
+  min-width: 28px !important;
   display: block;
   position: absolute;
-  right: 8px;
+  right: 18px;
+  font-weight: bolder !important;
   text-align: right !important;
   padding-right: 0 !important;
-  bottom: 20%;
+  bottom: 10%;
 }
 
 .carousel-indicators {
@@ -444,10 +445,10 @@ h5, h4, h3, h2 {
   display: flex !important;
   justify-content: center;
   align-items: center;
-  margin-right: 5px;
+  margin-right: 0px;
   padding-bottom: 5px;
   border-bottom: 3px solid transparent;
-  margin-left: 10px;
+  margin-left: 5px;
   padding-top: 5px;
 }
 }
@@ -968,17 +969,16 @@ li.bet-option {
   padding-top: 4px;
   padding-bottom: 8px;
 }
-
 .highlights-board {
   /* border-top: 10px solid #dddddd; */
   /* border-bottom: 10px  solid #dddddd; */
   /* box-shadow: 0px 2px 6px rgba(0,0,0,0.6); */
   z-index: 999999;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   margin-top: 0;
   background: #f9f9f9;
   border-bottom: 1px solid #f2f2f2;
-  padding: 8px 10px;
+  padding: 5px 7px;
 }
 .highlights .marquee-card {
   text-align: left;
@@ -1069,13 +1069,17 @@ img.highlights-content-img {
 }
 
 .popular-game {
-  width: 20%;
+  width: 120px;
   display: inline-block;
   /* margin-right: 8px; */
   padding-right: 10px;
 }
 .popular-games:last-child {
   padding-right: 0;
+}
+
+.popular-games {
+  display: flex !important;
 }
 
 .highlights-board .popular-game img {
@@ -1087,6 +1091,18 @@ img.highlights-content-img {
   background: #ffffff;
 }
 
+/* Generalized design for the popular games */
+.popular-highlight-games {
+  flex-wrap: nowrap;
+  /* font-size: 11px; */
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.popular-highlight-games::-webkit-scrollbar {
+        
+  display: none;
+}
 .highlight-color {
   color: rgba(231, 6, 84, 0.958);
 }
@@ -1118,7 +1134,7 @@ img.highlights-content-img {
   margin: auto;
 }
 .menu-item .menu-name {
-  /* margin-top: 4px; */
+  margin-top: 5px;
   font-size: 12px;
   font-weight: 400;
 }
@@ -1324,6 +1340,7 @@ h1.std-title {
   opacity: 1;
 }
 
+<<<<<<< HEAD
 /* Default for larger screens */
 .icon {
   font-size: 20px;
@@ -1352,3 +1369,35 @@ h1.std-title {
     font-size: 20px;
   }
 }
+=======
+.header-login-links .top-item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  
+}
+
+@media screen and (max-width:640px) {
+  .menu-icon img {
+    height: 30px;
+    width: 30px;
+}
+.banner-imgs img {
+  height: 75px;
+}
+
+.highlights .marquee-card {
+ 
+  height: 5.75em;
+}
+
+.popular-game {
+  width: 80px;
+  display: inline-block;
+  padding-right: 10px;
+}
+}
+
+.marquee-card.free-bet {
+  width: 240px;
+}
+>>>>>>> 577621345516ba96dbfe0e7ac971f3ae02882a1a

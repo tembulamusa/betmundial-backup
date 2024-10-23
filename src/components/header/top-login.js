@@ -24,7 +24,7 @@ const HeaderLogin = (props) => {
        
         return (
             <>
-                <div className="header">
+                <div className="header-login-links uppercase">
                     <div className="onboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>                    
                    
                     <div 
@@ -40,21 +40,23 @@ const HeaderLogin = (props) => {
                             }}
                             onMouseEnter={() => setIsFocused(true)} 
                             onMouseLeave={() => setIsFocused(false)}
+
+                            className='top-item'
                         >
                             <FaSearch style={{ color: '#fff', fontSize: '16px' }} />
                         </div>
 
-                        <div >
+                        <div className='hidden md:inline-block top-item'>
                             <Link
                             to={{ pathname: "/deposit" }} >
-                            <span className="e font-black mr-4 top-login-btn btn">
+                            <span className="font-black mr-4 top-login-btn btn text-white">
                             <span className=" space-icons"> <FontAwesomeIcon icon={faCoins} /></span> Deposit 
                             </span>
                             </Link>
                         </div>
                         
                         <button 
-                            className="e font-black mr-4 top-login-btn btn" 
+                            className="mr-4  top-item uppercase top-login-btn text-white btn" 
                             onClick={() => dispatch({ type: "SET", key: "showloginmodal", payload: true })}
                             style={{ marginRight: '1rem' }}  
                         >
@@ -62,10 +64,10 @@ const HeaderLogin = (props) => {
                         </button>
 
                         <Link 
-                            className="top-login-btn btn yellow-btn" 
+                            className="top-login-btn btn yellow-btn top-item" 
                             to="/signup" 
                             title="Join now" 
-                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            style={{ }}
                         >
                             <span className="register-labl uppercase">Register</span>
                         </Link>
@@ -82,22 +84,9 @@ const HeaderLogin = (props) => {
     }
 
     return (
-        <Container className="top-login-section">
-        {/* <Row className="" style={{float: "right"}}>
-                <div className="col-12">
-                    <a className="" href="/signup" title="Join now">
-                        <span className="register-label">Register now!</span>
-                    </a>
-                    <a className="m-lg-2 badge bg-success" href="/verify-account" title="Verify Account">
-                        <span className="register-label">Verify Account</span>
-                    </a>
-                </div>
-            </Row> */}
-            <Row style={{marginBottom:"10px"}}>                
-                    <ToastContainer/>                   
-                    <LoginForm/>
-                    
-            </Row>
+        <Container className="">
+            <ToastContainer/>                   
+            <LoginForm/>
         </Container>
     )
 }

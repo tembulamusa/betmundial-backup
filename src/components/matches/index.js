@@ -251,15 +251,14 @@ const MoreMarketsHeaderRow = (props) => {
 const SideBets = (props) => {
     const {match, live} = props;
     const [picked,] = useState();
-
     return (
         <div
             className={` ${picked} align-self-center more-markets-container m-lg-2`}>
-            {(match?.side_bets > 1) && <>
+            {(match?.sidebets > 1) && <>
                 <a className="side" title={'More Markets'}
                    href={`/match/${live ? 'live/' : ''}${
                        live ? match.parent_match_id : match?.match_id}`
-                   }>+{match.side_bets}
+                   }>+{match.sidebets}
                 </a>
                 { /**
                    <a className="side"
@@ -744,7 +743,6 @@ export const MarketList = (props) => {
                 
                 {/* filter here */}
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
-                    console.log("THE ODDS ARE HERE FOR NOW::: ", markets)
                     return <MarketRow
                         market_id={mkt_id}
                         markets={markets}

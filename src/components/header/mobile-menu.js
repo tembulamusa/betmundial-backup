@@ -138,7 +138,7 @@ function MobileMenu() {
 
           <div className="cd">
             <div className="cd-l"><GiTwoCoins className='inline-block mr-3' /> Deposit</div>
-            <div className="cd-l"><BiMoneyWithdraw className='mr-3 inline-block' /> Withdraw winnings</div>
+            <Link to={"/withdraw"} className="cd-l"><BiMoneyWithdraw className='mr-3 inline-block' /> Withdraw winnings</Link>
             <div className="cd-l"><FaCheckToSlot className='mr-3 inline-block' /> Confirm MPESA Deposit status</div>
             <div className="cd-l"><BiTransfer className='mr-3 inline-block' /> Transfer Money to Casino</div>
             <Link to="/bets" className="cd-l"><IoListCircleOutline className='mr-3 inline-block' /> My bets</Link>
