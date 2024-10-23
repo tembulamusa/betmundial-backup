@@ -326,11 +326,7 @@ h5, h4, h3, h2 {
   border-radius: 5px;
 }
 .offcanvas-header {
-  border-bottom: 5px solid rgba(231, 6, 84, 0.958);
-  background: #24367e ;
-  color: #fff;
-  font-size: 20px;
-  font-weight: bold !important;
+ 
 }
 .main-tabs-submenu {
   text-wrap: nowrap;
@@ -396,14 +392,7 @@ h5, h4, h3, h2 {
 } */
 
 .offcanvas-header .btn-close {
-  padding: calc(var(--bs-offcanvas-padding-y) * .5) calc(var(--bs-offcanvas-padding-x) * .5);
-  margin: calc(-.5 * var(--bs-offcanvas-padding-y)) calc(-.5 * var(--bs-offcanvas-padding-x)) calc(-.5 * var(--bs-offcanvas-padding-y)) auto;
-  /* color: rgba(231, 6, 84, 0.958) !important; */
-  opacity: 1;
-  background: rgba(231, 6, 84, 0.958);
-  /* stroke: rgba(231, 6, 84, 0.958) !important; */
-  color: #fff;
-  content: "X" !important;
+  
 }
 
 .justify-content-between {

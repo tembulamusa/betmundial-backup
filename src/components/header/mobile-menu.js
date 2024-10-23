@@ -114,9 +114,8 @@ function MobileMenu() {
   
   return (
     <span className="inline-block" style={{ height: 'auto' }}>
-      <span className='font-[500] cursor-pointer flex items-center gap-2' onClick={handleShow}>
-        <FaRegUser className='inline-block' /> 
-        <span>My Account</span>
+      <span className='font-[500] cursor-pointer' onClick={handleShow}>
+        <FaRegUser className='inline-block'/> <span className='hidden md:inline-block'>My</span> Account
       </span>
 
       <Offcanvas
@@ -124,15 +123,11 @@ function MobileMenu() {
         show={show}
         onHide={handleClose}
         className="header-account"
-        style={{ maxHeight: '80vh', height: 'auto' }} 
+        style={{height: 'auto' }} 
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <FaRegUser className='mr-3' /> 
-            <span>{state?.user?.msisdn}</span>
-          </div>
-
+            <FaRegUser className='mr-3 inline-block' /> {state?.user?.msisdn}
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className='off-canvas' style={{ marginBottom: '20px', overflowY: 'auto' }}>

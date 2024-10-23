@@ -97,7 +97,7 @@ const Header = (props) => {
                         <a className='my-2' href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
                     </div>
 
-                    <div className="col-md-7 col-sm-6 mr-3" id="navbar-collapse-main">
+                    <div className="col-md-7 col-sm-6" id="navbar-collapse-main">
                         {/* {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>} */}
                         {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
                     </div>
