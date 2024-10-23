@@ -223,7 +223,7 @@ const BetSlip = (props) => {
                 </li>
             }
             {hasBetslip  && <>
-            <div className="flow" style={{maxHeight: "50vh", overflowY: "auto", overflowX:"hidden"}}>
+            <div className="flow betslip-slips" style={{maxHeight: "50vh", overflowY: "auto", overflowX:"hidden"}}>
                 <ul style={{paddingRight:"8px", paddingLeft:"8px"}}>
 
                     
