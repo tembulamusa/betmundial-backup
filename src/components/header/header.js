@@ -8,7 +8,7 @@ import makeRequest from '../utils/fetch-request';
 import {setLocalStorage} from '../utils/local-storage';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShareModal from "../sharemodal";
-import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/logo.svg';
 import {Navbar} from "react-bootstrap";
 import MobileRightMenu from './mobile-right-menu';
 import MobileLoggedInBals from './mobile-logged-in-bals';
