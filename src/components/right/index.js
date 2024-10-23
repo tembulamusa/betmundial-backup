@@ -94,61 +94,11 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
 
   return (
     <>
-      {/* Mobile BetSlip Modal */}
       <div
         className={`betslip-container-mobile d-block d-md-none ${betSlipMobile ? 'd-block' : 'd-none'}`}
-        style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: '10%',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '90%',
-          height: '80%',
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
-        }}
+        
       >
-        <div
-          className="betslip-header d-flex justify-content-between align-items-center"
-          style={{
-            padding: '10px',
-            borderBottom: '1px solid #ccc',
-            backgroundColor: '#f8f8f8',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1001,
-          }}
-        >
-          <span className="col-8 slp">BETSLIP</span>
-          <div className="col-4 d-flex justify-content-end align-items-center">
-            {/* Cancel Button */}
-            <button
-              className="btn btn-outline-danger"
-              style={{ marginRight: '10px' }}
-              onClick={() => setBetSlipMobile(false)}
-            >
-              <FiX size={20} /> Cancel
-            </button>
-            {/* Share Bet Button */}
-            <div className="betslip-header bg-secondary uppercase">
-              {state?.isjackpot ? 'jackpot' : 'Betslip'}
-              {!state?.isjackpot && (
-                <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
-              )}
-              {Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0 && (
-                <span className="col-sm-2 yellow-btn font-bold !float-end share-btn btn btn-light"
-                  style={{ width: 'fit-content' }}
-                  onClick={showShareModalDialog}
-                >
-                  <span><FontAwesomeIcon icon={faShare} /></span>
-                  <span>Share</span>
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
+        
 
         <div className="bet-option-list" style={{ paddingTop: '60px', height: 'calc(100% - 60px)', overflowY: 'auto' }}>
           <div className="bet alu block-shadow">
@@ -168,7 +118,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
       {/* Mobile Toggle Button */}
       <section
         className={`d-block d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle capitalize`}
-        style={{ position: 'fixed', zIndex: 1000, bottom: '5%', left: 0, right: 0 }}
+        style={{ position: 'fixed', zIndex: 9999999, left: 0, right: 0 }}
       >
         <div className="flex mobile-sticky-footer-slip">
           <div className="col-3 text-left" style={{ paddingLeft: '10px' }}>
