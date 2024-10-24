@@ -57,17 +57,13 @@ const CheckMpesaDepositStatus = (props) => {
 
                                         <button 
                                             type="submit"
-                                            className={`btn red-bg mt-5 deposit-withdraw-button font-[500]`} 
+                                            className={`btn primary-bg mt-5 deposit-withdraw-button font-[500]`} 
                                             disabled={isSubmitting}
                                         >
                                             Check Now
                                         </button>
                                     </div>
-                                    <div>
-                                    <div className="d-flex justify-content-center">
-                                        
-                                    </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -79,7 +75,7 @@ const CheckMpesaDepositStatus = (props) => {
 
 
     const PastUserDeposits = (props) => {
-        const [pastDeposits, setPastDeposits] = useState([]);
+        const [pastDeposits, setPastDeposits] = useState(null);
         const [tableHeaders, ] = useState(["Date", "Amount", "Surebet Balance"]);
 
         const requestUserDeposits = () => {
@@ -97,7 +93,13 @@ const CheckMpesaDepositStatus = (props) => {
         useEffect(() => {requestUserDeposits()}, [])
         return(
             <>
-                <StdTable headers={tableHeaders} data={pastDeposits} emptymessage="No Deposits. Please make your first deposit"/>
+                {pastDeposits &&
+                    <>
+                        <h1 className="text-2xl text-gray-600 my-2">Past Deposits</h1>
+                        <StdTable headers={tableHeaders} data={pastDeposits} emptymessage="No Deposits. Please make your first deposit"/>
+                    </>
+                }
+                
             </>
         )
     }
@@ -115,7 +117,6 @@ const CheckMpesaDepositStatus = (props) => {
                         <CheckMpesaDepositStatusForm />
 
                         {/* Check past deposits */}
-                        <h1 className="text-2xl my-3">Past Deposits</h1>
                         {state?.user && <PastUserDeposits />}
                     </Modal.Body>
             </Modal>
