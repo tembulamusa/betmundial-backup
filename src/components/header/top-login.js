@@ -25,7 +25,7 @@ const HeaderLogin = (props) => {
         return (
             <>
                 <div className="header-login-links uppercase">
-                    <div className="onboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>                    
+                    <div className="onboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginTop: "7px" }}>                    
                    
                     <div 
                             style={{ 
@@ -50,7 +50,7 @@ const HeaderLogin = (props) => {
                             <Link
                             to={{ pathname: "/deposit" }} >
                             <span className="font-black mr-4 top-login-btn btn text-white">
-                            <span className=" space-icons"> <FontAwesomeIcon icon={faCoins} /></span> Deposit 
+                            <span className=" space-icons text-yellow"> <FontAwesomeIcon icon={faCoins} className='yellow-text' /></span> Deposit 
                             </span>
                             </Link>
                         </div>
@@ -64,7 +64,7 @@ const HeaderLogin = (props) => {
                         </button>
 
                         <Link 
-                            className="top-login-btn btn yellow-btn top-item" 
+                            className="top-login-btn btn red-bg top-item" 
                             to="/signup" 
                             title="Join now" 
                             style={{ }}

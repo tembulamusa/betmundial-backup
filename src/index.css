@@ -1475,3 +1475,12 @@ svg.big-offcanvas-icon {
 .header-menu li.active, .header-menu li:hover {
   opacity: 1;
 }
+
+.red-bg {
+  background: rgba(231,6,84, 1) !important;
+  color: #ffffff !important;
+}
+
+.red-bg.btn {
+  border-color: rgb(187, 2, 67) !important;
+}
