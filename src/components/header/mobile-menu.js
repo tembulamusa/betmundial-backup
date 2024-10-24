@@ -45,7 +45,7 @@ function MobileMenu() {
     };
       
     return (
-      <div className='row text-center '>
+      <div className='flex text-center '>
         <div
           className='col-6 offcanvas-big-icon p-5'
           onMouseEnter={() => setIsHoveredMode(true)}

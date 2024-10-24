@@ -7392,7 +7392,7 @@ ul.sport {
 
 @media (min-width: 768px) {
     .amt {
-        margin-top: 65px !important;
+        margin-top: 145px !important;
     }
 
     .disp-sidebar {
@@ -8660,10 +8660,10 @@ ul.sport {
     }
 }
 
-@media (max-width: 1014px) {
+@media (max-width: 648px) {
 
     .amt {
-        margin-top: 75px;
+        margin-top: 133px;
     }
     .move-up {
         margin-top: -10px

@@ -161,6 +161,8 @@ h5, h4, h3, h2 {
 
 .user-menu-col {
   width: auto;
+  margin-top: 9px;
+  margin-right: 10px;
 }
 
 .primary-text {
@@ -1123,9 +1125,9 @@ img.highlights-content-img {
 }
 .menu-icon img {
   width: 100%;
-  border-radius: 3px;
-  height: 40px;
-  width: 40px;
+  /* border-radius: 3px; */
+  height: 30px;
+  width: 30px;
   margin: auto;
 }
 .menu-item .menu-name {
@@ -1442,12 +1444,34 @@ h1.std-title {
 }
 
 svg.big-offcanvas-icon {
-  width: 60px;
-  height: 60px;
+  width: 35px;
+  height: 35px;
   margin-bottom: 5px;
   opacity: 0.6;
 }
 
 .offcanvas-big-icon:hover {
   background: #ffffff !important;
+}
+
+.main-header-top {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  box-shadow: -1px 0 1px 1px rgba(0,0,0,0.23);
+  -moz-box-shadow: -1px 0 1px 1px rgba(0,0,0,0.23);
+  -webkit-box-shadow: -1px 0 1px 1px rgba(0,0,0,0.23);
+}
+
+.ps-menu-button.ps-open {
+  background: #24367e !important;
+  color: white !important;
+}
+
+.header-menu li {
+  opacity: 0.8;
+  border-bottom: 3px solid transparent;
+  margin-bottom: 0 !important;
+}
+
+.header-menu li.active, .header-menu li:hover {
+  opacity: 1;
 }

@@ -13,6 +13,7 @@ import {Navbar} from "react-bootstrap";
 import MobileRightMenu from './mobile-right-menu';
 import MobileLoggedInBals from './mobile-logged-in-bals';
 import LoginModal from '../loginmodal';
+import BigIconNav from './big-icon-nav';
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const MobileCurrentNavItems = React.lazy(()=> import('./mobile-current-nav-items'));
@@ -88,21 +89,23 @@ const Header = (props) => {
     return (
         <>
             
-            <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark" style={{}}>
+            <Navbar expand="md" className="mb-0 ck pc os app-navbar top-nav" fixed="top" variant="dark" style={{flexWrap:"wrap"}}>
                 {/* <MobileDownloadBanner /> */}
-                <div className='light-blue md:hidden text-white py-1 w-full px-3'><MobileLoggedInBals/></div>
-                <Container fluid className={'d-flex justify-content-between mobile-change'}>
-                    
-                    <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
-                        <a className='my-2' href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
-                    </div>
-
-                    <div className="col-md-7 col-sm-6" id="navbar-collapse-main">
-                        {/* {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>} */}
-                        {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
-                    </div>
+                <div className='main-header-top w-full p-0'><div className='light-blue md:hidden text-white py-1 w-full px-3'><MobileLoggedInBals/></div>
+                    <Container fluid className={'d-flex justify-content-between mobile-change'}>
                         
-                </Container>
+                        <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
+                            <a className='my-2' href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
+                        </div>
+
+                        <div className="col-md-7 col-sm-6" id="navbar-collapse-main">
+                            {/* {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>} */}
+                            {user ? <ProfileMenu user={user}/> : <HeaderLogin setUser={setUser}/>}
+                        </div>
+                            
+                    </Container>
+                </div>
+                <div className='block w-full'><BigIconNav /></div>
             </Navbar>
 
             {/* mobile bottom menu */}

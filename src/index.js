@@ -63,7 +63,6 @@ const App = () => {
                 <div className="amt">
                     <div className={`flex big-icon second-nav ck pc app-navbar app-header-nav`}>
                         {/* <HeaderNav/> */}
-                        <BigIconNav />
                     </div>
                     <div className="diminish-mobile-row row">
                         {/* Conditional load live or otherwise */}
