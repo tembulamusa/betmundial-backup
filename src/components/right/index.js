@@ -142,8 +142,8 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
       >
         <div className="flex mobile-sticky-footer-slip">
           <div className="col-3 text-left" style={{ paddingLeft: '' }}>
-            <div className="bg-primary text-white mobile-footer-slip" onClick={() => setShowMobileSlip(true)}>
-              slip <span className="mobile-footer-slip-counter rounded-full yellow-bg">{Object.entries(state?.betslip || state?.jackpotbetslip || {}).length}</span>
+            <div className="yellow-bg text-white mobile-footer-slip" onClick={() => setShowMobileSlip(true)}>
+              slip <span className="mobile-footer-slip-counter rounded-full red-bg">{Object.entries(state?.betslip || state?.jackpotbetslip || {}).length}</span>
             </div>
           </div>
           <div className="col-3 text-left">
@@ -163,7 +163,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
             </div>
           </div>
           <div className="col-3 pr-0">
-            <button className="bet-button yellow-bg uppercase btn">Bet Now</button>
+            <button className="bet-button btn red-bg uppercase btn">Bet Now</button>
           </div>
         </div>
       </section>

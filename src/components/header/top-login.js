@@ -50,7 +50,7 @@ const HeaderLogin = (props) => {
                             <Link
                             to={{ pathname: "/deposit" }} >
                             <span className="font-black mr-4 top-login-btn btn text-white">
-                            <span className=" space-icons text-yellow"> <FontAwesomeIcon icon={faCoins} className='yellow-text' /></span> Deposit 
+                            <span className=" space-icons text-yellow"> <FontAwesomeIcon icon={faCoins} className='secondary-text' /></span> Deposit 
                             </span>
                             </Link>
                         </div>
