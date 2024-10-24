@@ -68,10 +68,10 @@ const Withdrawal = (props) => {
         return (
             <>
             <div className="form-group row d-flex justify-content-center">
-                <div className="col-md-12">
-                    <label>Phone Number</label>
+                <div className="mt-4">
                     <input
                         readOnly={true}
+                        disabled={true}
                         className="text-dark deposit-input form-control input-field"
                         id="msisdn"
                         name="msisdn"
@@ -82,7 +82,7 @@ const Withdrawal = (props) => {
                     {errors.msisdn &&  <div className='text-danger'> {errors.msisdn} </div>  }
                 </div>
             </div>
-            <div className="form-group row d-flex justify-content-center mt-5">
+            <div className="form-group row d-flex justify-content-center mt-3">
                 <div className="col-md-12">
                     <label>Amount to Withdraw</label>
                     <input
@@ -99,7 +99,7 @@ const Withdrawal = (props) => {
             </div>
             <div className='mt-3'><Alert /></div>
             <div className="form-group row d-flex justify-content-left mb-4">
-                <div className="col-md-3">
+                <div className="">
                     <button
                         className='btn btn-lg btn-primary mt-3 col-md-12 deposit-withdraw-button'>
                         Withdraw
@@ -148,7 +148,7 @@ const Withdrawal = (props) => {
                         <div className='col text-center md:text-left'>
                             <img src={mpesa} alt="" className='' style={{maxWidth:"100px"}}/>
                         </div>
-                        <div className='my-3'><hr/></div>
+                        <div className='my-2'><hr/></div>
                         <div className=''>
                             <WithdrawFormFields  onFieldChanged ={ onFieldChanged} values ={values } errors={errors} />
                         </div>
@@ -181,8 +181,8 @@ const Withdrawal = (props) => {
     return (
          <React.Fragment>
             <FormTitle />
-            <div className="col-md-12 mt-2  p-2">
-                <div className="modal-body pb-0" data-backdrop="static">
+            <div className="">
+                <div className="std-medium-width-block">
                     <WithdrawalForm />
                 </div>
             </div>
