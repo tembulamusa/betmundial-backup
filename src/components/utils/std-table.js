@@ -42,7 +42,7 @@ const StdTable = (props) => {
     return (
         <>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <Table sx={{ }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
                             {headers?.map((header, idx) => (

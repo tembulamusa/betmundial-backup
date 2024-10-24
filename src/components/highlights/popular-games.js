@@ -30,9 +30,15 @@ const PopularGames = (props) => {
             <Link to={"/#"} className="popular-game">
                 <img src={LigiNare} alt=""/>
             </Link>
-            {/* <Link to={"/#"} className="popular-game">
+            <Link to={"/#"} className="popular-game">
                 <img src={Virtuals} alt=""/>
-            </Link> */}
+            </Link>
+            <Link to={"/#"} className="popular-game">
+                <img src={LigiNare} alt=""/>
+            </Link>
+            <Link to={"/#"} className="popular-game">
+                <img src={Virtuals} alt=""/>
+            </Link>
         </div>
     )
 }

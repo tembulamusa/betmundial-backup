@@ -14,6 +14,7 @@ import MobileRightMenu from './mobile-right-menu';
 import MobileLoggedInBals from './mobile-logged-in-bals';
 import LoginModal from '../loginmodal';
 import BigIconNav from './big-icon-nav';
+import CheckMpesaDepositStatus from '../webmodals/check-mpesa-deposit-status';
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 const MobileCurrentNavItems = React.lazy(()=> import('./mobile-current-nav-items'));
@@ -119,6 +120,7 @@ const Header = (props) => {
         <ShareModal shown={state?.showsharemodal === false} />
         
         <LoginModal />
+        <CheckMpesaDepositStatus />
         </>
 
     )

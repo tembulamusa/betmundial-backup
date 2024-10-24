@@ -1066,10 +1066,10 @@ img.highlights-content-img {
 }
 
 .popular-game {
-  width: 120px;
+  width: 130px;
   display: inline-block;
   /* margin-right: 8px; */
-  padding-right: 10px;
+  padding-right: 7px;
 }
 .popular-games:last-child {
   padding-right: 0;
@@ -1485,8 +1485,27 @@ svg.big-offcanvas-icon {
   border-color: rgb(187, 2, 67) !important;
 }
 
+.red-text {
+  color: rgb(187, 2, 67) !important;
+}
+
 .change-display {
   flex-wrap: nowrap;
   overflow: auto;
   scrollbar-width: none;
+}
+
+.std-medium-width-block {
+  max-width: 500px;
+  margin-right: auto;
+  margin-left: auto;
+  border: 1px solid rgba(0,0, 0, 0.051);
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px 0px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+.input-field {
+  margin-bottom: 20px;
 }

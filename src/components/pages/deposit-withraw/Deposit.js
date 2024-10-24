@@ -18,8 +18,7 @@ const Deposit = (props) => {
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [pastDeposits, setPastDeposits] = useState([]);
-    const [tableHeaders, ] = useState(["Date", "Amount", "Surebet Balance"])
+    
     
     const initialValues = {
         amount: '',
@@ -45,21 +44,7 @@ const Deposit = (props) => {
         })
     }
 
-    const requestUserDeposits = () => {
-        let endpoint = '/v2/deposits';
-        
-        makeRequest({url: endpoint, method: 'GET', api_version:3}).then(([status, response]) => {
-            
-
-            if(status == 200) {
-                setPastDeposits(response?.data?.deposits)
-            } else {
-                Notify({status: 400, message:"Error fetching deposits"})
-            }
-            setIsLoading(false)
-        })
-
-    }
+    
 
     const validate = values => {
 
@@ -108,12 +93,22 @@ const Deposit = (props) => {
                 <div className="form-group row d-flex justify-content-center mt-4">
                     
                     <div className="row">
-                        <label className=''>Amount to Deposit</label>
                         {message && <div className='mt-3 font-bold'><Alert/></div> }
                         <input
                             onChange={ev => onFieldChanged(ev)}
-                            style={{borderTopRightRadius:"0px", borderBottomRightRadius:"0px"}}
-                            className="text-dark deposit-input form-control !w-9/12 input-field"
+                            style={{}}
+                            className="text-dark deposit-input form-control input-field"
+                            name="msisdn"
+                            type="text"
+                            readOnly
+                            disabled
+                            value={state?.user?.msisdn}
+                        />
+                        <label className='pl-0 mb-1'>Amount to Deposit</label>
+                        <input
+                            onChange={ev => onFieldChanged(ev)}
+                            style={{}}
+                            className="text-dark deposit-input form-control  input-field"
                             id="amount"
                             name="amount"
                             type="text"
@@ -121,10 +116,11 @@ const Deposit = (props) => {
                             placeholder='Enter Amount'
                         />
                         {errors.amount && <div className='text-danger'> {errors.amount} </div>}
+                        
                         <button
                             disabled={isLoading}
-                            style={{borderTopLeftRadius:"0px", borderBottomLeftRadius:"0px"}}
-                            className='btn btn-lg btn-primary bg-primary !w-3/12 deposit-withdraw-button'>
+                            style={{}}
+                            className='btn btn-lg btn-primary bg-primary deposit-withdraw-butto font-[500]'>
                             {isLoading ? "wait..." : "Deposit"}
                         </button>
                     </div>
@@ -176,37 +172,36 @@ const Deposit = (props) => {
         const DepositSelfService = (props) => {
 
             return (
-                <Link to={"/self-service"}>
+                <div className='cursor-pointer opacity-80 hover:opacity-100' onClick={() => dispatch({type:"SET", key:"showcheckmpesadepositstatus", payload:true})}>
                     <div className='flex'>
-                        <GoAlertFill className='text-3xl mr-4 align-middle mt' size={30}/>
+                        <GoAlertFill className='text-3xl mr-4 align-middle' size={30}/>
                         <div className=''>
                             <div className='font-bold'>Missing Deposit</div>
                             <div className='block font-[500] opacity-70'>Deposit not reflecting? sort your missing deposit here</div>
+                            <button className='btn rounded-md btn-default text-gray-700 capitalize py-3 my-2 font-[500]'>Check Deposit status</button>
                         </div>
                     </div>
-                </Link>
+                </div>
             )
         }
 
         return (
-            <>
+            <div className='std-medium-width-block'>
                 <Form className="rounded border-0">
                     <div className="pt-0">
                         <div className="row px-3">
-                            <div className='col-6 text-center'>
+                            <div className='text-center'>
                                 <img src={mpesa} alt=""/>
                             </div>
 
-                            <div className='col-6'>
-                                <div className='font-bold text-gray-400 md:text-right'>{state?.user?.msisdn}</div>
-                            </div>
+                           
                         </div>
                         <hr className='my-2'/>
                         <div className='row'>
-                            <div className='col-md-6'>
+                            <div className=''>
                                 <DepositFormFields onFieldChanged={onFieldChanged} values={values} errors={errors}/>
                                 
-                                <div className='md:hidden'><DepositSelfService /></div>
+                                <div className='my-3'><DepositSelfService /></div>
 
                                 <Accordion 
                                 className="accordion mt-4"
@@ -225,14 +220,10 @@ const Deposit = (props) => {
                                 </Accordion>
                             </div>
 
-                            <div className='col-md-6 mt-4 hidden md:block pl-5'><DepositSelfService /></div>
                         </div>
                     </div>
                 </Form>
-
-                {/* The deposits table */}
-                <div></div>
-            </>
+            </div>
         );
     }
 
@@ -262,9 +253,6 @@ const Deposit = (props) => {
                     <div className="pb-0" data-backdrop="static">
                         <DepositForm/>
                     </div>
-                </div>
-                <div className='mx-2 mt-3'>
-                    <StdTable headers={tableHeaders} data={pastDeposits} emptymessage="No Deposits. Please make your first deposit"/>
                 </div>
             </div>
         </React.Fragment>

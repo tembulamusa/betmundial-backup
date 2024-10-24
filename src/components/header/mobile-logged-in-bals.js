@@ -22,8 +22,8 @@ const MobileLoggedInBals = (props) => {
             </div> */}            
                 <div className="text-white">
                     <span className="text-xl opacity-70">Mpesa Paybill: <span className="font-bold">599488</span></span>
-                    <Link to='/deposit' className="btn btn-deposit-withd uppercase opacity-80 secondary-text float-end hover:opacity-100 pr-0" style={{ }}>
-                        <FontAwesomeIcon icon={faCoins} className="text-whte text-xl mr-2"/><span className="font-bold">Deposit</span>
+                    <Link to='/deposit' className="btn btn-deposit-withd text-gray-200 capitalize  float-end hover:text-white hover:underline pr-0" style={{ }}>
+                        <FontAwesomeIcon icon={faCoins} className="text-whte text-xl mr-2"/><span className="font-[500]" style={{letterSpacing:"1px"}}>click to Deposit</span>
                     </Link>
                     {/* <Link to='/withdraw' className="btn btn-deposit-withdraw text-white">
                         <FontAwesomeIcon icon={faDollarSign} className="bright-blue-text text-2xl mr-2"/>Withdraw

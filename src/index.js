@@ -48,7 +48,6 @@ import Sidebar from "./components/sidebar/awesome/Sidebar";
 import { Context } from './context/store';
 import Logout from "./components/pages/auth/logout";
 import ForgotPassword from "./components/pages/auth/forgot-password";
-import BigIconNav from "./components/header/big-icon-nav";
 
 const container = document.getElementById("app");
 

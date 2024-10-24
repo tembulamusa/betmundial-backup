@@ -15,8 +15,7 @@ import { MdCancel } from "react-icons/md";
 
 function MobileMenu() {
   const [show, setShow] = useState(false);
-  const [state] = useContext(Context);
-  const user = getFromLocalStorage("user");
+  const [state, dispatch] = useContext(Context);
   const [darkMode, setDarkMode] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -36,8 +35,6 @@ function MobileMenu() {
   );
 
   const CanvasBottom = () => {
-    const [isHoveredMode, setIsHoveredMode] = useState(false);
-    const [isHoveredLogout, setIsHoveredLogout] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
   
     const toggleDarkMode = () => {
@@ -48,8 +45,6 @@ function MobileMenu() {
       <div className='flex text-center '>
         <div
           className='col-6 offcanvas-big-icon p-5'
-          onMouseEnter={() => setIsHoveredMode(true)}
-          onMouseLeave={() => setIsHoveredMode(false)}
           onClick={toggleDarkMode}
         >
            {darkMode ? (
@@ -62,8 +57,7 @@ function MobileMenu() {
         <div className='col-6 offcanvas-big-icon p-5'>
           <Link
             to="/logout"
-            onMouseEnter={() => setIsHoveredLogout(true)}
-            onMouseLeave={() => setIsHoveredLogout(false)}
+            
             onMouseOver={(e) => (e.currentTarget.style.color = '#c82333')}
             onMouseOut={(e) => (e.currentTarget.style.color = '#dc3545')}
           >
@@ -102,7 +96,7 @@ function MobileMenu() {
           <div className="cd" onClick={() => setShow(false)}>
             <Link to={"/deposit"}  className="cd-l"><GiTwoCoins className='inline-block mr-3' /> Deposit</Link>
             <Link to={"/withdraw"} className="cd-l"><BiMoneyWithdraw className='mr-3 inline-block' /> Withdraw winnings</Link>
-            <Link to="/check-deposit-status" className="cd-l"><FaCheckToSlot className='mr-3 inline-block' /> Confirm MPESA Deposit status</Link>
+            <div className="cd-l" onClick={() => dispatch({type: "SET", key:"showcheckmpesadepositstatus", payload: true})}><FaCheckToSlot className='mr-3 inline-block' /> Check MPESA Deposit status</div>
             <Link to="/bets" className="cd-l"><IoListCircleOutline className='mr-3 inline-block' /> My bets</Link>
             <Link to="/promotions" className="cd-l"><FaGifts className='mr-3 inline-block' /> Promotions</Link>
             <Link to="/exclude" className="cd-l"><MdCancel className='mr-3 inline-block' /> Exclude myself from betting</Link>
