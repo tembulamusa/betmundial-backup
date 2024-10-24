@@ -988,7 +988,7 @@ li.bet-option {
   /* width: 98%; */
   height: 8.75em;
   /* margin-right: 8px; */
-  padding: .5em .2em .6em;
+  padding: 0 !important;
   font-weight: 400;
   display: inline-block;
   box-shadow: 0 0px 0px 1px rgba(0,0,0,.1);
@@ -1133,6 +1133,7 @@ img.highlights-content-img {
 .menu-item .menu-name {
   margin-top: 5px;
   font-size: 12px;
+  text-wrap: nowrap;
   font-weight: 400;
 }
 
@@ -1381,14 +1382,13 @@ h1.std-title {
 }
 
 .highlights .marquee-card {
- 
-  height: 5.75em;
+  height: auto;
 }
 
 .popular-game {
-  width: 80px;
+  max-width: 83px;
   display: inline-block;
-  padding-right: 10px;
+  padding-right: 5px;
 }
 
 
@@ -1483,4 +1483,10 @@ svg.big-offcanvas-icon {
 
 .red-bg.btn {
   border-color: rgb(187, 2, 67) !important;
+}
+
+.change-display {
+  flex-wrap: nowrap;
+  overflow: auto;
+  scrollbar-width: none;
 }

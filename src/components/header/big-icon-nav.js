@@ -61,7 +61,7 @@ const BigIconMenu = () => {
     return (
 
         <>
-            <Container id="navbar-collapse-main"
+            <div id="navbar-collapse-main"
                        className={`d-sm-flex d-flex flex-row  header-menu `}>
                 <ListGroup as="ul" xs="12" horizontal className={`nav navbar-nav og d-flex ale ss  col-lg-12 col-md-12 col-sm-12 change-display`}>
                     
@@ -79,7 +79,7 @@ const BigIconMenu = () => {
                     
                 </ListGroup>
 
-            </Container>
+            </div>
         </>
     )
 }
