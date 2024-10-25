@@ -7,7 +7,6 @@ import BodyLogin from './header/mobile-login';
 
 
 const LoginModal = (props) => {
-    
     const [state, dispatch] = useContext(Context);
     
     return (

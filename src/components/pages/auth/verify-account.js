@@ -23,7 +23,6 @@ const VerifyAccount = (props) => {
     const handleSubmit = values => {
         let endpoint = '/v2/auth/verify';
         setIsLoading(true);
-        console.log(values);
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
             if ([200, 201].includes(status)) {
                 if (response?.status == 200) {
@@ -59,7 +58,7 @@ const VerifyAccount = (props) => {
         return errors
     }
 
-    const resendOTP = () => {
+    const sendOTP = () => {
 
         let endpoint = '/v2/auth/verification-code';
 
@@ -80,6 +79,7 @@ const VerifyAccount = (props) => {
         })
     }
 
+    useEffect(() => {sendOTP()}, [])
     const FormTitle = () => {
         return (
             <div className='col-md-12 primary-bg p-4 text-center'>
@@ -124,26 +124,26 @@ const VerifyAccount = (props) => {
 
                             </div>
 
-                        <div className="form-group row d-flex  mt-5">
-                            <div className="col-12">
-                                <label>Code (OTP)</label>
+                        <div className="mt-5">
+                            <div className="">
+                                <label>Code (OTP) -<span className='alert alert-warning py-1 font-[500] italic font-small'>Has been sent to your phone</span></label>
                                 <input
                                     value={values.code}
-                                    className="block px-3 py-3 w-full rounded-2xl std-input form-control"
+                                    className="block px-3 py-3 w-full rounded-2xl st-input form-control"
                                     id="code"
                                     name="code"
                                     type="text"
-                                    placeholder='Code'
+                                    placeholder='Enter Code'
                                     onChange={ev => onFieldChanged(ev)}
                                 />
                                 {errors.code && <div className='text-danger'> {errors.code} </div>}
                             </div>
 
-                            <div className="col-12 my-2">
+                            <div className="my-2">
                                 <span className=''>
                                     Didn't receive code? 
                                 </span>
-                                <button onClick={() => resendOTP()} type={"button"}
+                                <button onClick={() => sendOTP()} type={"button"}
                                         className='btn text-white ml-2 btn-sm !bg-green-500 hover:opacity-70' disabled={disabledResend}>Click Resend Code
                                 </button>
                             </div>
