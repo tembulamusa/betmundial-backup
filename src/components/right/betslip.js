@@ -50,6 +50,7 @@ const BetSlip = (props) => {
         }
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
+        dispatch({type:"SET", key:state?.jackpotbetslip ? "jackpotbetslip" :"betslip", payload:b})
     }, [state?.betslip, state?.jackpotbetslip]);
     
     const fetchSharedBetslip = useCallback((code) => {
@@ -238,7 +239,7 @@ const BetSlip = (props) => {
 
                                 <div className="bet-cancel">
                                     <input id={slip.match_id} type="submit" value="X"
-                                           onClick={() => handledRemoveSlip(slip)}/>
+                                           onClick={() => handledRemoveSlip(slip)} />
                                 </div>
                                 <Link to={`/match/${slip.match_id}`} style={{}} className='hover:underline'>
                                 <div className="bet-value betslip-game">
