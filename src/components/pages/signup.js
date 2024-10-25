@@ -27,6 +27,7 @@ const Signup = (props) => {
         let endpoint = '/v2/auth/signup';
         setIsLoading(true);
         let data = {msisdn:values.msisdn, password: values.password}
+
         makeRequest({url: endpoint, method: 'POST', data: data, api_version:2}).then(([status, response]) => {
             setMessage(response?.message);
             dispatch({type: "SET", key: "regmsisdn", payload: values?.msisdn})
@@ -53,6 +54,10 @@ const Signup = (props) => {
 
         if (!values.password || values.password.length < 4) {
             errors.password = "Please enter four or more characters for password";
+        }
+
+        if (values.password2 != values.password) {
+            errors.password2 = "Passwords don't match";
         }
 
         return errors
@@ -113,6 +118,21 @@ const Signup = (props) => {
                                     onChange={ev => onFieldChanged(ev)}
                                 />
                                 {errors.password && <div className='text-danger'> {errors.password} </div>}
+                            </div>
+                        </div>
+                        <div className="form-group row d-flex justify-content-center mt-5">
+                            <div className="col-md-12">
+                                <label>Repeat Password</label>
+                                <input
+                                    value={values.password2}
+                                    className="block px-3 py-3 w-full rounded-2xl std-input form-control"
+                                    id="password2"
+                                    name="password2"
+                                    type="password2"
+                                    placeholder='Repeat password'
+                                    onChange={ev => onFieldChanged(ev)}
+                                />
+                                {errors.password2 && <div className='text-danger'> {errors.password2} </div>}
                             </div>
                         </div>
                         <div className="form-group row d-flex justify-content-left mb-4">
