@@ -50,7 +50,7 @@ const BetSlip = (props) => {
         }
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
-        dispatch({type:"SET", key:state?.jackpotbetslip ? "jackpotbetslip" :"betslip", payload:b})
+        !state?.betslip && dispatch({type:"SET", key:state?.jackpotbetslip ? "jackpotbetslip" :"betslip", payload:b})
     }, [state?.betslip, state?.jackpotbetslip]);
     
     const fetchSharedBetslip = useCallback((code) => {
