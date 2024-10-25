@@ -97,6 +97,11 @@ const BodyLogin = (props) => {
         }
     }, [])
 
+    const navigateAway = (url) => {
+
+        dispatch({type:"DEL", key:"showloginmodal"});
+        navigate(url)
+    }
 
     const MyLoginForm = (props) => {
         const {isValid, errors, values, submitForm, setFieldValue} = props;
@@ -111,7 +116,7 @@ const BodyLogin = (props) => {
                 <Form className="">
                     <Row>
                         <div className="px-0">
-                            <label className='modal-label'>Mobile Phoneyyy</label>
+                            <label className='modal-label'>Mobile Phone</label>
                             <input type="text"
                                 name="msisdn"
                                 className={`form-control block px-3 py-3 w-full rounded-2xl std-input ${errors.msisdn && 'text-danger'} `}
@@ -158,13 +163,13 @@ const BodyLogin = (props) => {
                             </div>
                         </div>        
 
-                        <Link className='px-0 mt-4 font-[500] hover:underline' to="/forgot-password" title="Forgot password">
+                        <div className='cursor-pointer px-0 mt-4 font-[500] hover:underline' to="/forgot-password" title="Forgot password" onClick={() => navigateAway("/forgot-password")}>
                             <span className="">Forgot Password</span>
-                        </Link>
-                        <div className="my-5 px-0">
-                            <Link className="capitalize font-bold text-gray-500 hover:text-gray-600 hover:underline" to="/signup" title="Join now">
+                        </div>
+                        <div className="my-5 px-0 cursor-pointer ">
+                            <div className="capitalize font-bold text-gray-500 hover:text-gray-600 hover:underline"  onClick={() => navigateAway("/forgot-password")}>
                                 <span className="">Don't have an account? Register now!</span>
-                            </Link>
+                            </div>
                         </div>
                     </Row>
                 </Form>

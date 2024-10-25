@@ -1509,3 +1509,7 @@ svg.big-offcanvas-icon {
 .input-field {
   margin-bottom: 20px;
 }
+
+label {
+  text-transform: capitalize;
+}

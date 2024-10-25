@@ -6,6 +6,8 @@ import makeRequest from "../../utils/fetch-request";
 import Select from 'react-select'
 import {Card, Tab, Tabs} from "react-bootstrap";
 import {formatNumber} from "../../utils/betslip";
+import NoEvents from "../../utils/no-events";
+import Notify from "../../utils/Notify";
 
 const Header = React.lazy(() => import('../../header/header'));
 const SideBar = React.lazy(() => import('../../sidebar/awesome/Sidebar'));
@@ -26,13 +28,16 @@ export default function MatchesList() {
     const fetchMatches = () => {
         setLoaded(false)
         let method = 'GET'
-        let endpoint = "/v1/matches?dooood&page=" + (1) + `&limit=${eventsOption?.value}&tab=` + section + '&sub_type_id=1,10,29,18';
-        makeRequest({url: endpoint, method: method}).then(([status, result]) => {
+        let endpoint = "/v2/matches?dooood&page=" + (1) + `&limit=${eventsOption?.value}&tab=` + section + '&sub_type_id=1,10,29,18';
+        makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
+            console.log("THE print matches request", status, "THE RESULT:::: ", result);
             if (status == 200) {
                 setMatches(result)
                 if (result.length > 0) {
                     setLoaded(true)
                 }
+            } else {
+                <Notify message={{status:400, message:"Could not fetch games. Contact us"}} />
             }
         });
     }
@@ -40,6 +45,7 @@ export default function MatchesList() {
     useEffect(()=> {
         fetchMatches();
     }, []);
+
     const sectionOptions = [
         {value: 'upcoming', label: 'Upcoming'},
         {value: 'highlights', label: 'Highlights'},
@@ -61,9 +67,9 @@ export default function MatchesList() {
 
     const fetchJackpotData = useCallback(async () => {
         setLoaded(false)
-        let match_endpoint = "/v1/matches/jackpot";
+        let match_endpoint = "/v2/matches/jackpot";
         const [match_result] = await Promise.all([
-            makeRequest({url: match_endpoint, method: "get", data: null})
+            makeRequest({url: match_endpoint, method: "get", api_version:2})
         ]);
         let [m_status, m_result] = match_result;
         if (m_status === 200) {
@@ -73,6 +79,8 @@ export default function MatchesList() {
             if (m_result?.data?.length > 0) {
                 setLoaded(true)
             }
+        } else {
+            <Notify message={{status:400, message:"Could not fetch games. Contact us"}} />
         }
     }, []);
 
@@ -237,54 +245,67 @@ export default function MatchesList() {
                 <p className="text-2xl my-3 px-2">
                 Grab your favorite games in printable format here. surebet provides the the best competitie odds for you to take advantage of in all areas of betting
                 </p>
+
+                
                 <Tabs
                     variant={'tabs'}
                     defaultActiveKey="matches"
                     onSelect={(k) => fetchActiveTabMatches(k)}
-                    className="background-primary"
+                    className="clear-tabs"
                     justify>
-                    <Tab eventKey="matches" title="" className={'background-primary shadow p-5'}
+                    <Tab eventKey="matches" title="Matches" className={'background-primary shadow p-5'}
                          style={{}}>
-                            <div className="col-md-12 d-flex flex-column p-2">
-                                <div className="row">
-                                <div className="col-md-6 text-start p-2">
-                                    <label htmlFor="" className={''}>Select Number of Games</label>
-                                    <Select 
-                                    options={totalEventOptions}
-                                            value={() => totalEventOptions.filter(obj => obj === eventsOption)}
-                                            onChange={handleEventsChange}
-                                    />
-                                    
 
+                            {
+                            matches?.length > 0 ?
+                            <>
+                                <div className="col-md-12 d-flex flex-column p-2">
+                                    <div className="row">
+                                    <div className="col-md-6 text-start p-2">
+                                        <label htmlFor="" className={''}>Select Number of Games</label>
+                                        <Select 
+                                        options={totalEventOptions}
+                                                value={() => totalEventOptions.filter(obj => obj === eventsOption)}
+                                                onChange={handleEventsChange}
+                                        />
+                                        
+
+                                    </div>
+                                    <div className="col-md-6">
+                                        <br/>
+                                        <button 
+                                        onClick={generatePDFDocument}
+                                        className={`mt-3 btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
+                                        style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
+                                        >
+
+                                        { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
+                                        </button>
+                                        </div>
+                                        </div>
                                 </div>
-                                <div className="col-md-6">
-                                    <br/>
+
+                                {/* The matches are here */}
+
+                                <MatchesPreview />
+
+                                <div className="md-col-12 text-start py-3 ">
                                     <button 
-                                    onClick={generatePDFDocument}
-                                    className={`mt-3 btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
-                                    style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
-                                    >
+                                        onClick={generatePDFDocument}
+                                        className={`btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
+                                        style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
+                                        >
 
-                                    { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
-                                    </button>
-                                    </div>
-                                    </div>
-                            </div>
+                                        { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
+                                    </button> 
+                                </div>
+                            </> :
 
-                            {/* The matches are here */}
-
-                            <MatchesPreview />
-
-                        <div className="md-col-12 text-start py-3 ">
-                              <button 
-                                  onClick={generatePDFDocument}
-                                  className={`btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
-                                  style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
-                                  >
-
-                                   { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
-                              </button> 
-                        </div>
+                            <NoEvents message={"An Error occurred. Conatct Customer Care on 0724599488"} />
+                            }
+                    </Tab>
+                    <Tab eventKey="jackpot" title="Jackpot" className={'background-primary shadow p-5'}
+                        style={{}}>
                     </Tab>
                 </Tabs>
             </div>

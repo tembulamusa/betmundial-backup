@@ -13,7 +13,7 @@ const Promotions = () => {
     return (
         <>
             <div
-                className="bg-primary shadow-sm  p-2 shadow-sm casino-category-container ">
+                className="bg-primary shadow-sm  p-4 shadow-sm casino-category-container ">
                     Promotions
             </div>
             <div className={'row  p-3 d-flex justify-content-center'}>
