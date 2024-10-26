@@ -25,7 +25,7 @@ const Header = (props) => {
     // const containerRef = useRef();
     // const {current} = containerRef;
 
-
+    
     const NotifyToastContaner = () => {
         return <ToastContainer
             position="top-right"
@@ -64,17 +64,18 @@ const Header = (props) => {
 
     }, [user]);
 
+    const checkUserExpiry = () => {
+        setInterval(function() {
+            console.log("Check user expiry");
+            clearInterval(checkUserExpiry)
+        }, 5000)
+    }
     useEffect(() => {
         if (!user) {
             setUser(state?.user)
         }
+        state?.user && checkUserExpiry()
     }, [state?.user])
-    // const updateUser = () => {
-    //     setUser(getFromLocalStorage("user"));
-    // }
-    // useEffect(()=>{
-    //     updateUser();
-    // },[user]);
     
     useEffect(() => {
         updateUserOnHistory()
@@ -125,4 +126,5 @@ const Header = (props) => {
 
     )
 }
+
 export default React.memo(Header);

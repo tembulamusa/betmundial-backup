@@ -128,7 +128,7 @@ const Signup = (props) => {
                                     className="block px-3 py-3 w-full rounded-2xl std-input form-control"
                                     id="password2"
                                     name="password2"
-                                    type="password2"
+                                    type="password"
                                     placeholder='Repeat password'
                                     onChange={ev => onFieldChanged(ev)}
                                 />

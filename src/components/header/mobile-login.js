@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {getFromLocalStorage, setLocalStorage} from '../utils/local-storage';
 import {
     Link,
+    useLocation,
     useNavigate,
 } from 'react-router-dom';
 import Alert from '../utils/alert';
@@ -17,11 +18,12 @@ import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
 const BodyLogin = (props) => {
     const [isLoading, setIsLoading] = useState(null)
     const [message, setMessage] = useState(null);
-    const [, dispatch] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
     const [alertVerifyMessage, setAlertVerifyMessage] = useState(null)
     // const {user} = props;
     const [user, setUser] = useState(getFromLocalStorage("user"));
     const navigate = useNavigate();
+    const location = useLocation();
     
     const initialValues = {
         msisdn: "",
@@ -39,11 +41,15 @@ const BodyLogin = (props) => {
             toastId: 673738 /* this is hack to prevent multiple toasts */
         }
         if ([200, 201, 204].includes(message.status)) {
-            dispatch({type:"SET", key:"showloginmodal", payload:false});
+            if(!state?.showloginmodal || state?.showloginmodal == false){navigate("/");}
+
+            
             setLocalStorage('user', message.user);
             setUser(message.user);
             dispatch({type:"SET", key: "user", payload: message?.user});
-            navigate("/");
+            dispatch({type:"DEL", key:"showloginmodal"});
+
+            
             // toast.success(`🚀 ${message.message || "Login successful"}`, options);
         } else {
             toast.error(`🦄 ${message.message}`, options);

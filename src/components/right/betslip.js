@@ -44,13 +44,15 @@ const BetSlip = (props) => {
             : getBetslip();
         setBetslipsData(b);
         if(b){
+            console.log("CHANGING AGAIN:::: ");
             setHasBetslip(true);
         } else {
+
             setHasBetslip(false);
         }
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
-        !state?.betslip && dispatch({type:"SET", key:state?.jackpotbetslip ? "jackpotbetslip" :"betslip", payload:b})
+        (!state?.betslip && !state?.jackpotbetslip) && dispatch({type:"SET", key:state?.jackpotbetslip ? "jackpotbetslip" :"betslip", payload:b})
     }, [state?.betslip, state?.jackpotbetslip]);
     
     const fetchSharedBetslip = useCallback((code) => {
