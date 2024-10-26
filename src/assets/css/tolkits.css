@@ -15086,7 +15086,7 @@ img.zoom-img {
 
 
     .carousel-item img,  {
-        height: 100px;
+        /* height: 100px; */
     }
     tr.my-bets {
         border-bottom: 5px solid #ffffff;

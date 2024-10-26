@@ -1115,7 +1115,7 @@ img.highlights-content-img {
 }
 
 .banner-imgs img {
-  height: 150px;
+  /* height: 150px; */
 }
 
 .menu-icon {
@@ -1378,7 +1378,7 @@ h1.std-title {
     width: 30px;
 }
 .banner-imgs img {
-  height: 75px;
+  /* height: 75px; */
 }
 
 .highlights .marquee-card {
