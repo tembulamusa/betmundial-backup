@@ -4,7 +4,7 @@ import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 // import banner5 from '../../assets/img/banner/products/Daily-JackPot.png'
-import Breakfast from '../../assets/img/banner/carousel/breakfast.png';
+import Breakfast from '../../assets/img/banner/carousel/app.png';
 import App from '../../assets/img/banner/carousel/app.png';
 import Sharebet from '../../assets/img/banner/carousel/Sharebet.png';
 import Tick from '../../assets/img/banner/carousel/Tick.png';

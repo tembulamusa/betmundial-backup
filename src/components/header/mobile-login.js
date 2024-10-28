@@ -18,6 +18,7 @@ import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
 const BodyLogin = (props) => {
     const [isLoading, setIsLoading] = useState(null)
     const [message, setMessage] = useState(null);
+    const [generalErrorMessage, setGeneralErrorMessage] = useState(null)
     const [state, dispatch] = useContext(Context);
     const [alertVerifyMessage, setAlertVerifyMessage] = useState(null)
     // const {user} = props;
@@ -43,16 +44,12 @@ const BodyLogin = (props) => {
         if ([200, 201, 204].includes(message.status)) {
             if(!state?.showloginmodal || state?.showloginmodal == false){navigate("/");}
 
-            
+            dispatch({type:"SET", key:"showloginmodal", payload: false});
             setLocalStorage('user', message.user);
             setUser(message.user);
             dispatch({type:"SET", key: "user", payload: message?.user});
             dispatch({type:"DEL", key:"showloginmodal"});
-
-            
             // toast.success(`🚀 ${message.message || "Login successful"}`, options);
-        } else {
-            toast.error(`🦄 ${message.message}`, options);
         }
 
     };
@@ -71,7 +68,7 @@ const BodyLogin = (props) => {
         let endpoint = '/v2/auth/login';
         setIsLoading(true)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
-            setIsLoading(false);
+            console.log("THE LOGIN STATUS::: === ", status)
             if (status === 200 || status == 201 || status == 204) {
                 if (response.status == 200 || response.status == 201) {
                     setMessage({user:response?.data, status:200});
@@ -82,10 +79,13 @@ const BodyLogin = (props) => {
                     }
                 }
             } else {
+                if (status === 403) {
+                    if (response?.result == "Failed") {
+                        setGeneralErrorMessage({status: 400, message: response.error.description})
+                    }
+                }
                 if (response?.result == "User account not verified") {
                     setAlertVerifyMessage({status: 400, message:response.result})
-                } else {
-                    setMessage({status: 400, message: response.result})
                 }
 
             }
@@ -165,7 +165,18 @@ const BodyLogin = (props) => {
                         <span className="px-0">
                             <label><input type="checkbox" name="remember" value="1"/>Remember me</label>
                         </span>
-                        {alertVerifyMessage && <div> <Alert message={alertVerifyMessage}/> <div onClick={() => dispatch({type:"DEL", key:"showloginmodal"})}><Link className='text-red-500 underline font-bold' to={"/verify-account"}>Click here to verify</Link></div></div>}
+                        {
+                            alertVerifyMessage &&
+                            <div><Alert message={alertVerifyMessage}/> <div onClick={() => dispatch({type:"DEL", key:"showloginmodal"})}>
+                                <Link className='text-red-500 underline font-bold' to={"/verify-account"}>Click here to verify</Link>
+                                </div>
+                            </div>
+                        }
+
+                        {
+                            generalErrorMessage && 
+                            <div><Alert message={generalErrorMessage}/></div>
+                        }
                         <div className='row !pr-0 px-0 !mr-0'>
                             <div className='col-3'><button className='mt-4 btn btn-default btn-lg bg-gray-200 hover:bg-gray-300'  style={{marginTop: "10px",
                             padding: "8px 12px", fontSize: "14px"}} onClick={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}>Cancel</button></div>
@@ -219,7 +230,7 @@ const BodyLogin = (props) => {
 
     return (
         <>
-            <ToastContainer/>
+            {/* <ToastContainer/> */}
             <LoginForm/>
         </>
                 

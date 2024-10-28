@@ -48,6 +48,7 @@ import Sidebar from "./components/sidebar/awesome/Sidebar";
 import { Context } from './context/store';
 import Logout from "./components/pages/auth/logout";
 import ForgotPassword from "./components/pages/auth/forgot-password";
+import SureCoin from "./components/pages/sure-coin";
 
 const container = document.getElementById("app");
 
@@ -107,6 +108,7 @@ const App = () => {
                             <Route path="/check-deposit-status" element={<CheckDepositStatus />} />
                             <Route exact path="/exclude" element={<Exclude/>}/>
                             <Route exact path="/promotions" element={<Promotions/>}/>
+                            <Route exact path="/surecoin" element={<SureCoin/>}/>
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
                             <Route exact path="/withdraw"
