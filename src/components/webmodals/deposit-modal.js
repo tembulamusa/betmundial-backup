@@ -15,7 +15,8 @@ const DepositModal = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [directDepositPromt, setDirectDepositPrompt] = useState(false);
     // const [amount, setAmount] = useState(state?.promptdepositrequest?.payableAmt)
-    
+    const [closeButton, setCloseButton] = useState(false);
+
     const initialValues = {
         amount: state?.promptdepositrequest?.payableAmt,
         msisdn: state?.user?.msisdn || ''
@@ -37,8 +38,8 @@ const DepositModal = (props) => {
             } else {
                 setDepositMessage({status: 400, message: "Error pushing stk. Please deposit directly"});
                 setDirectDepositPrompt(true)
+                setIsLoading(false)
             }
-            setIsLoading(false)
         })
     }
 
@@ -82,6 +83,7 @@ const DepositModal = (props) => {
                         />
                         {errors.amount && <div className='text-danger'> {errors.amount} </div>}
                         </div>
+
                         <input
                             onChange={ev => onFieldChanged(ev)}
                             style={{}}
@@ -91,13 +93,21 @@ const DepositModal = (props) => {
                             type="hidden"
                             value={state?.user?.msisdn}
                         />
+                        <div className='col-8'>
+                            <button
+                                disabled={isLoading}
+                                style={{}}
+                                className='w-full btn btn-lg btn-primary bg-primary deposit-withdraw-butto font-[500]'>
+                                {isLoading ? "wait..." : "Deposit"}
+                            </button>
+                        </div>
+                        <div className='col-4'>
+                            <div
+                                onClick={() => dispatch({type:"DEL", key:"promptdepositrequest"})}
+                                className='w-full btn btn-lg btn-primary btn-warning deposit-withdraw-butto font-[500]'>
+                                {closeButton ? "Cancel" : "Close"}
+                            </div></div>
                         
-                        <button
-                            disabled={isLoading}
-                            style={{}}
-                            className='btn btn-lg btn-primary bg-primary deposit-withdraw-butto font-[500]'>
-                            {isLoading ? "wait..." : "Deposit"}
-                        </button>
                     </div>
                 </div>
             </>
