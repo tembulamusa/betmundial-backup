@@ -163,7 +163,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
             </div>
           </div>
           <div className="col-3 pr-0">
-            <button className="bet-button btn red-bg uppercase btn">Bet Now</button>
+            <button className="bet-button btn red-bg uppercase btn" onClick={() => setShowMobileSlip(true)}>Bet Now</button>
           </div>
         </div>
       </section>

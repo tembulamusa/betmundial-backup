@@ -31,7 +31,7 @@ const BetslipSubmitForm = (props) => {
     const {jackpot, jackpotData, bonusBet} = props;
     const [message, setMessage] = useState(null);
     const [state, dispatch] = useContext(Context);
-    const [stake, setStake] = useState(jackpotData?.bet_amount ?? 100);
+    const [stake, setStake] = useState(state?.mobilefooteramount || jackpotData?.bet_amount || 100);
     const [stakeAfterTax, setStakeAfterTax] = useState(0);
     const [exciseTax, setExciseTax] = useState(0);
     const [withholdingTax, setWithholdingTax] = useState(0);
@@ -406,7 +406,7 @@ const BetslipSubmitForm = (props) => {
                                                     className="bet-select"
                                                     name="bet_amount"
                                                     id="bet_amount"
-                                                    value={values.bet_amount}
+                                                    value={stake}
                                                     onChange={(e) => onFieldChanged(e)}
                                             />)}
                                     </div>
