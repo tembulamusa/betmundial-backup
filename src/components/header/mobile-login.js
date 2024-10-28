@@ -68,10 +68,12 @@ const BodyLogin = (props) => {
         let endpoint = '/v2/auth/login';
         setIsLoading(true)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
-            console.log("THE LOGIN STATUS::: === ", status)
             if (status === 200 || status == 201 || status == 204) {
                 if (response.status == 200 || response.status == 201) {
+                    dispatch({type:"SET", key:"showloginmodal", payload:false});
+                    dispatch({type:"DEL", key:"showloginmodal"})
                     setMessage({user:response?.data, status:200});
+
                 } else {
                     if (response?.result == "User account not verified") {
                         dispatch({type:"SET", key:"regmsisdn", payload:values.msisdn})
