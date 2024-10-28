@@ -8,7 +8,7 @@ import { Context } from '../../context/store';
 import { useNavigate } from 'react-router-dom';
 import Notify from '../utils/Notify';
 import { Link } from 'react-router-dom';
-
+import { RxEyeClosed, RxEyeNone } from "react-icons/rx";
 
 const Signup = (props) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -20,6 +20,7 @@ const Signup = (props) => {
     const initialValues = {
         msisdn: '',
         password: '',
+        password2: '',
         created_by:"web"
     }
 
@@ -75,6 +76,8 @@ const Signup = (props) => {
 
     const MySignupForm = (props) => {
         const {errors, values, setFieldValue} = props;
+        const [showPassword, setShowPassword] = useState(false);
+        const [showPassword2, setShowPassword2] = useState(false);
 
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
@@ -106,35 +109,53 @@ const Signup = (props) => {
                         </div>
 
                         <div className="form-group row d-flex justify-content-center mt-5">
-                            <div className="col-md-12">
+                            <div className="col-md-12 relative">
                                 <label>Password</label>
-                                <input
-                                    value={values.password}
-                                    className="block px-3 py-3 w-full rounded-2xl std-input form-control"
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    placeholder='Password'
-                                    onChange={ev => onFieldChanged(ev)}
-                                />
+                                <div className="relative">
+                                    <input
+                                        value={values.password}
+                                        className="block px-3 py-3 w-full rounded-2xl std-input form-control"
+                                        id="password"
+                                        name="password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        placeholder='Password'
+                                        onChange={ev => onFieldChanged(ev)}
+                                    />
+                                    <span
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <RxEyeNone /> : <RxEyeClosed />}
+                                    </span>
+                                </div>
                                 {errors.password && <div className='text-danger'> {errors.password} </div>}
                             </div>
                         </div>
+
                         <div className="form-group row d-flex justify-content-center mt-5">
-                            <div className="col-md-12">
+                            <div className="col-md-12 relative">
                                 <label>Repeat Password</label>
-                                <input
-                                    value={values.password2}
-                                    className="block px-3 py-3 w-full rounded-2xl std-input form-control"
-                                    id="password2"
-                                    name="password2"
-                                    type="password"
-                                    placeholder='Repeat password'
-                                    onChange={ev => onFieldChanged(ev)}
-                                />
+                                <div className="relative">
+                                    <input
+                                        value={values.password2}
+                                        className="block px-3 py-3 w-full rounded-2xl std-input form-control"
+                                        id="password2"
+                                        name="password2"
+                                        type={showPassword2 ? 'text' : 'password'}
+                                        placeholder='Repeat password'
+                                        onChange={ev => onFieldChanged(ev)}
+                                    />
+                                    <span
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl"
+                                        onClick={() => setShowPassword2(!showPassword2)}
+                                    >
+                                        {showPassword2 ? <RxEyeNone /> : <RxEyeClosed />}
+                                    </span>
+                                </div>
                                 {errors.password2 && <div className='text-danger'> {errors.password2} </div>}
                             </div>
                         </div>
+
                         <div className="form-group row d-flex justify-content-left mb-4">
                             <div className="">
                                 <button type="submit"
@@ -191,16 +212,18 @@ const Signup = (props) => {
                                 CREATE AN ACCOUNT
                             </h4>
                         </div>
-                        <div className="col-md-12 mt-2 p-2 std-boxed-form-page" 
-                            style={{}}
-                        >
+                        <div className='std-medium-width-block'>
+                            <div className="col-md-12 mt-2 p-2 std-boxed-form-page" 
+                                style={{}}
+                            >
 
-                            {message ? <Alert/>:""}
-                            <div className="modal-body pb-0" data-backdrop="static">
-                                <SignupForm/>
+                                {message ? <Alert/>:""}
+                                <div className="modal-body pb-0" data-backdrop="static">
+                                    <SignupForm/>
+                                </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
         </React.Fragment>
     );
 }

@@ -14,6 +14,7 @@ import {
 } from 'react-router-dom';
 import Alert from '../utils/alert';
 import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
+import { RxEyeClosed, RxEyeNone } from "react-icons/rx";
 
 const BodyLogin = (props) => {
     const [isLoading, setIsLoading] = useState(null)
@@ -121,6 +122,7 @@ const BodyLogin = (props) => {
 
     const MyLoginForm = (props) => {
         const {isValid, errors, values, submitForm, setFieldValue} = props;
+        const [showPassword, setShowPassword] = useState(false);
 
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
@@ -146,21 +148,24 @@ const BodyLogin = (props) => {
                         </div>
                         <div className="px-0">
                             <label className='modal-label'>Password</label>
-                            <input type="password"
-                                       name="password"
-                                       className={`block px-3 py-3 w-full rounded-2xl form-control std-input ${errors.password && 'text-danger'} `}
-                                       data-action="grow"
-                                       placeholder={errors.password || "Password"}
-                                       onChange={ev => onFieldChanged(ev)}
-                                       value={values.password}
+                            <div className="relative">
+                                <input type={showPassword ? 'text' : 'password'}
+                                    name="password"
+                                    className={`block px-3 py-3 w-full rounded-2xl form-control std-input ${errors.password && 'text-danger'} `}
+                                    data-action="grow"
+                                    placeholder={errors.password || "Password"}
+                                    onChange={ev => onFieldChanged(ev)}
+                                    value={values.password}
                                 />
-                                
-                                
-                            <br/>
-                            <input type="hidden" name="ref" value="{props.refURL}"/>
-                            
-
-                            
+                                <span
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <RxEyeNone /> : <RxEyeClosed />}
+                                </span>
+                            </div>
+                            <br />
+                            <input type="hidden" name="ref" value="{props.refURL}" />
                         </div>
                         <span className="px-0">
                             <label><input type="checkbox" name="remember" value="1"/>Remember me</label>
@@ -183,7 +188,7 @@ const BodyLogin = (props) => {
                             <span className="">Forgot Password</span>
                         </div>
                         <div className="my-5 px-0 cursor-pointer ">
-                            <div className="capitalize font-bold text-gray-500 hover:text-gray-600 hover:underline"  onClick={() => navigateAway("/forgot-password")}>
+                            <div className="capitalize font-bold text-gray-500 hover:text-gray-600 hover:underline"  onClick={() => navigateAway("/signup")}>
                                 <span className="">Don't have an account? Register now!</span>
                             </div>
                         </div>

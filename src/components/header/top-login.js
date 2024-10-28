@@ -5,7 +5,7 @@ import {Context} from '../../context/store';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa';
+import SearchInput from './search-component';
 
 import { faUser, faLock, faCoins } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,33 +18,18 @@ const HeaderLogin = (props) => {
 
     // an independent function that runs every 1 minute to check for user session
     // and request a refresh. However, currently, we are just requesting a relogin
-    
+    const handleSearch = (searchTerm) => {
+        console.log("Handling search for:", searchTerm);
+    };
+
     const MyLoginForm = (props) => {
-        const [isFocused, setIsFocused] = useState(false); 
        
         return (
             <>
                 <div className="header-login-links uppercase">
                     <div className="onboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginTop: "7px" }}>                    
                    
-                    <div 
-                            style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: 'center', 
-                                padding: '5px 10px',  
-                                backgroundColor: 'transparent', 
-                                marginRight: '1rem',
-                                cursor: 'pointer',
-                                transition: 'background-color 0.3s'
-                            }}
-                            onMouseEnter={() => setIsFocused(true)} 
-                            onMouseLeave={() => setIsFocused(false)}
-
-                            className='top-item'
-                        >
-                            <FaSearch style={{ color: '#fff', fontSize: '16px' }} />
-                        </div>
+                        <SearchInput onSearch={handleSearch} />
 
                         <div className='hidden md:inline-block top-item'>
                             <Link
@@ -54,6 +39,7 @@ const HeaderLogin = (props) => {
                             </span>
                             </Link>
                         </div>
+                        
                         
                         <button 
                             className="mr-4  top-item uppercase top-login-btn text-white btn" 

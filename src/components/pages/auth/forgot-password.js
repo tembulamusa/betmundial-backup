@@ -131,7 +131,7 @@ const ResetPassword = (props) => {
                     <div className="row">
                         <div className="form-group row d-flex justify-content-center mt-2">
                             <div className="col-md-12">
-                                <label>msisdn Number</label>
+                                <label>Your Number</label>
                                 <input
                                     value={values.msisdn}
                                     className="text-dark deposit-input form-control col-md-12 input-field"
@@ -279,11 +279,13 @@ const ResetPassword = (props) => {
         <React.Fragment>
             <div className="homepage">
                 <FormTitle/>
-                <div className="col-md-12 mt-2 p-2 px-4">
-                    {message && <Alert/>}
-                    <div className="pb-0" data-backdrop="static">
-                        <OptForm/>
-                        <PasswordResetForm/>
+                <div className='std-medium-width-block'>
+                    <div className="col-md-12 mt-2 p-2 px-4">
+                        {message && <Alert/>}
+                        <div className="pb-0" data-backdrop="static">
+                            <OptForm/>
+                            <PasswordResetForm/>
+                        </div>
                     </div>
                 </div>
             </div>

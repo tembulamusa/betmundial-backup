@@ -55,10 +55,7 @@ const CheckDepositStatus = () => {
                                     <button 
                                         type="submit"
                                         className={`btn btn-lg btn-primary mt-5 deposit-withdraw-button font-bold`} 
-                                        disabled={isSubmitting}
-                                        style={{
-                                            width: '50%',
-                                        }} 
+                                        disabled={isSubmitting}                                        
                                     >
                                         Check Now
                                     </button>

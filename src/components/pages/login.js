@@ -11,8 +11,10 @@ const Login = (props) => {
                     Login
                 </h4>
             </div>
-            <div className="col-md-12">
-                <BodyLogin/>
+            <div className='std-medium-width-block'>
+                <div className="col-md-12">
+                    <BodyLogin/>
+                </div>
             </div>
         </div>
     );

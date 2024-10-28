@@ -39,6 +39,7 @@ const CarouselLoader = (props) => {
             </Carousel.Item>
 
             <Carousel.Item >
+                <Link to={"/app"}>
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -47,6 +48,7 @@ const CarouselLoader = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
+                </Link>
             </Carousel.Item>
 
             <Carousel.Item >

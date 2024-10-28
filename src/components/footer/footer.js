@@ -1,5 +1,8 @@
 import React from 'react';
-import { FaEnvelope, FaFacebook, FaXTwitter, FaInstagram, FaWhatsapp  } from "react-icons/fa6";
+import { FaEnvelope, FaFacebook, FaXTwitter, FaInstagram, FaWhatsapp  } from "react-icons/fa6";import Breakfast from '../../assets/img/banner/carousel/breakfast.png';
+
+import PlayStore from '../../assets/img/general-website/google-play-badge.png';
+import AppStore from '../../assets/img/general-website/appstore_badge.svg';
 
 const Footer = (props) => {
 //#24367e
@@ -75,7 +78,11 @@ const Footer = (props) => {
                             <a href="/anti-money-laundering">Anti-money Laundering</a>
                         </li>
                     </ul>
-                </div>
+                    <div className="flex gap-2 items-center flex-wrap mt-2">
+                        <img src={PlayStore} alt="Google Play Store" className="w-40 h-16" />
+                        <img src={AppStore} alt="Apple App Store" className="w-40 h-16" />
+                    </div>
+                </div>               
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <h5>LICENSING</h5>
                     <hr/>

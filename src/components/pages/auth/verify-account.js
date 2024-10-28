@@ -90,6 +90,7 @@ const VerifyAccount = (props) => {
         )
     }
 
+
     const MyVerifyAccountForm = (props) => {
         const {errors, values, setFieldValue} = props;
 
@@ -184,10 +185,12 @@ const VerifyAccount = (props) => {
     return (
         <>
             <FormTitle/>
-            <div className="col-md-12 mt-2 p-2">
-                {message && <Alert/>}
-                <div className="pb-0" data-backdrop="static">
-                    <VerifyAccountForm/>
+            <div className='std-medium-width-block'>
+                <div className="col-md-12 mt-2 p-2">
+                    {message && <Alert/>}
+                    <div className="pb-0" data-backdrop="static">
+                        <VerifyAccountForm/>
+                    </div>
                 </div>
             </div>
         </>

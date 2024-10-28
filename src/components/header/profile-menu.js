@@ -5,25 +5,35 @@ import { formatNumber } from "../utils/betslip";
 import { Link } from "react-router-dom";
 import {Navbar} from "react-bootstrap";
 import MobileMenu from "./mobile-menu";
+import SearchInput from './search-component';
+
 
 const ProfileMenu = (props) => {
   const { user } = props;
+
+  const handleSearch = (searchTerm) => {
+    console.log("Handling search for:", searchTerm);
+  };
+
   return (
     <>
       {user && (
         <>
         <div className="ale ss profile float-end flex">
+
+          <SearchInput onSearch={handleSearch} />
+
             <div className="user-menu-col {'mt-1'} col-md-2 d-flex flex-column justify-content-start space-deposit">
-            <Link
-              to={{ pathname: "/deposit" }}
-              className={"btn   hidden md:inline-block"}
-              style={{ fontSize: "16px", fontWeight: "bold !important", background:"rgba(255,255,255,0.2)", borderRadius:"10px",padding:"5px 26px", width:"max-content"}}
-            >
-              <span className="uppercase overflow-hidden justify-content-center  rescale">
-               <span className=" space-icons"> <FontAwesomeIcon className="secondary-text" icon={faCoins} /></span> Deposit 
-              </span>
-            </Link>
-          </div>
+              <Link
+                to={{ pathname: "/deposit" }}
+                className={"btn   hidden md:inline-block"}
+                style={{ fontSize: "16px", fontWeight: "bold !important", background:"rgba(255,255,255,0.2)", borderRadius:"10px",padding:"5px 26px", width:"max-content"}}
+              >
+                <span className="uppercase overflow-hidden justify-content-center  rescale">
+                <span className=" space-icons"> <FontAwesomeIcon className="secondary-text" icon={faCoins} /></span> Deposit 
+                </span>
+              </Link>
+            </div>
           
           <div className=" user-menu-col col-md-3 d-flex flex-column right justify-content-end w-change2">
               <div className="mr-3">
