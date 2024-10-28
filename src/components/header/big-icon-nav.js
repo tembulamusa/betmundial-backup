@@ -23,6 +23,7 @@ const BigIconMenu = () => {
         {name: "live", icon:"live.svg", link:"/live", parentTo:null},
         {name: "jackpot", icon:"jackpot.svg", link:"/jackpot", parentTo:null},
         {name: "aviator", icon:"aviator.svg", link:"/aviator", parentTo:null},
+        {name: "surecoin", icon:"surecoin.svg", link:"/surecoin", parentTo:null},
         {name: "casino", icon:"casino3.jpg", link:"/casino", parentTo:null},
         {name: "sport", icon:"sports.svg", link:null, parentTo:"sportscategories"},
         {name: "virtuals", icon:"virtual.jpg", link:"/virtuals", parentTo:null},
