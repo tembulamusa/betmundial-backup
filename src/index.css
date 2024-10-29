@@ -1513,3 +1513,8 @@ svg.big-offcanvas-icon {
 label {
   text-transform: capitalize;
 }
+
+.accordion__panel {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}

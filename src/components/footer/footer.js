@@ -63,6 +63,9 @@ const Footer = (props) => {
                         <li className="">
                             <a href="/how-to-play">How To Play</a>
                         </li>
+                        <li className="">
+                            <a href="/faqs">Frequently asked questions</a>
+                        </li>
                     </ul>
                 </div>
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">

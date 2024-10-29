@@ -20,6 +20,7 @@ import MyBets from './components/my-bets';
 import HowToPlay from './components/pages/HowToPlay';
 import TermsAndConditions from './components/pages/terms-and-conditions/index';
 import CookiePolicy from './components/pages/cookie-policy/index';
+import FAQs from "./components/pages/faqs";
 import DisputeResolution from './components/pages/dispute-resolution/index';
 import ResponsibleGambling from './components/pages/responsible-gambling';
 import AntimoneyLaundering from './components/pages/anti-money-laundering';
@@ -95,6 +96,7 @@ const App = () => {
                             <Route exact path="/responsible-gambling" element={<ResponsibleGambling/>}/>
                             <Route exact path="/dispute-resolution" element={<DisputeResolution/>}/>
                             <Route exact path="/cookie-policy" element={<CookiePolicy/>}/>
+                            <Route exact path="/faqs" element={<FAQs/>}/>
                             <Route exact path="/terms-and-conditions" element={<TermsAndConditions/>}/>
                             <Route exact path="/how-to-play" element={<HowToPlay/>}/>
                             <Route exact path="/signup" element={<Signup/>}/>
