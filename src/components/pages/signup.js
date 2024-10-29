@@ -8,7 +8,7 @@ import { Context } from '../../context/store';
 import { useNavigate } from 'react-router-dom';
 import Notify from '../utils/Notify';
 import { Link } from 'react-router-dom';
-import { RxEyeClosed, RxEyeNone } from "react-icons/rx";
+import { FaRegEye, FaRegEyeSlash  } from "react-icons/fa";
 
 const Signup = (props) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -125,7 +125,7 @@ const Signup = (props) => {
                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl"
                                         onClick={() => setShowPassword(!showPassword)}
                                     >
-                                        {showPassword ? <RxEyeNone /> : <RxEyeClosed />}
+                                        {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                                     </span>
                                 </div>
                                 {errors.password && <div className='text-danger'> {errors.password} </div>}
@@ -149,7 +149,7 @@ const Signup = (props) => {
                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl"
                                         onClick={() => setShowPassword2(!showPassword2)}
                                     >
-                                        {showPassword2 ? <RxEyeNone /> : <RxEyeClosed />}
+                                        {showPassword2 ? <FaRegEye /> : <FaRegEyeSlash />}
                                     </span>
                                 </div>
                                 {errors.password2 && <div className='text-danger'> {errors.password2} </div>}

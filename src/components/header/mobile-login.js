@@ -14,7 +14,7 @@ import {
 } from 'react-router-dom';
 import Alert from '../utils/alert';
 import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
-import { RxEyeClosed, RxEyeNone } from "react-icons/rx";
+import { FaRegEye, FaRegEyeSlash  } from "react-icons/fa";
 
 const BodyLogin = (props) => {
     const [isLoading, setIsLoading] = useState(null)
@@ -163,7 +163,7 @@ const BodyLogin = (props) => {
                                     className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl"
                                     onClick={() => setShowPassword(!showPassword)}
                                 >
-                                    {showPassword ? <RxEyeNone /> : <RxEyeClosed />}
+                                    {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                                 </span>
                             </div>
                             <br />
