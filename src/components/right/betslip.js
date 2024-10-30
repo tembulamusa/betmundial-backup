@@ -44,7 +44,6 @@ const BetSlip = (props) => {
             : getBetslip();
         setBetslipsData(b);
         if(b){
-            console.log("CHANGING AGAIN:::: ");
             setHasBetslip(true);
         } else {
 
@@ -57,27 +56,34 @@ const BetSlip = (props) => {
     
     const fetchSharedBetslip = useCallback((code) => {
         let endpoint = "/v2/bet/share?share-code=" + code
+        setSharedBetError(null);
         setSharedBetLoading(true);
         makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
-            
+            console.log("SHARED SLIP ISSUE :::::: ", status, "  RESULTSSSSS  ====;;; ", result)
             if (status == 200) {
                //load betslip
-                if(result?.data?.betslip) {
-                    let betslip = {}
-                    // change slip type
-                    result?.data?.betslip?.map((item, idx) => {
-                        let item_id = item.match_id
-                        betslip[item_id] = item;
-                    })
-                    dispatch({type: "SET", key: "betslip", payload: betslip});
-                    setLocalStorage("betslip", betslip);
+                if (result.status == 200 )
+                    {if(result?.data?.betslip && result?.data?.betslip.length > 0) {
+                        let betslip = {}
+                        // change slip type
+                        result?.data?.betslip?.map((item, idx) => {
+                            let item_id = item.match_id
+                            betslip[item_id] = item;
+                        })
+                        dispatch({type: "SET", key: "betslip", payload: betslip});
+                        setLocalStorage("betslip", betslip);
+                    } else {
+                        setSharedBetError({status: 400, message: "No games found. Slip expired"})
+                    }
+                } else {
+                    setSharedBetError({status: 400, message: result?.result + ". Invalid slip"})
                 }
             } else {
-                setSharedBetError({status:400, message: "Error processing shared slip. Select own games"})
-                // Notify({status: 400, message: "unable to fetch shared bet"});
+
             }
+            
+
             setSharedBetLoading(false);
-            setSharedBetError(null);
         });
     }, [code])
 
@@ -86,8 +92,10 @@ const BetSlip = (props) => {
      };
  
      const loadBetslipFromCode = () => {
-         if(inputShareCode.length >= 5) {
+         if(inputShareCode && (inputShareCode.length >= 5)) {
              fetchSharedBetslip(inputShareCode); 
+         } else {
+            setSharedBetError({status: 400, message: "Invalid slip. Check your slip and try again"})
          }
      }
  
@@ -215,7 +223,7 @@ const BetSlip = (props) => {
                     {!state?.isjackpot &&
                         <div className='px-2 py-1'>
                             <div className='my-3 font-[500] text-2xl text-center'>Do you have a shared betslip code? Enter it here.</div>
-                            {sharedBetError && <Alert message={sharedBetError} />}
+                            {sharedBetError && <div className='my-3'><Alert message={sharedBetError} /></div>}
                             <input  type="text" name="sharecode"  placeholder="Eg HLRTMRV"  
                                 onChange={handleCodeInputChange}
                                 className='block w-full px-2 text-center rounded-2xl'
