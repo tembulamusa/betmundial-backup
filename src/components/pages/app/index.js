@@ -38,27 +38,27 @@ const MobileApp = () => {
                         <ul className="block my-4">
                             
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-[#E70654] mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" /> 
                                 Stream LIVE games
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-[#E70654] mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" /> 
                                 Play 4 virtual leagues
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-[#E70654] mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" /> 
                                 Lighter and faster
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-[#E70654] mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" /> 
                                 Share betslip
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-[#E70654] mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" /> 
                                 Light &amp; dark mode
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-[#E70654] mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" /> 
                                 Instant notifications
                             </li>
                         </ul>

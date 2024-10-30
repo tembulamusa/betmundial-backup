@@ -2,7 +2,8 @@ import React from "react";
 
 const PromoCard = ({ promo, openModal }) => {
   return (
-    <div className="relative bg-black-50 rounded-lg p-4 w-full sm:w-1/3 mb-6 mx-2 shadow-lg">
+    //<div className="relative bg-black-50 rounded-lg p-2 w-full sm:w-1/3 md:w-1/4 mb-6 mx-1 shadow-lg">
+    <div className="relative bg-black-50 rounded-lg p-2 w-full sm:w-1/3 mb-6 mx-2 shadow-lg">    
       <div className="rounded-lg overflow-hidden h-48">
         <img
           src={promo.image}
@@ -10,7 +11,7 @@ const PromoCard = ({ promo, openModal }) => {
           className="object-cover w-full h-full"
         />
       </div>
-      <div className="bg-black bg-opacity-80 p-4 rounded-lg mt-4">
+      <div className="bg-black bg-opacity-80 p-4 rounded-lg mt-4 mb-4">
         <h5 className="text-lg font-bold mb-2 text-white">{promo.title}</h5>
         <p className="text-sm mb-4 text-white">
           {promo.description.slice(0, 200)}

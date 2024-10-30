@@ -123,22 +123,23 @@ const Jackpot = (props) => {
                     <Tabs defaultActiveKey={"matches"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
                         <Tab eventKey="matches" title="Matches" className="p-3">
                             { jackpotData?.status?.toLowerCase() === "active" && (
-                                <div className="row">
-                                    <div className="col-md-8 !px-3">
-                                        <div className="!px-2">
-                                            <div className="jackpot-amount !pl-0 pt-3">
-                                                Autopick randomly picks jackpot for you! KES {Intl.NumberFormat('en-US').format(jackpotData?.jackpot_amount)}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-4">
-                                        <div className="autopick-button-div !px-3">
-                                            <button
-                                                onClick={() => AutoPickAllMatches()}
-                                                className="btn btn-auto-pick mt-3">Auto Pick</button>
+                               <div className="row flex flex-col items-center md:flex-row">
+                                <div className="col-md-8 !px-3 text-center md:text-left">
+                                    <div className="!px-2">
+                                        <div className="jackpot-amount !pl-0 pt-3">
+                                            Autopick randomly picks jackpot for you! KES {Intl.NumberFormat('en-US').format(jackpotData?.jackpot_amount)}
                                         </div>
                                     </div>
                                 </div>
+                                <div className="col-md-4 justify-center mt-3 md:mt-0">
+                                    <div className="autopick-button-div !px-3">
+                                        <button
+                                            onClick={() => AutoPickAllMatches()}
+                                            className="btn btn-auto-pick mt-3 mx-auto md:mx-0">Auto Pick
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>                           
                             )}
 
                             {/* If games are available, then show games */}
