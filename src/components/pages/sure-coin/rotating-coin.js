@@ -89,7 +89,6 @@ const RotatingCoin = (props) => {
                     }
                 }
             
-            
         } else if (isSpinning == false) {
             audio2.pause();
             audio.pause()

@@ -8,7 +8,7 @@ import Breakfast from '../../assets/img/banner/carousel/app.png';
 import App from '../../assets/img/banner/carousel/app.png';
 import Sharebet from '../../assets/img/banner/carousel/Sharebet.png';
 import Tick from '../../assets/img/banner/carousel/Tick.png';
-import Epl from '../../assets/img/banner/carousel/epl.png';
+import Epl from '../../assets/img/banner/carousel/EPL.png';
 import Live from '../../assets/img/banner/carousel/Live-Betting.png';
 import Casino from '../../assets/img/banner/carousel/casino.png';
 import Jackpot from '../../assets/img/banner/carousel/jackpot.png';
@@ -23,7 +23,7 @@ const CarouselLoader = (props) => {
 
     return (
         <Carousel
-            controls={false}
+            // controls={false}
             indicators={false}
             className='banner-imgs'>
             
