@@ -1,0 +1,33 @@
+.rotating-images-wrapper {
+    display: flex;
+    clear: both;
+}
+
+.rotating-image-container {
+    position:relative;
+    min-width: 200px;
+    min-height: 200px;
+}
+.rotating-img {
+    width: 100px;
+    height: 200px;
+    position: absolute;
+    top:0; right:0; bottom:0; left:0;
+    margin: auto;
+}
+.rotating-img.is-spinning {
+    animation: rotation 1s infinite linear; 
+}
+
+@keyframes rotation {
+    100%{ transform:rotatey(2060deg); }
+}
+
+
+.is-spinning.rotating-speed-level-middle {
+
+}
+
+.is-spinning.rotating-speed-level-low {
+
+}
