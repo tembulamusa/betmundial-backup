@@ -246,16 +246,14 @@ const Deposit = (props) => {
     };
 
     return (
-        <React.Fragment>
-            <div className="homepage">
-                <FormTitle/>
-                <div className="col-md-12 mt-2  p-2">
-                    <div className="pb-0" data-backdrop="static">
-                        <DepositForm/>
-                    </div>
+        <div className="homepage">
+            <FormTitle/>
+            <div className="col-md-12 mt-2  p-2">
+                <div className="pb-0" data-backdrop="static">
+                    <DepositForm/>
                 </div>
             </div>
-        </React.Fragment>
+        </div>
     )
 
 }

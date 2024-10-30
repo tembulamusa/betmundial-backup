@@ -57,7 +57,6 @@ const CustomerCareSection = () => (
 
 
 const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
-  const [showMobileSlip, setShowMobileSlip] = useState(false);
   const [state, dispatch] = useContext(Context);
   const [footerMobileValue, setFooterMobileValue] = useState(state?.isjackpot ? jackpotData?.bet_amount : 100);
   const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
@@ -101,7 +100,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
                 </span>
               )}
 
-              <button className='btn btn-default' onClick={() => setShowMobileSlip(false)}><span className='text-red-700 font-bold mr-3'>X</span>Close</button>
+              <button className='btn btn-default' onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}><span className='text-red-700 font-bold mr-3'>X</span>Close</button>
           </div>
       </>
     )
@@ -110,8 +109,8 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
     <>
     {/* Lets use a modal over here */}
     <Modal
-            show={showMobileSlip}
-            onHide={() => setShowMobileSlip(false)}
+            show={state?.showmobileslip}
+            onHide={() => dispatch({type:"SET", key:"showmobileslip", payload:false})}
             dialogClassName="mobile-betslip-modal"
             
             aria-labelledby="contained-modal-title-vcenter">
@@ -137,12 +136,12 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
 
       {/* Mobile Toggle Button */}
       <section
-        className={`${showMobileSlip == false ? 'd-block' : "d-none"}  d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle capitalize`}
+        className={`${(state?.showmobileslip == false || !state?.showmobileslip) ? 'd-block' : "d-none"}  d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle capitalize`}
         style={{ position: 'fixed', zIndex: 9999999, left: 0, right: 0 }}
       >
         <div className="flex mobile-sticky-footer-slip">
           <div className="col-3 text-left" style={{ paddingLeft: '' }}>
-            <div className="yellow-bg text-white mobile-footer-slip" onClick={() => setShowMobileSlip(true)}>
+            <div className="yellow-bg text-white mobile-footer-slip" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}>
               slip <span className="mobile-footer-slip-counter rounded-full red-bg">{Object.entries(state?.betslip || state?.jackpotbetslip || {}).length}</span>
             </div>
           </div>
@@ -163,7 +162,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
             </div>
           </div>
           <div className="col-3 pr-0">
-            <button className="bet-button btn red-bg uppercase btn" onClick={() => setShowMobileSlip(true)}>Bet Now</button>
+            <button className="bet-button btn red-bg uppercase btn" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}>Bet Now</button>
           </div>
         </div>
       </section>

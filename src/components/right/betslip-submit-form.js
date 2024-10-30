@@ -122,6 +122,8 @@ const BetslipSubmitForm = (props) => {
     }
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
+
+
         let bs = Object.values(state?.[betslipkey] || []);
         
         let slipHasOddsChange = false;
@@ -159,6 +161,7 @@ const BetslipSubmitForm = (props) => {
         //     return ipv4;
         // }
 
+
         let payload = {
             bet_string: 'web',
             app_name: 'desktop',
@@ -186,7 +189,6 @@ const BetslipSubmitForm = (props) => {
         makeRequest({url: endpoint, method: method, data: payload, api_version:2})
             .then(([status, response]) => {
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
-                    
                     if (response?.status == 200) {
                         dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                         handleRemoveAll();
@@ -212,7 +214,20 @@ const BetslipSubmitForm = (props) => {
                             status: 400,
                             message: response?.message || response?.error?.message || response?.result || "Error attempting to place bet"
                         };
-                        setMessage(qmessage);
+                        if (response.status == 412) {
+                            console.log("I GOT TO STATUS 412:::: ", status)
+                            // remove the betslip
+                            dispatch({type:"SET", key:"showmobileslip", payload:false})
+                            // set the modal for request payment
+                            // compute the amount payable and round off to the nearest minimum that can be deposited
+                            let amtDiff = Float(stake, 2) - Float(state?.user?.balance, 2);
+                            if (amtDiff < 5) {
+                                amtDiff = 5.00
+                            }
+                            dispatch({type:"SET", key:"promptdepositrequest", payload:{show:true, payableAmt: amtDiff, message:{status: 400, message:response.result}}})
+                        } else {
+                            setMessage(qmessage);
+                        }
                     }
                 } else {
                     let qmessage = {
