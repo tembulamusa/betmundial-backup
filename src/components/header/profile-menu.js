@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { faUser, faLock, faCoins } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatNumber } from "../utils/betslip";
@@ -6,10 +6,16 @@ import { Link } from "react-router-dom";
 import {Navbar} from "react-bootstrap";
 import MobileMenu from "./mobile-menu";
 import SearchInput from './search-component';
+import { Context } from "../../context/store";
 
 
 const ProfileMenu = (props) => {
-  const { user } = props;
+  const [state, ] = useContext(Context);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    setUser(state?.user)
+  }, [state?.user])
 
   const handleSearch = (searchTerm) => {
     console.log("Handling search for:", searchTerm);
@@ -37,7 +43,7 @@ const ProfileMenu = (props) => {
           
           <div className=" user-menu-col col-md-3 d-flex flex-column right justify-content-end w-change2">
               <div className="mr-3">
-                <span className="font-tbt py-2 flex-wrap text-gray-200 font-[500]">Bal. <span className="font-bold ml-1 secondary-text"> <span className="hidden md:inline-block">KSH</span> {formatNumber(user.balance) || 0} </span></span>
+                <span className="font-tbt py-2 flex-wrap text-gray-200 font-[500]">Bal. <span className="font-bold ml-1 secondary-text"> <span className="hidden md:inline-block">KSH</span> {formatNumber(user?.balance) || 0} </span></span>
               </div>             
           </div>
 

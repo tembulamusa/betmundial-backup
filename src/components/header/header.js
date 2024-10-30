@@ -45,15 +45,25 @@ const Header = (props) => {
             return false;
         }
         let endpoint = "/v2/user/balance";
-        
-        makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
-            if (_status == 200) {
-                let u = {...user, ...response?.data};
-                setLocalStorage('user', u);
-                setUser(u)
-                dispatch({type: "SET", key: "user", payload: user});
-            }
-        });
+        const repeatBalRequest = setInterval(() => {
+            makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
+                if (_status == 200) {
+                    let u = {...user, ...response?.data};
+                    setLocalStorage('user', u);
+                    setUser(u)
+                    dispatch({type: "SET", key: "user", payload: u});
+                    console.log("THE BALANCE CHECK REQUEST:::: ", response.data.balance, "previous Balance :::: ", user.balance, "CURRENT FROM EXTENDED USER ;;;;; ", u.balance)
+                    return
+                    
+                    
+                }
+            });
+        }, 2000)
+
+        const timerId = setTimeout(() => {
+            clearInterval(repeatBalRequest);
+        }, 6000)
+
 
     }, [state?.toggleuserbalance]);
 
