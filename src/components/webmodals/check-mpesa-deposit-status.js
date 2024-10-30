@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import { Formik, Form, Field } from 'formik';
 import StdTable from "../utils/std-table";
 import makeRequest from "../utils/fetch-request";
+import Alert from "../utils/alert";
 
 const CheckMpesaDepositStatus = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -13,12 +14,26 @@ const CheckMpesaDepositStatus = (props) => {
         const [fakeMessage, setFakeMessage] = useState(false);
         const [mpesa_code] = useState("")
         const initialValues = { mpesa_code: '' };
+        const [message, setMessage] = useState(null);
+        const [isSubmitting, setIsSubmitting] = useState(false)
 
         const handleSubmit = (values, { setSubmitting }) => {
             // Validate the code first
-            if(mpesa_code.length > 2) {
-                setFakeMessage(true);
-            }
+            let endpoint = '/v2/transaction/status';
+            setIsSubmitting(true);
+            makeRequest({url: endpoint,data:{mpesa_receipt_code: values.mpesa_code},  method: 'POST', api_version:3}).then(([status, response]) => {
+
+                if(status == 200) {
+                    if(response.success == true) {
+                        setMessage({status: 200, message: "Request has been received"});
+                    }
+                } else {
+                    setMessage({status: 400, message:"could not process. Please contact customer care"});
+                }
+                setIsSubmitting(false);
+            })
+
+            
         };
 
         return (
@@ -26,7 +41,6 @@ const CheckMpesaDepositStatus = (props) => {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
             >
-                {({ isSubmitting }) => (
                     <Form>
                         <div className="pt-0">
                             <div className="row form-block">
@@ -40,7 +54,7 @@ const CheckMpesaDepositStatus = (props) => {
                                         </p>
                                     </div>
                                     <div className="col-md-12 py-5">
-                                        {fakeMessage && <div className="mb-3 alert alert-danger">You'll receive a message shortly! contact support on </div>}
+                                        {message && <Alert message={message} />}
                                         <div className="col-md-12">
                                             <label style={{ display: 'block', textAlign: 'left' }}>MPESA Message Code</label>
                                             <Field
@@ -68,7 +82,6 @@ const CheckMpesaDepositStatus = (props) => {
                             </div>
                         </div>
                     </Form>
-                )}
             </Formik>
         );
     }
@@ -79,7 +92,7 @@ const CheckMpesaDepositStatus = (props) => {
         const [tableHeaders, ] = useState(["Date", "Amount", "Surebet Balance"]);
 
         const requestUserDeposits = () => {
-            let endpoint = '/v1/deposits';
+            let endpoint = '/v2/deposits';
             
             makeRequest({url: endpoint, method: 'GET', api_version:3}).then(([status, response]) => {
                 

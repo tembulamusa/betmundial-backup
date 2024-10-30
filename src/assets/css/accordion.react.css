@@ -53,6 +53,11 @@
     display: none;
 }
 
+.accordion__panel {
+    /* padding: 0px;
+    color:#fff; */
+    animation: fadein 0.35s ease-in;
+}
 .kumbafu {
     /* background: #DED5DB;
     margin: 0px 0px 1px 0px;

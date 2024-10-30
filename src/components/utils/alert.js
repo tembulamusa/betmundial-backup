@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const Alert = (props) => {
     const {message} = props;
     const [messagev, setMessage] = useState(message);
-    let c = messagev?.status == 201 ? 'success' : 'danger';
+    let c = [200, 201].includes(messagev?.status) ? 'success' : 'danger';
     let x_style = {
         float: "right",
         display: "block",
