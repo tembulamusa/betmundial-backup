@@ -15649,8 +15649,9 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
     position: sticky !important;
 }
 .nav-tabs {
-    background: #947389;
-} 
+    background: #eeeeee;
+    color: #333333;
+}
 .nav-tabs .nav-link {
     
 }
@@ -15659,8 +15660,8 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-    background-color: #24367e;
-    color: white;
+    background-color: #ffffff;
+    color: #444;
 }
 
 .nav-tabs {
