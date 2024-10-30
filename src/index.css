@@ -1626,3 +1626,13 @@ label {
   background-position: 50%;
   background-size: 100% 100%;
 }
+
+.no-bet-btn:hover, button.no-bet-btn, button.no-bet-btn:hover, .no-bet-btn, button.locked-button, .locked-button, button.locked-button:hover {
+  background-color: #dddddd !important;
+  min-width: 50px;
+  min-height: 40px;
+  text-align: center;
+  opacity: 0.4;
+  color: #666666 !important;
+  border: 1px solid #cccccc;
+}
