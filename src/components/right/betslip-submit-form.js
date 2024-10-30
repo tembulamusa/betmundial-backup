@@ -4,7 +4,11 @@ import {
     removeFromSlip,
     getBetslip,
     clearSlip,
-    clearJackpotSlip, formatNumber
+    removeFromJackpotSlip,
+    addToJackpotSlip,
+    getJackpotBetslip,
+    clearJackpotSlip,
+    formatNumber
 } from '../utils/betslip';
 import {toast} from 'react-toastify';
 import {publicIp} from 'public-ip';
@@ -214,8 +218,7 @@ const BetslipSubmitForm = (props) => {
                             status: 400,
                             message: response?.message || response?.error?.message || response?.result || "Error attempting to place bet"
                         };
-                        if (response.status == 412) {
-                            console.log("I GOT TO STATUS 412:::: ", status)
+                        if (response.status == 402) {
                             // remove the betslip
                             dispatch({type:"SET", key:"showmobileslip", payload:false})
                             // set the modal for request payment
@@ -285,21 +288,22 @@ const BetslipSubmitForm = (props) => {
     }, [state?.[betslipkey], stake]);
 
     const handleRemoveAll = useCallback(() => {
-        let betslips = getBetslip();
-        if (betslips)
-        {Object.entries(betslips).map(([match_id, match]) => {
-            removeFromSlip(match_id);
+        let betslips = jackpot ? getJackpotBetslip: getBetslip();
+        if (betslips) {
+            Object.entries(betslips).map(([match_id, match]) => {
+            jackpot ? removeFromJackpotSlip() : removeFromSlip(match_id);
             let match_selector = match.match_id + "_selected";
             let ucn = clean_rep(
                 match.match_id
                 + "" + match.sub_type_id
                 + (match.bet_pick)
             );
-
             dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
-        });
-        dispatch({type: "DEL", key: jackpot ? "jackpotbetslip":"betslip"});
-    }
+            });
+        } 
+        
+        
+        dispatch({type: "DEL", key: jackpot ? "jackpotbetslip" : "betslip"});
     }, []);
 
     useEffect(() => {
