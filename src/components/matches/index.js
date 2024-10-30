@@ -691,7 +691,6 @@ const MatchRow = (props) => {
                     }
                 </div>
                 
-                
             </div>
 
             {/* Jackpot buttons */}
@@ -870,7 +869,8 @@ const MatchList = (props) => {
         pdown, 
         three_way, 
         fetching, 
-        subTypes
+        subTypes,
+        fetchingcount
     } = props;
 
     return (
@@ -896,12 +896,13 @@ const MatchList = (props) => {
                     ))
                 }
                 
-                {(((matches || []).length) === 0 || fetching) && 
+                {(((matches || []).length) === 0 && fetchingcount < 3) && 
                     <ShimmerTable row={3}/>
                 }
-                {((matches?.length === 0 && !fetching)) &&
-                    <NoEvents message={"fetching"}/>
+                {(((matches || []).length) === 0 && fetchingcount >= 3) && 
+                    <NoEvents message={"Matches Not Found"}/>
                 }
+                
             </Container>
         </div>
     )

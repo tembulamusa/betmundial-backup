@@ -31,16 +31,19 @@ const Index = (props) => {
     const [, setUserSlipsValidation] = useState();
     const [state, dispatch] = useContext(Context);
     const [fetching, setFetching] = useState(false)
+    const [fetchingCount, setFetchingCount] = useState(0)
     const homePageRef = useRef()
     const [subTypes, setSubTypes] = useState("1,10,18");
 
     const fetchData = async () => {
-        setFetching(true)
+        setFetching(true);
+        let fetchcount = fetchingCount + 1;
+        console.log("THE FETCHING COUNT::: ", fetchingCount);
         let tab = 'highlights';
         let method = "GET";
         let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || sportid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}` ;
 
-        let url = new URL(window.location.href)
+        let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";
         if(state?.filtercategory) {
             endpoint += "&category_id =" + state?.filtercategory?.category_id;
@@ -77,6 +80,7 @@ const Index = (props) => {
 
         
         await makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
+            setFetchingCount(fetchcount);
             if (status == 200) {
                 setMatches(matches?.length > 0 ? {...matches, ...result?.data?.items} : result?.data?.items || result)
                 setFetching(false)
@@ -96,6 +100,7 @@ const Index = (props) => {
 
     useEffect(() => {
         fetchData();
+        setFetchingCount(0);
     }, [
         state?.filtersport, 
         state?.filtercategory, 
@@ -153,15 +158,16 @@ const Index = (props) => {
                         three_way={threeWay}
                         fetching={fetching}
                         subTypes={subTypes}
+                        fetchingcount={fetchingCount}
                     />
                     
 
                 }
                 
             </div>
-            <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}>
-                <Spinner animation={'grow'} size={'lg'}/>
-            </div>
+            {/* <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}> */}
+                {/* <Spinner animation={'grow'} size={'lg'}/> */}
+            {/* </div> */}
         </>
     )
 }
