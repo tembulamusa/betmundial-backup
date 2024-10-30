@@ -78,7 +78,6 @@ const RotatingCoin = (props) => {
             audio.play();
             audio2.pause();
 
-            while (isSpinning == true) {
                 if (timeLeft <= 3) {
                     if(audio2.paused) {
                         audio2.play()
@@ -89,7 +88,6 @@ const RotatingCoin = (props) => {
                         audio2.pause();
                     }
                 }
-            }
             
             
         } else if (isSpinning == false) {
