@@ -131,6 +131,14 @@ const BodyLogin = (props) => {
             let value = ev.target.value;
             setFieldValue(field, value);
         }
+
+        const handleKeyPress = (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); 
+                submitForm(); 
+            }
+        }
+
         return (
             <div className='mt-5 mx-auto w-11/12' style={{ maxWidth: '600px'}}>
                 <Form className="">
@@ -157,11 +165,13 @@ const BodyLogin = (props) => {
                                     data-action="grow"
                                     placeholder={errors.password || "Password"}
                                     onChange={ev => onFieldChanged(ev)}
+                                    onKeyPress={handleKeyPress}
                                     value={values.password}
                                 />
                                 <span
                                     className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl"
                                     onClick={() => setShowPassword(!showPassword)}
+                                    onKeyPress={handleKeyPress}
                                 >
                                     {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                                 </span>

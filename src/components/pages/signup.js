@@ -1,3 +1,4 @@
+
 import React, {useContext, useState} from 'react';
 import {Formik, Form} from 'formik';
 import makeRequest from "../utils/fetch-request";
@@ -64,6 +65,14 @@ const Signup = (props) => {
         return errors
     }
 
+    const handleKeyPress = (event, submitForm) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            submitForm(); 
+        }
+    };
+
+
     const FormTitle = () => {
         return (
             <div className='col-md-12 primary-bg p-4 text-center'>
@@ -75,7 +84,7 @@ const Signup = (props) => {
     }
 
     const MySignupForm = (props) => {
-        const {errors, values, setFieldValue} = props;
+        const { errors, values, setFieldValue, submitForm } = props;
         const [showPassword, setShowPassword] = useState(false);
         const [showPassword2, setShowPassword2] = useState(false);
 
@@ -103,6 +112,7 @@ const Signup = (props) => {
                                     type="text"
                                     placeholder='Phone number'
                                     onChange={ev => onFieldChanged(ev)}
+                                    onKeyPress={ev => handleKeyPress(ev, submitForm)}
                                 />
                                 {errors.msisdn && <div className='text-danger'> {errors.msisdn} </div>}
                             </div>
@@ -120,6 +130,7 @@ const Signup = (props) => {
                                         type={showPassword ? 'text' : 'password'}
                                         placeholder='Password'
                                         onChange={ev => onFieldChanged(ev)}
+                                        onKeyPress={ev => handleKeyPress(ev, submitForm)}
                                     />
                                     <span
                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl"
@@ -144,6 +155,7 @@ const Signup = (props) => {
                                         type={showPassword2 ? 'text' : 'password'}
                                         placeholder='Repeat password'
                                         onChange={ev => onFieldChanged(ev)}
+                                        onKeyPress={ev => handleKeyPress(ev, submitForm)}
                                     />
                                     <span
                                         className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-xl"

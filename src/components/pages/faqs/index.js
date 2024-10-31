@@ -157,7 +157,7 @@ const FAQs = () => {
                             <p>To deposit via M-PESA menu on your phone:</p>
                             <ol>
                                 <li>Select Lipa na M-PESA Then Pay Bill.</li>
-                                <li>Enter 599488 as the Business Number and SUREBET as the Account Number (or leave blank).</li>
+                                <li>Enter 599488 as the Business Number and your SUREBET registered number as the Account Number</li>
                                 <li>Enter your amount and M-PESA PIN and send.</li>
                             </ol>
                         </AccordionItemPanel>
