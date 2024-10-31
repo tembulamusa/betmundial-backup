@@ -631,7 +631,7 @@ tr.my-bets td {
 }
 
 .btn-bet-hist.active-bet {
-  color: #444;
+  color: #FFF;
   background: #19BC54;
   font-weight: 500;
 }
