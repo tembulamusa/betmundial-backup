@@ -77,7 +77,7 @@ const CheckMpesaDepositStatus = (props) => {
                                                                                         
                                             <button 
                                                 type="submit"
-                                                className={`btn btn-lg btn-primary deposit-withdraw-button font-bold`} 
+                                                className={`btn btn-lg btn-primary mt-5 deposit-withdraw-button font-bold`} 
                                                 disabled={isSubmitting}
                                             >
                                                 Check Now
