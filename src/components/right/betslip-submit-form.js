@@ -253,23 +253,23 @@ const BetslipSubmitForm = (props) => {
             }, 1);
             setTotalOdds(odds);
             
-            let stake_after_tax = Float(stake) / Float(112.5) * 100
-            let ext = Float(stake) - Float(stake_after_tax);
-            let raw_possible_win = Float(stake_after_tax) * Float(odds);
+            let stake_after_tax = (stake / 112.5) * 100
+            let ext = stake - stake_after_tax;
+            let raw_possible_win = stake_after_tax * Float(odds);
             if (jackpot) {
                 raw_possible_win = jackpotData?.jackpot_amount
             }
             if (raw_possible_win > 500000 && !jackpot) {
                 raw_possible_win = 500000
             }
-            let taxable_amount = Float(raw_possible_win) - Float(stake_after_tax);
+            let taxable_amount = raw_possible_win - stake;
 
             let wint = taxable_amount * 0.2;
-            let nw = raw_possible_win;
+            let nw = raw_possible_win - wint;
             setExciseTax(Float(ext, 2));
             setStakeAfterTax(Float(stake_after_tax,2));
             setNetWin(Float(nw, 2));
-            setPossibleWin(Float(raw_possible_win, 2));
+            setPossibleWin(Float(nw, 2));
             setWithholdingTax(Float(wint, 2));
 
             // update state espcially for the footer
@@ -460,7 +460,7 @@ const BetslipSubmitForm = (props) => {
                                     <>
                                         <tr className="in-blue-highlight secondary-text">
                                             <td className='py-3 px-3'>Bonus</td>
-                                            <td className='text-right py-3 px-2'>KES. <span id="tax">{formatNumber(withholdingTax)}</span></td>
+                                            <td className='text-right py-3 px-2'>KES. <span id="tax">{0/*formatNumber(withholdingTax)*/}</span></td>
                                         </tr>
                                         <tr className="bet-win-tr hide-on-affix opacity-70">
                                             <td className='px-3'> Win</td>
@@ -475,7 +475,7 @@ const BetslipSubmitForm = (props) => {
                                 <tr className="bet-win-tr hide-on-affix">
                                     <td className='py-2 px-3'>{'possible payout'}</td>
                                     <td className='px-2 text-right py-2'>KSH. <span
-                                        id="net-amount">{formatNumber(jackpot ? jackpotData?.jackpot_amount : Float((netWin + withholdingTax), 2))}</span></td>
+                                        id="net-amount">{formatNumber(jackpot ? jackpotData?.jackpot_amount : Float((netWin), 2))}</span></td>
                                 </tr>
                                 <tr>
                                     <td className='w-1/2 px-3 py-3'>
