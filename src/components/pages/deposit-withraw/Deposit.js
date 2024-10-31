@@ -66,7 +66,7 @@ const Deposit = (props) => {
 
         // stop polling after 1 minute
         
-        setTimeout(function(){clearInterval(pollBalID)}, 60000)
+        setTimeout(function(){clearInterval(pollBalID)}, 900000)
 
     }
     
