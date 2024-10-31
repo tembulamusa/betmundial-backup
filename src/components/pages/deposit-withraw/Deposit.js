@@ -59,17 +59,23 @@ const Deposit = (props) => {
         }
         return errors
     }
-    const pollBal = () => {
+        
+    useEffect(() => {
+
         const pollBalID = setInterval(function(){
             dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
         }, 3000)
 
         // stop polling after 1 minute
-        
-        setTimeout(function(){clearInterval(pollBalID)}, 60000)
+        const stopPoll = setTimeout(function(){clearInterval(pollBalID)}, 1200000)
 
-    }
-    
+
+        return () => {
+            clearInterval(pollBalID);
+            clearTimeout(stopPoll);
+        }
+    }, [])
+
         // Upon loading this page call the function that polls for balance every 3 seconds and then stops after 1 minute
         
 
