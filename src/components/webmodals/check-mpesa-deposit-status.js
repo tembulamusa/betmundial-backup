@@ -28,8 +28,8 @@ const CheckMpesaDepositStatus = (props) => {
                         setTimeout(() => {
                             dispatch({type:"SET", key:"toggleuserbalance", payload: !state?.toggleuserbalance})
                             dispatch({type:"SET", key: "showcheckmpesadepositstatus", payload: false})
-                        }, 7000)
-                        setMessage({status: 200, message: "Request has been received. You'll an SMS Notification shortly. In case of delay, you could try again by copy pasting the mpesa message."});
+                        }, 30000)
+                        setMessage({status: 200, message: "Request has been received. You'll receive an SMS Notification shortly. In case of delay, you could try again by copy pasting the mpesa message."});
                     }
                 } else {
                     setMessage({status: 400, message:"Could not process. Please contact customer care. on 0724599488"});
