@@ -11,18 +11,25 @@ import { GiTwoCoins } from "react-icons/gi";
 import { IoListCircleOutline, IoMoon } from "react-icons/io5";
 import { LuSunMedium } from "react-icons/lu";
 import { MdCancel } from "react-icons/md";
+import ComingSoon from '../pages/comingsoon/ComingSoon';
 
 
 function MobileMenu() {
   const [show, setShow] = useState(false);
   const [state, dispatch] = useContext(Context);
   const [darkMode, setDarkMode] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+  const handleComingSoonClick = () => {
+    setShowComingSoon(true);
+    setTimeout(() => setShowComingSoon(false), 3000);
   };
+
+  const toggleDarkMode = () => setDarkMode(!darkMode);
+
 
   const UserBalance = () => (
     <div className="bx">
@@ -35,17 +42,15 @@ function MobileMenu() {
   );
 
   const CanvasBottom = () => {
-    const [darkMode, setDarkMode] = useState(false);
-  
-    const toggleDarkMode = () => {
-      setDarkMode(!darkMode);
-    };
       
     return (
       <div className='flex text-center '>
         <div
           className='col-6 offcanvas-big-icon p-5'
-          onClick={toggleDarkMode}
+          onClick={() => {
+            toggleDarkMode();
+            handleComingSoonClick();
+          }}
         >
            {darkMode ? (
           <><LuSunMedium  className='big-offcanvas-icon mx-auto'/> Light Theme</>
@@ -65,6 +70,7 @@ function MobileMenu() {
             Logout
           </Link>
         </div>
+        <ComingSoon show={showComingSoon} onClose={() => setShowComingSoon(false)} />
       </div>
     );
   };
