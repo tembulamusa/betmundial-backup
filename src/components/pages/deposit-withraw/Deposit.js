@@ -31,11 +31,14 @@ const Deposit = (props) => {
         setMessage(null);
         setSuccess(false)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:3}).then(([status, response]) => {
-            
-
+            dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
             if(status == 200) {
                 setSuccess(true)
-                setMessage({status: 200, message: "Check your phone and enter pin to complete deposit"})
+                setMessage({status: 200, message: "Check your phone and enter pin to complete deposit"});
+                const pollBalID = setInterval(function(){
+                    dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
+                }, 7000);
+                const removePoll = setTimeout(() => {clearInterval(pollBalID)}, 60000)
             } else {
                 setMessage({status: 400, message: "Error pushing stk. Please deposit directly"})
                 Notify({status: 400, message:"Error making a deposit. Seek custome care support"})
@@ -60,21 +63,7 @@ const Deposit = (props) => {
         return errors
     }
         
-    useEffect(() => {
-
-        const pollBalID = setInterval(function(){
-            dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
-        }, 3000)
-
-        // stop polling after 1 minute
-        const stopPoll = setTimeout(function(){clearInterval(pollBalID)}, 1200000)
-
-
-        return () => {
-            clearInterval(pollBalID);
-            clearTimeout(stopPoll);
-        }
-    }, [])
+    
 
         // Upon loading this page call the function that polls for balance every 3 seconds and then stops after 1 minute
         
