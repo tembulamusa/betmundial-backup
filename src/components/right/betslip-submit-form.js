@@ -4,7 +4,11 @@ import {
     removeFromSlip,
     getBetslip,
     clearSlip,
-    clearJackpotSlip, formatNumber
+    removeFromJackpotSlip,
+    addToJackpotSlip,
+    getJackpotBetslip,
+    clearJackpotSlip,
+    formatNumber
 } from '../utils/betslip';
 import {toast} from 'react-toastify';
 import {publicIp} from 'public-ip';
@@ -31,7 +35,7 @@ const BetslipSubmitForm = (props) => {
     const {jackpot, jackpotData, bonusBet} = props;
     const [message, setMessage] = useState(null);
     const [state, dispatch] = useContext(Context);
-    const [stake, setStake] = useState(jackpotData?.bet_amount ?? 100);
+    const [stake, setStake] = useState(state?.mobilefooteramount || jackpotData?.bet_amount || 100);
     const [stakeAfterTax, setStakeAfterTax] = useState(0);
     const [exciseTax, setExciseTax] = useState(0);
     const [withholdingTax, setWithholdingTax] = useState(0);
@@ -122,6 +126,8 @@ const BetslipSubmitForm = (props) => {
     }
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
+
+
         let bs = Object.values(state?.[betslipkey] || []);
         
         let slipHasOddsChange = false;
@@ -159,6 +165,7 @@ const BetslipSubmitForm = (props) => {
         //     return ipv4;
         // }
 
+
         let payload = {
             bet_string: 'web',
             app_name: 'desktop',
@@ -186,7 +193,6 @@ const BetslipSubmitForm = (props) => {
         makeRequest({url: endpoint, method: method, data: payload, api_version:2})
             .then(([status, response]) => {
                 if (status === 200 || status == 201 || status == 204 || jackpot) {
-                    
                     if (response?.status == 200) {
                         dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                         handleRemoveAll();
@@ -212,7 +218,19 @@ const BetslipSubmitForm = (props) => {
                             status: 400,
                             message: response?.message || response?.error?.message || response?.result || "Error attempting to place bet"
                         };
-                        setMessage(qmessage);
+                        if (response.status == 402) {
+                            // remove the betslip
+                            dispatch({type:"SET", key:"showmobileslip", payload:false})
+                            // set the modal for request payment
+                            // compute the amount payable and round off to the nearest minimum that can be deposited
+                            let amtDiff = Float(stake, 2) - Float(state?.user?.balance, 2);
+                            if (amtDiff < 5) {
+                                amtDiff = 5.00
+                            }
+                            dispatch({type:"SET", key:"promptdepositrequest", payload:{show:true, payableAmt: amtDiff, message:{status: 400, message:response.result}}})
+                        } else {
+                            setMessage(qmessage);
+                        }
                     }
                 } else {
                     let qmessage = {
@@ -270,21 +288,22 @@ const BetslipSubmitForm = (props) => {
     }, [state?.[betslipkey], stake]);
 
     const handleRemoveAll = useCallback(() => {
-        let betslips = getBetslip();
-        if (betslips)
-        {Object.entries(betslips).map(([match_id, match]) => {
-            removeFromSlip(match_id);
+        let betslips = jackpot ? getJackpotBetslip: getBetslip();
+        if (betslips) {
+            Object.entries(betslips).map(([match_id, match]) => {
+            jackpot ? removeFromJackpotSlip() : removeFromSlip(match_id);
             let match_selector = match.match_id + "_selected";
             let ucn = clean_rep(
                 match.match_id
                 + "" + match.sub_type_id
                 + (match.bet_pick)
             );
-
             dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
-        });
-        dispatch({type: "DEL", key: jackpot ? "jackpotbetslip":"betslip"});
-    }
+            });
+        } 
+        
+        
+        dispatch({type: "DEL", key: jackpot ? "jackpotbetslip" : "betslip"});
     }, []);
 
     useEffect(() => {
@@ -406,7 +425,7 @@ const BetslipSubmitForm = (props) => {
                                                     className="bet-select"
                                                     name="bet_amount"
                                                     id="bet_amount"
-                                                    value={values.bet_amount}
+                                                    value={stake}
                                                     onChange={(e) => onFieldChanged(e)}
                                             />)}
                                     </div>

@@ -18,6 +18,7 @@ import NoEvents from '../utils/no-events';
 import { match } from 'assert';
 import { ShimmerTable } from "react-shimmer-effects";
 import MatchDetailBetrandder from "../../assets/img/betrader/test-game-details.png"
+import LockedButton from '../utils/locked-button';
 
 const clean = (_str) => {
     _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
@@ -636,7 +637,7 @@ const MatchRow = (props) => {
                             return (
                                 marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || (jackpot && jackpotstatus === "ACTIVE")
                                 ? <><OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="1x2" live={live} jackpot={jackpot}/></>
-                                : <EmptyTextRow key={`${match?.match_id}-${idx}`} odd_key={marketOdd?.odd_key}/>) 
+                                : <><LockedButton/></>) 
                         })
                     }
                     {(jackpot && jackpotstatus === "INACTIVE") && <>{match?.outcome || "--" } </>}
@@ -650,10 +651,20 @@ const MatchRow = (props) => {
                             delete matchWithDetails.odds;
                             return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
                                 ? <OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="Double Chance" live={live} jackpot={jackpot}/>
-                                : <EmptyTextRow key={`${match?.match_id}-${idx}`} odd_key={marketOdd?.odd_key}/>) 
+                                : <><LockedButton/></>) 
                            
                             
-                        }) 
+                        })
+                                               
+                        
+                    }
+
+                    {
+                        
+                        !jackpot && !match?.odds?.["Double Chance"] &&
+                        [1, 2, 3].map((btn, idx) => (
+                            <><LockedButton/></>
+                        ))
                     }
                     
                 </div>
@@ -665,13 +676,20 @@ const MatchRow = (props) => {
                             delete matchWithDetails.odds;
                             return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
                                 ? <OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="Total" live={live} jackpot={jackpot}/>
-                                : <EmptyTextRow key={`${match?.match_id}-${idx}`} odd_key={marketOdd?.odd_key}/>) 
+                                : <><LockedButton/></>) 
                            
                             
                         }) 
                     }
+
+                    {
+                        
+                        !jackpot && !match?.odds?.["Total"] &&
+                        [1, 2].map((btn, idx) => (
+                            <><LockedButton/></>
+                        ))
+                    }
                 </div>
-                
                 
             </div>
 
@@ -851,7 +869,8 @@ const MatchList = (props) => {
         pdown, 
         three_way, 
         fetching, 
-        subTypes
+        subTypes,
+        fetchingcount
     } = props;
 
     return (
@@ -877,12 +896,13 @@ const MatchList = (props) => {
                     ))
                 }
                 
-                {(((matches || []).length) === 0 || fetching) && 
+                {(((matches || []).length) === 0 && fetchingcount < 3) && 
                     <ShimmerTable row={3}/>
                 }
-                {((matches?.length === 0 && !fetching)) &&
-                    <NoEvents message={"fetching"}/>
+                {(((matches || []).length) === 0 && fetchingcount >= 3) && 
+                    <NoEvents message={"Matches Not Found"}/>
                 }
+                
             </Container>
         </div>
     )

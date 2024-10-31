@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/application.css';
 import './assets/css/tolkits.css';
 import './assets/css/sidebar-menu.css';
+import './assets/css/surecoin.css';
 import './index.css';
 import Store from './context/store';
 import Index from './components/index';

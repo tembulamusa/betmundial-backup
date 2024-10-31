@@ -31,11 +31,9 @@ const BetSlip = (props) => {
     const [betslipKey, setBetslipKey] = useState(
        () => state?.jackpotbetslip ? "jackpotbestslip":"bestslip"
     );
-    const [inputShareCode, setInputShareCode] = useState();
     const [betslipsData, setBetslipsData] = useState({});
     const [hasBetslip, setHasBetslip] = useState(false);
-    const [sharedBetLoading, setSharedBetLoading] = useState(false);
-    const [sharedBetError, setSharedBetError] = useState(null);
+    
     //initial betslip loading
 
     useEffect(() => {
@@ -44,7 +42,6 @@ const BetSlip = (props) => {
             : getBetslip();
         setBetslipsData(b);
         if(b){
-            console.log("CHANGING AGAIN:::: ");
             setHasBetslip(true);
         } else {
 
@@ -55,47 +52,7 @@ const BetSlip = (props) => {
         (!state?.betslip && !state?.jackpotbetslip) && dispatch({type:"SET", key:state?.jackpotbetslip ? "jackpotbetslip" :"betslip", payload:b})
     }, [state?.betslip, state?.jackpotbetslip]);
     
-    const fetchSharedBetslip = useCallback((code) => {
-        let endpoint = "/v2/bet/share?share-code=" + code
-        setSharedBetLoading(true);
-        makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
-            
-            if (status == 200) {
-               //load betslip
-                if(result?.data?.betslip) {
-                    let betslip = {}
-                    // change slip type
-                    result?.data?.betslip?.map((item, idx) => {
-                        let item_id = item.match_id
-                        betslip[item_id] = item;
-                    })
-                    dispatch({type: "SET", key: "betslip", payload: betslip});
-                    setLocalStorage("betslip", betslip);
-                }
-            } else {
-                setSharedBetError({status:400, message: "Error processing shared slip. Select own games"})
-                // Notify({status: 400, message: "unable to fetch shared bet"});
-            }
-            setSharedBetLoading(false);
-            setSharedBetError(null);
-        });
-    }, [code])
-
-    const handleCodeInputChange = (event) => {
-        setInputShareCode(event.target.value);
-     };
- 
-     const loadBetslipFromCode = () => {
-         if(inputShareCode.length >= 5) {
-             fetchSharedBetslip(inputShareCode); 
-         }
-     }
- 
-     useEffect(() => {
-         if(code){
-             fetchSharedBetslip(code);
-         }
-     }, [fetchSharedBetslip])
+    
 
     useEffect(() => {
         if (state[betslipKey]) {
@@ -103,6 +60,7 @@ const BetSlip = (props) => {
         }
 
     }, [state[betslipKey]]);
+
 
     //Handle db validation of betslip
     const validateBetslipwithDbData = useCallback(() => {
@@ -202,6 +160,78 @@ const BetSlip = (props) => {
         return sport_image
     }
 
+
+    const LoadSharedBetslip = (props) => {
+        const [sharedBetLoading, setSharedBetLoading] = useState(false);
+        const [sharedBetError, setSharedBetError] = useState(null);
+        const [inputShareCode, setInputShareCode] = useState();
+
+        useEffect(() => {if(sharedBetError != null){setSharedBetError(null)}}, []);
+        
+        const fetchSharedBetslip = useCallback((code) => {
+            let endpoint = "/v2/bet/share?share-code=" + code
+            setSharedBetError(null);
+            setSharedBetLoading(true);
+            makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
+                if (status == 200) {
+                   //load betslip
+                    if (result.status == 200 )
+                        {if(result?.data?.betslip && result?.data?.betslip.length > 0) {
+                            let betslip = {}
+                            // change slip type
+                            result?.data?.betslip?.map((item, idx) => {
+                                let item_id = item.match_id
+                                betslip[item_id] = item;
+                            })
+                            dispatch({type: "SET", key: "betslip", payload: betslip});
+                            setLocalStorage("betslip", betslip);
+                        } else {
+                            setSharedBetError({status: 400, message: "No games found. Slip expired"})
+                        }
+                    } else {
+                        setSharedBetError({status: 400, message: result?.result + ". Invalid slip"})
+                    }
+                } else {
+    
+                }
+                
+    
+                setSharedBetLoading(false);
+            });
+        }, [code])
+    
+        const handleCodeInputChange = (event) => {
+            setInputShareCode(event.target.value);
+         };
+     
+        const loadBetslipFromCode = () => {
+            if(inputShareCode && (inputShareCode.length >= 5)) {
+                fetchSharedBetslip(inputShareCode); 
+            } else {
+            setSharedBetError({status: 400, message: "Invalid code. Check your slip and try again"})
+            }
+        }
+     
+        useEffect(() => {
+            if(code) {
+            fetchSharedBetslip(code);
+            }
+        }, [fetchSharedBetslip])
+        return (
+            <>
+                <div className='px-2 py-1'>
+                    <div className='my-3 font-[500] text-2xl text-center'>Do you have a shared betslip code? Enter it here.</div>
+                    {sharedBetError && <div className='my-3'><Alert message={sharedBetError} /></div>}
+                    <input  type="text" name="sharecode"  placeholder="Eg HLRTMRV"  
+                        onChange={handleCodeInputChange}
+                        className='block w-full px-2 text-center rounded-2xl'
+                        style={{border:"1px solid #ddd", margin:"0px 0px 0px", height:"40px"}}/>
+                    <button disabled={sharedBetLoading} className="my-3 w-full block capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none text-white uppercase hover:opacity-80 rounded-2xl" style={{padding:"0px", height:"40px"}} onClick={() => loadBetslipFromCode()}>{sharedBetLoading ? "wait...":"Load Betslip"}</button>
+                </div>
+            </>
+        )
+    }
+
     return (
         
         <div className="">
@@ -213,15 +243,9 @@ const BetSlip = (props) => {
                     <hr className='mb-3'/>
                     {state?.betslipKey}
                     {!state?.isjackpot &&
-                        <div className='px-2 py-1'>
-                            <div className='my-3 font-[500] text-2xl text-center'>Do you have a shared betslip code? Enter it here.</div>
-                            {sharedBetError && <Alert message={sharedBetError} />}
-                            <input  type="text" name="sharecode"  placeholder="Eg HLRTMRV"  
-                                onChange={handleCodeInputChange}
-                                className='block w-full px-2 text-center rounded-2xl'
-                                style={{border:"1px solid #ddd", margin:"0px 0px 0px", height:"40px"}}/>
-                            <button disabled={sharedBetLoading} className="my-3 w-full block capitalize secondary-bg bg-pink p-3 px-3 py-2 font-bold btn-pink border-none text-white uppercase hover:opacity-80 rounded-2xl" style={{padding:"0px", height:"40px"}} onClick={() => loadBetslipFromCode()}>{sharedBetLoading ? "wait...":"Load Betslip"}</button>
-                        </div>
+
+                        <LoadSharedBetslip />
+                        
                     }
                 </li>
             }
