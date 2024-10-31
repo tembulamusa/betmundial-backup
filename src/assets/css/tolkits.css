@@ -8890,12 +8890,13 @@ fieldset[disabled] .pa .fu:focus {
     background-color: transparent;
 }
 .header-menu li {
-    box-shadow: none !important;
-    border-radius: 0;
-    display: flex !important;
-    justify-content: center;
     align-items: center;
+    border-radius: 0;
+    box-shadow: none!important;
+    display: flex!important;
+    justify-content: center;
     padding: 10px 3px 2px;
+    margin-right: 10px;
 }
 
 .header-menu li.active {

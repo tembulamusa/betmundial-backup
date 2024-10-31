@@ -70,12 +70,13 @@ const ProSidebar = (props) => {
                 setCompetitions(c_result?.data);
                 setLocalStorage('categories', c_result?.data);
                 dispatch({type:"SET", key:"categories", payload:c_result});
+                console.log("THE SPORTS CATEGORIES ARE HERE :::::: ==== :::: ", c_result)
             } else {
                 Notify({status: 400, message: "Sport categories not found"});
             }
         } else {
-             setCompetitions(cached_competitions);
-             dispatch({type:"SET", key:"categories", payload:cached_competitions});
+            setCompetitions(cached_competitions);
+            dispatch({type:"SET", key:"categories", payload:cached_competitions});
 
         }
 
