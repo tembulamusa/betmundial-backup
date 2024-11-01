@@ -1071,6 +1071,7 @@ img.highlights-content-img {
   display: inline-block;
   /* margin-right: 8px; */
   padding-right: 7px;
+  border-radius:10px;
 }
 .popular-games:last-child {
   padding-right: 0;
