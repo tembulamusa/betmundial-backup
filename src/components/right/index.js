@@ -245,7 +245,7 @@ const Right = (props) => {
       <div className="col-md-3 betslip-container sticky-top">
         <section id="betslip" className="betslip-v2">
           <div className="betslip-header bg-secondary uppercase">
-            {state?.isjackpot ? 'jackpot' : 'Betslip'}
+            {state?.isjackpot ? 'jackpot' : 'Betslip'} {state?.isjackpot && ( <span>({Object.keys(state?.jackpotbetslip || {}).length}) / {(state?.jackpotdata?.matches || [])?.length}</span>)}
             {!state?.isjackpot && (
               <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
             )}

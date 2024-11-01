@@ -485,10 +485,13 @@ const BetslipSubmitForm = (props) => {
                                         </button>
                                     </td>
                                     <td className='px-2 py-3'>
-                                        <SubmitButton id="place_bet_button"
-                                                    disabled={jackpot && Object.entries(state?.[betslipkey] || []).length != JSON.stringify(jackpotData?.total_games)}
-                                                    className="place-bet-btn bold"
-                                                    title="PLACE BET"/>
+                                        {jackpot && Object.entries(state?.[betslipkey] || []).length == JSON.stringify(jackpotData?.total_games) &&
+                                            <SubmitButton id="place_bet_button"
+                                                disabled={jackpot && Object.entries(state?.[betslipkey] || []).length != JSON.stringify(jackpotData?.total_games)}
+                                                className="place-bet-btn bold"
+                                                title="PLACE BET"
+                                            />
+                                        }
                                     </td>
                                 </tr>
                             </tbody>

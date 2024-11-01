@@ -7,7 +7,7 @@ import { Context } from "../../context/store";
 
 const MobileDownloadBanner = () => {
     const [showTop, setShowTop] = useState(true);
-    const data = ["To bet via SMS send 'games' to 29400", "Install Our app for Easy access"];
+    const data = ["To bet via SMS send 'games' to 29488", "Install Our app for Easy access"];
     const [, dispatch] = useContext(Context);
     const SMSTicker = () => (
         <ReactTicker

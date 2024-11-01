@@ -24,7 +24,7 @@ const Promotions = () => {
                         <span><u>How to get it</u></span>
                         <ul>
                             <li>
-                                Register on sms by sending the word JOIN 29400 or visiting www.SUREBET.co.ke and creating account via signup link.
+                                Register on sms by sending the word JOIN 29488 or visiting www.SUREBET.co.ke and creating account via signup link.
                             </li>
                         </ul>
                         <div className="col-md-12">
