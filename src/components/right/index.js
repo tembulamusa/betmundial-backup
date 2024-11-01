@@ -154,11 +154,13 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
             />
           </div>
           <div className="col-3 text-left">
+            {!state?.isjackpot && (
+              <div>
+                Odds: <span className="font-[500]">{Float(state?.totalodds, 2) || 1}</span>
+              </div>
+            )}
             <div>
-              Odds: <span className="font-[500]">{Float(state?.totalodds, 2) || 1}</span>
-            </div>
-            <div>
-              Win: <span className="font-[500]">{state?.slipnetwin}</span>
+              Win: <span className="font-[500]">{ state?.isjackpot? state?.jackpotdata?.jackpot_amount :  state?.slipnetwin}</span>
             </div>
           </div>
           <div className="col-3 pr-0">
@@ -245,7 +247,7 @@ const Right = (props) => {
       <div className="col-md-3 betslip-container sticky-top">
         <section id="betslip" className="betslip-v2">
           <div className="betslip-header bg-secondary uppercase">
-            {state?.isjackpot ? 'jackpot' : 'Betslip'} {state?.isjackpot && ( <span>({Object.keys(state?.jackpotbetslip || {}).length}) / {(state?.jackpotdata?.matches || [])?.length}</span>)}
+            {state?.isjackpot ? 'jackpot' : 'Betslip'} {state?.isjackpot && ( <span>{Object.keys(state?.jackpotbetslip || {}).length} / {(state?.jackpotdata?.matches || [])?.length}</span>)}
             {!state?.isjackpot && (
               <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
             )}
