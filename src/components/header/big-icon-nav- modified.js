@@ -41,7 +41,8 @@ const BigIconMenu = () => {
     const getSportImageIcon = (sport_name) => {
         let sport_image;
         try {
-            sport_image = require(`../../assets/img/svgicons/${sport_name}`);
+            //sport_image = require(`../../assets/img/svgicons/${sport_name}`);
+            sport_image = require(`../../assets/img/colorsvgicons/${sport_name}`);
         } catch (error) {
             sport_image = require(`../../assets/img/svgicons/default.png`);
         }

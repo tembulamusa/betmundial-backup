@@ -20,7 +20,7 @@ const BigIconMenu = () => {
 
     const linkItems = [
         {name: "home", icon:"home.svg", link:"/", parentTo:null},
-        {name: "live", icon:"live.svg", link:"/live", parentTo:null},
+        {name: "live", icon:"livescore.svg", link:"/live", parentTo:null},
         {name: "jackpot", icon:"jackpot.svg", link:"/jackpot", parentTo:null},
         {name: "aviator", icon:"aviator.svg", link:"/aviator", parentTo:null},
         {name: "surecoin", icon:"surecoin.svg", link:"/surecoin", parentTo:null},
@@ -28,7 +28,7 @@ const BigIconMenu = () => {
         {name: "sport", icon:"sports.svg", link:null, parentTo:"sportscategories"},
         {name: "virtuals", icon:"virtuals.svg", link:"/virtuals", parentTo:null},
         {name: "league", icon:"league.svg", link:"/sure-league", parentTo:null},
-        {name: "promotions", icon:"promotions.svg", link:"/promotions", parentTo:null},
+        {name: "promotions", icon:"promos.svg", link:"/promotions", parentTo:null},
         {name: "livescore", icon:"livescore.svg", link:"/#livescore", parentTo:null},        
         {name: "basketball", icon:"basketball.svg", link:"/#basketball", parentTo:null},
         {name: "cricket", icon:"cricket.svg", link:"/#cricket", parentTo:null},
@@ -52,9 +52,10 @@ const BigIconMenu = () => {
         let default_img = 'sure'
         let sport_image;
         try {
-            sport_image = require(`../../assets/img/svgicons/${sport_name}`);
+            //sport_image = require(`../../assets/img/svgicons/${sport_name}`);
+            sport_image = require(`../../assets/img/colorsvgicons/${sport_name}`);
         } catch (error) {
-            sport_image = require(`../../assets/img/svgicons/default.png`);
+            sport_image = require(`../../assets/img/svgicons/default.png`);           
         }
         return sport_image
     }
