@@ -1637,3 +1637,32 @@ label {
   color: #666666 !important;
   border: 1px solid #cccccc;
 }
+
+.slots-filter {
+  /* border: 1px solid #30353b; */
+  box-sizing: border-box;
+  height: 100vh;
+  left: 0;
+  margin-right: .0;
+  min-width: 16.375em;
+  overflow-y: auto;
+  padding-bottom: 7rem;
+  /* position: fixed; */
+  width: 16.375em;
+}
+
+.slots-content {
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 10rem;
+  /* position: fixed; */
+  right: 0;
+  width: calc(100% - 16.25em);
+}
+
+@media screen and (min-width: 1160px) {
+  .no-body-header-spacing.amt {
+    margin-top: 130px !important;
+  }
+}

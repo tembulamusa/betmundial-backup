@@ -5,13 +5,20 @@ const ENC_KEY = '2bdVweTeI42s5mkLdYHyklTMxQS5gLA7MDS6FA9cs1uobDXeruACDic0YSU3si0
 const BASE_URL = 'https://apisb.surebet.co.ke/';
 const BASE2_URL = 'https://apisb.surebet.co.ke/bet-service';
 const ACCOUNTS_URL = 'https://api.surebet.co.ke';
+const CASINOFAZI = 'https://apisb.surebet.co.ke/fazi/casino/';
 
 const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1, serviceType}) => {
 
     if (api_version == 2) {        
         url = BASE2_URL + url;
-    } else { if (api_version == 3){
-        url = ACCOUNTS_URL + url}
+    } else { 
+        if (api_version == 3) {
+            url = ACCOUNTS_URL + url
+        } else {
+            if (api_version == "faziCasino") {
+                url = CASINOFAZI + url
+            }
+        }
     }
     
     
@@ -67,11 +74,9 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
             request['body'] = JSON.stringify(data)
         }
         const response = await fetch(url, request);
-        if (api_version == 3){console.log("THE ANTOS response:::: ",  response)}
         
         let result = await response?.json();
         let status = response?.status;
-        if (api_version ==3 ){console.log("THE RESPONSE as PACKAGED:::: ", status, "THE WHOLE RESPONSE FROM ANTO:::: ", result)}
         return [status, result];
     } catch (err) {
         let status = err.response?.status,

@@ -38,7 +38,6 @@ const Index = (props) => {
     const fetchData = async () => {
         setFetching(true);
         let fetchcount = fetchingCount + 1;
-        console.log("THE FETCHING COUNT::: ", fetchingCount);
         let tab = 'highlights';
         let method = "GET";
         let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || sportid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}` ;

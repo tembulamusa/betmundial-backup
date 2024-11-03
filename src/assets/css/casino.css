@@ -1,0 +1,124 @@
+.casino-games-liting {
+    /* display: inline-flex; */
+}
+.casino-game {
+    width: 20%;
+    margin-left: 0;
+    /* margin-right: 5px; */
+    padding-right: 0;
+    padding-left: 5px;
+    float: left;
+    margin-bottom: 5px;
+    color: #777;
+    position: relative;
+    font-weight: 400;
+}
+.casino-game img {
+    border-radius: 5px;
+}
+.game-buttons {
+    position: absolute;
+    left: 50%;
+    translate: -50% 50%;
+    right: auto;
+    top: 10%;
+    display: none;
+}
+.game-buttons .casino-cta {
+    display: block;
+    margin-bottom: 4px;
+    width: 100px;
+    font-weight: bold;
+}
+
+.casino-demo-btn {
+    background-color: #ffb200 !important;
+    border: 2px solid #FFB200 !important;
+    color: #ffffff;
+}
+
+.casino-game:hover .game-buttons {
+    display: block;
+}
+
+.casino-category-header {
+    background: #f8f8f8;
+    margin-bottom: 10px;
+    /* box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
+    /* -moz-box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
+    /* -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.062); */
+    border-bottom: 1px solid rgba(0,0,0,0.124);
+}
+.category-products {
+    margin-bottom: 5px;
+}
+
+.casino-list-block {
+
+}
+.casino-sidebar .menu-card {
+
+}
+
+.casino-list-block {
+    margin-bottom: 1rem;
+    display: block;
+    border-radius: .375rem;
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    padding: .5rem;
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow);
+}
+
+.casino-list-block ul li {
+    margin-left: 0;
+    margin-right: 0;
+    display: flex;
+    width: auto;
+    gap: .5rem;
+    background-color: transparent;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+    color: rgba(38,38,38,.7);
+    opacity: 1;
+}
+
+.casino-list-block ul li:hover, .casino-list-block ul li.active {
+    background-color: #24367e;
+    color: #ffffff;
+    transition: all ease-in-out 0.3s;
+}
+
+.launched-casino-wrapper {
+    background-color: black;
+    height: 100vh;
+    color: #ffffff;
+}
+
+.casino-page-close {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    display: inline-block;
+    padding: 5px;
+    font-size: 15px;
+    margin-top: 5px;
+    border-radius: 100%;
+    float: right;
+}
+
+.launched-game-header {
+
+}
+
+.casino-launched-game-frame {
+    height: calc(100vh - 10vh);
+}
+
+.launched-casino-wrapper .amt {
+    margin-top: 131px !important;
+}

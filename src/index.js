@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client';
 import {
     BrowserRouter,
     Route,
-    Routes
+    Routes,
+    useLocation
 } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,6 +12,7 @@ import './assets/css/application.css';
 import './assets/css/tolkits.css';
 import './assets/css/sidebar-menu.css';
 import './assets/css/surecoin.css';
+import './assets/css/casino.css';
 import './index.css';
 import Store from './context/store';
 import Index from './components/index';
@@ -51,28 +53,27 @@ import { Context } from './context/store';
 import Logout from "./components/pages/auth/logout";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import SureCoin from "./components/pages/sure-coin";
+import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 
 const container = document.getElementById("app");
 
-
 const App = () => {
     const [state, ] = useContext(Context);
+    const url = window.location.pathname
     return (
             <BrowserRouter>
-            <div className={state?.currentmode}>
+            <div className={`${state?.currentmode} ${state?.casinolaunch && "launched-casino-wrapper"}`}>
                 <Suspense fallback={<p></p>}>
                 <Header />
-                <div className="amt">
+                <div className={`${state?.bodyheaderspacing} amt `}>
                     <div className={`flex big-icon second-nav ck pc app-navbar app-header-nav`}>
                         {/* <HeaderNav/> */}
                     </div>
-                    <div className="diminish-mobile-row row">
+                    <div className={`${state?.casinolaunch ? "": "diminish-mobile-row row"}`}>
                         {/* Conditional load live or otherwise */}
-                        <Sidebar />
-                
-                        <div className="col-md-7 home mx-auto">
+                        {!state?.casinolaunch && <Sidebar />}
+                            <div className={`${state?.casinolaunch ? "": "col-md-7 home mx-auto"}`}>
                         <Routes>
-                            
                             <Route exact path="/" element={<Index/>}/>
                             <Route exact path="/virtuals" element={<Casino/>}/>
                             <Route exact path="/virtuals/index" element={<Virtuals />}/>
@@ -88,6 +89,7 @@ const App = () => {
                             <Route exact path="/competition/:sportid/:categoryid/:competitionid"
                                 element={<Index/>}/>
                             <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
+                            <Route exact path="/casino/:name" element={<CasinoLaunchedGame />}/>
                             <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
                             <Route exact path="/jackpot" element={<Jackpot/>}/>
                             <Route exact path="/live" element={<Live/>}/>
@@ -121,11 +123,10 @@ const App = () => {
                             <Route path="*" element={<Index/>}/>
                             </Routes>
                     </div>
-                    <Right />
-                 
+                    {!state?.casinolaunch && <Right />}           
                 </div>
             </div>
-            <Footer />
+            {!state?.casinolaunch && <Footer />}
             </Suspense>
             </div>
             </BrowserRouter>

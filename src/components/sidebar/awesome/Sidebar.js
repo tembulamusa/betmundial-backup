@@ -21,6 +21,7 @@ import LiveSideBar from '../live-sidebar';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import gameCategories from '../../utils/static-data';
 import Notify from '../../utils/Notify';
+import CasinoSidebar from '../../pages/casino/casino-sidebar';
 
 const ProSidebar = (props) => {
 
@@ -34,7 +35,7 @@ const ProSidebar = (props) => {
     const queryParamValue = searchParams.get('id');
     const [competitions, setCompetitions] = useState(null);
     const [focusSportId, setFocusSportId] = useState(null);
-
+    const excludeSidebar = ["/casino", "/virtuals"]
     const handleCollapsedChange = (checked) => {
         setCollapsed(checked);
     };
@@ -223,7 +224,7 @@ const ProSidebar = (props) => {
 
     return (
         <>
-        {loc.includes("/live") ? <LiveSideBar /> : 
+        {!excludeSidebar.includes(loc) && (loc.includes("/live") ? <LiveSideBar /> : 
             <div style={{
                 display: 'flex',
                 overflow: 'scroll initial',
@@ -271,33 +272,7 @@ const ProSidebar = (props) => {
                                             ))
                                         
                                         }
-                                        {/* {competition?.categories.map((country, countryKey) => (
-                                                <SubMenu
-                                                        title={country.category_name}
-                                                        label = {country.category_name}
-                                                        icon={<img style={{borderRadius: '50%', height: '15px'}}
-                                                        className=''
-                                                        src={getSportImageIcon(country.cat_flag, 'img/flags-1-1')}
-                                                        alt=''/>}
-                                                        className='inner-submenu'
-                                                        key={countryKey}>
-
-                                                            {country?.competitions?.map((league, leagueKey) => (
-                                                                <MenuItem
-                                                                title={league.competition_name}
-                                                                // label = {country.category_name}
-                                                                key={league?.competition_id}
-                                                                >
-                                                                    <Link className='country-competition-item' to={`/competition/country/league/${league.competition_id}/all`}
-                                                                        onClick={() => changeMatches("competition", league)}>
-                                                                        <span>{league?.competition_name}</span>
-                                                                    </Link>
-                                                                </MenuItem>
-                                                            ))                                                                
-                                                            }
-                                                            
-                                                </SubMenu>
-                                        ))} */}
+                                        
                                         </PerfectScrollbar >
                                 { /* </SubMenu> */}
                                 </SubMenu>
@@ -403,8 +378,20 @@ const ProSidebar = (props) => {
                 </Sidebar>
                 
             </div>
+
+            )
+
         }
+        
+        {
+            loc == "/casino" && 
             
+            <div className={`vh-100 d-none d-md-block col-md-2`}>
+                <div className='bg-white vh-100'>
+                   <CasinoSidebar categories={state?.casinogames?.game_types} providers={state?.casinogames?.providers}/>
+                </div>
+            </div>
+        }
         </>
         
     );

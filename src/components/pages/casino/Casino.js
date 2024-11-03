@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Header from "../../header/header";
 import Footer from "../../footer/footer";
 import makeRequest from "../../utils/fetch-request";
@@ -8,30 +8,50 @@ import SideBar from "../../sidebar/awesome/Sidebar";
 import {getFromLocalStorage, setLocalStorage} from "../../utils/local-storage";
 import Notify from "../../utils/Notify";
 import {Button, ButtonGroup} from "react-bootstrap";
+import CasinoCarousel from '../../carousel/casino-carousel';
+import { Context } from '../../../context/store';
+import { ShimmerTable } from "react-shimmer-effects";
+import NoEvents from '../../utils/no-events';
+import CategoryListing from './category-listing';
 
 const Casino = (props) => {
 
     const [user] = useState(getFromLocalStorage("user"));
-
     const [categories, setCategories] = useState([])
+    const [state, dispatch] = useContext(Context);
+    const [games, setGames] = useState([]);
+    const [filteredGames, setFilteredGames] = useState([]);
+    const [fetching, setFetching] = useState(false);
 
-    const [games, setGames] = useState([])
+    const fetchCasinoGames = async () => {
+        setFetching(true);
+        let endpoint = "games-list";
 
-    const fetchGames = async (category = 'vs') => {
-        let endpoint = "/v1/casino-games?game-type-id=" + category
-        let method = "GET"
-        await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
+        // change fetch if there's a filter
+        if (state?.casinogamesfilter?.filterType == "category") {
+            endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`
+        }
+
+        await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
             if (status === 200) {
-                setCategories(result.types)
-                setGames(result.data)
-                setLocalStorage('category_games', result.data)
+                if (state?.casinogamesfilter) {
+                   let newGames = {...games, games: result}
+                   setGames(newGames);
+                //    dispatch({type:"SET", key:"casinogames", payload: result});
+                } else {
+                    setGames(result);
+                    dispatch({type:"SET", key:"casinogames", payload: result});
+                    setLocalStorage('casinogames', result)
+                }
+                
             }
         });
+        setTimeout(() => {setFetching(false)}, 3000)
     }
 
     const getCategoryGames = (category) => {
-        setGames([])
-        fetchGames(category?.game_type_id)
+        setGames(null)
+        fetchCasinoGames()
     }
 
     const showLoginNotification = () => {
@@ -51,42 +71,62 @@ const Casino = (props) => {
         return showLoginNotification()
     }
 
+    const getFaziGamesFromLocalStorage = () => {
+        let hasFaziGames = false;
+        let localGames = getFromLocalStorage("casinogames");
+        if (localGames && Object.keys(localGames) > 0) {
+            setGames(localGames);
+            hasFaziGames = true;
+        }
+
+        return hasFaziGames
+    }
+
     useEffect(() => {
-        fetchGames()
-    }, [])
+        // Get Fazi Games from local storage else fetch them
+        let localGames = getFromLocalStorage("casinogames");
+        dispatch({type:"SET", key:"bodyheaderspacing", payload:"no-body-header-spacing"});
+        if (localGames ) {
+
+            if (Object.keys(localGames).length > 0) {
+                setGames(localGames);
+                dispatch({type:"SET", key:"casinogames", payload: localGames});
+                dispatch({type:"SET", key:"casinoactiveitem", payload: {type:'category', id:1}});
+            } else {
+                fetchCasinoGames();
+            }
+        } else {
+            fetchCasinoGames();
+        }
+        return () => {dispatch({type:"DEL", key:"bodyheaderspacing"})}
+    }, []);
+
+    useEffect(() => {
+        fetchCasinoGames();
+    }, [state?.casinogamesfilter])
 
     return (
         <>
-        <h1>Casino</h1>
-        <div className={'row p-2 '}>
-            {games?.map((game) => (                 
-                    <div className={'col-md-2'}>    
-                        <div                        
-                            className={'mt-1 mb-1 d-flex flex-column shadow-lg'} >
-                            <div onClick={() => launchGame(game?.game_id, 1)}
-                                    className=""       
-                                    key={game.game_id}>
-                                <LazyLoadImage src={`${game.game_icon}`}
-                                                className={'virtual-game-image'}/>
-                                <p className={'p-2 bold text-elipsis'}>{game?.game_name}</p>
-                            </div>                  
-                            <div className="overlay shadow-sm row">
-                                <ButtonGroup aria-label="Basic example">
-                                    <Button variant="warning" 
-                                            onClick={() => launchGame(game?.game_id)}>
-                                        Demo   
-                                    </Button>       
-                                    <Button style={{background:'#902065', border:"none"}}
-                                            onClick={() => launchGame(game?.game_id, 1)}>
-                                        Play Live   
-                                    </Button>       
-                                </ButtonGroup>      
-                            </div>                  
-                        </div>                      
-                    </div>                          
-                                                    
-                )                                   
-            )}                                      
+        <CasinoCarousel />
+        <section className='casino-filter md:hidden'>
+            <div className='filter-nav'>
+                <ul className="filter-nav-list">
+                    <li className='filter-item'>All games</li>
+                    <li className='filter-item'>Popular</li>
+                    <li className='filter-item'>New</li>
+                    <li className='filter-item'>Tables</li>
+                    {/* <li className='filter-item'>All games</li> */}
+                </ul>
+            </div>
+        </section>
+        <div className={'casino-games-list'}>
+            {games?.games?.length < 1 && <div>{fetching ? <ShimmerTable row={3}/> :<NoEvents message="Casino Games not found" />}</div>}
+            {games?.games?.map((category, idx) => (                 
+                <>                        
+                    <CategoryListing games={category?.game_list} gamestype={category?.game_type}/>
+                </> 
+               )                                   
+            )}                                    
 
         </div>
         </>
