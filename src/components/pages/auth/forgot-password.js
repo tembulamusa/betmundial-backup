@@ -31,8 +31,8 @@ const ResetPassword = (props) => {
         setMsisdn(values.msisdn);
         let endpoint = '/v2/auth/forgot-password';
         makeRequest({ url: endpoint, method: 'POST', data: values, api_version: 2 }).then(([status, response]) => {
-            if (status === 200) {
-                if (response?.status === 200) {
+            if (status == 200) {
+                if (response?.status == 200) {
                     setMessage({ status: 200, message: "Verification Code sent to your phone number" });
                     setOtpSent(true);
                 } else {
@@ -51,7 +51,7 @@ const ResetPassword = (props) => {
         let endpoint = '/v2/auth/reset-password';
         makeRequest({ url: endpoint, method: 'POST', data: values, api_version: 2 }).then(([status, response]) => {
             if ([200, 201].includes(status)) {
-                if (response?.status === 200) {
+                if (response?.status == 200) {
                     Notify({ status: 200, message: "Password reset successfully. Login to continue" });
                     navigate("/login");
                 } else {
@@ -92,7 +92,7 @@ const ResetPassword = (props) => {
     };
 
     const handleKeyPress = (event, submitForm) => {
-        if (event.key === 'Enter') {
+        if (event.key == 'Enter') {
             event.preventDefault(); 
             submitForm();
         }

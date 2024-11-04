@@ -24,7 +24,7 @@ const VerifyAccount = (props) => {
         setIsLoading(true);
         makeRequest({ url: endpoint, method: 'POST', data: values, api_version: 2 }).then(([status, response]) => {
             if ([200, 201].includes(status)) {
-                if (response?.status === 200) {
+                if (response?.status == 200) {
                     Notify({ status: 200, message: "Password reset successfully. Login to continue" });
                     navigate("/login");
                 } else {
@@ -55,7 +55,7 @@ const VerifyAccount = (props) => {
         }
         makeRequest({ url: endpoint, method: 'POST', data: values, api_version: 2 }).then(([status, response]) => {
             if ([200, 201].includes(status)) {
-                if (response?.status === 200) {
+                if (response?.status == 200) {
                     Notify({ status: 200, message: "Verification code sent to phone" });
                 } else {
                     setMessage({ status: 400, message: "Error fetching code" });
@@ -69,7 +69,7 @@ const VerifyAccount = (props) => {
     useEffect(() => { sendOTP() }, []);
 
     const handleKeyPress = (event, handleSubmit) => {
-        if (event.key === 'Enter') {
+        if (event.key == 'Enter') {
             event.preventDefault(); 
             handleSubmit();
         }
@@ -143,7 +143,7 @@ const VerifyAccount = (props) => {
                                 <button type="submit"
                                     disabled={isLoading}
                                     className={`btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button`}>
-                                    {isLoading === false ? "Verify Account" : "verifying..."}
+                                    {isLoading == false ? "Verify Account" : "verifying..."}
                                 </button>
                             </div>
                         </div>

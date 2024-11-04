@@ -30,7 +30,7 @@ const ResetPassword = (props) => {
         setMobile(values.mobile);
         let endpoint = '/v2/code';
         makeRequest({ url: endpoint, method: 'POST', data: values }).then(([status, response]) => {
-            setSuccess(status === 200 || status === 201);
+            setSuccess(status == 200 || status == 201);
             setMessage(response.success.message);
             setOtpSent(true);
             setResetID(response.success.id);
@@ -42,7 +42,7 @@ const ResetPassword = (props) => {
         values.id = resetID;
         let endpoint = '/v1/reset-password';
         makeRequest({ url: endpoint, method: 'POST', data: values }).then(([status, response]) => {
-            setSuccess(status === 200 || status === 201);
+            setSuccess(status == 200 || status == 201);
             setMessage(response.error ? response.error.message : response.success.message);
             response.error ? setSuccess(false) : setSuccess(true);
 
@@ -82,7 +82,7 @@ const ResetPassword = (props) => {
     };
 
     const handleKeyPress = (event, submitForm) => {
-        if (event.key === 'Enter') {
+        if (event.key == 'Enter') {
             event.preventDefault();
             submitForm(); 
         }
