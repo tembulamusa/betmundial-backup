@@ -40,7 +40,7 @@ const CasinoGame = (props) => {
         let sport_image;
         try {
             sport_image = imgUrl;
-            if(sport_image.trim() =="") {
+            if(sport_image.trim() == "") {
                 sport_image = require(`../../../assets/img/casino/default.png`);  
             }
         } catch (error) {

@@ -79,19 +79,24 @@
     width: auto;
     gap: .5rem;
     background-color: transparent;
-    padding-left: .5rem;
+    padding-left: 0;
     padding-right: .5rem;
     font-size: 16px;
     line-height: 1.5;
     font-weight: 400;
     color: rgba(38,38,38,.7);
     opacity: 1;
+    margin-bottom: 7px;
+    /* border-bottom: 1px solid #eee; */
+    padding-bottom: 5px;
+    border-radius: 5px;
 }
 
 .casino-list-block ul li:hover, .casino-list-block ul li.active {
     background-color: #24367e;
     color: #ffffff;
     transition: all ease-in-out 0.3s;
+    padding-left: 10px;
 }
 
 .launched-casino-wrapper {
@@ -120,9 +125,13 @@
 }
 
 .launched-casino-wrapper .amt {
-    margin-top: 131px !important;
+    margin-top: 125px !important;
 }
-
+.casino-icon {
+    /* font-size: 10px; */
+    width: 15px;
+    margin-right: 3px;
+}
 @media screen and (max-width:640px) {
     .casino-game {
         width: 50%;

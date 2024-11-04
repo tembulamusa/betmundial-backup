@@ -21,11 +21,11 @@ const CasinoSidebar = (props) => {
 
         let sport_image;
         try {
-            sport_image = require(`../../../assets/img/casino/icons/${sport_name}`);
+            sport_image = require(`../../../assets/img/casino/icons/${sport_name}.svg`);
         } catch (error) {
-            sport_image = require(`../../../assets/img/casino/icons/default.svg`);
+            sport_image = require(`../../../assets/img/casino/icons/Default.svg`);
         }
-        return sport_image
+        return sport_image;
     }
 
     const filterGames = (filterName, filterItem) => {
@@ -40,7 +40,7 @@ const CasinoSidebar = (props) => {
             <>
                 <div className="casino-list-block menu-card">
                     <ul className="casino-sidebar-items">
-                        <h1 className="my-2 text-2xl font-[400] text-gray-400">Categories</h1>
+                        <h1 className="my-4 text-2xl font-[400] text-gray-400">Categories</h1>
                         {categories?.map((category, idx) => (
                                 <>
                                 <li key={"categories-" + idx} 
@@ -72,7 +72,7 @@ const CasinoSidebar = (props) => {
         )
     }
     return (
-        <div className="casino-sidebar">
+        <div className="casino-sidebar pt-5 px-4">
             <NewItemsLinks />
             <CasinoCategories />
             <CasinoProviders />

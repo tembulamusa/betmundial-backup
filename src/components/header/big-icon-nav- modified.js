@@ -70,7 +70,7 @@ const BigIconMenu = () => {
                         <>
                             <li className={`${pathname == item.link ? "active" : ''} menu-item text-center capitalize`}>
                                 <Link className="" to={item.link} title={item.name}>
-                                    <div className="menu-icon"><img src={getSportImageIcon(item.icon)} alt={item.name}/></div>
+                                    <div className="menu-icon"><img className="mx-auto" src={getSportImageIcon(item.icon)} alt={item.name}/></div>
                                     <div className="menu-name">{item.name}</div>
                                 </Link>
                             </li>   

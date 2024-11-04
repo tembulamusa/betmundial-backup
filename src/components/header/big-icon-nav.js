@@ -89,7 +89,7 @@ const BigIconMenu = () => {
                     {linkItems.map((item, idx) => (
                         <li key={idx} className={`${pathname == item.link ? "active" : ''} big-icon-item text-center capitalize`}>
                             <Link to={item.link} title={item.name}>
-                                <div className="big-icon-icon"><img src={getSportImageIcon(item.icon)} alt={item.name} /></div>
+                                <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(item.icon)} alt={item.name} /></div>
                                 <div className="big-icon-name">{item.name}</div>
                             </Link>
                         </li>
