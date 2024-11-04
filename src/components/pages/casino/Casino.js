@@ -108,17 +108,16 @@ const Casino = (props) => {
     return (
         <>
         <CasinoCarousel />
-        <section className='casino-filter md:hidden'>
+        {/* <section className='casino-filter md:hidden'>
             <div className='filter-nav'>
                 <ul className="filter-nav-list">
                     <li className='filter-item'>All games</li>
                     <li className='filter-item'>Popular</li>
                     <li className='filter-item'>New</li>
                     <li className='filter-item'>Tables</li>
-                    {/* <li className='filter-item'>All games</li> */}
                 </ul>
             </div>
-        </section>
+        </section> */}
         <div className={'casino-games-list'}>
             {games?.games?.length < 1 && <div>{fetching ? <ShimmerTable row={3}/> :<NoEvents message="Casino Games not found" />}</div>}
             {games?.games?.map((category, idx) => (                 

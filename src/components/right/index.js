@@ -99,8 +99,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
 
                 </span>
               )}
-
-              <button className='btn btn-default' onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}><span className='text-red-700 font-bold mr-3'>X</span>Close</button>
+              <button className='btn btn-default' onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:false})}><span className='text-red-700 font-bold mr-3'>X</span>Close</button>
           </div>
       </>
     )

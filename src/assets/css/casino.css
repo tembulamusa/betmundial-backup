@@ -122,3 +122,9 @@
 .launched-casino-wrapper .amt {
     margin-top: 131px !important;
 }
+
+@media screen and (max-width:640px) {
+    .casino-game {
+        width: 50%;
+    }
+}
