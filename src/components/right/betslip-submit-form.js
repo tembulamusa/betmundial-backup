@@ -135,6 +135,7 @@ const BetslipSubmitForm = (props) => {
 
 
         for (let slip of bs) {
+            delete slip.start_time
             if (jackpot) {
                 jackpotMessage += "#" + slip.bet_pick
             }
@@ -182,7 +183,6 @@ const BetslipSubmitForm = (props) => {
             accept_all_odds_change: values.accept_all_odds_change == true ? 1 : 0,
             bet_type: state?.islive ? "1" : jackpot ? "9" : "3" // update for live
         };
-
         let endpoint = '/v2/user/place-bet';
         let method = "POST"
         if (jackpot) {
