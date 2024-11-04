@@ -7,6 +7,7 @@ import { Formik, Form } from 'formik';
 import makeRequest from "../../utils/fetch-request";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Notify from '../../utils/Notify';
+import Alert from '../../utils/alert';
 
 const ResetPassword = (props) => {
     const [message, setMessage] = useState(null);
@@ -129,7 +130,7 @@ const ResetPassword = (props) => {
                         </div>
 
                         <div className="form-group row d-flex justify-content-left mb-4">
-                            <div className="col-md-3">
+                            <div className="col-md-6">
                                 <button type="submit"
                                         onClick={submitForm}
                                         className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button'>
@@ -181,8 +182,8 @@ const ResetPassword = (props) => {
                                 </div>}
                             </div>
                         </div>
-                        <div className="form-group row d-flex justify-content-center mt-5">
-                            <div className="col-md-6">
+                        <div className="form-group row d-flex justify-content-center">
+                            <div className="col-md-12 mt-3">
                                 <label>Password</label>
                                 <input
                                     value={values.password}
@@ -198,7 +199,7 @@ const ResetPassword = (props) => {
                                     {errors.password}
                                 </div>}
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-md-12 mt-3">
                                 <label>Confirm Password</label>
                                 <input
                                     value={values.repeat_password}
@@ -218,10 +219,10 @@ const ResetPassword = (props) => {
                         </div>
 
                         <div className="form-group row d-flex justify-content-left mb-4">
-                            <div className="col-md-3">
+                            <div className="col-6">
                                 <button type="submit"
                                         onClick={submitForm}
-                                        className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button'>
+                                        className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button !capitalize'>
                                     Reset Password
                                 </button>
                             </div>
@@ -257,15 +258,20 @@ const ResetPassword = (props) => {
     };
 
     return (
-        <div className='container-fluid'>
-            {message && <div className="alert alert-danger">{message.message}</div>}
-            <div className="row">
-                <div className="col-md-12">
-                    <OptForm />
-                    <PasswordResetForm />
+        <>
+            <div className='col-md-12 primary-bg p-4 text-center mb-4'>
+                <h4 className="">Forgot Password</h4>
+            </div>
+            <div className='std-medium-width-block'>
+                <div className="row">
+                    {message && <Alert message={message} />}
+                    <div className="col-md-12">
+                        <OptForm />
+                        <PasswordResetForm />
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

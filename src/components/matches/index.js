@@ -879,7 +879,6 @@ const MatchList = (props) => {
 
     useEffect(() => {
         dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
-        console.log("THE MATCH LIST TYPE::: I got here::::")
         return () => {
             dispatch({type:"DEL", key: "matchlisttype"});
         }
