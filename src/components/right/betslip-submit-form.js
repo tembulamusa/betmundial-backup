@@ -425,6 +425,8 @@ const BetslipSubmitForm = (props) => {
                                                     className="bet-select"
                                                     name="bet_amount"
                                                     id="bet_amount"
+                                                    min={1}
+                                                    max={20000}
                                                     value={stake}
                                                     onChange={(e) => onFieldChanged(e)}
                                             />)}
