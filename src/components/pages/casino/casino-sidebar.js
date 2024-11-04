@@ -23,7 +23,7 @@ const CasinoSidebar = (props) => {
         try {
             sport_image = require(`../../../assets/img/casino/icons/${sport_name}.svg`);
         } catch (error) {
-            sport_image = require(`../../../assets/img/casino/icons/Default.svg`) || require(`../../../assets/img/casino/icons/default.svg`);
+            sport_image = require(`../../../assets/img/casino/icons/default.svg`);
         }
         return sport_image;
     }
