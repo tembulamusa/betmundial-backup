@@ -178,9 +178,11 @@ const BetSlip = (props) => {
             setSharedBetLoading(true);
             
             makeRequest({ url: endpoint, method: "GET", api_version: 2 }).then(([status, result]) => {
-                if (status === 200) {
-                    if (result.status === 200) {
+                if (status == 200) {
+                    if (result.status == 200) {
                         if (result?.data?.betslip && result?.data?.betslip.length > 0) {
+                            console.log("THE BETSLIP DATA IS HERE:::: ", result.data.betslip)
+                            console.log("THE DATA IS HERE:::: ", result.data)
                             let betslip = {};
                             result?.data?.betslip?.forEach(item => {
                                 let item_id = item.match_id;
