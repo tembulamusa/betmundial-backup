@@ -2,6 +2,8 @@ import React,  {
     useLayoutEffect, 
     useState,
     useCallback,
+    useEffect,
+    useContext,
 } from "react";
 import { useParams } from 'react-router-dom';
 
@@ -11,6 +13,7 @@ import useInterval from "../hooks/set-interval.hook";
 import { getBetslip } from './utils/betslip' ;
 
 import { MarketList } from './matches/index';
+import { Context } from "../context/store";
 
 const Header = React.lazy(()=>import('./header/header'));
 const Footer = React.lazy(()=>import('./footer/footer'));
@@ -25,7 +28,8 @@ const MatchAllMarkets = (props) => {
     const [userSlipsValidation, setUserSlipsValidation] = useState();
     const params = useParams();
     const [isLoading, setIsLoading] = useState(false);
-
+    const [, dispatch] = useContext(Context);
+    
     const findPostableSlip = () => {
         let betslips = getBetslip() || {};
         var values = Object.keys(betslips).map(function(key){
@@ -65,6 +69,13 @@ const MatchAllMarkets = (props) => {
             });
         }
     }, [params.id]);
+
+    useEffect(()=> {
+        dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
+        return () => {
+            dispatch({type:"DEL", key: "matchlisttype"});
+        }
+    },[])
 
     useLayoutEffect(() => {
         const abortController = new AbortController();                          

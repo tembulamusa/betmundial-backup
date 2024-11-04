@@ -176,13 +176,10 @@ const BetSlip = (props) => {
             let endpoint = "/v2/bet/share?share-code=" + code;
             setSharedBetError(null);
             setSharedBetLoading(true);
-            
             makeRequest({ url: endpoint, method: "GET", api_version: 2 }).then(([status, result]) => {
                 if (status == 200) {
                     if (result.status == 200) {
                         if (result?.data?.betslip && result?.data?.betslip.length > 0) {
-                            console.log("THE BETSLIP DATA IS HERE:::: ", result.data.betslip)
-                            console.log("THE DATA IS HERE:::: ", result.data)
                             let betslip = {};
                             result?.data?.betslip?.forEach(item => {
                                 let item_id = item.match_id;
@@ -290,7 +287,7 @@ const BetSlip = (props) => {
                                            onClick={() => handledRemoveSlip(slip)} />
                                 </div>
                                 <Link to={`/match/${slip.match_id}`} style={{}} className='hover:underline'>
-                                <div className="bet-value betslip-game">
+                                <div className="bet-value betslip-game" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload: false})}>
                                         {
                                             <span 
                                                 style={{
