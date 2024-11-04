@@ -70,7 +70,7 @@ const ProSidebar = (props) => {
             let [c_status, c_result] = competition_result;
             if (c_status === 200) {
                 setCompetitions(c_result?.data);
-                setLocalStorage('categories', c_result?.data);
+                setLocalStorage('categories', c_result?.data, 5 * 60 * 1000);
                 dispatch({type:"SET", key:"categories", payload:c_result});
             } else {
                 Notify({status: 400, message: "Sport categories not found"});
@@ -166,7 +166,7 @@ const ProSidebar = (props) => {
                     
                     if (focusSportId == 79) {
                         dispatch({type:"SET", key:"topcompetitions", payload:sport.competitions});
-                        setLocalStorage("topcompetitions", sport.competitions);
+                        setLocalStorage("topcompetitions", sport.competitions, 5 * 60 * 1000);
                     }
                     let newCompetitions = competitions;
 
@@ -176,7 +176,7 @@ const ProSidebar = (props) => {
                     // update the state and the localStorage
                     setCompetitions(newCompetitions);
                     dispatch({type: "SET", key: "categories", payload: newCompetitions})
-                    setLocalStorage("categories", newCompetitions)
+                    setLocalStorage("categories", newCompetitions, 5 * 60 * 1000)
 
                 } else {
                     sport.competitions = [];
@@ -205,7 +205,7 @@ const ProSidebar = (props) => {
                     newCompetitions[sportIndex] = sport;
                     setCompetitions(newCompetitions);
                     dispatch({type: "SET", key: "categories", payload: newCompetitions})
-                    setLocalStorage("categories", newCompetitions)
+                    setLocalStorage("categories", newCompetitions, 5 * 60 * 1000)
 
                 } else {
                     sport.categories = [];
