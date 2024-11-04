@@ -66,7 +66,7 @@ const Signup = (props) => {
     }
 
     const handleKeyPress = (event, submitForm) => {
-        if (event.key === 'Enter') {
+        if (event.key == 'Enter') {
             event.preventDefault();
             submitForm(); 
         }

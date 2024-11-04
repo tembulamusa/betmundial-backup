@@ -1,8 +1,8 @@
 export  const isDeepEqual = (obj1, obj2) => {
-    if (obj1 === obj2) {
+    if (obj1 == obj2) {
         return true;
     }
-    if (typeof obj1 !== 'object' || typeof obj2 !== 'object' || obj1 === null || obj2 === null) {
+    if (typeof obj1 !== 'object' || typeof obj2 !== 'object' || obj1 == null || obj2 == null) {
         return false;
     }
     const keys1 = Object.keys(obj1);

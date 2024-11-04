@@ -25,7 +25,7 @@ const LiveCasino = (props) => {
         let endpoint = "/v1/casino-games?game-type-id=" + category
         let method = "GET"
         await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
-            if (status === 200) {
+            if (status == 200) {
                 setCategories(result.types)
                 setGames(result.data)
                 setLocalStorage('category_games', result.data)
@@ -74,14 +74,14 @@ const LiveCasino = (props) => {
             } else {
                 let localData = tableData
                 // console.log(data)
-                let index = tableData.findIndex((item) => item.tableId === data?.tableId)
+                let index = tableData.findIndex((item) => item.tableId == data?.tableId)
                 // console.log("Index found as ", index)
                 if (index !== -1) {
                     // exists, updating request received...
                     localData[index] = data
                 } else {
                     let length = localData.length
-                    if (length === 0) {
+                    if (length == 0) {
                         localData[0] = data
                     } else {
                         localData[length] = data

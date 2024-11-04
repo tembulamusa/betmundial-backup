@@ -12,7 +12,7 @@ const LoginModal = (props) => {
     return (
         <>
             <Modal
-            show={state?.showloginmodal === true}
+            show={state?.showloginmodal == true}
             onHide={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}
             dialog className="popover-login-modal"
             aria-labelledby="contained-modal-title-vcenter">

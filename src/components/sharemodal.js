@@ -52,7 +52,7 @@ const ShareModal = (props) => {
             payload.bet_id = state?.sharedbet?.bet_id;
         }
         makeRequest({url: endpoint, method: "POST", data: payload, api_version:2}).then(([status, result]) => {
-            if(status === 200) {
+            if(status == 200) {
                 setShareId(result?.data?.message);
             } else {
                 setShareMessage({status: status, message: "unable to process share"});
@@ -83,7 +83,7 @@ const ShareModal = (props) => {
     }, [ipAddress])
 
     useEffect(() => {
-        if(state?.showsharemodal === true) {
+        if(state?.showsharemodal == true) {
             createSharableBet();
         }
     }, [state?.showsharemodal])
@@ -97,7 +97,7 @@ const ShareModal = (props) => {
     return (
         <>
             <Modal
-            show={state?.showsharemodal === true}
+            show={state?.showsharemodal == true}
             onHide={() => destroyShareModal()}
             dialogClassName="modal-90w world-cup-ad"
             aria-labelledby="contained-modal-title-vcenter">
@@ -106,7 +106,7 @@ const ShareModal = (props) => {
                     </Modal.Header>
                     
                     <Modal.Body className="bg-white px-3 py-2">
-                        { doneShare === false ? (
+                        { doneShare == false ? (
                             <div>
                                 <ShimmerTitle line={2} gap={10} variant="secondary" /> 
                                 <ShimmerTable row={2} col={3} />

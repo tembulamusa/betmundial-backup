@@ -73,16 +73,16 @@ const BetSlip = (props) => {
                     if (slipdata.odd_active !== 1) {
                         slip.comment = 'Option not active for betting';
                         slip.disable = true;
-                    } else if (slipdata.market_active === 0 ||
+                    } else if (slipdata.market_active == 0 ||
                         (slipdata.market_active !== 'Active' && slipdata.market_active !== 1)) {
                         slip.comment = 'Betting on this market is '
-                            + (slipdata.market_active === 0 ? "suspended" : slipdata.market_active);
+                            + (slipdata.market_active == 0 ? "suspended" : slipdata.market_active);
                         slip.disable = true;
-                    } else if (slipdata.event_status === 'Suspended'
-                        || slipdata.event_status === 'Deacticated'
-                        || slipdata.event_status === 'Ended'
-                        || slipdata.event_status === 'Abandoned'
-                        || slipdata.event_status === 'Finished') {
+                    } else if (slipdata.event_status == 'Suspended'
+                        || slipdata.event_status == 'Deacticated'
+                        || slipdata.event_status == 'Ended'
+                        || slipdata.event_status == 'Abandoned'
+                        || slipdata.event_status == 'Finished') {
                         slip.comment = 'This event is  ' + slipdata.event_status;
                         slip.disable = true;
                     } else if (slipdata.active !== 1) {
@@ -126,7 +126,7 @@ const BetSlip = (props) => {
     }, [setJackpotSlipkey]);
 
     const handledRemoveSlip = (match) => {
-        let betslip = (betslipKey === "betslip")
+        let betslip = (betslipKey == "betslip")
             ? removeFromSlip(match.match_id)
             : removeFromJackpotSlip(match.match_id);
 
@@ -214,7 +214,7 @@ const BetSlip = (props) => {
         };
     
         const handleKeyPress = (event) => {
-            if (event.key === 'Enter') {
+            if (event.key == 'Enter') {
                 loadBetslipFromCode();
             }
         };
@@ -254,7 +254,7 @@ const BetSlip = (props) => {
     return (
         
         <div className="">
-            { (Object.keys(betslipsData || {}).length === 0) &&
+            { (Object.keys(betslipsData || {}).length == 0) &&
                 
                 <li className="bet-option hide-on-affix" key="no-slip-ai"
                     style={{margin:"10px 0px 5px 0px", borderBottom:"none", padding:"0px 2px", listStyle:"none"}}>
@@ -276,7 +276,7 @@ const BetSlip = (props) => {
 
                     {Object.entries(betslipsData ?? {}).map(([match_id, slip]) => {
                         let odd = slip.odd_value;
-                        let no_odd_bg = odd === 1 ? '#f29f7a' : '';
+                        let no_odd_bg = odd == 1 ? '#f29f7a' : '';
 
                         return (
                             <li className={`bet-option hide-on-affix ${slip?.disable ? 'warn' : ''}`} key={match_id}
@@ -298,15 +298,15 @@ const BetSlip = (props) => {
                                                 <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
                                                 {`${slip.home_team} VS ${slip.away_team}`}
                                             </span>}
-                                        {slip.bet_type === 0 && ' Pre-match'}
-                                        {slip.bet_type === 1 && ' Live'}
+                                        {slip.bet_type == 0 && ' Pre-match'}
+                                        {slip.bet_type == 1 && ' Live'}
                                 </div>
                                 </Link>
                                 <div className="row">
                                     <div className="bet-value">
                                         {slip.odd_type} - <span className='font-[500]'>{slip.bet_pick}</span>
                                         <span className="bet-odd">{slip.odd_value}
-                                                    {slip.odd_value === 1 &&
+                                                    {slip.odd_value == 1 &&
                                                         (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
                                                     }
                                         </span>
@@ -314,7 +314,7 @@ const BetSlip = (props) => {
                                 </div>
                                 {/* <div className="bet-pick">Your Pick - <b>{slip.bet_pick}
                                     <span className="bet-odd">{slip.odd_value}
-                                        {slip.odd_value === 1 &&
+                                        {slip.odd_value == 1 &&
                                             (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
                                         }
                             </span></b>

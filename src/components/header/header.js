@@ -127,7 +127,7 @@ const Header = (props) => {
 
             
 
-        <ShareModal shown={state?.showsharemodal === false} />
+        <ShareModal shown={state?.showsharemodal == false} />
         
         <LoginModal />
         <CheckMpesaDepositStatus />

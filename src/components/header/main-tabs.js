@@ -77,13 +77,13 @@ const MainTabs = (props) => {
     useEffect(() => {
         setSportOptions() 
         if(sportid){
-            let _sport = state?.categories?.all_sports.find((sport) => sport.sport_id === Number(sportid))
+            let _sport = state?.categories?.all_sports.find((sport) => sport.sport_id == Number(sportid))
             _sport && handleSportsSelect(_sport);
             if(categoryid){
-                let _category = _sport?.categories?.find((category) => category.category_id === Number(categoryid))
+                let _category = _sport?.categories?.find((category) => category.category_id == Number(categoryid))
                 _category && handleCategorySelect(_category);
                 if(competitionid) {
-                    let _competition = _category?.competitions?.find((_c) => _c.competition_id === Number(competitionid));
+                    let _competition = _category?.competitions?.find((_c) => _c.competition_id == Number(competitionid));
                     _competition && handleCompetitionSelect(_competition);
                 }
             }
@@ -195,15 +195,15 @@ const MainTabs = (props) => {
                 <div className='md:col-8 md:w-8/12 text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto md:!overflow-hidden'>
                     <div className='row'>
                         <div className="col-4 col-md-4 col-sm-4">
-                            <div className={`home-tabs hover:text-hover ${activeTab === 'highlights' && 'home-tab-active'}`} 
+                            <div className={`home-tabs hover:text-hover ${activeTab == 'highlights' && 'home-tab-active'}`} 
                             onClick = {() => setActiveTabSpace('highlights')} >Highlights</div>
                         </div>
                         <div className="col-4 col-md-4 col-sm-4">
-                                <div className={`home-tabs hover:text-hover ${activeTab === 'today' && 'home-tab-active'}`} 
+                                <div className={`home-tabs hover:text-hover ${activeTab == 'today' && 'home-tab-active'}`} 
                                     onClick ={() => setActiveTabSpace('today')}>Today's</div>
                         </div>
                         <div className="col-4 col-md-4 col-sm-4">
-                                <div className={`home-tabs hover:text-hover ${activeTab === 'tomorrow' && 'home-tab-active'}`}
+                                <div className={`home-tabs hover:text-hover ${activeTab == 'tomorrow' && 'home-tab-active'}`}
                                     onClick={() => setActiveTabSpace('tomorrow')}>Tomorrow</div>
                         </div>
                     </div>

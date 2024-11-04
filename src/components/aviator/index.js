@@ -67,9 +67,9 @@ const AviatorGame = () => {
 
   // Plane icon rendering based on status
   const renderPlaneIcon = () => {
-    if (planeStatus === 'takeoff') {
+    if (planeStatus == 'takeoff') {
       return <PiAirplaneTakeoffLight size={50} color="white" />;
-    } else if (planeStatus === 'inflight') {
+    } else if (planeStatus == 'inflight') {
       return <PiAirplaneInFlightLight size={50} color="white" />;
     } else {
       return <PiAirplaneLanding size={50} color="white" />;

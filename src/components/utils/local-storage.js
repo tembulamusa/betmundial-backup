@@ -2,7 +2,7 @@ const now = () => (new Date()).getTime();
 
 export const getFromLocalStorage = (key) => {
     let entry = window.localStorage.getItem(key);
-    if (!entry || entry === undefined || entry === "undefined") {
+    if (!entry || entry == undefined || entry == "undefined") {
         return null;
     }
     let entry_data = JSON.parse(entry);

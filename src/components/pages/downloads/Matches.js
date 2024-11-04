@@ -147,21 +147,21 @@ export function PdfDocument(props) {
     const getBothTeamsToScoreOdds = (match, key) => {
         let odds = match?.odds;
         let bothTeamsToScore = odds['Both teams to score']
-        return key === 'yes' ? bothTeamsToScore?.yes?.odd_value : bothTeamsToScore?.no?.odd_value
+        return key == 'yes' ? bothTeamsToScore?.yes?.odd_value : bothTeamsToScore?.no?.odd_value
     }
 
     const getDoubleChanceOdds = (match, key) => {
         console.log("Looking at this match", match)
         let odds = match.odds;
         let doubleChance = odds['Double Chance']
-        if (key === '1X') {
+        if (key == '1X') {
             return doubleChance[0]['odd_value']
         }
-        if (key === 'X2') {
+        if (key == 'X2') {
             return doubleChance[1]['odd_value']
         }
 
-        if (key === '12') {
+        if (key == '12') {
             return doubleChance[2]['odd_value']
         }
     }
@@ -169,10 +169,10 @@ export function PdfDocument(props) {
     const getOverUnderTwoPointFive = (match, key) => {
         let odds = match?.odds;
         let overUnder = odds['Total']
-        if (key === 'over') {
+        if (key == 'over') {
             return overUnder[0]['odd_value']
         }
-        if (key === 'under') {
+        if (key == 'under') {
             return overUnder[1]['odd_value']
         }
     }
@@ -263,7 +263,7 @@ export function PdfDocument(props) {
                         )}
                     </View>
                     {matches?.map((match, index) => (
-                        <View key={index} id={index} style={index % 2 === 0 ? styles.tableRow : styles.tableRowOdd}>
+                        <View key={index} id={index} style={index % 2 == 0 ? styles.tableRow : styles.tableRowOdd}>
                             <View style={styles.tableCol}>
                                 <Text style={styles.tableCell}>
                                     {match.start_time}

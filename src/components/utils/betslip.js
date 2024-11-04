@@ -57,7 +57,7 @@ export const clearJackpotSlip = () => {
    removeItem('jackpotbetslip');
 }
 export const formatNumber = (number) => {
-    return number === undefined || number === 0 ? '0' : number.toString()
+    return number == undefined || number == 0 ? '0' : number.toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         .replace(".00", '');
 }

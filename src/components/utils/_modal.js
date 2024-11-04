@@ -29,7 +29,7 @@ export const GenericDeleteModal = (props) => {
                }
            } else {
                setMessage("Record deleted successfully");
-               dispatch({type:"SET", key:"page", payload:state?.page === 0 ? 1:0});
+               dispatch({type:"SET", key:"page", payload:state?.page == 0 ? 1:0});
                dispatch({type:"DEL", key:"deleterecord"});
 
            } 

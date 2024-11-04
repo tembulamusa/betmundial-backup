@@ -46,7 +46,7 @@ const Index = (props) => {
         let search_term = state?.searchterm || "";
         if(state?.filtercategory) {
             endpoint += "&category_id =" + state?.filtercategory?.category_id;
-        } else if(categoryid && !state?.filtermenuclicked === true) {
+        } else if(categoryid && !state?.filtermenuclicked == true) {
             endpoint += "&category_id =" + categoryid;
         }
         
@@ -86,7 +86,7 @@ const Index = (props) => {
                 if (result?.slip_data) {
                     setUserSlipsValidation(result?.slip_data);
                 }
-                setProducerDown(result?.producer_status === 1);
+                setProducerDown(result?.producer_status == 1);
             }
         });
 
@@ -116,7 +116,7 @@ const Index = (props) => {
 
         // if(state?.categories) {
         //     let spid = Number(sportid || 79);
-        //     let sp = state.categories.all_sports.find((sport) => sport.sport_id === spid);
+        //     let sp = state.categories.all_sports.find((sport) => sport.sport_id == spid);
         //     setSubTypes(state?.selectedmarkets || sp.default_display_markets);
         // } 
         // let cbetslip = getBetslip();

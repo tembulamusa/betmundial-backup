@@ -140,14 +140,14 @@ const BetslipSubmitForm = (props) => {
             }
             if (slip.prev_odds
                 && slip.prev_odds !== slip.odd_value
-                && values.accept_all_odds_change === false) {
+                && values.accept_all_odds_change == false) {
                 slipHasOddsChange = true;
                 break;
             }
         }
 
 
-        if (slipHasOddsChange === true) {
+        if (slipHasOddsChange == true) {
             setMessage({
                 status: 400,
                 message: "Slip has events with changed odds, tick "
@@ -192,7 +192,7 @@ const BetslipSubmitForm = (props) => {
 
         makeRequest({url: endpoint, method: method, data: payload, api_version:2})
             .then(([status, response]) => {
-                if (status === 200 || status == 201 || status == 204 || jackpot) {
+                if (status == 200 || status == 201 || status == 204 || jackpot) {
                     if (response?.status == 200) {
                         dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                         handleRemoveAll();
@@ -334,7 +334,7 @@ const BetslipSubmitForm = (props) => {
             setMessage({status: 400, message: errors.bet_amount});
             return errors;
         }
-        if (!state?.[betslipkey] || Object.keys(state?.[betslipkey]).length === 0) {
+        if (!state?.[betslipkey] || Object.keys(state?.[betslipkey]).length == 0) {
             errors.user_id = "No betlip selected";
             setMessage({status: 400, message: errors.user_id});
             return errors;
@@ -373,7 +373,7 @@ const BetslipSubmitForm = (props) => {
 
             const onFieldChanged = (ev) => {
                 let field = ev.target.name;
-                let value = ev.target.type === 'checkbox'
+                let value = ev.target.type == 'checkbox'
                     ? ev.target.checked
                     : ev.target.value;
                 if (field == 'bet_amount') {

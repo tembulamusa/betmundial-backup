@@ -20,7 +20,7 @@ export const SportItem = (props) => {
 
 
     const handleMenuToggle = useCallback(() => {
-        if(activeClass === ''){
+        if(activeClass == ''){
             setActiveClass("active");
         } else {
             setActiveClass('');
@@ -87,7 +87,7 @@ export const CategoryItem = (props) => {
     const [active, setActive] = useState('');
 
     const handleMenuToggle = useCallback(() => {
-        if(activeClass === ''){
+        if(activeClass == ''){
             setActiveClass('menu-open');
             setActive('active');
 

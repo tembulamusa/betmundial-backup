@@ -8,11 +8,11 @@ const CarouselCards = ({ cardItems, onBetOpen }) => {
     const itemsPerPage = isMobile ? 1 : 3;
 
     const prevCardSet = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === 0 ? Math.ceil(cardItems.length / itemsPerPage) - 1 : prevIndex - 1));
+        setCurrentIndex((prevIndex) => (prevIndex == 0 ? Math.ceil(cardItems.length / itemsPerPage) - 1 : prevIndex - 1));
     };
 
     const nextCardSet = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === Math.ceil(cardItems.length / itemsPerPage) - 1 ? 0 : prevIndex + 1));
+        setCurrentIndex((prevIndex) => (prevIndex == Math.ceil(cardItems.length / itemsPerPage) - 1 ? 0 : prevIndex + 1));
     };
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const CarouselCards = ({ cardItems, onBetOpen }) => {
                             onMouseLeave={(e) => (e.currentTarget.style = styles.featureCard)}
                         >
                             <div style={styles.icon}>{item.icon}</div>
-                            {item.title === 'Free Bet' ? (
+                            {item.title == 'Free Bet' ? (
                                 <Button variant="primary" style={{ backgroundColor: '#28347c' }} onClick={onBetOpen}>
                                     View Free Bets
                                 </Button>

@@ -51,7 +51,7 @@ const ProSidebar = (props) => {
     const changeMatches = (gameType, competition) => {
         
         setLocalStorage('active_item', competition.sport_id);
-        if(gameType === "competition") {
+        if(gameType == "competition") {
             dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: competition?.competition_id}})
         }
     }
@@ -67,7 +67,7 @@ const ProSidebar = (props) => {
                 makeRequest({url: endpoint2, method: "get", api_version:2}),
             ]);
             let [c_status, c_result] = competition_result;
-            if (c_status === 200) {
+            if (c_status == 200) {
                 setCompetitions(c_result?.data);
                 setLocalStorage('categories', c_result?.data, 5 * 60 * 1000);
                 dispatch({type:"SET", key:"categories", payload:c_result});
@@ -77,7 +77,7 @@ const ProSidebar = (props) => {
         } else {
             setCompetitions(cached_competitions);
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
-            console.log("THE SPORTS CATEGORIES ARE HERE :::::: ==== :::: ", cached_competitions);
+            console.log("THE SPORTS CATEGORIES ARE HERE :::::: === :::: ", cached_competitions);
 
         }
 
@@ -107,14 +107,14 @@ const ProSidebar = (props) => {
     }
     const updateSidebarState = () => {
         let sport_id = (new URL(window.location.href).searchParams.get('sport_id'))
-        if (sport_id === null && window.location.pathname === '/') {
+        if (sport_id == null && window.location.pathname == '/') {
             sport_id = 79
         }
         setSport(sport_id)
     }
 
     const getActiveSport = (matchId) => {
-        return (Number(sport) === Number(matchId))
+        return (Number(sport) == Number(matchId))
 
     }
     
@@ -157,7 +157,7 @@ const ProSidebar = (props) => {
             makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {
                 let sportIndex = competitions?.findIndex(obj => obj?.sport_id == focusSportId);
                 // update the sport with competitions
-                if (status === 200) {
+                if (status == 200) {
                     sport.competitions = response?.data?.items
                     
                     // for now, we just want to set the top competitions as soccer. later we'll set for every sport,
@@ -197,7 +197,7 @@ const ProSidebar = (props) => {
             makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {
                 let sportIndex = competitions?.findIndex(obj => obj?.sport_id == focusSportId);
                 // update the sport with competitions
-                if (status === 200) {
+                if (status == 200) {
                     sport.categories = response?.data[0].categories
                     let newCompetitions = competitions;
 
@@ -242,7 +242,7 @@ const ProSidebar = (props) => {
                     toggled={toggled}>
                         <Menu iconShape="circle">
                             {gameCategories?.map((competition, index) => (
-                                    <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name === "Soccer"}
+                                    <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name == "Soccer"}
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}
                                         label={competition.sport_name}
@@ -296,7 +296,7 @@ const ProSidebar = (props) => {
                             {
                                 competitions?.map((sport, idx) => (
                                     <div onClick={() => setFocusSportId(sport.sport_id)}>
-                                    <SubMenu title={sport?.sport_name} defaultOpen={sport?.sport_name === "Soccer"}
+                                    <SubMenu title={sport?.sport_name} defaultOpen={sport?.sport_name == "Soccer"}
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(sport?.sport_name)} alt=''/>}
                                         label={sport?.sport_name}

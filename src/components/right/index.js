@@ -125,7 +125,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
                     
                     <Modal.Body className="bg-white px-0 py-0">
                       <div id="betslip" className="betslip">
-                        {Object.keys(state?.betslip || {}).length === 0 && <BongeBetMarkupMessage />}
+                        {Object.keys(state?.betslip || {}).length == 0 && <BongeBetMarkupMessage />}
                         <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
                       </div>
                     </Modal.Body>

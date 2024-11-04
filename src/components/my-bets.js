@@ -97,7 +97,7 @@ const MyBets = (props) => {
     const BetItem = (props) => {
         const { bet } = props;
         const [betStatus, setBetStatus] = useState(bet.status_desc);
-        const [canCancel, setCanCancel] = useState(bet.can_cancel === 1);
+        const [canCancel, setCanCancel] = useState(bet.can_cancel == 1);
         const [isOpen, setIsOpen] = useState(false);
         const [currentBetDetail, setCurrentBetDetail] = useState(null)
         const [isLoadingBetItems, setIsLoadingBetItems] = useState(false);
@@ -120,7 +120,7 @@ const MyBets = (props) => {
                     cancel_code:101,
             }
             makeRequest({url: endpoint, method: "POST", data: data, use_jwt:true}).then(([status, result]) => {
-                if(status === 201){
+                if(status == 201){
                    setBetStatus('CANCEL RQ');
                    setCanCancel(false);
                 }
@@ -230,7 +230,7 @@ const MyBets = (props) => {
 
     const BetslipHeader = (props) => {
         const {betslip} = props;
-        const winsCount = betslip?.filter(item => item?.status?.toLowerCase() === "won")?.length;
+        const winsCount = betslip?.filter(item => item?.status?.toLowerCase() == "won")?.length;
         return (
             <tr className={`betslip-header`} >
                     <td className="hidden md:table-cell">No.</td>

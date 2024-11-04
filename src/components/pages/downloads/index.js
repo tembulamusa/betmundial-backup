@@ -72,7 +72,7 @@ export default function MatchesList() {
             makeRequest({url: match_endpoint, method: "get", api_version:2})
         ]);
         let [m_status, m_result] = match_result;
-        if (m_status === 200) {
+        if (m_status == 200) {
             setTitle(m_result?.meta?.name)
             setMatches(m_result?.data || m_result)
             setJackpotData(m_result?.meta)
@@ -215,7 +215,7 @@ export default function MatchesList() {
 
     const fetchActiveTabMatches = async (key) => {
         setKey(key)
-        if (key === 'jackpot') {
+        if (key == 'jackpot') {
             fetchJackpotData()
             setIsJackpot(true)
         } else {
@@ -265,7 +265,7 @@ export default function MatchesList() {
                                         <label htmlFor="" className={''}>Select Number of Games</label>
                                         <Select 
                                         options={totalEventOptions}
-                                                value={() => totalEventOptions.filter(obj => obj === eventsOption)}
+                                                value={() => totalEventOptions.filter(obj => obj == eventsOption)}
                                                 onChange={handleEventsChange}
                                         />
                                         

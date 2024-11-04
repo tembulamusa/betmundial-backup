@@ -96,7 +96,7 @@ const LiveSideBar = (props) => {
                     toggled={toggled}>
                         <Menu iconShape="circle">
                             {gameCategories.map((competition, index) => (
-                                    <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name === "Soccer"}
+                                    <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name == "Soccer"}
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}
                                         label={competition.sport_name}

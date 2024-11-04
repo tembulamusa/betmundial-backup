@@ -51,7 +51,7 @@ const ShareExistingbet = (props) => {
         }
         
         makeRequest({url: endpoint, method: "POST", data: payload, api_version:2}).then(([status, result]) => {
-            if(status === 200) {
+            if(status == 200) {
                 setShareId(result?.data?.message);
             } else {
                 setShareMessage({status: status, message: "unable to process share"});
@@ -82,7 +82,7 @@ const ShareExistingbet = (props) => {
     }, [ipAddress])
 
     useEffect(() => {
-        if(showShareModal === true) {
+        if(showShareModal == true) {
             createSharableBet();
         }
     }, [])
@@ -103,7 +103,7 @@ const ShareExistingbet = (props) => {
                     </Modal.Header>
                     
                     <Modal.Body className="bg-white px-3 py-2">
-                        { doneShare === false ? (
+                        { doneShare == false ? (
                             <div>
                                 <ShimmerTitle line={2} gap={10} variant="secondary" /> 
                                 <ShimmerTable row={2} col={3} />

@@ -32,7 +32,7 @@ const MobileCurrentNavItems = (props) => {
     return (
         <>
             {/* condition to render categories is here */}
-            {location.pathname.includes("sport") || location.pathname === "/" ? <GetCategories />: ""}
+            {location.pathname.includes("sport") || location.pathname == "/" ? <GetCategories />: ""}
         </>
     )
 }

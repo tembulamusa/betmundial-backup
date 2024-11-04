@@ -21,9 +21,9 @@ const Withdrawal = (props) => {
         let endpoint = '/v2/withdrawals/new';
         let data = {msisdn: state?.user?.msisdn, amount: values?.amount}
         makeRequest({url: endpoint, method: 'POST', data: data, api_version:3}).then(([status, response]) => {
-            setSuccess(status === 200 || status === 201);
+            setSuccess(status == 200 || status == 201);
 
-            if (status === 200 || status === 201){
+            if (status == 200 || status == 201){
                 setMessage({status: 200, message: "withdrawal request sent successfully."})
                 dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
             }

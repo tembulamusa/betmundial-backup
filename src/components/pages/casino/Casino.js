@@ -33,7 +33,7 @@ const Casino = (props) => {
         }
 
         await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
-            if (status === 200) {
+            if (status == 200) {
                 if (state?.casinogamesfilter) {
                    let newGames = {...games, games: result}
                    setGames(newGames);

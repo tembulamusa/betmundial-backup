@@ -87,7 +87,7 @@ const BigIconMenu = () => {
             >
                 <ListGroup as="ul" horizontal className="flex space-x-4 big-icon-list">
                     {linkItems.map((item, idx) => (
-                        <li key={idx} className={`${pathname === item.link ? "active" : ''} big-icon-item text-center capitalize`}>
+                        <li key={idx} className={`${pathname == item.link ? "active" : ''} big-icon-item text-center capitalize`}>
                             <Link to={item.link} title={item.name}>
                                 <div className="big-icon-icon"><img src={getSportImageIcon(item.icon)} alt={item.name} /></div>
                                 <div className="big-icon-name">{item.name}</div>

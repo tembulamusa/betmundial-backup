@@ -30,7 +30,7 @@ const SideBar = (props) => {
             ]);
             let [c_status, c_result] = competition_result
 
-            if(c_status === 200){
+            if(c_status == 200){
                 setCompetitions(c_result);
             }
             setLocalStorage('categories', c_result);

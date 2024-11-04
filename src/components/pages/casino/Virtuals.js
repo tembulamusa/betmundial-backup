@@ -20,7 +20,7 @@ const Casino = (props) => {
         let endpoint = "/v1/casino-games?game-type-id=" + category
         let method = "GET"
         await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
-            if (status === 200) {
+            if (status == 200) {
                 setCategories(result.types)
                 setGames(result.data)
                 setLocalStorage('category_games', result.data)

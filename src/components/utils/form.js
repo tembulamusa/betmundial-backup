@@ -138,7 +138,7 @@ export const CustomSelectField: React.SFC<ReactSelectProps & FieldProps> = ({ op
           <Select
             options={options}
             name={field.name}
-            value={options ? options.find(option => option.value === field.value) : ''}
+            value={options ? options.find(option => option.value == field.value) : ''}
             onChange={onSelectionChanged}
             onBlur={field.onBlur}
           />
@@ -255,17 +255,17 @@ export const initForm = (formSchema) => {
     let validationSchema = {};
     for(var key of Object.keys(formSchema)){
         formData[key] = formSchema[key].value ||  "";
-        if(formSchema[key].type === "text"){
+        if(formSchema[key].type == "text"){
             validationSchema[key] = Yup.string();
-        }else if(formSchema[key].type === "email"){
+        }else if(formSchema[key].type == "email"){
             validationSchema[key] = Yup.string().email()
-        }else if(formSchema[key].type === "select"){
+        }else if(formSchema[key].type == "select"){
             validationSchema[key] = Yup.string();
-        } else if(formSchema[key].type === "textarea"){
+        } else if(formSchema[key].type == "textarea"){
             validationSchema[key] = Yup.string(); 
-        } else if(formSchema[key].type === "db_select"){
+        } else if(formSchema[key].type == "db_select"){
             validationSchema[key] = Yup.string(); 
-        } else if(formSchema[key].type === "radio"){
+        } else if(formSchema[key].type == "radio"){
             validationSchema[key] = Yup.string(); 
         }
         if(formSchema[key].required){
@@ -311,34 +311,34 @@ export const getFormElement = (elementName, elementSchema) => {
     if(elementSchema.where){
         props.where = elementSchema.where;
     }    
-    if (elementSchema.type === "text" || elementSchema.type === "email") {
+    if (elementSchema.type == "text" || elementSchema.type == "email") {
         return <TextField {...props} />
     }
 
-    if (elementSchema.type === "select") {
+    if (elementSchema.type == "select") {
         return <SelectField  {...props} />
     }
 
-    if (elementSchema.type === "radio") {
+    if (elementSchema.type == "radio") {
         return <RadioGroupField  {...props} />
     }
-    if (elementSchema.type === "checkbox") {
+    if (elementSchema.type == "checkbox") {
         return <CheckBoxField  {...props} />
     }
-    if (elementSchema.type === "textarea") {
+    if (elementSchema.type == "textarea") {
         return <TextAreaField  {...props} />
     }
-    if (elementSchema.type === "hidden") {
+    if (elementSchema.type == "hidden") {
         return <HiddenField  {...props} />
     }
-    if (elementSchema.type === "date") {
+    if (elementSchema.type == "date") {
         return <DatePickerField  {...props} />
     }
 
-    if (elementSchema.type === "datetime") {
+    if (elementSchema.type == "datetime") {
         return <DateTimePickerField  {...props} />
     }
-    if (elementSchema.type === "db_select") {
+    if (elementSchema.type == "db_select") {
         return <DatabaeSelectField  {...props} />
     }
 };
@@ -367,7 +367,7 @@ export const LoadForm = (formSchema, submitLabel, endpoint) => {
                dispatch({type:"SET", key:state?.context, payload:{"status":true}});
                dispatch({type:"SET", key:"formsubmitsuccess", payload:result});
                dispatch({type:"DEL", key:"server_error"});
-               dispatch({type:"SET", key:"page", payload:state?.page === 0 ? 1: 0 });
+               dispatch({type:"SET", key:"page", payload:state?.page == 0 ? 1: 0 });
            } 
            setSubmitting(false);
        });

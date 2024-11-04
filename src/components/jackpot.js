@@ -41,7 +41,7 @@ const Jackpot = (props) => {
     const fetchResults = useCallback(async () => {
         const resultsEndpoint = "/v2/jackpot/results";
         const [r_status, result] = await makeRequest({ url: resultsEndpoint, method: "GET", api_version: 2 });
-        if (r_status === 200) {
+        if (r_status == 200) {
             setResults(result?.data); 
         } else {
             Notify({status: 400, message: "Error fetching Jackpot results"})
@@ -74,8 +74,8 @@ const Jackpot = (props) => {
             Object.entries(jackpotData?.matches).map(([key, match]) => {
                 let reference = match.match_id + "_selected";
                 let pick = randomPick(1, 3);
-                let pickedValue = (pick === 1 ? match.home_team : (pick === 2 ? 'draw' : match.away_team));
-                let oddValue = (pick === 1 ? Float(match.odds["1x2"][0].odd_value, 2) : (pick === 2 ? Float(match.odds["1x2"][1].odd_value, 2) : Float(match.odds["1x2"][2].odd_value, 2)));
+                let pickedValue = (pick == 1 ? match.home_team : (pick == 2 ? 'draw' : match.away_team));
+                let oddValue = (pick == 1 ? Float(match.odds["1x2"][0].odd_value, 2) : (pick == 2 ? Float(match.odds["1x2"][1].odd_value, 2) : Float(match.odds["1x2"][2].odd_value, 2)));
                 let cstm = clean(match.match_id + "" + 1 + pickedValue);
                 let slip = {
                     "match_id": match.match_id,
@@ -122,7 +122,7 @@ const Jackpot = (props) => {
                     </div>
                     <Tabs defaultActiveKey={"matches"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
                         <Tab eventKey="matches" title="Matches" className="p-3">
-                            { jackpotData?.status?.toLowerCase() === "active" && (
+                            { jackpotData?.status?.toLowerCase() == "active" && (
                                <div className="row flex flex-col items-center md:flex-row">
                                 <div className="col-md-8 !px-3 text-center md:text-left">
                                     <div className="!px-2">

@@ -34,7 +34,7 @@ const GamePlay = (props) => {
         let method = "GET"
 
         await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
-            if (status === 200) {
+            if (status == 200) {
                 console.log(result)
             }
         });
@@ -42,14 +42,14 @@ const GamePlay = (props) => {
 
     const startGame = async (game_id) => {
 
-        let endpoint = live === '0' 
+        let endpoint = live == '0' 
             ? `/v1/casino/game/demo-url?game-id=${game_id}` 
             : `/v1/casino/game/url?game-id=${game_id}`;
 
         let method = "GET"
 
         await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
-            if (status === 200) {
+            if (status == 200) {
                 setGameUrl(result?.result.gameURL)
                 setGameUrlLoaded(true)
 

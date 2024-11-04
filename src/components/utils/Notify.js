@@ -10,7 +10,7 @@ const Notify = (message) => {
         progress: undefined,
         toastId: 673738 /* this is hack to prevent multiple toasts */
     }
-    if (message.status === 200) {
+    if (message.status == 200) {
         toast.success(`🚀 ${message.message}`, options);
     } else {
         toast.error(`🦄 ${message.message}`, options);

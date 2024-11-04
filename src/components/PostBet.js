@@ -60,11 +60,11 @@ const PostBet = (props) => {
            let waUrl = "https://api.whatsapp.com/send?text=I%20placed%20this%20bet%20on%20bikosports.co.tz/.%20Cheki%20mkeka%20wangu%20na%20ubeti.%20https://bikosports.co.tz/betslip/share/"+sharebleCode;
            let  fbUrl = "https://facebook.com/sharer/sharer.php?u=https://bikosports.co.tz/betslip/share/"+sharebleCode;
            let ttUrl = "https://twitter.com/intent/tweet/?text=I%20placed%20this%20bet%20on%20https://bikosports.co.tz/.%20Cheki%20mkeka%20wangu%20na%20ubeti&amp;url=https://bikosports.co.tz/betslip/share/"+sharebleCode;
-           if(code === 'fb'){
+           if(code == 'fb'){
 		       window.open(fbUrl,   '_blank', 'noreferrer');
-           } else if (code === 'wa') {
+           } else if (code == 'wa') {
 		       window.open(waUrl,   '_blank', 'noreferrer');
-           } else if(code === 'tt'){
+           } else if(code == 'tt'){
 		       window.open(ttUrl,   '_blank', 'noreferrer');
            }
        }
@@ -83,7 +83,7 @@ const PostBet = (props) => {
             profile_id:user?.profile_id
         }
         makeRequest({url: endpoint, method: "POST", data: payload}).then(([status, result]) => {
-            if(status === 200) {
+            if(status == 200) {
                 setSharebleCode(result.code);
                 if(social) {
                     loadSocialPage(social)

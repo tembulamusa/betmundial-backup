@@ -69,7 +69,7 @@ const BodyLogin = (props) => {
         let endpoint = '/v2/auth/login';
         setIsLoading(true)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
-            if (status === 200 || status == 201 || status == 204) {
+            if (status == 200 || status == 201 || status == 204) {
                 if (response.status == 200 || response.status == 201) {
                     dispatch({type:"SET", key:"showloginmodal", payload:false});
                     dispatch({type:"DEL", key:"showloginmodal"})
@@ -82,7 +82,7 @@ const BodyLogin = (props) => {
                     }
                 }
             } else {
-                if (status === 403) {
+                if (status == 403) {
                     if (response?.result == "Failed") {
                         setGeneralErrorMessage({status: 400, message: response.error.description})
                     }
@@ -133,7 +133,7 @@ const BodyLogin = (props) => {
         }
 
         const handleKeyPress = (event) => {
-            if (event.key === 'Enter') {
+            if (event.key == 'Enter') {
                 event.preventDefault(); 
                 submitForm(); 
             }

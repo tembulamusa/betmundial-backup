@@ -50,7 +50,7 @@ const MatchAllMarkets = (props) => {
             if(response?.slip_data) {
                 setUserSlipsValidation(response?.slip_data);
             }
-            setProducerDown(response?.producer_status === 1);
+            setProducerDown(response?.producer_status == 1);
 		});                                                                     
     }, (live ? 2000: null));
 
@@ -64,7 +64,7 @@ const MatchAllMarkets = (props) => {
                 : "/v2/sports/match/"+params.id;
             await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
                 setMatchWithMarkets(result?.data|| result)
-                setProducerDown(result?.producer_status === 1);
+                setProducerDown(result?.producer_status == 1);
                 setIsLoading(false);
             });
         }

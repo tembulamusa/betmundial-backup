@@ -32,7 +32,7 @@ const Live = (props) => {
             setFetching(false)
             if (status == 200) {
                 setMatches(result?.data || result)
-                setProducerDown(result?.producer_status === 1);
+                setProducerDown(result?.producer_status == 1);
             }
         });
     }, 2000);
@@ -49,7 +49,7 @@ const Live = (props) => {
             setFetching(false);
             if (m_status == 200) {
                 setMatches(m_result?.data || m_result)
-                setProducerDown(m_result?.producer_status === 1);
+                setProducerDown(m_result?.producer_status == 1);
             }
         } )
     }, [spid]);

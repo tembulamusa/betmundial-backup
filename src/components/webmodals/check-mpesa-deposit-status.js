@@ -127,7 +127,7 @@ const CheckMpesaDepositStatus = (props) => {
     return (
         <>
             <Modal
-            show={state?.showcheckmpesadepositstatus === true}
+            show={state?.showcheckmpesadepositstatus == true}
             onHide={() => dispatch({type:"SET", key:"showcheckmpesadepositstatus", payload:false})}
             dialog className="popover-login-modal"
             aria-labelledby="contained-modal-title-vcenter">

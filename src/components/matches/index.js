@@ -222,7 +222,7 @@ const MoreMarketsHeaderRow = (props) => {
                             <Col style={{
                                 color: "#cc5500",
                                 marginBottom: "5px"
-                            }}> {match?.status === 'Ended' && 'Ended '} {match?.score}</Col>
+                            }}> {match?.status == 'Ended' && 'Ended '} {match?.score}</Col>
                         </Row>
                     }
                     <Row className="header-text font-[400]">
@@ -347,7 +347,7 @@ const OddButton = (props) => {
                    + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
                    + (match?.[mkt] || match?.odd_key || mkt)
                );
-               if (state?.[reference] === uc) {
+               if (state?.[reference] == uc) {
                 setPicked('picked')
                } else {
                    setPicked('');
@@ -395,9 +395,9 @@ const OddButton = (props) => {
         }
 
         setPicked('');
-        if (cstm === ucn) {
+        if (cstm == ucn) {
             let betslip;
-            if (picked === 'picked') {
+            if (picked == 'picked') {
                 betslip = jackpot !== true
                     ? removeFromSlip(mid)
                     : removeFromJackpotSlip(mid);
@@ -635,12 +635,12 @@ const MatchRow = (props) => {
                             let matchWithDetails = {...match, ...marketOdd};
                             delete matchWithDetails.odds;
                             return (
-                                marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || (jackpot && jackpotstatus === "ACTIVE")
+                                marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || (jackpot && jackpotstatus == "ACTIVE")
                                 ? <><OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="1x2" live={live} jackpot={jackpot}/></>
                                 : <><LockedButton/></>) 
                         })
                     }
-                    {(jackpot && jackpotstatus === "INACTIVE") && <>{match?.outcome || "--" } </>}
+                    {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--" } </>}
                 </div>
 
                 
@@ -757,14 +757,14 @@ export const MarketList = (props) => {
             }
 
             <div className="web-element">
-                {(!matchwithmarkets || Object.entries(matchwithmarkets?.odds || {}).length === 0) && <EventUnavailable />}
+                {(!matchwithmarkets || Object.entries(matchwithmarkets?.odds || {}).length == 0) && <EventUnavailable />}
                 
                 {/* filter here */}
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
                     return <MarketRow
                         market_id={mkt_id}
                         markets={markets}
-                        width={markets.length === 3 ? "33.333%" : "50%"}
+                        width={markets.length == 3 ? "33.333%" : "50%"}
                         match={matchwithmarkets}
                         key={mkt_id}
                         live={live}
@@ -904,10 +904,10 @@ const MatchList = (props) => {
                     ))
                 }
                 
-                {(((matches || []).length) === 0 && fetchingcount < 3) && 
+                {(((matches || []).length) == 0 && fetchingcount < 3) && 
                     <ShimmerTable row={3}/>
                 }
-                {(((matches || []).length) === 0 && fetchingcount >= 3) && 
+                {(((matches || []).length) == 0 && fetchingcount >= 3) && 
                     <NoEvents message={"Matches Not Found"}/>
                 }
                 
