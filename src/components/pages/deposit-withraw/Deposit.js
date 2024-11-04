@@ -71,8 +71,8 @@ const Deposit = (props) => {
     const FormTitle = () => {
         return (
             <div className='col-md-12 bg-primary p-4 text-center'>
-                <h4 className="inline-block">
-                    DEPOSIT FUNDS (MOBILE MONEY)
+                <h4 className="!capitalize">
+                    Deposit Funds (Mobile money)
                 </h4>
             </div>
         )

@@ -20,8 +20,8 @@ const Promotions = () => {
 
   return (
     <>
-      <div className="bg-primary shadow-sm p-4 text-center text-white text-2xl mb-4">
-        Promotions
+      <div className="primary-bg shadow-sm p-4 text-center mb-4">
+        <h4>Promotions</h4>
       </div>
       <div className="flex flex-wrap justify-center">
         {promoData.map((promo, index) => (
