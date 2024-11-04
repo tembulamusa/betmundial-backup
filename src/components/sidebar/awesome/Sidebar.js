@@ -60,7 +60,6 @@ const ProSidebar = (props) => {
 
         
         // get all categories
-        removeItem("categories")
         let endpoint2 = "/v2/sports";
         let cached_competitions = getFromLocalStorage('categories');
         if (!cached_competitions || cached_competitions.length < 1) {

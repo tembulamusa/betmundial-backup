@@ -872,7 +872,15 @@ const MatchList = (props) => {
         subTypes,
         fetchingcount
     } = props;
+    const [state, dispatch] = useContext(Context);
 
+    useEffect(() => {
+        dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
+        console.log("THE MATCH LIST TYPE::: I got here::::")
+        return () => {
+            dispatch({type:"DEL", key: "matchlisttype"});
+        }
+    }, [])
     return (
         <div className="matches full-width">
             <MatchHeaderRow 
