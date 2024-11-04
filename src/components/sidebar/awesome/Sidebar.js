@@ -9,7 +9,7 @@ import {
 } from 'react-pro-sidebar';
 
 //import 'react-pro-sidebar/dist/css/styles.css';
-import {getFromLocalStorage, setLocalStorage} from "../../utils/local-storage";
+import {getFromLocalStorage, setLocalStorage, removeItem} from "../../utils/local-storage";
 import makeRequest from "../../utils/fetch-request";
 import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -58,20 +58,19 @@ const ProSidebar = (props) => {
 
     const fetchData = async() => {
 
-
+        
         // get all categories
         let endpoint2 = "/v2/sports";
         let cached_competitions = getFromLocalStorage('categories');
-        if (!cached_competitions) {
+        if (!cached_competitions || cached_competitions.length < 1) {
             const [competition_result] = await Promise.all([
                 makeRequest({url: endpoint2, method: "get", api_version:2}),
             ]);
-            let [c_status, c_result] = competition_result
+            let [c_status, c_result] = competition_result;
             if (c_status === 200) {
                 setCompetitions(c_result?.data);
-                setLocalStorage('categories', c_result?.data);
+                setLocalStorage('categories', c_result?.data, 5 * 60 * 1000);
                 dispatch({type:"SET", key:"categories", payload:c_result});
-                console.log("THE SPORTS CATEGORIES ARE HERE :::::: ==== :::: ", c_result)
             } else {
                 Notify({status: 400, message: "Sport categories not found"});
             }
@@ -81,6 +80,7 @@ const ProSidebar = (props) => {
             console.log("THE SPORTS CATEGORIES ARE HERE :::::: ==== :::: ", cached_competitions);
 
         }
+
 
         setFocusSportId(79);
         
@@ -166,7 +166,7 @@ const ProSidebar = (props) => {
                     
                     if (focusSportId == 79) {
                         dispatch({type:"SET", key:"topcompetitions", payload:sport.competitions});
-                        setLocalStorage("topcompetitions", sport.competitions);
+                        setLocalStorage("topcompetitions", sport.competitions, 5 * 60 * 1000);
                     }
                     let newCompetitions = competitions;
 
@@ -176,7 +176,7 @@ const ProSidebar = (props) => {
                     // update the state and the localStorage
                     setCompetitions(newCompetitions);
                     dispatch({type: "SET", key: "categories", payload: newCompetitions})
-                    setLocalStorage("categories", newCompetitions)
+                    setLocalStorage("categories", newCompetitions, 5 * 60 * 1000)
 
                 } else {
                     sport.competitions = [];
@@ -205,7 +205,7 @@ const ProSidebar = (props) => {
                     newCompetitions[sportIndex] = sport;
                     setCompetitions(newCompetitions);
                     dispatch({type: "SET", key: "categories", payload: newCompetitions})
-                    setLocalStorage("categories", newCompetitions)
+                    setLocalStorage("categories", newCompetitions, 5 * 60 * 1000)
 
                 } else {
                     sport.categories = [];

@@ -134,39 +134,41 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
 
 
       {/* Mobile Toggle Button */}
-      <section
-        className={`${(state?.showmobileslip == false || !state?.showmobileslip) ? 'd-block' : "d-none"}  d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle capitalize`}
-        style={{ position: 'fixed', zIndex: 9999999, left: 0, right: 0 }}
-      >
-        <div className="flex mobile-sticky-footer-slip">
-          <div className="col-3 text-left" style={{ paddingLeft: '' }}>
-            <div className="yellow-bg text-white mobile-footer-slip" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}>
-              slip <span className="mobile-footer-slip-counter rounded-full red-bg">{Object.entries(state?.betslip || state?.jackpotbetslip || {}).length}</span>
-            </div>
-          </div>
-          <div className="col-3 text-left">
-            <input
-              className="capture-input"
-              type="number"
-              onChange={(ev) => dispatch({ type: 'SET', key: 'mobilefooteramount', payload: ev.target.value })}
-              value={state?.mobilefooteramount ?? 100}
-            />
-          </div>
-          <div className="col-3 text-left">
-            {!state?.isjackpot && (
-              <div>
-                Odds: <span className="font-[500]">{Float(state?.totalodds, 2) || 1}</span>
+      {(state?.matchlisttype == "normal" || state?.isjackpot) &&
+        <section
+          className={`${(state?.showmobileslip == false || !state?.showmobileslip) ? 'd-block' : "d-none"}  d-md-none fixed-bottom text-center text-white bg-tertiary bet-slip-footer-toggle capitalize`}
+          style={{ position: 'fixed', zIndex: 9999999, left: 0, right: 0 }}
+        >
+          <div className="flex mobile-sticky-footer-slip">
+            <div className="col-3 text-left" style={{ paddingLeft: '' }}>
+              <div className="yellow-bg text-white mobile-footer-slip" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}>
+                slip <span className="mobile-footer-slip-counter rounded-full red-bg">{Object.entries(state?.betslip || state?.jackpotbetslip || {}).length}</span>
               </div>
-            )}
-            <div>
-              Win: <span className="font-[500]">{ state?.isjackpot? state?.jackpotdata?.jackpot_amount :  state?.slipnetwin}</span>
+            </div>
+            <div className="col-3 text-left">
+              {state?.isjackpot ? <div className=''>Stake: {state?.jackpotdata?.bet_amount}</div> : <input
+                className="capture-input"
+                type="number"
+                onChange={(ev) => dispatch({ type: 'SET', key: 'mobilefooteramount', payload: ev.target.value })}
+                value={state?.mobilefooteramount ?? 100}
+              />}
+            </div>
+            <div className="col-3 text-left">
+              {!state?.isjackpot && (
+                <div>
+                  Odds: <span className="font-[500]">{Float(state?.totalodds, 2) || 1}</span>
+                </div>
+              )}
+              <div>
+                Win: <span className="font-[500]">{ state?.isjackpot? state?.jackpotdata?.jackpot_amount :  state?.slipnetwin}</span>
+              </div>
+            </div>
+            <div className="col-3 pr-0">
+              <button className="bet-button btn red-bg uppercase btn" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}>Bet Now</button>
             </div>
           </div>
-          <div className="col-3 pr-0">
-            <button className="bet-button btn red-bg uppercase btn" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}>Bet Now</button>
-          </div>
-        </div>
-      </section>
+        </section>
+        }
     </>
   );
 };
