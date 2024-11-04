@@ -58,7 +58,7 @@ const MyBets = (props) => {
 
     };
 
-    const fetchData = useCallback(async() => {
+    const fetchData = () => {
         if(isLoading) return;
         setIsLoading(true);
         setMessage(null);
@@ -72,11 +72,11 @@ const MyBets = (props) => {
             }
             setIsLoading(false);
         });
-    }, []);
+    };
 
     useEffect(() => {
        fetchData();
-    }, [fetchData]);
+    }, []);
 
     
     const BetItemHeader = (props) => {
@@ -346,7 +346,7 @@ const MyBets = (props) => {
     const PageTitle = () => {
        return (
             <div className='col-md-12 bg-primary p-4 text-center'>
-                <h4 className="inline-block">
+                <h4 className="capitalize">
                     My Bets
                 </h4>
             </div>

@@ -389,7 +389,7 @@ const ProSidebar = (props) => {
             
             <div className={`vh-100 d-none d-md-block col-md-2`}>
                 <div className='bg-white vh-100'>
-                   <CasinoSidebar categories={state?.casinogames?.game_types} providers={state?.casinogames?.providers}/>
+                   <CasinoSidebar categories={state?.casinogames?.gameTypes} providers={state?.casinogames?.providers}/>
                 </div>
             </div>
         }

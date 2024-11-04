@@ -122,7 +122,7 @@ const Casino = (props) => {
             {games?.games?.length < 1 && <div>{fetching ? <ShimmerTable row={3}/> :<NoEvents message="Casino Games not found" />}</div>}
             {games?.games?.map((category, idx) => (                 
                 <>                        
-                    <CategoryListing games={category?.game_list} gamestype={category?.game_type}/>
+                    <CategoryListing games={category?.gameList} gamestype={category?.game_type}/>
                 </> 
                )                                   
             )}                                    

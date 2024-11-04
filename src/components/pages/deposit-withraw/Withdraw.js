@@ -47,9 +47,9 @@ const Withdrawal = (props) => {
 
     const FormTitle = () => {
        return (
-            <div className='col-md-12 bg-primary p-4 text-center'>
-                <h4 className="inline-block">
-                    WITHDRAW FUNDS (MOBILE MONEY)
+            <div className='col-md-12 primary-bg p-4 text-center'>
+                <h4 className="">
+                    Withdraw Funds (Mobile Money)
                 </h4>
             </div>
        )
