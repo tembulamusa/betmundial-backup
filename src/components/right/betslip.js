@@ -14,6 +14,7 @@ import CompanyInfo from "./company-info";
 import makeRequest from '../utils/fetch-request';
 import { setLocalStorage } from '../utils/local-storage';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
 import Notify from "../utils/Notify";
 import Alert from '../utils/alert';
 const clean_rep = (str) => {
@@ -298,10 +299,17 @@ const BetSlip = (props) => {
                                                 <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
                                                 {`${slip.home_team} VS ${slip.away_team}`}
                                             </span>}
-                                        {slip.bet_type == 0 && ' Pre-match'}
-                                        {slip.bet_type == 1 && ' Live'}
+                                        <div className='opacity-60'>
+                                            <span>
+                                                {slip.bet_type == 0 && ' Pre-match'}
+                                                {slip.bet_type == 1 && <span className='text-red'>Live</span>}: 
+                                            </span>
+                                            
+                                            <span className='betslip-match-start-time ml-4'>
+                                                {moment(slip.start_time).format('DD/MM hh:mm A')}
+                                            </span>
+                                        </div>
                                 </div>
-                                </Link>
                                 <div className="row">
                                     <div className="bet-value">
                                         {slip.odd_type} - <span className='font-[500]'>{slip.bet_pick}</span>
@@ -311,6 +319,8 @@ const BetSlip = (props) => {
                                                     }
                                         </span>
                                     </div>
+                                    {/* later add for live */}
+                                    
                                 </div>
                                 {/* <div className="bet-pick">Your Pick - <b>{slip.bet_pick}
                                     <span className="bet-odd">{slip.odd_value}
@@ -322,6 +332,7 @@ const BetSlip = (props) => {
                                 <div className="row">
                                     <div className="warn">{slip?.comment} </div>
                                 </div>
+                            </Link>
 
                             </li>)
                     })

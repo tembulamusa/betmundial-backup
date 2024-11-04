@@ -375,6 +375,7 @@ const OddButton = (props) => {
         let away_team = event.currentTarget.getAttribute("away_team");
         let sport_name = event.currentTarget.getAttribute("sport_name");
         let market_active = event.currentTarget.getAttribute("market_active");
+        let start_time = event.currentTarget.getAttribute("start_time");
         let cstm = clean(mid + "" + stid + oddk + (marketKey != undefined ? marketKey : ''))
 
         let slip = {
@@ -392,6 +393,7 @@ const OddButton = (props) => {
             "live": live? 1: 0,
             "ucn": cstm,
             "market_active": market_active,
+            "start_time": start_time,
         }
 
         setPicked('');
@@ -430,6 +432,7 @@ const OddButton = (props) => {
             match_id={match.match_id}
             custom={ucn}
             sport_name={match.sport_name}
+            start_time={match.start_time}
             sub_type_id={match?.odds?.sub_type_id || match?.sub_type_id}
             special_bet_value={match?.odds?.special_bet_value || match?.special_bet_value || ''}
             onClick={handleButtonOnClick}>

@@ -5,7 +5,7 @@ import React,  {
     useEffect,
     useContext,
 } from "react";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 import makeRequest from "./utils/fetch-request";
@@ -29,6 +29,7 @@ const MatchAllMarkets = (props) => {
     const params = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [, dispatch] = useContext(Context);
+    const navigate = useNavigate();
     
     const findPostableSlip = () => {
         let betslips = getBetslip() || {};
@@ -46,11 +47,15 @@ const MatchAllMarkets = (props) => {
         let method = "GET";
 
 		makeRequest({url:endpoint, method:method, api_version:2}).then(([_status, response]) => {
-			setMatchWithMarkets(response?.data || response );
-            if(response?.slip_data) {
-                setUserSlipsValidation(response?.slip_data);
+			if (_status == 200)
+                {setMatchWithMarkets(response?.data || response );
+                if(response?.slip_data) {
+                    setUserSlipsValidation(response?.slip_data);
+                }
+                setProducerDown(response?.producer_status == 1);
+            }  else {
+                navigate("/");
             }
-            setProducerDown(response?.producer_status == 1);
 		});                                                                     
     }, (live ? 2000: null));
 
