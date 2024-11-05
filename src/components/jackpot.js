@@ -105,9 +105,8 @@ const Jackpot = (props) => {
         dispatch({type:"SET", key:"betslipkey", payload:"jackpotbetslip"})
         dispatch({ type: "SET", key: "isjackpot", payload: true });
         return () => {
-            dispatch({ type: "SET", key: "isjackpot", payload: false });
+            dispatch({ type: "DEL", key: "isjackpot"});
             dispatch({type:"SET", key:"betslipkey", payload:"betslip"})
-
         }
     }, []);
 

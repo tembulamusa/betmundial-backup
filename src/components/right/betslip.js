@@ -38,7 +38,7 @@ const BetSlip = (props) => {
     //initial betslip loading
 
     useEffect(() => {
-        let b = (state?.jackpotbetslip)
+        let b = (state?.isjackpot)
             ? getJackpotBetslip()
             : getBetslip();
         setBetslipsData(b);
@@ -139,7 +139,6 @@ const BetSlip = (props) => {
         );
 
         setBetslipsData(betslip);
-
         dispatch({type: "SET", key: betslipKey, payload: betslip});
         dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
     }

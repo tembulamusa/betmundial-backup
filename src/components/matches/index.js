@@ -354,7 +354,7 @@ const OddButton = (props) => {
                }
           }
        }
-    }, [state?.[betslip_key]?.[match.match_id], state?.betslip, state?.[betslip_key]])
+    }, [state?.[betslip_key]?.[match.match_id], state?.betslip, state?.jackpotbetslip, state?.[betslip_key]])
 
 
     useEffect(() => {
