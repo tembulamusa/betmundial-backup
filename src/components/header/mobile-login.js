@@ -26,6 +26,7 @@ const BodyLogin = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
     const navigate = useNavigate();
     const location = useLocation();
+    const navigateAwayRoutes = ['/login', '/signup', ]
     
     const initialValues = {
         msisdn: "",
@@ -43,14 +44,22 @@ const BodyLogin = (props) => {
             toastId: 673738 /* this is hack to prevent multiple toasts */
         }
         if ([200, 201, 204].includes(message.status)) {
-            if(!state?.showloginmodal || state?.showloginmodal == false){navigate("/");}
-
             dispatch({type:"SET", key:"showloginmodal", payload: false});
             setLocalStorage('user', message.user);
             setUser(message.user);
             dispatch({type:"SET", key: "user", payload: message?.user});
+            dispatch({type:"SET", key:"showloginmodal", payload: false});
             dispatch({type:"DEL", key:"showloginmodal"});
             // toast.success(`🚀 ${message.message || "Login successful"}`, options);
+            if(navigateAwayRoutes.includes(location.pathname)) {
+                dispatch({type:"DEL", key:"showloginmodal"});
+                const queryParams = new URLSearchParams(location.search);
+                const next = queryParams.get('next');
+                dispatch({type:"DEL", key:"showloginmodal"});
+                navigate(next ? `/${next}` : '/');
+                dispatch({type:"DEL", key:"showloginmodal"});
+            }
+
         }
 
     };
@@ -71,10 +80,8 @@ const BodyLogin = (props) => {
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
             if (status == 200 || status == 201 || status == 204) {
                 if (response.status == 200 || response.status == 201) {
-                    dispatch({type:"SET", key:"showloginmodal", payload:false});
-                    dispatch({type:"DEL", key:"showloginmodal"})
+                    // dispatch({type:"SET", key:"showloginmodal", payload:false});
                     setMessage({user:response?.data, status:200});
-
                 } else {
                     if (response?.result == "User account not verified") {
                         dispatch({type:"SET", key:"regmsisdn", payload:values.msisdn})

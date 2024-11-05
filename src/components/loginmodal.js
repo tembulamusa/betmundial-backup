@@ -12,6 +12,7 @@ const LoginModal = (props) => {
     return (
         <>
             <Modal
+            animation={false}
             show={state?.showloginmodal == true}
             onHide={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}
             dialog className="popover-login-modal"
