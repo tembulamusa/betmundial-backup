@@ -69,11 +69,10 @@
     padding: .5rem;
     --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);
     --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow);
+    /* box-shadow: 0 0 2px rgba(0,0,0, 0.1); */
 }
-
 .casino-list-block ul li {
-    margin-left: 0;
+    margin-left: 5px;
     margin-right: 0;
     display: flex;
     width: auto;
@@ -131,6 +130,22 @@
     /* font-size: 10px; */
     width: 15px;
     margin-right: 3px;
+}
+.casino-sidebar {
+    position: fixed;
+    width: 16%;
+    height: 100%;
+    background: white;
+    top: 125px;
+}
+
+.casino-class-header {
+    padding-bottom: 6px;
+    /* background: blue; */
+    color: white !important;
+    padding-top: 6px;
+    border-radius: 4px;
+    padding-left: 7px;
 }
 @media screen and (max-width:640px) {
     .casino-game {

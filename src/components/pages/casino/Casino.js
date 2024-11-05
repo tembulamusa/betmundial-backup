@@ -30,6 +30,9 @@ const Casino = (props) => {
         // change fetch if there's a filter
         if (state?.casinogamesfilter?.filterType == "category") {
             endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`
+        } else if (state?.casinogamesfilter?.filterType == "provider"){
+            endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`
+
         }
 
         await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
@@ -49,45 +52,14 @@ const Casino = (props) => {
         setTimeout(() => {setFetching(false)}, 3000)
     }
 
-    const getCategoryGames = (category) => {
-        setGames(null)
-        fetchCasinoGames()
-    }
-
-    const showLoginNotification = () => {
-        let message = {
-            status: 500,
-            message: "Please Log In to continue."
-        }
-        Notify(message)
-    }
-
-    const launchGame = (game_id, live=0) => {
-
-        if (user?.token) {
-            return window.location.href = `/virtuals/launch/${game_id}?live=${live}`
-        }
-
-        return showLoginNotification()
-    }
-
-    const getFaziGamesFromLocalStorage = () => {
-        let hasFaziGames = false;
-        let localGames = getFromLocalStorage("casinogames");
-        if (localGames && Object.keys(localGames) > 0) {
-            setGames(localGames);
-            hasFaziGames = true;
-        }
-
-        return hasFaziGames
-    }
+    
 
     useEffect(() => {
         // Get Fazi Games from local storage else fetch them
         let localGames = getFromLocalStorage("casinogames");
         dispatch({type:"SET", key:"bodyheaderspacing", payload:"no-body-header-spacing"});
+    
         if (localGames ) {
-
             if (Object.keys(localGames).length > 0) {
                 setGames(localGames);
                 dispatch({type:"SET", key:"casinogames", payload: localGames});

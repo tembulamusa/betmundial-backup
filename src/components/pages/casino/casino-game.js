@@ -20,7 +20,7 @@ const CasinoGame = (props) => {
             let endpoint = `game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
             await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
                 if (status == 200) {
-                    dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: result?.game_url}});
+                    dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: result?.gameUrl}});
                     setLocalStorage("casinolaunch", {game: game, url: result?.game_url})
                     navigate(`/casino/${game?.game_name.split(' ').join('')}`)
                 } else {

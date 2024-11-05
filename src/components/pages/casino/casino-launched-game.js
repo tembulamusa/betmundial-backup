@@ -3,6 +3,7 @@ import { Context } from "../../../context/store";
 import { getFromLocalStorage } from "../../utils/local-storage";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineClose } from "react-icons/md";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -20,6 +21,7 @@ const CasinoLaunchedGame = (props) => {
             }
             
         }
+
         // if there's no state for the game, update it
         // if there's the state for the game, check to ensure it corresponds to the local storage
         // and load the latest one which is the state
@@ -32,12 +34,12 @@ const CasinoLaunchedGame = (props) => {
 
     return (
         <>
-            {/* <section className="launched-game-header">
+            <section className="launched-game-header">
                 <div className="row">
-                    <div className="col-10"></div>
-                    <div className="dismiss-casino-game col-2 mx-auto"><span className="casino-page-close" onClick={() => navigate("/casino")}><MdOutlineClose /></span></div>
+                    <div className="col-10"><span className="py-1 pl-2 pr-3 mt-1 ml-3 bg-[rgba(255,255,255,0.1)] cursor-pointer" onClick={() => navigate("/casino")}><FaArrowLeftLong className="inline-block"/></span></div>
+                    <div className="dismiss-casino-game col-2 mx-auto"><span className="casino-page-close cursor-pointer" onClick={() => navigate("/casino")}><MdOutlineClose /></span></div>
                 </div>
-            </section> */}
+            </section>
             <div className="casino-launched-game-frame flex items-center justify-center">
             <iframe
                 title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
