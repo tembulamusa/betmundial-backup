@@ -3,6 +3,7 @@ import { Context } from "../../../context/store";
 import { getFromLocalStorage } from "../../utils/local-storage";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineClose } from "react-icons/md";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -32,12 +33,12 @@ const CasinoLaunchedGame = (props) => {
 
     return (
         <>
-            {/* <section className="launched-game-header">
+            <section className="launched-game-header">
                 <div className="row">
-                    <div className="col-10"></div>
+                    <div className="col-10"><span className="p-1 mr-3"><FaArrowLeftLong className="inline-block"/></span></div>
                     <div className="dismiss-casino-game col-2 mx-auto"><span className="casino-page-close" onClick={() => navigate("/casino")}><MdOutlineClose /></span></div>
                 </div>
-            </section> */}
+            </section>
             <div className="casino-launched-game-frame flex items-center justify-center">
             <iframe
                 title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
