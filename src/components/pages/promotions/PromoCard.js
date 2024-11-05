@@ -13,7 +13,7 @@ const PromoCard = ({ promo, openModal }) => {
       </div>
       <div className="bg-gray-900 bg-opacity-80 p-4">
         <h5 className="text-lg font-bold mb-2 text-white">{promo.title}</h5>
-        <p className="text-sm mb-4 text-white">
+        <p className="mb-4 text-white">
           {promo.description.slice(0, 200)}
           {promo.description.length > 200 && "..."}
         </p>
