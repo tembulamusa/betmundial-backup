@@ -19,7 +19,6 @@ const CasinoGame = (props) => {
             setFetching(true);
             let endpoint = `game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
             await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
-                console.log("THE GAME TO LAUNCH ==== ", result);
                 if (status == 200) {
                     dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: result?.gameUrl}});
                     setLocalStorage("casinolaunch", {game: game, url: result?.game_url})

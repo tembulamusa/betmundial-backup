@@ -30,7 +30,7 @@ const Casino = (props) => {
         // change fetch if there's a filter
         if (state?.casinogamesfilter?.filterType == "category") {
             endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`
-        } else {
+        } else if (state?.casinogamesfilter?.filterType == "provider"){
             endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`
 
         }
@@ -58,6 +58,7 @@ const Casino = (props) => {
         // Get Fazi Games from local storage else fetch them
         let localGames = getFromLocalStorage("casinogames");
         dispatch({type:"SET", key:"bodyheaderspacing", payload:"no-body-header-spacing"});
+    
         if (localGames ) {
             if (Object.keys(localGames).length > 0) {
                 setGames(localGames);
