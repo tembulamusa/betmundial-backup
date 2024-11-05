@@ -10,7 +10,7 @@ const CasinoSidebar = (props) => {
 
         return (
             <div className="casino-list-block menu-card">
-                <ul className="casino-sidebar-items">
+                <ul className="casino-sidebar-items border-b border-gray-100">
                     <li className="menu-item">New</li>
                 </ul>
             </div>
@@ -23,7 +23,7 @@ const CasinoSidebar = (props) => {
         try {
             sport_image = require(`../../../assets/img/casino/icons/${sport_name}.svg`);
         } catch (error) {
-            sport_image = require(`../../../assets/img/casino/icons/default.svg`);
+            sport_image = require(`../../../assets/img/casino/icons/${"SetDefault"}.svg`);
         }
         return sport_image;
     }
@@ -40,7 +40,7 @@ const CasinoSidebar = (props) => {
             <>
                 <div className="casino-list-block menu-card">
                     <ul className="casino-sidebar-items">
-                        <h1 className="my-4 text-2xl font-[400] text-gray-400">Categories</h1>
+                        <h1 className="my-4 text-2xl font-[400] text-gray-400 bg-secondary casino-class-header">Categories</h1>
                         {categories?.map((category, idx) => (
                                 <>
                                 <li key={"categories-" + idx} 
@@ -62,17 +62,21 @@ const CasinoSidebar = (props) => {
             <>
                 <div className="casino-list-block menu-card">
                     <ul className="casino-sidebar-items">
-                    <h1 className="my-2 text-2xl font-[400] text-gray-400">Providers</h1>
+                    <h1 className="mb-4 text-2xl font-[400] text-gray-400 bg-secondary casino-class-header">Providers</h1>
                     {providers?.map((provider, idx) => (
-                            <li key={"providers-"+idx} className="menu-item">{provider?.name}</li>
-                        ))}
+                        <li key={"providers-" + idx} 
+                            className={`${state?.casinogamesfilter?.provider == provider?.id && 'active'} cursor-pointer menu-item` }
+                            onClick={() => filterGames("provider", provider)}>
+                            <img  src={getSportImageIcon(provider.name)} className="casino-icon" alt=""/>{provider?.name}
+                        </li>))
+                    }
                     </ul>
                 </div>
             </>
         )
     }
     return (
-        <div className="casino-sidebar pt-5 px-4">
+        <div className="casino-sidebar pt-5 px-3">
             <NewItemsLinks />
             <CasinoCategories />
             <CasinoProviders />
