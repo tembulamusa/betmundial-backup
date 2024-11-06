@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import Carousel from 'react-bootstrap/Carousel';
-import Breakfast from '../../assets/img/banner/carousel/app.png';
-import App from '../../assets/img/banner/carousel/app.png';
-import Sharebet from '../../assets/img/banner/carousel/Sharebet.png';
+import Breakfast from '../../assets/img/banner/App.png';
+import Sharebet from '../../assets/img/banner/Sharebet.png';
 import Tick from '../../assets/img/banner/carousel/Tick.png';
-import Epl from '../../assets/img/banner/carousel/moses-epl.png';
+import Epl from '../../assets/img/banner/EPL.png';
 
 
 const CasinoCarousel = (props) => {

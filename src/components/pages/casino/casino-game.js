@@ -11,11 +11,9 @@ const CasinoGame = (props) => {
     const {game} = props;
     const [state, dispatch] = useContext(Context);
     const [fetching, setFetching] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    
     const launchGame = async (game, moneyType=1) => {
-
-        if (state?.user?.token) {
-
             setFetching(true);
             let endpoint = `game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
             await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
@@ -25,14 +23,9 @@ const CasinoGame = (props) => {
                     navigate(`/casino/${game?.game_name.split(' ').join('')}`)
                 } else {
 
-                    // do more checks here and have an appropriate user feedback
+                    return false
                 }
             });
-
-            return false
-        }
-
-        return dispatch({type:"SET", key:"showloginmodal", payload:true})
     }
 
     const getCasinoImageIcon = (imgUrl) => {

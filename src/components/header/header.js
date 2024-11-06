@@ -94,24 +94,7 @@ const Header = (props) => {
         updateUserOnLogin()
     }, [updateUserOnLogin])
 
-    const fetchTopCasino = async() => {
-            let endpoint = "top-games-list";
-            await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
-                if (status == 200) {
-                    setLocalStorage("toppopularcasino", result)
-                    dispatch({type:"SET", key: "toppopularcasino", payload: result});             
-                }
-            });
-    }
-    useEffect(() => {
-        // check for casino top
-        const getTopCasino = getFromLocalStorage("toppopularcasino");
-        if (!getTopCasino) {
-            fetchTopCasino();
-        } else {
-            dispatch({type: "SET", key:"toppopularcasino", payload: getTopCasino});
-        }
-    }, [])
+    
     const expand = "md"
 
     

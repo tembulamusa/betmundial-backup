@@ -1067,11 +1067,21 @@ img.highlights-content-img {
 }
 
 .popular-game {
-  width: 130px;
+  width: 190px;
   display: inline-block;
   /* margin-right: 8px; */
   padding-right: 7px;
-  border-radius:10px;
+  border-radius: 10px;
+  transition: all ease-in-out 0.5s;
+  -moz-transition: all ease-in-out 0.5s;
+  -webkit-transition: all ease-in-out 0.5s;
+}
+
+.popular-game:hover {
+  opacity: 0.7;
+  transition: all ease-in-out 0.5s;
+  -moz-transition: all ease-in-out 0.5s;
+  -webkit-transition: all ease-in-out 0.5s;
 }
 .popular-games:last-child {
   padding-right: 0;
