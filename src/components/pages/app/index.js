@@ -3,7 +3,7 @@ import { FiCheckCircle } from "react-icons/fi";
 
 import PlayStore from '../../../assets/img/general-website/google-play-badge.png';
 import AppStore from '../../../assets/img/general-website/appstore_badge.svg';
-import AppBanner from '../../../assets/img/banner/App Bonus.png';
+import AppBanner from '../../../assets/img/banner/App.png';
 
 const Header = React.lazy(() => import('../../header/header'));
 const SideBar = React.lazy(() => import('../../sidebar/awesome/Sidebar'));
