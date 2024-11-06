@@ -14,18 +14,26 @@ const CasinoGame = (props) => {
     const navigate = useNavigate();
     
     const launchGame = async (game, moneyType=1) => {
-            setFetching(true);
-            let endpoint = `game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
-            await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
-                if (status == 200) {
-                    dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: result?.gameUrl}});
-                    setLocalStorage("casinolaunch", {game: game, url: result?.game_url})
-                    navigate(`/casino/${game?.game_name.split(' ').join('')}`)
-                } else {
+        setFetching(true);
+        let endpoint = `game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
 
-                    return false
-                }
-            });
+        if (moneyType == 1 && !state?.user?.token) {
+            // later check if token is still valid
+            dispatch({type:"SET", key:"showloginmodal", payload:true});
+            return false
+        }
+        await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
+            if (status == 200) {
+                dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: result?.gameUrl}});
+                setLocalStorage("casinolaunch", {game: game, url: result?.game_url})
+                navigate(`/casino/${game?.game_name.split(' ').join('')}`)
+            } else {
+
+                return false
+            }
+        });
+                
+            
     }
 
     const getCasinoImageIcon = (imgUrl) => {

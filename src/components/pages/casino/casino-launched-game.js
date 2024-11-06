@@ -21,11 +21,6 @@ const CasinoLaunchedGame = (props) => {
             }
             
         }
-
-        // if there's no state for the game, update it
-        // if there's the state for the game, check to ensure it corresponds to the local storage
-        // and load the latest one which is the state
-
         return () => {
             dispatch({type:"DEL", key:"iscasinopage"})
             dispatch({type:"DEL", key:"casinolaunch"})

@@ -52,6 +52,11 @@ const PopularGames = (props) => {
 
     const launchGame = async (game, moneyType=1) => {
         let endpoint = `game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
+        if (moneyType == 1 && !state?.user?.token) {
+            // later check if token is still valid
+            dispatch({type:"SET", key:"showloginmodal", payload:true});
+            return false
+        }
         await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
             if (status == 200) {
                 dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: result?.gameUrl}});
