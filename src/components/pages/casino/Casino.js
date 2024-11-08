@@ -19,7 +19,7 @@ const Casino = (props) => {
     const [user] = useState(getFromLocalStorage("user"));
     const [categories, setCategories] = useState([])
     const [state, dispatch] = useContext(Context);
-    const [games, setGames] = useState([]);
+    const [games, setGames] = useState(null);
     const [filteredGames, setFilteredGames] = useState([]);
     const [fetching, setFetching] = useState(false);
 
@@ -37,18 +37,18 @@ const Casino = (props) => {
 
         await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
             if (status == 200) {
-                if (state?.casinogamesfilter) {
-                   let newGames = {...games, games: result}
-                   setGames(newGames);
+            if (state?.casinogamesfilter) {
+                let newGames = {...games, games: result}
+                setGames(newGames);
                 //    dispatch({type:"SET", key:"casinogames", payload: result});
-                } else {
-                    setGames(result);
-                    dispatch({type:"SET", key:"casinogames", payload: result});
-                    setLocalStorage('casinogames', result)
-                }
-                
+            } else {
+                setGames(result);
+                dispatch({type:"SET", key:"casinogames", payload: result});
+                setLocalStorage('casinogames', result)
             }
+        }
         });
+
         setTimeout(() => {setFetching(false)}, 3000)
     }
 
@@ -91,7 +91,8 @@ const Casino = (props) => {
             </div>
         </section> */}
         <div className={'casino-games-list'}>
-            {games?.games?.length < 1 && <div>{fetching ? <ShimmerTable row={3}/> :<NoEvents message="Casino Games not found" />}</div>}
+            {games?.games?.length < 1 && <div>{fetching ? <ShimmerTable row={3}/> : ""}</div>}
+            {!games && <div className='mt-4'><NoEvents message="Casino Games not found" /></div>}
             {games?.games?.map((category, idx) => (                 
                 <>                        
                     <CategoryListing games={category?.gameList} gamestype={category?.game_type}/>
