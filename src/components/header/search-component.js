@@ -1,5 +1,3 @@
-// src/components/SearchInput.js
-
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 
@@ -14,6 +12,8 @@ const SearchInput = ({ onSearch }) => {
         }
         setSearchTerm('');
     };
+    
+    //Awaiting Backend Completion
 
     return (
         <div className="flex items-center justify-center mr-4">           
