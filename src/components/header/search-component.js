@@ -11,10 +11,10 @@ const SearchInput = ({ onSearch }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        const categoriesData = state?.categories || [];
+        const categoriesData = Array.isArray(state?.categories) ? state.categories : [];
         setCategories(categoriesData);
-
-        const competitionsData = categoriesData?.flatMap(category => category.competitions || []);
+    
+        const competitionsData = categoriesData.flatMap(category => category.competitions || []);
         setCompetitions(competitionsData);
     }, [state?.categories]); 
 
