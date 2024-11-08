@@ -212,16 +212,17 @@ const MyBets = (props) => {
                                     <BetslipHeader betslip={bet?.betslip}/>
                                 </thead>
                                 <tbody>
-                                    { currentBetDetail?.betId == bet?.bet_id && 
-                                        currentBetDetail?.games?.map((slip) => (
-                                        <BetslipItem
-                                        slip={slip}
-                                        key={slip.game_id}
-                                        />
-                                    ))
+                                    {currentBetDetail?.betId === bet?.bet_id && 
+                                        currentBetDetail?.games?.map((slip, index) => (
+                                            <BetslipItem
+                                                slip={slip}
+                                                key={slip.game_id}
+                                                index={index} 
+                                            />
+                                        ))
                                     }
-                                    { isLoadingBetItems && <tr><td>fetching ...</td></tr>}
-                                </tbody>
+                                    {isLoadingBetItems && <tr><td>fetching ...</td></tr>}
+                                </tbody>                                
                             </table>    
                         </Accordion.Body>
                     </Accordion.Item>            
@@ -290,11 +291,10 @@ const MyBets = (props) => {
         )
     
     }
-    const BetslipItem = (props) => {
-		const {slip} = props
+    const BetslipItem = ({ slip, index }) => {
         return (
             <tr className={`my-bets`}  key={slip.game_id}>
-                <td className="hidden md:table-cell">{ 1}</td>
+                <td className="hidden md:table-cell">{index + 1}</td> 
                 {/* <td className="">{ slip?.game_id}</td> */}
                 <td className="">{ slip?.start_time}</td>
                 <td className="">{ slip?.home_team} - {slip.away_team}</td>

@@ -1,44 +1,58 @@
-import React, { useState } from 'react';
-
-import game1 from '../../assets/img/advertgames/game1.png';
-import game2 from '../../assets/img/advertgames/game2.png';
-import game3 from '../../assets/img/advertgames/game3.png';
-import game4 from '../../assets/img/advertgames/game4.png';
-import game5 from '../../assets/img/advertgames/game5.png';
-import game6 from '../../assets/img/advertgames/game6.png';
-import game7 from '../../assets/img/advertgames/game7.png';
-import game8 from '../../assets/img/advertgames/game8.png';
-import game9 from '../../assets/img/advertgames/game9.png';
-import game10 from '../../assets/img/advertgames/game10.png';
-import game11 from '../../assets/img/advertgames/game11.png';
-import game12 from '../../assets/img/advertgames/game12.png';
-
-const games = [
-    { name: 'Rocketman', image: game1 },
-    { name: 'Spaceman', image: game2 },
-    { name: 'Roulette', image: game3 },
-    { name: 'Spin 2 Win', image: game4 },
-    { name: 'High Flyer', image: game5 },
-    { name: 'Football X', image: game6 },
-    { name: '777 Strike', image: game7 },
-    { name: 'Stock Market', image: game8 },
-    { name: 'Sweet Bonanza', image: game9 },
-    { name: 'Big Bass', image: game10 },
-    { name: 'Baccarat', image: game11 },
-    { name: 'Extra Juicy', image: game12 },
-];
+import React, { useState, useEffect, useContext } from 'react';
+import makeRequest from "../utils/fetch-request";
+import { Context } from "../../context/store";
+import { useNavigate } from "react-router-dom";
+import { isMobile } from 'react-device-detect';
 
 const MiniGames = () => {
+    const [state, dispatch] = useContext(Context);
     const [searchTerm, setSearchTerm] = useState('');
     const [isFocused, setIsFocused] = useState(false); 
+    const [miniGames, setMiniGames] = useState([]);
+    const navigate = useNavigate();
 
-    const filteredGames = games.filter(game =>
-        game.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const fetchMiniGames = async () => {
+        const endpoint = "top-games-list";
+        try {
+            const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "faziCasino" });
+            if (status === 200) {
+                const allGames = result?.flatMap(category => category.gameList) || [];
+                const first12Games = allGames.slice(0, 24);
+                setMiniGames(first12Games);
+                dispatch({ type: "SET", key: "miniGames", payload: first12Games });
+            }
+        } catch (error) {
+            console.error("Failed to fetch mini games:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (!state?.miniGames) {
+            fetchMiniGames();
+        } else {
+            setMiniGames(state.miniGames);
+        }
+    }, []);
+
+    const launchGame = (game, moneyType = 1) => {
+        const endpoint = `game-url/${isMobile ? "mobile" : "desktop"}/${moneyType}/${game.game_id}`;
+        makeRequest({ url: endpoint, method: "GET", api_version: "faziCasino" }).then(([status, result]) => {
+            if (status === 200) {
+                dispatch({ type: "SET", key: "casinolaunch", payload: { game, url: result?.gameUrl } });
+                navigate(`/casino/${game.game_name.split(' ').join('')}`);
+            } else {
+                console.error("Failed to launch game");
+            }
+        });
+    };
+
+    const filteredGames = miniGames.filter(game =>
+        game.game_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
-        <div style={styles.miniGamesSection}>
-            <h3 style={styles.headingText}>Mini Games</h3>
+        <div className="mt-4 p-4 bg-blue-900 border border-gray-300 rounded-md">
+            <h3 className="text-white mb-2">Mini Games</h3>
             <input
                 type="text"
                 placeholder="Search games..."
@@ -46,90 +60,24 @@ const MiniGames = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onFocus={() => setIsFocused(true)} 
                 onBlur={() => setIsFocused(false)} 
-                style={{
-                    ...styles.searchInput,
-                    backgroundColor: isFocused ? '#fff' : 'transparent', 
-                }}
+                className={`w-full p-2 mb-4 border ${isFocused ? 'bg-white' : 'bg-transparent'} border-gray-300 rounded-md`}
             />
-            <div style={styles.gamesList}>
-                {filteredGames.map((game, index) => (
+            <div className="grid grid-cols-4 gap-4">
+                {filteredGames.map(game => (
                     <div
-                        key={index}
-                        style={{
-                            ...styles.gameCard,
-                            backgroundImage: `url(${game.image})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }}
-                        className="game-card"
+                        key={game.game_id}
+                        onClick={() => launchGame(game, 1)}
+                        style={{ backgroundImage: `url(${game.image_url})` }}
+                        className="relative flex items-center justify-center w-full h-0 pb-[100%] bg-cover bg-center rounded-md cursor-pointer transition-transform transform hover:scale-105"
                     >
-                        <span className="game-name" style={styles.gameName}>{game.name}</span>
+                        <span className="absolute bottom-2 left-2 font-bold text-white opacity-0 transition-opacity duration-300 hover:opacity-100">
+                            {game.game_name}
+                        </span>
                     </div>
                 ))}
             </div>
         </div>
     );
 };
-
-const styles = {
-    miniGamesSection: {
-        marginTop: '15px',
-        padding: '15px',
-        backgroundColor: '#24367e',
-        border: '1px solid #ddd',
-        borderRadius: '5px',
-    },
-    headingText: {
-        color: '#fff',
-    },
-    searchInput: {
-        width: '100%',
-        padding: '8px',
-        margin: '0 auto 10px auto',
-        border: '1px solid #ccc',
-        borderRadius: '5px',
-    },
-    gamesList: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '1rem',
-    },
-    gameCard: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '90%', 
-        maxWidth: '150px', 
-        height: 'auto',
-        aspectRatio: '1 / 1',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        transition: 'transform 0.2s',
-        position: 'relative',
-        overflow: 'hidden',
-    },
-    gameName: {
-        position: 'absolute',
-        bottom: '10px',
-        left: '10px',
-        fontWeight: 'bold',
-        color: '#fff',
-        opacity: 0, 
-        transition: 'opacity 0.3s ease-in-out', 
-    },
-};
-
-const styleSheet = document.styleSheets[0];
-styleSheet.insertRule(`
-    .game-card:hover {
-        transform: scale(1.05);
-    }
-`, styleSheet.cssRules.length);
-
-styleSheet.insertRule(`
-    .game-card:hover .game-name {
-        opacity: 1; // Show game name on hover
-    }
-`, styleSheet.cssRules.length);
 
 export default MiniGames;
