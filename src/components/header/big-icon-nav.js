@@ -10,6 +10,7 @@ const BigIconMenu = () => {
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(true);
     const [state, ] = useContext(Context);
+    const [categories, setCategories] = useState([]);
 
     const linkItems = [
         {name: "home", icon:"home.svg", link:"/", parentTo:null},
@@ -23,19 +24,19 @@ const BigIconMenu = () => {
         {name: "league", icon:"league.svg", link:"/sure-league", parentTo:null},
         {name: "promotions", icon:"promos.svg", link:"/promotions", parentTo:null},
         {name: "livescore", icon:"livescore.svg", link:"/#livescore", parentTo:null},        
-        {name: "basketball", icon:"basketball.svg", link:"/#basketball", parentTo:null},
-        {name: "cricket", icon:"cricket.svg", link:"/#cricket", parentTo:null},
-        {name: "tennis", icon:"tennis.svg", link:"/#tennis", parentTo:null},       
-        {name: "rugby", icon:"rugby.svg", link:"/#rugby", parentTo:null},
-        {name: "ice hockey", icon:"icehockey.svg", link:"/#icehockey", parentTo:null},
-        {name: "aussie rules", icon:"aussie.svg", link:"/#aussie", parentTo:null},
-        {name: "a.football", icon:"americanfootball.svg", link:"/#afootball", parentTo:null},
-        {name: "darts", icon:"darts.svg", link:"/#darts", parentTo:null},
-        {name: "boxing", icon:"boxing.svg", link:"/#boxing", parentTo:null},
-        {name: "handball", icon:"handball.svg", link:"/#handball", parentTo:null},        
-        {name: "baseball", icon:"baseball.svg", link:"/#baseball", parentTo:null},
-        {name: "volleyball", icon:"volleyball.svg", link:"/#volleyball", parentTo:null},
-        {name: "mma", icon:"mma.svg", link:"/#mma", parentTo:null},
+        // {name: "basketball", icon:"basketball.svg", link:"/#basketball", parentTo:null},
+        // {name: "cricket", icon:"cricket.svg", link:"/#cricket", parentTo:null},
+        // {name: "tennis", icon:"tennis.svg", link:"/#tennis", parentTo:null},       
+        // {name: "rugby", icon:"rugby.svg", link:"/#rugby", parentTo:null},
+        // {name: "ice hockey", icon:"icehockey.svg", link:"/#icehockey", parentTo:null},
+        // {name: "aussie rules", icon:"aussie.svg", link:"/#aussie", parentTo:null},
+        // {name: "a.football", icon:"americanfootball.svg", link:"/#afootball", parentTo:null},
+        // {name: "darts", icon:"darts.svg", link:"/#darts", parentTo:null},
+        // {name: "boxing", icon:"boxing.svg", link:"/#boxing", parentTo:null},
+        // {name: "handball", icon:"handball.svg", link:"/#handball", parentTo:null},        
+        // {name: "baseball", icon:"baseball.svg", link:"/#baseball", parentTo:null},
+        // {name: "volleyball", icon:"volleyball.svg", link:"/#volleyball", parentTo:null},
+        // {name: "mma", icon:"mma.svg", link:"/#mma", parentTo:null},
         {name: "floorball", icon:"floorball.svg", link:"/#floorball", parentTo:null},
         {name: "print", icon:"print.svg", link:"/print-matches", parentTo:null},
     ]
@@ -74,7 +75,11 @@ const BigIconMenu = () => {
         return () => refCurrent?.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {console.log("THE CATEGORIES ARE HERE:::::: ==== ::::  ", state?.categories)}, [state?.categories])
+    useEffect(() => {
+        if(state?.categories) {
+            setCategories(state?.categories);
+        }
+    }, [state?.categories])
 
     return (
         <div className="relative flex items-center big-icon-container">
@@ -99,7 +104,7 @@ const BigIconMenu = () => {
                         </li>
                     ))}
 
-                    {(state?.categories || []).map((category, idx) => (
+                    {categories?.map((category, idx) => (
                         <li key={idx} className={`${pathname == `/sports/matches/${category?.sport_id}` ? "active" : ''} big-icon-item text-center capitalize`}>
                         <Link to={`/sports/matches/${category?.sport_id}`} title={category?.sport_name}>
                             <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(category.icon)} alt={category.sport_name} /></div>
