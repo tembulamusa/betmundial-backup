@@ -37,7 +37,7 @@ const BigIconMenu = () => {
         // {name: "baseball", icon:"baseball.svg", link:"/#baseball", parentTo:null},
         // {name: "volleyball", icon:"volleyball.svg", link:"/#volleyball", parentTo:null},
         // {name: "mma", icon:"mma.svg", link:"/#mma", parentTo:null},
-        {name: "floorball", icon:"floorball.svg", link:"/#floorball", parentTo:null},
+        // {name: "floorball", icon:"floorball.svg", link:"/#floorball", parentTo:null},
         {name: "print", icon:"print.svg", link:"/print-matches", parentTo:null},
     ]
 
@@ -104,10 +104,10 @@ const BigIconMenu = () => {
                         </li>
                     ))}
 
-                    {categories?.map((category, idx) => (
+                    {(categories || [])?.map((category, idx) => (
                         <li key={idx} className={`${pathname == `/sports/matches/${category?.sport_id}` ? "active" : ''} big-icon-item text-center capitalize`}>
                         <Link to={`/sports/matches/${category?.sport_id}`} title={category?.sport_name}>
-                            <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(category.icon)} alt={category.sport_name} /></div>
+                            <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${category.sport_name}.svg`)} alt={category.sport_name} /></div>
                             <div className="big-icon-name">{category.sport_name}</div>
                         </Link>
                     </li>
