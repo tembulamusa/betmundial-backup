@@ -16,7 +16,7 @@ import {
 
 const BigIconMenu = () => {
     const pathname = window.location.pathname;
-
+    
 
     const linkItems = [
         {name: "home", icon:"home.svg", link:"/", parentTo:null},

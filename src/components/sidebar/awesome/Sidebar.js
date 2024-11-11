@@ -77,13 +77,9 @@ const ProSidebar = (props) => {
         } else {
             setCompetitions(cached_competitions);
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
-            console.log("THE SPORTS CATEGORIES ARE HERE :::::: === :::: ", cached_competitions);
-
         }
 
-
         setFocusSportId(79);
-        
     };
 
     useEffect(() => {

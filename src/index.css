@@ -1070,11 +1070,12 @@ img.highlights-content-img {
   width: 190px;
   display: inline-block;
   /* margin-right: 8px; */
-  padding-right: 7px;
+  padding-right: 0px;
   border-radius: 10px;
   transition: all ease-in-out 0.5s;
   -moz-transition: all ease-in-out 0.5s;
   -webkit-transition: all ease-in-out 0.5s;
+  margin-bottom: 0 !important;
 }
 
 .popular-game:hover {
@@ -1685,4 +1686,8 @@ label {
   .no-body-header-spacing.amt {
     /* margin-top: 130px !important; */
   }
+}
+
+.prematch-started {
+  opacity: 0.7;
 }

@@ -63,7 +63,6 @@ const PopularGames = (props) => {
                 setLocalStorage("casinolaunch", {game: game, url: result?.game_url})
                 navigate(`/casino/${game?.game_name.split(' ').join('')}`)
             } else {
-
                 return false
             }
         });

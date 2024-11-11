@@ -121,7 +121,7 @@ const Jackpot = (props) => {
                     </div>
                     <Tabs defaultActiveKey={"matches"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
                         <Tab eventKey="matches" title="Matches" className="p-3">
-                            { jackpotData?.status?.toLowerCase() == "active" && (
+                            { (jackpotData?.status?.toLowerCase() == "active" && jackpotData?.matches?.length == jackpotData?.total_games) && (
                                <div className="row flex flex-col items-center md:flex-row">
                                 <div className="col-md-8 !px-3 text-center md:text-left">
                                     <div className="!px-2">
@@ -142,7 +142,7 @@ const Jackpot = (props) => {
                             )}
 
                             {/* If games are available, then show games */}
-                            {jackpotData?.matches?.length > 0 ? (
+                            {(jackpotData?.matches?.length > 0 && jackpotData?.total_games) ? (
                                 <JackpotMatchList matches={jackpotData} />
                             ) : (
                                 <div className={'col-md-12 text-center background-primary mt-2 p-5 no-events-div'}>

@@ -10,8 +10,8 @@ import FreeBet from '../../assets/img/banner/carousel/Tick.png';
 import MultiBet from '../../assets/img/banner/Multibet.png';
 import Epl from '../../assets/img/banner/EPL.png';
 import Live from '../../assets/img/banner/carousel/Live-Betting.png';
-import Casino from '../../assets/img/banner/carousel/casino.png';
-import Jackpot from '../../assets/img/banner/carousel/jackpot.png';
+import Casino from '../../assets/img/banner/Casino.png';
+import Jackpot from '../../assets/img/banner/jackpot.png';
 import { Link } from 'react-router-dom';
 
 

@@ -1,13 +1,15 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { Link, useLocation } from 'react-router-dom'; 
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { Context } from "../../context/store";
 
 const BigIconMenu = () => {
     const { pathname } = useLocation(); 
     const scrollContainerRef = useRef(null);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(true);
+    const [state, ] = useContext(Context);
 
     const linkItems = [
         {name: "home", icon:"home.svg", link:"/", parentTo:null},
@@ -72,6 +74,8 @@ const BigIconMenu = () => {
         return () => refCurrent?.removeEventListener('scroll', handleScroll);
     }, []);
 
+    useEffect(() => {console.log("THE CATEGORIES ARE HERE:::::: ==== ::::  ", state?.categories)}, [state?.categories])
+
     return (
         <div className="relative flex items-center big-icon-container">
             {showLeftArrow && (
@@ -93,6 +97,15 @@ const BigIconMenu = () => {
                                 <div className="big-icon-name">{item.name}</div>
                             </Link>
                         </li>
+                    ))}
+
+                    {(state?.categories || []).map((category, idx) => (
+                        <li key={idx} className={`${pathname == `/sports/matches/${category?.sport_id}` ? "active" : ''} big-icon-item text-center capitalize`}>
+                        <Link to={`/sports/matches/${category?.sport_id}`} title={category?.sport_name}>
+                            <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(category.icon)} alt={category.sport_name} /></div>
+                            <div className="big-icon-name">{category.sport_name}</div>
+                        </Link>
+                    </li>
                     ))}
                 </ListGroup>
             </div>

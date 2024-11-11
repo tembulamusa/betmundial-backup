@@ -62,7 +62,17 @@ const BetSlip = (props) => {
 
     }, [state[betslipKey]]);
 
+    // validate started 
+    const validateStarted = (start_time) => {
+        let isStarted = false
+        const slipDate = new Date(start_time);
+        if (slipDate <= new Date()) {
+            isStarted = true;
+        }
 
+        return isStarted;
+
+    }
     //Handle db validation of betslip
     const validateBetslipwithDbData = useCallback(() => {
         if (betslipValidationData && betslipsData) {
@@ -277,17 +287,18 @@ const BetSlip = (props) => {
                     {Object.entries(betslipsData ?? {}).map(([match_id, slip]) => {
                         let odd = slip.odd_value;
                         let no_odd_bg = odd == 1 ? '#f29f7a' : '';
-
                         return (
-                            <li className={`bet-option hide-on-affix ${slip?.disable ? 'warn' : ''}`} key={match_id}
+                            <li className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'prematch-started alert alert-warning'} bet-option hide-on-affix ${slip?.disable ? 'warn' : ''}`} key={match_id}
                                 style={{background: no_odd_bg}}>
 
                                 <div className="bet-cancel">
                                     <input id={slip.match_id} type="submit" value="X"
                                            onClick={() => handledRemoveSlip(slip)} />
                                 </div>
+
+                                
                                 <Link to={`/match/${slip.match_id}`} style={{}} className='hover:underline'>
-                                <div className="bet-value betslip-game" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload: false})}>
+                                <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} bet-value betslip-game`} onClick={() => dispatch({type:"SET", key:"showmobileslip", payload: false})}>
                                         {
                                             <span 
                                                 style={{
@@ -298,7 +309,7 @@ const BetSlip = (props) => {
                                                 <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
                                                 {`${slip.home_team} VS ${slip.away_team}`}
                                             </span>}
-                                        <div className='opacity-60'>
+                                        <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} opacity-60 `}>
                                             <span>
                                                 {slip.bet_type == 0 && ' Pre-match'}
                                                 {slip.bet_type == 1 && <span className='text-red'>Live</span>}: 
@@ -309,7 +320,7 @@ const BetSlip = (props) => {
                                             </span>
                                         </div>
                                 </div>
-                                <div className="row">
+                                <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'game-started'} row`}>
                                     <div className="bet-value">
                                         {slip.odd_type} - <span className='font-[500]'>{slip.bet_pick}</span>
                                         <span className="bet-odd">{slip.odd_value}
@@ -331,6 +342,7 @@ const BetSlip = (props) => {
                                 <div className="row">
                                     <div className="warn">{slip?.comment} </div>
                                 </div>
+                                {(slip.bet_type == 0 && validateStarted(slip.start_time)) && <div className='alert alert-warning'>Game Started</div>}
                             </Link>
 
                             </li>)

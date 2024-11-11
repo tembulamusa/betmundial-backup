@@ -13,6 +13,8 @@ import {getBetslip} from './utils/betslip' ;
 import useInterval from "../hooks/set-interval.hook";
 import {Spinner} from "react-bootstrap";
 import HighlightsBoard from "./highlights-board";
+import io from 'socket.io-client';
+
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 const MatchList = React.lazy(() => import('./matches/index'));
@@ -34,6 +36,17 @@ const Index = (props) => {
     const [fetchingCount, setFetchingCount] = useState(0)
     const homePageRef = useRef()
     const [subTypes, setSubTypes] = useState("1,10,18");
+    const socket = io('wss://wss.surebet.co.ke/surebet', {
+        transports: ['websocket'],
+        pingInterval: 30000,
+        pingTimeOut: 90000, 
+        reconnection: true,
+        upgradeTimeout: 30000,
+        EIO: 4,
+        reconnectionAttempts: Infinity, // retry indefinitely
+        reconnectionDelay: 2000,        // initial delay between reconnections
+        reconnectionDelayMax: 10000     // maximum delay between reconnections
+    });
 
     const fetchData = async () => {
         setFetching(true);
@@ -77,7 +90,6 @@ const Index = (props) => {
         // } 
         endpoint = endpoint.replaceAll(" ", '');
 
-        
         await makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
             setFetchingCount(fetchcount);
             if (status == 200) {
@@ -96,6 +108,30 @@ const Index = (props) => {
       fetchData();
     }, delay); 
 
+    useEffect(() => {
+        const apiCall = {
+            event: "user.matches",
+            sportId: 79,
+            tab: "highlights",
+            page: 1
+        };
+        
+        socket.on('connect', () => {
+            console.log('CONNECTED TO THE SOCKET WELL33333333333333');
+            socket.emit('user.matches', 79, "highlights", 1);
+        });
+
+        socket.on('disconnect', () => {
+            console.log('DISCONNECTED:::::');
+        });
+
+        socket.on("dummygamedata", (data) => {
+            console.log("THE MATCHES CHANGED SUCCESSFULLY :::: === ", data)
+        });
+    return () => {
+        socket.disconnect();
+    }
+    }, [])
 
     useEffect(() => {
         fetchData();
