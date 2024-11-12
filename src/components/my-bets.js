@@ -204,26 +204,29 @@ const MyBets = (props) => {
                         </Accordion.Header>
                         <Accordion.Body>
                             <div className="bet-detail-header">
-                                <span><CancelBetMarkup txt="Cancel  Bet" /></span>
+                                <span><CancelBetMarkup txt="Cancel Bet" /></span>
                                 {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
                             </div>
-                            <table className="table !mt-3 !mb-0">
-                                <thead>
-                                    <BetslipHeader betslip={bet?.betslip}/>
-                                </thead>
-                                <tbody>
-                                    {currentBetDetail?.betId === bet?.bet_id && 
-                                        currentBetDetail?.games?.map((slip, index) => (
-                                            <BetslipItem
-                                                slip={slip}
-                                                key={slip.game_id}
-                                                index={index} 
-                                            />
-                                        ))
-                                    }
-                                    {isLoadingBetItems && <tr><td>fetching ...</td></tr>}
-                                </tbody>                                
-                            </table>    
+                            <div className="overflow-x-auto"> 
+                                <table className="table w-full mt-3 mb-0">
+                                    <thead>
+                                        <BetslipHeader betslip={bet?.betslip} />
+                                    </thead>
+                                    <tbody>
+                                        {currentBetDetail?.betId === bet?.bet_id &&
+                                            currentBetDetail?.games?.map((slip, index) => (
+                                                <BetslipItem
+                                                    slip={slip}
+                                                    key={slip.game_id}
+                                                    index={index}
+                                                />
+                                            ))}
+                                        {isLoadingBetItems && (
+                                            <tr><td>fetching ...</td></tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </Accordion.Body>
                     </Accordion.Item>            
         );

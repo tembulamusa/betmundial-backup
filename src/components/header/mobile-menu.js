@@ -45,7 +45,7 @@ function MobileMenu() {
       
     return (
       <div className='flex text-center '>
-        <div
+        {/* <div
           className='col-6 offcanvas-big-icon p-5'
           onClick={() => {
             toggleDarkMode();
@@ -57,7 +57,7 @@ function MobileMenu() {
         ) : (
           <><IoMoon  className='big-offcanvas-icon mx-auto'/> Dark Theme</>
         )}
-        </div>
+        </div> */}
         
         <div className='col-6 offcanvas-big-icon p-5'>
           <Link
