@@ -62,17 +62,17 @@ const App = () => {
     const url = window.location.pathname
     return (
             <BrowserRouter>
-            <div className={`${state?.currentmode} ${state?.casinolaunch && "launched-casino-wrapper"}`}>
+            <div className={`${state?.currentmode} ${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper"}`}>
                 <Suspense fallback={<p></p>}>
-                {!state?.casinolaunch && <Header />}
+                {!(state?.casinolaunch || state?.surecoinlaunched) && <Header />}
                 <div className={`${state?.bodyheaderspacing} amt `}>
                     <div className={`flex big-icon second-nav ck pc app-navbar app-header-nav`}>
                         {/* <HeaderNav/> */}
                     </div>
                     <div className={`${state?.casinolaunch ? "": "diminish-mobile-row row"}`}>
                         {/* Conditional load live or otherwise */}
-                        {!state?.casinolaunch && <Sidebar />}
-                            <div className={`${state?.casinolaunch ? "": "col-md-7 home mx-auto"}`}>
+                        {!(state?.casinolaunch || state?.surecoinlaunched) && <Sidebar />}
+                            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": "col-md-7 home mx-auto"}`}>
                         <Routes>
                             <Route exact path="/" element={<Index/>}/>
                             <Route exact path="/virtuals" element={<Casino/>}/>
@@ -123,10 +123,10 @@ const App = () => {
                             <Route path="*" element={<Index/>}/>
                             </Routes>
                     </div>
-                    {!state?.casinolaunch && <Right />}           
+                    {!(state?.casinolaunch || state?.surecoinlaunched) && <Right />}           
                 </div>
             </div>
-            {!state?.casinolaunch && <Footer />}
+            {!(state?.casinolaunch || state?.surecoinlaunched) && <Footer />}
             </Suspense>
             </div>
             </BrowserRouter>

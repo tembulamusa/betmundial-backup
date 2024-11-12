@@ -76,7 +76,7 @@ const BigIconMenu = () => {
     }, []);
 
     useEffect(() => {
-        if(state?.categories) {
+        if(state?.categories && state?.categories instanceof Array) {
             setCategories(state?.categories);
         }
     }, [state?.categories])
@@ -95,23 +95,30 @@ const BigIconMenu = () => {
                 style={{ maxWidth: '100%', backgroundColor: 'transparent' }}
             >
                 <ListGroup as="ul" horizontal className="flex space-x-4 big-icon-list">
-                    {linkItems?.map((item, idx) => (
-                        <li key={idx} className={`${pathname == item.link ? "active" : ''} big-icon-item text-center capitalize`}>
-                            <Link to={item.link} title={item.name}>
-                                <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(item.icon)} alt={item.name} /></div>
-                                <div className="big-icon-name">{item.name}</div>
+                    {(linkItems || []).map((item, idx) => {
+                        return (
+                            <li key={idx} className={`${pathname == item.link ? "active" : ''} big-icon-item text-center capitalize`}>
+                                <Link to={item.link} title={item.name}>
+                                    <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(item.icon)} alt={item.name} /></div>
+                                    <div className="big-icon-name">{item.name}</div>
+                                </Link>
+                            </li>
+                        )
+                        }
+                    )}
+
+                    {(categories || []).map((category, idx) => {
+                        
+                        return (
+                            <li key={idx} className={`${pathname == `/sports/matches/${category?.sport_id}` ? "active" : ''} big-icon-item text-center capitalize`}>
+                            <Link to={`/sports/matches/${category?.sport_id}`} title={category?.sport_name}>
+                                <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${category.sport_name.toLowerCase()}.svg`)} alt={category.sport_name} /></div>
+                                <div className="big-icon-name">{category.sport_name}</div>
                             </Link>
                         </li>
-                    ))}
-
-                    {(categories || [])?.map((category, idx) => (
-                        <li key={idx} className={`${pathname == `/sports/matches/${category?.sport_id}` ? "active" : ''} big-icon-item text-center capitalize`}>
-                        <Link to={`/sports/matches/${category?.sport_id}`} title={category?.sport_name}>
-                            <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${category.sport_name.toLowerCase()}.svg`)} alt={category.sport_name} /></div>
-                            <div className="big-icon-name">{category.sport_name}</div>
-                        </Link>
-                    </li>
-                    ))}
+                        )
+                    }
+                    )}
                 </ListGroup>
             </div>
 
