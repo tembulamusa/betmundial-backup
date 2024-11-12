@@ -146,14 +146,14 @@ const ProSidebar = (props) => {
         
         let sport = competitions?.find(obj => obj?.sport_id == focusSportId);
         // check if the sport has competitions
-        let hasCompetitions = Object.keys(sport).includes('competitions');
+        let hasCompetitions = sport && Object.keys(sport).includes('competitions');
 
         // Only make request for a focussport if the competitions are not existent
         if (!hasCompetitions){
             makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {
                 let sportIndex = competitions?.findIndex(obj => obj?.sport_id == focusSportId);
                 // update the sport with competitions
-                if (status == 200) {
+                if (sport && status == 200) {
                     sport.competitions = response?.data?.items
                     
                     // for now, we just want to set the top competitions as soccer. later we'll set for every sport,
@@ -174,8 +174,6 @@ const ProSidebar = (props) => {
                     dispatch({type: "SET", key: "categories", payload: newCompetitions})
                     setLocalStorage("categories", newCompetitions, 5 * 60 * 1000)
 
-                } else {
-                    sport.competitions = [];
                 }
                  
             })

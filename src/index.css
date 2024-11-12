@@ -1691,3 +1691,46 @@ label {
 .prematch-started {
   opacity: 0.7;
 }
+
+@media screen and (max-width: 648px) {
+
+  .big-icon-item {
+    padding: 5px 4px 4px;
+    
+}
+.big-icon-icon img {
+  width: 20px;
+  height: 20px;
+}
+
+.top-login-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid #6c5cc0 !important;
+  font-weight: 500;
+  padding: 5px 15px !important;
+}
+.header-login-links .onboard {
+  margin-top: 2px !important;
+}
+
+.amt {
+  margin-top: 120px;
+}
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+  
+  width: 2rem;
+  height: 2rem;
+  padding: 7px;
+}
+.popular-game {
+  max-width: 83px;
+  display: inline-block;
+  padding-right: 0;
+  padding-left: 2px;
+}
+
+.highlights-board {
+  padding: 5px 0px;
+}
+}
