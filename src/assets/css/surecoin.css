@@ -9,11 +9,11 @@
     min-height: 200px;
 }
 .rotating-img {
-    width: 100px;
-    height: 200px;
-    position: absolute;
-    top:0; right:0; bottom:0; left:0;
-    margin: auto;
+    /* width: auto; */
+    /* height: 200px; */
+    /* position: absolute; */
+    
+    padding: 10%;
 }
 .rotating-img.is-spinning {
     animation: rotation 1s infinite linear; 
@@ -65,8 +65,46 @@
     border-radius: 20px;
     padding: 5px 10px;
 }
+
+.casino-service-sure-coin .pickBtn {
+    background-color: #143ee4;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 7px;
+    /* width: 100px; */
+}
+
+.casino-service-sure-coin .pickBtn.selected-btn {
+    background-color: #bb0243;
+    color: white;
+}
 @media screen and (min-width: 760px) {
   
+}
+
+.css-rehya9-MuiSwitch-root {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    width: 90px;
+    height: 50px;
+    overflow: hidden;
+    padding: 13px;
+    box-sizing: border-box;
+    position: relative;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    z-index: 0;
+    vertical-align: middle;
+}
+
+.css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked {
+    -webkit-transform: translateX(40px);
+    -moz-transform: translateX(40px);
+    -ms-transform: translateX(40px);
+    transform: translateX(40px);
 }
 
 @media screen and (max-width: 648px) {
@@ -75,6 +113,10 @@
         margin-left: auto;
         margin-right: auto;
         margin-top: 5%;
+    }
+
+    .user-amount-input {
+        max-width: 100px !important;
     }
 
 }

@@ -104,7 +104,7 @@ const RotatingCoin = (props) => {
         <>
             {/* Header Display */}
             <div className={`rotating-img  ${isSpinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`} onClick={() => setCanPlaySound()}>
-                <img src={state?.usercoinchoices?.coin == "head" ? Head : Tail } alt=""/>
+                <img src={state?.coinselections?.coinnumber == "heads" ? Head : Tail } alt=""/>
             </div>
         </>
     )
