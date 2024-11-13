@@ -14,7 +14,7 @@ const DepositModal = (props) => {
     const [depositMessage, setDepositMessage] = useState(state?.promptdepositrequest?.message);
     const [isLoading, setIsLoading] = useState(false);
     const [directDepositPromt, setDirectDepositPrompt] = useState(false);
-    // const [amount, setAmount] = useState(state?.promptdepositrequest?.payableAmt)
+    const [amount, setAmount] = useState(state?.promptdepositrequest?.payableAmt)
     const [closeButton, setCloseButton] = useState(false);
 
     const initialValues = {
@@ -25,7 +25,8 @@ const DepositModal = (props) => {
 
     useEffect(() => {
         setDepositMessage(state?.promptdepositrequest?.message);
-    }, [state?.promptdepositrequest?.message])
+    }, [state?.promptdepositrequest?.message]);
+    
     const handleSubmit = values => {
         let endpoint = '/v2/deposits/stk/new';
         setIsLoading(true);

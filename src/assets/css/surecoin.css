@@ -37,7 +37,7 @@
     width: 60%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5%;
+    /* margin-top: 5%; */
   }
 
   .sure-coin-header {
@@ -84,18 +84,13 @@
 }
 
 .css-rehya9-MuiSwitch-root {
-    display: -webkit-inline-box;
-    display: -webkit-inline-flex;
-    display: -ms-inline-flexbox;
     display: inline-flex;
-    width: 90px !important;
-    height: 50px !important;
+    width: 87px !important;
+    height: 40px !important;
     overflow: hidden;
     padding: 13px;
     box-sizing: border-box;
     position: relative;
-    -webkit-flex-shrink: 0;
-    -ms-flex-negative: 0;
     flex-shrink: 0;
     z-index: 0;
     vertical-align: middle;
@@ -110,18 +105,24 @@
 
 .css-17jyosd-MuiSwitch-thumb {
     box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+    -moz-box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+    -webkit-box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
     background-color: currentColor;
-    width: 36px !important;
-    height: 36px !important;
+    width: 25px !important;
+    height: 25px !important;
     border-radius: 50%;
 }
 
+.diminish-mobile-row>* {
+    padding-left: 0;
+    padding-right: 0;
+}
 @media screen and (max-width: 648px) {
     .surecoin-body {
         width: 98%;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 5%;
+        /* margin-top: 5%; */
     }
 
     .user-amount-input {
