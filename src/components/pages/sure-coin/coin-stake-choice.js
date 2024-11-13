@@ -106,12 +106,13 @@ const CoinStakeChoice = (props) => {
     return (
         <>
             <div className="user-input-section" onClick={() => setcanplayTheitems()}>
-                <div className="my-2">coin #{coinnumber}</div>
+                <div className="m-3 pt-2">PLACE YOUR BET </div>
                 
                 <div className="user-input-main flex">
-                    <div className="input-collector flex-col w-1/2">
-                        <label className="my-2 mt-3 text-white opacity-80">Amount</label>
-                        <div className="sure-coin-amount-input-section flex font-[700]">
+                    <div className="input-collector flex-col w-1/2 m-1">
+                        <div className="m-3 flex">
+                        <label className="my-2 mt-3 text-white opacity-80 w-1/4 flex">STAKE AMOUNT</label>
+                        <div className="sure-coin-amount-input-section flex font-[700] bg-[white] w-1/2">
                             <CgRemove
                                 onClick={() => changeAmount("decrease") }
                                 className="mt-1 text-3xl opacity-60 hover:opacity-100 cursor-pointer" />
@@ -120,13 +121,18 @@ const CoinStakeChoice = (props) => {
                                 type="number"
                                 value={amount}
                                 min={minimumBetAmount}
-                                className="border-[transparent] bg-[transparent] user-amount-input px-3"/>
+                                className="border-[transparent] bg-[white] text-black user-amount-input px-3"/>
 
                             <CgAdd className="mt-1 text-3xl opacity-60 hover:opacity-100 cursor-pointer" onClick={() => changeAmount("increase") }/>
                         </div>
-                        <div className="win-info">
-                            <div className="odds"><span className="multiplier-txt">Odds</span> <span className="multiplier-value float-end"><span className="text-sm">X</span>2</span></div>
-                            <div className="win-amount"><span>Payout</span><span className="float-end">{amount * 2}</span></div>
+                        </div>
+                        <div className="win-info m-3 flex">
+                            <label className="my-2 mt-3 text-white opacity-80 w-1/4 flex">ODDS</label>
+                            <div className="flex font-[700] w-1/2 text-align-right"><small>x</small> 2</div>
+                        </div>
+                        <div className="win-info m-3 flex">
+                            <label className="my-2 mt-3 text-white opacity-80 w-1/4 flex win-amount">PAYOUT</label>
+                            <div className="flex font-[700] w-1/2 text-align-right float-end">{amount *2 }.00</div>
                         </div>
                     </div>
                     <div className="flex-col w-1/2 autopick-settings">

@@ -147,7 +147,7 @@ const SureCoinIndex = (props) => {
             {/* <PageHeader /> */}
             <div className="surecoin-body">
                 <div className="surecoin-main md:flex">
-                    <div className={`sure-coin-betting-section md:flex-col  w-full md:w-8/12`}>
+                    <div className={`sure-coin-betting-section md:flex-col  w-full`}>
                         <div className="sure-coin-header row">
                             <div className="col-4">
                                 <div className="flex"><img src={SureCoinLogoImg} className="surecoin-logo-img" /> SureCoin <span className=""><FaQuestion className="inline-block md:hidden"/><button className="hidden md:inline-block basic-highlight-alert ml-3 font-[300] bg-[#f5a623] text-[#5f3816] rounded-md px-3">How to play</button></span></div>
@@ -161,6 +161,18 @@ const SureCoinIndex = (props) => {
                             </div>
                         </div>
                         <div className="casino-service-sure-coin">
+                            <div className="coin-count-down">Counting Down: 29</div>
+                            <div className="coin-quick-stats">
+                              <div>Statistics: Coin Spin Round  67 </div>
+                              <hr />
+                              <div className="scores">
+                                  <div> Heads: 55% </div> <div> Tails: 45% </div>
+                              </div>
+
+                              <div className="scores">
+                                  <div> Bets on Heads: KES 20,000 </div> <div> Bets on Tails: KES 25,000 </div>
+                              </div>
+                            </div>
                             <div className="rotating-images-wrapper coin-sections">
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (
                                     <div className="rotating-image-container">
@@ -176,6 +188,7 @@ const SureCoinIndex = (props) => {
 
                                     </div>
                                 ))}
+                            <div className="coin-taking-bets">TAKING BETS: 29..</div>
                             </div>
                             {/* the add sections */}
                             <div className="bet-control">
