@@ -1,5 +1,5 @@
 .rotating-images-wrapper {
-    display: flex;
+    /* display: flex; */
     clear: both;
 }
 
@@ -12,8 +12,9 @@
     /* width: auto; */
     /* height: 200px; */
     /* position: absolute; */
-    
     padding: 10%;
+    max-width: 250px;
+    margin: auto;
 }
 .rotating-img.is-spinning {
     animation: rotation 1s infinite linear; 
@@ -87,8 +88,8 @@
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
     display: inline-flex;
-    width: 90px;
-    height: 50px;
+    width: 90px !important;
+    height: 50px !important;
     overflow: hidden;
     padding: 13px;
     box-sizing: border-box;
@@ -101,10 +102,18 @@
 }
 
 .css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked {
-    -webkit-transform: translateX(40px);
-    -moz-transform: translateX(40px);
-    -ms-transform: translateX(40px);
-    transform: translateX(40px);
+    -webkit-transform: translateX(40px) !important;
+    -moz-transform: translateX(40px) !important;
+    -ms-transform: translateX(40px) !important;
+    transform: translateX(40px) !important;
+}
+
+.css-17jyosd-MuiSwitch-thumb {
+    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+    background-color: currentColor;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50%;
 }
 
 @media screen and (max-width: 648px) {
