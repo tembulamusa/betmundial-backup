@@ -64,7 +64,7 @@ const App = () => {
             <BrowserRouter>
             <div className={`${state?.currentmode} ${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper"}`}>
                 <Suspense fallback={<p></p>}>
-                {!(state?.casinolaunch || state?.surecoinlaunched) && <Header />}
+                <Header />
                 <div className={`${state?.bodyheaderspacing} amt `}>
                     <div className={`flex big-icon second-nav ck pc app-navbar app-header-nav`}>
                         {/* <HeaderNav/> */}

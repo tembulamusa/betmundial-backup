@@ -52,7 +52,6 @@ const Header = (props) => {
                     setLocalStorage('user', u);
                     setUser(u)
                     dispatch({type: "SET", key: "user", payload: u});
-                    console.log("THE BALANCE CHECK REQUEST:::: ", response.data.balance, "previous Balance :::: ", user.balance, "CURRENT FROM EXTENDED USER ;;;;; ", u.balance)
                     return                
                 }
             });

@@ -2,10 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import RotatingCoin from "./rotating-coin";
 import CoinStakeChoice from "./coin-stake-choice";
 import { Context } from "../../../context/store";
+import { FaCog, FaComments, FaInfo } from "react-icons/fa";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
+import { IoIosClose } from "react-icons/io";
+import { Link } from "react-router-dom";
+import DepositModal from "../../webmodals/deposit-modal";
+import { BiSolidVolumeMute } from "react-icons/bi";
+import { FaVolumeHigh } from "react-icons/fa6";
 
 const SureCoinIndex = (props) => {
     const [state, dispatch] = useContext(Context);
-    const [userCoinCount, setUserCoinCount] = useState(2);
+    const [userCoinCount, setUserCoinCount] = useState(1);
     const [userChoices, setUserChoices] = useState({});
     const [timeToStart, setTimeToStart] = useState(5);
     const [timeToEnd, setTimeToEnd] = useState(10);
@@ -14,6 +21,8 @@ const SureCoinIndex = (props) => {
     const [isSpinning, setIsSpinning] = useState(false);
     const [preparingToSpin, setPreparingToSpin] = useState(false);
     const [dummyTriggerCounter, setDummyTriggerCounter] = useState(0);
+    const [userBal, setUserBal] = useState(0.00);
+    const [userMuted, setUserMuted] = useState(getFromLocalStorage("surecoinmuted"));
 
 
     // Dummy trigger
@@ -41,32 +50,67 @@ const SureCoinIndex = (props) => {
 
     useEffect(() => {
         dispatch({type:"SET", key:"surecoinlaunched", payload:true})
+        let userBalance = getFromLocalStorage("user");
+        if(userBalance && userBalance.balance) {
+            setUserBal(userBalance.balance);
+        }
         return () => {
             dispatch({type:"DEL", key: "surecoinlaunched"})
         }
+
     }, [])
-    
-    const PageHeader = (props) => {
 
-        return (
-            <h4 className="text-centr col-md-12 bg-primary p-2 text-enter justify-content-between">
-                Surecoin
-            </h4>
-        )
+    const isMutedToggle = () => {
+
+        if(userMuted) {
+            setLocalStorage("surecoinmuted", !userMuted, 1000 * 60 * 60 * 24 * 7)
+            setUserMuted(!userMuted)
+        } else {
+            setLocalStorage("surecoinmuted", true, 1000 * 60 * 60 * 24 * 7)
+            setUserMuted(true)
+        }
     }
-    return (
-        <div className="launched-sure-coin">
-            <PageHeader />
-            <div className="surecoin-body">
-                <div className="surecoin-main flex">
-                    <div className={`sure-coin-betting-section flex-col  w-8/12`}>
-                        <div className="sure-coin-header">
-                            <div className="">
-                                SureCoin
-                            </div>
+    
+    // const PageHeader = (props) => {
 
-                            <div className="">
-                                
+    //     return (
+    //         <div className="surecoin-top-bar bg-primary border-b !font-[300] !border-transparent mb-0">
+    //             <div className="row">
+    //                 <div className="col-4">
+    //                     <div className="px-2 surecoin-top-logo ">Surebet</div>
+    //                 </div>
+    //                 <div className="col-4">
+    //                     <button
+    //                         onClick={() => dispatch({type:"SET", key:"promptdepositrequest", payload:{show:true}})}
+    //                         className="btn btn-light-primary surecoin-deposit-btn">Deposit</button>
+    //                 </div>
+    //                 <div className="col-4 px-2">
+    //                     <Link to={"/"} className="hover:opacity-70"><IoIosClose className="float-end" size={40}/></Link>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     )
+    // }
+
+    
+    return (
+        <>
+
+        <div className="launched-sure-coin">
+            {/* <PageHeader /> */}
+            <div className="surecoin-body">
+                <div className="surecoin-main md:flex">
+                    <div className={`sure-coin-betting-section md:flex-col  w-full md:w-8/12`}>
+                        <div className="sure-coin-header row">
+                            <div className="col-4">
+                                SureCoin <span className=""><FaInfo className="inline-block md:hidden"/><button className="hidden md:inline-block basic-highlight-alert ml-3 font-[300] bg-[#f5a623] text-[#5f3816] rounded-md px-3">How to play</button></span>
+                            </div>
+                            <div className="col-8">
+                                <div className="float-end flex">
+                                    <div className="inline-block text-3xl" onClick={() => isMutedToggle()}>{userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}</div>
+                                    {/* <div className="border-l text-3xl border-gray-100 ml-2 pl-2"><FaCog className="inline-block"/></div>
+                                    <div className="border-l border-gray-100 ml-2 pl-2 text-3xl"><FaComments className="inline-block"/></div> */}
+                                </div>
                             </div>
                         </div>
                         <div className="casino-service-sure-coin">
@@ -92,7 +136,7 @@ const SureCoinIndex = (props) => {
                         </div>
                     </div>
                     
-                    <div className={`comments-settings flex-col w-4/12`}>
+                    <div className={`comments-settings md:flex-col md:w-4/12 w-full`}>
                         tabs <br/>
                         changes to comments and settings alternatively
                     </div>
@@ -103,6 +147,10 @@ const SureCoinIndex = (props) => {
                 </div>
             </div>
         </div>
+
+        {/* <DepositModal /> */}
+
+        </>
     )
 }
 

@@ -102,6 +102,7 @@
     background-color: rgb(11, 18, 27);
     height: 100vh;
     color: #ffffff;
+    overflow-y: auto;
 }
 
 .casino-page-close {
@@ -124,7 +125,7 @@
 }
 
 .launched-casino-wrapper .amt {
-    margin-top: 0 !important;
+    /* margin-top: 0 !important; */
 }
 .casino-icon {
     /* font-size: 10px; */
