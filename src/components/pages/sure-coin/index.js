@@ -10,7 +10,6 @@ import DepositModal from "../../webmodals/deposit-modal";
 import { BiSolidVolumeMute } from "react-icons/bi";
 import { FaVolumeHigh } from "react-icons/fa6";
 import SureCoinLogoImg from '../../../assets/img/svgicons/surecoin.svg';
-import Cookies from 'js-cookie';
 import makeRequest from "../../utils/fetch-request";
 
 const SureCoinIndex = (props) => {
@@ -29,16 +28,26 @@ const SureCoinIndex = (props) => {
     const [spinningOutcome, setSpinningOutcome] = useState([]);
     const [isFetchingOutcome, setIsFetchingOutcome] = useState(false);
     const [canBet, setCanBet] = useState(true);
-    const [checkingCanBet, setCheckingCanBet] = useState(false)
+    const [checkingCanBet, setCheckingCanBet] = useState(false);
+    const [newSessionId, setNewSessionId] = useState(null);
 
 
     // Dummy trigger
     useEffect(() => {
         if (dummyTriggerCounter == 10) {
             const timeoutId = setTimeout(() => {
-                getCanBetonCoin();
+                let generatedSession = null
+                if (state?.user?.profile_id != undefined) {
+                    let now = Date.now();
+                    generatedSession = state?.user?.profile_id + ":" + now
+                } else {
+                    dispatch({type:"SET", key:"showloginmodal", payload:true});
+                    return
+                }
+                setNewSessionId(generatedSession);
+                placeBet(generatedSession);
                 setDummyTriggerCounter(9)
-              }, 8000);
+              }, 30000);
             
             return;
         }
@@ -66,12 +75,17 @@ const SureCoinIndex = (props) => {
         }
     }
     
-    const getCanBetonCoin = () => {
+    const placeBet = () => {
     // get session id and use it
-    let session = Cookies.get('sessionid');
-    let endpoint = 'surecoin/canbet';
+    let endpoint = 'place-bet';
+    
+    // for now, take the first coin
+    
     setCheckingCanBet(true);
-    makeRequest({url: endpoint, method: 'POST', data: {session_id: session}, api_version:2}).then(([status, response]) => {
+    makeRequest({url: endpoint, 
+        method: 'POST',
+        data: {session_id: newSessionId},
+        api_version:2}).then(([status, response]) => {
         setCheckingCanBet(false);
         if(status == 200) {
             setIsSpinning(true);             
@@ -83,9 +97,9 @@ const SureCoinIndex = (props) => {
     })
    }
 
-    const getSpinOutcome = () => {
+    const getCoinRoll = () => {
         // get session id and use it
-        let session = Cookies.get('sessionid');
+        let session = newSessionId;
         let endpoint = 'surecoin/outcome';
         setIsFetchingOutcome(true);
         makeRequest({url: endpoint, method: 'POST', data: {session_id: session}, api_version:2}).then(([status, response]) => {
@@ -100,7 +114,7 @@ const SureCoinIndex = (props) => {
     
     useEffect(() => {
         if (isSpinning) {
-            getSpinOutcome();
+            getCoinRoll();
         }
     }, [isSpinning])
     

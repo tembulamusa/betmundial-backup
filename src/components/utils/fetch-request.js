@@ -6,6 +6,7 @@ const BASE_URL = 'https://apisb.surebet.co.ke/';
 const BASE2_URL = 'https://apisb.surebet.co.ke/bet-service';
 const ACCOUNTS_URL = 'https://api.surebet.co.ke';
 const CASINOFAZI = 'https://apisb.surebet.co.ke/fazi/casino/';
+const SURECOIN_URL = 'https://apisb.surebet.co.ke/v1/surecoin/user/';
 
 const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1, serviceType}) => {
 
@@ -17,6 +18,8 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
         } else {
             if (api_version == "faziCasino") {
                 url = CASINOFAZI + url
+            } else if (api_version == "sureCoin") {
+                url = SURECOIN_URL + url
             }
         }
     }
