@@ -74,13 +74,17 @@ const App = () => {
                         {!(state?.casinolaunch || state?.surecoinlaunched) && <Sidebar />}
                             <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": "col-md-7 home mx-auto"}`}>
                         <Routes>
-                            <Route exact path="/" element={<Index/>}/>
+                            {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
+                            {/* <Route exact path="/" element={<Index/>}/>
                             <Route exact path="/virtuals" element={<Casino/>}/>
                             <Route exact path="/virtuals/index" element={<Virtuals />}/>
                             <Route exact path="/virtuals/casino" element={<Casino />}/>
-                            <Route exact path="/livescore" element={<LiveScore/>}/>
+                            <Route exact path="/livescore" element={<LiveScore/>}/> */}
                             <Route exact path="/casino" element={<Casino/>}/>
-                            <Route exact path="/livecasino" element={<LiveCasino/>}/>
+
+                            {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
+
+                            {/* <Route exact path="/livecasino" element={<LiveCasino/>}/>
                             <Route exact path="/virtuals/launch/:game_id" element={<CasinoGamePlay/>}/>
                             <Route exact path="/highlights" element={<Index/>}/>
                             <Route exact path="/upcoming" element={<Index/>}/>
@@ -89,6 +93,11 @@ const App = () => {
                             <Route exact path="/competition/:sportid/:categoryid/:competitionid"
                                 element={<Index/>}/>
                             <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
+                            
+                            <Route exact path="/print-matches" element={<PrintMatches/>}/>                            
+                            <Route exact path="/promotions" element={<Promotions/>}/>
+                            */}
+
                             <Route exact path="/casino/:name" element={<CasinoLaunchedGame />}/>
                             <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
                             <Route exact path="/jackpot" element={<Jackpot/>}/>
@@ -109,10 +118,8 @@ const App = () => {
                             <Route exact path="/verify-account" element={<VerifyAccount/>}/>
                             <Route exact path="/app" element={<MobileApp/>}/>
                             <Route exact path="/logout" element={<Logout/>}/>
-                            <Route exact path="/print-matches" element={<PrintMatches/>}/>
                             <Route path="/check-deposit-status" element={<CheckDepositStatus />} />
                             <Route exact path="/exclude" element={<Exclude/>}/>
-                            <Route exact path="/promotions" element={<Promotions/>}/>
                             <Route exact path="/surecoin" element={<SureCoin/>}/>
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
@@ -120,7 +127,10 @@ const App = () => {
                                 element={<ProtectedRoute><Withdraw/></ProtectedRoute>}/>
                             <Route exact path="/my-bets"
                                 element={<ProtectedRoute><MyBets/> </ProtectedRoute>}/>
-                            <Route path="*" element={<Index/>}/>
+
+                            {/* DEFAULT CUrrently the default component. Switch to INDEX when SPORTS AVAILABLE */}
+                            <Route path="*" element={<Casino/>}/>
+
                             </Routes>
                     </div>
                     {!(state?.casinolaunch || state?.surecoinlaunched) && <Right />}           

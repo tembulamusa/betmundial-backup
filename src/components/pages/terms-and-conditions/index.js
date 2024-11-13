@@ -44,22 +44,22 @@ const TermsAndConditions = (props) => {
                     <h4 className="inline-block"> Terms and Conditions </h4>
                 </div>
                 <div className="col-md-12 py-2 px-4">
-                    Please ensure that You read and understand these terms prior to using the Service. The terms contain important information about the
-                    legal agreement between You and us and provide information about what other documents form part of our relationship with You.
+                    Please ensure that You read and understand these terms prior to using the Service. Acceptance of 
+                    these terms and conditions is a personal undertaking to be bound by these Terms. If you do not accept 
+                    these Terms, please do not use Surebets’s Services. The terms contain important information about the 
+                    legal agreement between You and Us and provide information about what other documents form part of our 
+                    relationship with You.
 
-                    In these General Terms and Conditions (“hereinafter “The Terms”):•
+                    <p>In these General Terms and Conditions (“hereinafter <strong>“The Terms”</strong>):</p>
 
-                    Reference to “surebet” “We” “our” or “us” is reference to Element Gaming Limited, surebet and or its
-                    successors in title and assigns.
+                    <p>•	Reference to “Surebet” “We” “our” or “Us” is reference to Risecom Limited, Surebet and or its successors in title and assigns;</p>
+                    <p>•	Risecom Limited t/a Surebet, is licensed and regulated by the Betting Control and Licensing Board of Kenya (“BCLB”) under the Betting, Lotteries and Gaming Act, Cap 131, Laws of Kenya;</p>
+                    <p>•	Surebet is a licensed trademark owned and operated by Risecom Limited and/or its affiliates and group companies. Risecom Limited is a company registered under the Companies Act of Kenya, 2015 and having its registered address at 1st floor, Milestone Business Center Kiambu Road, Ridgeways, Nairobi and postal address at P.O. Box 2772-00606 (Sarit Centre) Nairobi.</p>
+                    <p>•	Reference to “You” “Your’ the “Player” or “Customer(s)” is reference to any person using the Service.</p>
+                    <p>•	Reference to "Applicable Laws" means all duly promulgated applicable state and local laws, regulations, rules, ordinances, codes, decrees, judgments, directives, judicial or administrative orders, permits and other duly authorized actions of any government authority having the force of law in the Republic of Kenya as they may be issued and enforced from time to time.</p>
+                    <p>•	Reference to "Data Protection Laws" means any law, statute, subordinate legislation, regulation, order, mandatory guidance or code of practice, judgment of a relevant court of law, or directives or requirements of any regulatory body which relates to the protection of individuals with regard to the processing of personal data to which You are subject including the Data Protection Act, 2019 and any statutory modification or re-enactment thereof.</p>
+                    <p>•	It is important that you read these Terms together with any other policy (including our Data protection policy or any privacy policy we may provide on specific occasions when we are collecting or processing personal data about You so that You are fully aware of how and why we are using your Personal Data. These Terms supplement other policies and terms and is not intended to override them. We also recommend that you print a copy of these Terms for future reference.</p>
 
-                    • Element Gaming Limited is licensed and regulated by the Betting Control and Licensing Board of Kenya
-                    (“BCLB”) under the Betting, Lotteries and Gaming Act, Cap 131, Laws of Kenya
-
-                    • surebet is a licensed trademark owned by Element Gaming Limited, a company registered under the Laws of
-                    Kenya and having its registered address at 3rd Floor, Utalii House, Utalii Street, Nairobi and P.O. Box
-                    2772 - 00606
-
-                    • Reference to “You” “Your’ the “Player” or “Customer(s)” is reference to any person using the Service.
                 </div>
 
                 <div className="col-md-12 py-5 px-4">
@@ -75,7 +75,7 @@ const TermsAndConditions = (props) => {
                                 by surebet as described in paragraph 1.2. below. By using the Service, You agree to be bound by these Terms
                                 and Conditions.</p>
                                 <p>1.2.  The Service includes:</p>
-                                <p>1.2.1. surebet’s Website (www.surebet.com) and any other remote product We may offer from time to time |(“Website”);</p>
+                                <p>1.2.1. surebet’s Website (www.surebet.co.ke) and any other remote product We may offer from time to time |(“Website”);</p>
                                 <p>1.2.2. surebet’s Tele-betting services i.e. betting via USSD or SMS; and</p>
 
                                 <p>1.3. The Terms apply equally irrespective of whether the Service is accessed via telephone, desktop browser, mobile
@@ -327,8 +327,12 @@ const TermsAndConditions = (props) => {
                             <AccordionItemPanel>
                                 <p>16.1. The Service is intended solely for personal and non-commercial use by Players. In any event, no one is authorised to copy, modify, tamper with, distribute, transmit, display, reproduce, upload or otherwise alter the content of our Service.</p>
                                 <p>.</p>
-                                <p>16.2. You are not the owner of the Software; the Software is owned and is exclusive property of Us, the licensor, an associate, or a third party software provider company, (the "Software Provider"). The Software used and offered, and associated documentation are proprietary products of the Software Provider and it is protected through the world by copyright law. surebet is the sole owner of the trademark surebet and the surebet logo. Any unauthorized use of any URL containing surebet and or the surebet logo may result in prosecution. Your use of the Software does not allow You or grant You any right of any intellectual property right in the Software.  surebet is the owner or the rightful licensee of the rights to the technology, software and business systems used within this Website; this also includes, but is not limited to, the special promotional software and intellectual property of this concept. The contents and structure of the surebet Website pages are subject to copyright © and database right in the name of Element Gaming Limited. All rights reserved. The copyright in this Website including all text, graphics, code, files and links belongs to Element Gaming Limited and the site may not be reproduced, transmitted or stored in whole or in part without Element Gaming Limited’s written consent.</p>
-                                <p></p>
+                                <p>16.2. You are not the owner of the Software; the Software is owned and is exclusive property of Us, the licensor, an associate, or a third-party software provider company, (the "Software Provider"). 
+                                    The Software used and offered, and associated documentation are proprietary products of the Software Provider and it is protected through the world by copyright law. surebet is the sole owner of the trademark surebet and the surebet logo.
+                                    Any unauthorized use of any URL containing surebet and or the surebet logo may result in prosecution. Your use of the Software does not allow You or grant You any right of any intellectual property right in the Software. 
+                                    surebet is the owner or the rightful licensee of the rights to the technology, software and business systems used within this Website; this also includes, but is not limited to, the special promotional software and intellectual property of this concept. 
+                                    The contents and structure of the surebet Website pages are subject to copyright © and database right in the name of Risecom Limited. All rights reserved. The copyright in this Website including all text, graphics, code, files and links belongs to Risecom Limited and the site may not be reproduced, transmitted or stored in whole or in part without Risecom Limited’s written consent.
+                                </p>
                             </AccordionItemPanel>
                         </AccordionItem>                        
 
