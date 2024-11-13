@@ -6,7 +6,7 @@ import Sound1 from "../../../assets/audio/surecoin/coin-spill.mp3";
 import { Context } from "../../../context/store";
 
 const RotatingCoin = (props) => {
-    const {starttime, endtime, isspinning, enddelay, coinnumber} = props;
+    const {starttime, endtime, isspinning, enddelay, coinnumber, usermuted} = props;
     const [timeLeft, setTimeLeft] = useState(endtime - starttime);
     const [endDelay, setEndDelay] = useState(0);
     const [isSpinning, setIsSpinning] = useState(false);
@@ -19,7 +19,6 @@ const RotatingCoin = (props) => {
     useEffect(() => {
         if (isspinning == true) {
             setIsSpinning(true);
-            
             setTimeLeft((endtime - starttime) + (enddelay || 0))
         }
     }, [isspinning]);
@@ -65,38 +64,39 @@ const RotatingCoin = (props) => {
 
     // paly the sound
     useEffect(() => {
-        const audio = new Audio(Sound1);
-        const audio2 = new Audio(Sound2);
+        if (!usermuted) {
+            const audio = new Audio(Sound1);
+            const audio2 = new Audio(Sound2);
 
-        if(isSpinning == false) {
-            audio.pause();
-            audio2.pause(); 
-        }
-        if (isSpinning == true) {
-            // let timetogo = timeLeft()
-            // audio.loop = true;
-            audio.play();
-            audio2.pause();
+            if(isSpinning == false) {
+                audio.pause();
+                audio2.pause(); 
+            }
+            if (isSpinning == true) {
+                // let timetogo = timeLeft()
+                // audio.loop = true;
+                audio.play();
+                audio2.pause();
 
-                if (timeLeft <= 3) {
-                    if(audio2.paused) {
-                        audio2.play()
-                        audio.pause()
-                    }  
-                } else {
-                    if(!audio2.paused) {
-                        audio2.pause();
+                    if (timeLeft <= 3) {
+                        if(audio2.paused) {
+                            audio2.play()
+                            audio.pause()
+                        }  
+                    } else {
+                        if(!audio2.paused) {
+                            audio2.pause();
+                        }
                     }
-                }
-            
-        } else if (isSpinning == false) {
-            audio2.pause();
-            audio.pause()
-        } else {
-            audio2.pause();
-            audio.pause();
+                
+            } else if (isSpinning == false) {
+                audio2.pause();
+                audio.pause()
+            } else {
+                audio2.pause();
+                audio.pause();
+            }
         }
-        
             
     }, [isSpinning]);
     

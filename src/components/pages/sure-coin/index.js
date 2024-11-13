@@ -2,13 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import RotatingCoin from "./rotating-coin";
 import CoinStakeChoice from "./coin-stake-choice";
 import { Context } from "../../../context/store";
-import { FaCog, FaComments, FaInfo } from "react-icons/fa";
+import { FaCog, FaComments, FaInfo, FaQuestion } from "react-icons/fa";
 import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 import { IoIosClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import DepositModal from "../../webmodals/deposit-modal";
 import { BiSolidVolumeMute } from "react-icons/bi";
 import { FaVolumeHigh } from "react-icons/fa6";
+import SureCoinLogoImg from '../../../assets/img/svgicons/surecoin.svg';
+import Cookies from 'js-cookie';
+import makeRequest from "../../utils/fetch-request";
 
 const SureCoinIndex = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -23,15 +26,19 @@ const SureCoinIndex = (props) => {
     const [dummyTriggerCounter, setDummyTriggerCounter] = useState(0);
     const [userBal, setUserBal] = useState(0.00);
     const [userMuted, setUserMuted] = useState(getFromLocalStorage("surecoinmuted"));
+    const [spinningOutcome, setSpinningOutcome] = useState([]);
+    const [isFetchingOutcome, setIsFetchingOutcome] = useState(false);
+    const [canBet, setCanBet] = useState(true);
+    const [checkingCanBet, setCheckingCanBet] = useState(false)
 
 
     // Dummy trigger
     useEffect(() => {
         if (dummyTriggerCounter == 10) {
             const timeoutId = setTimeout(() => {
-                setIsSpinning(true);
+                getCanBetonCoin();
                 setDummyTriggerCounter(9)
-              }, 7000);
+              }, 8000);
             
             return;
         }
@@ -48,28 +55,54 @@ const SureCoinIndex = (props) => {
         return () => clearInterval(timer); // Cleanup on unmount
     }, [dummyTriggerCounter]);
 
-    useEffect(() => {
-        dispatch({type:"SET", key:"surecoinlaunched", payload:true})
-        let userBalance = getFromLocalStorage("user");
-        if(userBalance && userBalance.balance) {
-            setUserBal(userBalance.balance);
-        }
-        return () => {
-            dispatch({type:"DEL", key: "surecoinlaunched"})
-        }
-
-    }, [])
-
     const isMutedToggle = () => {
 
         if(userMuted) {
             setLocalStorage("surecoinmuted", !userMuted, 1000 * 60 * 60 * 24 * 7)
-            setUserMuted(!userMuted)
+            setUserMuted(!userMuted);
         } else {
             setLocalStorage("surecoinmuted", true, 1000 * 60 * 60 * 24 * 7)
             setUserMuted(true)
         }
     }
+    
+    const getCanBetonCoin = () => {
+    // get session id and use it
+    let session = Cookies.get('sessionid');
+    let endpoint = 'surecoin/canbet';
+    setCheckingCanBet(true);
+    makeRequest({url: endpoint, method: 'POST', data: {session_id: session}, api_version:2}).then(([status, response]) => {
+        setCheckingCanBet(false);
+        if(status == 200) {
+            setIsSpinning(true);             
+            setCanBet(true);
+        } else {
+            setIsSpinning(false);
+            setCanBet(false);
+        }
+    })
+   }
+
+    const getSpinOutcome = () => {
+        // get session id and use it
+        let session = Cookies.get('sessionid');
+        let endpoint = 'surecoin/outcome';
+        setIsFetchingOutcome(true);
+        makeRequest({url: endpoint, method: 'POST', data: {session_id: session}, api_version:2}).then(([status, response]) => {
+            setIsFetchingOutcome(false);
+            if(status == 200) {                
+                setSpinningOutcome(response);
+            } else {
+                setSpinningOutcome(["failed"]);
+            }
+        })
+    }
+    
+    useEffect(() => {
+        if (isSpinning) {
+            getSpinOutcome();
+        }
+    }, [isSpinning])
     
     // const PageHeader = (props) => {
 
@@ -103,7 +136,7 @@ const SureCoinIndex = (props) => {
                     <div className={`sure-coin-betting-section md:flex-col  w-full md:w-8/12`}>
                         <div className="sure-coin-header row">
                             <div className="col-4">
-                                SureCoin <span className=""><FaInfo className="inline-block md:hidden"/><button className="hidden md:inline-block basic-highlight-alert ml-3 font-[300] bg-[#f5a623] text-[#5f3816] rounded-md px-3">How to play</button></span>
+                                <div className="flex"><img src={SureCoinLogoImg} className="surecoin-logo-img" /> SureCoin <span className=""><FaQuestion className="inline-block md:hidden"/><button className="hidden md:inline-block basic-highlight-alert ml-3 font-[300] bg-[#f5a623] text-[#5f3816] rounded-md px-3">How to play</button></span></div>
                             </div>
                             <div className="col-8">
                                 <div className="float-end flex">
@@ -116,7 +149,18 @@ const SureCoinIndex = (props) => {
                         <div className="casino-service-sure-coin">
                             <div className="rotating-images-wrapper coin-sections">
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (
-                                    <div className="rotating-image-container"><RotatingCoin coinnumber={idx + 1} starttime={timeToStart} endtime={timeToEnd} isspinning={isSpinning} ispostingchoices={isPostingChoices} preparingtospin={preparingToSpin}/></div>
+                                    <div className="rotating-image-container">
+                                        <RotatingCoin 
+                                            spinningoutcome = {spinningOutcome}
+                                            coinnumber={idx + 1}
+                                            starttime={timeToStart}
+                                            endtime={timeToEnd}
+                                            isspinning={isSpinning}
+                                            usermuted={userMuted}
+                                            ispostingchoices={isPostingChoices}
+                                            preparingtospin={preparingToSpin}/>
+
+                                    </div>
                                 ))}
                             </div>
                             {/* the add sections */}
@@ -128,6 +172,7 @@ const SureCoinIndex = (props) => {
                                             starttime={timeToStart}
                                             endtime={timeToEnd}
                                             isspinning={isSpinning}
+                                            spinningoutcome = {spinningOutcome}
                                             ispostingchoices={isPostingChoices}
                                         />
                                     </div>
@@ -136,10 +181,10 @@ const SureCoinIndex = (props) => {
                         </div>
                     </div>
                     
-                    <div className={`comments-settings md:flex-col md:w-4/12 w-full`}>
+                    {/* <div className={`comments-settings md:flex-col md:w-4/12 w-full`}>
                         tabs <br/>
                         changes to comments and settings alternatively
-                    </div>
+                    </div> */}
                 </div>
                 
                 <div className="additional-data">
