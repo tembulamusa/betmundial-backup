@@ -207,6 +207,18 @@ const SureCoinIndex = (props) => {
                             </div>
                         </div>
                         <div className="casino-service-sure-coin">
+                            <div className="coin-count-down">Counting Down: 29</div>
+                            <div className="coin-quick-stats">
+                              <div>Statistics: Coin Spin Round  67 </div>
+                              <hr />
+                              <div className="scores">
+                                  <div> Heads: 55% </div> <div> Tails: 45% </div>
+                              </div>
+
+                              <div className="scores">
+                                  <div> Bets on Heads: KES 20,000 </div> <div> Bets on Tails: KES 25,000 </div>
+                              </div>
+                            </div>
                             <div className="rotating-images-wrapper coin-sections">
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (
                                     <div className="rotating-image-container">
@@ -223,6 +235,7 @@ const SureCoinIndex = (props) => {
 
                                     </div>
                                 ))}
+                            <div className="coin-taking-bets">TAKING BETS: 29..</div>
                             </div>
                             {/* the add sections */}
                             <div className="bet-control">

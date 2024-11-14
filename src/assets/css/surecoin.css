@@ -1,6 +1,7 @@
 .rotating-images-wrapper {
     /* display: flex; */
     clear: both;
+    position:relative;
 }
 
 .rotating-image-container {
@@ -13,7 +14,7 @@
     /* height: 200px; */
     /* position: absolute; */
     padding: 10%;
-    max-width: 250px;
+    max-width: 450px;
     margin: auto;
 }
 .rotating-img.is-spinning {
@@ -34,33 +35,37 @@
 }
 
 .surecoin-body {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-    /* margin-top: 5%; */
   }
 
   .sure-coin-header {
-    background: rgba(255, 255,255, 0.05);
+    background: #000;
     height: 40px;
     padding: 5px 10px;
     font-weight: 500;
     border-radius: 5;
     margin-left: 0;
     margin-right: 0;
+    color:#fff;
 }
 .casino-service-sure-coin {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: #242424;
     padding: 10px 5px;
+    position:relative;
 }
 
 .coin-settings {
-    background: rgba(255, 255,255, 0.07);
+    background: #070d12;
     padding-left: 15px;
     margin-bottom: 10px;
     border-radius: 10px;
+    color:#fff;
 }
-
+.launched-sure-coin{
+   min-height:100%;
+   display: flex;
+   flex-direction: column;
+    background:#242424;
+}
 .sure-coin-amount-input-section {
     background: rgba(0, 0, 0, 0.8);
     border-radius: 20px;
@@ -149,4 +154,31 @@
         max-width: 100px !important;
     }
 
+}
+.coin-count-down {
+	position: absolute;
+	color: yellow;
+	padding: 10px;
+	font-weight: 500;
+	opacity: 0.9;
+}
+
+.coin-quick-stats {
+	position: absolute;
+	right: 10px;
+	border: 1px solid #fff;
+	color: #fff;
+	padding: 12px;
+	border-radius: 10px;
+	line-height: 30px;
+}
+.coin-taking-bets{
+	position: absolute;
+	bottom: 10px;
+	border: 1px solid #fff;
+	color: #fff;
+	padding: 12px;
+	border-radius: 10px;
+    line-height: 23px;
+    min-width: 25%;
 }
