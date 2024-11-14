@@ -6,23 +6,35 @@ import Sound1 from "../../../assets/audio/surecoin/coin-spill.mp3";
 import { Context } from "../../../context/store";
 
 const RotatingCoin = (props) => {
-    const {starttime, endtime, isspinning, enddelay, coinnumber, usermuted} = props;
+    const {starttime, endtime, isspinning, enddelay, coinnumber, usermuted, rslt, cvterfxn} = props;
     const [timeLeft, setTimeLeft] = useState(endtime - starttime);
     const [endDelay, setEndDelay] = useState(0);
     const [isSpinning, setIsSpinning] = useState(false);
     const [state, dispatch] = useContext(Context);
     const [rotatingSpeedLevel, setRotatingSpeedLevel] = useState("low");
     const [canPlaySound, setCanPlaySound] = useState(false);
-    
+    const [winState, setWinState] = useState(null);
 
     
     useEffect(() => {
         if (isspinning == true) {
             setIsSpinning(true);
             setTimeLeft((endtime - starttime) + (enddelay || 0))
+        } else {
+            if (cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM]) {
+                setWinState("won");
+            } else {
+                setWinState("lost");
+            }
+            setTimeout(() => {setWinState(null)}, 3000)
         }
     }, [isspinning]);
 
+    useEffect(() => {
+        if(winState) {
+            console.log("WIN CHANGED")
+        }
+    }, [winState])
     useEffect(() => {
         setEndDelay(Math.random() * (5 - 0 + 1));
     }, [])
@@ -62,6 +74,7 @@ const RotatingCoin = (props) => {
         
     }, [timeLeft])
 
+    
     // paly the sound
     useEffect(() => {
         if (!usermuted) {
@@ -104,7 +117,7 @@ const RotatingCoin = (props) => {
         <>
             {/* Header Display */}
             <div className={`rotating-img  ${isSpinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`} onClick={() => setCanPlaySound()}>
-                <img src={state?.coinselections?.coinnumber == "heads" ? Head : Tail } alt=""/>
+                <div className={`win-state ${winState}`}><img src={state?.coinselections?.coinnumber == "heads" ? Head : Tail } alt=""/></div>
             </div>
         </>
     )

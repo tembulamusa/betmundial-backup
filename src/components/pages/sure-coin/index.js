@@ -11,6 +11,10 @@ import { BiSolidVolumeMute } from "react-icons/bi";
 import { FaVolumeHigh } from "react-icons/fa6";
 import SureCoinLogoImg from '../../../assets/img/svgicons/surecoin.svg';
 import makeRequest from "../../utils/fetch-request";
+import CryptoJS from "crypto-js";
+import Notify from "../../utils/Notify";
+import { error } from "logrocket";
+
 
 const SureCoinIndex = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -22,14 +26,18 @@ const SureCoinIndex = (props) => {
     const [isPostingChoices, setIsPostingChoices] = useState(false);
     const [isSpinning, setIsSpinning] = useState(false);
     const [preparingToSpin, setPreparingToSpin] = useState(false);
-    const [dummyTriggerCounter, setDummyTriggerCounter] = useState(0);
+    const [dummyTriggerCounter, setDummyTriggerCounter] = useState(9);
     const [userBal, setUserBal] = useState(0.00);
     const [userMuted, setUserMuted] = useState(getFromLocalStorage("surecoinmuted"));
-    const [spinningOutcome, setSpinningOutcome] = useState([]);
+    const [cROTCM, setCROTCM] = useState([]);
     const [isFetchingOutcome, setIsFetchingOutcome] = useState(false);
     const [canBet, setCanBet] = useState(true);
     const [checkingCanBet, setCheckingCanBet] = useState(false);
     const [newSessionId, setNewSessionId] = useState(null);
+    const [bTDI, setBTDI] = useState(null);
+    const [canPlay, setCanPlay] = useState(false);
+    const [bIDrslts, setBIDrslts] = useState(null);
+    const [coinsAlertMsg, setCoinsAlertMsg] = useState(null);
 
 
     // Dummy trigger
@@ -37,7 +45,7 @@ const SureCoinIndex = (props) => {
         if (dummyTriggerCounter == 10) {
             const timeoutId = setTimeout(() => {
                 let generatedSession = null
-                if (state?.user?.profile_id != undefined) {
+                if (state?.user?.profile_id) {
                     let now = Date.now();
                     generatedSession = state?.user?.profile_id + ":" + now
                 } else {
@@ -47,7 +55,7 @@ const SureCoinIndex = (props) => {
                 setNewSessionId(generatedSession);
                 placeBet(generatedSession);
                 setDummyTriggerCounter(9)
-              }, 30000);
+              }, 5000);
             
             return;
         }
@@ -74,49 +82,84 @@ const SureCoinIndex = (props) => {
             setUserMuted(true)
         }
     }
+
+    function elizabeth(encryptedData, encryptionKey) {
+        try {
+            // Adjust key to ensure it is 128-bit (16 characters)
+        const adjustedKey = encryptionKey.padEnd(16, '0').substring(0, 16);
     
-    const placeBet = () => {
-    // get session id and use it
-    let endpoint = 'place-bet';
+        // Convert adjustedKey to a WordArray for use with CryptoJS
+        const key = CryptoJS.enc.Utf8.parse(adjustedKey);
     
-    // for now, take the first coin
+        // Decode the base64 encoded encrypted data
+        const encryptedBytes = CryptoJS.enc.Base64.parse(encryptedData);
     
-    setCheckingCanBet(true);
-    makeRequest({url: endpoint, 
-        method: 'POST',
-        data: {session_id: newSessionId},
-        api_version:2}).then(([status, response]) => {
-        setCheckingCanBet(false);
-        if(status == 200) {
-            setIsSpinning(true);             
-            setCanBet(true);
-        } else {
-            setIsSpinning(false);
-            setCanBet(false);
+        // Decrypt the data using AES with the parsed key
+        const decryptedBytes = CryptoJS.AES.decrypt(
+            { ciphertext: encryptedBytes },
+            key,
+            {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+            }
+        );
+    
+        // Convert decrypted data to a UTF-8 string
+        const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        // Parse and return the JSON if it is in JSON format
+        return JSON.parse(decryptedData);
+        } catch (error) {
+        return null;
         }
-    })
+  }
+  
+
+    const placeBet = (session) => {
+        // get session id and use it
+        let endpoint = 'place-bet';
+        // for now, take the first coin
+
+        setCheckingCanBet(true);
+        makeRequest({url: endpoint, 
+            method: 'POST',
+            data: {session_id: session, profile_id: state?.user?.profile_id, coin_side: state?.coinselections?.[1]?.pick?.toUpperCase(), bet_amount: state?.coinselections?.[1]?.amount},
+            api_version:"sureCoin"}).then(([status, response]) => {
+            setCheckingCanBet(false);
+            if(status == 200) {
+                setIsSpinning(true);
+                setCanBet(true);
+                let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
+                console.log("THE PLACED BET +++++++  === ", cpBt)
+                if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
+                    setTimeout(() => {getCoinRoll(cpBt?.[process.env.REACT_APP_BID])}, 2000)
+                } else {
+                    setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"})
+                }
+                
+            } else {
+                setCoinsAlertMsg({status:400, message: response?.error?.mesage || response?.result || "An Error occurred"})
+            }
+        })
    }
 
-    const getCoinRoll = () => {
+    const getCoinRoll = (btID) => {
         // get session id and use it
-        let session = newSessionId;
-        let endpoint = 'surecoin/outcome';
+        let endpoint = 'coin-roll';
         setIsFetchingOutcome(true);
-        makeRequest({url: endpoint, method: 'POST', data: {session_id: session}, api_version:2}).then(([status, response]) => {
+        makeRequest({url: endpoint,
+                method: 'POST',
+                data: {session_id: newSessionId, bet_id: btID, profile_id: state?.user?.profile_id},
+                api_version:'sureCoin'}).then(([status, response]) => {
             setIsFetchingOutcome(false);
-            if(status == 200) {                
-                setSpinningOutcome(response);
+            let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
+            console.log("THE BET OUTCOME BET :::::::::::  === ", cpBt)
+            if(status == 200) {
+                setBIDrslts(response);
             } else {
-                setSpinningOutcome(["failed"]);
+                setCoinsAlertMsg({status: 400, mesage: "An error occurred"});
             }
         })
     }
-    
-    useEffect(() => {
-        if (isSpinning) {
-            getCoinRoll();
-        }
-    }, [isSpinning])
     
     // const PageHeader = (props) => {
 
@@ -148,7 +191,10 @@ const SureCoinIndex = (props) => {
             <div className="surecoin-body">
                 <div className="surecoin-main md:flex">
                     <div className={`sure-coin-betting-section md:flex-col  w-full md:w-8/12`}>
-                        <div className="sure-coin-header row">
+                        <div className="sure-coin-header row relative">
+                            {coinsAlertMsg && 
+                                <div className={`sure-alert height-hide ${coinsAlertMsg.status == 200 ? "success" : "error"}`}>{coinsAlertMsg.message}</div>
+                            }
                             <div className="col-4">
                                 <div className="flex"><img src={SureCoinLogoImg} className="surecoin-logo-img" /> SureCoin <span className=""><FaQuestion className="inline-block md:hidden"/><button className="hidden md:inline-block basic-highlight-alert ml-3 font-[300] bg-[#f5a623] text-[#5f3816] rounded-md px-3">How to play</button></span></div>
                             </div>
@@ -165,13 +211,14 @@ const SureCoinIndex = (props) => {
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (
                                     <div className="rotating-image-container">
                                         <RotatingCoin 
-                                            spinningoutcome = {spinningOutcome}
                                             coinnumber={idx + 1}
                                             starttime={timeToStart}
                                             endtime={timeToEnd}
                                             isspinning={isSpinning}
                                             usermuted={userMuted}
                                             ispostingchoices={isPostingChoices}
+                                            rslt = {bIDrslts}
+                                            cvterfxn = {elizabeth}
                                             preparingtospin={preparingToSpin}/>
 
                                     </div>
@@ -186,7 +233,8 @@ const SureCoinIndex = (props) => {
                                             starttime={timeToStart}
                                             endtime={timeToEnd}
                                             isspinning={isSpinning}
-                                            spinningoutcome = {spinningOutcome}
+                                            rslt = {bIDrslts}
+                                            cvterfxn = {elizabeth}
                                             ispostingchoices={isPostingChoices}
                                         />
                                     </div>
@@ -208,10 +256,11 @@ const SureCoinIndex = (props) => {
         </div>
 
         {/* <DepositModal /> */}
-
+        
         </>
     )
 }
+
 
 
 export default React.memo(SureCoinIndex)

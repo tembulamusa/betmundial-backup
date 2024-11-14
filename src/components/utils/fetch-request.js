@@ -77,8 +77,12 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
             request['body'] = JSON.stringify(data)
         }
         const response = await fetch(url, request);
-        
-        let result = await response?.json();
+        let result;
+        if (api_version == "sureCoin") {
+            result = await response?.text()
+        } else {
+            result = await response?.json();
+        }
         let status = response?.status;
         return [status, result];
     } catch (err) {

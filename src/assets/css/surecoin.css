@@ -124,6 +124,15 @@
     margin-right: 7px;
     color: #bb0243;
 }
+.win-state {
+    padding: 20px;
+}
+.win-state.won {
+    background: green;
+}
+.win-state.lost {
+    background: #bb0243;
+}
 @media screen and (max-width: 648px) {
     .surecoin-body {
         width: 98%;

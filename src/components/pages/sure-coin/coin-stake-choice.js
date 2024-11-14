@@ -4,10 +4,9 @@ import { Context } from "../../../context/store";
 import { FaMinus } from "react-icons/fa";
 import { CgAdd, CgRemove } from "react-icons/cg";
 import { Switch } from "@mui/material";
-import CryptoJS from "crypto-js";
 
 const CoinStakeChoice = (props) => {
-    const {coinnumber, isspinning, istakingbets, spinningoutcome} = props;
+    const {coinnumber, isspinning, istakingbets, spinningoutcome, rslt, cvterfxn} = props;
     const [amount, setAmount] = useState(10);
     const [choice, setChoice] = useState("head");
     const [state, dispatch] = useContext(Context);
@@ -16,15 +15,9 @@ const CoinStakeChoice = (props) => {
     const [defaultAmountChange, setDefaultAmountChange] = useState(10);
     const [minimumBetAmount, setMinimumAmount] = useState(5);
     const [netWinning, setNetWinning] = useState();
-    const [pickedBtn, setPickedBtn] = useState(false);
+    const [pickedBtn, setPickedBtn] = useState("heads");
     const [autoPick, setAutoPick] =  useState(false);
     const [autoPicksLeft, setAutoPicksLeft] = useState(1);
-
-
-
-    useEffect(() => {
-        // update the choice
-    }, [amount, choice]);
 
 
     const setcanplayTheitems = () => {
@@ -57,25 +50,21 @@ const CoinStakeChoice = (props) => {
 
     const pickClick = (pick) => {
         if (pick === "tails") {
-            if (pickedBtn === "tails") {
-                setPickedBtn(null);
-            } else {
-                setPickedBtn("tails");
-                dispatch({type:"SET",
-                    key: "coinselections",
-                    payload: state?.coinselections ? {...state?.coinselections, coinnumber:"tails"} : {coinnumber: "tails"}})
-            }
+            setPickedBtn("tails");
         } else if (pick === "heads") {
-            if (pickedBtn === "heads") {
-                setPickedBtn(null);
-            } else {
-                setPickedBtn("heads");
-                dispatch({type:"SET", key: "coinselections", payload: state?.coinselections ? {...state?.coinselections, coinnumber:"heads"} : {coinnumber: "heads"}})
-
-            }
+            setPickedBtn("heads");
         }
 
     }
+
+    
+    useEffect(() => {
+        if (amount) {
+            dispatch({type:"SET",
+                key: "coinselections",
+                payload: state?.coinselections ? {...state?.coinselections, [coinnumber]:{pick: pickedBtn, amount: amount}} : {[coinnumber]: {pick: pickedBtn, amount:amount}}})
+        }
+    }, [amount, pickedBtn])
 
     const autoPickToggle = () => {
         setAutoPick(!autoPick)
@@ -84,24 +73,7 @@ const CoinStakeChoice = (props) => {
         setAutoPicksLeft(parseInt(ev.target.value))
     }
 
-    // Decode the data on the client side
-    const decryptedBytes = CryptoJS.AES.decrypt(spinningoutcome, CryptoJS.enc.Utf8.parse(process.env.OTCMEKEY), {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-    });
-
-    const usefullStringOutcome = (outcomestring) => {
-        if (spinningoutcome == "failed") {
-            // send the failed signal by negating the pick
-
-        } else {
-            let deciferredString = decryptedBytes.toString(CryptoJS.enc.Utf8);
-            // for each of the decoded results, send them immediately they are done playing.
-            // In fact each of the buttons should find the random time from the parent. It's work is just to spin
-            // 
-
-        }
-    };
+    
 
     return (
         <>

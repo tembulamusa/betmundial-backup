@@ -14,6 +14,7 @@ import './assets/css/sidebar-menu.css';
 import './assets/css/surecoin.css';
 import './assets/css/casino.css';
 import './index.css';
+import 'react-toastify/dist/ReactToastify.css'
 import Store from './context/store';
 import Index from './components/index';
 import MatchAllMarkets from './components/all-markets';
