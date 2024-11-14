@@ -18,7 +18,7 @@ const CoinStakeChoice = (props) => {
     const [pickedBtn, setPickedBtn] = useState("heads");
     const [autoPick, setAutoPick] =  useState(false);
     const [autoPicksLeft, setAutoPicksLeft] = useState(1);
-
+    const [userPlaceBetOn, setUserPlaceBetOn] = useState(false);
 
     const setcanplayTheitems = () => {
         let itemtoplay = 'canplayitems-' + coinnumber;
@@ -48,6 +48,17 @@ const CoinStakeChoice = (props) => {
         }
     }
 
+    useEffect(() => {
+        if (isspinning == false) {
+
+            setUserPlaceBetOn(false);            
+            if (autoPick == true && autoPicksLeft > 0) {
+                setUserPlaceBetOn(true);
+            }
+            
+        }
+    }, [isspinning, autoPick, autoPicksLeft])
+
     const pickClick = (pick) => {
         if (pick === "tails") {
             setPickedBtn("tails");
@@ -62,9 +73,9 @@ const CoinStakeChoice = (props) => {
         if (amount) {
             dispatch({type:"SET",
                 key: "coinselections",
-                payload: state?.coinselections ? {...state?.coinselections, [coinnumber]:{pick: pickedBtn, amount: amount}} : {[coinnumber]: {pick: pickedBtn, amount:amount}}})
+                payload: state?.coinselections ? {...state?.coinselections, [coinnumber]:{pick: pickedBtn, amount: amount, userbeton:userPlaceBetOn}} : {[coinnumber]: {pick: pickedBtn, amount:amount, userbeton:userPlaceBetOn}}})
         }
-    }, [amount, pickedBtn])
+    }, [amount, pickedBtn, userPlaceBetOn])
 
     const autoPickToggle = () => {
         setAutoPick(!autoPick)
@@ -73,38 +84,41 @@ const CoinStakeChoice = (props) => {
         setAutoPicksLeft(parseInt(ev.target.value))
     }
 
-    
-
+    const pressBetButton = () => {
+        // other validations can have an on or no action at all
+        // all validations notwithstanding
+        setUserPlaceBetOn(!userPlaceBetOn)
+    }
     return (
         <>
             <div className="user-input-section" onClick={() => setcanplayTheitems()}>
-                <div className="m-3 pt-2">PLACE YOUR BET </div>
+                <div className="my-2 pt-2">PLACE YOUR BET </div>
                 
                 <div className="user-input-main flex">
                     <div className="input-collector flex-col w-1/2 m-1">
-                        <div className="m-3 flex">
-                        <label className="my-2 mt-3 text-white opacity-80 w-1/4 flex">STAKE AMOUNT</label>
-                        <div className="sure-coin-amount-input-section flex font-[700] bg-[white] w-1/2">
-                            <CgRemove
-                                onClick={() => changeAmount("decrease") }
-                                className="mt-1 text-3xl opacity-60 hover:opacity-100 cursor-pointer" />
-                            <input
-                                onChange={(e) => amountChanged(e)} 
-                                type="number"
-                                value={amount}
-                                min={minimumBetAmount}
-                                className="border-[transparent] bg-[white] text-black user-amount-input px-3"/>
+                        <div className="flex my-1">
+                            <label className="my-2 text-white opacity-80 w-1/4 flex">Amount</label>
+                            <div className="sure-coin-amount-input-section flex w-1/2">
+                                <CgRemove
+                                    onClick={() => changeAmount("decrease") }
+                                    className="mt-1 text-3xl opacity-60 hover:opacity-100 cursor-pointer" />
+                                <input
+                                    onChange={(e) => amountChanged(e)} 
+                                    type="number"
+                                    value={amount}
+                                    min={minimumBetAmount}
+                                    className="border-[transparent] w-[80%] user-amount-input px-2 bg-transparent text-white"/>
 
-                            <CgAdd className="mt-1 text-3xl opacity-60 hover:opacity-100 cursor-pointer" onClick={() => changeAmount("increase") }/>
+                                <CgAdd className="mt-1 text-3xl opacity-60 hover:opacity-100 cursor-pointer" onClick={() => changeAmount("increase") }/>
+                            </div>
                         </div>
+                        <div className="win-info flex">
+                            <label className="my-2 text-white opacity-80 w-1/4 ">Odds</label>
+                            <div className="text-right font-[700] w-1/2 text-align-right"><small>x</small> 2</div>
                         </div>
-                        <div className="win-info m-3 flex">
-                            <label className="my-2 mt-3 text-white opacity-80 w-1/4 flex">ODDS</label>
-                            <div className="flex font-[700] w-1/2 text-align-right"><small>x</small> 2</div>
-                        </div>
-                        <div className="win-info m-3 flex">
-                            <label className="my-2 mt-3 text-white opacity-80 w-1/4 flex win-amount">PAYOUT</label>
-                            <div className="flex font-[700] w-1/2 text-align-right float-end">{amount *2 }.00</div>
+                        <div className="win-info flex my-2">
+                            <label className=" text-white opacity-80 w-1/4 flex win-amount">Payout</label>
+                            <div className="text-right font-[700] w-1/2 text-align-right float-end">KES. {amount *2 }.00</div>
                         </div>
                     </div>
                     <div className="flex-col w-1/2 autopick-settings">
@@ -138,24 +152,31 @@ const CoinStakeChoice = (props) => {
                     </div>
                     
                 </div>
-                <div className="user-selection my-2 border-t border-gray-900 pt-3">
-                    <div className={`input-place-bet-btn text-center w-full font-bold row`}>
-                        <div className="col-6">
-                            <button
-                                className={`mb-2 pickBtn !w-full head uppercase ${pickedBtn === "heads" ? "selected-btn selected-head" : ""}`}
-                                onClick={() => pickClick("heads")}
-                                disabled={disabledBetBtn}>
-                                    Heads
-                            </button>
+                <div className="user-selection my-2 border-t border-gray-900 pt-3 pb-2">
+                    <div className={`input-place-bet-btn text-center w-full font-bol row`}>
+                        <div className="col-md-6">
+                            <div className="row">
+                                <div className="col-6">
+                                    <button
+                                        className={`mb-2 pickBtn !w-full head uppercase ${pickedBtn === "heads" ? "selected-btn selected-head" : ""}`}
+                                        onClick={() => pickClick("heads")}
+                                        disabled={disabledBetBtn}>
+                                            Heads
+                                    </button>
+                                </div>
+                                <div className="col-6">
+                                    <button
+                                        className={`pickBtn !w-full tail uppercase ${pickedBtn === "tails" ? "selected-btn selected-tail" : ""}`} 
+                                        onClick={() => pickClick("tails")}
+                                        disabled={disabledBetBtn}>
+                                        Tails
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="col-6">
-                            <button
-                                className={`pickBtn !w-full tail uppercase ${pickedBtn === "tails" ? "selected-btn selected-tail" : ""}`} 
-                                onClick={() => pickClick("tails")}
-                                disabled={disabledBetBtn}>
-                                Tails
-                            </button>
+                        <div className="col-md-6">
+                            <button disabled={userPlaceBetOn} className={`btn btn-place-surecoin-bet ${userPlaceBetOn && "betplaced"}`} onClick={() => pressBetButton()}>{userPlaceBetOn ? "Placed" : "Place bet"}</button>
                         </div>
                     </div>
                 </div>
