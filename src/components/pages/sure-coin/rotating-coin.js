@@ -41,6 +41,12 @@ const RotatingCoin = (props) => {
     }, [isspinning]);
 
 
+    useEffect(() => {
+        if(!rslt) {
+            setWinState(null);
+            spinNobet() 
+        }
+    }, [rslt])
 
     const spinNobet = () => {
         const choices = ["heads", "tails"]

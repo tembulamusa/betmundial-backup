@@ -20,11 +20,8 @@ import TakeBetsTimer from "./take-bets-timer";
 const SureCoinIndex = (props) => {
     const [state, dispatch] = useContext(Context);
     const [userCoinCount, setUserCoinCount] = useState(1);
-    const [timeToEnd, setTimeToEnd] = useState(10);
     const [isSpinning, setIsSpinning] = useState(false);
-    const [preparingToSpin, setPreparingToSpin] = useState(false);
     const [userMuted, setUserMuted] = useState(getFromLocalStorage("surecoinmuted"));
-    const [newSessionId, setNewSessionId] = useState(null);
     const [bIDrslts, setBIDrslts] = useState(null);
     const [coinsAlertMsg, setCoinsAlertMsg] = useState(null);
     const [timeToNextStart, setTimeToNextStart] = useState(4000);
@@ -42,7 +39,6 @@ const SureCoinIndex = (props) => {
                 } else {
                     return
                 }
-                setNewSessionId(generatedSession);
                 placeBet(generatedSession);
                
         }
@@ -115,7 +111,7 @@ const SureCoinIndex = (props) => {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
                     if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
                         dispatch({type:"SET", key: "toggleuserbalance", payload:state?.toggleuserbalance ? !state?.toggleuserbalance : true})
-                        setTimeout(() => {getCoinRoll(cpBt?.[process.env.REACT_APP_BID])}, 2000)
+                        setTimeout(() => {getCoinRoll(cpBt?.[process.env.REACT_APP_BID], session)}, 1000)
                     } else {
                         setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"})
                     }
@@ -130,12 +126,12 @@ const SureCoinIndex = (props) => {
         }
    }
 
-    const getCoinRoll = (btID) => {
+    const getCoinRoll = (btID, session) => {
         // get session id and use it
         let endpoint = 'coin-roll';
         makeRequest({url: endpoint,
                 method: 'POST',
-                data: {session_id: newSessionId, bet_id: btID, profile_id: state?.user?.profile_id},
+                data: {session_id: session, bet_id: btID, profile_id: state?.user?.profile_id},
                 api_version:'sureCoin'}).then(([status, response]) => {
             let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
             if(status == 200) {

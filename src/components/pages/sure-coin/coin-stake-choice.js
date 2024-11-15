@@ -15,10 +15,12 @@ const CoinStakeChoice = (props) => {
     const [defaultAmountChange, setDefaultAmountChange] = useState(10);
     const [minimumBetAmount, setMinimumAmount] = useState(5);
     const [pickedBtn, setPickedBtn] = useState(null);
-    const [autoPick, setAutoPick] =  useState(false);
-    const [autoPicksLeft, setAutoPicksLeft] = useState(1);
+    const [autoBet, setAutoBet] =  useState(false);
+    const [autoBetsLeft, setAutoBetsLeft] = useState(1);
     const [userPlaceBetOn, setUserPlaceBetOn] = useState(false);
+    const [autoPick, setAutoPick] = useState(false)
     const autobetBtnRef = useRef(null);
+
 
 
     const setcanplayTheitems = () => {
@@ -61,18 +63,19 @@ const CoinStakeChoice = (props) => {
         if (isspinning == false) {
             //Next, we check if it's on auto and etoc picks are ok
             let timeOutId;
+            if(autoPick){coinsideAutopick()}else{setPickedBtn(null)};
             if(userPlaceBetOn) {
                 // setUserPlaceBetOn(false);
-                if (autoPick) {
-                    if(autoPicksLeft > 0){
+                if (autoBet) {
+                    if(autoBetsLeft > 0){
                         setUserPlaceBetOn(false);
                         timeOutId = setTimeout(() => {
-                            coinsideAutopick();
+                            if (!pickedBtn){coinsideAutopick()};
                             setUserPlaceBetOn(true);
-                            setAutoPicksLeft(autoPicksLeft - 1)
+                            setAutoBetsLeft((prev) => prev - 1)
                         }, 1000);
                     } else {
-                        setAutoPick(false);
+                        setAutoBet(false);
                         setPickedBtn(null);
                     }
                 } else {
@@ -95,10 +98,6 @@ const CoinStakeChoice = (props) => {
         }
 
     }
-    const autochooseSide = () => {
-
-        console.log("GET THE GAMES::: ")
-    }
 
     useEffect(() => {
         
@@ -109,12 +108,18 @@ const CoinStakeChoice = (props) => {
         }
     }, [amount, pickedBtn, userPlaceBetOn])
 
+    const autoBetToggle = () => {
+        setAutoBet(!autoBet);
+    }
     const autoPickToggle = () => {
+        if(!autoPick) {
+            coinsideAutopick();
+        }
         setAutoPick(!autoPick);
     }
 
     const userChangeAutopicks = (ev) => {
-        setAutoPicksLeft(parseInt(ev.target.value))
+        setAutoBetsLeft(parseInt(ev.target.value))
     }
 
     const pressBetButton = () => {
@@ -162,34 +167,47 @@ const CoinStakeChoice = (props) => {
                             <div className="text-right font-[700] w-1/2 text-align-right float-end">KES. {amount *2 }.00</div>
                         </div>
                     </div>
-                    <div className="flex-col w-1/2 autopick-settings">
+                    <div className="flex-col w-1/2 autoBet-settings">
                         <div className="px-3 text-center">
-                            <div>Autopick</div>
-                            <Switch
-                                checked={autoPick}
-                                onChange={() => autoPickToggle()}
-                            />
-                            {autoPick && 
-                                <div className="autopicks-left sure-coin-amount-input-section mx-auto flex !py-0 !px-1 !bg-[rgba(0,0,0,0.2)]">
-                                    <CgRemove
-                                        onClick={() => setAutoPicksLeft(autoPicksLeft - 1) }
-                                        className="mt-1 text-4xl opacity-60 hover:opacity-100 cursor-pointer" />
-                                    <input
-                                        name=""
-                                        type="number"
-                                        className="bg-[transparent] !w-[40px] px-2"
-                                        value={autoPicksLeft}
-                                        onChange={(ev) => userChangeAutopicks(ev)}
-                                        max={50}
-                                        min={1}
-
-                                    />
-                                    <CgAdd
-                                        className="mt-1 text-4xl opacity-60 hover:opacity-100 cursor-pointer"
-                                        onClick={() => setAutoPicksLeft(autoPicksLeft + 1) }/>
+                            <div className="flex">
+                                <div className="flex-col w-1/2">
+                                    <div className="">
+                                        Auto Pick
+                                    </div>
+                                    <Switch
+                                            checked={autoPick}
+                                            onChange={() => autoPickToggle()}
+                                        />
                                 </div>
-                            }
-                            
+                                <div className="flex-col w-1/2">
+                                    <div>Auto Bet</div>
+                                        <Switch
+                                            checked={autoBet}
+                                            onChange={() => autoBetToggle()}
+                                        />
+                                        {autoBet && 
+                                            <div className="autopicks-left sure-coin-amount-input-section mx-auto flex !py-0 !px-1 !bg-[rgba(0,0,0,0.2)]">
+                                                <CgRemove
+                                                    onClick={() => setAutoBetsLeft(autoBetsLeft - 1) }
+                                                    className="mt-1 text-4xl opacity-60 hover:opacity-100 cursor-pointer" />
+                                                <input
+                                                    name=""
+                                                    type="number"
+                                                    className="bg-[transparent] !w-[40px] px-2"
+                                                    value={autoBetsLeft}
+                                                    onChange={(ev) => userChangeAutopicks(ev)}
+                                                    max={50}
+                                                    min={1}
+
+                                                />
+                                                <CgAdd
+                                                    className="mt-1 text-4xl opacity-60 hover:opacity-100 cursor-pointer"
+                                                    onClick={() => setAutoBetsLeft(autoBetsLeft + 1) }/>
+                                            </div>
+                                        }
+                                </div>
+                                
+                            </div>
                         </div>
                     </div>
                     
@@ -218,7 +236,7 @@ const CoinStakeChoice = (props) => {
                         </div>
 
                         <div className="col-md-6">
-                            <button disabled={userPlaceBetOn} className={`btn btn-place-surecoin-bet ${userPlaceBetOn && "betplaced"}`} onClick={() => pressBetButton()}>{userPlaceBetOn ? "Placed" : "Place bet"}</button>
+                            <button disabled={userPlaceBetOn} className={`md: w-80 btn btn-place-surecoin-bet ${userPlaceBetOn && "betplaced"}`} onClick={() => pressBetButton()}>{userPlaceBetOn ? "Placed" : !userPlaceBetOn && autoBet && autoBetsLeft > 0 ? "Click to start" : "Place bet"}</button>
                         </div>
                     </div>
                 </div>

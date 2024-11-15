@@ -55,6 +55,20 @@
     margin-right: 0;
     color: #fff;
 }
+
+.sure-alert.error {
+    position: absolute;
+    background: #f8d7da;
+    max-width: 200px;
+    border-radius: 0 0 6px 6px;
+    top: 0;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 20px;
+    left: auto;
+    right: auto;
+
+}
 .casino-service-sure-coin {
     background-color: rgba(0,0,0,0.6);
     padding: 10px 10px;
