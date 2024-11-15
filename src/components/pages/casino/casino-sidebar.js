@@ -38,7 +38,7 @@ const CasinoSidebar = (props) => {
     const CasinoCategories = (props) => {
         return (
             <>
-                <div className="casino-list-block menu-card">
+                <div className="casino-list-block menu-card rounded-lg">
                     <ul className="casino-sidebar-items">
                         <h1 className="my-4 text-2xl font-[400] text-gray-400 bg-secondary casino-class-header">Categories</h1>
                         {categories?.map((category, idx) => (
@@ -60,7 +60,7 @@ const CasinoSidebar = (props) => {
 
         return (
             <>
-                <div className="casino-list-block menu-card">
+                <div className="casino-list-block menu-card rounded-lg">
                     <ul className="casino-sidebar-items">
                     <h1 className="mb-4 text-2xl font-[400] text-gray-400 bg-secondary casino-class-header">Providers</h1>
                     {providers?.map((provider, idx) => (
@@ -76,7 +76,7 @@ const CasinoSidebar = (props) => {
         )
     }
     return (
-        <div className="casino-sidebar pt-5 px-3">
+        <div className="casino-sidebar pt-5 px-3 bg-gray-100 ml-2">
             <NewItemsLinks />
             <CasinoCategories />
             <CasinoProviders />

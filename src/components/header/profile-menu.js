@@ -27,7 +27,7 @@ const ProfileMenu = (props) => {
         <>
         <div className="ale ss profile float-end flex">
 
-          <SearchInput onSearch={handleSearch} />
+          {/* <SearchInput onSearch={handleSearch} /> */}
 
             <div className="user-menu-col {'mt-1'} col-md-2 d-flex flex-column justify-content-start space-deposit">
               <Link

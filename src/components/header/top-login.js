@@ -29,7 +29,7 @@ const HeaderLogin = (props) => {
                 <div className="header-login-links uppercase">
                     <div className="onboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginTop: "7px" }}>                    
                    
-                        <SearchInput onSearch={handleSearch} />
+                        {/* <SearchInput onSearch={handleSearch} /> */}
 
                         <div className='hidden md:inline-block top-item'>
                             <Link
