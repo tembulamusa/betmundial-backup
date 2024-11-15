@@ -101,7 +101,6 @@ const SureCoinIndex = (props) => {
   }, [])
 
     const placeBet = (session) => {
-        console.log("ATTEMPTING TO CHECK USER BET ON :::: == ", state?.coinselections?.[1]?.userbeton)
         if (state?.coinselections?.[1]?.userbeton ) {
             let endpoint = 'place-bet';
             makeRequest({url: endpoint, 
@@ -153,9 +152,6 @@ const SureCoinIndex = (props) => {
                     <div> Heads: 55% </div> <div> Tails: 45% </div>
                 </div>
 
-                <div className="scores">
-                    <div>Heads: KES 20,000 </div> <div>Tails: KES 25,000 </div>
-                </div>
             </>
         )
     }
@@ -174,10 +170,10 @@ const SureCoinIndex = (props) => {
                             {coinsAlertMsg && 
                                 <div className={`sure-alert height-hide ${coinsAlertMsg.status == 200 ? "success" : "error"}`}>{coinsAlertMsg.message}</div>
                             }
-                            <div className="col-sm-4 col-md-6 ">
+                            <div className="col-sm-4 w-4/12 md:w-6/12 col-md-6 ">
                                 <div className="flex"><img src={SureCoinLogoImg} className="surecoin-logo-img" /> SureCoin <span className=""><FaQuestion className="inline-block md:hidden"/><button className="hidden md:inline-block basic-highlight-alert ml-3 font-[300] bg-[#f5a623] text-[#5f3816] rounded-md px-3">How to play</button></span></div>
                             </div>
-                            <div className="col-sm-8 col-md-6">
+                            <div className="col-sm-8 w-8/12 md:w-6/12 col-md-6">
                                 <div className="float-end flex">
                                     <div className="inline-block text-3xl" onClick={() => isMutedToggle()}>{userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}</div>
                                     </div>

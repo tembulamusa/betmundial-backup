@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useContext } from "react";
 import { Context } from "../../../context/store";
 import { FaCheckCircle, FaMinus } from "react-icons/fa";
@@ -18,6 +18,8 @@ const CoinStakeChoice = (props) => {
     const [autoPick, setAutoPick] =  useState(false);
     const [autoPicksLeft, setAutoPicksLeft] = useState(1);
     const [userPlaceBetOn, setUserPlaceBetOn] = useState(false);
+    const autobetBtnRef = useRef(null);
+
 
     const setcanplayTheitems = () => {
         let itemtoplay = 'canplayitems-' + coinnumber;
@@ -50,7 +52,11 @@ const CoinStakeChoice = (props) => {
             }
         }
     }
-
+    const coinsideAutopick = () => {
+        const choices = ["heads", "tails"]
+        const i = Math.floor(Math.random() * 2);
+        setPickedBtn(choices[i]);
+    }
     useEffect(() => {
         if (isspinning == false) {
             //Next, we check if it's on auto and etoc picks are ok
@@ -59,21 +65,26 @@ const CoinStakeChoice = (props) => {
                 // setUserPlaceBetOn(false);
                 if (autoPick) {
                     if(autoPicksLeft > 0){
+                        setUserPlaceBetOn(false);
                         timeOutId = setTimeout(() => {
+                            coinsideAutopick();
                             setUserPlaceBetOn(true);
                             setAutoPicksLeft(autoPicksLeft - 1)
                         }, 1000);
                     } else {
                         setAutoPick(false);
+                        setPickedBtn(null);
                     }
                 } else {
                     setUserPlaceBetOn(false);
+                    setPickedBtn(null);
+
                 }
+            } else {
+                // setPickedBtn(null);
             }
-            clearTimeout(timeOutId)
         }
-        console.log("IAM THE SPINNER ::::: ", isspinning)
-        console.log("IS PLACEBET ON:::::: ", userPlaceBetOn);
+        
     }, [isspinning])
 
     const pickClick = (pick) => {
@@ -99,8 +110,9 @@ const CoinStakeChoice = (props) => {
     }, [amount, pickedBtn, userPlaceBetOn])
 
     const autoPickToggle = () => {
-        setAutoPick(!autoPick)
+        setAutoPick(!autoPick);
     }
+
     const userChangeAutopicks = (ev) => {
         setAutoPicksLeft(parseInt(ev.target.value))
     }
@@ -154,6 +166,7 @@ const CoinStakeChoice = (props) => {
                         <div className="px-3 text-center">
                             <div>Autopick</div>
                             <Switch
+                                checked={autoPick}
                                 onChange={() => autoPickToggle()}
                             />
                             {autoPick && 

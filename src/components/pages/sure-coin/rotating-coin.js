@@ -8,7 +8,6 @@ import { Context } from "../../../context/store";
 const RotatingCoin = (props) => {
     const {isspinning, coinnumber, usermuted, rslt, cvterfxn} = props;
     const [timeLeft, setTimeLeft] = useState(0);
-    
     const [state, dispatch] = useContext(Context);
     const [rotatingSpeedLevel, setRotatingSpeedLevel] = useState("low");
     const [canPlaySound, setCanPlaySound] = useState(false);
@@ -18,21 +17,34 @@ const RotatingCoin = (props) => {
 
     
     useEffect(() => {
-        if (isspinning == true) {
+        if (isspinning) {
             setSpinOutcome(null);
-            
         } else {
-            if (cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM]) {
-                setWinState("won");
-            } else {
-                setWinState("lost");
+            if (!state?.userbeton) {
+                spinNobet();
+                setWinState(null);
+            } else
+                {
+                if (cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM]) {
+                    setWinState("won");
+                } else {
+                    setWinState("lost");
+                }
+                setSpinOutcome(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME]);
+                setCoinOnDisplay(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME].toLowerCase());
             }
-            setSpinOutcome(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME]);
-            setCoinOnDisplay(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME].toLowerCase());
-            setTimeout(() => {setWinState(null)}, 3000)
+            setTimeout(() => {setWinState(null)}, 2000)
+            
         }
+
+        
     }, [isspinning]);
 
+    const spinNobet = () => {
+        const choices = ["heads", "tails"]
+        const i = Math.floor(Math.random() * 2);
+        setSpinOutcome(choices[i]);
+    }
     useEffect(() => {
         if(winState) {
             console.log("WIN CHANGED and for a while")
@@ -65,7 +77,6 @@ const RotatingCoin = (props) => {
 
         return () => clearInterval(timer); // Cleanup on unmount
             
-        
     }, [timeLeft])
 
     // change coin on display based on user choice
