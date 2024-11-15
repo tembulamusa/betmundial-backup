@@ -1,4 +1,6 @@
-import {toast} from "react-toastify";
+// import {toast} from "react-toastify";
+import {Slide, toast,ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Notify = (message) => {
     let options = {

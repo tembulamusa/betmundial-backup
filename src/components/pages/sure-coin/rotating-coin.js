@@ -6,37 +6,54 @@ import Sound1 from "../../../assets/audio/surecoin/coin-spill.mp3";
 import { Context } from "../../../context/store";
 
 const RotatingCoin = (props) => {
-    const {starttime, endtime, isspinning, enddelay, coinnumber} = props;
-    const [timeLeft, setTimeLeft] = useState(endtime - starttime);
-    const [endDelay, setEndDelay] = useState(0);
-    const [isSpinning, setIsSpinning] = useState(false);
+    const {isspinning, coinnumber, usermuted, rslt, cvterfxn} = props;
+    const [timeLeft, setTimeLeft] = useState(0);
     const [state, dispatch] = useContext(Context);
     const [rotatingSpeedLevel, setRotatingSpeedLevel] = useState("low");
     const [canPlaySound, setCanPlaySound] = useState(false);
-    
+    const [winState, setWinState] = useState(null);
+    const [spinOutcome, setSpinOutcome] = useState(null);
+    const [coinOnDisplay, setCoinOnDisplay] = useState("heads");
 
     
     useEffect(() => {
-        if (isspinning == true) {
-            setIsSpinning(true);
+        if (isspinning) {
+            setSpinOutcome(null);
+        } else {
+            if (!state?.userbeton) {
+                spinNobet();
+                setWinState(null);
+            } else
+                {
+                if (cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM]) {
+                    setWinState("won");
+                } else {
+                    setWinState("lost");
+                }
+                setSpinOutcome(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME]);
+                setCoinOnDisplay(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME].toLowerCase());
+            }
+            setTimeout(() => {setWinState(null)}, 2000)
             
-            setTimeLeft((endtime - starttime) + (enddelay || 0))
         }
+
+        
     }, [isspinning]);
 
+    const spinNobet = () => {
+        const choices = ["heads", "tails"]
+        const i = Math.floor(Math.random() * 2);
+        setSpinOutcome(choices[i]);
+    }
     useEffect(() => {
-        setEndDelay(Math.random() * (5 - 0 + 1));
-    }, [])
+        if(winState) {
+            console.log("WIN CHANGED and for a while")
+        }
+    }, [winState]);
 
     useEffect(() => {
-        if (endDelay > 0 ) {
-            setTimeLeft(timeLeft + endDelay);
-        }
-    }, [endDelay])
-    // set when the coin stops spinning
-    useEffect(() => {
         if (timeLeft <= 0) {
-            setIsSpinning(false)
+            //setIsSpinning(false)
             // audio.pause();
             // audio2.pause();
             return;
@@ -60,51 +77,64 @@ const RotatingCoin = (props) => {
 
         return () => clearInterval(timer); // Cleanup on unmount
             
-        
     }, [timeLeft])
 
+    // change coin on display based on user choice
+    useEffect(() => {
+        setCoinOnDisplay(state?.coinselections?.[coinnumber]?.pick);
+    }, [state?.coinselections?.[coinnumber]?.pick])
+    
     // paly the sound
     useEffect(() => {
-        const audio = new Audio(Sound1);
-        const audio2 = new Audio(Sound2);
+        if (!usermuted) {
+            const audio = new Audio(Sound1);
+            const audio2 = new Audio(Sound2);
 
-        if(isSpinning == false) {
-            audio.pause();
-            audio2.pause(); 
+            if(!isspinning) {
+                audio.pause();
+                audio2.pause(); 
+            } else  {
+                // let timetogo = timeLeft()
+                // audio.loop = true;
+                audio2.pause();
+                audio.play();
+                
+                
+            } 
         }
-        if (isSpinning == true) {
-            // let timetogo = timeLeft()
-            // audio.loop = true;
-            audio.play();
-            audio2.pause();
+            
+    }, [isspinning]);
 
-                if (timeLeft <= 3) {
-                    if(audio2.paused) {
-                        audio2.play()
-                        audio.pause()
-                    }  
-                } else {
-                    if(!audio2.paused) {
-                        audio2.pause();
-                    }
-                }
-            
-        } else if (isSpinning == false) {
-            audio2.pause();
-            audio.pause()
-        } else {
-            audio2.pause();
-            audio.pause();
-        }
-        
-            
-    }, [isSpinning]);
-    
+    const BetInfo = () => {
+
+        return (
+            <>
+                <div className="bet-info">
+                    <div className="mb-3">
+                        <div className="uppercase">Choice</div>
+                        <div className={`info-box chosen-box`}>
+                            <span className={`uppercase font-bold ${state?.coinselections?.[coinnumber]?.pick == "heads" ? "heads": "tails"}`}>{state?.coinselections?.[coinnumber]?.pick || "None"}</span>
+                        </div>
+                    </div>
+                    <div className="">
+                        {   spinOutcome &&
+                            <>
+                                <div className="uppercase">Outcome</div>
+                                <div className={`info-box user-choice ${spinOutcome?.toLowerCase() == "heads" ? "heads": "tails"}`}>
+                                    <span className={`uppercase font-bold `}>{spinOutcome}</span>
+                                </div>
+                            </>
+                        }
+                    </div>
+                </div>
+            </>
+        )
+    }
     return (
         <>
-            {/* Header Display */}
-            <div className={`rotating-img  ${isSpinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`} onClick={() => setCanPlaySound()}>
-                <img src={state?.coinselections?.coinnumber == "heads" ? Head : Tail } alt=""/>
+            <BetInfo />
+            <div className={`rotating-img  ${isspinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`} onClick={() => setCanPlaySound()}>
+                <div className={`win-state ${winState}`}><img src={coinOnDisplay == "heads" ? Head : Tail } alt=""/></div>
             </div>
         </>
     )

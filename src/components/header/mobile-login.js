@@ -53,7 +53,7 @@ const BodyLogin = (props) => {
             if(navigateAwayRoutes.includes(location.pathname)) {
                 const queryParams = new URLSearchParams(location.search);
                 const next = queryParams.get('next');
-                navigate(next ? `/${next}` : '/');
+                navigate(next ? `${next}` : '/');
             }
 
 

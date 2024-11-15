@@ -1,6 +1,7 @@
 .rotating-images-wrapper {
     /* display: flex; */
     clear: both;
+    position:relative;
 }
 
 .rotating-image-container {
@@ -12,9 +13,17 @@
     /* width: auto; */
     /* height: 200px; */
     /* position: absolute; */
-    padding: 10%;
+    padding: 5%;
     max-width: 250px;
     margin: auto;
+}
+
+.user-choice {
+    color: #143ee4;
+}
+
+.user-choice.heads {
+    color: #bb0243;
 }
 .rotating-img.is-spinning {
     animation: rotation 1s infinite linear; 
@@ -34,33 +43,33 @@
 }
 
 .surecoin-body {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-    /* margin-top: 5%; */
   }
 
   .sure-coin-header {
-    background: rgba(255, 255,255, 0.05);
+    background: rgba(255,255,255,0.06);
     height: 40px;
-    padding: 5px 10px;
+    padding: 5px 0px;
     font-weight: 500;
     border-radius: 5;
     margin-left: 0;
     margin-right: 0;
+    color: #fff;
 }
 .casino-service-sure-coin {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding: 10px 5px;
+    background-color: rgba(0,0,0,0.6);
+    padding: 10px 10px;
+    position: relative;
 }
-
 .coin-settings {
-    background: rgba(255, 255,255, 0.07);
-    padding-left: 15px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+    background: rgba(255,255,255,0.06);
+    padding-left: 6px;
+    margin-bottom: 7px;
+    border-radius: 8px;
+    color: #fff;
 }
-
+.launched-sure-coin{
+    
+}
 .sure-coin-amount-input-section {
     background: rgba(0, 0, 0, 0.8);
     border-radius: 20px;
@@ -75,9 +84,24 @@
     /* width: 100px; */
 }
 
-.casino-service-sure-coin .pickBtn.selected-btn {
+.casino-service-sure-coin .pickBtn.tail {
     background-color: #bb0243;
     color: white;
+}
+
+.user-picked-btn {
+    position: absolute;
+    font-size: 35px;
+    color: #FFB200;
+    top: 8%;
+}
+.tail.selected-btn {
+    background-color: #bb02438a !important;
+    color: #ffffff !important;
+}
+
+.head.selected-btn {
+    background-color: #143ee47d;
 }
 @media screen and (min-width: 760px) {
   
@@ -117,6 +141,99 @@
     padding-left: 0;
     padding-right: 0;
 }
+
+.surecoin-logo-img {
+    width: 20px;
+    display: inline-block;
+    margin-right: 7px;
+    color: #bb0243;
+}
+.win-state {
+    padding: 10px;
+}
+.info-box.chosen-box {
+    color: #FFB200;
+
+}
+.info-box {
+    padding: 5px 15px;
+    border: 1px solid ;
+    margin-top: 3px;
+    border-radius: 3px;
+}
+.bet-info {
+    position: absolute;
+    background: rgba(255,255,255, 0.061);
+    top: -7px;
+    left: -2px;
+    padding: 5px 8px;
+    border: 1px solid rgba(255,255,255, 0.051);
+    border-radius: 2px;
+    text-align: center;
+}
+.win-state.won {
+    background: green;
+}
+.win-state.lost {
+}
+.autopicks-left {
+    max-width: 90px;
+}
+.btn-place-surecoin-bet {
+    padding: 10px 15px;
+    background: #FFB200 !important;
+    color: #604300 !important;
+    font-size: 15px;
+    font-weight: 700;
+    min-width: 250px;
+    text-shadow: 0px 1px 3px white;
+    text-transform: uppercase;
+    float: right;
+    transition: all ease-in-out 0.3s;
+}
+
+.bets-timer-empty-holder {
+    height: 27px;
+}
+.btn-place-surecoin-bet:hover {
+    opacity: .7;
+    transition: all ease-in-out 0.3s;
+}
+
+.time-left-text {
+    
+}
+
+.btn-place-surecoin-bet.betplaced {
+    background: red !important;
+}
+.casino-service-sure-coin .pickBtn {
+    padding: 10px 15px;
+}
+
+.coin-quick-stats {
+    position: absolute;
+    right: 10px;
+    z-index: 99;
+    border: 1px solid rgba(255, 255,255, 0.0612);
+    color: rgba(255,255,255, 0.7);
+    padding: 5px;
+    border-radius: 3px;
+    line-height: 30px;
+    background: rgba(255,255,255,0.031);
+    font-size: 1.3rem;
+    top: 3px;
+}
+.coin-taking-bets{
+	position: absolute;
+	bottom: 10px;
+	border: 1px solid #fff;
+	color: #fff;
+	padding: 12px;
+	border-radius: 10px;
+    line-height: 23px;
+    min-width: 25%;
+}
 @media screen and (max-width: 648px) {
     .surecoin-body {
         width: 98%;
@@ -124,9 +241,38 @@
         margin-right: auto;
         /* margin-top: 5%; */
     }
+    .rotating-img {
+        width: 190px;
+        padding-bottom: 0 !important;
+    }
+    .surecoin-logo-img {
+
+    }
 
     .user-amount-input {
         max-width: 100px !important;
     }
 
+    .btn-place-surecoin-bet {
+        float: none;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 5px;
+        width: 100%;
+    }
+    .casino-service-sure-coin {
+        padding: 10px 1px;
+    }
+    .coin-quick-stats {
+        right: 0px;
+    }
+
 }
+.coin-count-down {
+	position: absolute;
+	color: yellow;
+	padding: 10px;
+	font-weight: 500;
+	opacity: 0.9;
+}
+
