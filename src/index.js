@@ -55,6 +55,7 @@ import Logout from "./components/pages/auth/logout";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import SureCoin from "./components/pages/sure-coin";
 import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
+import CasinoHome from "./components/pages/casino/casino-home";
 
 const container = document.getElementById("app");
 
@@ -82,6 +83,7 @@ const App = () => {
                             <Route exact path="/virtuals/casino" element={<Casino />}/>
                             <Route exact path="/livescore" element={<LiveScore/>}/> */}
                             <Route exact path="/casino" element={<Casino/>}/>
+                            <Route exact path="/" element={<CasinoHome/>}/>
 
                             {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
 
