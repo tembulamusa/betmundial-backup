@@ -37,6 +37,7 @@ const CasinoHome = () => {
                 setLocalStorage('casinogames', result.games);
             } else {
                 console.error('Fetched data does not contain a games array:', result);
+                setGames([]);
             }
         }
         setFetching(false);
@@ -62,7 +63,7 @@ const CasinoHome = () => {
         document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    console.log('Games in log', filteredGames);
+    //console.log('Games in log', filteredGames);
 
     return (
         <div className="flex">
@@ -145,10 +146,8 @@ const CasinoHome = () => {
 
                {/* Section for each tab with cards */}
                <div className="casino-section mt-6">
-                    {['must-play', 'new-games', 'live', 'tables', 'drops-wins', 'daily-offers'].map((section, idx) => {
-                        // Temporarily display some games for each section
-                        const sectionGames = games.slice(0, 4); // Get the first 4 games for now
-
+                        {['must-play', 'new-games', 'live', 'tables', 'drops-wins', 'daily-offers'].map((section, idx) => {
+                        const sectionGames = Array.isArray(games) ? games.slice(0, 4) : []; 
                         return (
                             <div id={`${section}-section`} key={idx} className="section mb-8">
                                 <h2 className="section-title text-2xl font-bold mb-4 capitalize">
