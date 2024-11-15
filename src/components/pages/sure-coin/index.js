@@ -67,7 +67,7 @@ const SureCoinIndex = (props) => {
             spintimeout = setTimeout(() => {
                 setRunCoinSPin(false)
             }, timeToNextStart)
-        } 
+        }
         return () => {clearTimeout(spintimeout)};
     }, [runCoinSpin])
 
@@ -98,6 +98,10 @@ const SureCoinIndex = (props) => {
   
   useEffect(() => {
     dispatch({type: "SET", key: "surecoinlaunched", payload: true});
+
+    return () => {
+        dispatch({type:"DEL", key:"surecoinlaunched"})
+    }
   }, [])
 
     const placeBet = (session) => {

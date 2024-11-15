@@ -4,11 +4,11 @@ import { getFromLocalStorage } from './local-storage';
 import 'react-toastify/dist/ReactToastify.css';
 import { Context } from "../../context/store";
 
-const ProtectedRoute = (props, {children}) => {
-    const {next} = props;
-    const [state, dispatch] = useContext(Context);
+const ProtectedRoute = ({children}) => {
+    // const {next} = props;
+    // const [state, dispatch] = useContext(Context);
     const user = getFromLocalStorage("user");
-    return user?.token ? children : <Navigate to={`/login?next=${next}`} />;
+    return user?.token ? children : <Navigate to={`/login`} />;
 }
 
 export default ProtectedRoute;

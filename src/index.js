@@ -63,7 +63,7 @@ const App = () => {
     const url = window.location.pathname
     return (
             <BrowserRouter>
-            <div className={`${state?.currentmode} ${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper"}`}>
+            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper"}`}>
                 <Suspense fallback={<p></p>}>
                 <Header />
                 <div className={`${state?.bodyheaderspacing} amt `}>
