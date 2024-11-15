@@ -93,7 +93,7 @@ const RotatingCoin = (props) => {
         }
             
     }, [isspinning]);
-    
+
     const BetInfo = () => {
 
         return (
@@ -102,7 +102,7 @@ const RotatingCoin = (props) => {
                     <div className="mb-3">
                         <div className="uppercase">Choice</div>
                         <div className={`info-box chosen-box`}>
-                            <span className={`uppercase font-bold ${state?.coinselections?.[coinnumber]?.pick == "heads" ? "heads": "tails"}`}>{state?.coinselections?.[coinnumber]?.pick}</span>
+                            <span className={`uppercase font-bold ${state?.coinselections?.[coinnumber]?.pick == "heads" ? "heads": "tails"}`}>{state?.coinselections?.[coinnumber]?.pick || "None"}</span>
                         </div>
                     </div>
                     <div className="">

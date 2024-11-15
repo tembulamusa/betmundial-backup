@@ -40,7 +40,6 @@ const SureCoinIndex = (props) => {
                     let now = Date.now();
                     generatedSession = state?.user?.profile_id + ":" + now
                 } else {
-                    dispatch({type:"SET", key:"showloginmodal", payload:true});
                     return
                 }
                 setNewSessionId(generatedSession);
@@ -98,27 +97,32 @@ const SureCoinIndex = (props) => {
   }
   
   useEffect(() => {
-    dispatch({type: "SET", key: "surecoinlaunched", payload: true})
+    dispatch({type: "SET", key: "surecoinlaunched", payload: true});
   }, [])
 
     const placeBet = (session) => {
-        let endpoint = 'place-bet';
-        makeRequest({url: endpoint, 
-            method: 'POST',
-            data: {session_id: session, profile_id: state?.user?.profile_id, coin_side: state?.coinselections?.[1]?.pick?.toUpperCase(), bet_amount: state?.coinselections?.[1]?.amount},
-            api_version:"sureCoin"}).then(([status, response]) => {
-            if(status == 200) {
-                let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-                if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
-                    setTimeout(() => {getCoinRoll(cpBt?.[process.env.REACT_APP_BID])}, 2000)
+        console.log("ATTEMPTING TO CHECK USER BET ON :::: == ", state?.coinselections?.[1]?.userbeton)
+        if (state?.coinselections?.[1]?.userbeton ) {
+            let endpoint = 'place-bet';
+            makeRequest({url: endpoint, 
+                method: 'POST',
+                data: {session_id: session, profile_id: state?.user?.profile_id, coin_side: state?.coinselections?.[1]?.pick?.toUpperCase(), bet_amount: state?.coinselections?.[1]?.amount},
+                api_version:"sureCoin"}).then(([status, response]) => {
+                if(status == 200) {
+                    let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
+                    if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
+                        setTimeout(() => {getCoinRoll(cpBt?.[process.env.REACT_APP_BID])}, 2000)
+                    } else {
+                        setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"})
+                    }
+                    
                 } else {
-                    setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"})
+                    setCoinsAlertMsg({status:400, message: response?.error?.mesage || response?.result || "An Error occurred"})
                 }
-                
-            } else {
-                setCoinsAlertMsg({status:400, message: response?.error?.mesage || response?.result || "An Error occurred"})
-            }
-        })
+            })
+        } else {
+            return
+        }
    }
 
     const getCoinRoll = (btID) => {
@@ -197,7 +201,7 @@ const SureCoinIndex = (props) => {
 
                                     </div>
                                 ))}
-                            {!runCoinSpin && <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin}/>}
+                            {!runCoinSpin ? <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin}/> : <div className="bets-timer-empty-holder"></div>}
                             </div>
                             <div className="bet-control">
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (

@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { Context } from "../../../context/store";
-import { FaMinus } from "react-icons/fa";
+import { FaCheckCircle, FaMinus } from "react-icons/fa";
 import { CgAdd, CgRemove } from "react-icons/cg";
 import { Switch } from "@mui/material";
+import { type } from "@testing-library/user-event/dist/cjs/utility/index.js";
 
 const CoinStakeChoice = (props) => {
     const {coinnumber, isspinning, istakingbets, spinningoutcome, rslt, cvterfxn} = props;
     const [amount, setAmount] = useState(10);
-    const [choice, setChoice] = useState("head");
     const [state, dispatch] = useContext(Context);
     const [inputErrors, setInputErrors] = useState({});
     const [disabledBetBtn, setDisabledBetBtn] = useState(false);
     const [defaultAmountChange, setDefaultAmountChange] = useState(10);
     const [minimumBetAmount, setMinimumAmount] = useState(5);
-    const [netWinning, setNetWinning] = useState();
-    const [pickedBtn, setPickedBtn] = useState("heads");
+    const [pickedBtn, setPickedBtn] = useState(null);
     const [autoPick, setAutoPick] =  useState(false);
     const [autoPicksLeft, setAutoPicksLeft] = useState(1);
     const [userPlaceBetOn, setUserPlaceBetOn] = useState(false);
@@ -32,6 +31,10 @@ const CoinStakeChoice = (props) => {
         // else show errors
         setAmount(parseInt(e.target.value));
     }
+
+    useEffect(() => {
+
+    }, [pickedBtn])
 
     const changeAmount = (changeType) => {
 
@@ -50,14 +53,28 @@ const CoinStakeChoice = (props) => {
 
     useEffect(() => {
         if (isspinning == false) {
-
-            setUserPlaceBetOn(false);            
-            if (autoPick == true && autoPicksLeft > 0) {
-                setUserPlaceBetOn(true);
+            //Next, we check if it's on auto and etoc picks are ok
+            let timeOutId;
+            if(userPlaceBetOn) {
+                // setUserPlaceBetOn(false);
+                if (autoPick) {
+                    if(autoPicksLeft > 0){
+                        timeOutId = setTimeout(() => {
+                            setUserPlaceBetOn(true);
+                            setAutoPicksLeft(autoPicksLeft - 1)
+                        }, 1000);
+                    } else {
+                        setAutoPick(false);
+                    }
+                } else {
+                    setUserPlaceBetOn(false);
+                }
             }
-            
+            clearTimeout(timeOutId)
         }
-    }, [isspinning, autoPick, autoPicksLeft])
+        console.log("IAM THE SPINNER ::::: ", isspinning)
+        console.log("IS PLACEBET ON:::::: ", userPlaceBetOn);
+    }, [isspinning])
 
     const pickClick = (pick) => {
         if (pick === "tails") {
@@ -67,9 +84,13 @@ const CoinStakeChoice = (props) => {
         }
 
     }
+    const autochooseSide = () => {
 
-    
+        console.log("GET THE GAMES::: ")
+    }
+
     useEffect(() => {
+        
         if (amount) {
             dispatch({type:"SET",
                 key: "coinselections",
@@ -87,7 +108,15 @@ const CoinStakeChoice = (props) => {
     const pressBetButton = () => {
         // other validations can have an on or no action at all
         // all validations notwithstanding
-        setUserPlaceBetOn(!userPlaceBetOn)
+        if(!state?.user?.token) {
+            dispatch({type:"SET", key:"showloginmodal", payload: true})
+        } else {
+            if (pickedBtn) {
+                setUserPlaceBetOn(true)
+            } else {
+                setInputErrors({...inputErrors, userPick: "unpicked button"})
+            }
+        }
     }
     return (
         <>
@@ -128,7 +157,7 @@ const CoinStakeChoice = (props) => {
                                 onChange={() => autoPickToggle()}
                             />
                             {autoPick && 
-                                <div className="autopicks-left sure-coin-amount-input-section w-60 md:w-30 mx-auto flex !py-0 !px-1 !bg-[rgba(0,0,0,0.2)]">
+                                <div className="autopicks-left sure-coin-amount-input-section mx-auto flex !py-0 !px-1 !bg-[rgba(0,0,0,0.2)]">
                                     <CgRemove
                                         onClick={() => setAutoPicksLeft(autoPicksLeft - 1) }
                                         className="mt-1 text-4xl opacity-60 hover:opacity-100 cursor-pointer" />
@@ -155,21 +184,21 @@ const CoinStakeChoice = (props) => {
                 <div className="user-selection my-2 border-t border-gray-900 pt-3 pb-2">
                     <div className={`input-place-bet-btn text-center w-full font-bol row`}>
                         <div className="col-md-6">
-                            <div className="row">
+                            <div className={`row ${inputErrors?.userPick && "pick-errors"}`}>
                                 <div className="col-6">
                                     <button
-                                        className={`mb-2 pickBtn !w-full head uppercase ${pickedBtn === "heads" ? "selected-btn selected-head" : ""}`}
+                                        className={`relative mb-2 pickBtn !w-full head uppercase ${pickedBtn === "heads" ? "selected-btn selected-head" : ""}`}
                                         onClick={() => pickClick("heads")}
                                         disabled={disabledBetBtn}>
-                                            Heads
+                                            Heads {pickedBtn == "heads" && <FaCheckCircle className="user-picked-btn"/>}
                                     </button>
                                 </div>
                                 <div className="col-6">
                                     <button
-                                        className={`pickBtn !w-full tail uppercase ${pickedBtn === "tails" ? "selected-btn selected-tail" : ""}`} 
+                                        className={`relative pickBtn !w-full tail uppercase ${pickedBtn === "tails" ? "selected-btn selected-tail" : ""}`} 
                                         onClick={() => pickClick("tails")}
                                         disabled={disabledBetBtn}>
-                                        Tails
+                                        Tails {pickedBtn == "tails" && <FaCheckCircle className="user-picked-btn"/>}
                                     </button>
                                 </div>
                             </div>
