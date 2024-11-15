@@ -114,6 +114,7 @@ const SureCoinIndex = (props) => {
                 if(status == 200) {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
                     if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
+                        dispatch({type:"SET", key: "toggleuserbalance", payload:state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                         setTimeout(() => {getCoinRoll(cpBt?.[process.env.REACT_APP_BID])}, 2000)
                     } else {
                         setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"})
@@ -124,6 +125,7 @@ const SureCoinIndex = (props) => {
                 }
             })
         } else {
+            setBIDrslts(null)
             return
         }
    }

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 const TakeBetsTimer = (props) => {
     const {setRunCoinSpin } = props;
 
-    const [timeLeft, setTimeLeft] = useState(300);
+    const [timeLeft, setTimeLeft] = useState(600);
   
     useEffect(() => {
       if (!timeLeft) {
@@ -19,7 +19,7 @@ const TakeBetsTimer = (props) => {
       return () => clearInterval(intervalId);
     }, [timeLeft]);
   
-    const progress = (0 + timeLeft) / 300;
+    const progress = (0 + timeLeft) / 600;
   
     return (
       <div>

@@ -19,12 +19,13 @@ const RotatingCoin = (props) => {
     useEffect(() => {
         if (isspinning) {
             setSpinOutcome(null);
+            setWinState(null);
         } else {
-            if (!state?.userbeton) {
-                spinNobet();
-                setWinState(null);
-            } else
-                {
+            // if (!state?.userbeton) {
+                // spinNobet();
+                // setWinState(null);
+            // } else
+                // {
                 if (cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM]) {
                     setWinState("won");
                 } else {
@@ -32,13 +33,14 @@ const RotatingCoin = (props) => {
                 }
                 setSpinOutcome(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME]);
                 setCoinOnDisplay(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME].toLowerCase());
-            }
-            setTimeout(() => {setWinState(null)}, 2000)
+            // }
             
         }
 
         
     }, [isspinning]);
+
+
 
     const spinNobet = () => {
         const choices = ["heads", "tails"]
