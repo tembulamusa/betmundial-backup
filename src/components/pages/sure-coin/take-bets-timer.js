@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 const TakeBetsTimer = (props) => {
     const {setRunCoinSpin } = props;
 
-    const [timeLeft, setTimeLeft] = useState(600);
+    const [timeLeft, setTimeLeft] = useState(450);
   
     useEffect(() => {
       if (!timeLeft) {
@@ -19,11 +19,11 @@ const TakeBetsTimer = (props) => {
       return () => clearInterval(intervalId);
     }, [timeLeft]);
   
-    const progress = (0 + timeLeft) / 600;
+    const progress = (0 + timeLeft) / 450;
   
     return (
       <div>
-        <div className="time-left"><span className="text">Starts in </span><span className="counter">{parseInt(timeLeft / 100)}</span></div>
+        <div className="time-left"><span className="text">starts in </span><span className="counter">{parseInt(timeLeft / 100)}</span></div>
         <div style={{ backgroundColor: 'rgba(255,255,255, 0.4)', height: '6px' }}>
           <div
             style={{

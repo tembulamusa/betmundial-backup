@@ -15,6 +15,8 @@ import CryptoJS from "crypto-js";
 import Notify from "../../utils/Notify";
 import { error } from "logrocket";
 import TakeBetsTimer from "./take-bets-timer";
+import Head from "../../../assets/img/casino/head.png";
+import Tail from "../../../assets/img/casino/tail.png";
 
 
 const SureCoinIndex = (props) => {
@@ -25,22 +27,26 @@ const SureCoinIndex = (props) => {
     const [bIDrslts, setBIDrslts] = useState(null);
     const [coinsAlertMsg, setCoinsAlertMsg] = useState(null);
     const [timeToNextStart, setTimeToNextStart] = useState(4000);
-
+    const [nextSession, setNextSession] = useState(null);
+    const [prevSession, setPrevSession] = useState(null);
     const [runCoinSpin, setRunCoinSPin] = useState(false);
+    const [nextRound, setNextRound] = useState(null);
 
     // On Run coin spin
     useEffect(() => {
         if (runCoinSpin) {
             // const timeoutId = setTimeout(() => {
-                let generatedSession = null
-                if (state?.user?.profile_id) {
-                    let now = Date.now();
-                    generatedSession = state?.user?.profile_id + ":" + now
-                } else {
-                    return
-                }
-                placeBet(generatedSession);
-               
+            let generatedSession = null
+            if (state?.user?.profile_id) {
+                let now = Date.now();
+                generatedSession = state?.user?.profile_id + ":" + now
+            } else {
+                return
+            }
+            placeBet(nextSession);
+
+        } else {
+
         }
         
         
@@ -64,6 +70,8 @@ const SureCoinIndex = (props) => {
                 setRunCoinSPin(false)
             }, timeToNextStart)
         }
+
+        console.log("MY SESSION :: ", prevSession)
         return () => {clearTimeout(spintimeout)};
     }, [runCoinSpin])
 
@@ -92,16 +100,36 @@ const SureCoinIndex = (props) => {
         }
   }
   
+  const computeStartRound = () => {
+    let roundNumber = Math.floor(Math.random() * (4000 - 60) + 60);
+    setNextRound(roundNumber);
+    setNextSession({round: roundNumber + 1});
+  }
   useEffect(() => {
     dispatch({type: "SET", key: "surecoinlaunched", payload: true});
-
+    computeStartRound();
     return () => {
         dispatch({type:"DEL", key:"surecoinlaunched"})
     }
+    // get round according to time of day so it can be lied that 
   }, [])
 
-    const placeBet = (session) => {
-        if (state?.coinselections?.[1]?.userbeton ) {
+//   session manager
+  useEffect(() => {
+    console.log("THE CHANGE IN USER SELECTIONS :::: ", state?.coinselections)
+    setNextSession({...nextSession, coinselections: state?.coinselections});
+
+  }, [state?.coinselections]);
+
+  useEffect(() => {console.log("THE LOGGED NEXT SESSION :::: ", nextSession)}, [nextSession])
+
+
+    const placeBet = (roundSession) => {
+        let session = state?.user?.profile_id + ":" + nextRound
+        let nxtRound = nextRound + 1
+        setNextRound(nxtRound);
+
+        if (roundSession?.coinselections?.[1]?.userbeton ) {
             let endpoint = 'place-bet';
             makeRequest({url: endpoint, 
                 method: 'POST',
@@ -111,22 +139,26 @@ const SureCoinIndex = (props) => {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
                     if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
                         dispatch({type:"SET", key: "toggleuserbalance", payload:state?.toggleuserbalance ? !state?.toggleuserbalance : true})
-                        setTimeout(() => {getCoinRoll(cpBt?.[process.env.REACT_APP_BID], session)}, 1000)
+                        getCoinRoll(cpBt?.[process.env.REACT_APP_BID], session, nxtRound);
                     } else {
-                        setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"})
+                        setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"});
+                        setPrevSession(nextSession);
+                        setNextSession({round: nextRound + 1})
                     }
-                    
                 } else {
                     setCoinsAlertMsg({status:400, message: response?.error?.mesage || response?.result || "An Error occurred"})
+                    setPrevSession(nextSession);
+                    setNextSession({round: nxtRound})
                 }
             })
         } else {
-            setBIDrslts(null)
+            setPrevSession(nextSession);
+            setNextSession({round: nxtRound})
             return
         }
    }
 
-    const getCoinRoll = (btID, session) => {
+    const getCoinRoll = (btID, session, nxtRound) => {
         // get session id and use it
         let endpoint = 'coin-roll';
         makeRequest({url: endpoint,
@@ -134,9 +166,15 @@ const SureCoinIndex = (props) => {
                 data: {session_id: session, bet_id: btID, profile_id: state?.user?.profile_id},
                 api_version:'sureCoin'}).then(([status, response]) => {
             let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
+
             if(status == 200) {
-                setBIDrslts(response);
+                
+                let lastSes = nextSession;
+                setPrevSession({...lastSes, rslt: response});
+                setNextSession({round: nxtRound})
+                
             } else {
+                setNextSession({round: nxtRound})
                 setCoinsAlertMsg({status: 400, mesage: "An error occurred"});
             }
         })
@@ -147,10 +185,10 @@ const SureCoinIndex = (props) => {
 
         return (
             <>
-                <div>Round: 67</div>
+                <div>Round: {runCoinSpin ? prevSession?.round : nextSession?.round}</div>
                 <hr />
                 <div className="scores">
-                    <div>Online: 6000</div>
+                    <div>Bets: 6000</div>
                     <div> Heads: 55% </div> <div> Tails: 45% </div>
                 </div>
 
@@ -166,6 +204,9 @@ const SureCoinIndex = (props) => {
         <div className="launched-sure-coin">
             {/* <PageHeader /> */}
             <div className="surecoin-body">
+
+                {/*  */}
+                
                 <div className="surecoin-main md:flex">
                     <div className={`sure-coin-betting-section md:flex-col  w-full md:w-6/12 mx-auto`}>
                         <div className="sure-coin-header row relative">
@@ -182,19 +223,22 @@ const SureCoinIndex = (props) => {
                             </div>
                         </div>
                         <div className="casino-service-sure-coin relative">
-
+                        
                             <div className="coin-extra-info coin-quick-stats">
                                 <StatsInfo />
                             </div>
 
-                            <div className="rotating-images-wrapper coin-sections">
+
+                            <div className="rotating-images-wrapper coin-sections relative">
+                            <div className="director-message">{!runCoinSpin ? "Choose Heads or Tails and Confirm" : "Wait for Next Round"}</div>
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (
                                     <div className="rotating-image-container">
                                         <RotatingCoin 
                                             coinnumber={idx + 1}
                                             isspinning={runCoinSpin}
                                             usermuted={userMuted}
-                                            rslt = {bIDrslts}
+                                            nxtSession = {nextSession}
+                                            prevSession = {prevSession}
                                             cvterfxn = {elizabeth}/>
 
                                     </div>
@@ -207,7 +251,8 @@ const SureCoinIndex = (props) => {
                                         <CoinStakeChoice
                                             coinnumber={idx + 1}
                                             isspinning={runCoinSpin}
-                                            rslt = {bIDrslts}
+                                            nxtSession = {nextSession}
+                                            prevSession = {prevSession}
                                             cvterfxn = {elizabeth}
                                         />
                                     </div>

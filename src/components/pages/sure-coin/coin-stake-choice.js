@@ -7,7 +7,7 @@ import { Switch } from "@mui/material";
 import { type } from "@testing-library/user-event/dist/cjs/utility/index.js";
 
 const CoinStakeChoice = (props) => {
-    const {coinnumber, isspinning, istakingbets, spinningoutcome, rslt, cvterfxn} = props;
+    const {coinnumber, isspinning, nxtSession, prevSession} = props;
     const [amount, setAmount] = useState(10);
     const [state, dispatch] = useContext(Context);
     const [inputErrors, setInputErrors] = useState({});
@@ -19,7 +19,6 @@ const CoinStakeChoice = (props) => {
     const [autoBetsLeft, setAutoBetsLeft] = useState(1);
     const [userPlaceBetOn, setUserPlaceBetOn] = useState(false);
     const [autoPick, setAutoPick] = useState(false)
-    const autobetBtnRef = useRef(null);
 
 
 
@@ -38,7 +37,7 @@ const CoinStakeChoice = (props) => {
 
     useEffect(() => {
 
-    }, [pickedBtn])
+    }, [pickedBtn]);
 
     const changeAmount = (changeType) => {
 
@@ -63,8 +62,7 @@ const CoinStakeChoice = (props) => {
         if (isspinning == false) {
             //Next, we check if it's on auto and etoc picks are ok
             let timeOutId;
-            if(autoPick){coinsideAutopick()}else{setPickedBtn(null)};
-            if(userPlaceBetOn) {
+            // if(userPlaceBetOn) {
                 // setUserPlaceBetOn(false);
                 if (autoBet) {
                     if(autoBetsLeft > 0){
@@ -74,18 +72,19 @@ const CoinStakeChoice = (props) => {
                             setUserPlaceBetOn(true);
                             setAutoBetsLeft((prev) => prev - 1)
                         }, 1000);
-                    } else {
-                        setAutoBet(false);
-                        setPickedBtn(null);
                     }
                 } else {
-                    setUserPlaceBetOn(false);
-                    setPickedBtn(null);
+                    // setUserPlaceBetOn(false);
 
                 }
-            } else {
-                // setPickedBtn(null);
+            
+        } else {
+            if(!autoBet) {
+                setAutoPick(false);
             }
+            setPickedBtn(null)
+            setUserPlaceBetOn(false);
+
         }
         
     }, [isspinning])
@@ -100,7 +99,6 @@ const CoinStakeChoice = (props) => {
     }
 
     useEffect(() => {
-        
         if (amount) {
             dispatch({type:"SET",
                 key: "coinselections",
@@ -135,11 +133,11 @@ const CoinStakeChoice = (props) => {
             }
         }
     }
+
+    
     return (
         <>
-            <div className="user-input-section" onClick={() => setcanplayTheitems()}>
-                <div className="my-2 pt-2">PLACE YOUR BET </div>
-                
+            <div className="user-input-section" onClick={() => setcanplayTheitems()}>                
                 <div className="user-input-main flex">
                     <div className="input-collector flex-col w-1/2 m-1">
                         <div className="flex my-1">
@@ -205,6 +203,9 @@ const CoinStakeChoice = (props) => {
                                                     onClick={() => setAutoBetsLeft(autoBetsLeft + 1) }/>
                                             </div>
                                         }
+
+                                        {(autoBet && !nxtSession?.coinselections?.[coinnumber]?.pick) && <div className="autopick-hint">select auto pick</div>}
+
                                 </div>
                                 
                             </div>
@@ -220,23 +221,23 @@ const CoinStakeChoice = (props) => {
                                     <button
                                         className={`relative mb-2 pickBtn !w-full head uppercase ${pickedBtn === "heads" ? "selected-btn selected-head" : ""}`}
                                         onClick={() => pickClick("heads")}
-                                        disabled={disabledBetBtn}>
-                                            Heads {pickedBtn == "heads" && <FaCheckCircle className="user-picked-btn"/>}
+                                        >
+                                            Heads {nxtSession?.coinselections?.[coinnumber]?.pick == "heads" && <FaCheckCircle className="user-picked-btn"/>}
                                     </button>
                                 </div>
                                 <div className="col-6">
                                     <button
                                         className={`relative pickBtn !w-full tail uppercase ${pickedBtn === "tails" ? "selected-btn selected-tail" : ""}`} 
                                         onClick={() => pickClick("tails")}
-                                        disabled={disabledBetBtn}>
-                                        Tails {pickedBtn == "tails" && <FaCheckCircle className="user-picked-btn"/>}
+                                        >
+                                        Tails {nxtSession?.coinselections?.[coinnumber]?.pick == "tails" && <FaCheckCircle className="user-picked-btn"/>}
                                     </button>
                                 </div>
                             </div>
                         </div>
 
                         <div className="col-md-6">
-                            <button disabled={userPlaceBetOn} className={`md: w-80 btn btn-place-surecoin-bet ${userPlaceBetOn && "betplaced"}`} onClick={() => pressBetButton()}>{userPlaceBetOn ? "Placed" : !userPlaceBetOn && autoBet && autoBetsLeft > 0 ? "Click to start" : "Place bet"}</button>
+                            <button disabled={!nxtSession?.coinselections?.[coinnumber]?.pick || nxtSession?.coinselections?.[coinnumber]?.userbeton} className={`${!nxtSession?.coinselections?.[coinnumber]?.pick && "no-picked-disabled"} md: w-80 btn btn-place-surecoin-bet ${nxtSession?.coinselections?.[coinnumber]?.userbeton && "betplaced"}`} onClick={() => pressBetButton()}>{nxtSession?.coinselections?.[coinnumber]?.userbeton ? "Confirmed" : !nxtSession?.coinselections?.[coinnumber]?.pick ? "Pick Heads or Tails" : "Confirm Bet"}</button>
                         </div>
                     </div>
                 </div>

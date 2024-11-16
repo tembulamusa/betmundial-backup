@@ -80,6 +80,8 @@
     margin-bottom: 7px;
     border-radius: 8px;
     color: #fff;
+    padding-top: 8px;
+    margin-top: 8px;
 }
 .launched-sure-coin{
     
@@ -207,7 +209,7 @@
 }
 
 .bets-timer-empty-holder {
-    height: 27px;
+    height: 23px;
 }
 .btn-place-surecoin-bet:hover {
     opacity: .7;
@@ -247,6 +249,41 @@
 	border-radius: 10px;
     line-height: 23px;
     min-width: 25%;
+}
+
+.time-left {
+    color: #FFB200;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.director-message {
+    position: absolute;
+    bottom: 18%;
+    transform: translate(-50%, 60%);
+    font-size: 20px;
+    left: 50%;
+    text-transform: uppercase;
+}
+.no-picked-disabled {
+    background: #cccccc !important;
+    border: none !important;
+    color: #666666 !important;
+
+}
+button:disabled,
+button[disabled]{
+  cursor: not-allowed;
+}
+
+.autopick-hint {
+    color: #FFB200;
+    font-size: 10px;
+    margin-top: 7px;
+    font-weight: 500;
+    text-transform: uppercase;
 }
 @media screen and (max-width: 648px) {
     .surecoin-body {
@@ -289,4 +326,3 @@
 	font-weight: 500;
 	opacity: 0.9;
 }
-

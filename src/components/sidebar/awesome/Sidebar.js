@@ -178,9 +178,10 @@ const ProSidebar = (props) => {
                  
             })
         }
-
-        
     }
+
+    // comment for normal games
+    useEffect(() => {dispatch({type: "SET", key: "nosports", payload: true})}, [])
 
     const getSportCategories = () => {
         // Check for and update for categories
@@ -219,7 +220,7 @@ const ProSidebar = (props) => {
 
     return (
         <>
-        {!excludeSidebar.includes(loc) && (loc.includes("/live") ? <LiveSideBar /> : 
+        {(!state?.nosports) && (loc.includes("/live") ? <LiveSideBar /> : 
             <div style={{
                 display: 'flex',
                 overflow: 'scroll initial',
@@ -379,7 +380,7 @@ const ProSidebar = (props) => {
         }
         
         {
-            loc == "/casino" && 
+            state?.nosports && 
             
             <div className={`vh-100 d-none d-md-block col-md-2`}>
                 <div className='bg-white vh-100'>

@@ -3,15 +3,15 @@ import Head from "../../../assets/img/casino/head.png";
 import Tail from "../../../assets/img/casino/tail.png";
 import Sound2 from "../../../assets/audio/surecoin/coin.mp3";
 import Sound1 from "../../../assets/audio/surecoin/coin-spill.mp3";
+import WinSound from "../../../assets/audio/surecoin/win-mixkit.wav";
 import { Context } from "../../../context/store";
 
 const RotatingCoin = (props) => {
-    const {isspinning, coinnumber, usermuted, rslt, cvterfxn} = props;
+    const {isspinning, coinnumber, usermuted, cvterfxn, nxtSession, prevSession} = props;
     const [timeLeft, setTimeLeft] = useState(0);
     const [state, dispatch] = useContext(Context);
     const [rotatingSpeedLevel, setRotatingSpeedLevel] = useState("low");
     const [canPlaySound, setCanPlaySound] = useState(false);
-    const [winState, setWinState] = useState(null);
     const [spinOutcome, setSpinOutcome] = useState(null);
     const [coinOnDisplay, setCoinOnDisplay] = useState("heads");
 
@@ -19,58 +19,47 @@ const RotatingCoin = (props) => {
     useEffect(() => {
         if (isspinning) {
             setSpinOutcome(null);
-            setWinState(null);
         } else {
-            // if (!state?.userbeton) {
-                // spinNobet();
-                // setWinState(null);
-            // } else
-                // {
-                if (cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM]) {
-                    setWinState("won");
-                } else {
-                    setWinState("lost");
+           
+                if (cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM]) {
+                    notifyWon();
                 }
-                setSpinOutcome(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME]);
-                setCoinOnDisplay(cvterfxn(rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME].toLowerCase());
-            // }
+                setSpinOutcome(cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME]);
+                setCoinOnDisplay(cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME].toLowerCase());
+                if (!prevSession?.rslt) {
+                spinNobet()
+            }
             
         }
 
-        
     }, [isspinning]);
 
+    const notifyWon = () => {
+        if (!usermuted) {
+            const audio = new Audio(WinSound);
+            audio.play();
 
-    useEffect(() => {
-        if(!rslt) {
-            setWinState(null);
-            spinNobet() 
         }
-    }, [rslt])
+        return
+    }
 
     const spinNobet = () => {
         const choices = ["heads", "tails"]
         const i = Math.floor(Math.random() * 2);
         setSpinOutcome(choices[i]);
+        setCoinOnDisplay(choices[i])
     }
-    useEffect(() => {
-        if(winState) {
-            console.log("WIN CHANGED and for a while")
-        }
-    }, [winState]);
+    
 
     useEffect(() => {
         if (timeLeft <= 0) {
-            //setIsSpinning(false)
-            // audio.pause();
-            // audio2.pause();
+           
             return;
         }
 
         if (timeLeft <= 3 ) {
             if(rotatingSpeedLevel != "finishing") {
-                // audio.pause();
-                // audio2.play();
+                
                 setRotatingSpeedLevel("finishing");
 
             }
@@ -107,34 +96,37 @@ const RotatingCoin = (props) => {
                 audio2.pause();
                 audio.play();
                 
-                
             } 
         }
-            
+        
     }, [isspinning]);
 
     const BetInfo = () => {
 
         return (
-            <>
-                <div className="bet-info">
-                    <div className="mb-3">
-                        <div className="uppercase">Choice</div>
-                        <div className={`info-box chosen-box`}>
-                            <span className={`uppercase font-bold ${state?.coinselections?.[coinnumber]?.pick == "heads" ? "heads": "tails"}`}>{state?.coinselections?.[coinnumber]?.pick || "None"}</span>
+            <>  
+                {   
+                    <div className="bet-info">
+                        {(!isspinning && prevSession?.coinselections?.[coinnumber]?.userbeton) &&
+                            <div className="mb-3 relative">
+                                <div className="uppercase">Choice</div>
+                                <div className={`info-box chosen-box`}>
+                                    <span className={`uppercase font-bold ${prevSession?.coinselections?.[coinnumber]?.pick == "heads" ? "heads": "tails"}`}>{prevSession?.coinselections?.[coinnumber]?.pick || "None"}</span>
+                                </div>
+                            </div>
+                        }
+                        <div className="">
+                            {   spinOutcome &&
+                                <>
+                                    <div className="uppercase">Outcome</div>
+                                    <div className={`info-box user-choice ${spinOutcome?.toLowerCase() == "heads" ? "heads": "tails"}`}>
+                                        <span className={`uppercase font-bold `}>{spinOutcome}</span>
+                                    </div>
+                                </>
+                            }
                         </div>
                     </div>
-                    <div className="">
-                        {   spinOutcome &&
-                            <>
-                                <div className="uppercase">Outcome</div>
-                                <div className={`info-box user-choice ${spinOutcome?.toLowerCase() == "heads" ? "heads": "tails"}`}>
-                                    <span className={`uppercase font-bold `}>{spinOutcome}</span>
-                                </div>
-                            </>
-                        }
-                    </div>
-                </div>
+                }
             </>
         )
     }
@@ -142,7 +134,7 @@ const RotatingCoin = (props) => {
         <>
             <BetInfo />
             <div className={`rotating-img  ${isspinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`} onClick={() => setCanPlaySound()}>
-                <div className={`win-state ${winState}`}><img src={coinOnDisplay == "heads" ? Head : Tail } alt=""/></div>
+                <img src={coinOnDisplay == "heads" ? Head : Tail } alt=""/>
             </div>
         </>
     )
