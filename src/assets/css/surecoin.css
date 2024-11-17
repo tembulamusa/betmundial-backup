@@ -293,12 +293,31 @@ button[disabled]{
         /* margin-top: 5%; */
     }
     .rotating-img {
-        width: 190px;
+        width: 150px;
         padding-bottom: 0 !important;
     }
     .surecoin-logo-img {
 
     }
+
+    .director-message {
+        position: absolute;
+        bottom: 18%;
+        transform: translate(-50%, 44%);
+        font-size: 14px;
+        left: 49%;
+        width: 100%;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .user-menu-col {
+        width: auto;
+        margin-top: 9px;
+        margin-right: 4px;
+    }
+
+    
 
     .user-amount-input {
         max-width: 100px !important;
@@ -313,6 +332,10 @@ button[disabled]{
     }
     .casino-service-sure-coin {
         padding: 10px 1px;
+    }
+    .css-rehya9-MuiSwitch-root {
+        width: 70px !important;
+        height: 40px !important;
     }
     .coin-quick-stats {
         right: 0px;

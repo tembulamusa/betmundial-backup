@@ -141,7 +141,7 @@ const CoinStakeChoice = (props) => {
                 <div className="user-input-main flex">
                     <div className="input-collector flex-col w-1/2 m-1">
                         <div className="flex my-1">
-                            <label className="my-2 text-white opacity-80 w-1/4 flex">Amount</label>
+                            <label className="my-2 text-white opacity-80 w-1/2 !md:w-1/4 flex">Amount</label>
                             <div className="sure-coin-amount-input-section flex w-1/2">
                                 <CgRemove
                                     onClick={() => changeAmount("decrease") }
@@ -157,11 +157,11 @@ const CoinStakeChoice = (props) => {
                             </div>
                         </div>
                         <div className="win-info flex">
-                            <label className="my-2 text-white opacity-80 w-1/4 ">Odds</label>
+                            <label className="my-2 text-white opacity-80 w-1/2 md:w-1/4 ">Odds</label>
                             <div className="text-right font-[700] w-1/2 text-align-right"><small>x</small> 2</div>
                         </div>
                         <div className="win-info flex my-2">
-                            <label className=" text-white opacity-80 w-1/4 flex win-amount">Payout</label>
+                            <label className=" text-white opacity-80 w-1/2 !md:w-1/4 flex win-amount">Payout</label>
                             <div className="text-right font-[700] w-1/2 text-align-right float-end">KES. {amount *2 }.00</div>
                         </div>
                     </div>
@@ -217,7 +217,7 @@ const CoinStakeChoice = (props) => {
                     <div className={`input-place-bet-btn text-center w-full font-bol row`}>
                         <div className="col-md-6">
                             <div className={`row ${inputErrors?.userPick && "pick-errors"}`}>
-                                <div className="col-6">
+                                <div className="col-6 ">
                                     <button
                                         className={`relative mb-2 pickBtn !w-full head uppercase ${pickedBtn === "heads" ? "selected-btn selected-head" : ""}`}
                                         onClick={() => pickClick("heads")}
@@ -225,7 +225,7 @@ const CoinStakeChoice = (props) => {
                                             Heads {nxtSession?.coinselections?.[coinnumber]?.pick == "heads" && <FaCheckCircle className="user-picked-btn"/>}
                                     </button>
                                 </div>
-                                <div className="col-6">
+                                <div className="col-6 !pr-0">
                                     <button
                                         className={`relative pickBtn !w-full tail uppercase ${pickedBtn === "tails" ? "selected-btn selected-tail" : ""}`} 
                                         onClick={() => pickClick("tails")}
@@ -236,8 +236,8 @@ const CoinStakeChoice = (props) => {
                             </div>
                         </div>
 
-                        <div className="col-md-6">
-                            <button disabled={!nxtSession?.coinselections?.[coinnumber]?.pick || nxtSession?.coinselections?.[coinnumber]?.userbeton} className={`${!nxtSession?.coinselections?.[coinnumber]?.pick && "no-picked-disabled"} md: w-80 btn btn-place-surecoin-bet ${nxtSession?.coinselections?.[coinnumber]?.userbeton && "betplaced"}`} onClick={() => pressBetButton()}>{nxtSession?.coinselections?.[coinnumber]?.userbeton ? "Confirmed" : !nxtSession?.coinselections?.[coinnumber]?.pick ? "Pick Heads or Tails" : "Confirm Bet"}</button>
+                        <div className="col-md-6 !pr-0">
+                            <button disabled={!nxtSession?.coinselections?.[coinnumber]?.pick || nxtSession?.coinselections?.[coinnumber]?.userbeton} className={`${!nxtSession?.coinselections?.[coinnumber]?.pick && "no-picked-disabled"} w-full md:w-80 btn btn-place-surecoin-bet md:mb-0 mb-2 ${nxtSession?.coinselections?.[coinnumber]?.userbeton && "betplaced"}`} onClick={() => pressBetButton()}>{nxtSession?.coinselections?.[coinnumber]?.userbeton ? "Confirmed" : !nxtSession?.coinselections?.[coinnumber]?.pick ? "Pick Heads or Tails" : "Confirm Bet"}</button>
                         </div>
                     </div>
                 </div>
