@@ -7,7 +7,7 @@ import WinSound from "../../../assets/audio/surecoin/win-mixkit.wav";
 import { Context } from "../../../context/store";
 
 const RotatingCoin = (props) => {
-    const {isspinning, coinnumber, usermuted, cvterfxn, nxtSession, prevSession} = props;
+    const {isspinning, coinnumber, usermuted, cvterfxn, nxtSession, prevSession, setRoundStats} = props;
     const [timeLeft, setTimeLeft] = useState(0);
     const [state, dispatch] = useContext(Context);
     const [rotatingSpeedLevel, setRotatingSpeedLevel] = useState("low");
@@ -50,7 +50,6 @@ const RotatingCoin = (props) => {
         setCoinOnDisplay(choices[i])
     }
     
-
     useEffect(() => {
         if (timeLeft <= 0) {
            
@@ -113,6 +112,12 @@ const RotatingCoin = (props) => {
                                 <div className={`info-box chosen-box`}>
                                     <span className={`uppercase font-bold ${prevSession?.coinselections?.[coinnumber]?.pick == "heads" ? "heads": "tails"}`}>{prevSession?.coinselections?.[coinnumber]?.pick || "None"}</span>
                                 </div>
+                            </div>
+                        } 
+                        { isspinning &&
+
+                            <div className="relative">
+                                <div className="uppercase">SPINNING</div>
                             </div>
                         }
                         <div className="">

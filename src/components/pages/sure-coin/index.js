@@ -28,27 +28,17 @@ const SureCoinIndex = (props) => {
     const [coinsAlertMsg, setCoinsAlertMsg] = useState(null);
     const [timeToNextStart, setTimeToNextStart] = useState(4000);
     const [nextSession, setNextSession] = useState(null);
-    const [prevSession, setPrevSession] = useState(null);
+    const [prevSession, setPrevSession] = useState({round: Math.floor(Math.random() * (4000 - 260) + 260)});
     const [runCoinSpin, setRunCoinSPin] = useState(false);
-    const [nextRound, setNextRound] = useState(null);
-
+    const [startRound, setStartRound] = useState(789);
+    const [roundStats, setRoundStats]  = useState({});
     // On Run coin spin
     useEffect(() => {
         if (runCoinSpin) {
             // const timeoutId = setTimeout(() => {
-            let generatedSession = null
-            if (state?.user?.profile_id) {
-                let now = Date.now();
-                generatedSession = state?.user?.profile_id + ":" + now
-            } else {
-                return
-            }
             placeBet(nextSession);
 
-        } else {
-
-        }
-        
+        }        
         
     }, [runCoinSpin]);
 
@@ -68,10 +58,11 @@ const SureCoinIndex = (props) => {
         if (runCoinSpin){
             spintimeout = setTimeout(() => {
                 setRunCoinSPin(false)
-            }, timeToNextStart)
+            }, timeToNextStart);
+            setStartRound(startRound + 1);
+            setRoundStats({});
         }
-
-        console.log("MY SESSION :: ", prevSession)
+        
         return () => {clearTimeout(spintimeout)};
     }, [runCoinSpin])
 
@@ -101,34 +92,29 @@ const SureCoinIndex = (props) => {
   }
   
   const computeStartRound = () => {
-    let roundNumber = Math.floor(Math.random() * (4000 - 60) + 60);
-    setNextRound(roundNumber);
-    setNextSession({round: roundNumber + 1});
+    // let roundNumber = ;
+    
+    
   }
   useEffect(() => {
     dispatch({type: "SET", key: "surecoinlaunched", payload: true});
-    computeStartRound();
+    setStartRound(Math.floor(Math.random() * (4000 - 260) + 260));    
+    
     return () => {
         dispatch({type:"DEL", key:"surecoinlaunched"})
     }
-    // get round according to time of day so it can be lied that 
   }, [])
 
 //   session manager
   useEffect(() => {
-    console.log("THE CHANGE IN USER SELECTIONS :::: ", state?.coinselections)
     setNextSession({...nextSession, coinselections: state?.coinselections});
-
   }, [state?.coinselections]);
-
-  useEffect(() => {console.log("THE LOGGED NEXT SESSION :::: ", nextSession)}, [nextSession])
 
 
     const placeBet = (roundSession) => {
-        let session = state?.user?.profile_id + ":" + nextRound
-        let nxtRound = nextRound + 1
-        setNextRound(nxtRound);
-
+        let nxtRound = nextSession?.round + 1
+        let session = state?.user?.profile_id + ":" + nextSession?.round
+        
         if (roundSession?.coinselections?.[1]?.userbeton ) {
             let endpoint = 'place-bet';
             makeRequest({url: endpoint, 
@@ -143,7 +129,7 @@ const SureCoinIndex = (props) => {
                     } else {
                         setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"});
                         setPrevSession(nextSession);
-                        setNextSession({round: nextRound + 1})
+                        setNextSession({round: nxtRound})
                     }
                 } else {
                     setCoinsAlertMsg({status:400, message: response?.error?.mesage || response?.result || "An Error occurred"})
@@ -181,15 +167,20 @@ const SureCoinIndex = (props) => {
     }
     
 
+
+    const randomizeBets = () => {
+
+    }
+
     const StatsInfo = () => {
 
         return (
             <>
-                <div>Round: {runCoinSpin ? prevSession?.round : nextSession?.round}</div>
+                <div>Round: {startRound}</div>
                 <hr />
                 <div className="scores">
-                    <div>Bets: 6000</div>
-                    <div> Heads: 55% </div> <div> Tails: 45% </div>
+                    <div>Bets: {roundStats?.bets}</div>
+                    <div> Heads: {roundStats?.heads || "0"}% </div> <div> Tails: {roundStats?.tails || "0"}% </div>
                 </div>
 
             </>
@@ -214,11 +205,15 @@ const SureCoinIndex = (props) => {
                                 <div className={`sure-alert height-hide ${coinsAlertMsg.status == 200 ? "success" : "error"}`}>{coinsAlertMsg.message}</div>
                             }
                             <div className="col-sm-4 w-4/12 md:w-6/12 col-md-6 ">
-                                <div className="flex"><img src={SureCoinLogoImg} className="surecoin-logo-img" /> SureCoin <span className=""><FaQuestion className="inline-block md:hidden"/><button className="hidden md:inline-block basic-highlight-alert ml-3 font-[300] bg-[#f5a623] text-[#5f3816] rounded-md px-3">How to play</button></span></div>
+                                <div className="flex"><img src={SureCoinLogoImg} className="surecoin-logo-img" /> SURECOIN </div>
                             </div>
                             <div className="col-sm-8 w-8/12 md:w-6/12 col-md-6">
                                 <div className="float-end flex">
-                                    <div className="inline-block text-3xl" onClick={() => isMutedToggle()}>{userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}</div>
+                                   <div className="inline-block text-2xl pr-2" >
+                                        <FaInfo />
+                                    </div>
+                                    <div className="inline-block text-3xl" onClick={() => isMutedToggle()}>
+                                        {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}</div>
                                     </div>
                             </div>
                         </div>
@@ -243,7 +238,7 @@ const SureCoinIndex = (props) => {
 
                                     </div>
                                 ))}
-                            {!runCoinSpin ? <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin}/> : <div className="bets-timer-empty-holder"></div>}
+                            {!runCoinSpin ? <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin} roundStats={roundStats} setRoundStats={setRoundStats} /> : <div className="bets-timer-empty-holder"></div>}
                             </div>
                             <div className="bet-control">
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (

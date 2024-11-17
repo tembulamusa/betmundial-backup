@@ -2,9 +2,14 @@
 import React, { useEffect, useState } from "react";
 
 const TakeBetsTimer = (props) => {
-    const {setRunCoinSpin } = props;
+    const {setRunCoinSpin, roundStats, setRoundStats } = props;
 
     const [timeLeft, setTimeLeft] = useState(450);
+
+    const randomInc = (prev, min, max) => {
+
+        return prev + Math.floor(Math.random() * (max - min) + min);
+    }
   
     useEffect(() => {
       if (!timeLeft) {
@@ -14,6 +19,13 @@ const TakeBetsTimer = (props) => {
   
       const intervalId = setInterval(() => {
         setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+        let heads = randomInc( 0, 60, 50);
+        setRoundStats({
+            bets:randomInc(roundStats?.bets || 0, 99, 23),
+            heads:heads,
+            tails:100 -heads
+        });
+
       }, 10);
   
       return () => clearInterval(intervalId);
