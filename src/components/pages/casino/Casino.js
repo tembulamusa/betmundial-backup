@@ -76,15 +76,6 @@ const Casino = (props) => {
     return (
         <>
             <CasinoCarousel />
-            <div className="casino-search-container flex items-center justify-center">
-                <input
-                    type="text"
-                    placeholder="Search games ..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    className="w-full md:w-1/2 p-2 my-4 border border-gray-300 rounded-md mx-auto"
-                />
-            </div>
             <div className="casino-games-list">
                 {fetching && <ShimmerTable row={3} />}
                 {!fetching && (!games || games?.games?.length < 1) && (

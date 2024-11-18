@@ -12,7 +12,7 @@ const GameCategoryListing = (props) => {
                 {gamestype}
             </section>
 
-            <section className="row !mx-0 pr-2">
+            <section className="row !mx-0 px-[3px]">
                     {games?.map((game, idx) => (
                         <div key={"casino-"+ idx} className="casino-game col-md-2">
                             <CasinoGame game={game} />

@@ -1730,7 +1730,13 @@ label {
   padding-left: 2px;
 }
 
+.no-sports-wide-width {
+ width: 100%; 
+}
+
 .highlights-board {
   padding: 5px 0px;
 }
+
 }
+

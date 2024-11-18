@@ -74,7 +74,7 @@ const App = () => {
                     <div className={`${state?.casinolaunch ? "": "diminish-mobile-row row"}`}>
                         {/* Conditional load live or otherwise */}
                         {!(state?.casinolaunch || state?.surecoinlaunched) && <Sidebar />}
-                            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": "col-md-7 home mx-auto"}`}>
+                            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10": "col-md-7 home mx-auto"}`}`}>
                         <Routes>
                             {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
                             {/* <Route exact path="/" element={<Index/>}/>
@@ -83,7 +83,7 @@ const App = () => {
                             <Route exact path="/virtuals/casino" element={<Casino />}/>
                             <Route exact path="/livescore" element={<LiveScore/>}/> */}
                             <Route exact path="/casino" element={<Casino/>}/>
-                            <Route exact path="/" element={<CasinoHome/>}/>
+                            {/* <Route exact path="/" element={<CasinoHome/>}/> */}
 
                             {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
 
@@ -98,7 +98,7 @@ const App = () => {
                             <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
                             
                             <Route exact path="/print-matches" element={<PrintMatches/>}/>                            
-                            <Route exact path="/promotions" element={<Promotions/>}/>
+                            // <Route exact path="/promotions" element={<Promotions/>}/>
                             */}
 
                             <Route exact path="/casino/:name" element={<CasinoLaunchedGame />}/>
