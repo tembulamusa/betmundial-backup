@@ -215,7 +215,7 @@ const SureCoinIndex = (props) => {
                             <div className="col-sm-8 w-8/12 md:w-6/12 col-md-6">
                                 <div className="float-end flex">
                                    <div className="inline-block text-2xl pr-2" >
-                                        <FaInfo />
+                                        {/* <FaInfo /> */}
                                     </div>
                                     <div className="inline-block text-3xl" onClick={() => isMutedToggle()}>
                                         {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}</div>
