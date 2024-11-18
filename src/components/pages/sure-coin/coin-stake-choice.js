@@ -53,6 +53,8 @@ const CoinStakeChoice = (props) => {
             }
         }
     }
+
+    useEffect(() => {if( autoBetsLeft < 0 ) { setAutoBetsLeft(0) }}, [autoBetsLeft])
     const coinsideAutopick = () => {
         const choices = ["heads", "tails"]
         const i = Math.floor(Math.random() * 2);
@@ -235,7 +237,6 @@ const CoinStakeChoice = (props) => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="col-md-6 !pr-0">
                             <button disabled={!nxtSession?.coinselections?.[coinnumber]?.pick || nxtSession?.coinselections?.[coinnumber]?.userbeton} className={`${!nxtSession?.coinselections?.[coinnumber]?.pick && "no-picked-disabled"} w-full md:w-80 btn btn-place-surecoin-bet md:mb-0 mb-2 ${nxtSession?.coinselections?.[coinnumber]?.userbeton && "betplaced"}`} onClick={() => pressBetButton()}>{nxtSession?.coinselections?.[coinnumber]?.userbeton ? "Confirmed" : !nxtSession?.coinselections?.[coinnumber]?.pick ? "Pick Heads or Tails" : "Confirm Bet"}</button>
                         </div>

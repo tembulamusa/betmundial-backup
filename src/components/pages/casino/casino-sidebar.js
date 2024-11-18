@@ -39,14 +39,14 @@ const CasinoSidebar = (props) => {
     const Favorites = (props) => {
 
         return (
-            <div className="pt-5 casino-list-block menu-card rounded-lg  capitalize">
+            <div className="pt-3 casino-list-block menu-card rounded-lg  capitalize">
                     <ul className="casino-sidebar-items">
                     <li key={"all-" + 23} 
                         className={`cursor-pointer menu-item capitalize` }
                         onClick={() => filterGames("all", "all")}>
                         <img  src={getSportImageIcon('home')} className="casino-icon" alt=""/>{"All games"}
                     </li>
-                    <li key={"all-" + 24} 
+                    <li key={"all-" + 24}
                         className={`cursor-pointer menu-item capitalize` }
                         onClick={() => filterGames("popular", "popular")}>
                         <img  src={getSportImageIcon('popular')} className="casino-icon" alt=""/>{"Popular"}
@@ -98,7 +98,7 @@ const CasinoSidebar = (props) => {
     }
     return (
         <div className="casino-sidebar ml-2">
-            <h1 className="mb-3 bg-white pt-5 pb-3  text-4xl px-3 text-gray-600 font-[600] border-b border-gray-200">Casino</h1>
+            <h1 className="mb-3 bg-white pt-4 pb-3  text-4xl px-3 text-gray-600 font-[600] border-b border-gray-200">Casino</h1>
             <Favorites />
             <CasinoCategories />
             <CasinoProviders />

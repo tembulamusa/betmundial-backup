@@ -116,8 +116,11 @@ const SureCoinIndex = (props) => {
     const placeBet = (roundSession) => {
         let nxtRound = (nextSession?.round ? nextSession?.round : startRound) + 1
         let session = state?.user?.profile_id + ":" + nextSession?.round
-        console.log("THE ROUND AS IS ::: ", nxtRound, "NEXT SESSION ;::::: ", nextSession);
         if (roundSession?.coinselections?.[1]?.userbeton ) {
+            if(!state?.user?.profile_id) {
+                dispatch({type:"SET", key:"showloginmodal", payload: true})
+                return
+            }
             let endpoint = 'place-bet';
             makeRequest({url: endpoint, 
                 method: 'POST',

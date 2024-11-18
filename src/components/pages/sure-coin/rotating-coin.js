@@ -14,6 +14,7 @@ const RotatingCoin = (props) => {
     const [canPlaySound, setCanPlaySound] = useState(false);
     const [spinOutcome, setSpinOutcome] = useState(null);
     const [coinOnDisplay, setCoinOnDisplay] = useState("heads");
+    const [won, setWon] = useState(false);
 
     
     useEffect(() => {
@@ -35,6 +36,7 @@ const RotatingCoin = (props) => {
     }, [isspinning]);
 
     const notifyWon = () => {
+        setWon(true)
         if (!usermuted) {
             const audio = new Audio(WinSound);
             audio.play();
@@ -43,6 +45,13 @@ const RotatingCoin = (props) => {
         return
     }
 
+    useEffect(() => {
+        if(won){
+            setTimeout(() => {
+                setWon(false);
+            }, 3000);
+        }
+    },[won])
     const spinNobet = () => {
         const choices = ["heads", "tails"]
         const i = Math.floor(Math.random() * 2);
@@ -136,12 +145,21 @@ const RotatingCoin = (props) => {
         )
     }
     return (
-        <>
+        <div className="relative">
             <BetInfo />
+            <div className="notify-win-container">
+                <div className={`flex capitalize notify-win ${won && "won"}`}>
+                    <span className="flex-col">Outcome<br/><span className="font-bold uppercase">{spinOutcome}</span></span>
+                    <span className="flex-col ml-2 won-amount">
+                        won<br/>
+                        <span className="font-bold">{prevSession?.coinselections?.[coinnumber]?.amount * 2}</span>
+                    </span>
+                </div>
+            </div>
             <div className={`rotating-img  ${isspinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`} onClick={() => setCanPlaySound()}>
                 <img src={coinOnDisplay == "heads" ? Head : Tail } alt=""/>
             </div>
-        </>
+        </div>
     )
 }
 
