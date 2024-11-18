@@ -16,14 +16,14 @@ const BigIconMenu = () => {
         {name: "home", icon:"home.svg", link:"/", parentTo:null},
         //{name: "live", icon:"livescore.svg", link:"/live", parentTo:null},
         //{name: "jackpot", icon:"jackpot.svg", link:"/jackpot", parentTo:null},
-        {name: "aviator", icon:"aviator.svg", link:"/aviator", parentTo:null},
+        // {name: "aviator", icon:"aviator.svg", link:"/aviator", parentTo:null},
         {name: "surecoin", icon:"surecoin.svg", link:"/surecoin", parentTo:null},
         {name: "casino", icon:"casino.svg", link:"/casino", parentTo:null},
         //These next 3 Links did not exist before we removed SPORTS
-        {name: "aviatrix", icon:"aviatrix.svg", link:"/aviatrix", parentTo:null},
-        {name: "numbers", icon:"numbers.svg", link:"/numbers", parentTo:null},
+        // {name: "aviatrix", icon:"aviatrix.svg", link:"/aviatrix", parentTo:null},
+        // {name: "numbers", icon:"numbers.svg", link:"/numbers", parentTo:null},
        // {name: "sport", icon:"sports.svg", link:null, parentTo:"sportscategories"},
-        {name: "virtuals", icon:"virtuals.svg", link:"/virtuals", parentTo:null},
+        // {name: "virtuals", icon:"virtuals.svg", link:"/virtuals", parentTo:null},
        // {name: "league", icon:"league.svg", link:"/sure-league", parentTo:null},
         {name: "promotions", icon:"promos.svg", link:"/promotions", parentTo:null},
         //{name: "livescore", icon:"livescore.svg", link:"/#livescore", parentTo:null},        
@@ -41,7 +41,7 @@ const BigIconMenu = () => {
         // {name: "volleyball", icon:"volleyball.svg", link:"/#volleyball", parentTo:null},
         // {name: "mma", icon:"mma.svg", link:"/#mma", parentTo:null},
         // {name: "floorball", icon:"floorball.svg", link:"/#floorball", parentTo:null},
-        {name: "print", icon:"print.svg", link:"/print-matches", parentTo:null},
+        // {name: "print", icon:"print.svg", link:"/print-matches", parentTo:null},
     ]
 
     const getSportImageIcon = (sport_name) => {

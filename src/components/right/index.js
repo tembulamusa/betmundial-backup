@@ -245,8 +245,8 @@ const Right = (props) => {
 
   return (
     <>
+    {!state?.nosports && <>
       <div className="col-md-3 betslip-container sticky-top">
-      {!state?.nosports &&
         <>
         <section id="betslip" className="betslip-v2">
           <div className="betslip-header bg-secondary uppercase">
@@ -270,15 +270,15 @@ const Right = (props) => {
         <PaybillNumbersSection />
 
         </>
-        }
         <MiniGames />
         <CustomerCareSection />
       
        
       </div>
 
-      {/* Mobile version of BetSlip */}
       <LoadedBetslip betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
+      </>
+    }
     </>
   );
 };
