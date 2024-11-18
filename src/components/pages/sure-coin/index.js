@@ -27,8 +27,8 @@ const SureCoinIndex = (props) => {
     const [bIDrslts, setBIDrslts] = useState(null);
     const [coinsAlertMsg, setCoinsAlertMsg] = useState(null);
     const [timeToNextStart, setTimeToNextStart] = useState(4000);
-    const [nextSession, setNextSession] = useState(null);
-    const [prevSession, setPrevSession] = useState({round: Math.floor(Math.random() * (4000 - 260) + 260)});
+    const [nextSession, setNextSession] = useState({});
+    const [prevSession, setPrevSession] = useState({});
     const [runCoinSpin, setRunCoinSPin] = useState(false);
     const [startRound, setStartRound] = useState(789);
     const [roundStats, setRoundStats]  = useState({});
@@ -98,7 +98,9 @@ const SureCoinIndex = (props) => {
   }
   useEffect(() => {
     dispatch({type: "SET", key: "surecoinlaunched", payload: true});
-    setStartRound(Math.floor(Math.random() * (4000 - 260) + 260));    
+    let stRound = Math.floor(Math.random() * (4000 - 260) + 260)
+    setStartRound(stRound);
+    setNextSession({round: stRound})
     
     return () => {
         dispatch({type:"DEL", key:"surecoinlaunched"})
@@ -112,9 +114,9 @@ const SureCoinIndex = (props) => {
 
 
     const placeBet = (roundSession) => {
-        let nxtRound = nextSession?.round + 1
+        let nxtRound = (nextSession?.round ? nextSession?.round : startRound) + 1
         let session = state?.user?.profile_id + ":" + nextSession?.round
-        
+        console.log("THE ROUND AS IS ::: ", nxtRound, "NEXT SESSION ;::::: ", nextSession);
         if (roundSession?.coinselections?.[1]?.userbeton ) {
             let endpoint = 'place-bet';
             makeRequest({url: endpoint, 
