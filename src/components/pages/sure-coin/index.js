@@ -118,7 +118,9 @@ const SureCoinIndex = (props) => {
         let session = state?.user?.profile_id + ":" + nextSession?.round
         if (roundSession?.coinselections?.[1]?.userbeton ) {
             if(!state?.user?.profile_id) {
-                dispatch({type:"SET", key:"showloginmodal", payload: true})
+                if (!state?.showloginmodal) {
+                    dispatch({type:"SET", key:"showloginmodal", payload: true})
+                }
                 return
             }
             let endpoint = 'place-bet';
