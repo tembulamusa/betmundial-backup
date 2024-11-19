@@ -16,15 +16,12 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
             url = ACCOUNTS_URL + url
         } else {
             if (api_version == "faziCasino") {
-                console.log("Losging fazi", CASINOFAZI );
                 url = CASINOFAZI + url
             } else if (api_version == "sureCoin") {
                 url = SURECOIN_URL + url
             }
         }
     }
-    console.log("Final URL Is", url );
-    
     let headers = {
         "accept": "application/json",
         "content-type": "application/json",

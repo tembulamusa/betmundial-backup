@@ -1,15 +1,19 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
 import { getFromLocalStorage } from "../../utils/local-storage";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineClose } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import useInterval from "../../../hooks/set-interval.hook";
 
 const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
+    const [currentBalRequest, setCurrentBalRequest] = useState(false);
     const navigate = useNavigate();
 
+
     useEffect(() => {
+        // Balance polling fxn
         dispatch({type: "SET", key:"iscasinopage", payload: true});
         // check for game that is currently loaded on local storage
         if(!state?.casinolaunch) {
@@ -21,12 +25,18 @@ const CasinoLaunchedGame = (props) => {
             }
             
         }
+
         return () => {
             dispatch({type:"DEL", key:"iscasinopage"})
             dispatch({type:"DEL", key:"casinolaunch"})
         }
     }, []);
+    const triggerBalCheck = () => {
+       setCurrentBalRequest(!currentBalRequest);
+    }
 
+    useEffect(() => {console.log('I AM TRYING TO MAKE A BAL REQUEST ::: ', currentBalRequest); dispatch({type:"SET", key:"toggleuserbalance", payload: currentBalRequest})}, [currentBalRequest])
+    useInterval(triggerBalCheck, 7000)
     return (
         <>
             <section className="launched-game-header">

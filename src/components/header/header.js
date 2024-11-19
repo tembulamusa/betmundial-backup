@@ -52,11 +52,14 @@ const Header = (props) => {
                     setLocalStorage('user', u);
                     setUser(u)
                     dispatch({type: "SET", key: "user", payload: u});
+
+                    console.log("I HAVE REQUESTED FOR THIS BAL THIS TIME ::::: ", response?.data)
                     return                
                 }
             });
         }, 2000)
 
+        console.log("STARTING TO POLL BALS FROM THE HEADER ::::: ====== ", state?.user?.balance)
         const timerId = setTimeout(() => {
             clearInterval(repeatBalRequest);
         }, 6000)
