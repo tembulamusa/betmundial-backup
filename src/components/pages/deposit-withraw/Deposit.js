@@ -25,6 +25,13 @@ const Deposit = (props) => {
         msisdn: state?.user?.msisdn || ''
     }
 
+    useEffect(() => {
+        dispatch({type:"SET", key:"nosidebar", payload:true})
+        return () => {
+            dispatch({type:"DEL", key:"nosidebar"})
+        }
+    }, [])
+
     const handleSubmit = values => {
         let endpoint = '/v2/deposits/stk/new';
         setIsLoading(true);
@@ -64,14 +71,15 @@ const Deposit = (props) => {
     }
         
     
+    
 
         // Upon loading this page call the function that polls for balance every 3 seconds and then stops after 1 minute
         
 
     const FormTitle = () => {
         return (
-            <div className='col-md-12 bg-primary p-4 text-center'>
-                <h4 className="!capitalize">
+            <div className='p-4 text-center border-b border-gray-200'>
+                <h4 className="!uppercase">
                     Deposit Funds (Mobile money)
                 </h4>
             </div>
