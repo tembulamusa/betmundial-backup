@@ -132,7 +132,7 @@ const App = () => {
                                 element={<ProtectedRoute><MyBets/> </ProtectedRoute>}/>
 
                             {/* DEFAULT CUrrently the default component. Switch to INDEX when SPORTS AVAILABLE */}
-                            <Route path="*" element={<Casino/>}/>
+                            <Route path="*" element={<SureCoin/>}/>
 
                             </Routes>
                     </div>
