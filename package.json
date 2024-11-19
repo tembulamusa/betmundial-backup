@@ -69,7 +69,8 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "GENERATE_SOURCEMAP=false && node scripts/build.js && sudo cp -rf build/* ../surebet-live/ && sudo chown -R www-data ../surebet-live",
+    "build": "git checkout master && GENERATE_SOURCEMAP=false && node scripts/build.js && sudo cp -rf build/* ../surebet-live/ && sudo chown -R www-data ../surebet-live",
+    "staging": "git checkout development && GENERATE_SOURCEMAP=false && node scripts/build.js && sudo cp -rf build/* ../surebet-integration/ && sudo chown -R www-data ../surebet-integration",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "preinstall": "npx npm-force-resolutions"
