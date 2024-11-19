@@ -1,12 +1,11 @@
 import {setLocalStorage, getFromLocalStorage, removeItem} from './local-storage';
 
 const ENC_KEY = '2bdVweTeI42s5mkLdYHyklTMxQS5gLA7MDS6FA9cs1uobDXeruACDic0YSU3si04JGZe4Y';
-// const BASE_URL = 'https://bikoapi.bikosports.co.tz';
-const BASE_URL = 'https://apisb.surebet.co.ke/';
-const BASE2_URL = 'https://apisb.surebet.co.ke/bet-service';
-const ACCOUNTS_URL = 'https://api.surebet.co.ke';
-const CASINOFAZI = 'https://apisb.surebet.co.ke/fazi/casino/';
-const SURECOIN_URL = 'https://apisb.surebet.co.ke/v1/surecoin/user/';
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE2_URL = process.env.REACT_APP_BASE2_URL;
+const ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL;
+const CASINOFAZI = process.env.REACT_APP_CASINOFAZI_URL;
+const SURECOIN_URL = process.env.REACT_APP_SURECOIN_URL;
 
 const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1, serviceType}) => {
 
