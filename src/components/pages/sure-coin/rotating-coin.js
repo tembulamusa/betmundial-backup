@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Head from "../../../assets/img/casino/head.png";
 import Tail from "../../../assets/img/casino/tail.png";
+import WonGif from "../../../assets/img/casino/notes-falling.gif";
+import TryAgain from "../../../assets/img/casino/try-again.gif";
 import Sound2 from "../../../assets/audio/surecoin/coin.mp3";
 import Sound1 from "../../../assets/audio/surecoin/coin-spill.mp3";
 import WinSound from "../../../assets/audio/surecoin/win-mixkit.wav";
@@ -158,7 +160,20 @@ const RotatingCoin = (props) => {
             </div>
             <div className={`rotating-img  ${isspinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`} onClick={() => setCanPlaySound()}>
                 <img src={coinOnDisplay == "heads" ? Head : Tail } alt=""/>
+            </div>           
+            
+            {/* {!won && !isspinning && (
+            <div className="won-gif-container">
+                <img src={TryAgain} alt="Try Again" className="won-gif" />
             </div>
+            )} */}
+
+            {won && (
+                <div className="won-gif-container">
+                    <img src={WonGif} alt="Winning Gif" className="won-gif" />
+                </div>
+            )}
+            
         </div>
     )
 }
