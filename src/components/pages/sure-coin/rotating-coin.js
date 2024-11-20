@@ -16,21 +16,21 @@ const RotatingCoin = (props) => {
     const [canPlaySound, setCanPlaySound] = useState(false);
     const [spinOutcome, setSpinOutcome] = useState(null);
     const [coinOnDisplay, setCoinOnDisplay] = useState("heads");
-    const [won, setWon] = useState(false);
+    const [won, setWon] = useState(null);
 
     
     useEffect(() => {
         if (isspinning) {
             setSpinOutcome(null);
+            setWon(null);
         } else {
-           
+            
                 if (cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM] == true) {
                     notifyWon();
                 } else if (cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM] == false) {
-                    setWon(false);
-                    setTimeout(() => {
-                        setWon(null);
-                    }, 2000);
+                    setWon("lost");
+                } else if (cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM] == null) {
+                    setWon(null)
                 }
                 setSpinOutcome(cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME]);
                 setCoinOnDisplay(cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CROTCME].toLowerCase());
@@ -43,7 +43,7 @@ const RotatingCoin = (props) => {
     }, [isspinning]);
 
     const notifyWon = () => {
-        setWon(true)
+        setWon("won")
         if (!usermuted) {
             const audio = new Audio(WinSound);
             audio.play();
@@ -53,7 +53,8 @@ const RotatingCoin = (props) => {
     }
 
     useEffect(() => {
-        if(won){
+        console.log("WIN STATUS currently ::: ", won)
+        if(won == "won" || won == "lost"){
             setTimeout(() => {
                 setWon(null);
             }, 3000);
@@ -156,11 +157,11 @@ const RotatingCoin = (props) => {
             <BetInfo />
             <div className="notify-win-container">
                 {/* {won && <div className="won-text won-expanding-text">won {prevSession?.coinselections?.[coinnumber]?.amount * 2}</div>} */}
-                <div className={`flex capitalize notify-win ${won == true ? "won" : won == false ? "lost" : ""}`}>
-                    {/* <span className="flex-col">Outcome<br/><span className="font-bold uppercase">{spinOutcome}</span></span> */}
+                <div className={`flex capitalize notify-win ${won == "won" ? "won" : won == "lost" ? "lost" : ""}`}>
+                    <span className="flex-col">Outcome<br/><span className="font-bold uppercase">{spinOutcome}</span></span>
                     <span className="flex-col ml-2 won-amount">
-                        WON<br/>
-                        <span className="font-bold">KES. <span className="won-expanding">{prevSession?.coinselections?.[coinnumber]?.amount * 2}.00</span></span>
+                        {won == "won" && <>WON<br/></>}
+                        <span className="font-bold won-expanding">{won == "won" ? <span>KES. <span className="">{prevSession?.coinselections?.[coinnumber]?.amount * 2}.00</span></span> : <span className="mt-2 block">X</span> }</span>
                     </span>
                 </div>
             </div>
@@ -168,7 +169,7 @@ const RotatingCoin = (props) => {
                 <img src={coinOnDisplay == "heads" ? Head : Tail } alt=""/>
             </div>           
             
-            {won && (
+            {won == "won" && (
                 <div className="won-gif-container">
                     <img src={WonGif} alt="" className="won-gif" />
                     {/* <div className=""></div> */}
