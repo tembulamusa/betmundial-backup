@@ -57,17 +57,21 @@
 }
 
 .sure-alert.error {
-    position: absolute;
     background: #f8d7da;
-    max-width: 200px;
-    border-radius: 0 0 6px 6px;
-    top: 0;
-    color: #721c24;
     border: 1px solid #f5c6cb;
-    padding: 20px;
+    border-radius: 0 0 6px 6px;
+    color: #721c24;
     left: auto;
+    max-width: 200px;
+    padding: 20px;
+    position: absolute;
     right: auto;
-
+    top: 30px;
+    left: 50%;
+    transform: translate(-60px, 10px);
+    -moz-transform: translate(-60px, 10px);
+    -webkit-transform: translate(-60px, 10px);
+    z-index: 99;
 }
 .casino-service-sure-coin {
     background-color: rgba(0,0,0,0.6);
@@ -258,14 +262,15 @@
     font-size: 10px;
     line-height: 1.7;
 }
-
 .director-message {
-    position: absolute;
-    bottom: 18%;
-    transform: translate(-50%, 60%);
-    font-size: 20px;
+    bottom: 15%;
+    font-size: 18px;
     left: 50%;
+    position: absolute;
     text-transform: uppercase;
+    transform: translate(-50%,60%);
+    width: 100%;
+    text-align: center;
 }
 .no-picked-disabled {
     background: #cccccc !important;

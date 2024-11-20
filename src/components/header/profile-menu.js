@@ -21,6 +21,12 @@ const ProfileMenu = (props) => {
     console.log("Handling search for:", searchTerm);
   };
 
+  const LogoutFix = (props) => {
+
+    return (
+      <Link to={"/logout"} className="font-bold capitalize">logout</Link>
+    )
+  }
   return (
     <>
       {user && (
@@ -54,7 +60,10 @@ const ProfileMenu = (props) => {
               <span className="font-tbt py-1">
                 <span className="space-icons">
 {/* No sports Uncomment below*/}
-                  {/* <MobileMenu /> */}
+                  
+                  {state?.nosports ? <LogoutFix /> : <MobileMenu />}
+
+
 
                 </span>
               </span>

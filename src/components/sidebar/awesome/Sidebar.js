@@ -381,7 +381,7 @@ const ProSidebar = (props) => {
         }
         
         {
-            state?.nosports && 
+            (state?.nosports && !state?.nosidebar) && 
             
             <div className={`vh-100 d-none d-md-block col-md-2`}>
                 <div className='bg-white vh-100'>

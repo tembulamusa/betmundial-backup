@@ -17,6 +17,13 @@ const Withdrawal = (props) => {
         msisdn: state?.user?.msisdn
     }
 
+    
+    useEffect(() => {
+        dispatch({type:"SET", key:"nosidebar", payload:true})
+        return () => {
+            dispatch({type:"DEL", key:"nosidebar"})
+        }
+    }, []);
     const handleSubmit = values => {
         let endpoint = '/v2/withdrawals/new';
         let data = {msisdn: state?.user?.msisdn, amount: values?.amount}
