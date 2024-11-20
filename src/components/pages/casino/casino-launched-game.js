@@ -27,6 +27,7 @@ const CasinoLaunchedGame = (props) => {
         }
     }, []);
 
+    useInterva(triggerBalCheck, 7000)
     return (
         <>
             <section className="launched-game-header">
