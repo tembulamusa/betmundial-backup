@@ -22,9 +22,28 @@ const CasinoGame = (props) => {
             dispatch({type:"SET", key:"showloginmodal", payload:true});
             return false
         }
-        await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
+        let casinoVersion = "faziCasino";
+        let method = "GET";
+        let data;
+        if (game?.game_code == "nft-aviatrix") {
+            casinoVersion = "aviatrix"
+            endpoint = "demo"
+            if(moneyType == 1) {
+                endpoint = "launch"
+                data = {token: state?.user?.token}
+                method = "POST"
+            }
+        }
+
+        await makeRequest({url: endpoint, data: data, method: method, api_version:casinoVersion}).then(([status, result]) => {
+
+            console.log(result);
             if (status == 200) {
-                dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: result?.gameUrl}});
+                let launchUrl = result?.gameUrl
+                if(game?.game_code == "nft-aviatrix"){
+                    launchUrl = result?.url;
+                }
+                dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: launchUrl}});
                 setLocalStorage("casinolaunch", {game: game, url: result?.game_url})
                 navigate(`/casino/${game?.game_name.split(' ').join('')}`)
             } else {
@@ -54,6 +73,7 @@ const CasinoGame = (props) => {
         <>
         
             <div
+                style={{minWidth:"100px", minHeight: "100px"}}
                 className=""       
                 key={game.game_id}>
                 <LazyLoadImage src={getCasinoImageIcon(game.image_url)}

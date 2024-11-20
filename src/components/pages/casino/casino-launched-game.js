@@ -35,7 +35,6 @@ const CasinoLaunchedGame = (props) => {
        setCurrentBalRequest(!currentBalRequest);
     }
 
-    useEffect(() => {console.log('I AM TRYING TO MAKE A BAL REQUEST ::: ', currentBalRequest); dispatch({type:"SET", key:"toggleuserbalance", payload: currentBalRequest})}, [currentBalRequest])
     useInterval(triggerBalCheck, 7000)
     return (
         <>

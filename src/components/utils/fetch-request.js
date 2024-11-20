@@ -6,6 +6,7 @@ const BASE2_URL = process.env.REACT_APP_BASE2_URL;
 const ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL;
 const CASINOFAZI = process.env.REACT_APP_CASINOFAZI_URL;
 const SURECOIN_URL = process.env.REACT_APP_SURECOIN_URL;
+const AVIATRIX_URL = process.env.REACT_APP_AVIATRIX_URL;
 
 const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1, serviceType}) => {
 
@@ -19,6 +20,8 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
                 url = CASINOFAZI + url
             } else if (api_version == "sureCoin") {
                 url = SURECOIN_URL + url
+            } else if (api_version == "aviatrix") {
+                url = AVIATRIX_URL + url;
             }
         }
     }
