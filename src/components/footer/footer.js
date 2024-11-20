@@ -3,6 +3,7 @@ import { FaEnvelope, FaFacebook, FaXTwitter, FaInstagram, FaWhatsapp  } from "re
 
 import PlayStore from '../../assets/img/general-website/google-play-badge.png';
 import AppStore from '../../assets/img/general-website/appstore_badge.svg';
+import { FaMobile, FaPhone } from 'react-icons/fa';
 
 const Footer = (props) => {
 //#24367e
@@ -42,6 +43,10 @@ const Footer = (props) => {
                                 <FaWhatsapp className="icon" /> 
                                 <span>Chat with Us</span>
                             </a>
+                        </li>
+                        <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <FaPhone className="icon" /> 
+                            <span className='text-3xl'>0724 599 488</span>
                         </li>
                     </ul>
                 </div>
