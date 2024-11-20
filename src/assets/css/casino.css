@@ -161,7 +161,15 @@
 .casino.banner-imgs img {
     height: 250px;
 }
-@media screen and (max-width:640px) {
+
+.game-launch-issue {
+    position: absolute;
+    width: 95%;
+    top: -4px;
+    left: 3%;
+    right: auto;
+}
+@media screen and (max-width:648px) {
     .casino-game {
         width: 50%;
     }
