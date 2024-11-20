@@ -162,11 +162,11 @@ const RotatingCoin = (props) => {
                 <img src={coinOnDisplay == "heads" ? Head : Tail } alt=""/>
             </div>           
             
-            {!won && !isspinning && (
+            {/* {!won && !isspinning && (
             <div className="won-gif-container">
                 <img src={TryAgain} alt="Try Again" className="won-gif" />
             </div>
-            )}
+            )} */}
 
             {won && (
                 <div className="won-gif-container">
