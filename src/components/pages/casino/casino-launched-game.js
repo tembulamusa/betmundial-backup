@@ -4,6 +4,7 @@ import { getFromLocalStorage } from "../../utils/local-storage";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineClose } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import useInterval from "../../../hooks/set-interval.hook";
 
 const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -27,7 +28,7 @@ const CasinoLaunchedGame = (props) => {
         }
     }, []);
 
-    useInterva(triggerBalCheck, 7000)
+    useInterval(triggerBalCheck, 7000)
     return (
         <>
             <section className="launched-game-header">
