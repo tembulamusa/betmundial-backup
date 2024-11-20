@@ -16,16 +16,17 @@ import LoginModal from '../loginmodal';
 import BigIconNav from './big-icon-nav';
 import CheckMpesaDepositStatus from '../webmodals/check-mpesa-deposit-status';
 import DepositModal from '../webmodals/deposit-modal';
+import ReactGA from "react-ga4";
+import { useLocation } from 'react-router-dom';
+
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
-const MobileCurrentNavItems = React.lazy(()=> import('./mobile-current-nav-items'));
 
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
     const [state, dispatch] = useContext(Context);
     // const containerRef = useRef();
     // const {current} = containerRef;
-
     
     const NotifyToastContaner = () => {
         return <ToastContainer
