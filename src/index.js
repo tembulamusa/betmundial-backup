@@ -146,7 +146,7 @@ const App = () => {
                     {!(state?.casinolaunch || state?.surecoinlaunched) && <Right />}           
                 </div>
             </div>
-            {!(state?.casinolaunch || state?.surecoinlaunched) && <Footer />}
+            {<Footer />}
             </Suspense>
             </div>
             </BrowserRouter>
