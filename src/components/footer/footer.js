@@ -38,15 +38,17 @@ const Footer = (props) => {
                                 href="https://wa.me/254724599488" 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+                                style={{ display: 'flex', alignItems: 'center', gap: '15px' }}
                             >
                                 <FaWhatsapp className="icon" /> 
                                 <span>Chat with Us</span>
                             </a>
                         </li>
                         <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <FaPhoneAlt className="icon" /> 
-                            <span className='text-3xl'>0724 599 488</span>
+                            <a href='tel:+254724599488' className='flex'>
+                                <FaPhoneAlt className="icon inline-block mr-3" /> 
+                                <span className='text-3xl'>0724 599 488</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
