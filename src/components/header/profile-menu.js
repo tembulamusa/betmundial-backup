@@ -59,7 +59,7 @@ const ProfileMenu = (props) => {
             <div className="header-account">
               <span className="font-tbt py-1">
                 <span className="space-icons">                  
-                  <MobileMenu />
+                  <MobileMenu user = {user} />
                 </span>
               </span>
             </div>
