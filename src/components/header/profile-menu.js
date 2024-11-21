@@ -46,13 +46,13 @@ const ProfileMenu = (props) => {
                 <span className=" space-icons"> <FontAwesomeIcon className="secondary-text" icon={faCoins} /></span> Deposit 
                 </span>
               </Link>
-              <Link to={"/"}><FaHome className="mr-3 inline-block"/>Play Now</Link>
+              {/* <Link to={"/"}><FaHome className="mr-3 inline-block"/>Play Now</Link> */}
 
             </div>
           
           <div className=" user-menu-col col-md-3 d-flex flex-column right justify-content-end w-change2">
               <div className="mr-3">
-                <span className="font-tbt py-2 flex-wrap text-gray-200 font-[500]">Bal. <span className="font-bold ml-1 secondary-text"> <span className="hidden md:inline-block">KSH</span> {formatNumber(user?.balance) || 0} </span></span>
+                <span className="font-tbt py-2 flex-wrap text-gray-200 font-[500]">BAL. KES <span className="font-bold ml-1 secondary-text"> <span className="hidden md:inline-block">KSH</span> {formatNumber(user?.balance) || 0} </span></span>
               </div>             
           </div>
 

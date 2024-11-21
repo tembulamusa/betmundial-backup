@@ -25,7 +25,7 @@ const Withdrawal = (props) => {
         }
     }, []);
     const handleSubmit = values => {
-        let endpoint = '/v2/withdrawals/new';
+        let endpoint = 'v2/withdrawals/new';
         let data = {msisdn: state?.user?.msisdn, amount: values?.amount}
         makeRequest({url: endpoint, method: 'POST', data: data, api_version:3}).then(([status, response]) => {
             setSuccess(status == 200 || status == 201);

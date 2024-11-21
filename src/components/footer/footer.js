@@ -89,15 +89,16 @@ const Footer = (props) => {
                         </li>
                     </ul>
                     <div className="flex gap-2 items-center flex-wrap mt-2">
-                        <img src={PlayStore} alt="Google Play Store" className="w-40 h-16" />
-                        <img src={AppStore} alt="Apple App Store" className="w-40 h-16" />
+
+                        {/* <img src={PlayStore} alt="Google Play Store" className="w-40 h-16" />
+                        <img src={AppStore} alt="Apple App Store" className="w-40 h-16" /> */}
                     </div>
                 </div>               
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <h5>LICENSING</h5>
                     <hr/>
                     <p>
-                    Surebet is Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
+                        Surebet is a Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
                     </p>
                 </div>
             </div>

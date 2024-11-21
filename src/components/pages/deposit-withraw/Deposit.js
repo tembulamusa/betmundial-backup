@@ -18,6 +18,7 @@ const Deposit = (props) => {
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [requestBals, setRequestBals] = useState(false);
     
     
     const initialValues = {
