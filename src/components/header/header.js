@@ -21,6 +21,7 @@ import useInterval from "../../hooks/set-interval.hook";
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 
+
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
     const [state, dispatch] = useContext(Context);
@@ -41,75 +42,32 @@ const Header = (props) => {
             pauseOnHover
         />
     };
-    const updateUserOnHistory = useCallback(() => {
+    const updateUserOnHistory = async() => {
         if (!user) {
             return false;
         }
         let endpoint = "/v2/user/balance";
-        const repeatBalRequest = setInterval(() => {
-            makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
-                if (_status == 200) {
-                    let u = {...user, ...response?.data};
-                    setLocalStorage('user', u);
-                    setUser(u)
-                    dispatch({type: "SET", key: "user", payload: u});
-                    return                
-                }
-            });
-        }, 2000)
+      
+        await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
+            if (_status == 200) {
+                let u = {...user, ...response?.data};
+                setLocalStorage('user', u);
+                setUser(u)
+                dispatch({type: "SET", key: "user", payload: u});
+                return                
+            }
+        });
+    };
 
-        const timerId = setTimeout(() => {
-            clearInterval(repeatBalRequest);
-        }, 6000)
+    useInterval(updateUserOnHistory, 3000);
 
-
-    }, [state?.toggleuserbalance]);
-
-    const updateUserOnLogin = useCallback(() => {
-        if (!state?.user) {
-            dispatch({type: "SET", key: "user", payload: user});
-        }
-        
-
-    }, [user]);
-
-    const checkUserExpiry = () => {
-        setInterval(function() {
-            console.log("Check user expiry");
-            clearInterval(checkUserExpiry)
-        }, 5000)
-    }
+    
     useEffect(() => {
         if (!user) {
             setUser(state?.user)
         }
-        state?.user && checkUserExpiry()
     }, [state?.user])
     
-    useEffect(() => {
-        updateUserOnHistory()
-    }, [updateUserOnHistory])
-
-    useEffect(() => {
-        updateUserOnLogin()
-    }, [updateUserOnLogin])
-
-    const changeBalReq = () => {
-        setRequestBals(!requestBals);
-        console.log("BAL REQ RECEIVED")
-    }
-
-    useEffect(() => {
-        dispatch({type: "SET", key: "nosports", payload: true})
-        setInterval(changeBalReq, 8000);
-
-        // no sports
-    }, [])
-
-    useEffect(() => {
-        dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
-    }, [requestBals]);
-
     const expand = "md"
 // toggle bal requ every 7 seconds
 
