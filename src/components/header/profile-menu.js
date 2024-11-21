@@ -58,13 +58,8 @@ const ProfileMenu = (props) => {
           <div className="user-menu-col col-md-3 d-flex flex-column w-change2">
             <div className="header-account">
               <span className="font-tbt py-1">
-                <span className="space-icons">
-{/* No sports Uncomment below*/}
-                  
-                  {state?.nosports ? <LogoutFix /> : <MobileMenu />}
-
-
-
+                <span className="space-icons">                  
+                  <MobileMenu />
                 </span>
               </span>
             </div>

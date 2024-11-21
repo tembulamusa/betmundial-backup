@@ -94,7 +94,8 @@ const Header = (props) => {
         updateUserOnLogin()
     }, [updateUserOnLogin])
 
-    
+    useEffect(() => {dispatch({type: "SET", key: "nosports", payload: true})}, [])
+
     const expand = "md"
 
     
