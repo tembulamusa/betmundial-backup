@@ -101,7 +101,7 @@ function MobileMenu() {
 
           <div className="cd" onClick={() => setShow(false)}>
             <Link to={"/deposit"}  className="cd-l"><GiTwoCoins className='inline-block mr-3' /> Deposit</Link>
-            <Link to={"/withdraw"} className="cd-l"><BiMoneyWithdraw className='mr-3 inline-block' /> Withdraw winnings</Link>
+            <Link to={"/withdraw"} className="cd-l"><BiMoneyWithdraw className='mr-3 inline-block' /> Withdraw</Link>
             <div className="cd-l" onClick={() => dispatch({type: "SET", key:"showcheckmpesadepositstatus", payload: true})}><FaCheckToSlot className='mr-3 inline-block' /> Check MPESA Deposit status</div>
             {!state?.nosports && <> <Link to="/my-bets" className="cd-l"><IoListCircleOutline className='mr-3 inline-block' /> My bets</Link>
             <Link to="/promotions" className="cd-l"><FaGifts className='mr-3 inline-block' /> Promotions</Link>

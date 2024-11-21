@@ -11,6 +11,8 @@ import { faUser, faLock, faCoins } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const HeaderLogin = (props) => {
+    const {setUser} = props;
+    
     const [, dispatch] = useContext(Context)
 
 

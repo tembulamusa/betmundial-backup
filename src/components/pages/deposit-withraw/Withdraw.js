@@ -4,6 +4,7 @@ import makeRequest from "../../utils/fetch-request";
 import { Formik,  Form} from 'formik';
 import { Context } from '../../../context/store';
 import {getBetslip} from '../../utils/betslip'
+import { getFromLocalStorage } from '../../utils/local-storage';
 
 const Withdrawal = (props) => {
     //todo get the phone number from logged in user ....
@@ -11,10 +12,10 @@ const Withdrawal = (props) => {
    
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
-
+    const user = getFromLocalStorage("user");
     const initialValues = {
         amount: '',
-        msisdn: state?.user?.msisdn
+        msisdn: user?.msisdn
     }
 
     
@@ -26,7 +27,7 @@ const Withdrawal = (props) => {
     }, []);
     const handleSubmit = values => {
         let endpoint = 'v2/withdrawals/new';
-        let data = {msisdn: state?.user?.msisdn, amount: values?.amount}
+        let data = {msisdn: user?.msisdn, amount: values?.amount}
         makeRequest({url: endpoint, method: 'POST', data: data, api_version:3}).then(([status, response]) => {
             setSuccess(status == 200 || status == 201);
 
