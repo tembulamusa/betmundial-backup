@@ -41,13 +41,14 @@ const CasinoGame = (props) => {
             casinoVersion = "intouchvas";
         }
         await makeRequest({url: endpoint, data: data, method: method, api_version:casinoVersion}).then(([status, result]) => {
+            console.log("THE LAUNCH IS RESULTING ::: ", result);
             if (status == 200) {
-                let launchUrl = result?.gameUrl
+                let launchUrl = result?.gameUrl || result?.game_url
                 if(game?.provider_name?.toLowerCase() == "aviatrix"){
                     launchUrl = result?.url;
                 }
                 dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: launchUrl}});
-                setLocalStorage("casinolaunch", {game: game, url: result?.game_url})
+                setLocalStorage("casinolaunch", {game: game, url: launchUrl})
                 navigate(`/casino/${game?.game_name.split(' ').join('')}`)
             } else {
                 // Notify({status: 400, message: "An Error Occurred"})

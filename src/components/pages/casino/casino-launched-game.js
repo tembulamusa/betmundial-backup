@@ -10,14 +10,16 @@ const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
     const [currentBalRequest, setCurrentBalRequest] = useState(false);
     const navigate = useNavigate();
+    const user = getFromLocalStorage("user");
 
 
     useEffect(() => {
         // Balance polling fxn
         dispatch({type: "SET", key:"iscasinopage", payload: true});
         // check for game that is currently loaded on local storage
+        console.log("CASINO LAUNCHED and HERE ARE THE DETAILS  :::::: ", state?.casinolaunch)
         if(!state?.casinolaunch) {
-            if (!state?.user?.token) {
+            if (user?.token) {
                 let storedCasino = getFromLocalStorage("casinolaunch")
                 dispatch({type:"SET", key:"casinolaunch", payload: storedCasino});
             } else {
@@ -35,7 +37,8 @@ const CasinoLaunchedGame = (props) => {
        setCurrentBalRequest(!currentBalRequest);
     }
 
-    useInterval(triggerBalCheck, 7000)
+    useInterval(triggerBalCheck, 7000);
+    
     return (
         <>
             <section className="launched-game-header">
