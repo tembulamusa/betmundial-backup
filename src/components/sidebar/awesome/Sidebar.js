@@ -39,7 +39,7 @@ const ProSidebar = (props) => {
     const handleCollapsedChange = (checked) => {
         setCollapsed(checked);
     };
-
+    const excludeSidebarPages = ["/login", "/register", 'withdraw']
     useEffect(() => {
         setLoc(location?.pathname)
     }, [location])
@@ -383,7 +383,7 @@ const ProSidebar = (props) => {
         }
         
         {
-            (state?.nosports && !state?.nosidebar) && 
+            ((state?.nosports && !state?.nosidebar || excludeSidebarPages.includes(location.pathname)) ) && 
             
             <div className={`vh-100 d-none d-md-block col-md-2`}>
                 <div className='bg-white vh-100'>

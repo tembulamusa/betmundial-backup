@@ -81,7 +81,7 @@ const App = () => {
                     <div className={`${state?.casinolaunch ? "": "diminish-mobile-row row"}`}>
                         {/* Conditional load live or otherwise */}
                         {!(state?.casinolaunch || state?.surecoinlaunched) && <Sidebar />}
-                            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto": "col-md-7 home mx-auto"}`}`}>
+                            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto bg-white": "col-md-7 home mx-auto"}`}`}>
                         <Routes>
                             {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
                             {/* <Route exact path="/" element={<Index/>}/>
