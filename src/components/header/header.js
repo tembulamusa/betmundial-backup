@@ -53,7 +53,6 @@ const Header = (props) => {
                 let u = {...user, ...response?.data};
                 setLocalStorage('user', u);
                 setUser(u)
-                dispatch({type: "SET", key: "user", payload: u});
                 return                
             }
         });
