@@ -16,12 +16,14 @@ const TakeBetsTimer = (props) => {
         setRunCoinSpin(true);
         return;
       }
+      let randStatMax = randomInc( 0, 60, 30);
+      let randStatMin = randomInc( 0, 20, 0);
   
       const intervalId = setInterval(() => {
         setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
-        let heads = randomInc( 0, 60, 50);
+        let heads = randomInc( 0, 80, 20);
         setRoundStats({
-            bets:randomInc(roundStats?.bets || 0, 99, 23),
+            bets:randomInc(roundStats?.bets || 0, randStatMax, randStatMin),
             heads:heads,
             tails:100 -heads
         });
