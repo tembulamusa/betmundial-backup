@@ -77,6 +77,10 @@ const CasinoGame = (props) => {
             if(sport_image.trim() == "") {
                 sport_image = require(`../../../assets/img/casino/default.png`);  
             }
+
+            if (game?.provider_name.toLowerCase() == "aviatrix") {
+                sport_image = require("../../../assets/img/casino/aviatrix/aviatrix.jpg")
+            }
         } catch (error) {
             sport_image = require(`../../../assets/img/casino/default.png`);
         }
