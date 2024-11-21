@@ -7,6 +7,7 @@ import {Navbar} from "react-bootstrap";
 import MobileMenu from "./mobile-menu";
 import SearchInput from './search-component';
 import { Context } from "../../context/store";
+import { FaHome } from "react-icons/fa";
 
 
 const ProfileMenu = (props) => {
@@ -45,6 +46,8 @@ const ProfileMenu = (props) => {
                 <span className=" space-icons"> <FontAwesomeIcon className="secondary-text" icon={faCoins} /></span> Deposit 
                 </span>
               </Link>
+              <Link to={"/"}><FaHome className="mr-3 inline-block"/>Play Now</Link>
+
             </div>
           
           <div className=" user-menu-col col-md-3 d-flex flex-column right justify-content-end w-change2">
