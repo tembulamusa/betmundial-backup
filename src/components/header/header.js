@@ -16,6 +16,7 @@ import LoginModal from '../loginmodal';
 import BigIconNav from './big-icon-nav';
 import CheckMpesaDepositStatus from '../webmodals/check-mpesa-deposit-status';
 import DepositModal from '../webmodals/deposit-modal';
+import useInterval from "../../hooks/set-interval.hook";
 
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
@@ -95,12 +96,14 @@ const Header = (props) => {
 
     const changeBalReq = () => {
         setRequestBals(!requestBals);
+        console.log("BAL REQ RECEIVED")
     }
+
     useEffect(() => {
         dispatch({type: "SET", key: "nosports", payload: true})
+        setInterval(changeBalReq, 8000);
 
         // no sports
-        setInterval(changeBalReq, 8000);
     }, [])
 
     useEffect(() => {

@@ -32,6 +32,7 @@ const SureCoinIndex = (props) => {
     const [runCoinSpin, setRunCoinSPin] = useState(false);
     const [startRound, setStartRound] = useState(789);
     const [roundStats, setRoundStats]  = useState({});
+    const [balReq, setBalReq] = useState(false);
     // On Run coin spin
     useEffect(() => {
         if (runCoinSpin) {
@@ -41,6 +42,8 @@ const SureCoinIndex = (props) => {
         }        
         
     }, [runCoinSpin]);
+
+    
 
     useEffect(() => {
         if(coinsAlertMsg) {
