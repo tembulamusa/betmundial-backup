@@ -3,7 +3,7 @@ import CasinoGame from "./casino-game";
 
 
 const GameCategoryListing = (props) => {
-    const {gamestype, games} = props;
+    const {gamestype, games, gamesprovider} = props;
 
     return (
 

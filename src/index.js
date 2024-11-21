@@ -56,14 +56,21 @@ import ForgotPassword from "./components/pages/auth/forgot-password";
 import SureCoin from "./components/pages/sure-coin";
 import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 import CasinoHome from "./components/pages/casino/casino-home";
+import ReactGA from "react-ga4";
+import PageviewTracker from "./components/utils/pageview-tracker";
 
 const container = document.getElementById("app");
 
 const App = () => {
     const [state, ] = useContext(Context);
-    const url = window.location.pathname
+
+    useEffect(() => {
+        ReactGA.initialize("GTM-5SZCFJBG");;
+      }, []);
+      
     return (
             <BrowserRouter>
+            <PageviewTracker />
             <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper"}`}>
                 <Suspense fallback={<p></p>}>
                 <Header />
