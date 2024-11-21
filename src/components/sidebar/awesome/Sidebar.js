@@ -35,11 +35,9 @@ const ProSidebar = (props) => {
     const queryParamValue = searchParams.get('id');
     const [competitions, setCompetitions] = useState(null);
     const [focusSportId, setFocusSportId] = useState(null);
-    const excludeSidebar = ["/casino", "/virtuals"]
-    const handleCollapsedChange = (checked) => {
-        setCollapsed(checked);
-    };
-    const excludeSidebarPages = ["/login", "/register", 'withdraw']
+    const excludeSidebar = ["/login", "/signup", '/withdraw', "/deposit"]
+    
+
     useEffect(() => {
         setLoc(location?.pathname)
     }, [location])
@@ -383,10 +381,11 @@ const ProSidebar = (props) => {
         }
         
         {
-            ((state?.nosports && !state?.nosidebar || excludeSidebarPages.includes(location.pathname)) ) && 
+            !excludeSidebar.includes(location.pathname)  && 
             
             <div className={`vh-100 d-none d-md-block col-md-2`}>
                 <div className='bg-white vh-100'>
+                    {location.pathname == "/signup" && "signup"}
                    <CasinoSidebar categories={state?.casinogames?.gameTypes} providers={state?.casinogames?.providers}/>
                 </div>
             </div>
