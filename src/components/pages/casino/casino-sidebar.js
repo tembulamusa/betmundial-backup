@@ -19,9 +19,6 @@ const CasinoSidebar = (props) => {
         return sport_image;
     }
 
-    useEffect(() => {
-        if()
-    }, [state?.casinogames?.gameTypes])
     const filterGames = (filterName, filterItem) => {
         let payload = {filterType: "category", category: filterItem}
         if(filterName == "provider") {
