@@ -33,7 +33,8 @@ const SureCoinIndex = (props) => {
     const [startRound, setStartRound] = useState(789);
     const [roundStats, setRoundStats]  = useState({});
     const [balReq, setBalReq] = useState(false);
-    const [isOnline, setIsOnline] = useState(false)
+    const [isOnline, setIsOnline] = useState(true);
+    const [networkBackOn, setNetworkBackOn] = useState(false);
     const user = getFromLocalStorage("user");
     // On Run coin spin
     useEffect(() => {
@@ -208,7 +209,14 @@ const SureCoinIndex = (props) => {
         };
       }, []);
 
-
+      useEffect(() => {
+        if (isOnline){
+            setNetworkBackOn(true);
+            setTimeout(() => {
+                setNetworkBackOn(false)
+            }, 2000);
+        }
+      }, [isOnline])
     const StatsInfo = () => {
 
         return (
@@ -241,6 +249,10 @@ const SureCoinIndex = (props) => {
                             {coinsAlertMsg && 
                                 <div className={`sure-alert height-hide ${coinsAlertMsg.status == 200 ? "success" : "error"}`}>{coinsAlertMsg.message}</div>
                             }
+
+                            {/* online offline */}
+                            {<div className={`network-changes ${networkBackOn ? "just-back" : ""} ${(!isOnline || networkBackOn) && "show"}`}>{!isOnline ? "You are offline" : "You are back online"}</div>}
+
                             <div className="col-sm-4 w-4/12 md:w-6/12 col-md-6 ">
                                 <div className="flex"><img src={SureCoinLogoImg} className="surecoin-logo-img" /> SURECOIN </div>
                             </div>
@@ -271,11 +283,12 @@ const SureCoinIndex = (props) => {
                                             usermuted={userMuted}
                                             nxtSession = {nextSession}
                                             prevSession = {prevSession}
+                                            isOnline = {isOnline}
                                             cvterfxn = {elizabeth}/>
 
                                     </div>
                                 ))}
-                            {!runCoinSpin ? <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin} roundStats={roundStats} setRoundStats={setRoundStats} /> : <div className="bets-timer-empty-holder"></div>}
+                            {!runCoinSpin && isOnline ? <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin} roundStats={roundStats} setRoundStats={setRoundStats} /> : <div className="bets-timer-empty-holder"></div>}
                             </div>
                             <div className="bet-control">
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (
@@ -285,6 +298,7 @@ const SureCoinIndex = (props) => {
                                             isspinning={runCoinSpin}
                                             nxtSession = {nextSession}
                                             prevSession = {prevSession}
+                                            isOnline = {isOnline}
                                             cvterfxn = {elizabeth}
                                         />
                                     </div>

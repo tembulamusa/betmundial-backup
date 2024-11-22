@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 const TakeBetsTimer = (props) => {
-    const {setRunCoinSpin, roundStats, setRoundStats } = props;
+    const {setRunCoinSpin, roundStats, setRoundStats, isOnline } = props;
 
     const [timeLeft, setTimeLeft] = useState(450);
 

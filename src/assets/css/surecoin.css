@@ -131,6 +131,38 @@
     left: 35%;
     transform: translate(-35% 0%);
 }
+
+.network-changes {
+    height: 0;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 0;
+    background: #fff3cdd4;
+    width: 200px;
+    color: #930404;
+    font-weight: 600;
+    overflow: hidden;
+    text-align: center;
+    transition: all ease-in-out 500ms;
+    -moz-transition: all ease-in-out 500ms;
+    -webkit-transition: all ease-in-out 500ms;
+
+}
+
+.network-changes.show {
+    
+    padding: .75rem 1.25rem;
+    border-radius: 3px;
+    height: 40px;
+    transition: all ease-in-out 500ms;
+    -moz-transition: all ease-in-out 500ms;
+    -webkit-transition: all ease-in-out 500ms;}
+
+.network-changes.just-back {
+    background-color: #cce5ff;
+    color: #004085;
+}
 @media screen and (min-width: 760px) {
   
 }

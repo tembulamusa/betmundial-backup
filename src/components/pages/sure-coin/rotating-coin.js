@@ -9,7 +9,7 @@ import WinSound from "../../../assets/audio/surecoin/win-mixkit.wav";
 import { Context } from "../../../context/store";
 
 const RotatingCoin = (props) => {
-    const {isspinning, coinnumber, usermuted, cvterfxn, nxtSession, prevSession, setRoundStats} = props;
+    const {isspinning, coinnumber, usermuted, cvterfxn, nxtSession, prevSession, setRoundStats, isOnline} = props;
     const [timeLeft, setTimeLeft] = useState(0);
     const [state, dispatch] = useContext(Context);
     const [rotatingSpeedLevel, setRotatingSpeedLevel] = useState("low");
@@ -53,7 +53,6 @@ const RotatingCoin = (props) => {
     }
 
     useEffect(() => {
-        console.log("WIN STATUS currently ::: ", won)
         if(won == "won" || won == "lost"){
             setTimeout(() => {
                 setWon(null);

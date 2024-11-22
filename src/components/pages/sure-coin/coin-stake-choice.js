@@ -8,12 +8,11 @@ import { type } from "@testing-library/user-event/dist/cjs/utility/index.js";
 import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 
 const CoinStakeChoice = (props) => {
-    const {coinnumber, isspinning, nxtSession, prevSession} = props;
+    const {coinnumber, isspinning, nxtSession, prevSession, isOnline} = props;
     const [amount, setAmount] = useState(0);
     const [state, dispatch] = useContext(Context);
     const [inputErrors, setInputErrors] = useState({});
-    const [disabledBetBtn, setDisabledBetBtn] = useState(false);
-    const [defaultAmountChange, setDefaultAmountChange] = useState(10);
+    const [defaultAmountChange, ] = useState(10);
     const [minimumBetAmount, setMinimumAmount] = useState(5);
     const [pickedBtn, setPickedBtn] = useState(null);
     const [autoBet, setAutoBet] =  useState(false);
@@ -61,7 +60,7 @@ const CoinStakeChoice = (props) => {
         }
     }
 
-    useEffect(() => {if( autoBetsLeft < 0 ) { setAutoBetsLeft(0); setAutoBet(false) }}, [autoBetsLeft])
+    useEffect(() => {if( autoBetsLeft <= 0 ) { setAutoBetsLeft(0); setAutoBet(false) }}, [autoBetsLeft])
     const coinsideAutopick = () => {
         const choices = ["heads", "tails"]
         const i = Math.floor(Math.random() * 2);
