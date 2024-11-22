@@ -1,22 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
 import { getFromLocalStorage } from "../../utils/local-storage";
 
 const CasinoSidebar = (props) => {
-    const {categories, providers} = props;
     const [state, dispatch] = useContext(Context);
-
-    const NewItemsLinks = (props) => {
-
-        return (
-            <div className="casino-list-block menu-card">
-                <ul className="casino-sidebar-items border-b border-gray-100">
-                    <li className="menu-item">New</li>
-                </ul>
-            </div>
-        )
-        
-    }
+    const [categories, setCategories] = useState([]); 
+    const [providers, setProviders] = useState([]);
+    console.log("THE CASINO CATEGORIES ::: ", categories);
+    
     const getSportImageIcon = (sport_name) => {
 
         let sport_image;
@@ -28,6 +19,9 @@ const CasinoSidebar = (props) => {
         return sport_image;
     }
 
+    useEffect(() => {
+        if()
+    }, [state?.casinogames?.gameTypes])
     const filterGames = (filterName, filterItem) => {
         let payload = {filterType: "category", category: filterItem}
         if(filterName == "provider") {

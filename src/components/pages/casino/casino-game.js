@@ -41,7 +41,6 @@ const CasinoGame = (props) => {
             casinoVersion = "intouchvas";
         }
         await makeRequest({url: endpoint, data: data, method: method, api_version:casinoVersion}).then(([status, result]) => {
-            console.log("THE LAUNCH IS RESULTING ::: ", result);
             if (status == 200) {
                 let launchUrl = result?.gameUrl || result?.game_url
                 if(game?.provider_name?.toLowerCase() == "aviatrix"){
