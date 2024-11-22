@@ -65,7 +65,7 @@ const App = () => {
     const [state, ] = useContext(Context);
 
     useEffect(() => {
-        ReactGA.initialize("GTM-5SZCFJBG");;
+        ReactGA.initialize("G-LZWJRVZ45T");;
       }, []);
       
     return (
