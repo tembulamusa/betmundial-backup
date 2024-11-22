@@ -32,7 +32,11 @@ const CoinStakeChoice = (props) => {
     const amountChanged = (e) => {
         // set Controlls here eg it should be less than  equal to balance
         // else show errors
-        setAmount(parseInt(e.target.value));
+        let value = parseInt(e.target.value);
+        if(value < 5) {
+            value = 5;
+        }
+        setAmount(value);
     }
 
     useEffect(() => {
