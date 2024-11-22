@@ -5,10 +5,11 @@ import { FaCheckCircle, FaMinus } from "react-icons/fa";
 import { CgAdd, CgRemove } from "react-icons/cg";
 import { Switch } from "@mui/material";
 import { type } from "@testing-library/user-event/dist/cjs/utility/index.js";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 
 const CoinStakeChoice = (props) => {
     const {coinnumber, isspinning, nxtSession, prevSession} = props;
-    const [amount, setAmount] = useState(10);
+    const [amount, setAmount] = useState(0);
     const [state, dispatch] = useContext(Context);
     const [inputErrors, setInputErrors] = useState({});
     const [disabledBetBtn, setDisabledBetBtn] = useState(false);
@@ -19,7 +20,6 @@ const CoinStakeChoice = (props) => {
     const [autoBetsLeft, setAutoBetsLeft] = useState(1);
     const [userPlaceBetOn, setUserPlaceBetOn] = useState(false);
     const [autoPick, setAutoPick] = useState(false)
-
 
 
     const setcanplayTheitems = () => {
@@ -40,8 +40,11 @@ const CoinStakeChoice = (props) => {
     }
 
     useEffect(() => {
-
-    }, [pickedBtn]);
+        const getDefaultUserAmount = getFromLocalStorage("userDefaultCoinAmount");
+        if (getDefaultUserAmount) {
+            setAmount(getDefaultUserAmount);
+        }
+    }, []);
 
     const changeAmount = (changeType) => {
 
@@ -58,7 +61,7 @@ const CoinStakeChoice = (props) => {
         }
     }
 
-    useEffect(() => {if( autoBetsLeft < 0 ) { setAutoBetsLeft(0) }}, [autoBetsLeft])
+    useEffect(() => {if( autoBetsLeft < 0 ) { setAutoBetsLeft(0); setAutoBet(false) }}, [autoBetsLeft])
     const coinsideAutopick = () => {
         const choices = ["heads", "tails"]
         const i = Math.floor(Math.random() * 2);
@@ -106,6 +109,7 @@ const CoinStakeChoice = (props) => {
 
     useEffect(() => {
         if (amount) {
+            setLocalStorage("userDefaultCoinAmount", amount, 1000 * 60 * 60 * 2)
             dispatch({type:"SET",
                 key: "coinselections",
                 payload: state?.coinselections ? {...state?.coinselections, [coinnumber]:{pick: pickedBtn, amount: amount, userbeton:userPlaceBetOn}} : {[coinnumber]: {pick: pickedBtn, amount:amount, userbeton:userPlaceBetOn}}})

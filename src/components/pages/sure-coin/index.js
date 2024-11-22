@@ -148,11 +148,15 @@ const SureCoinIndex = (props) => {
                 api_version:"sureCoin"}).then(([status, response]) => {
                 if(status == 200) {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
+                    console.log("INSUFICIENT BAL:::: ", cpBt)
                     if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
                         dispatch({type:"SET", key: "toggleuserbalance", payload:state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                         getCoinRoll(cpBt?.[process.env.REACT_APP_BID], session, nxtRound);
                     } else {
                         setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"});
+                        if(cpBt?.message == "Insuffient Balance") {
+                            dispatch({type:"SET", key:"promptdepositrequest", payload:{show:true}});
+                        }
                         setPrevSession(nextSession);
                         setNextSession({round: nxtRound})
                     }
