@@ -91,9 +91,14 @@ const BodyLogin = (props) => {
                 }
                 if (response?.result == "User account not verified") {
                     setAlertVerifyMessage({status: 400, message:response.result})
+                } else {
+                    setAlertVerifyMessage({status: 400, message:"An error occurred. Check details"})
+
                 }
 
             }
+
+            setIsLoading(false)
         })
     }
 
@@ -131,6 +136,9 @@ const BodyLogin = (props) => {
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
             let value = ev.target.value;
+            if(field == "msisdn") {
+                value = value.trim();
+            }
             setFieldValue(field, value);
         }
 

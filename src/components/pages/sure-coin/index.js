@@ -35,6 +35,7 @@ const SureCoinIndex = (props) => {
     const [balReq, setBalReq] = useState(false);
     const [isOnline, setIsOnline] = useState(true);
     const [networkBackOn, setNetworkBackOn] = useState(false);
+    const [isDocumentVisible, setIsDocumentVisible] = useState(!document.hidden);
     const user = getFromLocalStorage("user");
     // On Run coin spin
     useEffect(() => {
@@ -136,7 +137,7 @@ const SureCoinIndex = (props) => {
     const placeBet = (roundSession) => {
         let nxtRound = (nextSession?.round ? nextSession?.round : startRound) + 1
         let session = user?.profile_id + ":" + nextSession?.round
-        if (roundSession?.coinselections?.[1]?.userbeton ) {
+        if (roundSession?.coinselections?.[1]?.userbeton && isDocumentVisible) {
             if(!user?.profile_id) {
                 if (!state?.showloginmodal) {
                     dispatch({type:"SET", key:"showloginmodal", payload: true})
@@ -200,12 +201,18 @@ const SureCoinIndex = (props) => {
         const updateStatus = () => {
           setIsOnline(navigator.onLine);
         };
+        const handleVisibilityChange = () => {
+            setIsDocumentVisible(!document.hidden);
+          };
 
         window.addEventListener("online", updateStatus);
         window.addEventListener("offline", updateStatus);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
         return () => {
           window.removeEventListener("online", updateStatus);
           window.removeEventListener("offline", updateStatus);
+          document.removeEventListener('visibilitychange', handleVisibilityChange);
         };
       }, []);
 
@@ -284,11 +291,12 @@ const SureCoinIndex = (props) => {
                                             nxtSession = {nextSession}
                                             prevSession = {prevSession}
                                             isOnline = {isOnline}
+                                            isDocumentVisible = {isDocumentVisible}
                                             cvterfxn = {elizabeth}/>
 
                                     </div>
                                 ))}
-                            {!runCoinSpin && isOnline ? <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin} roundStats={roundStats} setRoundStats={setRoundStats} /> : <div className="bets-timer-empty-holder"></div>}
+                            {!runCoinSpin && isOnline && isDocumentVisible ? <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin} roundStats={roundStats} setRoundStats={setRoundStats} /> : <div className="bets-timer-empty-holder"></div>}
                             </div>
                             <div className="bet-control">
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (
@@ -298,6 +306,7 @@ const SureCoinIndex = (props) => {
                                             isspinning={runCoinSpin}
                                             nxtSession = {nextSession}
                                             prevSession = {prevSession}
+                                            isDocumentVisible = {isDocumentVisible}
                                             isOnline = {isOnline}
                                             cvterfxn = {elizabeth}
                                         />

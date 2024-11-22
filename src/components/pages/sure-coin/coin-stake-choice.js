@@ -9,7 +9,7 @@ import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage"
 
 const CoinStakeChoice = (props) => {
     const {coinnumber, isspinning, nxtSession, prevSession, isOnline} = props;
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState(5);
     const [state, dispatch] = useContext(Context);
     const [inputErrors, setInputErrors] = useState({});
     const [defaultAmountChange, ] = useState(10);
@@ -42,6 +42,8 @@ const CoinStakeChoice = (props) => {
         const getDefaultUserAmount = getFromLocalStorage("userDefaultCoinAmount");
         if (getDefaultUserAmount) {
             setAmount(getDefaultUserAmount);
+        } else {
+            setAmount(5)
         }
     }, []);
 
