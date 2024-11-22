@@ -144,6 +144,7 @@ const CoinStakeChoice = (props) => {
         }
     }
 
+    useEffect(() => {if (state?.promptdepositrequest?.show) {setAutoBet(false)}}, [state?.promptdepositrequest])
     
     return (
         <>

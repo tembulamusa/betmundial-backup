@@ -33,6 +33,7 @@ const SureCoinIndex = (props) => {
     const [startRound, setStartRound] = useState(789);
     const [roundStats, setRoundStats]  = useState({});
     const [balReq, setBalReq] = useState(false);
+    const [isOnline, setIsOnline] = useState(false)
     const user = getFromLocalStorage("user");
     // On Run coin spin
     useEffect(() => {
@@ -148,7 +149,6 @@ const SureCoinIndex = (props) => {
                 api_version:"sureCoin"}).then(([status, response]) => {
                 if(status == 200) {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-                    console.log("INSUFICIENT BAL:::: ", cpBt)
                     if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
                         dispatch({type:"SET", key: "toggleuserbalance", payload:state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                         getCoinRoll(cpBt?.[process.env.REACT_APP_BID], session, nxtRound);
@@ -195,11 +195,19 @@ const SureCoinIndex = (props) => {
         })
     }
     
+    useEffect(() => {
+        const updateStatus = () => {
+          setIsOnline(navigator.onLine);
+        };
 
+        window.addEventListener("online", updateStatus);
+        window.addEventListener("offline", updateStatus);
+        return () => {
+          window.removeEventListener("online", updateStatus);
+          window.removeEventListener("offline", updateStatus);
+        };
+      }, []);
 
-    const randomizeBets = () => {
-
-    }
 
     const StatsInfo = () => {
 

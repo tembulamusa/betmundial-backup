@@ -17,19 +17,19 @@ const Footer = (props) => {
                         BOX 2772 - 00606, NAIROBI
                         </li>
                         <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <a href="mailto:customercare@surebet.co.ke" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <a target='_blank' href="mailto:customercare@surebet.co.ke" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <FaEnvelope className="icon" /> 
                                 <span>customercare@surebet.co.ke</span>
                             </a>
                         </li>
                         <li className="footer-icon" style={{ display: 'flex', justifyContent: 'flex-start', gap: '15px' }}>
-                            <a href="https://www.facebook.com/kesurebet">
+                            <a target='_blank' href="https://www.facebook.com/kesurebet">
                                 <span><FaFacebook className="social-icon" /></span>
                             </a>
-                            <a href="https://x.com/SurebetsKenya">
+                            <a target='_blank' href="https://x.com/SurebetsKenya">
                                 <span><FaXTwitter className="social-icon" /></span>
                             </a>
-                            <a href="https://www.instagram.com/surebet_ke">
+                            <a target='_blank' href="https://www.instagram.com/surebet_ke">
                                 <span><FaInstagram className="social-icon" /></span>
                             </a>
                         </li>
@@ -45,7 +45,7 @@ const Footer = (props) => {
                             </a>
                         </li>
                         <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <a href='tel:+254724599488' className='flex'>
+                            <a target='_blank' href='tel:+254724599488' className='flex'>
                                 <FaPhoneAlt className="icon inline-block mr-3" /> 
                                 <span className='text-3xl'>0724 599 488</span>
                             </a>
