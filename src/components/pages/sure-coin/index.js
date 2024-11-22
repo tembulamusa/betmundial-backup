@@ -33,6 +33,7 @@ const SureCoinIndex = (props) => {
     const [startRound, setStartRound] = useState(789);
     const [roundStats, setRoundStats]  = useState({});
     const [balReq, setBalReq] = useState(false);
+    const user = getFromLocalStorage("user");
     // On Run coin spin
     useEffect(() => {
         if (runCoinSpin) {
@@ -76,6 +77,12 @@ const SureCoinIndex = (props) => {
         return () => {clearTimeout(spintimeout)};
     }, [runCoinSpin])
 
+    useEffect(() => {
+        const user = getFromLocalStorage("user");
+        if (user) {
+            dispatch({type:"SET", key:"user", payload:user})
+        }
+    }, [])
 
     function elizabeth(encryptedData, encryptionKey) {
         try {
@@ -126,9 +133,9 @@ const SureCoinIndex = (props) => {
 
     const placeBet = (roundSession) => {
         let nxtRound = (nextSession?.round ? nextSession?.round : startRound) + 1
-        let session = state?.user?.profile_id + ":" + nextSession?.round
+        let session = user?.profile_id + ":" + nextSession?.round
         if (roundSession?.coinselections?.[1]?.userbeton ) {
-            if(!state?.user?.profile_id) {
+            if(!user?.profile_id) {
                 if (!state?.showloginmodal) {
                     dispatch({type:"SET", key:"showloginmodal", payload: true})
                 }
@@ -137,7 +144,7 @@ const SureCoinIndex = (props) => {
             let endpoint = 'place-bet';
             makeRequest({url: endpoint, 
                 method: 'POST',
-                data: {session_id: session, profile_id: state?.user?.profile_id, coin_side: state?.coinselections?.[1]?.pick?.toUpperCase(), bet_amount: state?.coinselections?.[1]?.amount},
+                data: {session_id: session, profile_id: user?.profile_id, coin_side: state?.coinselections?.[1]?.pick?.toUpperCase(), bet_amount: state?.coinselections?.[1]?.amount},
                 api_version:"sureCoin"}).then(([status, response]) => {
                 if(status == 200) {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
@@ -167,7 +174,7 @@ const SureCoinIndex = (props) => {
         let endpoint = 'coin-roll';
         makeRequest({url: endpoint,
                 method: 'POST',
-                data: {session_id: session, bet_id: btID, profile_id: state?.user?.profile_id},
+                data: {session_id: session, bet_id: btID, profile_id: user?.profile_id},
                 api_version:'sureCoin'}).then(([status, response]) => {
             let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
 
