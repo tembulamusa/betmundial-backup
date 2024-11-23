@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
 import { getFromLocalStorage } from "../../utils/local-storage";
+import { useNavigate } from "react-router-dom";
 
 const CasinoSidebar = (props) => {
     const [state, dispatch] = useContext(Context);
     const [categories, setCategories] = useState([]); 
     const [providers, setProviders] = useState([]);
-    console.log("THE CASINO CATEGORIES ::: ", categories);
+    const navigate = useNavigate();
     
     const getSportImageIcon = (sport_name) => {
 
@@ -19,9 +20,25 @@ const CasinoSidebar = (props) => {
         return sport_image;
     }
 
+
+    // load categories and providers
+    useEffect(() => {
+        setCategories(state?.casinofilters?.categories);
+        setProviders(state?.casinofilters?.providers);
+    }, [state?.casinofilters]);
+
+    useEffect(() => {
+        let availableFilters = getFromLocalStorage("casinofilters");
+        if (availableFilters) {
+            dispatch({type:"SET", key:"casinofilters", payload:availableFilters});
+        }
+    }, [])
     const filterGames = (filterName, filterItem) => {
         let payload = {filterType: "category", category: filterItem}
         if(filterName == "provider") {
+            if(filterItem?.name.toLowerCase() == "surecoin") {
+               navigate("/surecoin") 
+            }
             payload = {filterType: "provider", provider: filterItem}
         }
         dispatch({type:"SET", key:"casinogamesfilter", payload: payload})

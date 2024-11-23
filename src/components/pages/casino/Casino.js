@@ -35,19 +35,24 @@ const Casino = (props) => {
 
         const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "faziCasino" });
         if (status === 200) {
-            const fetchedGames = state?.casinogamesfilter ? { ...games, games: result } : result;
+            const fetchedGames = state?.casinogamesfilter ? result : result?.games;
             setGames(fetchedGames);
-            dispatch({ type: "SET", key: "casinogames", payload: fetchedGames });
-            setLocalStorage('casinogames', fetchedGames);
+            console.log("CASINO GAMES ::: ", fetchedGames);
+            if (endpoint == "games-list") {
+                let casinoFilters = {categories: result?.gameTypes, providers: result?.providers};
+                setLocalStorage('casinogames', result?.games, 1000 * 60 * 60 * 5);
+                dispatch({ type: "SET", key: "casinofilters", payload: casinoFilters });
+                setLocalStorage('casinofilters', casinoFilters, 1000 * 60 * 60 * 5);
+
+            }
+            
         }
         setFetching(false);
     };
-
     useEffect(() => {
-        const localGames = getFromLocalStorage("casinogames");
+        const localGames = getFromLocalStorage("casinogames1");
         if (localGames) {
             setGames(localGames);
-            dispatch({ type: "SET", key: "casinogames", payload: localGames });
         } else {
             fetchCasinoGames();
         }
@@ -57,31 +62,17 @@ const Casino = (props) => {
         fetchCasinoGames();
     }, [state?.casinogamesfilter]);
 
-    useEffect(() => {
-        if (games?.games) {
-            const newFilteredGames = games.games.map(category => ({
-                ...category,
-                gameList: category.gameList.filter(game => 
-                    game.game_name.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-            }));
-            setFilteredGames(newFilteredGames);
-        }
-    }, [games, searchTerm]);
 
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
 
     return (
         <>
             <CasinoCarousel />
             <div className="casino-games-list">
                 {fetching && <ShimmerTable row={3} />}
-                {!fetching && (!games || games?.games?.length < 1) && (
+                {!fetching && (!games || games?.length < 1) && (
                     <NoEvents message="Casino Games not found" />
                 )}
-                {filteredGames?.map((category, idx) => (
+                {games?.map((category, idx) => (
                     <CategoryListing key={idx} games={category?.gameList} gamestype={category?.game_type} />
                 ))}
             </div>
