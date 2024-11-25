@@ -17,6 +17,7 @@ import BigIconNav from './big-icon-nav';
 import CheckMpesaDepositStatus from '../webmodals/check-mpesa-deposit-status';
 import DepositModal from '../webmodals/deposit-modal';
 import useInterval from "../../hooks/set-interval.hook";
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
@@ -24,10 +25,10 @@ const HeaderLogin = React.lazy(() => import('./top-login'));
 
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
-    const [state, dispatch] = useContext(Context);
-    const [requestBals, setRequestBals] = useState(false);
-    // const containerRef = useRef();
-    // const {current} = containerRef;
+    const [state, ] = useContext(Context);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [searchParams] = useSearchParams();
     
     const NotifyToastContaner = () => {
         return <ToastContainer
@@ -51,15 +52,29 @@ const Header = (props) => {
         await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
             if (_status == 200) {
                 let u = {...user, ...response?.data};
+                let prevUser = user;
                 setLocalStorage('user', u);
-                setUser(u)
+                setUser(u);
+
+                // check if still on deposit page and if has next url and navigate
+                if(parseInt(prevUser?.balance) < parseInt(response?.data?.balance)){
+                    nextNavigate();
+                }
                 return                
             }
         });
     };
 
     useInterval(updateUserOnHistory, 3000);
-
+    
+    const nextNavigate = () => {
+        const path = location.pathname
+        const next = searchParams.get("next") || "/";
+        if(path == "/deposit") {
+            navigate(next)
+        }
+        
+    }
     
     useEffect(() => {
         if (!user) {

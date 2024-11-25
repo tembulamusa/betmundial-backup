@@ -13,7 +13,6 @@ const RotatingCoin = (props) => {
     const [timeLeft, setTimeLeft] = useState(0);
     const [state, dispatch] = useContext(Context);
     const [rotatingSpeedLevel, setRotatingSpeedLevel] = useState("low");
-    const [canPlaySound, setCanPlaySound] = useState(false);
     const [spinOutcome, setSpinOutcome] = useState(null);
     const [coinOnDisplay, setCoinOnDisplay] = useState("heads");
     const [won, setWon] = useState(null);
@@ -23,6 +22,7 @@ const RotatingCoin = (props) => {
         if (isspinning) {
             setSpinOutcome(null);
             setWon(null);
+            setCoinOnDisplay(null)
         } else {
             
                 if (cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM] == true) {
@@ -164,8 +164,9 @@ const RotatingCoin = (props) => {
                     </span>
                 </div>
             </div>
-            <div className={`rotating-img  ${isspinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`} onClick={() => setCanPlaySound()}>
-                <img src={coinOnDisplay == "heads" ? Head : Tail } alt=""/>
+            <div className={`rotating-img  ${isspinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`}>
+                <div className={`coin-image heads ${coinOnDisplay == "heads" ? "higher-z": ""}`}></div>
+                <div className={`coin-image tails ${coinOnDisplay == "tails" ? "higher-z": ""}`}></div>
             </div>           
             
             {won == "won" && (
