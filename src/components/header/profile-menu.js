@@ -10,12 +10,9 @@ import { Context } from "../../context/store";
 
 
 const ProfileMenu = (props) => {
+  const {user} = props;
   const [state, ] = useContext(Context);
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    setUser(state?.user)
-  }, [state?.user])
 
   const handleSearch = (searchTerm) => {
     console.log("Handling search for:", searchTerm);

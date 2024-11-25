@@ -16,15 +16,16 @@ import LoginModal from '../loginmodal';
 import BigIconNav from './big-icon-nav';
 import CheckMpesaDepositStatus from '../webmodals/check-mpesa-deposit-status';
 import DepositModal from '../webmodals/deposit-modal';
-import ReactGA from "react-ga4";
-import { useLocation } from 'react-router-dom';
+import useInterval from "../../hooks/set-interval.hook";
 
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
 
+
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
     const [state, dispatch] = useContext(Context);
+    const [requestBals, setRequestBals] = useState(false);
     // const containerRef = useRef();
     // const {current} = containerRef;
     
@@ -41,32 +42,27 @@ const Header = (props) => {
             pauseOnHover
         />
     };
-    const updateUserOnHistory = useCallback(() => {
+    const updateUserOnHistory = async() => {
         if (!user) {
             return false;
         }
         let endpoint = "/v2/user/balance";
-        const repeatBalRequest = setInterval(() => {
-            makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
-                if (_status == 200) {
-                    let u = {...user, ...response?.data};
-                    setLocalStorage('user', u);
-                    setUser(u)
-                    dispatch({type: "SET", key: "user", payload: u});
-                    return                
-                }
-            });
-        }, 2000)
+      
+        await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
+            if (_status == 200) {
+                let u = {...user, ...response?.data};
+                setLocalStorage('user', u);
+                setUser(u)
+                // dispatch({type: "SET", key: "user", payload: u});
+                return                
+            }
+        });
+    };
 
-        const timerId = setTimeout(() => {
-            clearInterval(repeatBalRequest);
-        }, 6000)
-
-
-    }, [state?.toggleuserbalance]);
+    useInterval(updateUserOnHistory, 3000);
 
     const updateUserOnLogin = useCallback(() => {
-        if (!state?.user) {
+        if (state?.user) {
             dispatch({type: "SET", key: "user", payload: user});
         }
         
@@ -75,7 +71,6 @@ const Header = (props) => {
 
     const checkUserExpiry = () => {
         setInterval(function() {
-            console.log("Check user expiry");
             clearInterval(checkUserExpiry)
         }, 5000)
     }
@@ -96,6 +91,7 @@ const Header = (props) => {
 
     
     const expand = "md"
+// toggle bal requ every 7 seconds
 
     
     return (
@@ -106,8 +102,8 @@ const Header = (props) => {
                 <div className='main-header-top w-full p-0'><div className='light-blue md:hidden text-white py-1 w-full px-3'><MobileLoggedInBals/></div>
                     <Container fluid className={'d-flex justify-content-between mobile-change'}>
                         
-                        <div href="/" className="e col-md-5 col-sm-6 logo align-self-start" title="surebet">
-                            <a className='my-2' href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
+                        <div href="/" className="e col-md-5 col-sm-6 logo align-self-start  items-center" title="surebet">
+                            <a className='my-2 mt-3' href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
                         </div>
 
                         <div className="col-md-7 col-sm-6" id="navbar-collapse-main">
