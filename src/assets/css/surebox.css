@@ -1,0 +1,91 @@
+
+.surebox-container {
+    background: #0b121b;
+    color: white;
+    min-height: 100vh;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.surebox-section {
+    background: #15202b;
+    width: 100%;
+    max-width: 1000px;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.surebox-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+.surebox-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 2rem;
+}
+
+.surebox-item {
+    background-color: #102f56;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.surebox-item:hover {
+    transform: scale(1.05);
+    background-color: #204973;
+}
+
+.surebox-item-open {
+    background-color: #456185;
+}
+
+.surebox-item-closed {
+    background-color: #102f56;
+}
+  
+.surebox-controls {
+    background-color: #102f56;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: 100%;
+    max-width: 1000px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.surebox-controls .flex-row {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.surebox-controls button {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.surebox-controls button:hover {
+    transform: scale(1.05);
+}
+
