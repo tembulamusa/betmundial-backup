@@ -73,7 +73,7 @@ const Casino = (props) => {
                     <NoEvents message="Casino Games not found" />
                 )}
                 {games?.map((category, idx) => (
-                    <CategoryListing key={idx} games={category?.gameList} gamestype={category?.game_type} />
+                    category?.gameList?.length > 0 && <CategoryListing key={idx} games={category?.gameList} gamestype={category?.game_type} />
                 ))}
             </div>
         </>

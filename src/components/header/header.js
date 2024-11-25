@@ -53,42 +53,14 @@ const Header = (props) => {
                 let u = {...user, ...response?.data};
                 setLocalStorage('user', u);
                 setUser(u)
+                console.log("LOGGED BAL FROM HEADER :::: ", u)
                 // dispatch({type: "SET", key: "user", payload: u});
                 return                
             }
         });
     };
 
-    useInterval(updateUserOnHistory, 3000);
-
-    const updateUserOnLogin = useCallback(() => {
-        if (state?.user) {
-            dispatch({type: "SET", key: "user", payload: user});
-        }
-        
-
-    }, [user]);
-
-    const checkUserExpiry = () => {
-        setInterval(function() {
-            clearInterval(checkUserExpiry)
-        }, 5000)
-    }
-    useEffect(() => {
-        if (!user) {
-            setUser(state?.user)
-        }
-        state?.user && checkUserExpiry()
-    }, [state?.user])
-    
-    useEffect(() => {
-        updateUserOnHistory()
-    }, [updateUserOnHistory])
-
-    useEffect(() => {
-        updateUserOnLogin()
-    }, [updateUserOnLogin])
-
+    useInterval(updateUserOnHistory, 2000);
     
     const expand = "md"
 // toggle bal requ every 7 seconds

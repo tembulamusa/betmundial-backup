@@ -8,7 +8,6 @@ import useInterval from "../../../hooks/set-interval.hook";
 
 const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
-    const [currentBalRequest, setCurrentBalRequest] = useState(false);
     const navigate = useNavigate();
     const user = getFromLocalStorage("user");
 

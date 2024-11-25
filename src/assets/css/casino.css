@@ -138,15 +138,15 @@
 }
 
 .casino-class-header {
-	padding-bottom: 6px;
-	background: #e0e0e0;
-	/* color: white !important; */
-	padding-top: 6px;
-	border-radius: 0;
-	padding-left: 7px;
-	border-top: 1px solid #ededed;
-	border-bottom: 2px solid #504DA3;
-	margin-top: 15px;
+    padding-bottom: 6px;
+    background: #e0e0e0;
+    /* color: white !important; */
+    padding-top: 6px;
+    border-radius: 0;
+    padding-left: 7px;
+    border-top: 1px solid #ededed;
+    border-bottom: 2px solid #504DA3;
+    margin-top: 6px;
 }
 .casino.banner-imgs img {
     height: 200px;
@@ -158,6 +158,11 @@
     top: -4px;
     left: 3%;
     right: auto;
+}
+
+.casino-sidebar-items {
+    max-height: 200px;
+    overflow-y: auto;
 }
 @media screen and (max-width:648px) {
     .casino-game {

@@ -36,7 +36,7 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
 
     let user = getFromLocalStorage('user');
 
-    console.log("THE ENDPOINT IS CALLING :::: ", url)
+    // console.log("THE ENDPOINT IS CALLING :::: ", url)
 
     const updateUserSession = () => {
         if (user) {

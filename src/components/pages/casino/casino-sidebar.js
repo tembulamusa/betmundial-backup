@@ -68,8 +68,8 @@ const CasinoSidebar = (props) => {
         return (
             <>
                 <div className="casino-list-block menu-card rounded-lg  capitalize">
+                    <h1 className="my-2 mt-2 text-2xl font-[400] casino-class-header">Categories</h1>
                     <ul className="casino-sidebar-items">
-                        <h1 className="my-4 mt-2 text-2xl font-[400] casino-class-header">Categories</h1>
                         {categories?.map((category, idx) => (
                                 <>
                                 <li key={"categories-" + idx} 
@@ -90,8 +90,8 @@ const CasinoSidebar = (props) => {
         return (
             <>
                 <div className="casino-list-block menu-card rounded-lg">
+                    <h1 className="mb-2 text-2xl font-[400] casino-class-header">Providers</h1>
                     <ul className="casino-sidebar-items">
-                    <h1 className="mb-4 text-2xl font-[400] casino-class-header">Providers</h1>
                     {providers?.map((provider, idx) => (
                         <li key={"providers-" + idx} 
                             className={`${state?.casinogamesfilter?.provider == provider?.id && 'active'} cursor-pointer menu-item` }
@@ -106,7 +106,7 @@ const CasinoSidebar = (props) => {
     }
     return (
         <div className="casino-sidebar ml-2">
-            <h1 className="mb-3 bg-white pt-4 pb-3  text-4xl px-3 text-gray-600 font-[600] border-b border-gray-200">Casino</h1>
+            <h1 className="mb-2 bg-white pt-2 pb-3  text-4xl px-3 text-gray-600 font-[600] border-b border-gray-200">Casino</h1>
             <Favorites />
             <CasinoCategories />
             <CasinoProviders />
