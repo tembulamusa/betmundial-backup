@@ -1,22 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
 import { getFromLocalStorage } from "../../utils/local-storage";
+import { useNavigate } from "react-router-dom";
 
 const CasinoSidebar = (props) => {
-    const {categories, providers} = props;
     const [state, dispatch] = useContext(Context);
-
-    const NewItemsLinks = (props) => {
-
-        return (
-            <div className="casino-list-block menu-card">
-                <ul className="casino-sidebar-items border-b border-gray-100">
-                    <li className="menu-item">New</li>
-                </ul>
-            </div>
-        )
-        
-    }
+    const [categories, setCategories] = useState([]); 
+    const [providers, setProviders] = useState([]);
+    const navigate = useNavigate();
+    
     const getSportImageIcon = (sport_name) => {
 
         let sport_image;
@@ -28,9 +20,25 @@ const CasinoSidebar = (props) => {
         return sport_image;
     }
 
+
+    // load categories and providers
+    useEffect(() => {
+        setCategories(state?.casinofilters?.categories);
+        setProviders(state?.casinofilters?.providers);
+    }, [state?.casinofilters]);
+
+    useEffect(() => {
+        let availableFilters = getFromLocalStorage("casinofilters");
+        if (availableFilters) {
+            dispatch({type:"SET", key:"casinofilters", payload:availableFilters});
+        }
+    }, [])
     const filterGames = (filterName, filterItem) => {
         let payload = {filterType: "category", category: filterItem}
         if(filterName == "provider") {
+            if(filterItem?.name.toLowerCase() == "surecoin") {
+               navigate("/surecoin") 
+            }
             payload = {filterType: "provider", provider: filterItem}
         }
         dispatch({type:"SET", key:"casinogamesfilter", payload: payload})
