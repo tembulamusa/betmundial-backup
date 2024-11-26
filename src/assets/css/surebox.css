@@ -31,11 +31,12 @@
 
 .surebox-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     width: 100%;
     max-width: 1000px;
     margin-bottom: 2rem;
+    transition: all 0.3s ease;
 }
 
 .surebox-item {
@@ -65,6 +66,28 @@
 .surebox-item-closed {
     background-color: #102f56;
 }
+
+.surebox-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .surebox-item img {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .surebox-item img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
   
 .surebox-controls {
     background-color: #102f56;
@@ -89,3 +112,13 @@
     transform: scale(1.05);
 }
 
+.odds-display {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.3rem;
+  }
+  
