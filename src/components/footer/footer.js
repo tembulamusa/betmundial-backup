@@ -17,9 +17,9 @@ const Footer = (props) => {
                         BOX 2772 - 00606, NAIROBI
                         </li>
                         <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <a target='_blank' href="mailto:customercare@surebet.co.ke" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <a target='_blank' href="mailto:info@risecombiz.com" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <FaEnvelope className="icon" /> 
-                                <span>customercare@surebet.co.ke</span>
+                                <span>info@risecombiz.com</span>
                             </a>
                         </li>
                         <li className="footer-icon" style={{ display: 'flex', justifyContent: 'flex-start', gap: '15px' }}>

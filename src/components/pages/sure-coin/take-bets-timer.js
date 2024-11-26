@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 
 const TakeBetsTimer = (props) => {
     const {setRunCoinSpin, roundStats, setRoundStats, isOnline } = props;
-
     const [timeLeft, setTimeLeft] = useState(450);
+    const [roundBets, setRoundBets] = useState(0);
+
+    const timeroundRangeMapper = {0: {min: 1126, max: 1900}, 1: {min: 1700, max: 2100}, 2: {min: 3500, max: 6050}, 3: {min: 6500, max: 10000}, 4: {min: 9990, max: 22000}, 5: {min:18000, max: 28000}, 6: {min: 27000, max: 34000}};
+    
 
     const randomInc = (prev, min, max) => {
         return prev + Math.floor(Math.random() * (max - min) + min);
@@ -18,30 +21,59 @@ const TakeBetsTimer = (props) => {
       
       const intervalId = setInterval(() => {
         setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
-        
-
       }, 10);
       
       return () => {clearInterval(intervalId)};
     }, [timeLeft]);
 
-    useEffect(() => {
+    const rangeMapperFnct = (time) => {
+      let rangeMapper;
+      switch (time) {
+        case time <= 4:
+          rangeMapper = 0;
+          break;
+        case time <= 8:
+          rangeMapper = 1;
+          break;
+        case time <= 10:
+          rangeMapper = 4;
+          break;
+        case time <= 13:
+          rangeMapper = 2;
+          break;
+        case time <= 16:
+          rangeMapper = 3;
+          break;
+        case time <= 22:
+          rangeMapper = 6;
+          break;
+        case time <= 23:
+          rangeMapper = 5;
+          break;
+        default:
+          rangeMapper = 0;
+          break;
+      }
 
-        //   make interval change rather than predictably 1 second
-        const statSIntervalId = setInterval(() => {
-        // Map the rand maxes and mins to time of day and day of the week as well
-        let randStatMax = randomInc( 0, 60, 30);
-        let randStatMin = randomInc( 0, 20, 0);
-        let heads = randomInc( 0, 65, 35);
-        setRoundStats({
-            bets:randomInc(roundStats?.bets || 1200, randStatMax, randStatMin),
-            heads:heads,
-            tails:100 - heads
-        });
-      }, 1000);
+      return timeroundRangeMapper?.[rangeMapper]
+    }
+    const changeRoundBets = () => {
+      const now = new Date();
+      const getMappedRange = rangeMapperFnct(now.getHours());
+      let fig = randomInc(0, getMappedRange?.max, getMappedRange?.min)
+      setRoundBets(fig)
+    }
+    useEffect(() => {      
+      
+      console.log("THE FIGS ::: === ")      
+      let heads = randomInc( 0, 65, 35);
 
-      return () => {clearInterval(statSIntervalId)};
-    }, [])
+      setRoundStats({
+          bets: roundBets,
+          heads:heads,
+          tails:100 - heads
+      });
+    }, [roundBets])
   
     const progress = (0 + timeLeft) / 450;
     return (

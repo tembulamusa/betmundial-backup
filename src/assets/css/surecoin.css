@@ -251,7 +251,7 @@
 .bet-info {
     position: absolute;
     background: rgba(255,255,255, 0.061);
-    top: -7px;
+    top: -55px;
     left: -2px;
     padding: 5px 8px;
     border: 1px solid rgba(255,255,255, 0.051);
@@ -434,11 +434,13 @@ button[disabled]{
 }
 .notify-win-container {
     z-index: 9999;
-    /* position: absolute; */
+    position: absolute;
     left: 50%;
     transform: translate(-50%, 0px);
     -moz-transform: translate(-50%, 0px);
     -webkit-transform: translate(-50%, 0px);
+    top: -50px;
+    z-index: 999999;
 }
 @media screen and (max-width: 648px) {
     .surecoin-body {
