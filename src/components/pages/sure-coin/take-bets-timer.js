@@ -57,22 +57,30 @@ const TakeBetsTimer = (props) => {
 
       return timeroundRangeMapper?.[rangeMapper]
     }
-    const changeRoundBets = () => {
+
+    useEffect(() => {
       const now = new Date();
       const getMappedRange = rangeMapperFnct(now.getHours());
       let fig = randomInc(0, getMappedRange?.max, getMappedRange?.min)
-      setRoundBets(fig)
-    }
-    useEffect(() => {      
-      
-      console.log("THE FIGS ::: === ")      
-      let heads = randomInc( 0, 65, 35);
+      setRoundBets(fig);
+    }, []);
 
-      setRoundStats({
-          bets: roundBets,
-          heads:heads,
-          tails:100 - heads
-      });
+
+    useEffect(() => {      
+      if (roundBets > 0) {
+        let heads = randomInc( 0, 65, 35);
+        const delay = randomInc(0, 1000, 100);
+        let bets = roundBets
+        setTimeout(() => {
+          setRoundBets(roundBets + randomInc(0, 100, 1));
+        }, delay);
+        setRoundStats({
+            bets: roundBets,
+            heads:heads,
+            tails:100 - heads
+        });
+      }
+      
     }, [roundBets])
   
     const progress = (0 + timeLeft) / 450;

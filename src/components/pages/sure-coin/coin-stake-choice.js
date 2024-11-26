@@ -32,10 +32,13 @@ const CoinStakeChoice = (props) => {
         // set Controlls here eg it should be less than  equal to balance
         // else show errors
         let value = parseInt(e.target.value);
-        if(value < 5) {
-            value = 5;
-        }
         setAmount(value);
+    }
+
+    const unfocus = (e) => {
+        if (amount < 5) {
+            setAmount(5)
+        }
     }
 
     useEffect(() => {
@@ -163,6 +166,7 @@ const CoinStakeChoice = (props) => {
                                     type="number"
                                     value={amount}
                                     min={minimumBetAmount}
+                                    onBlur={(e) => unfocus(e)}
                                     className="border-[transparent] w-[80%] user-amount-input px-2 bg-transparent text-white"/>
 
                                 <CgAdd className="mt-1 text-3xl opacity-60 hover:opacity-100 cursor-pointer" onClick={() => changeAmount("increase") }/>
