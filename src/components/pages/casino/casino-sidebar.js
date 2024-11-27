@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
 import { getFromLocalStorage } from "../../utils/local-storage";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CasinoSidebar = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -52,7 +52,9 @@ const CasinoSidebar = (props) => {
                     <li key={"all-" + 23} 
                         className={`cursor-pointer menu-item capitalize` }
                         onClick={() => filterGames("all", "all")}>
-                        <img  src={getSportImageIcon('home')} className="casino-icon" alt=""/>{"All games"}
+                            <Link to={"/casino"} className="inline-block" >
+                                <img  src={getSportImageIcon('home')} className="casino-icon inline-block" alt=""/>{"All games"}
+                            </Link>
                     </li>
                     <li key={"all-" + 24}
                         className={`cursor-pointer menu-item capitalize` }

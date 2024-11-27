@@ -73,6 +73,11 @@
     -webkit-transform: translate(-60px, 10px);
     z-index: 99;
 }
+
+.y-scrollable-window {
+    max-height: calc(100vh - 127px);
+    overflow-y: auto;
+}
 .casino-service-sure-coin {
     background-color: rgba(0,0,0,0.6);
     padding: 10px 10px;
