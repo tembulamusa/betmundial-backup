@@ -23,10 +23,15 @@
 .game-buttons {
     position: absolute;
     left: 50%;
-    translate: -50% 50%;
+    translate: -50% 10%;
     right: auto;
     top: 10%;
+    background: rgba(0,0,0, 0.6);
     display: none;
+    padding: 5px 10px;
+    padding-right: 10px;
+    border-radius: 4px;
+    padding-left: 10px;
 }
 .game-buttons .casino-cta {
     display: block;
@@ -47,7 +52,7 @@
 
 .casino-category-header {
     background: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     /* box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
     /* -moz-box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
     /* -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.062); */
@@ -168,6 +173,33 @@
     overflow-y: auto;
 }
 @media screen and (max-width:648px) {
+    .casino-category-header {
+        background: #ffffff;
+        margin-bottom: 4px;
+        /* box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
+        /* -moz-box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
+        /* -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.062); */
+        border-bottom: 1px solid rgba(0,0,0,0.124);
+    }
+    .casino-game {
+        width: 20%;
+        margin-left: 0;
+        /* margin-right: 5px; */
+        padding-right: 0;
+        padding-left: 4px;
+        float: left;
+        margin-bottom: 1px;
+        color: #777;
+        position: relative;
+        font-weight: 400;
+    }
+    .casino.banner-imgs img {
+        height: inherit;
+    }
+
+    .banner-imgs img {
+        height: 80px !important;
+    }
     .casino-game {
         width: 50%;
     }

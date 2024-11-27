@@ -6,11 +6,18 @@ import Sharebet from '../../assets/img/banner/Sharebet.png';
 import Tick from '../../assets/img/banner/carousel/Tick.png';
 import Epl from '../../assets/img/banner/EPL.png';
 
-import AviatorBanner from  '../../assets/img/banner/aviator-banner.jpg';
-import CasinoBanner1 from '../../assets/img/banner/casino-banner1.jpg';
-import CasinoBanner2 from '../../assets/img/banner/casino-banner2.jpg';
-import CasinoBanner3 from '../../assets/img/banner/casino-banner3.jpg';
-import StockMarket from '../../assets/img/banner/stock-market.jpg';
+import One from  '../../assets/img/casino/carousel/1.jpg';
+import Two from  '../../assets/img/casino/carousel/2.jpg';
+import Three from  '../../assets/img/casino/carousel/3.jpg';
+import Four from  '../../assets/img/casino/carousel/4.jpg';
+import Five from  '../../assets/img/casino/carousel/5.jpg';
+import Six from  '../../assets/img/casino/carousel/6.jpg';
+import Seven from  '../../assets/img/casino/carousel/7.jpg';
+import Eight from  '../../assets/img/casino/carousel/8.jpg';
+import Nine from  '../../assets/img/casino/carousel/9.jpg';
+import Ten from  '../../assets/img/casino/carousel/10.jpg';
+import Eleven from  '../../assets/img/casino/carousel/11.jpg';
+import Twelve from  '../../assets/img/casino/carousel/12.jpg';
 
 
 const CasinoCarousel = (props) => {
@@ -35,21 +42,12 @@ const CasinoCarousel = (props) => {
                     effects="blur"
                 />
             </Carousel.Item>
+            */}
             <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Breakfast}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
-            </Carousel.Item> */}
-            <Carousel.Item >
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={CasinoBanner1}
+                    src={One}
                     onLoad={onImageLoaded}
                     alt="surebet"
                     effects="blur"
@@ -59,7 +57,7 @@ const CasinoCarousel = (props) => {
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={CasinoBanner2}
+                    src={Two}
                     onLoad={onImageLoaded}
                     alt="surebet"
                     effects="blur"
@@ -69,7 +67,17 @@ const CasinoCarousel = (props) => {
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={CasinoBanner3}
+                    src={Three}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Four}
                     onLoad={onImageLoaded}
                     alt="surebet"
                     effects="blur"
@@ -80,7 +88,84 @@ const CasinoCarousel = (props) => {
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={StockMarket}
+                    src={Five}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Six}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Seven}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Eight}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Nine}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Ten}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Eleven}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Twelve}
                     onLoad={onImageLoaded}
                     alt="surebet"
                     effects="blur"

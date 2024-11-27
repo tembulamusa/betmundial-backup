@@ -8,11 +8,11 @@ const GameCategoryListing = (props) => {
     return (
 
         <div className="category-products">
-            <section className="casino-category-header px-2 py-3">
+            <section className="casino-category-header px-2 py-2">
                 {gamestype}
             </section>
 
-            <section className="row !mx-0 px-[3px]">
+            <section className="row !mx-0 pr-[2px]">
                     {games?.map((game, idx) => (
                         <div key={"casino-"+ idx} className="casino-game col-md-2">
                             <CasinoGame game={game} />

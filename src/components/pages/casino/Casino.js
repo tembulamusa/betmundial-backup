@@ -37,8 +37,7 @@ const Casino = (props) => {
         if (status === 200) {
             const fetchedGames = state?.casinogamesfilter ? result : result?.games;
             setGames(fetchedGames);
-            console.log("CASINO GAMES ::: ", fetchedGames);
-            if (endpoint == "games-list") {
+            if (endpoint === "games-list") {
                 let casinoFilters = {categories: result?.gameTypes, providers: result?.providers};
                 setLocalStorage('casinogames', result?.games, 1000 * 60 * 60 * 5);
                 dispatch({ type: "SET", key: "casinofilters", payload: casinoFilters });
