@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from "react";
 
 const TakeBetsTimer = (props) => {
-    const {setRunCoinSpin, roundStats, setRoundStats, isOnline } = props;
-    const [timeLeft, setTimeLeft] = useState(450);
+    const {setRunCoinSpin, setRoundStats, setPrepToStart, setCoinSettled } = props;
+    const [timeLeft, setTimeLeft] = useState(650);
     const [roundBets, setRoundBets] = useState(0);
 
-    const timeroundRangeMapper = {0: {min: 1126, max: 1900}, 1: {min: 1700, max: 2100}, 2: {min: 3500, max: 6050}, 3: {min: 6500, max: 10000}, 4: {min: 9990, max: 22000}, 5: {min:18000, max: 28000}, 6: {min: 27000, max: 34000}};
+    const timeroundRangeMapper = {0: {min: 1126, max: 2200}, 1: {min: 1700, max: 2300}, 2: {min: 3500, max: 6050}, 3: {min: 6500, max: 10000}, 4: {min: 9990, max: 22000}, 5: {min:18000, max: 28000}, 6: {min: 27000, max: 45000}};
     
 
     const randomInc = (prev, min, max) => {
@@ -18,43 +18,49 @@ const TakeBetsTimer = (props) => {
         setRunCoinSpin(true);
         return;
       }
+      setCoinSettled(true);
+      const timeoutId = setTimeout(() => {
+        const intervalId = setInterval(() => {
+          setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
+        }, 10);
+
+      }, 1000);
       
-      const intervalId = setInterval(() => {
-        setTimeLeft(prevTimeLeft => prevTimeLeft - 1);
-      }, 10);
-      
-      return () => {clearInterval(intervalId)};
+
+      if(timeLeft <= 400) {setPrepToStart(true);setCoinSettled(false)} else {setPrepToStart(false)}
+      return () => {clearTimeout(timeoutId)};
     }, [timeLeft]);
 
     const rangeMapperFnct = (time) => {
+      time = parseInt(time);
       let rangeMapper;
-      switch (time) {
-        case time <= 4:
+      
+      switch (true) {
+        case (time <= 4):
           rangeMapper = 0;
           break;
-        case time <= 8:
+        case (time <= 8):
           rangeMapper = 1;
           break;
-        case time <= 10:
+        case (time <= 10):
           rangeMapper = 4;
           break;
-        case time <= 13:
+        case (time <= 13):
           rangeMapper = 2;
           break;
-        case time <= 16:
+        case (time <= 16):
           rangeMapper = 3;
           break;
-        case time <= 22:
+        case (time <= 22):
           rangeMapper = 6;
           break;
-        case time <= 23:
+        case (time <= 23):
           rangeMapper = 5;
           break;
         default:
           rangeMapper = 0;
           break;
       }
-
       return timeroundRangeMapper?.[rangeMapper]
     }
 
@@ -83,7 +89,7 @@ const TakeBetsTimer = (props) => {
       
     }, [roundBets])
   
-    const progress = (0 + timeLeft) / 450;
+    const progress = (0 + timeLeft) / 650;
     return (
       <div>
         <div className="time-left"><span className="text">starts in </span><span className="counter">{parseInt(timeLeft / 100)}</span></div>

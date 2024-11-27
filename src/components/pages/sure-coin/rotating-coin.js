@@ -9,7 +9,12 @@ import WinSound from "../../../assets/audio/surecoin/win-mixkit.wav";
 import { Context } from "../../../context/store";
 
 const RotatingCoin = (props) => {
-    const {isspinning, coinnumber, usermuted, cvterfxn, nxtSession, prevSession, setRoundStats, isOnline} = props;
+    const {isspinning, coinnumber,
+        usermuted, cvterfxn,
+         prevSession,
+         prepToStart,
+         coinSettled
+        } = props;
     const [timeLeft, setTimeLeft] = useState(0);
     const [state, dispatch] = useContext(Context);
     const [rotatingSpeedLevel, setRotatingSpeedLevel] = useState("low");
@@ -164,7 +169,7 @@ const RotatingCoin = (props) => {
                     </span>
                 </div>
             </div>
-            <div className={`rotating-img  ${isspinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`}>
+            <div className={`${coinSettled && "coin-settled"}  rotating-img  ${isspinning ? "is-spinning": prepToStart ? "prep-to-start" : ""} rotating-speed-level-${rotatingSpeedLevel}`}>
                 <div className={`coin-image heads ${coinOnDisplay == "heads" ? "higher-z": ""}`}></div>
                 <div className={`coin-image tails ${coinOnDisplay == "tails" ? "higher-z": ""}`}></div>
             </div>           

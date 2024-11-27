@@ -36,6 +36,8 @@ const SureCoinIndex = (props) => {
     const [isOnline, setIsOnline] = useState(true);
     const [networkBackOnCount, setNetworkBackOnCount] = useState(0);
     const [isDocumentVisible, setIsDocumentVisible] = useState(!document.hidden);
+    const [prepToStart, setPrepToStart] = useState(false);
+    const [coinSettled, setCoinSettled] = useState(false);
     const user = getFromLocalStorage("user");
     // On Run coin spin
     useEffect(() => {
@@ -293,12 +295,23 @@ const SureCoinIndex = (props) => {
                                             nxtSession = {nextSession}
                                             prevSession = {prevSession}
                                             isOnline = {isOnline}
+                                            setPrepToStart={setPrepToStart}
+                                            prepToStart = {prepToStart}
+                                            coinSettled={coinSettled}
                                             isDocumentVisible = {isDocumentVisible}
                                             cvterfxn = {elizabeth}/>
 
                                     </div>
                                 ))}
-                            {(!runCoinSpin && isOnline && isDocumentVisible) ? <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin} roundStats={roundStats} setRoundStats={setRoundStats} /> : <div className="bets-timer-empty-holder"></div>}
+                            {(!runCoinSpin && isOnline && isDocumentVisible) ? 
+                                <TakeBetsTimer
+                                    setRunCoinSpin={setRunCoinSPin}
+                                    roundStats={roundStats}
+                                    setPrepToStart={setPrepToStart}
+                                    prepToStart = {prepToStart}
+                                    setCoinSettled={setCoinSettled}
+                                    setRoundStats={setRoundStats} /> : 
+                                <div className="bets-timer-empty-holder"></div>}
                             </div>
                             <div className="bet-control">
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (
@@ -310,6 +323,8 @@ const SureCoinIndex = (props) => {
                                             prevSession = {prevSession}
                                             isDocumentVisible = {isDocumentVisible}
                                             isOnline = {isOnline}
+                                            setPrepToStart={setPrepToStart}
+                                            prepToStart = {prepToStart}
                                             cvterfxn = {elizabeth}
                                         />
                                     </div>

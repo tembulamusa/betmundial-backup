@@ -64,6 +64,22 @@
      
 }
 
+.prep-to-start {
+    animation: prepToStart 2s linear infinite;
+
+}
+
+.coin-settled {
+    perspective: 500px;
+    transform: rotateX(60deg);
+}
+
+@keyframes prepToStart {
+    0% {
+        transform: perspective(1000px) rotateY(20deg);
+      }
+      100%{ transform: perspective(1000px) rotateY(360deg);}
+}
 @keyframes rotation {
     0% {
         transform: perspective(1000px) rotateY(0deg);
