@@ -20,10 +20,11 @@
 .casino-game img {
     border-radius: 5px;
 }
+
 .game-buttons {
     position: absolute;
     left: 50%;
-    translate: -50% 10%;
+    translate: -50% 50%;
     right: auto;
     top: 10%;
     background: rgba(0,0,0, 0.6);
@@ -33,17 +34,22 @@
     border-radius: 4px;
     padding-left: 10px;
 }
+
 .game-buttons .casino-cta {
     display: block;
     margin-bottom: 4px;
     width: 100px;
+    letter-spacing: 1px;
+    font-size: 14px;
+    text-transform: uppercase;
     font-weight: bold;
 }
 
 .casino-demo-btn {
-    background-color: #ffb200 !important;
-    border: 2px solid #FFB200 !important;
-    color: #ffffff;
+    background-color: #f0f0f0 !important;
+    border: 2px solid #eee !important;
+    color: #666 !important;
+    /* text-transform: uppercase; */
 }
 
 .casino-game:hover .game-buttons {
@@ -157,7 +163,7 @@
     border-bottom: 1px solid #c6c6c6;
 }
 .casino.banner-imgs img {
-    height: 200px;
+    height: 170px;
 }
 
 .game-launch-issue {
@@ -173,6 +179,19 @@
     overflow-y: auto;
 }
 @media screen and (max-width:648px) {
+    .game-buttons {
+        position: absolute;
+        left: 50%;
+        translate: -50% 10%;
+        right: auto;
+        top: 10%;
+        background: rgba(0,0,0, 0.6);
+        display: none;
+        padding: 5px 10px;
+        padding-right: 10px;
+        border-radius: 4px;
+        padding-left: 10px;
+    }
     .casino-category-header {
         background: #ffffff;
         margin-bottom: 4px;

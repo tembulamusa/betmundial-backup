@@ -53,7 +53,6 @@ const Header = (props) => {
                 let u = {...user, ...response?.data};
                 setLocalStorage('user', u);
                 setUser(u)
-                console.log("LOGGED BAL FROM HEADER :::: ", u)
                 // dispatch({type: "SET", key: "user", payload: u});
                 return                
             }
@@ -98,7 +97,7 @@ const Header = (props) => {
 
         <ShareModal shown={state?.showsharemodal == false} />
         
-        <LoginModal />
+        <LoginModal setUser={setUser} />
         <CheckMpesaDepositStatus />
         <DepositModal />
         </>
