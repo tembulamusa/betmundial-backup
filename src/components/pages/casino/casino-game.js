@@ -5,7 +5,7 @@ import { Context } from "../../../context/store";
 import makeRequest from "../../utils/fetch-request";
 import {isMobile} from 'react-device-detect';
 import { useNavigate } from "react-router-dom";
-import { setLocalStorage } from "../../utils/local-storage";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 import Notify from "../../utils/Notify";
 import Alert from "../../utils/alert";
 
@@ -14,13 +14,14 @@ const CasinoGame = (props) => {
     const [state, dispatch] = useContext(Context);
     const [alertMessage, setAlertMessage] = useState(null)
     const [fetching, setFetching] = useState(false);
+    const user = getFromLocalStorage("user")
     const navigate = useNavigate();
     
     const launchGame = async (game, moneyType=1) => {
         setFetching(true);
         let endpoint = `game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
 
-        if (moneyType == 1 && !state?.user?.token) {
+        if (moneyType == 1 && !user?.token) {
             // later check if token is still valid
             dispatch({type:"SET", key:"showloginmodal", payload:true});
             return false
@@ -33,7 +34,7 @@ const CasinoGame = (props) => {
             endpoint = "demo"
             if(moneyType == 1) {
                 endpoint = "launch"
-                data = {token: state?.user?.token}
+                data = {token: user?.token}
                 method = "POST"
             }
         }

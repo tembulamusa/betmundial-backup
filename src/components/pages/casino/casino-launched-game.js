@@ -8,7 +8,6 @@ import useInterval from "../../../hooks/set-interval.hook";
 
 const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
-    const [currentBalRequest, setCurrentBalRequest] = useState(false);
     const navigate = useNavigate();
     const user = getFromLocalStorage("user");
 
@@ -17,7 +16,6 @@ const CasinoLaunchedGame = (props) => {
         // Balance polling fxn
         dispatch({type: "SET", key:"iscasinopage", payload: true});
         // check for game that is currently loaded on local storage
-        console.log("CASINO LAUNCHED and HERE ARE THE DETAILS  :::::: ", state?.casinolaunch)
         if(!state?.casinolaunch) {
             if (user?.token) {
                 let storedCasino = getFromLocalStorage("casinolaunch")
@@ -33,11 +31,6 @@ const CasinoLaunchedGame = (props) => {
             dispatch({type:"DEL", key:"casinolaunch"})
         }
     }, []);
-    const triggerBalCheck = () => {
-       setCurrentBalRequest(!currentBalRequest);
-    }
-
-    useInterval(triggerBalCheck, 7000);
     
     return (
         <>

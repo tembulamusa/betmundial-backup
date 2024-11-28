@@ -7,6 +7,7 @@ import BodyLogin from './header/mobile-login';
 
 
 const LoginModal = (props) => {
+    const {setUser} = props;
     const [state, dispatch] = useContext(Context);
     
     return (
@@ -21,7 +22,7 @@ const LoginModal = (props) => {
                       <Modal.Title>LOGIN IN TO SUREBET</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="p-0">
-                        <BodyLogin />
+                        <BodyLogin setUser={setUser}/>
                     </Modal.Body>
             </Modal>
         </>
