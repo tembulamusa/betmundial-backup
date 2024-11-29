@@ -24,7 +24,7 @@
 .game-buttons {
     position: absolute;
     left: 50%;
-    translate: -50% 50%;
+    translate: -50% 30%;
     right: auto;
     top: 10%;
     background: rgba(0,0,0, 0.6);
@@ -113,7 +113,7 @@
 }
 .casino-list-block ul li:hover, .casino-list-block ul li.active {
     background-color: #eee;
-    color: #555;
+    color: #444;
     /* transition: all ease-in-out 0.3s; */
     /* padding-left: 10px; */
 }
