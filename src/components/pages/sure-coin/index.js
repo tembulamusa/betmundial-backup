@@ -32,6 +32,13 @@ const SureCoinIndex = (props) => {
     const [runCoinSpin, setRunCoinSPin] = useState(false);
     const [startRound, setStartRound] = useState(789);
     const [roundStats, setRoundStats]  = useState({});
+    const [balReq, setBalReq] = useState(false);
+    const [isOnline, setIsOnline] = useState(true);
+    const [networkBackOnCount, setNetworkBackOnCount] = useState(0);
+    const [isDocumentVisible, setIsDocumentVisible] = useState(!document.hidden);
+    const [prepToStart, setPrepToStart] = useState(false);
+    const [coinSettled, setCoinSettled] = useState(false);
+    const user = getFromLocalStorage("user");
     // On Run coin spin
     useEffect(() => {
         if (runCoinSpin) {
@@ -42,6 +49,15 @@ const SureCoinIndex = (props) => {
         
     }, [runCoinSpin]);
 
+    
+
+    useEffect(() => {
+        if(coinsAlertMsg) {
+            setTimeout(() => {
+                setCoinsAlertMsg(null)
+            }, 3000);
+        }
+}, [coinsAlertMsg])
     const isMutedToggle = () => {
 
         if(userMuted) {
@@ -66,6 +82,12 @@ const SureCoinIndex = (props) => {
         return () => {clearTimeout(spintimeout)};
     }, [runCoinSpin])
 
+    useEffect(() => {
+        const user = getFromLocalStorage("user");
+        if (user) {
+            dispatch({type:"SET", key:"user", payload:user})
+        }
+    }, [])
 
     function elizabeth(encryptedData, encryptionKey) {
         try {
@@ -113,11 +135,12 @@ const SureCoinIndex = (props) => {
   }, [state?.coinselections]);
 
 
+
     const placeBet = (roundSession) => {
         let nxtRound = (nextSession?.round ? nextSession?.round : startRound) + 1
-        let session = state?.user?.profile_id + ":" + nextSession?.round
-        if (roundSession?.coinselections?.[1]?.userbeton ) {
-            if(!state?.user?.profile_id) {
+        let session = user?.profile_id + ":" + nextSession?.round
+        if (roundSession?.coinselections?.[1]?.userbeton && isDocumentVisible) {
+            if(!user?.profile_id) {
                 if (!state?.showloginmodal) {
                     dispatch({type:"SET", key:"showloginmodal", payload: true})
                 }
@@ -126,7 +149,7 @@ const SureCoinIndex = (props) => {
             let endpoint = 'place-bet';
             makeRequest({url: endpoint, 
                 method: 'POST',
-                data: {session_id: session, profile_id: state?.user?.profile_id, coin_side: state?.coinselections?.[1]?.pick?.toUpperCase(), bet_amount: state?.coinselections?.[1]?.amount},
+                data: {session_id: session, profile_id: user?.profile_id, coin_side: state?.coinselections?.[1]?.pick?.toUpperCase(), bet_amount: state?.coinselections?.[1]?.amount},
                 api_version:"sureCoin"}).then(([status, response]) => {
                 if(status == 200) {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
@@ -135,6 +158,9 @@ const SureCoinIndex = (props) => {
                         getCoinRoll(cpBt?.[process.env.REACT_APP_BID], session, nxtRound);
                     } else {
                         setCoinsAlertMsg({status: 400, message: cpBt?.[process.env.REACT_APP_MGS] || "An error Occurred"});
+                        if(cpBt?.message == "Insuffient Balance") {
+                            dispatch({type:"SET", key:"promptdepositrequest", payload:{show:true}});
+                        }
                         setPrevSession(nextSession);
                         setNextSession({round: nxtRound})
                     }
@@ -156,7 +182,7 @@ const SureCoinIndex = (props) => {
         let endpoint = 'coin-roll';
         makeRequest({url: endpoint,
                 method: 'POST',
-                data: {session_id: session, bet_id: btID, profile_id: state?.user?.profile_id},
+                data: {session_id: session, bet_id: btID, profile_id: user?.profile_id},
                 api_version:'sureCoin'}).then(([status, response]) => {
             let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
 
@@ -173,11 +199,34 @@ const SureCoinIndex = (props) => {
         })
     }
     
+    useEffect(() => {
+        const updateStatus = () => {
+          setIsOnline(navigator.onLine);
+        };
+        const handleVisibilityChange = () => {
+            setIsDocumentVisible(!document.hidden);
+          };
 
+        window.addEventListener("online", updateStatus);
+        window.addEventListener("offline", updateStatus);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    const randomizeBets = () => {
+        return () => {
+          window.removeEventListener("online", updateStatus);
+          window.removeEventListener("offline", updateStatus);
+          document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+      }, []);
 
-    }
+      useEffect(() => {
+        if (isOnline == true){
+            setTimeout(() => {
+                setNetworkBackOnCount(0)
+            }, 2000);
+        } else {
+            setNetworkBackOnCount(1)
+        }
+      }, [isOnline]);
 
     const StatsInfo = () => {
 
@@ -211,6 +260,10 @@ const SureCoinIndex = (props) => {
                             {coinsAlertMsg && 
                                 <div className={`sure-alert height-hide ${coinsAlertMsg.status == 200 ? "success" : "error"}`}>{coinsAlertMsg.message}</div>
                             }
+
+                            {/* online offline */}
+                            {<div className={`network-changes ${(networkBackOnCount == 1 && isOnline) ? "just-back" : ""} ${(!isOnline || networkBackOnCount > 0) && "show"}`}>{!isOnline ? "You are offline" : "You are back online"}</div>}
+
                             <div className="col-sm-4 w-4/12 md:w-6/12 col-md-6 ">
                                 <div className="flex"><img src={SureCoinLogoImg} className="surecoin-logo-img" /> SURECOIN </div>
                             </div>
@@ -241,11 +294,24 @@ const SureCoinIndex = (props) => {
                                             usermuted={userMuted}
                                             nxtSession = {nextSession}
                                             prevSession = {prevSession}
+                                            isOnline = {isOnline}
+                                            setPrepToStart={setPrepToStart}
+                                            prepToStart = {prepToStart}
+                                            coinSettled={coinSettled}
+                                            isDocumentVisible = {isDocumentVisible}
                                             cvterfxn = {elizabeth}/>
 
                                     </div>
                                 ))}
-                            {!runCoinSpin ? <TakeBetsTimer  setRunCoinSpin={setRunCoinSPin} roundStats={roundStats} setRoundStats={setRoundStats} /> : <div className="bets-timer-empty-holder"></div>}
+                            {(!runCoinSpin && isOnline && isDocumentVisible) ? 
+                                <TakeBetsTimer
+                                    setRunCoinSpin={setRunCoinSPin}
+                                    roundStats={roundStats}
+                                    setPrepToStart={setPrepToStart}
+                                    prepToStart = {prepToStart}
+                                    setCoinSettled={setCoinSettled}
+                                    setRoundStats={setRoundStats} /> : 
+                                <div className="bets-timer-empty-holder"></div>}
                             </div>
                             <div className="bet-control">
                                 { Array(userCoinCount).fill(1).map((coin, idx) => (
@@ -255,6 +321,10 @@ const SureCoinIndex = (props) => {
                                             isspinning={runCoinSpin}
                                             nxtSession = {nextSession}
                                             prevSession = {prevSession}
+                                            isDocumentVisible = {isDocumentVisible}
+                                            isOnline = {isOnline}
+                                            setPrepToStart={setPrepToStart}
+                                            prepToStart = {prepToStart}
                                             cvterfxn = {elizabeth}
                                         />
                                     </div>

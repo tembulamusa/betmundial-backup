@@ -38,12 +38,8 @@ import MobileApp from './components/pages/app';
 import ProtectedRoute from './components/utils/protected-route';
 import PrintMatches from './components/pages/downloads';
 import Casino from './components/pages/casino/Casino';
-import LiveCasino from './components/pages/casino/LiveCasino';
-import Virtuals from './components/pages/casino/Virtuals';
-import CasinoGamePlay from './components/pages/casino/GamePlay';
 import CheckDepositStatus from "./components/check-deposit-status";
 import Exclude from "./components/pages/exclude";
-import Promotions from './components/pages/promotions/Promotions';
 import Login from './components/pages/login';
 import LiveScore from './components/pages/livescore/LiveScore';
 import Right from "./components/right/index";
@@ -65,7 +61,7 @@ const App = () => {
     const [state, ] = useContext(Context);
 
     useEffect(() => {
-        ReactGA.initialize("GTM-5SZCFJBG");;
+        ReactGA.initialize("G-LZWJRVZ45T");;
       }, []);
       
     return (
@@ -89,7 +85,7 @@ const App = () => {
                             <Route exact path="/virtuals/index" element={<Virtuals />}/>
                             <Route exact path="/virtuals/casino" element={<Casino />}/>
                             <Route exact path="/livescore" element={<LiveScore/>}/> */}
-                            <Route exact path="/casino" element={<Casino/>}/>
+                            {/* <Route exact path="/casino" element={<Casino/>}/> */}
                             {/* <Route exact path="/" element={<CasinoHome/>}/> */}
 
                             {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
@@ -146,7 +142,7 @@ const App = () => {
                     {!(state?.casinolaunch || state?.surecoinlaunched) && <Right />}           
                 </div>
             </div>
-            {!(state?.casinolaunch || state?.surecoinlaunched) && <Footer />}
+            {<Footer />}
             </Suspense>
             </div>
             </BrowserRouter>

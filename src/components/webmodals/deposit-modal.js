@@ -26,7 +26,7 @@ const DepositModal = (props) => {
     useEffect(() => {
         setDepositMessage(state?.promptdepositrequest?.message);
     }, [state?.promptdepositrequest?.message]);
-    
+
     const handleSubmit = values => {
         let endpoint = '/v2/deposits/stk/new';
         setIsLoading(true);
@@ -170,11 +170,15 @@ const DepositModal = (props) => {
             onHide={() => dispatch({type:"DEL", key:"promptdepositrequest"})}
             dialog className="popover-login-modal"
             aria-labelledby="contained-modal-title-vcenter">
-                     <Modal.Header closeButton className="no-header">
+                     {/* <Modal.Header closeButton className="no-header">
                       <Modal.Title>Deposit</Modal.Title>
-                    </Modal.Header>
+                    </Modal.Header> */}
                     <Modal.Body className="p-4">
-                        <DepositForm />
+                        <Alert message={{status:400, message: "Insufficient Balance"}} />
+                        <div className='row mt-5'>
+                            <div className='col-7'><a href={`/deposit?next=${window.location.pathname}`} className='p-3 w-[200px] btn btn-primary btn-lg bold uppercase'>Click to Deposit</a></div>
+                            <div className='col-5'><button className='p-3 w-[100px] btn btn-lg bold uppercase btn btn-default' onClick={() => dispatch({type:"DEL", key:"promptdepositrequest"})}>Close</button></div>
+                        </div>
                     </Modal.Body>
             </Modal>
         
