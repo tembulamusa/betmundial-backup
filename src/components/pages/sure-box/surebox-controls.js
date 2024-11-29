@@ -13,7 +13,17 @@ const SureBoxControls = ({
   cashOut,
   gameInProgress,
   cashOutAmount,
+  pickRandomBox, 
 }) => {
+  const handleAutoBetToggle = () => {
+    const newAutoBetState = !autoBet;
+    setAutoBet(newAutoBetState);
+
+    if (newAutoBetState) {
+      pickRandomBox();
+    }
+  };
+
   return (
     <div className="surebox-controls w-full max-w-none p-4 bg-[#102f56] rounded-lg">
       <div className="flex flex-col lg:flex-row gap-6">
@@ -24,7 +34,7 @@ const SureBoxControls = ({
             <label className="text-lg font-semibold text-white">Auto Bet</label>
             <Switch
               checked={autoBet}
-              onChange={() => setAutoBet(!autoBet)}
+              onChange={handleAutoBetToggle}
               color="primary"
             />
           </div>
@@ -56,7 +66,7 @@ const SureBoxControls = ({
           {/* Possible Win Display */}
           <div className="flex items-center justify-between">
             <label className="text-lg font-semibold text-white">Possible Win</label>
-            <span className="text-[#5a7699] font-semibold">{possibleWin} Coins</span>
+            <span className="text-[#5a7699] font-semibold">{possibleWin} KES</span>
           </div>
         </div>
 
@@ -66,10 +76,13 @@ const SureBoxControls = ({
           {gameInProgress ? (
             <button
               onClick={cashOut}
-              className="w-full py-2 text-white bg-[#456185] rounded-md hover:bg-[#5a7699] transition-all"
+              className="w-full py-2 text-white bg-[#456185] rounded-md hover:bg-[#5a7699] transition-all relative flex items-center justify-center"
             >
-              Cash Out: {cashOutAmount} Coins
-            </button>
+              Cash Out:
+              <div className="bg-white text-black px-4 py-1 rounded-md font-semibold inline-block ml-2">
+                {cashOutAmount} KES
+              </div>
+            </button>          
           ) : (
             <button
               disabled

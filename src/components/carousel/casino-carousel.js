@@ -7,15 +7,15 @@ import Tick from '../../assets/img/banner/carousel/Tick.png';
 import Epl from '../../assets/img/banner/EPL.png';
 
 import One from  '../../assets/img/casino/carousel/1.jpg';
-import Two from  '../../assets/img/casino/carousel/2.jpg';
-import Three from  '../../assets/img/casino/carousel/3.jpg';
-import Four from  '../../assets/img/casino/carousel/4.jpg';
+import Two from  '../../assets/img/casino/carousel/2.png';
+import Three from  '../../assets/img/casino/carousel/3.png';
+import Four from  '../../assets/img/casino/carousel/4.png';
 import Five from  '../../assets/img/casino/carousel/5.jpg';
-import Six from  '../../assets/img/casino/carousel/6.jpg';
+import Six from  '../../assets/img/casino/carousel/6.png';
 import Seven from  '../../assets/img/casino/carousel/7.jpg';
 import Eight from  '../../assets/img/casino/carousel/8.jpg';
-import Nine from  '../../assets/img/casino/carousel/9.jpg';
-import Ten from  '../../assets/img/casino/carousel/10.jpg';
+import Nine from  '../../assets/img/casino/carousel/9.png';
+import Ten from  '../../assets/img/casino/carousel/10.png';
 import Eleven from  '../../assets/img/casino/carousel/11.jpg';
 import Twelve from  '../../assets/img/casino/carousel/12.jpg';
 

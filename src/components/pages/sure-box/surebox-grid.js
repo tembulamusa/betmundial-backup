@@ -1,10 +1,10 @@
 import React from "react";
 
-import ClosedBox from "../../../assets/img/casino/closedfullybox.webp";
-import OpenBox from "../../../assets/img/casino/closedbox.webp";
+import ClosedBox from "../../../assets/img/casino/vault.png";
+import OpenBox from "../../../assets/img/casino/openedbox.webp";
 
 const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
-    const boxes = Array.from({ length: 12 }, (_, idx) => ({
+    const boxes = Array.from({ length: 20 }, (_, idx) => ({
       id: idx + 1,
       isOpen: selectedBoxes.includes(idx + 1),
       odds: boxOdds[idx] || 0,

@@ -1,10 +1,18 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState, useRef } from "react";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
+import { BiSolidVolumeMute } from "react-icons/bi";
+import { FaVolumeHigh } from "react-icons/fa6";
 import SureBoxGrid from "./surebox-grid";
 import SureBoxControls from "./surebox-controls";
 import RandomPlayers from "./random-players";
 
+import GamePlaySoundFile from "../../../assets/img/casino/surebox-track.mp3";
+import OpenBoxSoundFile from "../../../assets/img/casino/surebox-openbox.mp3";
+import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
+import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
+
 const SureBoxIndex = () => {
+  const [userMuted, setUserMuted] = useState(getFromLocalStorage("sureboxmuted"));
   const [selectedBoxes, setSelectedBoxes] = useState([]);
   const [boxOdds, setBoxOdds] = useState([]);
   const [currentOdds, setCurrentOdds] = useState(1);
@@ -13,10 +21,22 @@ const SureBoxIndex = () => {
   const [betAmount, setBetAmount] = useState(1);
   const [possibleWin, setPossibleWin] = useState(0);
   const [autoBet, setAutoBet] = useState(false);
+  const [isActionSuspended, setIsActionSuspended] = useState(false);
 
-  // Initialize the game with randomized odds
+  const gamePlaySound = useRef(new Audio(GamePlaySoundFile));
+  const openBoxSound = useRef(new Audio(OpenBoxSoundFile));
+  const looseSound = useRef(new Audio(LooseSoundFile));
+  const winSound = useRef(new Audio(WinSoundFile));
+
+  const isMutedToggle = () => {
+    const newMutedState = !userMuted;
+    setLocalStorage("sureboxmuted", newMutedState, 1000 * 60 * 60 * 24 * 7);
+    setUserMuted(newMutedState);
+    gamePlaySound.current.muted = newMutedState;
+  };
+
   const startGame = () => {
-    const newBoxOdds = Array.from({ length: 12 }, () => {
+    const newBoxOdds = Array.from({ length: 20 }, () => {
       return Math.random() > 0.4 ? parseFloat((Math.random() * 2.5 + 0.5).toFixed(2)) : 0;
     });
 
@@ -29,44 +49,46 @@ const SureBoxIndex = () => {
   };
 
   const handleBoxSelection = (id) => {
-    if (!gameActive || selectedBoxes.includes(id)) return;
+    if (!gameActive || isActionSuspended || selectedBoxes.includes(id)) return;
+
+    setIsActionSuspended(true);
+    gamePlaySound.current.pause();
+    openBoxSound.current.play();
 
     const selectedOdds = boxOdds[id - 1];
-    if (selectedOdds === 0) {
-      alert("You lost! The selected box has 0 odds.");
-      resetGame();
-      return;
-    }
+    setTimeout(() => {
+      openBoxSound.current.pause();
 
-    const updatedOdds = currentOdds * selectedOdds;
-    setCurrentOdds(updatedOdds);
-    setPossibleWin((updatedOdds * betAmount).toFixed(2));
-    setCashoutAmount((updatedOdds * betAmount * 0.75).toFixed(2));
-    setSelectedBoxes([...selectedBoxes, id]);
-  };
+      if (selectedOdds === 0) {
+        looseSound.current.play();
+        looseSound.current.onended = () => {
+          resetGame();
+          gamePlaySound.current.play();
+        };
+      } else {
+        const updatedOdds = currentOdds * selectedOdds;
+        setCurrentOdds(updatedOdds);
+        setPossibleWin((updatedOdds * betAmount).toFixed(2));
+        setCashoutAmount((updatedOdds * betAmount * 0.75).toFixed(2));
+        setSelectedBoxes([...selectedBoxes, id]);
+        gamePlaySound.current.play();
+      }
 
-  const pickRandomBox = () => {
-    const totalBoxes = boxOdds.length;
-
-    // Get an unselected box ID
-    const unselectedBoxes = Array.from({ length: totalBoxes }, (_, i) => i + 1).filter(
-      (boxId) => !selectedBoxes.includes(boxId)
-    );
-
-    if (unselectedBoxes.length === 0) {
-      alert("All boxes are already selected!");
-      return;
-    }
-
-    const randomBox = unselectedBoxes[Math.floor(Math.random() * unselectedBoxes.length)];
-    handleBoxSelection(randomBox); 
+      setIsActionSuspended(false);
+    }, openBoxSound.current.duration * 1000);
   };
 
   const cashOut = () => {
     if (!gameActive) return;
 
-    alert(`You cashed out and won ${cashoutAmount} coins!`);
-    resetGame();
+    setIsActionSuspended(true);
+    winSound.current.play();
+
+    winSound.current.onended = () => {
+      alert(`You cashed out and won ${cashoutAmount} coins!`);
+      resetGame();
+      gamePlaySound.current.play();
+    };
   };
 
   const resetGame = () => {
@@ -76,23 +98,27 @@ const SureBoxIndex = () => {
     setCurrentOdds(1);
     setPossibleWin(0);
     setCashoutAmount(0);
-    setAutoBet(0);
+    setAutoBet(false);
   };
 
-  React.useEffect(() => {
-    if (autoBet && gameActive) {
-      const timer = setInterval(() => {
-        pickRandomBox();
-      }, 3000); 
+  useEffect(() => {
+    gamePlaySound.current.loop = true;
+    if (!userMuted) gamePlaySound.current.play();
 
-      return () => clearInterval(timer); // Cleanup on unmount or when autoBet changes
-    }
-  }, [autoBet, gameActive, selectedBoxes]);
+    return () => {
+      gamePlaySound.current.pause();
+    };
+  }, [userMuted]);
 
   return (
     <div className="surebox-container">
       <div className="surebox-section">
-        <h1 className="surebox-title">SureBox</h1>
+        <div className="surebox-header">
+          <h1 className="surebox-title">SureBox</h1>
+          <div className="inline-block text-3xl" onClick={() => isMutedToggle()}>
+            {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
+          </div>
+        </div>
         <SureBoxGrid
           selectedBoxes={selectedBoxes}
           setSelectedBoxes={handleBoxSelection}
@@ -110,7 +136,7 @@ const SureBoxIndex = () => {
           possibleWin={possibleWin}
           cashOutAmount={cashoutAmount}
           gameInProgress={gameActive}
-          pickRandomBox={pickRandomBox}
+          pickRandomBox={() => {}}
         />
       </div>
       <RandomPlayers />

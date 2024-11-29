@@ -21,18 +21,34 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.surebox-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 1rem; 
+    margin-bottom: 1.5rem;
+}
+
 .surebox-title {
     font-size: 2rem;
     font-weight: bold;
-    margin-bottom: 1.5rem;
     color: #ffffff;
-    text-align: center;
+    margin: 0;
+    padding-right: 1rem; 
 }
+
+.surebox-sound-icon {
+    font-size: 3rem; 
+    cursor: pointer; 
+    color: #ffffff;
+    margin-left: 1rem; 
+}
+
 
 .surebox-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem; 
     width: 100%;
     max-width: 1000px;
     margin-bottom: 2rem;
@@ -120,5 +136,19 @@
     background: rgba(0, 0, 0, 0.6);
     padding: 0.3rem 0.5rem;
     border-radius: 0.3rem;
+  }
+  
+  .inner-button {
+    background-color: white;
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+  }
+  
+  .inner-button:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.05);
   }
   
