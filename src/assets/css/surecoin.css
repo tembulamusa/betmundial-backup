@@ -70,8 +70,8 @@
 }
 
 .coin-settled {
-    perspective: 500px;
-    transform: rotateX(60deg);
+    /* perspective: 500px; */
+    /* transform: rotateX(60deg); */
 }
 
 @keyframes prepToStart {
