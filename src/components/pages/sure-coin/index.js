@@ -17,32 +17,30 @@ import { error } from "logrocket";
 import TakeBetsTimer from "./take-bets-timer";
 import Head from "../../../assets/img/casino/head.png";
 import Tail from "../../../assets/img/casino/tail.png";
+import SoundInteractPrompt from "./sound-interact-prompt";
 
 
 const SureCoinIndex = (props) => {
     const [state, dispatch] = useContext(Context);
-    const [userCoinCount, setUserCoinCount] = useState(1);
-    const [isSpinning, setIsSpinning] = useState(false);
-    const [userMuted, setUserMuted] = useState(getFromLocalStorage("surecoinmuted"));
-    const [bIDrslts, setBIDrslts] = useState(null);
+    const [userCoinCount, ] = useState(1);
+    const [userMuted, setUserMuted] = useState(false);
     const [coinsAlertMsg, setCoinsAlertMsg] = useState(null);
-    const [timeToNextStart, setTimeToNextStart] = useState(4000);
+    const [timeToNextStart, ] = useState(4000);
     const [nextSession, setNextSession] = useState({});
     const [prevSession, setPrevSession] = useState({});
     const [runCoinSpin, setRunCoinSPin] = useState(false);
     const [startRound, setStartRound] = useState(789);
     const [roundStats, setRoundStats]  = useState({});
-    const [balReq, setBalReq] = useState(false);
     const [isOnline, setIsOnline] = useState(true);
     const [networkBackOnCount, setNetworkBackOnCount] = useState(0);
     const [isDocumentVisible, setIsDocumentVisible] = useState(!document.hidden);
     const [prepToStart, setPrepToStart] = useState(false);
+    const [userSoundSet, setUserSoundSet] = useState(false);
     const [coinSettled, setCoinSettled] = useState(false);
     const user = getFromLocalStorage("user");
     // On Run coin spin
     useEffect(() => {
         if (runCoinSpin) {
-            // const timeoutId = setTimeout(() => {
             placeBet(nextSession);
 
         }        
@@ -58,17 +56,7 @@ const SureCoinIndex = (props) => {
             }, 3000);
         }
 }, [coinsAlertMsg])
-    const isMutedToggle = () => {
-
-        if(userMuted) {
-            setLocalStorage("surecoinmuted", !userMuted, 1000 * 60 * 60 * 24 * 7)
-            setUserMuted(!userMuted);
-        } else {
-            setLocalStorage("surecoinmuted", true, 1000 * 60 * 60 * 24 * 7)
-            setUserMuted(true)
-        }
-    }
-
+    
     useEffect(() => {
         let spintimeout = false;
         if (runCoinSpin){
@@ -253,6 +241,7 @@ const SureCoinIndex = (props) => {
             <div className="surecoin-body">
 
                 {/*  */}
+                {userSoundSet == false && <SoundInteractPrompt setUserSoundSet={setUserSoundSet} setUserMuted={setUserMuted}/>}
                 
                 <div className="surecoin-main md:flex">
                     <div className={`sure-coin-betting-section md:flex-col  w-full md:w-6/12 mx-auto`}>
@@ -272,7 +261,7 @@ const SureCoinIndex = (props) => {
                                    <div className="inline-block text-2xl pr-2" >
                                         {/* <FaInfo /> */}
                                     </div>
-                                    <div className="inline-block text-3xl" onClick={() => isMutedToggle()}>
+                                    <div className="inline-block text-3xl" onClick={() => setUserMuted(userMuted ? false : true)}>
                                         {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}</div>
                                     </div>
                             </div>
@@ -294,6 +283,7 @@ const SureCoinIndex = (props) => {
                                             usermuted={userMuted}
                                             nxtSession = {nextSession}
                                             prevSession = {prevSession}
+                                            userSoundSet={userSoundSet}
                                             isOnline = {isOnline}
                                             setPrepToStart={setPrepToStart}
                                             prepToStart = {prepToStart}

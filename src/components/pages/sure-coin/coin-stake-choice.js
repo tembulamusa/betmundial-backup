@@ -78,6 +78,13 @@ const CoinStakeChoice = (props) => {
             // if(userPlaceBetOn) {
                 // setUserPlaceBetOn(false);
                 if (autoBet) {
+                    // check for user and login
+                    if(!state?.user) {
+                        if(!state?.showloginmodal) {
+                            dispatch({type:"SET", key:"showloginmodal", payload:true})
+                        }
+                        return false;
+                    }
                     if(autoBetsLeft > 0){
                         setUserPlaceBetOn(false);
                         timeOutId = setTimeout(() => {
