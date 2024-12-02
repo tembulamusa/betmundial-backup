@@ -75,7 +75,6 @@ const RotatingCoin = (props) => {
     
     useEffect(() => {
         if (timeLeft <= 0) {
-           
             return;
         }
 
@@ -105,7 +104,7 @@ const RotatingCoin = (props) => {
     
     // paly the sound
     useEffect(() => {
-        if (!usermuted) {
+        if (!usermuted && userSoundSet) {
             const audio = new Audio(Sound1);
             const audio2 = new Audio(Sound2);
 

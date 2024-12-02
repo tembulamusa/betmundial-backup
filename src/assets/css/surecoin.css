@@ -184,7 +184,7 @@
     font-weight: bold;
 }
 .sound-interact-prompt-cover .sound-selector {
-    margin-top: 40%;
+    margin-top: 20%;
     max-width: 200px;
 }
 .won-gif-container {
@@ -532,6 +532,11 @@ button[disabled]{
     }
     .coin-quick-stats {
         right: 0px;
+    }
+
+    .sound-interact-prompt-cover .sound-selector {
+        margin-top: 40%;
+        max-width: 200px;
     }
 
 }
