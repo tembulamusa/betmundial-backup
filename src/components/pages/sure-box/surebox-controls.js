@@ -50,16 +50,18 @@ const SureBoxControls = ({
           </div>
 
           {/* Bet Amount Input */}
-          <div className="flex items-center justify-between">
-            <label className="text-lg font-semibold text-white">Bet Amount</label>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+            <label className="text-lg font-semibold text-white sm:mr-4">
+              Bet Amount
+            </label>
             <input
               type="number"
               value={betAmount}
               onChange={(e) => setBetAmount(e.target.value)}
-              className="bg-[#0b121b] text-white px-4 py-2 rounded-md border border-[#456185] focus:outline-none focus:ring-2 focus:ring-[#5a7699]"
+              className="bg-[#0b121b] text-white px-4 py-2 rounded-md border border-[#456185] focus:outline-none focus:ring-2 focus:ring-[#5a7699] w-full sm:w-auto"
               min={1}
               step={1}
-              disabled={gameInProgress} // Disable input during game
+              disabled={gameInProgress} 
             />
           </div>
 

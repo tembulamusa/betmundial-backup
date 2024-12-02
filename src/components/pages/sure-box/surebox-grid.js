@@ -11,10 +11,7 @@ const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
     }));
   
     return (
-      <>
-        <p className="surebox-prompt text-lg font-semibold text-white mb-4">
-          Select a box to get started
-        </p>
+      <>       
         <div className="surebox-grid">
           {boxes.map((box) => (
             <div

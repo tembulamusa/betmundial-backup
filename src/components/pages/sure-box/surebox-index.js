@@ -10,6 +10,7 @@ import GamePlaySoundFile from "../../../assets/img/casino/surebox-track.mp3";
 import OpenBoxSoundFile from "../../../assets/img/casino/surebox-openbox.mp3";
 import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
 import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
+import WinGif from "../../../assets/img/casino/surebox-win.gif";
 
 const SureBoxIndex = () => {
   const [userMuted, setUserMuted] = useState(getFromLocalStorage("sureboxmuted"));
@@ -22,6 +23,7 @@ const SureBoxIndex = () => {
   const [possibleWin, setPossibleWin] = useState(0);
   const [autoBet, setAutoBet] = useState(false);
   const [isActionSuspended, setIsActionSuspended] = useState(false);
+  const [showWinGif, setShowWinGif] = useState(false);
 
   const gamePlaySound = useRef(new Audio(GamePlaySoundFile));
   const openBoxSound = useRef(new Audio(OpenBoxSoundFile));
@@ -84,12 +86,15 @@ const SureBoxIndex = () => {
     setIsActionSuspended(true);
     winSound.current.play();
 
-    winSound.current.onended = () => {
+    setShowWinGif(true);
+    setTimeout(() => {
+      setShowWinGif(false); 
       alert(`You cashed out and won ${cashoutAmount} coins!`);
       resetGame();
       gamePlaySound.current.play();
-    };
+    }, 1500);
   };
+   
 
   const resetGame = () => {
     setGameActive(false);
@@ -106,7 +111,6 @@ const SureBoxIndex = () => {
     if (!userMuted) gamePlaySound.current.play();
 
     return () => {
-      gamePlaySound.current.pause();
     };
   }, [userMuted]);
 
@@ -115,29 +119,41 @@ const SureBoxIndex = () => {
       <div className="surebox-section">
         <div className="surebox-header">
           <h1 className="surebox-title">SureBox</h1>
-          <div className="inline-block text-3xl" onClick={() => isMutedToggle()}>
+          <div className="surebox-sound-icon" onClick={() => isMutedToggle()}>
             {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
           </div>
         </div>
-        <SureBoxGrid
-          selectedBoxes={selectedBoxes}
-          setSelectedBoxes={handleBoxSelection}
-          boxOdds={boxOdds}
-        />
-        <SureBoxControls
-          autoBet={autoBet}
-          setAutoBet={setAutoBet}
-          autoPick={false}
-          setAutoPick={() => {}}
-          startGame={gameActive ? () => alert("Game already in progress") : startGame}
-          cashOut={gameActive ? cashOut : () => alert("No game to cash out from")}
-          betAmount={betAmount}
-          setBetAmount={setBetAmount}
-          possibleWin={possibleWin}
-          cashOutAmount={cashoutAmount}
-          gameInProgress={gameActive}
-          pickRandomBox={() => {}}
-        />
+        <p className="surebox-prompt text-lg font-semibold text-white mb-4">
+          Select a box to get started
+        </p>
+
+        {showWinGif && (
+          <div className="win-gif-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
+            <img src={WinGif} alt="You Win!" className="w-64 h-64 object-contain" />
+          </div>
+        )}
+
+        <div className="surebox-content">
+          <SureBoxGrid
+            selectedBoxes={selectedBoxes}
+            setSelectedBoxes={handleBoxSelection}
+            boxOdds={boxOdds}
+          />
+          <SureBoxControls
+            autoBet={autoBet}
+            setAutoBet={setAutoBet}
+            autoPick={false}
+            setAutoPick={() => {}}
+            startGame={gameActive ? () => alert("Game already in progress") : startGame}
+            cashOut={gameActive ? cashOut : () => alert("No game to cash out from")}
+            betAmount={betAmount}
+            setBetAmount={setBetAmount}
+            possibleWin={possibleWin}
+            cashOutAmount={cashoutAmount}
+            gameInProgress={gameActive}
+            pickRandomBox={() => {}}
+          />
+        </div>
       </div>
       <RandomPlayers />
     </div>
