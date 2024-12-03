@@ -54,10 +54,10 @@ const CasinoGame = (props) => {
 
         await makeRequest({url: endpoint, data: data, method: method, api_version:casinoVersion}).then(([status, result]) => {
             if (status == 200) {
-                let launchUrl = result?.gameUrl || result?.game_urli || result?.url;
+                let launchUrl = result?.gameUrl || result?.game_urli || result?.url || result.GameUrl;
                 dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: launchUrl}});
                 setLocalStorage("casinolaunch", {game: game, url: launchUrl})
-                navigate(`/casino/${game?.game_name.split(' ').join('')}`)
+                navigate(`/casino/${game?.provider_name.split(' ').join('-')}/${game?.game_name.split(' ').join('-')}`)
             } else {
                 setAlertMessage({status: 400, message: "An error occurred"})
                 return false

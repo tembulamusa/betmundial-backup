@@ -103,8 +103,8 @@ const App = () => {
                             <Route exact path="/print-matches" element={<PrintMatches/>}/>                            
                             // <Route exact path="/promotions" element={<Promotions/>}/>
                             */}
-
-                            <Route exact path="/casino/:name" element={<CasinoLaunchedGame />}/>
+                            <Route exact path="/casino" element={<Casino />}/>
+                            <Route exact path="/casino/:provider/:name" element={<CasinoLaunchedGame />}/>
                             <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
                             <Route exact path="/jackpot" element={<Jackpot/>}/>
                             <Route exact path="/live" element={<Live/>}/>

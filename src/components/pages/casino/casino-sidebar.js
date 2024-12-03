@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
 import { getFromLocalStorage } from "../../utils/local-storage";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const CasinoSidebar = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -9,7 +9,7 @@ const CasinoSidebar = (props) => {
     const [providers, setProviders] = useState([]);
     const navigate = useNavigate();
     const [searchParams, ] = useSearchParams();
-    
+    const loc = useLocation();
     
     const getSportImageIcon = (sport_name) => {
 
@@ -80,11 +80,10 @@ const CasinoSidebar = (props) => {
                     <ul className="casino-sidebar-items">
                         {categories?.map((category, idx) => (
                                 <>
-                                <li key={"categories-" + idx} 
-                                    className={`${state?.casinogamesfilter?.category?.id == category?.id && 'active'} cursor-pointer menu-item` }
-                                    onClick={() => filterGames("category", category)}>
-                                    <img  src={getSportImageIcon(category.name)} className="casino-icon" alt=""/>{category?.name}
-                                </li>
+                                <Link to={`/casino?category=${category?.name?.toLowerCase()}&&id=${category?.id}`} key={"categories-" + idx} 
+                                    className={`${state?.casinogamesfilter?.category?.id == category?.id && 'active'} cursor-pointer menu-item block py-2 boder-b border-gray-100` }>
+                                    <img  src={getSportImageIcon(category.name)} className="casino-icon  inline-block" alt=""/>{category?.name}
+                                </Link>
                                 </>
                             ))}
                     </ul>
@@ -94,18 +93,16 @@ const CasinoSidebar = (props) => {
     }
 
     const CasinoProviders = (props) => {
-
         return (
             <>
                 <div className="casino-list-block menu-card rounded-lg">
                     <h1 className="mb-2 text-2xl font-[400] casino-class-header">Providers</h1>
                     <ul className="casino-sidebar-items">
                     {providers?.map((provider, idx) => (
-                        <li key={"providers-" + idx} 
-                            className={`${state?.casinogamesfilter?.provider == provider?.id && 'active'} cursor-pointer menu-item` }
-                            onClick={() => filterGames("provider", provider)}>
-                            <img  src={getSportImageIcon(provider.name)} className="casino-icon" alt=""/>{provider?.name}
-                        </li>))
+                        <Link to={provider?.name?.toLowerCase() == "surecoin" ? "/surecoin" : `/casino?provider=${provider?.name?.split(" ").join("-")}&&id=${provider?.id}`} 
+                            className={`${loc?.pathname?.includes(provider?.name) && 'active'} cursor-pointer menu-item block py-2` }>
+                            <img  src={getSportImageIcon(provider.name)} className="casino-icon inline-block" alt=""/>{provider?.name}
+                        </Link>))
                     }
                     </ul>
                 </div>
