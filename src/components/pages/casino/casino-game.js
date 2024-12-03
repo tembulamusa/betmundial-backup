@@ -37,8 +37,7 @@ const CasinoGame = (props) => {
                 data = {token: user?.token}
                 method = "POST"
             }
-        }
-        if (game?.provider_name.toLowerCase() == "pragmatic") {
+        } else  if (game?.provider_name.toLowerCase() == "pragmatic") {
             casinoVersion = "pragmatic"
             endpoint = "demo-game"
             method = "POST"
@@ -46,21 +45,20 @@ const CasinoGame = (props) => {
             if(moneyType == 1) {
                 endpoint = "launch-game"
             }
-        }
-        if (game?.provider_name?.toLowerCase() == "split the pot") {
+        } else if (game?.provider_name?.toLowerCase() == "split the pot") {
             casinoVersion = "intouchvas";
-        }
+
+        } else if (game?.provider_name?.toLowerCase() == "smartsoft") {
+            casinoVersion = "smartsoft";
+        } 
+
         await makeRequest({url: endpoint, data: data, method: method, api_version:casinoVersion}).then(([status, result]) => {
             if (status == 200) {
-                let launchUrl = result?.gameUrl || result?.game_url
-                if(["aviatrix", "pragmatic"].includes(game?.provider_name?.toLowerCase())){
-                    launchUrl = result?.url;
-                }
+                let launchUrl = result?.gameUrl || result?.game_urli || result?.url;
                 dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: launchUrl}});
                 setLocalStorage("casinolaunch", {game: game, url: launchUrl})
                 navigate(`/casino/${game?.game_name.split(' ').join('')}`)
             } else {
-                // Notify({status: 400, message: "An Error Occurred"})
                 setAlertMessage({status: 400, message: "An error occurred"})
                 return false
             }
