@@ -22,6 +22,7 @@ const SureBoxIndex = () => {
   const [betAmount, setBetAmount] = useState(1);
   const [possibleWin, setPossibleWin] = useState(0);
   const [autoBet, setAutoBet] = useState(false);
+  const [bets, setBets] = useState([]);
   const [isActionSuspended, setIsActionSuspended] = useState(false);
   const [showWinGif, setShowWinGif] = useState(false);
 
@@ -52,15 +53,15 @@ const SureBoxIndex = () => {
 
   const handleBoxSelection = (id) => {
     if (!gameActive || isActionSuspended || selectedBoxes.includes(id)) return;
-
+  
     setIsActionSuspended(true);
     gamePlaySound.current.pause();
     openBoxSound.current.play();
-
+  
     const selectedOdds = boxOdds[id - 1];
     setTimeout(() => {
       openBoxSound.current.pause();
-
+  
       if (selectedOdds === 0) {
         looseSound.current.play();
         looseSound.current.onended = () => {
@@ -74,11 +75,17 @@ const SureBoxIndex = () => {
         setCashoutAmount((updatedOdds * betAmount * 0.75).toFixed(2));
         setSelectedBoxes([...selectedBoxes, id]);
         gamePlaySound.current.play();
+  
+        const newBet = {
+          betNumber: bets.length + 1,
+          amountWon: (updatedOdds * betAmount).toFixed(2),
+        };
+        setBets([...bets, newBet]);
       }
-
+  
       setIsActionSuspended(false);
     }, openBoxSound.current.duration * 1000);
-  };
+  };  
 
   const cashOut = () => {
     if (!gameActive) return;
@@ -103,6 +110,7 @@ const SureBoxIndex = () => {
     setCurrentOdds(1);
     setPossibleWin(0);
     setCashoutAmount(0);
+    setBets([]); 
     setAutoBet(false);
   };
 
@@ -142,8 +150,6 @@ const SureBoxIndex = () => {
           <SureBoxControls
             autoBet={autoBet}
             setAutoBet={setAutoBet}
-            autoPick={false}
-            setAutoPick={() => {}}
             startGame={gameActive ? () => alert("Game already in progress") : startGame}
             cashOut={gameActive ? cashOut : () => alert("No game to cash out from")}
             betAmount={betAmount}
@@ -151,6 +157,7 @@ const SureBoxIndex = () => {
             possibleWin={possibleWin}
             cashOutAmount={cashoutAmount}
             gameInProgress={gameActive}
+            bets={bets} 
             pickRandomBox={() => {}}
           />
         </div>
