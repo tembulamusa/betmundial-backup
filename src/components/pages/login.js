@@ -6,7 +6,7 @@ const Login = (props) => {
 
     return (
         <div className="">
-            <div className='col-md-12 primary-bg p-4 text-center'>
+            <div className='col-md-12 border-b border-gray-200 uppercase p-4 text-center'>
                 <h4 className="inline-block">
                     Login
                 </h4>

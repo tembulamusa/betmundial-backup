@@ -8,6 +8,7 @@ const CASINOFAZI = process.env.REACT_APP_CASINOFAZI_URL;
 const SURECOIN_URL = process.env.REACT_APP_SURECOIN_URL;
 const AVIATRIX_URL = process.env.REACT_APP_AVIATRIX_URL;
 const CASINO_INTOUCHVAS_URL = process.env.REACT_APP_INTOUCHVAS_URL; // split the pot casino
+const CASINO_PRAGMATIC_URL = process.env.REACT_APP_PRAGMATIC_URL; // pragmatic
 
 const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1, serviceType}) => {
 
@@ -25,6 +26,8 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
                 url = AVIATRIX_URL + url;
             } else if (api_version == "intouchvas") {
                 url = CASINO_INTOUCHVAS_URL + url;
+            } else if (api_version == "pragmatic") {
+                url = CASINO_PRAGMATIC_URL + url;
             }
         }
     }

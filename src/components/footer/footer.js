@@ -3,6 +3,7 @@ import { FaEnvelope, FaFacebook, FaXTwitter, FaInstagram, FaWhatsapp  } from "re
 
 import PlayStore from '../../assets/img/general-website/google-play-badge.png';
 import AppStore from '../../assets/img/general-website/appstore_badge.svg';
+import { FaMobile, FaPhone, FaPhoneAlt } from 'react-icons/fa';
 
 const Footer = (props) => {
 //#24367e
@@ -16,19 +17,19 @@ const Footer = (props) => {
                         BOX 2772 - 00606, NAIROBI
                         </li>
                         <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <a href="mailto:customercare@surebet.co.ke" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <a target='_blank' href="mailto:info@risecombiz.com" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <FaEnvelope className="icon" /> 
-                                <span>customercare@surebet.co.ke</span>
+                                <span>info@risecombiz.com</span>
                             </a>
                         </li>
                         <li className="footer-icon" style={{ display: 'flex', justifyContent: 'flex-start', gap: '15px' }}>
-                            <a href="https://www.facebook.com/kesurebet">
+                            <a target='_blank' href="https://www.facebook.com/kesurebet">
                                 <span><FaFacebook className="social-icon" /></span>
                             </a>
-                            <a href="https://x.com/SurebetsKenya">
+                            <a target='_blank' href="https://x.com/SurebetsKenya">
                                 <span><FaXTwitter className="social-icon" /></span>
                             </a>
-                            <a href="https://www.instagram.com/surebet_ke">
+                            <a target='_blank' href="https://www.instagram.com/surebet_ke">
                                 <span><FaInstagram className="social-icon" /></span>
                             </a>
                         </li>
@@ -37,10 +38,16 @@ const Footer = (props) => {
                                 href="https://wa.me/254724599488" 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+                                style={{ display: 'flex', alignItems: 'center', gap: '15px' }}
                             >
                                 <FaWhatsapp className="icon" /> 
                                 <span>Chat with Us</span>
+                            </a>
+                        </li>
+                        <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <a target='_blank' href='tel:+254724599488' className='flex'>
+                                <FaPhoneAlt className="icon inline-block mr-3" /> 
+                                <span className='text-3xl'>0724 599 488</span>
                             </a>
                         </li>
                     </ul>
@@ -82,15 +89,16 @@ const Footer = (props) => {
                         </li>
                     </ul>
                     <div className="flex gap-2 items-center flex-wrap mt-2">
-                        <img src={PlayStore} alt="Google Play Store" className="w-40 h-16" />
-                        <img src={AppStore} alt="Apple App Store" className="w-40 h-16" />
+
+                        {/* <img src={PlayStore} alt="Google Play Store" className="w-40 h-16" />
+                        <img src={AppStore} alt="Apple App Store" className="w-40 h-16" /> */}
                     </div>
                 </div>               
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                     <h5>LICENSING</h5>
                     <hr/>
                     <p>
-                    Surebet is Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
+                        Surebet is a Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
                     </p>
                 </div>
             </div>

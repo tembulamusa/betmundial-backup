@@ -75,7 +75,7 @@ const Signup = (props) => {
 
     const FormTitle = () => {
         return (
-            <div className='col-md-12 primary-bg p-4 text-center'>
+            <div className='col-md-12 border-b border-gray-200 uppercase p-4 text-center'>
                 <h4 className="inline-block">
                     CREATE AN ACCOUNT
                 </h4>
@@ -219,8 +219,8 @@ const Signup = (props) => {
 
             
                     <div className='signup-container' >
-                        <div className='col-md-12 primary-bg p-4 text-center'>
-                            <h4 className="inline-block">
+                    <div className='col-md-12 border-b border-gray-200 uppercase p-4 text-center'>
+                    <h4 className="inline-block">
                                 CREATE AN ACCOUNT
                             </h4>
                         </div>

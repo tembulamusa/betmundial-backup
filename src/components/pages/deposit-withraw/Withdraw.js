@@ -4,6 +4,7 @@ import makeRequest from "../../utils/fetch-request";
 import { Formik,  Form} from 'formik';
 import { Context } from '../../../context/store';
 import {getBetslip} from '../../utils/betslip'
+import { getFromLocalStorage } from '../../utils/local-storage';
 
 const Withdrawal = (props) => {
     //todo get the phone number from logged in user ....
@@ -11,10 +12,10 @@ const Withdrawal = (props) => {
    
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
-
+    const user = getFromLocalStorage("user");
     const initialValues = {
         amount: '',
-        msisdn: state?.user?.msisdn
+        msisdn: user?.msisdn
     }
 
     
@@ -25,8 +26,8 @@ const Withdrawal = (props) => {
         }
     }, []);
     const handleSubmit = values => {
-        let endpoint = '/v2/withdrawals/new';
-        let data = {msisdn: state?.user?.msisdn, amount: values?.amount}
+        let endpoint = 'v2/withdrawals/new';
+        let data = {msisdn: user?.msisdn, amount: values?.amount}
         makeRequest({url: endpoint, method: 'POST', data: data, api_version:3}).then(([status, response]) => {
             setSuccess(status == 200 || status == 201);
 
@@ -54,7 +55,7 @@ const Withdrawal = (props) => {
 
     const FormTitle = () => {
        return (
-            <div className='col-md-12 primary-bg p-4 text-center'>
+        <div className='col-md-12 border-b border-gray-200 uppercase p-4 text-center'>
                 <h4 className="">
                     Withdraw Funds (Mobile Money)
                 </h4>
@@ -133,7 +134,7 @@ const Withdrawal = (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col"> To withdraw via SMS, send <span className='font-bold'>w#amount</span> or <span className='font-bold'>withdraw#amount</span> to <span className='font-bold'>29488</span> </div>
-                        <div className='mt-2'>eg send SMS<span className='font-bold'>w#500</span> to <span className='font-bold'>29488</span></div>
+                        <div className='mt-2'>eg send SMS <span className='font-bold'>w#500</span> to <span className='font-bold'>29488</span></div>
                     </div>
                     
                 </div>

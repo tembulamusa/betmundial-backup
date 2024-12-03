@@ -14,7 +14,8 @@ import { MdCancel } from "react-icons/md";
 import ComingSoon from '../pages/comingsoon/ComingSoon';
 
 
-function MobileMenu() {
+function MobileMenu(props) {
+  const {user} = props;
   const [show, setShow] = useState(false);
   const [state, dispatch] = useContext(Context);
   const [darkMode, setDarkMode] = useState(false);
@@ -34,9 +35,9 @@ function MobileMenu() {
   const UserBalance = () => (
     <div className="bx">
       <div className="bx-1">BALANCE</div>
-      <div className="bx-2 secondary-text">KSh. {state?.user?.balance}</div>
+      <div className="bx-2 secondary-text">KSh. {user?.balance}</div>
       <div className="bx-3">
-        <div className="bx-3-1">Bonus: <span>KSh. {state?.user?.bonus_balance}</span></div>
+        <div className="bx-3-1">Bonus: <span>KSh. {user?.bonus_balance}</span></div>
       </div>
     </div>
   );
@@ -90,7 +91,7 @@ function MobileMenu() {
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
-            <FaRegUser className='mr-3 inline-block' /> {state?.user?.msisdn}
+            <FaRegUser className='mr-3 inline-block' /> {user?.msisdn}
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body className='off-canvas' style={{ marginBottom: '20px', overflowY: 'auto' }}>
@@ -101,11 +102,11 @@ function MobileMenu() {
 
           <div className="cd" onClick={() => setShow(false)}>
             <Link to={"/deposit"}  className="cd-l"><GiTwoCoins className='inline-block mr-3' /> Deposit</Link>
-            <Link to={"/withdraw"} className="cd-l"><BiMoneyWithdraw className='mr-3 inline-block' /> Withdraw winnings</Link>
+            <Link to={"/withdraw"} className="cd-l"><BiMoneyWithdraw className='mr-3 inline-block' /> Withdraw</Link>
             <div className="cd-l" onClick={() => dispatch({type: "SET", key:"showcheckmpesadepositstatus", payload: true})}><FaCheckToSlot className='mr-3 inline-block' /> Check MPESA Deposit status</div>
-            <Link to="/my-bets" className="cd-l"><IoListCircleOutline className='mr-3 inline-block' /> My bets</Link>
+            {!state?.nosports && <> <Link to="/my-bets" className="cd-l"><IoListCircleOutline className='mr-3 inline-block' /> My bets</Link>
             <Link to="/promotions" className="cd-l"><FaGifts className='mr-3 inline-block' /> Promotions</Link>
-            <Link to="/exclude" className="cd-l"><MdCancel className='mr-3 inline-block' /> Exclude myself from betting</Link>
+            <Link to="/exclude" className="cd-l"><MdCancel className='mr-3 inline-block' /> Exclude myself from betting</Link> </>}
           </div>
 
           <CanvasBottom />

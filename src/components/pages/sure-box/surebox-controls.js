@@ -105,7 +105,12 @@ const SureBoxControls = ({
             ))}
           </div>
         ) : (
-          <p className="text-white">No bets placed yet</p>
+          <button
+            disabled
+            className="w-full py-2 text-white bg-gray-600 rounded-md cursor-not-allowed"
+          >
+            No Picks yet
+          </button>
         )}
       </div>
 

@@ -38,13 +38,22 @@ const CasinoGame = (props) => {
                 method = "POST"
             }
         }
+        if (game?.provider_name.toLowerCase() == "pragmatic") {
+            casinoVersion = "pragmatic"
+            endpoint = "demo-game"
+            method = "POST"
+            data = {gameId: game.game_id}
+            if(moneyType == 1) {
+                endpoint = "launch-game"
+            }
+        }
         if (game?.provider_name?.toLowerCase() == "split the pot") {
             casinoVersion = "intouchvas";
         }
         await makeRequest({url: endpoint, data: data, method: method, api_version:casinoVersion}).then(([status, result]) => {
             if (status == 200) {
                 let launchUrl = result?.gameUrl || result?.game_url
-                if(game?.provider_name?.toLowerCase() == "aviatrix"){
+                if(["aviatrix", "pragmatic"].includes(game?.provider_name?.toLowerCase())){
                     launchUrl = result?.url;
                 }
                 dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: launchUrl}});

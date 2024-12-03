@@ -45,7 +45,7 @@ const BodyLogin = (props) => {
             toastId: 673738 /* this is hack to prevent multiple toasts */
         }
         if ([200, 201, 204].includes(message.status)) {
-            setLocalStorage('user', message.user);
+            setLocalStorage('user', message.user, 1000 * 60 * 60 * 24 * 30);
             setUser(message.user);
             dispatch({type:"SET", key: "user", payload: message?.user});
             // toast.success(`🚀 ${message.message || "Login successful"}`, options);
@@ -92,9 +92,14 @@ const BodyLogin = (props) => {
                 }
                 if (response?.result == "User account not verified") {
                     setAlertVerifyMessage({status: 400, message:response.result})
+                } else {
+                    setAlertVerifyMessage({status: 400, message:"An error occurred. Check details"})
+
                 }
 
             }
+
+            setIsLoading(false)
         })
     }
 
@@ -131,6 +136,9 @@ const BodyLogin = (props) => {
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
             let value = ev.target.value;
+            if(field == "msisdn") {
+                value = value.trim();
+            }
             setFieldValue(field, value);
         }
 

@@ -26,7 +26,7 @@ const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
                 alt={box.isOpen ? "Open Box" : "Closed Box"}
                 className="box-image"
               />
-              {!box.isOpen && (
+              {box.isOpen && (
                 <span className="odds-display text-white">{box.odds > 0 ? box.odds : "0"}</span>
               )}
             </div>

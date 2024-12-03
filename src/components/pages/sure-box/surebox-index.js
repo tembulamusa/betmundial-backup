@@ -96,7 +96,7 @@ const SureBoxIndex = () => {
     setShowWinGif(true);
     setTimeout(() => {
       setShowWinGif(false); 
-      alert(`You cashed out and won ${cashoutAmount} coins!`);
+      alert(`You cashed out and won ${cashoutAmount} KES!`);
       resetGame();
       gamePlaySound.current.play();
     }, 1500);

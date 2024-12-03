@@ -10,6 +10,7 @@ import '../../../assets/css/accordion.react.css';
 import StdTable from '../../utils/std-table';
 import { Link } from 'react-router-dom';
 import { GoAlertFill } from "react-icons/go";
+import { getFromLocalStorage } from '../../utils/local-storage';
 
 
 const Deposit = (props) => {
@@ -18,11 +19,11 @@ const Deposit = (props) => {
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    
+    const user = getFromLocalStorage("user");
     
     const initialValues = {
         amount: '',
-        msisdn: state?.user?.msisdn || ''
+        msisdn: user?.msisdn || ''
     }
 
     useEffect(() => {
@@ -32,8 +33,9 @@ const Deposit = (props) => {
         }
     }, [])
 
+    
     const handleSubmit = values => {
-        let endpoint = '/v2/deposits/stk/new';
+        let endpoint = 'v2/deposits/stk/new';
         setIsLoading(true);
         setMessage(null);
         setSuccess(false)
@@ -105,7 +107,7 @@ const Deposit = (props) => {
                             type="text"
                             readOnly
                             disabled
-                            value={state?.user?.msisdn}
+                            value={user?.msisdn}
                         />
                         <label className='pl-0 mb-1'>Amount to Deposit</label>
                         <input

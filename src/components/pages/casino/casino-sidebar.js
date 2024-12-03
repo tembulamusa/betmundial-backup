@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
 import { getFromLocalStorage } from "../../utils/local-storage";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 const CasinoSidebar = (props) => {
     const [state, dispatch] = useContext(Context);
     const [categories, setCategories] = useState([]); 
     const [providers, setProviders] = useState([]);
     const navigate = useNavigate();
+    const [searchParams, ] = useSearchParams();
+    
     
     const getSportImageIcon = (sport_name) => {
 
@@ -20,8 +22,12 @@ const CasinoSidebar = (props) => {
         return sport_image;
     }
 
-
+    useEffect(() => {
+        console.log("I clicked on game", searchParams.get("selected-category"))
+    }, [searchParams.get("selected-category")])
     // load categories and providers
+
+
     useEffect(() => {
         setCategories(state?.casinofilters?.categories);
         setProviders(state?.casinofilters?.providers);
@@ -52,9 +58,9 @@ const CasinoSidebar = (props) => {
                     <li key={"all-" + 23} 
                         className={`cursor-pointer menu-item capitalize` }
                         onClick={() => filterGames("all", "all")}>
-                            <Link to={"/casino"} className="inline-block" >
+                            <a href={"/casino"} className="inline-block" >
                                 <img  src={getSportImageIcon('home')} className="casino-icon inline-block" alt=""/>{"All games"}
-                            </Link>
+                            </a>
                     </li>
                     <li key={"all-" + 24}
                         className={`cursor-pointer menu-item capitalize` }
@@ -75,7 +81,7 @@ const CasinoSidebar = (props) => {
                         {categories?.map((category, idx) => (
                                 <>
                                 <li key={"categories-" + idx} 
-                                    className={`${state?.casinogamesfilter?.category == category?.id && 'active'} cursor-pointer menu-item` }
+                                    className={`${state?.casinogamesfilter?.category?.id == category?.id && 'active'} cursor-pointer menu-item` }
                                     onClick={() => filterGames("category", category)}>
                                     <img  src={getSportImageIcon(category.name)} className="casino-icon" alt=""/>{category?.name}
                                 </li>
