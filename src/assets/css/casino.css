@@ -27,12 +27,13 @@
     translate: -50% 30%;
     right: auto;
     top: 10%;
-    background: rgba(0,0,0, 0.6);
+    background: rgba(0,0,0, 0.4);
     display: none;
-    padding: 5px 10px;
-    padding-right: 10px;
+    padding: 10px 2px;
+    padding-right: 40px;
     border-radius: 4px;
-    padding-left: 10px;
+    padding-left: 40px;
+    /* width: 100%; */
 }
 
 .game-buttons .casino-cta {
@@ -85,7 +86,7 @@
     --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
     /* box-shadow: 0 0 2px rgba(0,0,0, 0.1); */
 }
-.casino-list-block ul li {
+.casino-list-block ul li, .casino-list-block ul a {
     margin-left: 5px;
     margin-right: 0;
     display: flex;

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 import { BiSolidVolumeMute } from "react-icons/bi";
 import { FaVolumeHigh } from "react-icons/fa6";
+
 import SureBoxGrid from "./surebox-grid";
 import SureBoxControls from "./surebox-controls";
 import RandomPlayers from "./random-players";
@@ -11,6 +12,7 @@ import OpenBoxSoundFile from "../../../assets/img/casino/surebox-openbox.mp3";
 import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
 import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
 import WinGif from "../../../assets/img/casino/surebox-win.gif";
+import LostGif from "../../../assets/img/casino/surebox-close.gif";
 
 const SureBoxIndex = () => {
   const [userMuted, setUserMuted] = useState(getFromLocalStorage("sureboxmuted"));
@@ -25,6 +27,7 @@ const SureBoxIndex = () => {
   const [bets, setBets] = useState([]);
   const [isActionSuspended, setIsActionSuspended] = useState(false);
   const [showWinGif, setShowWinGif] = useState(false);
+  const [showLostGif, setShowLostGif] = useState(false);
 
   const gamePlaySound = useRef(new Audio(GamePlaySoundFile));
   const openBoxSound = useRef(new Audio(OpenBoxSoundFile));
@@ -53,21 +56,24 @@ const SureBoxIndex = () => {
 
   const handleBoxSelection = (id) => {
     if (!gameActive || isActionSuspended || selectedBoxes.includes(id)) return;
-  
+
     setIsActionSuspended(true);
     gamePlaySound.current.pause();
     openBoxSound.current.play();
-  
+
     const selectedOdds = boxOdds[id - 1];
     setTimeout(() => {
       openBoxSound.current.pause();
-  
+
       if (selectedOdds === 0) {
         looseSound.current.play();
-        looseSound.current.onended = () => {
+
+        setShowLostGif(true);
+        setTimeout(() => {
+          setShowLostGif(false);
           resetGame();
           gamePlaySound.current.play();
-        };
+        }, 2000);
       } else {
         const updatedOdds = currentOdds * selectedOdds;
         setCurrentOdds(updatedOdds);
@@ -75,14 +81,14 @@ const SureBoxIndex = () => {
         setCashoutAmount((updatedOdds * betAmount * 0.75).toFixed(2));
         setSelectedBoxes([...selectedBoxes, id]);
         gamePlaySound.current.play();
-  
+
         const newBet = {
           betNumber: bets.length + 1,
           amountWon: (updatedOdds * betAmount).toFixed(2),
         };
         setBets([...bets, newBet]);
       }
-  
+
       setIsActionSuspended(false);
     }, openBoxSound.current.duration * 1000);
   };  
@@ -131,13 +137,16 @@ const SureBoxIndex = () => {
             {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
           </div>
         </div>
-        <p className="surebox-prompt text-lg font-semibold text-white mb-4">
-          Select a box to get started
-        </p>
 
         {showWinGif && (
           <div className="win-gif-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
             <img src={WinGif} alt="You Win!" className="w-64 h-64 object-contain" />
+          </div>
+        )}
+
+        {showLostGif && (
+          <div className="lost-gif-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
+            <img src={LostGif} alt="You Lost!" className="w-64 h-64 object-contain" />
           </div>
         )}
 

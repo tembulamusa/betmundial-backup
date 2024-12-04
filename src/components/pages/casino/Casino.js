@@ -3,7 +3,7 @@ import Header from "../../header/header";
 import Footer from "../../footer/footer";
 import makeRequest from "../../utils/fetch-request";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { Link } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import SideBar from "../../sidebar/awesome/Sidebar";
 import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 import Notify from "../../utils/Notify";
@@ -22,46 +22,34 @@ const Casino = (props) => {
     const [filteredGames, setFilteredGames] = useState([]);
     const [fetching, setFetching] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [searchParams, ] = useSearchParams();
+    const loc = useLocation();
 
     const fetchCasinoGames = async () => {
         setFetching(true);
         let endpoint = "games-list";
+        let category = searchParams.get("category");
+        let provider = searchParams.get("provider");
+        let id = searchParams.get("id");
 
-        if (state?.casinogamesfilter?.filterType === "category") {
-            endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`;
-        } else if (state?.casinogamesfilter?.filterType === "provider") {
-            endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`;
+        console.log("THE CATEGORY ::: ", category, "   === provider == ::: ", provider)
+        if (category) {
+            endpoint = `game-type/games-list/${id}`;
+        } else if (provider) {
+            endpoint = `provider/games-list/${id}`;
         }
 
         const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "faziCasino" });
         if (status === 200) {
-            const fetchedGames = state?.casinogamesfilter ? result : result?.games;
+            const fetchedGames = result?.games || result;
             setGames(fetchedGames);
-            if (endpoint === "games-list") {
-                let casinoFilters = {categories: result?.gameTypes, providers: result?.providers};
-                setLocalStorage('casinogames', result?.games, 1000 * 60 * 60 * 5);
-                dispatch({ type: "SET", key: "casinofilters", payload: casinoFilters });
-                setLocalStorage('casinofilters', casinoFilters, 1000 * 60 * 60 * 5);
-
-            }
             
         }
         setFetching(false);
     };
     useEffect(() => {
-        const localGames = getFromLocalStorage("casinogames1");
-        if (localGames) {
-            setGames(localGames);
-        } else {
-            fetchCasinoGames();
-        }
-    }, []);
-
-    useEffect(() => {
         fetchCasinoGames();
-    }, [state?.casinogamesfilter]);
-
-
+    }, [loc]);
 
     return (
         <>
