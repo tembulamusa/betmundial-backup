@@ -64,6 +64,12 @@
     /* -moz-box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
     /* -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.062); */
     border-bottom: 1px solid rgba(0,0,0,0.124);
+    font-size: 15px;
+    font-weight: 700;
+    padding-top: 8px !important;
+    color: #666666;
+    padding-bottom: 8px !important;
+    text-transform: uppercase;
 }
 .category-products {
     margin-bottom: 5px;
@@ -176,8 +182,7 @@
 }
 
 .casino-sidebar-items {
-    max-height: 200px;
-    overflow-y: auto;
+    
 }
 @media screen and (max-width:648px) {
     .game-buttons {

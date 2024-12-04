@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
-import { getFromLocalStorage } from "../../utils/local-storage";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const CasinoSidebar = (props) => {
@@ -29,9 +29,9 @@ const CasinoSidebar = (props) => {
 
 
     useEffect(() => {
-        setCategories(state?.casinofilters?.categories);
+        setCategories(state?.casinofilters?.gameTypes);
         setProviders(state?.casinofilters?.providers);
-    }, [state?.casinofilters]);
+    }, [state?.casinofilters, loc]);
 
     useEffect(() => {
         let availableFilters = getFromLocalStorage("casinofilters");
@@ -39,15 +39,18 @@ const CasinoSidebar = (props) => {
             dispatch({type:"SET", key:"casinofilters", payload:availableFilters});
         }
     }, [])
+
     const filterGames = (filterName, filterItem) => {
         let payload = {filterType: "category", category: filterItem}
-        if(filterName == "provider") {
+        if(filterName == "category") {
             if(filterItem?.name.toLowerCase() == "surecoin") {
                navigate("/surecoin") 
+            } else {
+                setLocalStorage("casinogamesfilter", payload);
+                dispatch({type:"SET", key:"casinogamesfilter", payload: payload});
+                navigate(`/casino/categories/${filterItem?.name?.split(" ")?.join("")}`);
             }
-            payload = {filterType: "provider", provider: filterItem}
         }
-        dispatch({type:"SET", key:"casinogamesfilter", payload: payload})
     }
 
     const Favorites = (props) => {
@@ -55,13 +58,7 @@ const CasinoSidebar = (props) => {
         return (
             <div className="pt-3 casino-list-block menu-card rounded-lg  capitalize">
                     <ul className="casino-sidebar-items">
-                    <li key={"all-" + 23} 
-                        className={`cursor-pointer menu-item capitalize` }
-                        onClick={() => filterGames("all", "all")}>
-                            <a href={"/casino"} className="inline-block" >
-                                <img  src={getSportImageIcon('home')} className="casino-icon inline-block" alt=""/>{"All games"}
-                            </a>
-                    </li>
+                    
                     <li key={"all-" + 24}
                         className={`cursor-pointer menu-item capitalize` }
                         onClick={() => filterGames("popular", "popular")}>
@@ -76,14 +73,25 @@ const CasinoSidebar = (props) => {
         return (
             <>
                 <div className="casino-list-block menu-card rounded-lg  capitalize">
-                    <h1 className="my-2 mt-2 text-2xl font-[400] casino-class-header">Categories</h1>
+                    {/* <h1 className="my-2 mt-2 text-2xl font-[400] casino-class-header">Categories</h1> */}
                     <ul className="casino-sidebar-items">
+                        <li key={"popular-" + 53} 
+                            className={`cursor-pointer menu-item capitalize` }
+                            onClick={() => filterGames("popular", "popular")}>
+                            <img  src={getSportImageIcon('popular')} className="casino-icon inline-block" alt=""/>{"Popular"}
+                        </li>
+                        <li key={"all-" + 24} 
+                            className={`cursor-pointer menu-item capitalize` }
+                            onClick={() => filterGames("all", "all")}>
+                            <img  src={getSportImageIcon('home')} className="casino-icon inline-block" alt=""/>{"All games"}
+                        </li>
                         {categories?.map((category, idx) => (
                                 <>
-                                <Link to={`/casino?category=${category?.name?.toLowerCase()}&&id=${category?.id}`} key={"categories-" + idx} 
+                                <li to={`/casino?category=${category?.name?.toLowerCase()}&&id=${category?.id}`} key={"categories-" + idx} 
+                                    onClick={() =>filterGames('category', category) }
                                     className={`${state?.casinogamesfilter?.category?.id == category?.id && 'active'} cursor-pointer menu-item block py-2 boder-b border-gray-100` }>
                                     <img  src={getSportImageIcon(category.name)} className="casino-icon  inline-block" alt=""/>{category?.name}
-                                </Link>
+                                </li>
                                 </>
                             ))}
                     </ul>
@@ -112,11 +120,12 @@ const CasinoSidebar = (props) => {
     return (
         <div className="casino-sidebar ml-2">
             <h1 className="mb-2 bg-white pt-2 pb-3  text-4xl px-3 text-gray-600 font-[600] border-b border-gray-200">Casino</h1>
-            <Favorites />
+            {/* <Favorites /> */}
             <CasinoCategories />
-            <CasinoProviders />
+            {/* <CasinoProviders /> */}
         </div>
     )
 }
+
 
 export default React.memo(CasinoSidebar);

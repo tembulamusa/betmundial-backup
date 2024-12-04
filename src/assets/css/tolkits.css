@@ -121,8 +121,10 @@
     text-align: left;
     margin:5px 0px;
 }
+
 .virtual-game-image {
     cursor: pointer;
+    width: 100%;
 }
 
 .casino-category-container {

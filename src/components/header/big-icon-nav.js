@@ -1,16 +1,22 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
-import { Link, useLocation } from 'react-router-dom'; 
+import { Link, useLocation, useNavigate } from 'react-router-dom'; 
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Context } from "../../context/store";
+import { setLocalStorage } from "../utils/local-storage";
+
 
 const BigIconMenu = () => {
     const { pathname } = useLocation(); 
     const scrollContainerRef = useRef(null);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(true);
-    const [state, ] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
     const [categories, setCategories] = useState([]);
+    const [casinoProviders, setCasinoProviders] = useState([]);
+    const navigate = useNavigate();
+    const loc = useLocation();
+    
 
     const linkItems = [
         {name: "home", icon:"home.svg", link:"/", parentTo:null},
@@ -44,11 +50,51 @@ const BigIconMenu = () => {
         // {name: "print", icon:"print.svg", link:"/print-matches", parentTo:null},
     ]
 
-    const getSportImageIcon = (sport_name) => {
+
+    const filterGames = (filterName, filterItem) => {
+        let payload = {filterType: "provider", provider: filterItem}
+        if(filterName == "provider") {
+            if(filterItem?.name.toLowerCase() == "surecoin") {
+               navigate("/surecoin") 
+            } else {
+                setLocalStorage("casinogamesfilter", payload);
+                dispatch({type:"SET", key:"casinogamesfilter", payload: payload});
+                navigate(`/casino/providers/${filterItem?.name?.split(" ")?.join("")}`);
+            }
+            
+        }
+    }
+
+
+    const CasinoProviders = (props) => {
+
+        return (
+            <>
+                {casinoProviders?.map((provider, idx) => {
+                    return (
+                        <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name?.split(" ")?.join('')) ? "active" : ''} big-icon-item text-center capitalize`}
+                            onClick={() => filterGames("provider", provider)}
+                        >
+                            <span title={provider?.name}>
+                                <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${provider?.name?.toLowerCase()}.svg`, "casino")} alt={provider?.name} /></div>
+                                <div className="big-icon-name">{provider.name}</div>
+                            </span>
+                        </li>
+                    )
+                })}
+            </>
+        )
+    }
+
+    const getSportImageIcon = (sport_name, iconGroup=null) => {
         let sport_image;
         try {
             //sport_image = require(`../../assets/img/svgicons/${sport_name}`);
-            sport_image = require(`../../assets/img/colorsvgicons/${sport_name}`);
+            if(iconGroup == "casino") {
+                sport_image =  require(`../../assets/img/casino/icons/${sport_name}`)
+            } else {
+                sport_image = require(`../../assets/img/colorsvgicons/${sport_name}`);
+            }
         } catch (error) {
             sport_image = require(`../../assets/img/svgicons/default.png`);
         }
@@ -77,6 +123,9 @@ const BigIconMenu = () => {
         refCurrent?.addEventListener('scroll', handleScroll);
         return () => refCurrent?.removeEventListener('scroll', handleScroll);
     }, []);
+    useEffect(() => {
+        setCasinoProviders(state?.casinofilters?.providers);
+    }, [state?.casinofilters])
 
     useEffect(() => {
         if(state?.categories && state?.categories instanceof Array) {
@@ -115,14 +164,15 @@ const BigIconMenu = () => {
                         
                         return (
                             <li key={idx} className={`${pathname == `/sports/matches/${category?.sport_id}` ? "active" : ''} big-icon-item text-center capitalize`}>
-                            <Link to={`/sports/matches/${category?.sport_id}`} title={category?.sport_name}>
-                                <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${category?.sport_name?.toLowerCase()}.svg`)} alt={category.sport_name} /></div>
-                                <div className="big-icon-name">{category.sport_name}</div>
-                            </Link>
-                        </li>
+                                <Link to={`/sports/matches/${category?.sport_id}`} title={category?.sport_name}>
+                                    <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${category?.sport_name?.toLowerCase()}.svg`)} alt={category.sport_name} /></div>
+                                    <div className="big-icon-name">{category.sport_name}</div>
+                                </Link>
+                            </li>
                         )
                     }
                     )}
+                    {loc?.pathname?.includes("/casino") && <CasinoProviders />}
                 </ListGroup>
             </div>
 
