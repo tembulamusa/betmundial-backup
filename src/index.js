@@ -79,7 +79,7 @@ const App = () => {
                     <div className={`${state?.casinolaunch ? "": "diminish-mobile-row row"}`}>
                         {/* Conditional load live or otherwise */}
                         {!(state?.casinolaunch || state?.surecoinlaunched) && <Sidebar />}
-                            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
+                        <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
                         <Routes>
                             {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
                             {/* <Route exact path="/" element={<Index/>}/>
@@ -106,6 +106,7 @@ const App = () => {
                             // <Route exact path="/promotions" element={<Promotions/>}/>
                             */}
                             <Route exact path="/casino" element={<Casino />}/>
+                            <Route exact path="/casino/:filterType/:filterName" element={<Casino />}/>
                             <Route exact path="/casino/:provider/:name" element={<CasinoLaunchedGame />}/>
                             <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
                             <Route exact path="/jackpot" element={<Jackpot/>}/>

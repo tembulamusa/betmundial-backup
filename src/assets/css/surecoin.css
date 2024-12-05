@@ -118,8 +118,7 @@
 }
 
 .y-scrollable-window {
-    max-height: calc(100vh - 127px);
-    overflow-y: auto;
+    
 }
 .casino-service-sure-coin {
     background-color: rgba(0,0,0,0.6);
