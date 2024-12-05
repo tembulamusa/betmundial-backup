@@ -26,6 +26,7 @@ const SureBoxIndex = () => {
   const [autoBet, setAutoBet] = useState(false);
   const [bets, setBets] = useState([]);
   const [isActionSuspended, setIsActionSuspended] = useState(false);
+  const [outcome, setOutcome] = useState(null);
   const [showWinGif, setShowWinGif] = useState(false);
   const [showLostGif, setShowLostGif] = useState(false);
 
@@ -52,6 +53,7 @@ const SureBoxIndex = () => {
     setPossibleWin(0);
     setCashoutAmount(0);
     setGameActive(true);
+    setOutcome(null); // Reset outcome
   };
 
   const handleBoxSelection = (id) => {
@@ -69,6 +71,7 @@ const SureBoxIndex = () => {
         looseSound.current.play();
 
         setShowLostGif(true);
+        setOutcome("lost"); // Update outcome
         setTimeout(() => {
           setShowLostGif(false);
           resetGame();
@@ -91,7 +94,7 @@ const SureBoxIndex = () => {
 
       setIsActionSuspended(false);
     }, openBoxSound.current.duration * 1000);
-  };  
+  };
 
   const cashOut = () => {
     if (!gameActive) return;
@@ -100,32 +103,33 @@ const SureBoxIndex = () => {
     winSound.current.play();
 
     setShowWinGif(true);
+    setOutcome("won"); // Update outcome
     setTimeout(() => {
-      setShowWinGif(false); 
+      setShowWinGif(false);
       alert(`You cashed out and won ${cashoutAmount} KES!`);
       resetGame();
       gamePlaySound.current.play();
     }, 1500);
   };
-   
 
   const resetGame = () => {
     setGameActive(false);
     setSelectedBoxes([]);
+    setBetAmount('3');
     setBoxOdds([]);
     setCurrentOdds(1);
     setPossibleWin(0);
     setCashoutAmount(0);
-    setBets([]); 
+    setBets([]);
     setAutoBet(false);
+    setTimeout(() => setOutcome(null), 2000); 
   };
 
   useEffect(() => {
     gamePlaySound.current.loop = true;
     if (!userMuted) gamePlaySound.current.play();
 
-    return () => {
-    };
+    return () => {};
   }, [userMuted]);
 
   return (
@@ -133,10 +137,30 @@ const SureBoxIndex = () => {
       <div className="surebox-section">
         <div className="surebox-header">
           <h1 className="surebox-title">SureBox</h1>
-          <div className="surebox-sound-icon" onClick={() => isMutedToggle()}>
+          <div className="surebox-sound-icon" onClick={isMutedToggle}>
             {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
           </div>
         </div>
+
+        {outcome && (
+          <div
+            className={`surebox-notify-outcome ${
+              outcome === "won" ? "surebox-won" : "surebox-lost"
+            }`}
+          >
+            {outcome === "won" ? (
+              <>
+                <span>WON</span>
+                <span>KES {cashoutAmount}</span>
+              </>
+            ) : (
+              <>
+                <span>Empty Box! </span>
+                <span>Better luck next time!</span>
+              </>
+            )}
+          </div>
+        )}
 
         {showWinGif && (
           <div className="win-gif-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
@@ -166,7 +190,7 @@ const SureBoxIndex = () => {
             possibleWin={possibleWin}
             cashOutAmount={cashoutAmount}
             gameInProgress={gameActive}
-            bets={bets} 
+            bets={bets}
             pickRandomBox={() => {}}
           />
         </div>

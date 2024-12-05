@@ -161,3 +161,28 @@
     transform: scale(1.05);
   }
   
+  .surebox-notify-outcome {
+    max-width: 250px;
+    margin: 10px auto;
+    text-transform: capitalize;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8); 
+    border-radius: 20px;
+    transition: all ease-in-out 500ms;
+    height: 48px;
+    padding: 10px;
+    opacity: 0.8; 
+    pointer-events: none; 
+  }
+  
+  .surebox-won {
+    background: rgba(39, 118, 20, 0.0); 
+    border: 1px solid rgba(31, 92, 18, 0.5);
+  }
+  
+  .surebox-lost {
+    background: rgba(247, 27, 27, 0.0); 
+    border: 1px solid rgba(214, 23, 23, 0.5);
+  }
+  
+  
