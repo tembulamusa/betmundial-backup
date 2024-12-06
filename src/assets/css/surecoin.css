@@ -171,6 +171,26 @@
     background-color: #143ee47d;
 }
 
+.sound-interact-prompt-cover {
+    position: absolute;
+    height: calc(100%);
+    background: rgba(0, 0, 0, 1);
+    z-index: 9999;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+.sound-selector button {
+    width: 80px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.sound-interact-prompt-cover .sound-selector {
+    margin-top: 20%;
+    max-width: 200px;
+}
 .won-gif-container {
     position: absolute;
     width: 200px;
@@ -516,6 +536,11 @@ button[disabled]{
     }
     .coin-quick-stats {
         right: 0px;
+    }
+
+    .sound-interact-prompt-cover .sound-selector {
+        margin-top: 40%;
+        max-width: 200px;
     }
 
 }
