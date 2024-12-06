@@ -33,7 +33,6 @@ const Casino = (props) => {
         }
 
         const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "casinoGames" });
-        console.log("THE GAMES AS FILTERED::: ", result);
         if (status === 200) {
             let fetchedGames;
             if (endpoint.includes("game-type")) {
@@ -43,7 +42,7 @@ const Casino = (props) => {
                 delete res?.content
                 res = {...res, games:games, isCategory: true}
                 fetchedGames = games
-                dispatch({type:"SET", key:"casinofilters", payload:result});
+                dispatch({type:"SET", key:"category-filters", payload:res});
 
             } else {
                 fetchedGames = result?.games
