@@ -3,7 +3,7 @@ import Carousel from 'react-bootstrap/Carousel';
 
 import Breakfast from '../../assets/img/banner/App.png';
 import Sharebet from '../../assets/img/banner/Sharebet.png';
-import Tick from '../../assets/img/banner/carousel/Tick.png';
+// import Tick from '../../assets/img/banner/carousel/Tick.png';
 import Epl from '../../assets/img/banner/EPL.png';
 
 import One from  '../../assets/img/casino/carousel/1.jpg';
@@ -18,6 +18,8 @@ import Nine from  '../../assets/img/casino/carousel/9.jpg';
 import Ten from  '../../assets/img/casino/carousel/10.jpg';
 import Eleven from  '../../assets/img/casino/carousel/11.jpg';
 import Twelve from  '../../assets/img/casino/carousel/12.jpg';
+import Intro from  '../../assets/img/casino/carousel/intro.png';
+import Tick from  '../../assets/img/casino/carousel/Tick.png';
 
 
 const CasinoCarousel = (props) => {
@@ -43,6 +45,26 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item>
             */}
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Intro}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Tick}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item>
             <Carousel.Item >
                 <img
                     className="d-block w-100"
