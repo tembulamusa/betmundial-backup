@@ -1,5 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
+import { Context } from "../../../context/store";
 import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
+import makeRequest from "../../utils/fetch-request";
+import CryptoJS from "crypto-js";
 import { BiSolidVolumeMute } from "react-icons/bi";
 import { FaVolumeHigh } from "react-icons/fa6";
 
@@ -12,28 +15,58 @@ import OpenBoxSoundFile from "../../../assets/img/casino/surebox-openbox.mp3";
 import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
 import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
 import WinGif from "../../../assets/img/casino/surebox-win.gif";
-import LostGif from "../../../assets/img/casino/surebox-unlucky.gif";
+import LostGif from "../../../assets/img/casino/surebox-close.gif";
 
 const SureBoxIndex = () => {
+  const [state, dispatch] = useContext(Context);
   const [userMuted, setUserMuted] = useState(getFromLocalStorage("sureboxmuted"));
+  const user = getFromLocalStorage("user");
   const [selectedBoxes, setSelectedBoxes] = useState([]);
   const [boxOdds, setBoxOdds] = useState([]);
   const [currentOdds, setCurrentOdds] = useState(1);
   const [cashoutAmount, setCashoutAmount] = useState(0);
   const [gameActive, setGameActive] = useState(false);
   const [betAmount, setBetAmount] = useState(1);
-  const [possibleWin, setPossibleWin] = useState(0);
-  const [autoBet, setAutoBet] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
   const [bets, setBets] = useState([]);
   const [isActionSuspended, setIsActionSuspended] = useState(false);
   const [outcome, setOutcome] = useState(null);
-  const [showWinGif, setShowWinGif] = useState(false);
-  const [showLostGif, setShowLostGif] = useState(false);
 
   const gamePlaySound = useRef(new Audio(GamePlaySoundFile));
   const openBoxSound = useRef(new Audio(OpenBoxSoundFile));
   const looseSound = useRef(new Audio(LooseSoundFile));
   const winSound = useRef(new Audio(WinSoundFile));
+
+  useEffect(() => {
+    const user = getFromLocalStorage("user");
+    if (user) {
+        dispatch({type:"SET", key:"user", payload:user})
+    }
+  }, [])
+
+  function elizabeth(encryptedData, encryptionKey) {
+    try {
+      const adjustedKey = encryptionKey.padEnd(16, '0').substring(0, 16);
+      const key = CryptoJS.enc.Utf8.parse(adjustedKey);
+      const encryptedBytes = CryptoJS.enc.Base64.parse(encryptedData);
+      const decryptedBytes = CryptoJS.AES.decrypt(
+        { ciphertext: encryptedBytes },
+        key,
+        {
+          mode: CryptoJS.mode.ECB,
+          padding: CryptoJS.pad.Pkcs7
+        }
+      );
+      const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      return JSON.parse(decryptedData);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  const generateSessionId = () => {
+    return `${user.profile_id}-${Math.floor(Math.random()* (4000 - 260) + 260)}`;
+  };
 
   const isMutedToggle = () => {
     const newMutedState = !userMuted;
@@ -42,94 +75,172 @@ const SureBoxIndex = () => {
     gamePlaySound.current.muted = newMutedState;
   };
 
-  const startGame = () => {
-    const newBoxOdds = Array.from({ length: 20 }, () => {
-      return Math.random() > 0.4 ? parseFloat((Math.random() * 2.5 + 0.5).toFixed(2)) : 0;
-    });
-
-    setBoxOdds(newBoxOdds);
-    setSelectedBoxes([]);
-    setCurrentOdds(1);
-    setPossibleWin(0);
-    setCashoutAmount(0);
-    setGameActive(true);
-    setOutcome(null); 
+  const fetchOdds = async () => {
+    try {
+      const response = await makeRequest("/api/surebox/odds", "GET", null, {
+        Authorization: `Bearer ${user.token}`,
+      });
+      setBoxOdds(response.odds);
+    } catch (error) {
+      console.error("Error fetching odds:", error);
+      alert("Failed to fetch box odds. Please try again.");
+    }
   };
 
-  const handleBoxSelection = (id) => {
+  const startGame = async () => {
+    if (!user) {
+      if (!state?.showloginmodal) {
+        dispatch({ type: "SET", key: "showloginmodal", payload: true });
+      }
+      return; // Stop the game if user is not logged in
+    }
+  
+    if (user.balance < betAmount) {
+      alert("Insufficient balance to start the game.");
+      return;
+    }
+  
+    // Use the existing session ID if available
+    const existingSessionId = getFromLocalStorage("sessionId");
+    if (existingSessionId) {
+      setSessionId(existingSessionId);
+    } else {
+      const newSessionId = generateSessionId();
+      setSessionId(newSessionId);
+      setLocalStorage("sessionId", newSessionId, 1000 * 60 * 60 * 24); // Store session for 24 hours
+    }
+  
+    await fetchOdds();
+    setSelectedBoxes([]);
+    setCurrentOdds(1);
+    setCashoutAmount(0);
+    setGameActive(true);
+    setOutcome(null);
+  };
+  
+
+  const handleBoxSelection = async (id) => {
     if (!gameActive || isActionSuspended || selectedBoxes.includes(id)) return;
   
     setIsActionSuspended(true);
+    openBoxSound.current.play();
   
-    const selectedOdds = boxOdds[id - 1];
+    setTimeout(async () => {
+      if (!user?.profile_id) {
+        if (!state?.showloginmodal) {
+          dispatch({ type: "SET", key: "showloginmodal", payload: true });
+        }
+        return;
+      }
   
-    // Optimistically update the selected box state
-    setSelectedBoxes((prev) => [...prev, id]);
-  
-    if (selectedOdds === 0) {
-      looseSound.current.play();
-      setOutcome("lost");
-      setShowLostGif(true);
-  
-      // Reset game state after losing
-      setTimeout(() => {
-        setShowLostGif(false);
-        resetGame();
-        setIsActionSuspended(false);
-      }, 2000);
-    } else {
-      const updatedOdds = currentOdds * selectedOdds;
-      setCurrentOdds(updatedOdds);
-      setPossibleWin((updatedOdds * betAmount).toFixed(2));
-      setCashoutAmount((updatedOdds * betAmount * 0.75).toFixed(2));
-  
-      // Add the new bet entry
-      setBets((prev) => [
-        ...prev,
-        {
-          betNumber: prev.length + 1,
-          amountWon: (updatedOdds * betAmount).toFixed(2),
+      console.log("Request Data:", {
+        url: 'play',
+        method: 'POST',
+        data: {
+          session_id: sessionId,
+          betAmount,
+          box: id,
+          profile_id: user?.profile_id,
         },
-      ]);
+        api_version: 'sureBox'
+      });
+  
+      if (!gameActive) {
+        console.log("Game not active, not making the request");
+        return; // Exit if the game is not active
+      }
+  
+      try {
+        const response = await makeRequest({
+          url: 'play',
+          method: 'POST',
+          data: {
+            session_id: sessionId,
+            betAmount,
+            box: id,
+            profile_id: user?.profile_id,
+          },
+          api_version: 'sureBox'
+        });
+  
+        // Handle response
+        const decryptedResponse = elizabeth(response.data, process.env.REACT_APP_OTCMEKI);
+        if (decryptedResponse?.status === 200) {
+          const { betNumber, amountWon } = decryptedResponse.data;
+          const selectedOdds = boxOdds[id - 1]; // Adjust based on the response data
+  
+          const newBet = {
+            betNumber,
+            amountWon: (selectedOdds * betAmount).toFixed(2),
+          };
+          setBets((prevBets) => [...prevBets, newBet]);
+        } else {
+          alert(decryptedResponse?.message || "An error occurred");
+        }
+  
+      } catch (error) {
+        console.error("Error submitting bet:", error);
+      }
   
       setIsActionSuspended(false);
-    }
+    }, openBoxSound.current.duration * 1000);
   };
   
-  const cashOut = () => {
+  
+  
+  const cashOut = async () => {
     if (!gameActive) return;
-
     setIsActionSuspended(true);
-    winSound.current.play();
 
-    setShowWinGif(true);
-    setOutcome("won"); 
-    setTimeout(() => {
-      setShowWinGif(false);
-      alert(`You cashed out and won ${cashoutAmount} KES!`);
-      resetGame();
-      gamePlaySound.current.play();
-    }, 1500);
+    try {
+      let endpoint = 'cash-out';
+      const response = await makeRequest({
+        url: endpoint, 
+        method: 'POST',
+        data: {
+          session_id: sessionId,
+          betAmount,
+          box: selectedBoxes[0],  
+          profile_id: user?.profile_id,
+        },
+        api_version: 'sureBox'
+      });
+
+      // Decrypt response and handle accordingly
+      const decryptedResponse = elizabeth(response.data, process.env.REACT_APP_OTCMEKI);
+      if (decryptedResponse?.status === 200) {
+        winSound.current.play();
+        setOutcome("won");
+        alert(`You cashed out and won ${decryptedResponse.winnings} KES!`);
+        resetGame();
+      } else {
+        alert(decryptedResponse?.message || "Cashout failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error cashing out:", error);
+      alert("Cashout failed. Please try again.");
+    }
   };
+
 
   const resetGame = () => {
     setGameActive(false);
     setSelectedBoxes([]);
-    setBetAmount('5');
-    setBoxOdds([]);
     setCurrentOdds(1);
-    setPossibleWin(0);
     setCashoutAmount(0);
-    setBets([]);
-    setAutoBet(false);
-    setTimeout(() => setOutcome(null), 2000); 
+    setBoxOdds([]);
+    setSessionId(null);
+    setLocalStorage("sessionId", null); // Clear session ID from storage
+    setTimeout(() => setOutcome(null), 2000);
   };
-
+  
   useEffect(() => {
     gamePlaySound.current.loop = true;
     if (!userMuted) gamePlaySound.current.play();
 
-    return () => {};
+    return () => {
+      gamePlaySound.current.pause();
+    };
   }, [userMuted]);
 
   return (
@@ -141,39 +252,6 @@ const SureBoxIndex = () => {
             {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
           </div>
         </div>
-
-        {outcome && (
-          <div
-            className={`surebox-notify-outcome ${
-              outcome === "won" ? "surebox-won" : "surebox-lost"
-            }`}
-          >
-            {outcome === "won" ? (
-              <>
-                <span>WON</span>
-                <span>KES {cashoutAmount}</span>
-              </>
-            ) : (
-              <>
-                <span>Empty </span>
-                <span>Box! </span>
-              </>
-            )}
-          </div>
-        )}
-
-        {showWinGif && (
-          <div className="win-gif-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
-            <img src={WinGif} alt="You Win!" className="w-64 h-64 object-contain" />
-          </div>
-        )}
-
-        {showLostGif && (
-          <div className="lost-gif-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
-            <img src={LostGif} alt="You Lost!" className="w-64 h-64 object-contain" />
-          </div>
-        )}
-
         <div className="surebox-content">
           <SureBoxGrid
             selectedBoxes={selectedBoxes}
@@ -181,17 +259,16 @@ const SureBoxIndex = () => {
             boxOdds={boxOdds}
           />
           <SureBoxControls
-            autoBet={autoBet}
-            setAutoBet={setAutoBet}
+            autoBet={false}
+            setAutoBet={() => {}}
             startGame={gameActive ? () => alert("Game already in progress") : startGame}
             cashOut={gameActive ? cashOut : () => alert("No game to cash out from")}
             betAmount={betAmount}
             setBetAmount={setBetAmount}
-            possibleWin={possibleWin}
+            possibleWin={(currentOdds * betAmount).toFixed(2)}
             cashOutAmount={cashoutAmount}
             gameInProgress={gameActive}
-            bets={bets}
-            pickRandomBox={() => {}}
+            bets={bets} // API can be integrated for detailed bets list
           />
         </div>
       </div>
@@ -201,3 +278,4 @@ const SureBoxIndex = () => {
 };
 
 export default React.memo(SureBoxIndex);
+
