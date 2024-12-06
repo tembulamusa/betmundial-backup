@@ -18,7 +18,7 @@ const CasinoGame = (props) => {
     const navigate = useNavigate();
     
     const launchGame = async (game, moneyType=1) => {
-        console.log("THE Game :::: ", game);
+        // console.log("THE Game :::: ", game);
 
         if (game?.provider_name.toLowerCase() == "suregames") {
             navigate(`/${game?.game_id.toLowerCase()}`)

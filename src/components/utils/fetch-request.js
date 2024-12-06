@@ -20,8 +20,10 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
         if (api_version == 3) {
             url = ACCOUNTS_URL + url
         } else {
-
-            if (api_version == "casinoGames") {
+            if (api_version == "sureCoin") {
+                url = SURECOIN_URL + url;
+            }
+            else if (api_version == "casinoGames") {
                 url = CASINOGAMES + url;
             } else if (api_version == "CasinoGameLaunch") {
                 url = CASINOGAMELaunch + url
