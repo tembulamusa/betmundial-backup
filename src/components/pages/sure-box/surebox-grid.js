@@ -1,14 +1,19 @@
-import React from "react";
-
+import React,  { useMemo } from "react";
 import ClosedBox from "../../../assets/img/casino/vault.png";
 import OpenBox from "../../../assets/img/casino/openedbox.webp";
 
 const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
-    const boxes = Array.from({ length: 20 }, (_, idx) => ({
-      id: idx + 1,
-      isOpen: selectedBoxes.includes(idx + 1),
-      odds: boxOdds[idx] || 0,
-    }));
+       
+    const boxes = useMemo(
+      () =>
+        Array.from({ length: 20 }, (_, idx) => ({
+          id: idx + 1,
+          isOpen: selectedBoxes.includes(idx + 1),
+          odds: boxOdds[idx] || 0,
+        })),
+      [selectedBoxes, boxOdds]
+    );
+    
   
     return (
       <>       
@@ -36,4 +41,4 @@ const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
     );
   };
 
-export default SureBoxGrid;
+export default React.memo(SureBoxGrid);

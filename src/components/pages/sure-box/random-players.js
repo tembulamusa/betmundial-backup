@@ -10,4 +10,4 @@ const RandomPlayers = () => {
     );
 };
 
-export default RandomPlayers;
+export default React.memo(RandomPlayers);

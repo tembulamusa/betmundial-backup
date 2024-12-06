@@ -12,7 +12,7 @@ import OpenBoxSoundFile from "../../../assets/img/casino/surebox-openbox.mp3";
 import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
 import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
 import WinGif from "../../../assets/img/casino/surebox-win.gif";
-import LostGif from "../../../assets/img/casino/surebox-close.gif";
+import LostGif from "../../../assets/img/casino/surebox-unlucky.gif";
 
 const SureBoxIndex = () => {
   const [userMuted, setUserMuted] = useState(getFromLocalStorage("sureboxmuted"));
@@ -53,49 +53,49 @@ const SureBoxIndex = () => {
     setPossibleWin(0);
     setCashoutAmount(0);
     setGameActive(true);
-    setOutcome(null); // Reset outcome
+    setOutcome(null); 
   };
 
   const handleBoxSelection = (id) => {
     if (!gameActive || isActionSuspended || selectedBoxes.includes(id)) return;
-
+  
     setIsActionSuspended(true);
-    gamePlaySound.current.pause();
-    openBoxSound.current.play();
-
+  
     const selectedOdds = boxOdds[id - 1];
-    setTimeout(() => {
-      openBoxSound.current.pause();
-
-      if (selectedOdds === 0) {
-        looseSound.current.play();
-
-        setShowLostGif(true);
-        setOutcome("lost"); // Update outcome
-        setTimeout(() => {
-          setShowLostGif(false);
-          resetGame();
-          gamePlaySound.current.play();
-        }, 2000);
-      } else {
-        const updatedOdds = currentOdds * selectedOdds;
-        setCurrentOdds(updatedOdds);
-        setPossibleWin((updatedOdds * betAmount).toFixed(2));
-        setCashoutAmount((updatedOdds * betAmount * 0.75).toFixed(2));
-        setSelectedBoxes([...selectedBoxes, id]);
-        gamePlaySound.current.play();
-
-        const newBet = {
-          betNumber: bets.length + 1,
+  
+    // Optimistically update the selected box state
+    setSelectedBoxes((prev) => [...prev, id]);
+  
+    if (selectedOdds === 0) {
+      looseSound.current.play();
+      setOutcome("lost");
+      setShowLostGif(true);
+  
+      // Reset game state after losing
+      setTimeout(() => {
+        setShowLostGif(false);
+        resetGame();
+        setIsActionSuspended(false);
+      }, 2000);
+    } else {
+      const updatedOdds = currentOdds * selectedOdds;
+      setCurrentOdds(updatedOdds);
+      setPossibleWin((updatedOdds * betAmount).toFixed(2));
+      setCashoutAmount((updatedOdds * betAmount * 0.75).toFixed(2));
+  
+      // Add the new bet entry
+      setBets((prev) => [
+        ...prev,
+        {
+          betNumber: prev.length + 1,
           amountWon: (updatedOdds * betAmount).toFixed(2),
-        };
-        setBets([...bets, newBet]);
-      }
-
+        },
+      ]);
+  
       setIsActionSuspended(false);
-    }, openBoxSound.current.duration * 1000);
+    }
   };
-
+  
   const cashOut = () => {
     if (!gameActive) return;
 
@@ -103,7 +103,7 @@ const SureBoxIndex = () => {
     winSound.current.play();
 
     setShowWinGif(true);
-    setOutcome("won"); // Update outcome
+    setOutcome("won"); 
     setTimeout(() => {
       setShowWinGif(false);
       alert(`You cashed out and won ${cashoutAmount} KES!`);
@@ -115,7 +115,7 @@ const SureBoxIndex = () => {
   const resetGame = () => {
     setGameActive(false);
     setSelectedBoxes([]);
-    setBetAmount('3');
+    setBetAmount('5');
     setBoxOdds([]);
     setCurrentOdds(1);
     setPossibleWin(0);
@@ -155,8 +155,8 @@ const SureBoxIndex = () => {
               </>
             ) : (
               <>
-                <span>Empty Box! </span>
-                <span>Better luck next time!</span>
+                <span>Empty </span>
+                <span>Box! </span>
               </>
             )}
           </div>
@@ -200,4 +200,4 @@ const SureBoxIndex = () => {
   );
 };
 
-export default SureBoxIndex;
+export default React.memo(SureBoxIndex);

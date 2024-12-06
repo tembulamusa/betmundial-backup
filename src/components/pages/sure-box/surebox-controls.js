@@ -152,4 +152,4 @@ const SureBoxControls = ({
   );
 };
 
-export default SureBoxControls;
+export default React.memo(SureBoxControls);
