@@ -13,6 +13,7 @@ const RotatingCoin = (props) => {
         usermuted, cvterfxn,
          prevSession,
          prepToStart,
+         userSoundSet,
          coinSettled
         } = props;
     const [timeLeft, setTimeLeft] = useState(0);
@@ -49,7 +50,8 @@ const RotatingCoin = (props) => {
 
     const notifyWon = () => {
         setWon("won")
-        if (!usermuted) {
+        if (!usermuted && userSoundSet) {
+            
             const audio = new Audio(WinSound);
             audio.play();
 
@@ -73,7 +75,6 @@ const RotatingCoin = (props) => {
     
     useEffect(() => {
         if (timeLeft <= 0) {
-           
             return;
         }
 
@@ -103,7 +104,7 @@ const RotatingCoin = (props) => {
     
     // paly the sound
     useEffect(() => {
-        if (!usermuted) {
+        if (!usermuted && userSoundSet) {
             const audio = new Audio(Sound1);
             const audio2 = new Audio(Sound2);
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
-import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
+import { getFromLocalStorage, removeItem, setLocalStorage } from "../../utils/local-storage";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 const CasinoSidebar = (props) => {
@@ -50,24 +50,14 @@ const CasinoSidebar = (props) => {
                 dispatch({type:"SET", key:"casinogamesfilter", payload: payload});
                 navigate(`/casino/categories/${filterItem?.name?.split(" ")?.join("")}`);
             }
+        } else {
+            removeItem("casinogamesfilter");
+            dispatch({type:"DEL", key:"casinogamesfilter"});
+            navigate(`/casino/${filterItem}`);
         }
     }
 
-    const Favorites = (props) => {
-
-        return (
-            <div className="pt-3 casino-list-block menu-card rounded-lg  capitalize">
-                    <ul className="casino-sidebar-items">
-                    
-                    <li key={"all-" + 24}
-                        className={`cursor-pointer menu-item capitalize` }
-                        onClick={() => filterGames("popular", "popular")}>
-                        <img  src={getSportImageIcon('popular')} className="casino-icon" alt=""/>{"Popular"}
-                    </li>
-                </ul>
-            </div>
-        )
-    }
+    
 
     const CasinoCategories = (props) => {
         return (
@@ -75,16 +65,17 @@ const CasinoSidebar = (props) => {
                 <div className="casino-list-block menu-card rounded-lg  capitalize">
                     {/* <h1 className="my-2 mt-2 text-2xl font-[400] casino-class-header">Categories</h1> */}
                     <ul className="casino-sidebar-items">
-                        <li key={"popular-" + 53} 
-                            className={`cursor-pointer menu-item capitalize` }
-                            onClick={() => filterGames("popular", "popular")}>
-                            <img  src={getSportImageIcon('popular')} className="casino-icon inline-block" alt=""/>{"Popular"}
-                        </li>
                         <li key={"all-" + 24} 
                             className={`cursor-pointer menu-item capitalize` }
                             onClick={() => filterGames("all", "all")}>
                             <img  src={getSportImageIcon('home')} className="casino-icon inline-block" alt=""/>{"All games"}
                         </li>
+                        <li key={"popular-" + 53} 
+                            className={`cursor-pointer menu-item capitalize` }
+                            onClick={() => filterGames("popular", "popular")}>
+                            <img  src={getSportImageIcon('popular')} className="casino-icon inline-block" alt=""/>{"Popular"}
+                        </li>
+                        
                         {categories?.map((category, idx) => (
                                 <>
                                 <li to={`/casino?category=${category?.name?.toLowerCase()}&&id=${category?.id}`} key={"categories-" + idx} 

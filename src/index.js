@@ -107,7 +107,7 @@ const App = () => {
                             */}
                             <Route exact path="/casino" element={<Casino />}/>
                             <Route exact path="/casino/:filterType/:filterName" element={<Casino />}/>
-                            <Route exact path="/casino/:provider/:name" element={<CasinoLaunchedGame />}/>
+                            <Route exact path="/casino-game/:provider/:gameName" element={<CasinoLaunchedGame />}/>
                             <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
                             <Route exact path="/jackpot" element={<Jackpot/>}/>
                             <Route exact path="/live" element={<Live/>}/>

@@ -32,10 +32,21 @@ const Casino = (props) => {
             endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`;
         }
 
-        const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "faziCasino" });
-
+        const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "casinoGames" });
         if (status === 200) {
-            const fetchedGames = result?.games || result;
+            let fetchedGames;
+            if (endpoint.includes("game-type")) {
+                
+                let res = result;
+                let games = [{gameList: result?.content}]
+                delete res?.content
+                res = {...res, games:games, isCategory: true}
+                fetchedGames = games
+                dispatch({type:"SET", key:"category-filters", payload:res});
+
+            } else {
+                fetchedGames = result?.games
+            }
             setGames(fetchedGames);
             if(result?.games) {
                 dispatch({type:"SET", key:"casinofilters", payload: result})

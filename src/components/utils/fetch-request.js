@@ -4,6 +4,8 @@ const ENC_KEY = '2bdVweTeI42s5mkLdYHyklTMxQS5gLA7MDS6FA9cs1uobDXeruACDic0YSU3si0
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const BASE2_URL = process.env.REACT_APP_BASE2_URL;
 const ACCOUNTS_URL = process.env.REACT_APP_ACCOUNTS_URL;
+const CASINOGAMES = process.env.REACT_APP_cASINO_URL;
+const CASINOGAMELaunch = process.env.REACT_APP_CASINO_LAUNCH_URL;
 const CASINOFAZI = process.env.REACT_APP_CASINOFAZI_URL;
 const SURECOIN_URL = process.env.REACT_APP_SURECOIN_URL;
 const SUREBOX_URL = process.env.REACT_APP_SUREBOX_URL;
@@ -13,27 +15,21 @@ const CASINO_PRAGMATIC_URL = process.env.REACT_APP_PRAGMATIC_URL; // pragmatic
 const CASINO_SMARTSOFT_URL = process.env.REACT_APP_SMARTSOFT_URL; // smartsoft
 
 const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1, serviceType}) => {
-
     if (api_version == 2) {        
         url = BASE2_URL + url;
     } else { 
         if (api_version == 3) {
             url = ACCOUNTS_URL + url
         } else {
-            if (api_version == "faziCasino") {
-                url = CASINOFAZI + url
-            } else if (api_version == "sureCoin") {
-                url = SURECOIN_URL + url
-            }  else if (api_version == "sureBox") {
+            if (api_version == "sureCoin") {
+                url = SURECOIN_URL + url;
+            } else if (api_version == "sureBox") {
                 url = SUREBOX_URL + url
-            } else if (api_version == "aviatrix") {
-                url = AVIATRIX_URL + url;
-            } else if (api_version == "intouchvas") {
-                url = CASINO_INTOUCHVAS_URL + url;
-            } else if (api_version == "pragmatic") {
-                url = CASINO_PRAGMATIC_URL + url;
-            } else if (api_version == "smartsoft") {
-                url = CASINO_SMARTSOFT_URL + url;
+            }
+            else if (api_version == "casinoGames") {
+                url = CASINOGAMES + url;
+            } else if (api_version == "CasinoGameLaunch") {
+                url = CASINOGAMELaunch + url
             }
         }
     }
