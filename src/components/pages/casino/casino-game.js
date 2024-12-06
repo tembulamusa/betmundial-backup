@@ -18,8 +18,13 @@ const CasinoGame = (props) => {
     const navigate = useNavigate();
     
     const launchGame = async (game, moneyType=1) => {
+        console.log("THE Game :::: ", game);
+
+        if (game?.provider_name.toLowerCase() == "suregames") {
+            navigate(`/${game?.game_id.toLowerCase()}`)
+            return
+        }
         setFetching(true);
-        // console.log("THE Game :::: ", game);
         let endpoint = `${game?.aggregator ? game?.aggregator : game?.provider_name}/casino/game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
 
         if (moneyType == 1 && !user?.token) {
@@ -29,7 +34,7 @@ const CasinoGame = (props) => {
         }
 
         await makeRequest({url: endpoint,  method: "GET", api_version:'CasinoGameLaunch'}).then(([status, result]) => {
-            console.log("THE LAUNCH URL REQUEST   ::::: ", endpoint)
+            // console.log("THE LAUNCH URL REQUEST   ::::: ", endpoint)
             if (status == 200) {
                 let launchUrl = result?.gameUrl || result?.game_url || result?.url || result.GameUrl;
                 dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: launchUrl}});
@@ -88,12 +93,14 @@ const CasinoGame = (props) => {
                     <Button className="casino-play-btn red-bg casino-cta"
                             onClick={() => launchGame(game, 1)}>
                         Play
-                    </Button>  
-                    <Button className="casino-demo-btn casino-cta"
-                            onClick={() => launchGame(game, 0)}>
-                        Demo   
-                    </Button>       
-                         
+                    </Button>
+
+                    {game?.provider_name?.toLowerCase() != "suregames" &&
+                        <Button className="casino-demo-btn casino-cta"
+                                onClick={() => launchGame(game, 0)}>
+                            Demo   
+                        </Button>       
+                    }     
             </div>
         </>                 
     )
