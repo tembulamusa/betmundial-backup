@@ -117,6 +117,11 @@ const SureBoxIndex = () => {
     setGameActive(true);
     setOutcome(null);
   };
+
+  const numberToWords = (num) => {
+    const words = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN", "TWENTY"];
+    return words[num - 1] || "";
+  }
   
 
   const handleBoxSelection = async (id) => {
@@ -133,13 +138,15 @@ const SureBoxIndex = () => {
         return;
       }
   
+      const boxInWords = numberToWords(id); // Convert box number to words
+  
       console.log("Request Data:", {
         url: 'play',
         method: 'POST',
         data: {
           session_id: sessionId,
-          betAmount,
-          box: id,
+          bet_amount: betAmount,
+          box: boxInWords, // Use the converted box number
           profile_id: user?.profile_id,
         },
         api_version: 'sureBox'
@@ -156,8 +163,8 @@ const SureBoxIndex = () => {
           method: 'POST',
           data: {
             session_id: sessionId,
-            betAmount,
-            box: id,
+            bet_amount: betAmount,
+            box: boxInWords,
             profile_id: user?.profile_id,
           },
           api_version: 'sureBox'
