@@ -140,56 +140,39 @@ const SureBoxIndex = () => {
   
       const boxInWords = numberToWords(id); // Convert box number to words
   
-      console.log("Request Data:", {
-        url: 'play',
-        method: 'POST',
-        data: {
-          session_id: sessionId,
-          bet_amount: betAmount,
-          box: boxInWords, // Use the converted box number
-          profile_id: user?.profile_id,
-        },
-        api_version: 'sureBox'
-      });
-  
       if (!gameActive) {
         console.log("Game not active, not making the request");
         return; // Exit if the game is not active
       }
-  
-      try {
-        const response = await makeRequest({
-          url: 'play',
-          method: 'POST',
-          data: {
-            session_id: sessionId,
-            bet_amount: betAmount,
-            box: boxInWords,
-            profile_id: user?.profile_id,
-          },
-          api_version: 'sureBox'
-        });
-  
-        // Handle response
-        const decryptedResponse = elizabeth(response.data, process.env.REACT_APP_OTCMEKI);
-        console.log("Decrypted Response", decryptedResponse);
-        if (decryptedResponse?.status === 200) {
-          const { betNumber, amountWon } = decryptedResponse.data;
-          const selectedOdds = boxOdds[id - 1]; // Adjust based on the response data
-  
-          const newBet = {
-            betNumber,
-            amountWon: (selectedOdds * betAmount).toFixed(2),
-          };
-          setBets((prevBets) => [...prevBets, newBet]);
-        } else {
-          alert(decryptedResponse?.message || "An error occurred");
-        }
-  
-      } catch (error) {
-        console.error("Error submitting bet:", error);
+      
+      const data = {
+        session_id: sessionId,
+        bet_amount: betAmount,
+        box: boxInWords,
+        profile_id: user?.profile_id,
       }
-  
+      makeRequest({url: 'play', 
+        method: 'POST',
+        data: data,
+        api_version:"sureBox", responseType:"text"}).then(([status, response]) => {
+        
+        console.log("THE RESPONSE IS HERE :::: ", response)
+        if(status == 200) {
+            let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
+          //   const newBet = {
+          //   betNumber,
+          //   amountWon: (selectedOdds * betAmount).toFixed(2),
+          // };
+          // setBets((prevBets) => [...prevBets, newBet]);
+            if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
+                console.log("SUCCEEDED    ", cpBt)
+            } else {
+                console.log("FAILED SOME STUFF")
+            }
+          } else {
+              console.log("AN ERROR OCCURED   ::::: ")
+          }
+        })  
       setIsActionSuspended(false);
     }, openBoxSound.current.duration * 1000);
   };

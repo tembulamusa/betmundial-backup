@@ -138,7 +138,8 @@ const SureCoinIndex = (props) => {
             makeRequest({url: endpoint, 
                 method: 'POST',
                 data: {session_id: session, profile_id: user?.profile_id, coin_side: state?.coinselections?.[1]?.pick?.toUpperCase(), bet_amount: state?.coinselections?.[1]?.amount},
-                api_version:"sureCoin"}).then(([status, response]) => {
+                api_version:"sureCoin",
+                responseType: "text"}).then(([status, response]) => {
                 if(status == 200) {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
                     if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
