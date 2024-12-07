@@ -172,6 +172,7 @@ const SureBoxIndex = () => {
   
         // Handle response
         const decryptedResponse = elizabeth(response.data, process.env.REACT_APP_OTCMEKI);
+        console.log("Decrypted Response", decryptedResponse);
         if (decryptedResponse?.status === 200) {
           const { betNumber, amountWon } = decryptedResponse.data;
           const selectedOdds = boxOdds[id - 1]; // Adjust based on the response data
