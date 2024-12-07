@@ -31,6 +31,7 @@ const SureBoxIndex = () => {
   const [bets, setBets] = useState([]);
   const [isActionSuspended, setIsActionSuspended] = useState(false);
   const [outcome, setOutcome] = useState(null);
+  const [betId, setBetId] = useState(null);
 
   const gamePlaySound = useRef(new Audio(GamePlaySoundFile));
   const openBoxSound = useRef(new Audio(OpenBoxSoundFile));
@@ -75,24 +76,13 @@ const SureBoxIndex = () => {
     gamePlaySound.current.muted = newMutedState;
   };
 
-  const fetchOdds = async () => {
-    try {
-      const response = await makeRequest("/api/surebox/odds", "GET", null, {
-        Authorization: `Bearer ${user.token}`,
-      });
-      setBoxOdds(response.odds);
-    } catch (error) {
-      console.error("Error fetching odds:", error);
-      alert("Failed to fetch box odds. Please try again.");
-    }
-  };
-
+  
   const startGame = async () => {
     if (!user) {
       if (!state?.showloginmodal) {
         dispatch({ type: "SET", key: "showloginmodal", payload: true });
       }
-      return; // Stop the game if user is not logged in
+      return; 
     }
   
     if (user.balance < betAmount) {
@@ -100,7 +90,6 @@ const SureBoxIndex = () => {
       return;
     }
   
-    // Use the existing session ID if available
     const existingSessionId = getFromLocalStorage("sessionId");
     if (existingSessionId) {
       setSessionId(existingSessionId);
@@ -110,7 +99,6 @@ const SureBoxIndex = () => {
       setLocalStorage("sessionId", newSessionId, 1000 * 60 * 60 * 24); // Store session for 24 hours
     }
   
-    await fetchOdds();
     setSelectedBoxes([]);
     setCurrentOdds(1);
     setCashoutAmount(0);
@@ -123,6 +111,15 @@ const SureBoxIndex = () => {
     return words[num - 1] || "";
   }
   
+  const wordsToNumber = (word) => {
+    const words = [
+      "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN",
+      "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN",
+      "EIGHTEEN", "NINETEEN", "TWENTY"
+    ];
+    return words.indexOf(word.toUpperCase()) + 1;
+  };
+  
 
   const handleBoxSelection = async (id) => {
     if (!gameActive || isActionSuspended || selectedBoxes.includes(id)) return;
@@ -131,88 +128,132 @@ const SureBoxIndex = () => {
     openBoxSound.current.play();
   
     setTimeout(async () => {
-      if (!user?.profile_id) {
-        if (!state?.showloginmodal) {
-          dispatch({ type: "SET", key: "showloginmodal", payload: true });
-        }
-        return;
-      }
-  
-      const boxInWords = numberToWords(id); // Convert box number to words
-  
-      if (!gameActive) {
-        console.log("Game not active, not making the request");
-        return; // Exit if the game is not active
-      }
-      
+      const boxInWords = numberToWords(id); 
       const data = {
         session_id: sessionId,
         bet_amount: betAmount,
         box: boxInWords,
         profile_id: user?.profile_id,
-      }
-      makeRequest({url: 'play', 
-        method: 'POST',
-        data: data,
-        api_version:"sureBox", responseType:"text"}).then(([status, response]) => {
-        
-        console.log("THE RESPONSE IS HERE :::: ", response)
-        if(status == 200) {
-            let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-          //   const newBet = {
-          //   betNumber,
-          //   amountWon: (selectedOdds * betAmount).toFixed(2),
-          // };
-          // setBets((prevBets) => [...prevBets, newBet]);
-            if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
-                console.log("SUCCEEDED    ", cpBt)
+      };
+  
+      try {
+        const [status, response] = await makeRequest({
+          url: "play",
+          method: "POST",
+          data: data,
+          api_version: "sureBox",
+          responseType: "text",
+        });
+  
+        if (status === 200) {
+          const cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
+          console.log('Decrypted Box  Response',cpBt);
+  
+          if (cpBt?.response_status === 200) {
+            const {
+              win,
+              possible_win,
+              multiplier,
+              winning_box,
+              bet_id,
+            } = cpBt;
+  
+            setSelectedBoxes((prev) => [...prev, id]);
+            setCurrentOdds(multiplier);
+            setCashoutAmount(possible_win);
+            setBoxOdds(multiplier);
+            setBetId(bet_id);
+  
+            const winningBoxIndex = wordsToNumber(winning_box);
+  
+            if (win && winningBoxIndex === id) {
+              winSound.current.play();
+              alert("You selected the winning box!");
+            } else if (win) {
+              alert(`You won, but the winning box was ${winning_box}`);
             } else {
-                console.log("FAILED SOME STUFF")
+              looseSound.current.play();
+              alert("You lost! Game over.");
+              resetGame();
             }
           } else {
-              console.log("AN ERROR OCCURED   ::::: ")
+            alert("An error occurred. Please try again.");
           }
-        })  
-      setIsActionSuspended(false);
+        } else {
+          alert("Failed to process the request. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error handling box selection:", error);
+        alert("An error occurred. Please try again.");
+      } finally {
+        setIsActionSuspended(false);
+      }
     }, openBoxSound.current.duration * 1000);
   };
-  
-  
+
   
   const cashOut = async () => {
     if (!gameActive) return;
+    if (!betId) {
+      alert("Bet ID is missing. Cannot cash out.");
+      return;
+    }
     setIsActionSuspended(true);
-
+  
     try {
-      let endpoint = 'cash-out';
-      const response = await makeRequest({
-        url: endpoint, 
-        method: 'POST',
-        data: {
-          session_id: sessionId,
-          betAmount,
-          box: selectedBoxes[0],  
-          profile_id: user?.profile_id,
-        },
-        api_version: 'sureBox'
+      const lastBoxNumber = selectedBoxes[selectedBoxes.length - 1];
+      const lastBoxInWords = numberToWords(lastBoxNumber); // Convert last box to words
+  
+      const data = {
+        session_id: sessionId,
+        profile_id: user?.profile_id,
+        last_box: lastBoxInWords, 
+        bet_id: betId,
+      };
+  
+      const [status, response] = await makeRequest({
+        url: "cash-out",
+        method: "POST",
+        data: data,
+        api_version: "sureBox",
+        responseType: "text", // Assuming response is returned as a string
       });
-
-      // Decrypt response and handle accordingly
-      const decryptedResponse = elizabeth(response.data, process.env.REACT_APP_OTCMEKI);
-      if (decryptedResponse?.status === 200) {
-        winSound.current.play();
-        setOutcome("won");
-        alert(`You cashed out and won ${decryptedResponse.winnings} KES!`);
-        resetGame();
+  
+      if (status === 200) {
+        const decryptedResponse = elizabeth(response, process.env.REACT_APP_OTCMEKI);
+        console.log('Decrypted Cashout Response', decryptedResponse);
+  
+        if (decryptedResponse?.response_status === 200) {
+          winSound.current.play();
+          alert(`You cashed out and won ${decryptedResponse.possible_win} KES!`);
+          resetGame();
+          console.log("Cashout Success:", {
+            betId: betId,
+            sessionId: sessionId,
+            decryptedResponse: decryptedResponse
+          });
+        } else {
+          alert(decryptedResponse?.message || "Cashout failed. Please try again.");
+          console.error("Cashout Error:", {
+            status: decryptedResponse?.response_status,
+            message: decryptedResponse?.message
+          });
+        }
       } else {
-        alert(decryptedResponse?.message || "Cashout failed. Please try again.");
+        alert("Failed to process the request. Please try again.");
+        console.error("Request Failed:", {
+          status: status,
+          response: response
+        });
       }
     } catch (error) {
       console.error("Error cashing out:", error);
       alert("Cashout failed. Please try again.");
+    } finally {
+      setIsActionSuspended(false);
     }
   };
-
+  
 
   const resetGame = () => {
     setGameActive(false);
@@ -221,7 +262,9 @@ const SureBoxIndex = () => {
     setCashoutAmount(0);
     setBoxOdds([]);
     setSessionId(null);
-    setLocalStorage("sessionId", null); // Clear session ID from storage
+    setBetId(null);
+    setLocalStorage("sessionId", null);
+    setOutcome(null);
     setTimeout(() => setOutcome(null), 2000);
   };
   
