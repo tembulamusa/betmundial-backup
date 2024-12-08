@@ -82,7 +82,7 @@ const SureBoxIndex = () => {
       if (!state?.showloginmodal) {
         dispatch({ type: "SET", key: "showloginmodal", payload: true });
       }
-      return; 
+      return;
     }
   
     if (user.balance < betAmount) {
@@ -90,21 +90,16 @@ const SureBoxIndex = () => {
       return;
     }
   
-    const existingSessionId = getFromLocalStorage("sessionId");
-    if (existingSessionId) {
-      setSessionId(existingSessionId);
-    } else {
-      const newSessionId = generateSessionId();
-      setSessionId(newSessionId);
-      setLocalStorage("sessionId", newSessionId, 1000 * 60 * 60 * 24); // Store session for 24 hours
-    }
+    const newSessionId = generateSessionId(); 
+    setSessionId(newSessionId);
+    setLocalStorage("sessionId", newSessionId, 1000 * 60 * 60 * 24); 
   
     setSelectedBoxes([]);
     setCurrentOdds(1);
     setCashoutAmount(0);
     setGameActive(true);
     setOutcome(null);
-  };
+  };  
 
   const numberToWords = (num) => {
     const words = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN", "TWENTY"];
@@ -128,7 +123,7 @@ const SureBoxIndex = () => {
     openBoxSound.current.play();
   
     setTimeout(async () => {
-      const boxInWords = numberToWords(id); 
+      const boxInWords = numberToWords(id);
       const data = {
         session_id: sessionId,
         bet_amount: betAmount,
@@ -147,7 +142,7 @@ const SureBoxIndex = () => {
   
         if (status === 200) {
           const cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-          console.log('Decrypted Box  Response',cpBt);
+          console.log('Response of selecting box', cpBt);
   
           if (cpBt?.response_status === 200) {
             const {
@@ -157,6 +152,13 @@ const SureBoxIndex = () => {
               winning_box,
               bet_id,
             } = cpBt;
+  
+            if (!win) {
+              looseSound.current.play();
+              alert("You lost! Game over.");
+              resetGame(); 
+              return;
+            }
   
             setSelectedBoxes((prev) => [...prev, id]);
             setCurrentOdds(multiplier);
@@ -171,10 +173,6 @@ const SureBoxIndex = () => {
               alert("You selected the winning box!");
             } else if (win) {
               alert(`You won, but the winning box was ${winning_box}`);
-            } else {
-              looseSound.current.play();
-              alert("You lost! Game over.");
-              resetGame();
             }
           } else {
             alert("An error occurred. Please try again.");
@@ -190,7 +188,7 @@ const SureBoxIndex = () => {
       }
     }, openBoxSound.current.duration * 1000);
   };
-
+  
   
   const cashOut = async () => {
     if (!gameActive) return;
@@ -202,7 +200,7 @@ const SureBoxIndex = () => {
   
     try {
       const lastBoxNumber = selectedBoxes[selectedBoxes.length - 1];
-      const lastBoxInWords = numberToWords(lastBoxNumber); // Convert last box to words
+      const lastBoxInWords = numberToWords(lastBoxNumber);
   
       const data = {
         session_id: sessionId,
@@ -263,10 +261,10 @@ const SureBoxIndex = () => {
     setBoxOdds([]);
     setSessionId(null);
     setBetId(null);
-    setLocalStorage("sessionId", null);
+    setLocalStorage("sessionId", null); 
     setOutcome(null);
     setTimeout(() => setOutcome(null), 2000);
-  };
+  };  
   
   useEffect(() => {
     gamePlaySound.current.loop = true;
