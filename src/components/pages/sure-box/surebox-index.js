@@ -28,11 +28,13 @@ const SureBoxIndex = () => {
   const [gameActive, setGameActive] = useState(false);
   const [betAmount, setBetAmount] = useState(1);
   const [sessionId, setSessionId] = useState(null);
+  const [betId, setBetId] = useState(null);
   const [bets, setBets] = useState([]);
   const [isActionSuspended, setIsActionSuspended] = useState(false);
   const [outcome, setOutcome] = useState(null);
-  const [betId, setBetId] = useState(null);
-
+  const [showWinGif, setShowWinGif] = useState(false);
+  const [showLostGif, setShowLostGif] = useState(false);
+  
   const gamePlaySound = useRef(new Audio(GamePlaySoundFile));
   const openBoxSound = useRef(new Audio(OpenBoxSoundFile));
   const looseSound = useRef(new Audio(LooseSoundFile));
@@ -155,8 +157,12 @@ const SureBoxIndex = () => {
   
             if (!win) {
               looseSound.current.play();
-              alert("You lost! Game over.");
-              resetGame(); 
+              setShowLostGif(true);
+              setOutcome("lost");
+              setTimeout(() => {
+                setShowLostGif(false);
+                resetGame(); 
+              }, 2000);
               return;
             }
   
@@ -214,7 +220,7 @@ const SureBoxIndex = () => {
         method: "POST",
         data: data,
         api_version: "sureBox",
-        responseType: "text", // Assuming response is returned as a string
+        responseType: "text", 
       });
   
       if (status === 200) {
@@ -223,20 +229,16 @@ const SureBoxIndex = () => {
   
         if (decryptedResponse?.response_status === 200) {
           winSound.current.play();
-          alert(`You cashed out and won ${decryptedResponse.possible_win} KES!`);
-          resetGame();
-          console.log("Cashout Success:", {
-            betId: betId,
-            sessionId: sessionId,
-            decryptedResponse: decryptedResponse
-          });
+          setShowWinGif(true);
+          setOutcome("won");
+          setTimeout(() => {
+            setShowWinGif(false);
+            alert(`You cashed out and won ${decryptedResponse.possible_win} KES!`);
+            resetGame();
+          }, 1500);
         } else {
           alert(decryptedResponse?.message || "Cashout failed. Please try again.");
-          console.error("Cashout Error:", {
-            status: decryptedResponse?.response_status,
-            message: decryptedResponse?.message
-          });
-        }
+        }        
       } else {
         alert("Failed to process the request. Please try again.");
         console.error("Request Failed:", {
@@ -284,6 +286,39 @@ const SureBoxIndex = () => {
             {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
           </div>
         </div>
+
+        {outcome && (
+        <div
+          className={`surebox-notify-outcome ${
+            outcome === "won" ? "surebox-won" : "surebox-lost"
+          }`}
+        >
+          {outcome === "won" ? (
+            <>
+              <span>WON</span>
+              <span>KES {cashoutAmount}</span>
+            </>
+          ) : (
+            <>
+              <span>Empty Box!</span>
+              <span>Better luck next time!</span>
+            </>
+          )}
+        </div>
+      )}
+
+        {showWinGif && (
+          <div className="win-gif-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
+            <img src={WinGif} alt="You Win!" className="w-64 h-64 object-contain" />
+          </div>
+        )}
+
+        {showLostGif && (
+          <div className="lost-gif-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
+            <img src={LostGif} alt="You Lost!" className="w-64 h-64 object-contain" />
+          </div>
+        )}
+
         <div className="surebox-content">
           <SureBoxGrid
             selectedBoxes={selectedBoxes}
@@ -301,6 +336,7 @@ const SureBoxIndex = () => {
             cashOutAmount={cashoutAmount}
             gameInProgress={gameActive}
             bets={bets} // API can be integrated for detailed bets list
+            pickRandomBox={() => {}}
           />
         </div>
       </div>
