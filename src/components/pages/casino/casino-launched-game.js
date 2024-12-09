@@ -12,7 +12,7 @@ const CasinoLaunchedGame = (props) => {
     const navigate = useNavigate();
     const user = getFromLocalStorage("user");
     const launchedGame = getFromLocalStorage("casinolaunch");
-    const fullScreens = ["aviatrix", "fazi"];
+    const fullScreens = ["aviatrix"];
 
     useEffect(() => {
         // Balance polling fxn
