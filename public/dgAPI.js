@@ -1,4 +1,4 @@
-export const xlg = {
+let xlg = {
     websocket: null,
     wsUri: null,
     tableId: null,
@@ -13,7 +13,7 @@ export const xlg = {
         console.log('connecting to ' + 'wss://' + wsUri + '/ws');
         if (self.websocket !== null && self.websocket.readyState !== 3) {
             self.websocket.close();
-            console.log('Socket open closing it');
+            // console.log('Socket open closing it');
         }
         self.websocket = new WebSocket('wss://' + wsUri + '/ws');
         self.websocket.onopen = function (evt) {
@@ -36,14 +36,14 @@ export const xlg = {
     // public
     onMessage: function (data) {
         // to fill
-        console.log("Received some message", data)
+        // console.log("Received some message", data)
         let gameId = data.tableId;
-        console.log("Updating thumbnails for Game ID ", gameId)
+        // console.log("Updating thumbnails for Game ID ", gameId)
         $("#" + gameId).attr("src", data.tableImage);
 
         if (data.hasOwnProperty('tableLimits')) {
 
-            console.log("Table limits available")
+            // console.log("Table limits available")
             let tableLimits = data.tableLimits
             let limits = "";
             if (tableLimits.hasOwnProperty("minBet")) {
@@ -165,7 +165,7 @@ export const xlg = {
         let self = this;
         self.tryToConnect = false;
         self.websocket.close();
-        console.log('Disconnected');
+        // console.log('Disconnected');
     },
     // public
     subscribe: function (casinoId, tableId, currency) {
@@ -175,7 +175,7 @@ export const xlg = {
             casinoId: casinoId,
             currency: currency
         }
-        console.log('subscribing' + tableId);
+        // console.log('subscribing' + tableId);
 
         let self = this;
         let jsonSub = JSON.stringify(subscribeMessage);
@@ -188,7 +188,7 @@ export const xlg = {
             type: 'available',
             casinoId: casinoId
         }
-        console.log('checking availability');
+        // console.log('checking availability');
 
         let self = this;
         let jsonSub = JSON.stringify(availableMessage);
@@ -202,17 +202,17 @@ export const xlg = {
             self.onConnect();
         }
 
-        console.log('Connected to wss server');
+        // console.log('Connected to wss server');
         if (self.tableId) {
             self.subscribe(self.casinoId, self.tableId)
         }
     },
 
     onWsClose: function (evt) {
-        console.log("DISCONNECTED");
+        // console.log("DISCONNECTED");
         let self = this;
         if (self.tryToConnect === true) {
-            console.log("RECONNECTING");
+            // console.log("RECONNECTING");
             self.connect(self.wsUri, self.casinoId, self.tableId);
         }
     },
@@ -241,10 +241,10 @@ export const xlg = {
 
     doWsSend: function (message) {
         let self = this;
-        console.log("SENT: " + message);
+        // console.log("SENT: " + message);
         self.websocket.send(message);
     }
 };
 
-// let dga = xlg;
-// dga.connect("prelive-dga0.pragmaticplaylive.net")
+let dga = xlg;
+dga.connect("prelive-dga0.pragmaticplaylive.net")
