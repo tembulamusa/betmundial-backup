@@ -144,7 +144,7 @@ const SureBoxIndex = () => {
   
         if (status === 200) {
           const cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-          console.log('Response of selecting box', cpBt);
+          //console.log('Response of selecting box', cpBt);
   
           if (cpBt?.response_status === 200) {
             const {
@@ -225,7 +225,7 @@ const SureBoxIndex = () => {
   
       if (status === 200) {
         const decryptedResponse = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-        console.log('Decrypted Cashout Response', decryptedResponse);
+        //console.log('Decrypted Cashout Response', decryptedResponse);
   
         if (decryptedResponse?.response_status === 200) {
           winSound.current.play();
