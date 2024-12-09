@@ -15,7 +15,7 @@ import OpenBoxSoundFile from "../../../assets/img/casino/surebox-openbox.mp3";
 import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
 import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
 import WinGif from "../../../assets/img/casino/surebox-win.gif";
-import LostGif from "../../../assets/img/casino/surebox-close.gif";
+import LostGif from "../../../assets/img/casino/surebox-unlucky.gif";
 
 const SureBoxIndex = () => {
   const [state, dispatch] = useContext(Context);
@@ -88,7 +88,7 @@ const SureBoxIndex = () => {
     }
   
     if (user.balance < betAmount) {
-      alert("Insufficient balance to start the game.");
+      console.log("Insufficient balance to start the game.");
       return;
     }
   
@@ -97,6 +97,7 @@ const SureBoxIndex = () => {
     setLocalStorage("sessionId", newSessionId, 1000 * 60 * 60 * 24); 
   
     setSelectedBoxes([]);
+    setBets([]);
     setCurrentOdds(1);
     setCashoutAmount(0);
     setGameActive(true);
@@ -144,16 +145,9 @@ const SureBoxIndex = () => {
   
         if (status === 200) {
           const cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-          //console.log('Response of selecting box', cpBt);
   
           if (cpBt?.response_status === 200) {
-            const {
-              win,
-              possible_win,
-              multiplier,
-              winning_box,
-              bet_id,
-            } = cpBt;
+            const { win, possible_win, multiplier, winning_box, bet_id } = cpBt;
   
             if (!win) {
               looseSound.current.play();
@@ -161,34 +155,37 @@ const SureBoxIndex = () => {
               setOutcome("lost");
               setTimeout(() => {
                 setShowLostGif(false);
-                resetGame(); 
+                resetGame();
               }, 2000);
               return;
             }
   
             setSelectedBoxes((prev) => [...prev, id]);
+            setBets((prevBets) => [
+              ...prevBets,
+              {
+                box: boxInWords,
+                multiplier,
+                possibleWin: possible_win,
+              },
+            ]);
+  
             setCurrentOdds(multiplier);
             setCashoutAmount(possible_win);
             setBoxOdds(multiplier);
             setBetId(bet_id);
   
-            const winningBoxIndex = wordsToNumber(winning_box);
-  
-            if (win && winningBoxIndex === id) {
+            if (win && wordsToNumber(winning_box) === id) {
               winSound.current.play();
-              alert("You selected the winning box!");
-            } else if (win) {
-              alert(`You won, but the winning box was ${winning_box}`);
             }
           } else {
-            alert("An error occurred. Please try again.");
+            console.log("An error occurred. Please try again.");
           }
         } else {
-          alert("Failed to process the request. Please try again.");
+          console.log("Failed to process the request. Please try again.");
         }
       } catch (error) {
         console.error("Error handling box selection:", error);
-        alert("An error occurred. Please try again.");
       } finally {
         setIsActionSuspended(false);
       }
@@ -196,10 +193,11 @@ const SureBoxIndex = () => {
   };
   
   
+  
   const cashOut = async () => {
     if (!gameActive) return;
     if (!betId) {
-      alert("Bet ID is missing. Cannot cash out.");
+      console.log("Bet ID is missing. Cannot cash out.");
       return;
     }
     setIsActionSuspended(true);
@@ -233,14 +231,13 @@ const SureBoxIndex = () => {
           setOutcome("won");
           setTimeout(() => {
             setShowWinGif(false);
-            alert(`You cashed out and won ${decryptedResponse.possible_win} KES!`);
+            console.log(`You cashed out and won ${decryptedResponse.possible_win} KES!`);
             resetGame();
           }, 1500);
         } else {
-          alert(decryptedResponse?.message || "Cashout failed. Please try again.");
+          console.log(decryptedResponse?.message || "Cashout failed. Please try again.");
         }        
       } else {
-        alert("Failed to process the request. Please try again.");
         console.error("Request Failed:", {
           status: status,
           response: response
@@ -248,7 +245,6 @@ const SureBoxIndex = () => {
       }
     } catch (error) {
       console.error("Error cashing out:", error);
-      alert("Cashout failed. Please try again.");
     } finally {
       setIsActionSuspended(false);
     }
@@ -257,6 +253,7 @@ const SureBoxIndex = () => {
 
   const resetGame = () => {
     setGameActive(false);
+    setBets([]);
     setSelectedBoxes([]);
     setCurrentOdds(1);
     setCashoutAmount(0);
@@ -335,7 +332,7 @@ const SureBoxIndex = () => {
             possibleWin={(currentOdds * betAmount).toFixed(2)}
             cashOutAmount={cashoutAmount}
             gameInProgress={gameActive}
-            bets={bets} // API can be integrated for detailed bets list
+            bets={bets} 
             pickRandomBox={() => {}}
           />
         </div>

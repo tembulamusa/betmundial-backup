@@ -101,6 +101,40 @@ const SureBoxControls = ({
       </div>
 
       {/* Bets List */}
+      {/* <div className="flex flex-col gap-2 mt-4">
+        <label className="text-lg font-semibold text-white">Your Game Bets</label>
+        {bets.length > 0 ? (
+          <div className="flex flex-col gap-2">
+            {bets.map((bet, index) => (
+              <div
+                key={index}
+                className="w-full py-3 px-4 text-white bg-[#456185] rounded-md hover:bg-[#5a7699] transition-all flex justify-between items-center"
+              >
+                <div className="text-sm">
+                  <p>Box: <span className="font-semibold">{bet.box}</span></p>
+                  <p>Multiplier: <span className="font-semibold">{bet.multiplier}x</span></p>
+                  <p>Possible Win: <span className="font-semibold">{bet.possibleWin} KES</span></p>
+                </div>
+                <button
+                  onClick={() => console.log(`Bet ${bet.box} clicked`)}
+                  className="bg-custom-red text-white px-4 py-1 rounded-md font-semibold hover:opacity-90 transition-all"
+                >
+                  Remove Bet
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <button
+            disabled
+            className="w-full py-2 text-white bg-gray-600 rounded-md cursor-not-allowed"
+          >
+            No Bets Yet
+          </button>
+        )}
+      </div> */}
+
+      {/* Bets List */}
       <div className="flex flex-col gap-2 mt-4">
         <label className="text-lg font-semibold text-white">Your Game Bets</label>
         {bets.length > 0 ? (
@@ -108,12 +142,12 @@ const SureBoxControls = ({
             {bets.map((bet, index) => (
               <button
                 key={index}
-                onClick={() => console.log(`Bet ${bet.betNumber} clicked`)}
+                onClick={() => console.log(`Bet ${bet.box} clicked`)}
                 className="w-full py-2 text-white bg-[#456185] rounded-md hover:bg-[#5a7699] transition-all flex items-center justify-center"
               >
-                Pick {bet.betNumber}: Won
+                Pick {bet.box}: Won
                 <div className="bg-custom-red text-white px-4 py-1 rounded-md font-semibold inline-block ml-2">
-                  {bet.amountWon} KES
+                  {bet.possibleWin} KES
                 </div>
               </button>
             ))}
