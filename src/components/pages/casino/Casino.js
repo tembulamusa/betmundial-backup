@@ -3,7 +3,7 @@ import Header from "../../header/header";
 import Footer from "../../footer/footer";
 import makeRequest from "../../utils/fetch-request";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
 import SideBar from "../../sidebar/awesome/Sidebar";
 import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 import Notify from "../../utils/Notify";
@@ -15,81 +15,75 @@ import NoEvents from '../../utils/no-events';
 import CategoryListing from './category-listing';
 
 const Casino = (props) => {
+    const {filterType, filterName} = useParams();
     const [user] = useState(getFromLocalStorage("user"));
-    const [categories, setCategories] = useState([]);
     const [state, dispatch] = useContext(Context);
     const [games, setGames] = useState(null);
-    const [filteredGames, setFilteredGames] = useState([]);
     const [fetching, setFetching] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
+    const loc = useLocation();
+
 
     const fetchCasinoGames = async () => {
         setFetching(true);
         let endpoint = "games-list";
-
-        if (state?.casinogamesfilter?.filterType === "category") {
+        if (filterType === "categories") {
             endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`;
-        } else if (state?.casinogamesfilter?.filterType === "provider") {
+        } else if (filterType === "providers") {
             endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`;
         }
 
-        const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "faziCasino" });
+        const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "casinoGames" });
         if (status === 200) {
-            const fetchedGames = state?.casinogamesfilter ? { ...games, games: result } : result;
+            let fetchedGames;
+            if (endpoint.includes("game-type")) {
+                
+                let res = result;
+                let games = [{gameList: result?.content}]
+                delete res?.content
+                res = {...res, games:games, isCategory: true}
+                fetchedGames = games
+                dispatch({type:"SET", key:"category-filters", payload:res});
+
+            } else {
+                fetchedGames = result?.games
+            }
             setGames(fetchedGames);
-            dispatch({ type: "SET", key: "casinogames", payload: fetchedGames });
-            setLocalStorage('casinogames', fetchedGames);
+            if(result?.games) {
+                dispatch({type:"SET", key:"casinofilters", payload: result})
+                setLocalStorage("casinofilters", result, 1000 * 60 * 60 * 5 )
+
+            }
+            
         }
         setFetching(false);
     };
-
-    useEffect(() => {
-        const localGames = getFromLocalStorage("casinogames");
-        if (localGames) {
-            setGames(localGames);
-            dispatch({ type: "SET", key: "casinogames", payload: localGames });
-        } else {
-            fetchCasinoGames();
-        }
-    }, []);
-
     useEffect(() => {
         fetchCasinoGames();
     }, [state?.casinogamesfilter]);
 
     useEffect(() => {
-        if (games?.games) {
-            const newFilteredGames = games.games.map(category => ({
-                ...category,
-                gameList: category.gameList.filter(game => 
-                    game.game_name.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-            }));
-            setFilteredGames(newFilteredGames);
+        let gamesFilter = getFromLocalStorage("casinogamesfilter");
+        if(gamesFilter) {
+            dispatch({type: "SET", key: "casinogamesfilter", payload: gamesFilter})
         }
-    }, [games, searchTerm]);
-
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
-
+    }, [])
     return (
         <>
             <CasinoCarousel />
             <div className="casino-games-list">
                 {fetching && <ShimmerTable row={3} />}
-                {!fetching && (!games || games?.games?.length < 1) && (
+                {!fetching && (!games || games?.length < 1) && (
                     <NoEvents message="Casino Games not found" />
                 )}
-                {filteredGames?.map((category, idx) => (
-                    <CategoryListing key={idx} games={category?.gameList} gamestype={category?.game_type} />
+                {games?.map((category, idx) => (
+                    category?.gameList?.length > 0 && <CategoryListing key={idx} games={category?.gameList} gamestype={category?.game_type} />
                 ))}
             </div>
         </>
     );
 };
 
-export default Casino;
+export default React.memo(Casino);
 
 
 // import React, {useContext, useEffect, useState} from 'react';

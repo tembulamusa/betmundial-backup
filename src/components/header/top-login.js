@@ -12,17 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const HeaderLogin = (props) => {
     const {setUser} = props;
-    
     const [, dispatch] = useContext(Context)
 
-
-   
-
-    // an independent function that runs every 1 minute to check for user session
-    // and request a refresh. However, currently, we are just requesting a relogin
-    const handleSearch = (searchTerm) => {
-        console.log("Handling search for:", searchTerm);
-    };
 
     const MyLoginForm = (props) => {
        

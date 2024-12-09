@@ -5,21 +5,20 @@ import { FaCheckCircle, FaMinus } from "react-icons/fa";
 import { CgAdd, CgRemove } from "react-icons/cg";
 import { Switch } from "@mui/material";
 import { type } from "@testing-library/user-event/dist/cjs/utility/index.js";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 
 const CoinStakeChoice = (props) => {
-    const {coinnumber, isspinning, nxtSession, prevSession} = props;
-    const [amount, setAmount] = useState(10);
+    const {coinnumber, isspinning, nxtSession, prevSession, isOnline} = props;
+    const [amount, setAmount] = useState(5);
     const [state, dispatch] = useContext(Context);
     const [inputErrors, setInputErrors] = useState({});
-    const [disabledBetBtn, setDisabledBetBtn] = useState(false);
-    const [defaultAmountChange, setDefaultAmountChange] = useState(10);
+    const [defaultAmountChange, ] = useState(10);
     const [minimumBetAmount, setMinimumAmount] = useState(5);
     const [pickedBtn, setPickedBtn] = useState(null);
     const [autoBet, setAutoBet] =  useState(false);
     const [autoBetsLeft, setAutoBetsLeft] = useState(1);
     const [userPlaceBetOn, setUserPlaceBetOn] = useState(false);
     const [autoPick, setAutoPick] = useState(false)
-
 
 
     const setcanplayTheitems = () => {
@@ -32,12 +31,24 @@ const CoinStakeChoice = (props) => {
     const amountChanged = (e) => {
         // set Controlls here eg it should be less than  equal to balance
         // else show errors
-        setAmount(parseInt(e.target.value));
+        let value = parseInt(e.target.value);
+        setAmount(value);
+    }
+
+    const unfocus = (e) => {
+        if (amount < 5) {
+            setAmount(5)
+        }
     }
 
     useEffect(() => {
-
-    }, [pickedBtn]);
+        const getDefaultUserAmount = getFromLocalStorage("userDefaultCoinAmount");
+        if (getDefaultUserAmount) {
+            setAmount(getDefaultUserAmount);
+        } else {
+            setAmount(5)
+        }
+    }, []);
 
     const changeAmount = (changeType) => {
 
@@ -54,7 +65,7 @@ const CoinStakeChoice = (props) => {
         }
     }
 
-    useEffect(() => {if( autoBetsLeft < 0 ) { setAutoBetsLeft(0) }}, [autoBetsLeft])
+    useEffect(() => {if( autoBetsLeft <= 0 ) { setAutoBetsLeft(0); setAutoBet(false) }}, [autoBetsLeft])
     const coinsideAutopick = () => {
         const choices = ["heads", "tails"]
         const i = Math.floor(Math.random() * 2);
@@ -67,6 +78,13 @@ const CoinStakeChoice = (props) => {
             // if(userPlaceBetOn) {
                 // setUserPlaceBetOn(false);
                 if (autoBet) {
+                    // check for user and login
+                    if(!state?.user) {
+                        if(!state?.showloginmodal) {
+                            dispatch({type:"SET", key:"showloginmodal", payload:true})
+                        }
+                        return false;
+                    }
                     if(autoBetsLeft > 0){
                         setUserPlaceBetOn(false);
                         timeOutId = setTimeout(() => {
@@ -102,6 +120,7 @@ const CoinStakeChoice = (props) => {
 
     useEffect(() => {
         if (amount) {
+            setLocalStorage("userDefaultCoinAmount", amount, 1000 * 60 * 60 * 2)
             dispatch({type:"SET",
                 key: "coinselections",
                 payload: state?.coinselections ? {...state?.coinselections, [coinnumber]:{pick: pickedBtn, amount: amount, userbeton:userPlaceBetOn}} : {[coinnumber]: {pick: pickedBtn, amount:amount, userbeton:userPlaceBetOn}}})
@@ -136,6 +155,7 @@ const CoinStakeChoice = (props) => {
         }
     }
 
+    useEffect(() => {if (state?.promptdepositrequest?.show) {setAutoBet(false)}}, [state?.promptdepositrequest])
     
     return (
         <>
@@ -153,6 +173,7 @@ const CoinStakeChoice = (props) => {
                                     type="number"
                                     value={amount}
                                     min={minimumBetAmount}
+                                    onBlur={(e) => unfocus(e)}
                                     className="border-[transparent] w-[80%] user-amount-input px-2 bg-transparent text-white"/>
 
                                 <CgAdd className="mt-1 text-3xl opacity-60 hover:opacity-100 cursor-pointer" onClick={() => changeAmount("increase") }/>

@@ -1551,9 +1551,16 @@ label {
   display: flex;
   gap: 1rem;
 }
-
+::-webkit-scrollbar-thumb {
+  background: #24367e;
+  border-radius: 4px;
+  box-shadow: rgba(0,0,0.1);
+}
+::-webkit-scrollbar-track {
+  background: #e2e2e2;
+}
 .big-icon-item {
-  padding: 15px 4px 4px;
+  padding: 10px 4px 4px;
   align-items: center;
   color: #ddd;
   font-weight: 600;
@@ -1714,8 +1721,8 @@ label {
 }
 
 .amt {
-  margin-top: 75px;
-  /* margin-top: 126px; */
+  /* margin-top: 75px; */
+  margin-top: 126px;
 }
 
 .carousel-control-next-icon, .carousel-control-prev-icon {
@@ -1756,5 +1763,9 @@ label {
 }
 
 
+}
+
+.no-header {
+  margin-top: 0 !important;
 }
 

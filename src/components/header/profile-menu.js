@@ -13,7 +13,6 @@ import { FaHome } from "react-icons/fa";
 const ProfileMenu = (props) => {
   const {user} = props;
   const [state, ] = useContext(Context);
- 
 
   const handleSearch = (searchTerm) => {
     console.log("Handling search for:", searchTerm);
@@ -49,7 +48,7 @@ const ProfileMenu = (props) => {
           
           <div className=" user-menu-col col-md-3 d-flex flex-column right justify-content-end w-change2">
               <div className="mr-3">
-                <span className="font-tbt py-2 flex-wrap text-gray-200 font-[500]">BAL. KES <span className="font-bold ml-1 secondary-text"> <span className="hidden md:inline-block">KSH</span> {formatNumber(user?.balance) || 0} </span></span>
+                <span className="font-tbt py-2 flex-wrap text-gray-200 font-[500]">BAL. KES <span className="font-bold ml-1 secondary-text"> {formatNumber(user?.balance) || 0} </span></span>
               </div>             
           </div>
 

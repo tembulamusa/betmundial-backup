@@ -17,13 +17,14 @@ import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
 import { FaRegEye, FaRegEyeSlash  } from "react-icons/fa";
 
 const BodyLogin = (props) => {
+    const {setUser} = props;
     const [isLoading, setIsLoading] = useState(null)
     const [message, setMessage] = useState(null);
     const [generalErrorMessage, setGeneralErrorMessage] = useState(null)
     const [state, dispatch] = useContext(Context);
     const [alertVerifyMessage, setAlertVerifyMessage] = useState(null)
     // const {user} = props;
-    const [user, setUser] = useState(getFromLocalStorage("user"));
+    const [user, ] = useState(getFromLocalStorage("user"));
     const navigate = useNavigate();
     const location = useLocation();
     const navigateAwayRoutes = ['/login', '/signup', ]
@@ -91,9 +92,14 @@ const BodyLogin = (props) => {
                 }
                 if (response?.result == "User account not verified") {
                     setAlertVerifyMessage({status: 400, message:response.result})
+                } else {
+                    setAlertVerifyMessage({status: 400, message:"An error occurred. Check details"})
+
                 }
 
             }
+
+            setIsLoading(false)
         })
     }
 
@@ -120,7 +126,6 @@ const BodyLogin = (props) => {
     }, [])
 
     const navigateAway = (url) => {
-        dispatch({type:"DEL", key:"showloginmodal"});
         navigate(url)
     }
 
@@ -131,6 +136,9 @@ const BodyLogin = (props) => {
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
             let value = ev.target.value;
+            if(field == "msisdn") {
+                value = value.trim();
+            }
             setFieldValue(field, value);
         }
 

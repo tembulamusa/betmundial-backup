@@ -9,11 +9,16 @@ import WinSound from "../../../assets/audio/surecoin/win-mixkit.wav";
 import { Context } from "../../../context/store";
 
 const RotatingCoin = (props) => {
-    const {isspinning, coinnumber, usermuted, cvterfxn, nxtSession, prevSession, setRoundStats} = props;
+    const {isspinning, coinnumber,
+        usermuted, cvterfxn,
+         prevSession,
+         prepToStart,
+         userSoundSet,
+         coinSettled
+        } = props;
     const [timeLeft, setTimeLeft] = useState(0);
     const [state, dispatch] = useContext(Context);
     const [rotatingSpeedLevel, setRotatingSpeedLevel] = useState("low");
-    const [canPlaySound, setCanPlaySound] = useState(false);
     const [spinOutcome, setSpinOutcome] = useState(null);
     const [coinOnDisplay, setCoinOnDisplay] = useState("heads");
     const [won, setWon] = useState(null);
@@ -23,6 +28,7 @@ const RotatingCoin = (props) => {
         if (isspinning) {
             setSpinOutcome(null);
             setWon(null);
+            setCoinOnDisplay(null)
         } else {
             
                 if (cvterfxn(prevSession?.rslt, process.env.REACT_APP_OTCMEKI)?.[process.env.REACT_APP_CRWOCM] == true) {
@@ -44,7 +50,8 @@ const RotatingCoin = (props) => {
 
     const notifyWon = () => {
         setWon("won")
-        if (!usermuted) {
+        if (!usermuted && userSoundSet) {
+            
             const audio = new Audio(WinSound);
             audio.play();
 
@@ -53,7 +60,6 @@ const RotatingCoin = (props) => {
     }
 
     useEffect(() => {
-        console.log("WIN STATUS currently ::: ", won)
         if(won == "won" || won == "lost"){
             setTimeout(() => {
                 setWon(null);
@@ -69,7 +75,6 @@ const RotatingCoin = (props) => {
     
     useEffect(() => {
         if (timeLeft <= 0) {
-           
             return;
         }
 
@@ -99,7 +104,7 @@ const RotatingCoin = (props) => {
     
     // paly the sound
     useEffect(() => {
-        if (!usermuted) {
+        if (!usermuted && userSoundSet) {
             const audio = new Audio(Sound1);
             const audio2 = new Audio(Sound2);
 
@@ -165,8 +170,9 @@ const RotatingCoin = (props) => {
                     </span>
                 </div>
             </div>
-            <div className={`rotating-img  ${isspinning ? "is-spinning":""} rotating-speed-level-${rotatingSpeedLevel}`} onClick={() => setCanPlaySound()}>
-                <img src={coinOnDisplay == "heads" ? Head : Tail } alt=""/>
+            <div className={`${coinSettled && "coin-settled"}  rotating-img  ${isspinning ? "is-spinning": prepToStart ? "prep-to-start" : ""} rotating-speed-level-${rotatingSpeedLevel}`}>
+                <div className={`coin-image heads ${coinOnDisplay == "heads" ? "higher-z": ""}`}></div>
+                <div className={`coin-image tails ${coinOnDisplay == "tails" ? "higher-z": ""}`}></div>
             </div>           
             
             {won == "won" && (

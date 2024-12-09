@@ -121,8 +121,10 @@
     text-align: left;
     margin:5px 0px;
 }
+
 .virtual-game-image {
     cursor: pointer;
+    width: 100%;
 }
 
 .casino-category-container {
@@ -2447,13 +2449,12 @@ img {
 .flex {
     display: flex !important;
 }
-
 footer {
     background: #dddbdb;
     color: #fff;
     padding: 0;
     font-size: 16px;
-    margin-top: 30px;
+    /* margin-top: 30px; */
 }
 
 footer a {
@@ -7392,8 +7393,8 @@ ul.sport {
 
 @media (min-width: 768px) {
     .amt {
-        margin-top: 60px !important;
-        /* margin-top: 127px !important; */
+        /* margin-top: 60px !important; */
+        margin-top: 121px !important;
     }
 
     .disp-sidebar {

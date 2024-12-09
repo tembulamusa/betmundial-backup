@@ -12,6 +12,7 @@ import './assets/css/application.css';
 import './assets/css/tolkits.css';
 import './assets/css/sidebar-menu.css';
 import './assets/css/surecoin.css';
+import './assets/css/surebox.css';
 import './assets/css/casino.css';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css'
@@ -38,12 +39,8 @@ import MobileApp from './components/pages/app';
 import ProtectedRoute from './components/utils/protected-route';
 import PrintMatches from './components/pages/downloads';
 import Casino from './components/pages/casino/Casino';
-import LiveCasino from './components/pages/casino/LiveCasino';
-import Virtuals from './components/pages/casino/Virtuals';
-import CasinoGamePlay from './components/pages/casino/GamePlay';
 import CheckDepositStatus from "./components/check-deposit-status";
 import Exclude from "./components/pages/exclude";
-import Promotions from './components/pages/promotions/Promotions';
 import Login from './components/pages/login';
 import LiveScore from './components/pages/livescore/LiveScore';
 import Right from "./components/right/index";
@@ -54,6 +51,7 @@ import { Context } from './context/store';
 import Logout from "./components/pages/auth/logout";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import SureCoin from "./components/pages/sure-coin";
+import SureBoxIndex from "./components/pages/sure-box/surebox-index";
 import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 import CasinoHome from "./components/pages/casino/casino-home";
 import ReactGA from "react-ga4";
@@ -65,7 +63,7 @@ const App = () => {
     const [state, ] = useContext(Context);
 
     useEffect(() => {
-        ReactGA.initialize("GTM-5SZCFJBG");;
+        ReactGA.initialize("G-LZWJRVZ45T");;
       }, []);
       
     return (
@@ -73,15 +71,15 @@ const App = () => {
             <PageviewTracker />
             <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper"}`}>
                 <Suspense fallback={<p></p>}>
-                <Header />
-                <div className={`${state?.bodyheaderspacing} amt `}>
+                { !state?.fullcasinoscreen && <Header /> }
+                <div className={`${state?.fullcasinoscreen && "no-header"} amt `}>
                     <div className={`flex big-icon second-nav ck pc app-navbar app-header-nav`}>
                         {/* <HeaderNav/> */}
                     </div>
                     <div className={`${state?.casinolaunch ? "": "diminish-mobile-row row"}`}>
                         {/* Conditional load live or otherwise */}
                         {!(state?.casinolaunch || state?.surecoinlaunched) && <Sidebar />}
-                            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto bg-white": "col-md-7 home mx-auto"}`}`}>
+                        <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
                         <Routes>
                             {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
                             {/* <Route exact path="/" element={<Index/>}/>
@@ -107,8 +105,9 @@ const App = () => {
                             <Route exact path="/print-matches" element={<PrintMatches/>}/>                            
                             // <Route exact path="/promotions" element={<Promotions/>}/>
                             */}
-
-                            <Route exact path="/casino/:name" element={<CasinoLaunchedGame />}/>
+                            <Route exact path="/casino" element={<Casino />}/>
+                            <Route exact path="/casino/:filterType/:filterName" element={<Casino />}/>
+                            <Route exact path="/casino-game/:provider/:gameName" element={<CasinoLaunchedGame />}/>
                             <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
                             <Route exact path="/jackpot" element={<Jackpot/>}/>
                             <Route exact path="/live" element={<Live/>}/>
@@ -131,6 +130,7 @@ const App = () => {
                             <Route path="/check-deposit-status" element={<CheckDepositStatus />} />
                             <Route exact path="/exclude" element={<Exclude/>}/>
                             <Route exact path="/surecoin" element={<SureCoin/>}/>
+                            <Route exact path="/surebox" element={<SureBoxIndex/>}/>
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
                             <Route exact path="/withdraw"
@@ -139,14 +139,14 @@ const App = () => {
                                 element={<ProtectedRoute><MyBets/> </ProtectedRoute>}/>
 
                             {/* DEFAULT CUrrently the default component. Switch to INDEX when SPORTS AVAILABLE */}
-                            <Route path="*" element={<SureCoin/>}/>
+                            <Route path="*" element={<Casino/>}/>
 
                             </Routes>
                     </div>
                     {!(state?.casinolaunch || state?.surecoinlaunched) && <Right />}           
                 </div>
             </div>
-            {<Footer />}
+            {!state?.fullcasinoscreen && <Footer />}
             </Suspense>
             </div>
             </BrowserRouter>
