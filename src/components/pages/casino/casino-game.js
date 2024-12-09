@@ -34,9 +34,8 @@ const CasinoGame = (props) => {
         }
 
         await makeRequest({url: endpoint,  method: "GET", api_version:'CasinoGameLaunch'}).then(([status, result]) => {
-            // console.log("THE LAUNCH URL REQUEST   ::::: ", endpoint)
             if (status == 200) {
-                let launchUrl = result?.gameUrl || result?.game_url || result?.url || result.GameUrl;
+                let launchUrl = result?.game_url || result?.gameUrl;
                 dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: launchUrl}});
                 setLocalStorage("casinolaunch", {game: game, url: launchUrl})
                 navigate(`/casino-game/${game?.provider_name.split(' ').join('-').toLowerCase()}/${game?.game_name.split(' ').join('-').toLowerCase()}`)

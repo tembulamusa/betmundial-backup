@@ -71,8 +71,8 @@ const App = () => {
             <PageviewTracker />
             <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper"}`}>
                 <Suspense fallback={<p></p>}>
-                <Header />
-                <div className={`${state?.bodyheaderspacing} amt `}>
+                { !state?.fullcasinoscreen && <Header /> }
+                <div className={`${state?.fullcasinoscreen && "no-header"} amt `}>
                     <div className={`flex big-icon second-nav ck pc app-navbar app-header-nav`}>
                         {/* <HeaderNav/> */}
                     </div>
@@ -146,7 +146,7 @@ const App = () => {
                     {!(state?.casinolaunch || state?.surecoinlaunched) && <Right />}           
                 </div>
             </div>
-            {<Footer />}
+            {!state?.fullcasinoscreen && <Footer />}
             </Suspense>
             </div>
             </BrowserRouter>

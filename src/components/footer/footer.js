@@ -26,10 +26,10 @@ const Footer = (props) => {
                             <a target='_blank' href="https://www.facebook.com/kesurebet">
                                 <span><FaFacebook className="social-icon" /></span>
                             </a>
-                            <a target='_blank' href="https://x.com/SurebetsKenya">
+                            <a target='_blank' href="https://x.com/Kenya_Surebet">
                                 <span><FaXTwitter className="social-icon" /></span>
                             </a>
-                            <a target='_blank' href="https://www.instagram.com/surebet_ke">
+                            <a target='_blank' href="https://www.instagram.com/surebet_kenya_official">
                                 <span><FaInstagram className="social-icon" /></span>
                             </a>
                         </li>
