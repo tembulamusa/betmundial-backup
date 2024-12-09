@@ -173,7 +173,7 @@ const BigIconMenu = () => {
                         )
                     }
                     )}
-                    {loc?.pathname?.includes("/casino") && <CasinoProviders />}
+                    {(!loc?.pathname?.includes("/casino") || loc?.pathname?.includes("/casino")) && <CasinoProviders />}
                 </ListGroup>
             </div>
 
