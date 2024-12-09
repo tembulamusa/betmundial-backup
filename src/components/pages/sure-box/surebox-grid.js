@@ -8,11 +8,13 @@ const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
       Array.from({ length: 20 }, (_, idx) => ({
         id: idx + 1,
         isOpen: selectedBoxes.includes(idx + 1),
-        // Set to 'X' if no odds are available
-        odds: boxOdds && boxOdds[idx] !== undefined ? boxOdds[idx] : 'X',
+        // Assign the actual odds if available; otherwise, default to 'X'
+        odds: boxOdds[idx] !== undefined ? boxOdds[idx] : 'X',
       })),
     [selectedBoxes, boxOdds]
   );
+
+  console.log("Box odds", boxOdds); // Log the array to verify contents and length
 
   return (
     <>
@@ -32,7 +34,7 @@ const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
             />
             {box.isOpen && (
               <span className="odds-display text-white">
-                {box.odds === 'X' ? 'X' : box.odds} {/* Display 'X' for missing odds */}
+                {box.odds} {/* Display actual odds or 'X' if not available */}
               </span>
             )}
           </div>
