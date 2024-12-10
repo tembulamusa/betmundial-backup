@@ -6,12 +6,12 @@ const Login = (props) => {
 
     return (
         <div className="">
-            <div className='col-md-12 border-b border-gray-200 uppercase p-4 text-center'>
-                <h4 className="inline-block">
+            <div className='col-md-12 border-b page-title p-4 text-center mb-4'>
+                <h4 className="">
                     Login
                 </h4>
             </div>
-            <div className='std-medium-width-block'>
+            <div className='std-medium-width-block bg-white'>
                 <div className="col-md-12">
                     <BodyLogin/>
                 </div>

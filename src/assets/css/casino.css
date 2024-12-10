@@ -1,5 +1,6 @@
 .casino-sidebar {
     border-right: 1px solid #a6a6a6;
+    min-height: 100vh;
     box-shadow: 1px 0 2px rgba(0,0,0,0.2);
 }
 .casino-games-liting {
@@ -229,4 +230,9 @@
     .casino-game {
         width: 50%;
     }
+    
+}
+
+.page-title {
+    background-color: #ffffff;
 }

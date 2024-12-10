@@ -18,9 +18,9 @@ const CasinoGame = (props) => {
     const navigate = useNavigate();
     
     const launchGame = async (game, moneyType=1) => {
-        // console.log("THE Game :::: ", game);
+        console.log("THE Game :::: ", game);
 
-        if (game?.provider_name.toLowerCase() == "suregames") {
+        if (game?.aggregator?.toLowerCase() == "suregames") {
             navigate(`/${game?.game_id.toLowerCase()}`)
             return
         }
@@ -94,7 +94,7 @@ const CasinoGame = (props) => {
                         Play
                     </Button>
 
-                    {game?.provider_name?.toLowerCase() != "suregames" &&
+                    {game?.aggregator?.toLowerCase() != "suregames" &&
                         <Button className="casino-demo-btn casino-cta"
                                 onClick={() => launchGame(game, 0)}>
                             Demo   

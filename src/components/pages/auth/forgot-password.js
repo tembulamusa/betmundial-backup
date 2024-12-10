@@ -259,10 +259,10 @@ const ResetPassword = (props) => {
 
     return (
         <>
-            <div className='col-md-12 primary-bg p-4 text-center mb-4'>
+            <div className='col-md-12 page-title p-4 text-center mb-4'>
                 <h4 className="">Forgot Password</h4>
             </div>
-            <div className='std-medium-width-block'>
+            <div className='std-medium-width-block bg-white'>
                 <div className="row">
                     {message && <Alert message={message} />}
                     <div className="col-md-12">
