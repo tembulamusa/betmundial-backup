@@ -219,12 +219,12 @@ const Signup = (props) => {
 
             
                     <div className='signup-container' >
-                    <div className='col-md-12 border-b border-gray-200 uppercase p-4 text-center'>
-                    <h4 className="inline-block">
-                                CREATE AN ACCOUNT
+                    <div className='col-md-12 border-b border-gray-200 page-title p-4 text-center mb-4'>
+                    <h4 className="">
+                                Register
                             </h4>
                         </div>
-                        <div className='std-medium-width-block'>
+                        <div className='std-medium-width-block bg-white'>
                             <div className="col-md-12 mt-2 p-2 std-boxed-form-page" 
                                 style={{}}
                             >
