@@ -18,8 +18,6 @@ const CasinoGame = (props) => {
     const navigate = useNavigate();
     
     const launchGame = async (game, moneyType=1) => {
-        console.log("THE Game :::: ", game);
-
         if (game?.aggregator?.toLowerCase() == "suregames") {
             navigate(`/${game?.game_id.toLowerCase()}`)
             return
@@ -40,7 +38,7 @@ const CasinoGame = (props) => {
                 setLocalStorage("casinolaunch", {game: game, url: launchUrl})
                 navigate(`/casino-game/${game?.provider_name.split(' ').join('-').toLowerCase()}/${game?.game_name.split(' ').join('-').toLowerCase()}`)
             } else {
-                setAlertMessage({status: 400, message: "An error occurred"})
+                setAlertMessage({status: 400, message: "Unable to launch Game"})
                 return false
             }
         });
