@@ -4,7 +4,6 @@ import { getFromLocalStorage } from "../../utils/local-storage";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineClose } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { xlg } from "../../utils/dgAPI";
 import useInterval from "../../../hooks/set-interval.hook";
 
 const CasinoLaunchedGame = (props) => {

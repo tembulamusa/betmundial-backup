@@ -1,4 +1,4 @@
-export const xlg = {
+let xlg = {
     websocket: null,
     wsUri: null,
     tableId: null,
@@ -10,10 +10,10 @@ export const xlg = {
         let self = this;
         self.tryToConnect = true;
         self.wsUri = wsUri;
-        console.log('connecting to ' + 'wss://' + wsUri + '/ws');
+        // console.log('connecting to ' + 'wss://' + wsUri + '/ws');
         if (self.websocket !== null && self.websocket.readyState !== 3) {
             self.websocket.close();
-            console.log('Socket open closing it');
+            // console.log('Socket open closing it');
         }
         self.websocket = new WebSocket('wss://' + wsUri + '/ws');
         self.websocket.onopen = function (evt) {
@@ -36,22 +36,22 @@ export const xlg = {
     // public
     onMessage: function (data) {
         // to fill
-        console.log("Received some message", data)
+        // console.log("Received some message", data)
         let gameId = data.tableId;
-        console.log("Updating thumbnails for Game ID ", gameId)
+        // console.log("Updating thumbnails for Game ID ", gameId)
         $("#" + gameId).attr("src", data.tableImage);
 
         if (data.hasOwnProperty('tableLimits')) {
 
-            console.log("Table limits available")
+            // console.log("Table limits available")
             let tableLimits = data.tableLimits
             let limits = "";
             if (tableLimits.hasOwnProperty("minBet")) {
-                console.log("Min bet available")
+                // console.log("Min bet available")
                 limits = limits + "Kshs." + tableLimits.minBet;
             }
             if (tableLimits.hasOwnProperty("maxBet")) {
-                console.log("Max bet available")
+                // console.log("Max bet available")
                 limits = limits + " - Kshs." + tableLimits.maxBet;
             }
 
@@ -69,13 +69,13 @@ export const xlg = {
 
         if (data.hasOwnProperty("tableOpen")) {
 
-            console.log("table open information exists")
+            // console.log("table open information exists")
             if (data.tableOpen) {
-                console.log("table open")
+                // console.log("table open")
                 $("#table-" + gameId).html('<div class="prag-bet-table" title="Table Open">O</div>')
                 $("#table-" + gameId).css("display", "block")
             } else {
-                console.log("table closed")
+                // console.log("table closed")
                 $("#table-" + gameId).html('<div class="prag-bet-table" style="background:red;" title="Table Closed">C</div>')
                 $("#table-" + gameId).css("display", "block")
             }
@@ -106,7 +106,7 @@ export const xlg = {
                         break;
                     }
                 }
-                console.log(results[i])
+                // console.log(results[i])
                 let oneResult = results[i];
 
                 if (oneResult.hasOwnProperty("color")) {
@@ -148,7 +148,7 @@ export const xlg = {
     },
     // public
     onConnect: function () {
-        console.log("Connected to Pragmatic ")
+        // console.log("Connected to Pragmatic ")
         const tables = ["201", "203", "204", "225", "229", "230", "240",
 			"303", "545", "401","402", "701", "801", "901", "902", "1001",
 			"1024", "1101", "1301", "1320", "1401", "1501","1601","1701"
@@ -165,7 +165,7 @@ export const xlg = {
         let self = this;
         self.tryToConnect = false;
         self.websocket.close();
-        console.log('Disconnected');
+        // console.log('Disconnected');
     },
     // public
     subscribe: function (casinoId, tableId, currency) {
@@ -175,7 +175,7 @@ export const xlg = {
             casinoId: casinoId,
             currency: currency
         }
-        console.log('subscribing' + tableId);
+        // console.log('subscribing' + tableId);
 
         let self = this;
         let jsonSub = JSON.stringify(subscribeMessage);
@@ -188,7 +188,7 @@ export const xlg = {
             type: 'available',
             casinoId: casinoId
         }
-        console.log('checking availability');
+        // console.log('checking availability');
 
         let self = this;
         let jsonSub = JSON.stringify(availableMessage);
@@ -202,17 +202,17 @@ export const xlg = {
             self.onConnect();
         }
 
-        console.log('Connected to wss server');
+        // console.log('Connected to wss server');
         if (self.tableId) {
             self.subscribe(self.casinoId, self.tableId)
         }
     },
 
     onWsClose: function (evt) {
-        console.log("DISCONNECTED");
+        // console.log("DISCONNECTED");
         let self = this;
         if (self.tryToConnect === true) {
-            console.log("RECONNECTING");
+            // console.log("RECONNECTING");
             self.connect(self.wsUri, self.casinoId, self.tableId);
         }
     },
@@ -226,7 +226,7 @@ export const xlg = {
     },
 
     onWsError: function (evt) {
-        console.log('ERROR: ' + evt.data);
+        // console.log('ERROR: ' + evt.data);
     },
 
     ping: function () {
@@ -241,10 +241,10 @@ export const xlg = {
 
     doWsSend: function (message) {
         let self = this;
-        console.log("SENT: " + message);
+        // console.log("SENT: " + message);
         self.websocket.send(message);
     }
 };
 
-// let dga = xlg;
-// dga.connect("prelive-dga0.pragmaticplaylive.net")
+let dga = xlg;
+dga.connect("prelive-dga0.pragmaticplaylive.net")
