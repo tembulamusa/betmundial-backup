@@ -17,13 +17,13 @@ import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
 import { FaRegEye, FaRegEyeSlash  } from "react-icons/fa";
 
 const BodyLogin = (props) => {
+    const {setUser} = props
     const [isLoading, setIsLoading] = useState(null)
     const [message, setMessage] = useState(null);
     const [generalErrorMessage, setGeneralErrorMessage] = useState(null)
     const [state, dispatch] = useContext(Context);
+    const [user, ] = useState(getFromLocalStorage("user"))
     const [alertVerifyMessage, setAlertVerifyMessage] = useState(null)
-    // const {user} = props;
-    const [user, setUser] = useState(getFromLocalStorage("user"));
     const navigate = useNavigate();
     const location = useLocation();
     const navigateAwayRoutes = ['/login', '/signup', ]
@@ -125,7 +125,6 @@ const BodyLogin = (props) => {
     }, [])
 
     const navigateAway = (url) => {
-        dispatch({type:"DEL", key:"showloginmodal"});
         navigate(url)
     }
 
