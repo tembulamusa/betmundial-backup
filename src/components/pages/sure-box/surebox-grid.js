@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import ClosedBox from "../../../assets/img/casino/vault.png";
+import ClosedBox from "../../../assets/img/casino/closedfullybox.webp";
 import OpenBox from "../../../assets/img/casino/openedbox.webp";
 
 const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
