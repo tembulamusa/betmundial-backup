@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Switch } from "@mui/material";
 import { MdOutlineAddTask } from "react-icons/md";
@@ -18,8 +19,19 @@ const SureBoxControls = ({
 
   const handleAutoRestartToggle = () => {
     const newAutoRestartState = !autoRestart;
-    setAutoRestart(newAutoRestartState);
-  
+    if (betAmount < 5) {
+      setAutoRestart(false); 
+    } else {
+      setAutoRestart(newAutoRestartState);
+    }
+  };
+
+  const handleBetAmountChange = (e) => {
+    const newBetAmount = Number(e.target.value);
+    setBetAmount(newBetAmount);
+    if (newBetAmount < 5) {
+      setAutoRestart(false); 
+    }
   };
 
   const toggleInstructions = () => {
@@ -46,7 +58,7 @@ const SureBoxControls = ({
           <input
             type="number"
             value={betAmount}
-            onChange={(e) => setBetAmount(e.target.value)}
+            onChange={handleBetAmountChange}
             className="bg-[#0b121b] text-white px-4 py-2 rounded-md border border-[#456185] focus:outline-none focus:ring-2 focus:ring-[#5a7699] w-full sm:w-auto"
             min={5}
             step={1}
