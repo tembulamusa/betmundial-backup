@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Context } from "../../context/store";
+import DefaultImg from "../../assets/img/casino/icons/Default.svg";
 import { setLocalStorage } from "../utils/local-storage";
 
 
@@ -97,7 +98,7 @@ const BigIconMenu = () => {
                 sport_image = require(`../../assets/img/colorsvgicons/${sport_name}`);
             }
         } catch (error) {
-            sport_image = require(`../../assets/img/svgicons/default.png`);
+            sport_image = DefaultImg;
         }
         return sport_image;
     };
