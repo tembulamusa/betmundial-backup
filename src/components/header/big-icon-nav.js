@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Context } from "../../context/store";
-import DefaultImg from "../../assets/img/casino/icons/Default.svg";
+import DefaultImg from "../../assets/img/casino/icons/default.svg";
 import { setLocalStorage } from "../utils/local-storage";
 
 
