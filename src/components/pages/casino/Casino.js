@@ -26,10 +26,21 @@ const Casino = (props) => {
     const fetchCasinoGames = async () => {
         setFetching(true);
         let endpoint = "games-list";
+        console.log("GET FILTER ", filterName)
         if (filterType === "categories") {
-            endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`;
+            if(state?.state?.casinogamesfilter?.category) {
+                endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`;
+            } else {
+                endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`;
+            }
+            
         } else if (filterType === "providers") {
-            endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`;
+            if (state?.casinogamesfilter?.provider) {
+                endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`;
+            } else {
+                endpoint = `provider/games-list/n/${filterName}`;
+
+            }
         }
 
         const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "casinoGames" });

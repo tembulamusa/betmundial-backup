@@ -137,11 +137,12 @@ const SureCoinIndex = (props) => {
             let endpoint = 'place-bet';
             makeRequest({url: endpoint, 
                 method: 'POST',
+                responseType: "text",
                 data: {session_id: session, profile_id: user?.profile_id, coin_side: state?.coinselections?.[1]?.pick?.toUpperCase(), bet_amount: state?.coinselections?.[1]?.amount},
-                api_version:"sureCoin",
-                responseType: "text"}).then(([status, response]) => {
+                api_version:"sureCoin"}).then(([status, response]) => {
                 if(status == 200) {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
+                    console.log("THE CPBT RESULT :::: ")
                     if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
                         dispatch({type:"SET", key: "toggleuserbalance", payload:state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                         getCoinRoll(cpBt?.[process.env.REACT_APP_BID], session, nxtRound);
@@ -171,6 +172,7 @@ const SureCoinIndex = (props) => {
         let endpoint = 'coin-roll';
         makeRequest({url: endpoint,
                 method: 'POST',
+                responseType: "text",  
                 data: {session_id: session, bet_id: btID, profile_id: user?.profile_id},
                 api_version:'sureCoin'}).then(([status, response]) => {
             let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);

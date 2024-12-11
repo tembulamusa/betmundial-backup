@@ -26,11 +26,12 @@ const SureBoxIndex = () => {
   const [currentOdds, setCurrentOdds] = useState(1);
   const [cashoutAmount, setCashoutAmount] = useState(0);
   const [gameActive, setGameActive] = useState(false);
-  const [betAmount, setBetAmount] = useState(1);
+  const [betAmount, setBetAmount] = useState(5);
   const [sessionId, setSessionId] = useState(null);
   const [betId, setBetId] = useState(null);
   const [bets, setBets] = useState([]);
   const [isActionSuspended, setIsActionSuspended] = useState(false);
+  const [autoRestart, setAutoRestart] = useState(false);
   const [outcome, setOutcome] = useState(null);
   const [showWinGif, setShowWinGif] = useState(false);
   const [showLostGif, setShowLostGif] = useState(false);
@@ -39,6 +40,24 @@ const SureBoxIndex = () => {
   const openBoxSound = useRef(new Audio(OpenBoxSoundFile));
   const looseSound = useRef(new Audio(LooseSoundFile));
   const winSound = useRef(new Audio(WinSoundFile));
+
+  const handleGameEnd = (result) => {
+    setGameActive(false);
+    setOutcome(result);
+  
+    setTimeout(() => {
+      setOutcome(null); 
+      if (autoRestart) {
+        startGame(); 
+      }
+    }, 2000); 
+  };
+
+  useEffect(() => {
+    if (!gameActive && autoRestart) {
+      startGame();
+    }
+  }, [autoRestart, gameActive]);
 
   useEffect(() => {
     const user = getFromLocalStorage("user");
@@ -152,7 +171,8 @@ const SureBoxIndex = () => {
             if (!win) {
               looseSound.current.play();
               setShowLostGif(true);
-              setOutcome("lost");
+              //setOutcome("lost");
+              handleGameEnd("lost");
               setTimeout(() => {
                 setShowLostGif(false);
                 resetGame();
@@ -164,7 +184,7 @@ const SureBoxIndex = () => {
             setBets((prevBets) => [
               ...prevBets,
               {
-                box: boxInWords,
+                box: id,
                 multiplier,
                 possibleWin: possible_win,
               },
@@ -228,7 +248,8 @@ const SureBoxIndex = () => {
         if (decryptedResponse?.response_status === 200) {
           winSound.current.play();
           setShowWinGif(true);
-          setOutcome("won");
+          //setOutcome("won");
+          handleGameEnd("won");
           setTimeout(() => {
             setShowWinGif(false);
             console.log(`You cashed out and won ${decryptedResponse.possible_win} KES!`);
@@ -285,24 +306,24 @@ const SureBoxIndex = () => {
         </div>
 
         {outcome && (
-        <div
-          className={`surebox-notify-outcome ${
-            outcome === "won" ? "surebox-won" : "surebox-lost"
-          }`}
-        >
-          {outcome === "won" ? (
-            <>
-              <span>WON</span>
-              <span>KES {cashoutAmount}</span>
-            </>
-          ) : (
-            <>
-              <span>Empty Box!</span>
-              <span>Better luck next time!</span>
-            </>
-          )}
-        </div>
-      )}
+          <div
+            className={`surebox-notify-outcome ${
+              outcome === "won" ? "surebox-won" : "surebox-lost"
+            }`}
+          >
+            {outcome === "won" ? (
+              <>
+                <span>WON</span>
+                <span>KES {cashoutAmount}</span>
+              </>
+            ) : (
+              <>
+                <span>Empty Box!</span>
+                <span>Better luck next time!</span>
+              </>
+            )}
+          </div>
+        )}
 
         {showWinGif && (
           <div className="win-gif-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
@@ -323,17 +344,16 @@ const SureBoxIndex = () => {
             boxOdds={boxOdds}
           />
           <SureBoxControls
-            autoBet={false}
-            setAutoBet={() => {}}
-            startGame={gameActive ? () => alert("Game already in progress") : startGame}
-            cashOut={gameActive ? cashOut : () => alert("No game to cash out from")}
+            autoRestart={autoRestart}
+            setAutoRestart={setAutoRestart}
             betAmount={betAmount}
             setBetAmount={setBetAmount}
-            possibleWin={(currentOdds * betAmount).toFixed(2)}
-            cashOutAmount={cashoutAmount}
+            possibleWin={currentOdds * betAmount}
+            startGame={startGame}
+            cashOut={cashOut}
             gameInProgress={gameActive}
-            bets={bets} 
-            pickRandomBox={() => {}}
+            cashOutAmount={cashoutAmount}
+            bets={bets}
           />
         </div>
       </div>

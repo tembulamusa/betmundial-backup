@@ -60,7 +60,7 @@ const BigIconMenu = () => {
             } else {
                 setLocalStorage("casinogamesfilter", payload);
                 dispatch({type:"SET", key:"casinogamesfilter", payload: payload});
-                navigate(`/casino/providers/${filterItem?.name?.split(" ")?.join("")}`);
+                navigate(`/casino/providers/${filterItem?.name}`);
             }
             
         }
@@ -73,7 +73,7 @@ const BigIconMenu = () => {
             <>
                 {casinoProviders?.map((provider, idx) => {
                     return (
-                        <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name?.split(" ")?.join('')) ? "active" : ''} big-icon-item text-center capitalize`}
+                        <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize`}
                             onClick={() => filterGames("provider", provider)}
                         >
                             <span title={provider?.name}>
