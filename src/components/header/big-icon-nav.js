@@ -25,7 +25,7 @@ const BigIconMenu = () => {
         // {name: "aviator", icon:"aviator.svg", link:"/aviator", parentTo:null},
         // {name: "surecoin", icon:"surecoin.svg", link:"/surecoin", parentTo:null},
         {name: "casino", icon:"casino.svg", link:"/casino", parentTo:null},
-        // {name: "surebox", icon:"virtuals.svg", link:"/surebox", parentTo:null},
+        {name: "surebox", icon:"virtuals.svg", link:"/surebox", parentTo:null},
         //These next 3 Links did not exist before we removed SPORTS
         // {name: "aviatrix", icon:"aviatrix.svg", link:"/aviatrix", parentTo:null},
         // {name: "numbers", icon:"numbers.svg", link:"/numbers", parentTo:null},
