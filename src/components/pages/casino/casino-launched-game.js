@@ -10,6 +10,7 @@ const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
     const navigate = useNavigate();
     const user = getFromLocalStorage("user");
+    const [showPreload, setShowPreload] = useState(true);
     const launchedGame = getFromLocalStorage("casinolaunch");
     const fullScreens = ["aviatrix"];
 
@@ -49,14 +50,15 @@ const CasinoLaunchedGame = (props) => {
                 </div>
             </section>}
             <div className={`casino-launched-game-frame flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
-            <iframe
-                allow="autoplay; clipboard-write"
-                title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
-                width="100%"
-                height="100%"
-                src={state?.casinolaunch?.url}
-                >
-            </iframe>
+                {/* {showPreload && <span>Loading content, please wait...</span>} */}
+                <iframe
+                    allow="autoplay; clipboard-write"
+                    title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
+                    width="100%"
+                    height="100%"
+                    src={state?.casinolaunch?.url ? state?.casinolaunch?.url : ""}
+                    >
+                </iframe>
             </div>
         </>
     )
