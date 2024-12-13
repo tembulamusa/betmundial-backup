@@ -20,8 +20,8 @@
 }
 .casino-game img {
     border-radius: 5px;
+    height: 200px;
 }
-
 .game-buttons {
     position: absolute;
     left: 50%;
@@ -229,6 +229,10 @@
     }
     .casino-game {
         width: 50%;
+    }
+
+    .casino-game img {
+        height: 150px;
     }
     
 }
