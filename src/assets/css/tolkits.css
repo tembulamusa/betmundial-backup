@@ -15764,7 +15764,11 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
     }
   }
 
-  @media only screen and (max-width: 600px) {
+  .carousel-item {
+    max-height: 170px;
+    
+}
+  @media only screen and (max-width: 648px) {
     .top-matches .side {
         border-radius: 2px;
         float: right;
@@ -15776,5 +15780,10 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
         outline: none;
         padding: 2px 0px 2px 0px;
         text-align: center;
+    }
+
+    .carousel-item {
+        max-height: 80px;
+        
     }
   }

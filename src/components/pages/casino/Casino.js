@@ -26,7 +26,6 @@ const Casino = (props) => {
     const fetchCasinoGames = async () => {
         setFetching(true);
         let endpoint = "games-list";
-        console.log("GET FILTER ", filterName)
         if (filterType === "categories") {
             if(state?.state?.casinogamesfilter?.category) {
                 endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`;
@@ -73,11 +72,20 @@ const Casino = (props) => {
     }, [state?.casinogamesfilter]);
 
     useEffect(() => {
+        dispatch({type: "SET", key: "nosports", payload: true});
+
         let gamesFilter = getFromLocalStorage("casinogamesfilter");
         if(gamesFilter) {
             dispatch({type: "SET", key: "casinogamesfilter", payload: gamesFilter})
         }
+
+
+        return () => {
+            dispatch({type: "DEL", key: "nosports"});
+        }
     }, [])
+
+
     return (
         <>
             <CasinoCarousel />
