@@ -10,7 +10,7 @@ import One from  '../../assets/img/casino/carousel/1.jpg';
 import Two from  '../../assets/img/casino/carousel/2.png';
 import Three from  '../../assets/img/casino/carousel/3.png';
 import Four from  '../../assets/img/casino/carousel/4.png';
-import Five from  '../../assets/img/casino/carousel/5.jpg';
+// import Five from  '../../assets/img/casino/carousel/5.jpg';
 import Six from  '../../assets/img/casino/carousel/6.png';
 import Seven from  '../../assets/img/casino/carousel/7.jpg';
 import Eight from  '../../assets/img/casino/carousel/8.jpg';
@@ -87,7 +87,7 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item>
             
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -96,7 +96,7 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             
             <Carousel.Item >
                 <img
