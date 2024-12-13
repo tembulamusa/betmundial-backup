@@ -56,7 +56,7 @@ const CasinoLaunchedGame = (props) => {
                 height="100%"
                 src={state?.casinolaunch?.url}
                 >
-            </iframe>;
+            </iframe>
             </div>
         </>
     )
