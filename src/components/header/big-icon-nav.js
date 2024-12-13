@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Context } from "../../context/store";
+import DefaultImg from "../../assets/img/casino/icons/default.svg";
 import { setLocalStorage } from "../utils/local-storage";
 
 
@@ -73,7 +74,7 @@ const BigIconMenu = () => {
             <>
                 {casinoProviders?.map((provider, idx) => {
                     return (
-                        <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize`}
+                        provider?.name.toLowerCase() !== "aviatrix" && <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize`}
                             onClick={() => filterGames("provider", provider)}
                         >
                             <span title={provider?.name}>
@@ -97,7 +98,7 @@ const BigIconMenu = () => {
                 sport_image = require(`../../assets/img/colorsvgicons/${sport_name}`);
             }
         } catch (error) {
-            sport_image = require(`../../assets/img/svgicons/default.png`);
+            sport_image = DefaultImg;
         }
         return sport_image;
     };
