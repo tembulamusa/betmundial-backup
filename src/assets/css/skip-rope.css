@@ -1,0 +1,33 @@
+.skiprope-container {
+    text-align: center;
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .skiprope-stage img {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+  }
+  
+  .skiprope-controls {
+    margin: 20px;
+  }
+  
+  .skiprope-controls input {
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  
+  .skiprope-controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .skiprope-info {
+    margin: 20px;
+    font-size: 18px;
+  }
+  

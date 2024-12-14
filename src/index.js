@@ -13,6 +13,7 @@ import './assets/css/tolkits.css';
 import './assets/css/sidebar-menu.css';
 import './assets/css/surecoin.css';
 import './assets/css/surebox.css';
+import './assets/css/skip-rope.css';
 import './assets/css/casino.css';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css'
@@ -52,6 +53,7 @@ import Logout from "./components/pages/auth/logout";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import SureCoin from "./components/pages/sure-coin";
 import SureBoxIndex from "./components/pages/sure-box/surebox-index";
+import SkipRopeIndex from "./components/pages/skip-rope/skiprope-index";
 import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 import CasinoHome from "./components/pages/casino/casino-home";
 import ReactGA from "react-ga4";
@@ -131,6 +133,7 @@ const App = () => {
                             <Route exact path="/exclude" element={<Exclude/>}/>
                             <Route exact path="/surecoin" element={<SureCoin/>}/>
                             <Route exact path="/surebox" element={<SureBoxIndex/>}/>
+                            <Route exact path="/skip-rope" element={<SkipRopeIndex/>}/>
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
                             <Route exact path="/withdraw"
