@@ -20,8 +20,13 @@
 }
 .casino-game img {
     border-radius: 5px;
+    /* height: 200px; */
 }
 
+.game-height-fix {
+    max-height: 150px;
+    overflow: hidden;
+}
 .game-buttons {
     position: absolute;
     left: 50%;
@@ -215,7 +220,7 @@
         padding-right: 0;
         padding-left: 4px;
         float: left;
-        margin-bottom: 1px;
+        margin-bottom: 5px;
         color: #777;
         position: relative;
         font-weight: 400;
@@ -229,6 +234,14 @@
     }
     .casino-game {
         width: 50%;
+    }
+
+    .casino-game img {
+        /* height: 150px; */
+    }
+    .game-height-fix {
+        max-height: 100px;
+        overflow: hidden;
     }
     
 }

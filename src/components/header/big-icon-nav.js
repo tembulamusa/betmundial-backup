@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Context } from "../../context/store";
+import DefaultImg from "../../assets/img/casino/icons/default.svg";
 import { setLocalStorage } from "../utils/local-storage";
 
 
@@ -20,8 +21,8 @@ const BigIconMenu = () => {
 
     const linkItems = [
         {name: "home", icon:"home.svg", link:"/", parentTo:null},
-        //{name: "live", icon:"livescore.svg", link:"/live", parentTo:null},
-        //{name: "jackpot", icon:"jackpot.svg", link:"/jackpot", parentTo:null},
+        {name: "live", icon:"livescore.svg", link:"/live", parentTo:null},
+        {name: "jackpot", icon:"jackpot.svg", link:"/jackpot", parentTo:null},
         // {name: "aviator", icon:"aviator.svg", link:"/aviator", parentTo:null},
         // {name: "surecoin", icon:"surecoin.svg", link:"/surecoin", parentTo:null},
         {name: "casino", icon:"casino.svg", link:"/casino", parentTo:null},
@@ -29,10 +30,10 @@ const BigIconMenu = () => {
         //These next 3 Links did not exist before we removed SPORTS
         // {name: "aviatrix", icon:"aviatrix.svg", link:"/aviatrix", parentTo:null},
         // {name: "numbers", icon:"numbers.svg", link:"/numbers", parentTo:null},
-       // {name: "sport", icon:"sports.svg", link:null, parentTo:"sportscategories"},
+       {name: "sport", icon:"sports.svg", link:null, parentTo:"sportscategories"},
         // {name: "virtuals", icon:"virtuals.svg", link:"/virtuals", parentTo:null},
        // {name: "league", icon:"league.svg", link:"/sure-league", parentTo:null},
-        // {name: "promotions", icon:"promos.svg", link:"/promotions", parentTo:null},
+        {name: "promotions", icon:"promos.svg", link:"/promotions", parentTo:null},
         //{name: "livescore", icon:"livescore.svg", link:"/#livescore", parentTo:null},        
         // {name: "basketball", icon:"basketball.svg", link:"/#basketball", parentTo:null},
         // {name: "cricket", icon:"cricket.svg", link:"/#cricket", parentTo:null},
@@ -73,7 +74,7 @@ const BigIconMenu = () => {
             <>
                 {casinoProviders?.map((provider, idx) => {
                     return (
-                        <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize`}
+                        provider?.name.toLowerCase() !== "aviatrix" && <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize`}
                             onClick={() => filterGames("provider", provider)}
                         >
                             <span title={provider?.name}>
@@ -97,7 +98,7 @@ const BigIconMenu = () => {
                 sport_image = require(`../../assets/img/colorsvgicons/${sport_name}`);
             }
         } catch (error) {
-            sport_image = require(`../../assets/img/svgicons/default.png`);
+            sport_image = DefaultImg;
         }
         return sport_image;
     };
@@ -131,7 +132,7 @@ const BigIconMenu = () => {
     useEffect(() => {
         if(state?.categories && state?.categories instanceof Array) {
              {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
-            // setCategories(state?.categories);
+            setCategories(state?.categories);
         }
     }, [state?.categories])
 

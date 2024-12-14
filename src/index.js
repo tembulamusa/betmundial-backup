@@ -84,8 +84,8 @@ const App = () => {
                         <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
                         <Routes>
                             {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
-                            {/* <Route exact path="/" element={<Index/>}/>
-                            <Route exact path="/virtuals" element={<Casino/>}/>
+                            <Route exact path="/" element={<Index/>}/>
+                            {/* <Route exact path="/virtuals" element={<Casino/>}/>
                             <Route exact path="/virtuals/index" element={<Virtuals />}/>
                             <Route exact path="/virtuals/casino" element={<Casino />}/>
                             <Route exact path="/livescore" element={<LiveScore/>}/> */}
@@ -142,7 +142,7 @@ const App = () => {
                                 element={<ProtectedRoute><MyBets/> </ProtectedRoute>}/>
 
                             {/* DEFAULT CUrrently the default component. Switch to INDEX when SPORTS AVAILABLE */}
-                            <Route path="*" element={<Casino/>}/>
+                            <Route path="*" element={<Index/>}/>
 
                             </Routes>
                     </div>
