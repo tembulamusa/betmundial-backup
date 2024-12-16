@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import SkipRopeControls from "./skiprope-controls";
+import OddsGraph from "./odds-graph";
 import NotSkipping from "../../../assets/img/casino/not-skipping.jpeg";
 import Skipping from "../../../assets/img/casino/jumpropegirl.gif";
 import Kaboom from "../../../assets/img/casino/kaboom.gif";
@@ -14,6 +15,7 @@ const SkipRopeIndex = () => {
   const [showSkipping, setShowSkipping] = useState(false);
   const [showResting, setShowResting] = useState(true);
   const [resultMessage, setResultMessage] = useState("");
+  const [oddsHistory, setOddsHistory] = useState([0.5]);
 
   const oddsInterval = useRef(null);
   const kaboomTimeout = useRef(null);
@@ -29,21 +31,24 @@ const SkipRopeIndex = () => {
     setShowSkipping(true);
     setResultMessage("");
     setCurrentOdds(0.5);
+    setOddsHistory([0.5]);
 
     oddsInterval.current = setInterval(() => {
       setCurrentOdds((prev) => {
         const change = Math.random() * 0.4 - 0.2; // Random odds change
-        return Math.max(0, Math.min(prev + change, 5)); // Clamp odds between 0 and 5
+        const newOdds = Math.max(0, Math.min(prev + change, 5));
+        setOddsHistory((history) => [...history, newOdds]);
+        return newOdds;
       });
     }, 500);
 
-    setTimeout(() => setCashoutAvailable(true), 8000); // Enable cashout after 8 seconds
+    setTimeout(() => setCashoutAvailable(true), 8000);
 
     kaboomTimeout.current = setTimeout(() => {
       if (Math.random() < 0.5) {
-        kaboom(); // 50% chance of kaboom
+        kaboom();
       }
-    }, Math.random() * 12000 + 8000); // Random kaboom within 8–20 seconds
+    }, Math.random() * 12000 + 8000);
   };
 
   const cashout = () => {
@@ -56,6 +61,7 @@ const SkipRopeIndex = () => {
     clearTimeout(kaboomTimeout.current);
 
     const winnings = (betAmount * currentOdds).toFixed(2);
+    setShowSkipping(false);
     setResultMessage(`You cashed out and won $${winnings}!`);
     resetGame();
   };
@@ -75,7 +81,7 @@ const SkipRopeIndex = () => {
       setShowResting(true);
       setCashoutAvailable(false);
       setCurrentOdds(0.5);
-    }, 2000); // Show kaboom for 2 seconds
+    }, 2000);
   };
 
   const handleBetChange = (e) => {
@@ -98,6 +104,8 @@ const SkipRopeIndex = () => {
           {showSkipping && <img src={Skipping} alt="Skipping" />}
           {showKaboom && <img src={Kaboom} alt="Kaboom" />}
         </div>
+
+        <OddsGraph oddsHistory={oddsHistory} />
 
         <SkipRopeControls
           gameActive={gameActive}
