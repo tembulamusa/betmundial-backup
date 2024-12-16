@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+
+import SkipRopeControls from "./skiprope-controls";
 import NotSkipping from "../../../assets/img/casino/not-skipping.jpeg";
 import Skipping from "../../../assets/img/casino/jumpropegirl.gif";
 import Kaboom from "../../../assets/img/casino/kaboom.gif";
@@ -28,17 +30,20 @@ const SkipRopeIndex = () => {
     setResultMessage("");
     setCurrentOdds(0.5);
 
-    // Start odds increment
     oddsInterval.current = setInterval(() => {
-      setCurrentOdds((prev) => Math.min(prev + 0.1, 5));
-    }, 1000);
+      setCurrentOdds((prev) => {
+        const change = Math.random() * 0.4 - 0.2; // Random odds change
+        return Math.max(0, Math.min(prev + change, 5)); // Clamp odds between 0 and 5
+      });
+    }, 500);
 
-    // Enable cashout after 10 seconds and kaboom randomly after 10-20 seconds
-    setTimeout(() => setCashoutAvailable(true), 10000);
+    setTimeout(() => setCashoutAvailable(true), 8000); // Enable cashout after 8 seconds
 
     kaboomTimeout.current = setTimeout(() => {
-      kaboom();
-    }, 10000 + Math.random() * 10000);
+      if (Math.random() < 0.5) {
+        kaboom(); // 50% chance of kaboom
+      }
+    }, Math.random() * 12000 + 8000); // Random kaboom within 8–20 seconds
   };
 
   const cashout = () => {
@@ -49,6 +54,7 @@ const SkipRopeIndex = () => {
 
     clearInterval(oddsInterval.current);
     clearTimeout(kaboomTimeout.current);
+
     const winnings = (betAmount * currentOdds).toFixed(2);
     setResultMessage(`You cashed out and won $${winnings}!`);
     resetGame();
@@ -68,7 +74,8 @@ const SkipRopeIndex = () => {
       setShowKaboom(false);
       setShowResting(true);
       setCashoutAvailable(false);
-    }, 3000);
+      setCurrentOdds(0.5);
+    }, 2000); // Show kaboom for 2 seconds
   };
 
   const handleBetChange = (e) => {
@@ -83,37 +90,31 @@ const SkipRopeIndex = () => {
   }, []);
 
   return (
-    <div className="skiprope-container">
-      <h1>Skip a Rope</h1>
-      <div className="skiprope-stage">
-        {showResting && <img src={NotSkipping} alt="Resting" />}
-        {showSkipping && <img src={Skipping} alt="Skipping" />}
-        {showKaboom && <img src={Kaboom} alt="Kaboom" />}
-      </div>
-  
-      <div className="skiprope-controls">
-        <input
-          type="number"
-          value={betAmount}
-          onChange={handleBetChange}
-          disabled={gameActive}
-          placeholder="Enter bet amount"
+    <div className="skiprope-section">
+      <div className="skiprope-container">
+        <h1 className="skiprope-title">Skip a Rope</h1>
+        <div className="skiprope-stage">
+          {showResting && <img src={NotSkipping} alt="Resting" />}
+          {showSkipping && <img src={Skipping} alt="Skipping" />}
+          {showKaboom && <img src={Kaboom} alt="Kaboom" />}
+        </div>
+
+        <SkipRopeControls
+          gameActive={gameActive}
+          betAmount={betAmount}
+          cashoutAvailable={cashoutAvailable}
+          handleBetChange={handleBetChange}
+          startGame={startGame}
+          cashout={cashout}
         />
-        {!gameActive ? (
-          <button onClick={startGame}>Start</button>
-        ) : (
-          <button onClick={cashout} disabled={!cashoutAvailable}>
-            Cash Out
-          </button>
-        )}
-      </div>
-  
-      <div className="skiprope-info">
-        <p>Current Odds: {currentOdds.toFixed(2)}x</p>
-        <p>{resultMessage}</p>
+
+        <div className="skiprope-info">
+          <p>Current Odds: {currentOdds.toFixed(2)}x</p>
+          <p>{resultMessage}</p>
+        </div>
       </div>
     </div>
   );
-};  
+};
 
 export default SkipRopeIndex;

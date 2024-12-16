@@ -1,33 +1,73 @@
+.skiprope-section {
+  background-color: #121212;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
 .skiprope-container {
-    text-align: center;
-    margin: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .skiprope-stage img {
-    width: 200px;
-    height: 200px;
-    margin: 20px auto;
-  }
-  
-  .skiprope-controls {
-    margin: 20px;
-  }
-  
-  .skiprope-controls input {
-    padding: 10px;
-    font-size: 16px;
-    margin-right: 10px;
-  }
-  
-  .skiprope-controls button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .skiprope-info {
-    margin: 20px;
-    font-size: 18px;
-  }
-  
+  text-align: center;
+  margin: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.skiprope-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.skiprope-stage {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #222;
+  margin-bottom: 20px;
+}
+
+.skiprope-stage img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.skiprope-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.skiprope-bet-input {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background-color: #333;
+  color: #fff;
+}
+
+.skiprope-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.skiprope-start-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.skiprope-cashout-button {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.skiprope-info {
+  text-align: center;
+  margin-top: 20px;
+}
