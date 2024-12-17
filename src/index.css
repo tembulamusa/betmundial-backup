@@ -987,7 +987,7 @@ li.bet-option {
   border: 0;
   border-radius: .25rem;
   /* width: 98%; */
-  height: 8.75em;
+  max-height: 8.75em;
   /* margin-right: 8px; */
   padding: 0 !important;
   font-weight: 400;
