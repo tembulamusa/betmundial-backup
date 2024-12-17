@@ -105,7 +105,11 @@ const SkipRopeIndex = () => {
           {showKaboom && <img src={Kaboom} alt="Kaboom" />}
         </div>
 
-        <OddsGraph oddsHistory={oddsHistory} />
+        <OddsGraph
+          oddsHistory={oddsHistory}
+          currentOdds={currentOdds}
+          resultMessage={resultMessage}
+        />
 
         <SkipRopeControls
           gameActive={gameActive}
@@ -116,10 +120,6 @@ const SkipRopeIndex = () => {
           cashout={cashout}
         />
 
-        <div className="skiprope-info">
-          <p>Current Odds: {currentOdds.toFixed(2)}x</p>
-          <p>{resultMessage}</p>
-        </div>
       </div>
     </div>
   );

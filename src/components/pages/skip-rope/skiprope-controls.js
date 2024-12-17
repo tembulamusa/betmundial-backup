@@ -31,7 +31,9 @@ const SkipRopeControls = ({
           Cashout
         </button>
       )}
-      <p className="bet-display">Your Bet: ${betAmount || 0}</p>
+      <button className="bet-display-btn" disabled>
+        Your Bet: KES {betAmount || 0}
+      </button>
     </div>
   );
 };
