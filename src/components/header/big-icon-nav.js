@@ -162,7 +162,7 @@ const BigIconMenu = () => {
                         }
                     )}
 
-                    {(categories || []).map((category, idx) => {
+                    {(!loc?.pathname?.includes("/casino") && categories || []).map((category, idx) => {
                         
                         return (
                             <li key={idx} className={`${pathname == `/sports/matches/${category?.sport_id}` ? "active" : ''} big-icon-item text-center capitalize`}>
@@ -174,7 +174,7 @@ const BigIconMenu = () => {
                         )
                     }
                     )}
-                    {(!loc?.pathname?.includes("/casino") || loc?.pathname?.includes("/casino")) && <CasinoProviders />}
+                    {(loc?.pathname?.includes("/casino")) && <CasinoProviders />}
                 </ListGroup>
             </div>
 
