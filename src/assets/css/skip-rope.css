@@ -10,6 +10,16 @@
   font-family: "Arial", sans-serif;
 }
 
+/* .skiprope-container {
+  width: 100%;
+  max-width: 1000px;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+} */
+
 .skiprope-container {
   width: 100%;
   max-width: 1000px;
@@ -18,17 +28,26 @@
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 1;
+  background-image: url("../img/casino/skiprope-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 
 /* Title */
 .skiprope-title {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
   font-size: 2.5rem;
   font-weight: bold;
   color: #e70654;
   margin-bottom: 20px;
-  text-align: center;
+  padding: 10px; 
   letter-spacing: 1.5px;
   text-shadow: 2px 2px 5px #000;
+  background-color: rgba(37, 37, 71, 0.8);
 }
 
 /* Stage (Images Section) */
