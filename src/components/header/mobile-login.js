@@ -46,7 +46,6 @@ const BodyLogin = (props) => {
         if ([200, 201, 204].includes(message.status)) {
             setLocalStorage('user', message.user, 1000 * 60 * 60 * 24 * 30);
             setUser(message.user);
-            dispatch({type:"SET", key: "user", payload: message?.user});
             // toast.success(`🚀 ${message.message || "Login successful"}`, options);
             dispatch({type:"DEL", key:"showloginmodal"});
             if(navigateAwayRoutes.includes(location.pathname)) {

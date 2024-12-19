@@ -44,11 +44,13 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
 
     // console.log("THE ENDPOINT IS CALLING :::: ", url)
 
-    const updateUserSession = () => {
-        if (user) {
-            setLocalStorage('user', user);
-        }
-    }
+    // const updateUserSession = () => {
+    //     if (user) {
+    //         setLocalStorage('user', user);
+    //     }
+    // }
+
+
     // let jwt = null;
 
     // if (use_jwt) {
@@ -101,7 +103,7 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
             result = err.response?.data;
         return [status, result]
     } finally {
-        updateUserSession();
+        // updateUserSession();
     }
 };
 
