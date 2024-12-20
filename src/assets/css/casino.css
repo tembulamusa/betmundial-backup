@@ -24,8 +24,8 @@
 }
 
 .game-height-fix {
-    max-height: 150px;
-    overflow: hidden;
+    /* max-height: 150px; */
+    /* overflow: hidden; */
 }
 .game-buttons {
     position: absolute;
