@@ -11,7 +11,7 @@ import NotSkipping from "../../../assets/img/casino/jump-rope.webp";
 import Skipping from "../../../assets/img/casino/jumping1.gif";
 import Kaboom from "../../../assets/img/casino/kaboom.gif";
 
-import GamePlaySoundFile from "../../../assets/img/casino/surebox-track.mp3";
+import GamePlaySoundFile from "../../../assets/img/casino/skiprope-guitar.mp3";
 import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
 import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
 
