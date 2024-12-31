@@ -83,7 +83,7 @@ const CoinStakeChoice = (props) => {
                         if(!state?.showloginmodal) {
                             dispatch({type:"SET", key:"showloginmodal", payload:true})
                         }
-                        return false;
+                        return;
                     }
                     if(autoBetsLeft > 0){
                         setUserPlaceBetOn(false);
