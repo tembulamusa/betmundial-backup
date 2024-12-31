@@ -35,7 +35,7 @@ const ProSidebar = (props) => {
     const queryParamValue = searchParams.get('id');
     const [competitions, setCompetitions] = useState(null);
     const [focusSportId, setFocusSportId] = useState(null);
-    const excludeSidebar = ["/login", "/signup", '/withdraw', "/deposit"]
+    const excludeSidebar = ["/login", "/signup", '/withdraw', "/deposit", '/livescore']
     
 
     useEffect(() => {
@@ -222,7 +222,7 @@ const ProSidebar = (props) => {
         <>
         {
             !(excludeSidebar.includes(location.pathname) || location.pathname.includes("casino"))  &&
-            (loc.includes("/live") ? <LiveSideBar /> : 
+            (loc == "/live" ? <LiveSideBar /> : 
             <div style={{
                 display: 'flex',
                 overflow: 'scroll initial',
