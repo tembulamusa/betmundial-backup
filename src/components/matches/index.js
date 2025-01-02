@@ -53,10 +53,10 @@ const EmptyTextRow = (props) => {
 
 const MatchHeaderRow = (props) => {
     const {
-        live, 
-        first_match, 
-        jackpot, 
-        fetching, 
+        live,
+        first_match,
+        jackpot,
+        fetching,
         three_way, 
     } = props;
 
@@ -110,7 +110,7 @@ const MatchHeaderRow = (props) => {
     return (
         <Container className={`${live && 'live'} full-mobile sticky-top`} style={{position: "sticky"}}>
             <div className={`${jackpot && 'jackpot-zero-top'} top-matches d-flex position-sticky sticky-top `}
-                 style={{opacity: "1", top: "100px", height:"50px"}}>      
+                 style={{opacity: "1", top: "100px", height:""}}>      
 
                 <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
                     <div className="align-self-center col">
@@ -129,14 +129,14 @@ const MatchHeaderRow = (props) => {
                         {sportName}
                     </span>
                 </div>
-                <div className={`${jackpot && "is-jackpot-buttons"} col ${!live && 'd-flex flex-row justify-content-between'}`}>
+                <div className={`${jackpot && "is-jackpot-buttons"} col ${'d-flex flex-row justify-content-between'}`}>
                     {three_way &&
-                        <div className={`markets-header ${!live && 'd-flex flex-row'}`} key="d3">
+                        <div className={`markets-header ${'d-flex flex-row'}`} key="d3">
                             <div className={`d-flex flex-column text-center`}>
                                 <div className={'bold hidden md:block'}>
                                     3 WAY
                                 </div>
-                                <div className={'c-btn-group align-self-end'}>
+                                <div className={'mt-3 c-btn-group align-self-end'}>
                                     <a className="c-btn-header" href='#/'>1</a>
                                     <a className="c-btn-header" href='#/'>X</a>
                                     <a className="c-btn-header" href='#/'>2</a>
@@ -144,14 +144,14 @@ const MatchHeaderRow = (props) => {
                             </div>
                         </div>
                     }
-                    {!live && !jackpot && (
+                    {!jackpot && (
                        <div className='hidden md:flex flex-row'>
                             {extraMarketDisplays?.map((extra_market) => (
                                 <div className={'d-flex flex-column'} key={extra_market.name}>
                                     <span className={'small text-center text-uppercase bold'}>
                                         {extra_market.name} 
                                     </span>
-                                    <div className={'c-btn-group'}>
+                                    <div className={'mt-3 c-btn-group'}>
                                         <a className="c-btn-header" href='#/'>
                                             {(extra_market.extra_markets_display[0])}
                                         </a>

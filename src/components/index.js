@@ -98,10 +98,16 @@ const Index = (props) => {
     }
     useInterval(async () => {
         if (!socket.connected) {
-            console.log("I AM DISCONNECTED NOW. I'LL BE POLLING ");
             fetchData();
         }
     }, delay);
+
+    // even if we are connected on socket, we may have to poll after some time so as to get the newest games
+    useInterval(async () => {
+        if (socket.connected) {
+            fetchData();
+        }
+    }, 15000);
 
     useEffect(() => {
         fetchData();
