@@ -80,8 +80,8 @@ const App = () => {
                     </div>
                     <div className={`${state?.casinolaunch ? "": "diminish-mobile-row row"}`}>
                         {/* Conditional load live or otherwise */}
-                        {!(state?.casinolaunch || state?.surecoinlaunched) && <Sidebar />}
-                        <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
+                        {!(state?.casinolaunch || state?.fullpagewidth || state?.surecoinlaunched) && <Sidebar />}
+                        <div className={`${(state?.casinolaunch || state?.fullpagewidth || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
                         <Routes>
                             {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
                             <Route exact path="/" element={<Index/>}/>
@@ -102,11 +102,11 @@ const App = () => {
                             <Route exact path="/competition/:id" element={<Index/>}/>
                             <Route exact path="/competition/:sportid/:categoryid/:competitionid"
                                 element={<Index/>}/>
-                            <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
                             
                             <Route exact path="/print-matches" element={<PrintMatches/>}/>                            
                             // <Route exact path="/promotions" element={<Promotions/>}/>
                             */}
+                            <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
                             <Route exact path="/casino" element={<Casino />}/>
                             <Route exact path="/casino/:filterType/:filterName" element={<Casino />}/>
                             <Route exact path="/casino-game/:provider/:gameName" element={<CasinoLaunchedGame />}/>
@@ -134,6 +134,7 @@ const App = () => {
                             <Route exact path="/surecoin" element={<SureCoin/>}/>
                             <Route exact path="/surebox" element={<SureBoxIndex/>}/>
                             <Route exact path="/skip-rope" element={<SkipRopeIndex/>}/>
+                            <Route exact path="/livescore" element={<LiveScore/>}/>
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
                             <Route exact path="/withdraw"
@@ -146,7 +147,7 @@ const App = () => {
 
                             </Routes>
                     </div>
-                    {!(state?.casinolaunch || state?.surecoinlaunched) && <Right />}           
+                    {!(state?.casinolaunch || state?.fullpagewidth || state?.surecoinlaunched) && <Right />}           
                 </div>
             </div>
             {!state?.fullcasinoscreen && <Footer />}

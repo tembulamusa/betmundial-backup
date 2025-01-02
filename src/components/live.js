@@ -5,6 +5,7 @@ import {getJackpotBetslip, getBetslip} from './utils/betslip' ;
 
 import useInterval from "../hooks/set-interval.hook";
 import {Context} from '../context/store';
+import socket from "./utils/socket-connect.js";
 
 
 const CarouselLoader = React.lazy(() => import('./carousel/index.js'));
@@ -12,50 +13,41 @@ const MatchList = React.lazy(() => import('./matches/index.js'));
 
 
 const Live = (props) => {
-    const [matches, setMatches] = useState();
-    const [, dispatch] = useContext(Context);
+    const [matches, setMatches] = useState([]);
+    const [state, dispatch] = useContext(Context);
     const [delay,  ] = useState(3000);
     const [fetching, setFetching] = useState(false)
-
+    const {sportid, categoryid, competitionid } = useParams();
+    const [limit, setLimit] = useState(20);
+    const [producerDown, setProducerDown] = useState(false);
+    const [threeWay, setThreeWay] = useState(true);
+    const [page, ] = useState(1);
     const {spid} = useParams();
 
-    const [producerDown, setProducerDown] = useState(false);
 
-    useInterval(async () => {
-        let endpoint = "/v1/matches/live";
-        if (spid) {
-            endpoint += "?spid=" + spid;
-        }
-        let method =  "GET";
-        setFetching(true);
-        await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
-            setFetching(false)
-            if (status == 200) {
-                setMatches(result?.data || result)
-                setProducerDown(result?.producer_status == 1);
-            }
-        });
-    }, 2000);
+    
 
     const fetchData = useCallback(() => {
-        let endpoint = "/v1/matches/live";
-        if (spid) {
-            endpoint += "?spid=" + spid;
-        }
-        //let betslip = findPostableSlip();
-        let method = "GET";
+        let endpoint = "/v2/sports/matches/live/" + (state?.filtersport?.sport_id || sportid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}`;
+        let method =  "GET";
         setFetching(true);
-        makeRequest({url: endpoint, method: method}).then(([m_status, m_result]) => {
-            setFetching(false);
-            if (m_status == 200) {
-                setMatches(m_result?.data || m_result)
-                setProducerDown(m_result?.producer_status == 1);
+        console.log("ENTERED HERE   :::  ");
+        makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
+            setFetching(false)
+            console.log("THE MATCHES  ===  :::::   ", result)
+            if (status == 200) {
+                setMatches(result?.data?.items || result)
+                setProducerDown(result?.producer_status == 1);
+            } else {
+                setMatches([])
             }
-        } )
-    }, [spid]);
+        });
+    }, [sportid]);
 
     useInterval(async () => {
-        fetchData();
+        if(!socket.connected) {
+            fetchData();
+        }
       }, delay);
 
     useEffect(() => {

@@ -66,7 +66,7 @@ const CasinoCarousel = (props) => {
                     effects="blur"
                 />
             </Carousel.Item>
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -75,7 +75,7 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             <Carousel.Item >
                 <img
                     className="d-block w-100"
@@ -120,7 +120,7 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item>
             
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -129,9 +129,9 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -140,7 +140,7 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             
             <Carousel.Item >
                 <img

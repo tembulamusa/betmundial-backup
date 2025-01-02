@@ -25,11 +25,13 @@ const HeaderLogin = React.lazy(() => import('./top-login'));
 
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
-    const [state, ] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams] = useSearchParams();
     
+
+
     const NotifyToastContaner = () => {
         return <ToastContainer
             position="top-right"
@@ -43,6 +45,15 @@ const Header = (props) => {
             pauseOnHover
         />
     };
+
+    useEffect(() => {
+        
+        if (user){
+            setLocalStorage('user', user, 1000 * 60 * 60 * 24 * 30);
+            dispatch({type:"SET", key: "user", payload: user});
+        }
+        
+    }, [user])
     const updateUserOnHistory = async() => {
         if (!user) {
             return false;
@@ -53,8 +64,7 @@ const Header = (props) => {
             if (_status == 200) {
                 let u = {...user, ...response?.data};
                 let prevUser = user;
-                setLocalStorage('user', u);
-                setUser(u);
+                if (u !== user){setUser(u);}
                 // check if still on deposit page and if has next url and navigate
                 if(parseInt(prevUser?.balance) < parseInt(response?.data?.balance)){
                     nextNavigate();

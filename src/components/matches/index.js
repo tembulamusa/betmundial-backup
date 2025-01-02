@@ -16,6 +16,7 @@ import {getFromLocalStorage} from "../utils/local-storage";
 import { Link } from 'react-router-dom';
 import NoEvents from '../utils/no-events';
 import { match } from 'assert';
+import socket from '../utils/socket-connect';
 import { ShimmerTable } from "react-shimmer-effects";
 import MatchDetailBetrandder from "../../assets/img/betrader/test-game-details.png"
 import LockedButton from '../utils/locked-button';
@@ -460,7 +461,7 @@ const OddButton = (props) => {
 
 
 const teamScore = (allscore, is_home_team) => {
-    let allScores = allscore.split(":");
+    let allScores = allscore ? allscore.split(":") : ["0", "0"];
     let homeScore = allScores[0];
     let awayScore = allScores[1];
     let score = homeScore;
@@ -554,7 +555,122 @@ const MatchRow = (props) => {
     if(match?.odds?.home_odd_active) {
         match.odds.home_odd_active = 1
     }
-   
+    const [state, ] = useContext(Context);
+    const [isVisible, setIsVisible] = useState(true);
+    
+
+    const handleGameSocket = (type, gameId) => {
+        if (type == "listen" && socket?.connected) {
+            socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:1});
+            socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:10});
+            socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:18});
+        }
+
+        else if (type == "leave") {
+            socket?.emit("user.market.leave", {parent_match_id: gameId, sub_type_id:1});
+            socket?.emit("user.market.leave", {parent_match_id: gameId, sub_type_id:10});
+            socket?.emit("user.market.leave", {parent_match_id: gameId, sub_type_id:18});
+        }
+        
+    }
+    useEffect(() => {
+
+        handleGameSocket("listen", match?.parent_match_id);
+
+        socket?.on(`surebet#${match?.parent_match_id}#1`, (data) => {
+            console.log("THE LOGGED MATCH FOR EVENT UPDATING::: ", match);
+            console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data)
+            let new1x2 = [];
+            let newOdds = Object.values(data.event_odds);
+            console.log("NEW 1x2 ODDS   :::: ", newOdds);
+            match.odds["1x2"].forEach((item, idx) => {
+                Object.values(data.event_odds).forEach((odd, idx2) => {
+                    if(odd.odd_key == item.odd_key) {
+                        item.odd_value = odd.odd_value;
+                        item.active = odd.odd_active;
+                        new1x2.push(item)
+                    }
+                })
+            })
+
+            match.odds["1x2"] = new1x2;
+        });
+        socket?.on(`surebet#${match?.parent_match_id}#10`, (data) => {
+            console.log("THE LOGGED MATCH FOR EVENT UPDATING::: ", match)
+            console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data)
+            let newDoubleChance = [];
+            let newOdds = Object.values(data.event_odds);
+            console.log("NEW DOUBLE CHANCE ODDS   :::: ", newOdds);
+            match.odds["Double Chance"].forEach((item, idx) => {
+                Object.values(data.event_odds).forEach((odd, idx2) => {
+                    if(odd.odd_key == item.odd_key) {
+                        item.odd_value = parseFloat(odd.odd_value);
+                        item.active = odd.odd_active;
+                        newDoubleChance.push(item)
+                    }
+                })
+            })
+
+            match.odds["Double Chance"] = newDoubleChance;
+            
+        });
+        socket?.on(`surebet#${match?.parent_match_id}#18`, (data) => {
+            console.log("THE LOGGED MATCH FOR EVENT UPDATING::: ", match)
+            console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data.event_odds)
+
+            console.log("MATCH ODDS BEFORE    ::::::    ", match.odds);
+            console.log("ALL THE ODDS ENTRIES ::::: ", Object.values(data.event_odds))
+            let total = Object.values(data.event_odds);
+            total = total.filter(value => value.special_bet_value == "2.5")
+            let newTotal = [];
+            let newOdds = Object.values(total);
+            if(total.length == 2){
+                match.odds["Total"].forEach((item, idx) => {
+                    total.forEach((odd, idx2) => {
+                        if(odd.odd_key == item.odd_key) {
+                            item.odd_value = odd.odd_value;
+                            item.active = odd.odd_active;
+                            newTotal.push(item)
+                        }
+                    })
+                })
+                match.odds["Total"] = newTotal;
+            }
+            
+            console.log("MATCH ODDS AFTER UPDATE    ::::::    ", match.odds);
+
+        });
+
+
+
+        // Track tab/visibility of the of the tab
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "hidden") {
+              setIsVisible(false);
+            } else if (document.visibilityState === "visible") {
+              setIsVisible(true);
+            }
+          });
+
+        return () => {
+            // unsubscribe trigger
+            handleGameSocket("leave", match?.parent_match_id);
+        }
+
+
+    }, []);
+
+    useEffect(() => {
+        if (socket.connected){
+            handleGameSocket("listen", match?.parent_match_id);   
+        }
+        if(isVisible) {
+            handleGameSocket("listen", match?.parent_match_id);
+        } else if (!isVisible) {
+            handleGameSocket("leave", match?.parent_match_id)
+        }
+    }, [socket.connected, isVisible]);
+
     const TimeToLiveStarting = (props) => {
         const {starttime} = props;
         let startDiff = Date.parse(starttime) - Date.now();
@@ -615,13 +731,13 @@ const MatchRow = (props) => {
 
             <div className={`${jackpot && "is-jackpot"} ${live && 'live-game'} col block md:flex justify-content-between`} key="24">
                 {/* Mobile only datetime */}
-                <div className="md:hidden block" key="22">
+                <div className="md:hidden block">
                     {(live && match?.status) &&
                         <div className=''>
                             <small style={{color: "red"}}> {match?.match_status} </small>
                         </div>
                     }
-                    <div className="" key="20">
+                    <div className="">
                         <span className={'mr-2 small'}>
                             {(live && match?.match_time) ?
                                 <>{`${match.match_time}'`}</> : match?.start_time}
