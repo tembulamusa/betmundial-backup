@@ -461,7 +461,7 @@ const OddButton = (props) => {
 
 
 const teamScore = (allscore, is_home_team) => {
-    let allScores = allscore.split(":");
+    let allScores = allscore ? allscore.split(":") : ["0", "0"];
     let homeScore = allScores[0];
     let awayScore = allScores[1];
     let score = homeScore;
@@ -577,7 +577,6 @@ const MatchRow = (props) => {
 
         handleGameSocket("listen", match?.parent_match_id);
 
-
         socket?.on(`surebet#${match?.parent_match_id}#1`, (data) => {
             console.log("THE LOGGED MATCH FOR EVENT UPDATING::: ", match);
             console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data)
@@ -588,6 +587,7 @@ const MatchRow = (props) => {
                 Object.values(data.event_odds).forEach((odd, idx2) => {
                     if(odd.odd_key == item.odd_key) {
                         item.odd_value = odd.odd_value;
+                        item.active = odd.odd_active;
                         new1x2.push(item)
                     }
                 })
@@ -604,7 +604,8 @@ const MatchRow = (props) => {
             match.odds["Double Chance"].forEach((item, idx) => {
                 Object.values(data.event_odds).forEach((odd, idx2) => {
                     if(odd.odd_key == item.odd_key) {
-                        item.odd_value = odd.odd_value;
+                        item.odd_value = parseFloat(odd.odd_value);
+                        item.active = odd.odd_active;
                         newDoubleChance.push(item)
                     }
                 })
@@ -621,19 +622,21 @@ const MatchRow = (props) => {
             console.log("ALL THE ODDS ENTRIES ::::: ", Object.values(data.event_odds))
             let total = Object.values(data.event_odds);
             total = total.filter(value => value.special_bet_value == "2.5")
-            console.log("THE FILTERED VALUE HAS FINALLY COME   :::::: ", total);
             let newTotal = [];
-            let newOdds = Object.values(data.event_odds);
-            console.log("NEW Total ODDS   :::: ", newOdds);
-            match.odds["Total"].forEach((item, idx) => {
-                total.forEach((odd, idx2) => {
-                    if(odd.odd_key == item.odd_key) {
-                        item.odd_value = odd.odd_value;
-                        newTotal.push(item)
-                    }
+            let newOdds = Object.values(total);
+            if(total.length == 2){
+                match.odds["Total"].forEach((item, idx) => {
+                    total.forEach((odd, idx2) => {
+                        if(odd.odd_key == item.odd_key) {
+                            item.odd_value = odd.odd_value;
+                            item.active = odd.odd_active;
+                            newTotal.push(item)
+                        }
+                    })
                 })
-            })
-            match.odds["Total"] = newTotal;
+                match.odds["Total"] = newTotal;
+            }
+            
             console.log("MATCH ODDS AFTER UPDATE    ::::::    ", match.odds);
 
         });

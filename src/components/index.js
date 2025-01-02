@@ -66,7 +66,7 @@ const Index = (props) => {
             // }
         }
         if (search_term && search_term.length >= 3) {
-            endpoint = `/v1/matches?limit=10&search=${search_term}`;
+            endpoint = `/v2/matches?limit=10&search=${search_term}`;
         } 
         // else {
         //     if(state?.filtercompetition ) {
