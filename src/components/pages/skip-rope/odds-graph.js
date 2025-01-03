@@ -24,13 +24,13 @@ const OddsGraph = ({ oddsHistory, currentOdds, resultMessage }) => {
   }, []);
 
   return (
-    <div className="odds-graph-container">
+    <div className="">
       {/* Graph */}
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={data} margin={{ top: 20, right: 20, bottom: 0, left: 0 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" hide />
-          <YAxis domain={[0, 5]} />
+          <YAxis domain={[1, 10]} hide={true} />
           <Tooltip />
           <Line type="monotone" dataKey="odds" stroke="#4bc0c0" strokeWidth={2} />
         </LineChart>

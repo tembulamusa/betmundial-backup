@@ -61,8 +61,9 @@ const SkipRopeIndex = () => {
 
     oddsInterval.current = setInterval(() => {
       setCurrentOdds((prev) => {
-        const change = Math.random() * 0.4 - 0.2; // Random odds change
-        const newOdds = Math.max(0, Math.min(prev + change, 5));
+        //const change = Math.random() * 2 - 1; // Random change between -1 and 1
+        const change = Math.random() * 6 - 3; // Random change between -3 and 3
+        const newOdds = Math.max(1, Math.min(prev + change, 10)); // Clamp between 1 and 10
         setOddsHistory((history) => [...history, newOdds]);
         return newOdds;
       });
@@ -131,12 +132,12 @@ const SkipRopeIndex = () => {
   return (
     <div className="skiprope-section">
       <div className="skiprope-container">
-      <div className="skiprope-title">
-        <h1 className="">Skip a Rope</h1>
-        <div className="cursor-pointer text-3xl text-[#e70654]" onClick={toggleMute}>
-          {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
+        <div className="skiprope-title">
+          <h1 className="">Skip a Rope</h1>
+          <div className="cursor-pointer text-3xl text-[#e70654]" onClick={toggleMute}>
+            {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
+          </div>
         </div>
-      </div>
    
         
         <div className="skiprope-stage">
@@ -144,21 +145,22 @@ const SkipRopeIndex = () => {
           {showSkipping && <img src={Skipping} alt="Skipping" />}
           {showKaboom && <img src={Kaboom} alt="Kaboom" />}
         </div>
+        <div className="odds-graph-controls-container">
+          <OddsGraph
+            oddsHistory={oddsHistory}
+            currentOdds={currentOdds}
+            resultMessage={resultMessage}
+          />
 
-        <OddsGraph
-          oddsHistory={oddsHistory}
-          currentOdds={currentOdds}
-          resultMessage={resultMessage}
-        />
-
-        <SkipRopeControls
-          gameActive={gameActive}
-          betAmount={betAmount}
-          cashoutAvailable={cashoutAvailable}
-          handleBetChange={handleBetChange}
-          startGame={startGame}
-          cashout={cashout}
-        />
+          <SkipRopeControls
+            gameActive={gameActive}
+            betAmount={betAmount}
+            cashoutAvailable={cashoutAvailable}
+            handleBetChange={handleBetChange}
+            startGame={startGame}
+            cashout={cashout}
+          />
+        </div>
 
       </div>
     </div>
