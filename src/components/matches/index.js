@@ -110,8 +110,7 @@ const MatchHeaderRow = (props) => {
     return (
         <Container className={`${live && 'live'} full-mobile sticky-top`} style={{position: "sticky"}}>
             <div className={`${jackpot && 'jackpot-zero-top'} top-matches d-flex position-sticky sticky-top `}
-                 style={{opacity: "1", top: "100px", height:""}}>      
-
+                 style={{opacity: "1", top: "100px", height:""}}>
                 <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
                     <div className="align-self-center col">
                    { fetching && <div className="filter-group-icon " >
@@ -183,13 +182,9 @@ const convertDateToLocalString = (date) => {
     let options = {month:"short", day: "numeric", hour: "2-digit", minute:"2-digit"}
     theDate.toLocaleString("en-us", options);
     let reconvert  = new Date(theDate);
-    
-
     let formattedString = " " + reconvert.getDate() + " " + monthMapper[reconvert.getMonth()] + " / " + reconvert.getHours() + ":" + reconvert.getMinutes()
-
     return formattedString
 }
-
 const MoreMarketsHeaderRow = (props) => {
     const {
         
@@ -461,7 +456,7 @@ const OddButton = (props) => {
 
 
 const teamScore = (allscore, is_home_team) => {
-    let allScores = allscore ? allscore.split(":") : ["0", "0"];
+    let allScores = allscore != null ? allscore.split(":") : ["-", "-"];
     let homeScore = allScores[0];
     let awayScore = allScores[1];
     let score = homeScore;
@@ -542,6 +537,13 @@ const getUpdatedMatchFromOdds = (props) => {
 
 }
 
+const BetNowButton = (props) => {
+
+    return (<>
+        Bet Now
+    </>);
+}
+
 const MatchRow = (props) => {
     const {
         match, 
@@ -574,49 +576,53 @@ const MatchRow = (props) => {
         
     }
     useEffect(() => {
-
+        console.log("THE MATCH BEFORE SOCKETS   ::::::: ", match)
         handleGameSocket("listen", match?.parent_match_id);
 
         socket?.on(`surebet#${match?.parent_match_id}#1`, (data) => {
             console.log("THE LOGGED MATCH FOR EVENT UPDATING::: ", match);
             console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data)
             let new1x2 = [];
-            let newOdds = Object.values(data.event_odds);
+            let newOdds = Object.values(data);
             console.log("NEW 1x2 ODDS   :::: ", newOdds);
-            match.odds["1x2"].forEach((item, idx) => {
+            // Check to make sure that the odds exist...
+            match?.odds["1x2"]?.outcomes?.forEach((item, idx) => {
                 Object.values(data.event_odds).forEach((odd, idx2) => {
                     if(odd.odd_key == item.odd_key) {
                         item.odd_value = odd.odd_value;
-                        item.active = odd.odd_active;
+                        item.active = data?.match_market?.status.toLowerCase() !== "active" ? 0 : odd.active;
                         new1x2.push(item)
                     }
                 })
             })
 
-            match.odds["1x2"] = new1x2;
+            match.odds["1x2"].outcomes = new1x2;
+            match.odds["1x2"].market_status = data?.match_market?.status;
+
         });
         socket?.on(`surebet#${match?.parent_match_id}#10`, (data) => {
-            console.log("THE LOGGED MATCH FOR EVENT UPDATING::: ", match)
-            console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data)
+            
             let newDoubleChance = [];
             let newOdds = Object.values(data.event_odds);
             console.log("NEW DOUBLE CHANCE ODDS   :::: ", newOdds);
-            match.odds["Double Chance"].forEach((item, idx) => {
+            match?.odds["Double Chance"]?.outcomes?.forEach((item, idx) => {
                 Object.values(data.event_odds).forEach((odd, idx2) => {
                     if(odd.odd_key == item.odd_key) {
                         item.odd_value = parseFloat(odd.odd_value);
-                        item.active = odd.odd_active;
+                        item.active = data?.match_market?.status.toLowerCase() !== "active" ? 0 : odd.active;
                         newDoubleChance.push(item)
                     }
                 })
-            })
+            });
 
-            match.odds["Double Chance"] = newDoubleChance;
+            match.odds["Double Chance"].outcomes = newDoubleChance;
+            match.odds["Double Chance"].market_status = data?.match_market?.status;
+
             
         });
         socket?.on(`surebet#${match?.parent_match_id}#18`, (data) => {
             console.log("THE LOGGED MATCH FOR EVENT UPDATING::: ", match)
-            console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data.event_odds)
+            console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data)
 
             console.log("MATCH ODDS BEFORE    ::::::    ", match.odds);
             console.log("ALL THE ODDS ENTRIES ::::: ", Object.values(data.event_odds))
@@ -625,16 +631,17 @@ const MatchRow = (props) => {
             let newTotal = [];
             let newOdds = Object.values(total);
             if(total.length == 2){
-                match.odds["Total"].forEach((item, idx) => {
+                match?.odds["Total"]?.outcomes?.forEach((item, idx) => {
                     total.forEach((odd, idx2) => {
                         if(odd.odd_key == item.odd_key) {
                             item.odd_value = odd.odd_value;
-                            item.active = odd.odd_active;
+                            item.active = data?.match_market?.status.toLowerCase() !== "active" ? 0 : odd.active;
                             newTotal.push(item)
                         }
                     })
                 })
-                match.odds["Total"] = newTotal;
+                match.odds["Total"].outcomes = newTotal;
+                match.odds["Total"].market_status = data?.match_market?.status;
             }
             
             console.log("MATCH ODDS AFTER UPDATE    ::::::    ", match.odds);
@@ -693,9 +700,11 @@ const MatchRow = (props) => {
                     </>
                 }
                 <div className="d-flex flex-column" key="20">
+                {(live && Date.parse(match?.start_time) > Date.now()) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime = {match?.start_time} /></div>}
+
                     <span className={'small'}>
-                        {(live && match?.match_time) ?
-                            <span className='font-[500] uppercase'>{match?.match_status}  <span className='text-red-500'>{`${match.match_time}`}</span></span> : match?.start_time}
+                        {(live && match?.match_time) || (live && match?.match_status == "Halftime" ) ?
+                            <span className='font-[500] uppercase'>{match?.match_status}<span className='text-red-500 ml-2'>{`${match?.match_time || match?.match_status}`}</span></span> : match?.start_time}
                     </span>
                     <>ID: {match?.game_id}</>
                 </div>
@@ -720,7 +729,7 @@ const MatchRow = (props) => {
                 </Link>
             </div>
              
-            {(live && match?.score !=="-") && 
+            {(live ) &&
                 <div className="text-red-500 font-bold">
                     <br/>
                     {teamScore(match?.score, true)}
@@ -731,7 +740,9 @@ const MatchRow = (props) => {
 
             <div className={`${jackpot && "is-jackpot"} ${live && 'live-game'} col block md:flex justify-content-between`} key="24">
                 {/* Mobile only datetime */}
+                
                 <div className="md:hidden block">
+                    {(live && Date.parse(match?.start_time) > Date.now()) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime = {match?.start_time} /></div>}
                     {(live && match?.status) &&
                         <div className=''>
                             <small style={{color: "red"}}> {match?.match_status} </small>
@@ -746,11 +757,10 @@ const MatchRow = (props) => {
                     </div>
 
                 </div>
-                <div className={`${(live && match?.score == "-") && "live-unstarted"} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
-                    {(live && Date.parse(match?.start_time) > Date.now()) && <div className='float-right font-[500]'><TimeToLiveStarting starttime = {match?.start_time} /></div>}
+
+                <div className={`${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
                     {
-                        
-                        (!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live) && match?.odds?.["1x2"]?.map((marketOdd, idx) => {
+                        ((!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live) && match?.odds?.["1x2"]?.market_status == "Active") && match?.odds?.["1x2"]?.outcomes?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};
                             delete matchWithDetails.odds;
                             return (
@@ -759,13 +769,21 @@ const MatchRow = (props) => {
                                 : <><LockedButton/></>) 
                         })
                     }
+
+                    {
+                        
+                        !jackpot && match?.odds["1x2"]?.market_status !== "Active" &&
+                        [1, 2, 3].map((btn, idx) => (
+                            <><LockedButton btnStatus={match?.odds["1x2"]?.market_status}/></>
+                        ))
+                    }                    
                     {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--" } </>}
                 </div>
 
                 
-                <div className={`hidden md:flex c-btn-group align-self-center`} key="223">
+                <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="223">
                    {
-                        match?.odds?.["Double Chance"]?.map((marketOdd, idx) => {
+                        match?.odds?.["Double Chance"]?.market_status == "Active" && match?.odds?.["Double Chance"]?.outcomes?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};
                             delete matchWithDetails.odds;
                             return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
@@ -774,23 +792,24 @@ const MatchRow = (props) => {
                            
                             
                         })
+
+                         
                                                
                         
                     }
-
                     {
                         
-                        !jackpot && !match?.odds?.["Double Chance"] &&
+                        !jackpot && match?.odds["Double Chance"]?.market_status !== "Active" &&
                         [1, 2, 3].map((btn, idx) => (
-                            <><LockedButton/></>
+                            <><LockedButton btnStatus={match?.odds["Double Chance"]?.market_status}/></>
                         ))
                     }
                     
                 </div>
 
-                <div className={`hidden md:flex c-btn-group align-self-center`} key="224">
+                <div className={`${(live && (match?.score == "-" || !match?.score)) } ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="224">
                     {    
-                        match?.odds?.["Total"]?.map((marketOdd, idx) => {
+                        match?.odds?.["Total"]?.market_status == "Active" && match?.odds?.["Total"]?.outcomes?.map((marketOdd, idx) => {
                             let matchWithDetails = {...match, ...marketOdd};
                             delete matchWithDetails.odds;
                             return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
@@ -800,12 +819,11 @@ const MatchRow = (props) => {
                             
                         }) 
                     }
-
                     {
                         
-                        !jackpot && !match?.odds?.["Total"] &&
+                        !jackpot && match?.odds["Total"]?.market_status !== "Active" &&
                         [1, 2].map((btn, idx) => (
-                            <><LockedButton/></>
+                            <><LockedButton btnStatus={match?.odds["Total"]?.market_status}/></>
                         ))
                     }
                 </div>
@@ -813,7 +831,7 @@ const MatchRow = (props) => {
             </div>
 
             {/* Jackpot buttons */}
-            {!pdown && !jackpot &&
+            {(!pdown && (!jackpot && !(live && !match?.score))) &&
                     <SideBets match={match} live={live} style={{d: "inline"}}/>}
         </div>
         
@@ -827,6 +845,68 @@ export const MarketList = (props) => {
 
     const {live, matchwithmarkets, pdown} = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
+    const [isVisible, setIsVisible] =  useState(true);
+
+    const handleGameSocket = (type, gameId) => {
+        if (type == "listen" && socket?.connected) {
+            socket.emit('user.market.listen', {parent_match_id: gameId});}
+
+        else if (type == "leave") {
+            socket?.emit("user.market.leave", {parent_match_id: gameId});
+            
+        }
+        
+    }
+    useEffect(() => {
+
+        handleGameSocket("listen", match?.parent_match_id);
+
+        // loop though markets and update accordingly
+        // Otherwise, update the whole game odds. should all come otherwise have a market key
+        // which we update
+        socket?.on(`surebet#${match?.parent_match_id}`, (data) => {
+            let new1x2 = [];
+            let newOdds = Object.values(data.event_odds);
+            match.odds["1x2"].forEach((item, idx) => {
+                Object.values(data.event_odds).forEach((odd, idx2) => {
+                    if(odd.odd_key == item.odd_key) {
+                        item.odd_value = odd.odd_value;
+                        item.active = odd.odd_active;
+                        new1x2.push(item)
+                    }
+                })
+            })
+
+            match.odds["1x2"] = new1x2;
+        });
+
+        // Track tab/visibility of the of the tab
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "hidden") {
+              setIsVisible(false);
+            } else if (document.visibilityState === "visible") {
+              setIsVisible(true);
+            }
+          });
+
+        return () => {
+            // unsubscribe trigger
+            handleGameSocket("leave", match?.parent_match_id);
+        }
+
+
+    }, []);
+
+    useEffect(() => {
+        if (socket.connected){
+            handleGameSocket("listen", match?.parent_match_id);   
+        }
+        if(isVisible) {
+            handleGameSocket("listen", match?.parent_match_id);
+        } else if (!isVisible) {
+            handleGameSocket("leave", match?.parent_match_id)
+        }
+    }, [socket.connected, isVisible]);
 
     // comes from the markets with filter
     const marketFilters = [

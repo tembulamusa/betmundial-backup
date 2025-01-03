@@ -18,6 +18,7 @@ import CheckMpesaDepositStatus from '../webmodals/check-mpesa-deposit-status';
 import DepositModal from '../webmodals/deposit-modal';
 import useInterval from "../../hooks/set-interval.hook";
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import socket from '../utils/socket-connect';
 
 const ProfileMenu = React.lazy(() => import('./profile-menu'));
 const HeaderLogin = React.lazy(() => import('./top-login'));
@@ -53,10 +54,10 @@ const Header = (props) => {
             dispatch({type:"SET", key: "user", payload: user});
         }
         
-    }, [user])
+    }, [user]);
     const updateUserOnHistory = async() => {
         if (!user) {
-            return false;
+            return;
         }
         let endpoint = "/v2/user/balance";
       
@@ -74,7 +75,10 @@ const Header = (props) => {
         });
     };
 
-    useInterval(updateUserOnHistory, 3000);
+    useInterval( async () => {
+        if(!socket.connected){updateUserOnHistory()}
+    }
+    ,3000);
     
     const nextNavigate = () => {
         const path = location.pathname

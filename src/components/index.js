@@ -156,7 +156,9 @@ const Index = (props) => {
                 <CarouselLoader/>
                 {/* The highlights board  for running adverts and exposing high interest items */}
 
-                <section className="highlights-board"><HighlightsBoard /></section>
+                <section className="highlights-board">
+                    <HighlightsBoard />
+                </section>
                 {/* End of highlights board */}
 
                 {/* Start tabs */}
@@ -171,11 +173,7 @@ const Index = (props) => {
                         fetching={fetching}
                         subTypes={subTypes}
                         fetchingcount={fetchingCount}
-                    />
-                    
-
-                }
-                
+                    />                }
             </div>
             {/* <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}> */}
                 {/* <Spinner animation={'grow'} size={'lg'}/> */}
