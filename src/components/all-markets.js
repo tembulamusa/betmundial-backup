@@ -15,6 +15,7 @@ import { getBetslip } from './utils/betslip' ;
 import { MarketList } from './matches/index';
 import { Context } from "../context/store";
 import socket from "./utils/socket-connect";
+import AllMarketsUnavailable from "./utils/all-markets-unavailable";
 
 const Header = React.lazy(()=>import('./header/header'));
 const Footer = React.lazy(()=>import('./footer/footer'));
@@ -64,14 +65,21 @@ const MatchAllMarkets = (props) => {
         }
     },[])
 
+
+
    return (
        <>
            
         <div className="homepage">
             {matchwithmarkets !== null && <MarketList live={live}  
-                matchwithmarkets={matchwithmarkets} 
+                initialMatchwithmarkets={matchwithmarkets} 
                 pdown={producerDown} />}
-        </div> 
+        </div>
+
+
+        {(!matchwithmarkets || matchwithmarkets == null) && 
+            <AllMarketsUnavailable backLink={live ? "/live" : "/"}/>
+        }
            
        </>
    )
