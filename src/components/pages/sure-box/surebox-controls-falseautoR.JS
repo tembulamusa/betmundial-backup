@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Switch } from "@mui/material";
 import { MdOutlineAddTask } from "react-icons/md";
@@ -14,38 +15,22 @@ const SureBoxControls = ({
   cashOutAmount,
   bets,
 }) => {
-  const [userDisabledAutoRestart, setUserDisabledAutoRestart] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
 
   const handleAutoRestartToggle = () => {
     const newAutoRestartState = !autoRestart;
-    setUserDisabledAutoRestart(!newAutoRestartState); 
-    setAutoRestart(newAutoRestartState);
+    if (betAmount < 5) {
+      setAutoRestart(false); 
+    } else {
+      setAutoRestart(newAutoRestartState);
+    }
   };
 
   const handleBetAmountChange = (e) => {
     const newBetAmount = Number(e.target.value);
     setBetAmount(newBetAmount);
-
-    // Enable Auto Restart if the bet is valid and not manually disabled by the user
-    if (newBetAmount >= 5 && !userDisabledAutoRestart) {
-      setAutoRestart(true);
-    } else {
-      setAutoRestart(false);
-    }
-  };
-
-  const handleStartGame = () => {
-    if (betAmount < 5) {
-      alert("Bet amount must be at least 5 to start the game."); 
-      return;
-    }
-  
-    startGame();
-  
-    // Enable Auto Restart when starting the game unless manually disabled
-    if (!userDisabledAutoRestart) {
-      setAutoRestart(true);
+    if (newBetAmount < 5) {
+      setAutoRestart(false); 
     }
   };
 
@@ -109,7 +94,7 @@ const SureBoxControls = ({
         )}
 
         <button
-          onClick={handleStartGame}
+          onClick={startGame}
           className="w-full py-2 text-white bg-custom-red rounded-md hover:opacity-90 transition-all flex items-center justify-center gap-2"
         >
           {gameInProgress ? (
@@ -122,6 +107,40 @@ const SureBoxControls = ({
           )}
         </button>
       </div>
+
+      {/* Bets List */}
+      {/* <div className="flex flex-col gap-2 mt-4">
+        <label className="text-lg font-semibold text-white">Your Game Bets</label>
+        {bets.length > 0 ? (
+          <div className="flex flex-col gap-2">
+            {bets.map((bet, index) => (
+              <div
+                key={index}
+                className="w-full py-3 px-4 text-white bg-[#456185] rounded-md hover:bg-[#5a7699] transition-all flex justify-between items-center"
+              >
+                <div className="text-sm">
+                  <p>Box: <span className="font-semibold">{bet.box}</span></p>
+                  <p>Multiplier: <span className="font-semibold">{bet.multiplier}x</span></p>
+                  <p>Possible Win: <span className="font-semibold">{bet.possibleWin} KES</span></p>
+                </div>
+                <button
+                  onClick={() => console.log(`Bet ${bet.box} clicked`)}
+                  className="bg-custom-red text-white px-4 py-1 rounded-md font-semibold hover:opacity-90 transition-all"
+                >
+                  Remove Bet
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <button
+            disabled
+            className="w-full py-2 text-white bg-gray-600 rounded-md cursor-not-allowed"
+          >
+            No Bets Yet
+          </button>
+        )}
+      </div> */}
 
       {/* Bets List */}
       <div className="flex flex-col gap-2 mt-4">
