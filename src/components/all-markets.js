@@ -42,16 +42,15 @@ const MatchAllMarkets = (props) => {
        
     
     useEffect(() => {fetchPagedData()}, []);
-    
+
     const fetchPagedData =useCallback(async() => {
         if(!isLoading && !isNaN(+params.id)) {
             setIsLoading(true);
             let betslip = findPostableSlip();
-            let endpoint = live 
-                ? "/v2/sports/match/live/" + params.id
-                : "/v2/sports/match/"+params.id;
+            let endpoint = live ? "/v2/sports/match/live/" + params.id :
+            "/v2/sports/match/" + params.id
             await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
-                setMatchWithMarkets(result?.data|| result)
+                setMatchWithMarkets(result?.data);
                 setProducerDown(result?.producer_status == 1);
                 setIsLoading(false);
             });
@@ -69,9 +68,9 @@ const MatchAllMarkets = (props) => {
        <>
            
         <div className="homepage">
-            <MarketList live={live}  
+            {matchwithmarkets !== null && <MarketList live={live}  
                 matchwithmarkets={matchwithmarkets} 
-                pdown={producerDown} />
+                pdown={producerDown} />}
         </div> 
            
        </>

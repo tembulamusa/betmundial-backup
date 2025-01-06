@@ -291,6 +291,11 @@ const OddButton = (props) => {
         updateBeslipKey();
     }, [updateBeslipKey])
 
+
+    const OddButtonChange = () => {
+
+        
+    }
     const updateOddValue = useCallback(() => {
         if (match) {
             let uc = clean(
@@ -467,8 +472,7 @@ const teamScore = (allscore, is_home_team) => {
 }
 
 const MarketRow = (props) => {
-    const {markets, match, market_id, width, live, pdown} = props;
-
+    const {markets, match, market_id, width, live, pdown, marketDetail} = props;
     const MktOddsButton = (props) => {
         const {match, mktodds, live, pdown} = props;
         const fullmatch = {...match, ...mktodds};
@@ -489,7 +493,8 @@ const MarketRow = (props) => {
                             width: "2px",
                             marginTop: "-5px",
                             marginRight: "5px",
-                            opacity: 0.6
+                            opacity: 0.6,
+                            paddingLeft:0
                         }}>
                         <ColoredCircle color="#cc5500"/>
                     </div>
@@ -580,8 +585,6 @@ const MatchRow = (props) => {
         handleGameSocket("listen", match?.parent_match_id);
 
         socket?.on(`surebet#${match?.parent_match_id}#1`, (data) => {
-            console.log("THE LOGGED MATCH FOR EVENT UPDATING::: ", match);
-            console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data)
             let new1x2 = [];
             let newOdds = Object.values(data);
             console.log("NEW 1x2 ODDS   :::: ", newOdds);
@@ -604,7 +607,6 @@ const MatchRow = (props) => {
             
             let newDoubleChance = [];
             let newOdds = Object.values(data.event_odds);
-            console.log("NEW DOUBLE CHANCE ODDS   :::: ", newOdds);
             match?.odds["Double Chance"]?.outcomes?.forEach((item, idx) => {
                 Object.values(data.event_odds).forEach((odd, idx2) => {
                     if(odd.odd_key == item.odd_key) {
@@ -621,11 +623,7 @@ const MatchRow = (props) => {
             
         });
         socket?.on(`surebet#${match?.parent_match_id}#18`, (data) => {
-            console.log("THE LOGGED MATCH FOR EVENT UPDATING::: ", match)
-            console.log("THE ODDS CHANGED SUCCESSFULLY :::: === ", data)
-
-            console.log("MATCH ODDS BEFORE    ::::::    ", match.odds);
-            console.log("ALL THE ODDS ENTRIES ::::: ", Object.values(data.event_odds))
+            
             let total = Object.values(data.event_odds);
             total = total.filter(value => value.special_bet_value == "2.5")
             let newTotal = [];
@@ -644,8 +642,6 @@ const MatchRow = (props) => {
                 match.odds["Total"].market_status = data?.match_market?.status;
             }
             
-            console.log("MATCH ODDS AFTER UPDATE    ::::::    ", match.odds);
-
         });
 
 
@@ -706,12 +702,12 @@ const MatchRow = (props) => {
                         {(live && match?.match_time) || (live && match?.match_status == "Halftime" ) ?
                             <span className='font-[500] uppercase'>{match?.match_status}<span className='text-red-500 ml-2'>{`${match?.match_time || match?.match_status}`}</span></span> : match?.start_time}
                     </span>
-                    <>ID: {match?.game_id}</>
+                    <>ID: {match?.match_id}</>
                 </div>
 
             </div>
             <div className="col-md-2 col-sm-4 col-xs-12 match-detail-container" key="23">
-                <Link to={(jackpot || (live && match?.match_status == null) ) ? '#' : `/match/${live ? 'live/' + match.parent_match_id : match.match_id}`}>
+                <Link to={(jackpot) ? '#' : `/match/${live ? 'live/' : "" }`+ match.match_id}>
                     <div className="d-flex flex-column primary-text">
                         <div className="compt-detail overflow-ellipsis" key="0034">
                             <small>{match.category} | {match.competition_name}</small>
@@ -841,14 +837,17 @@ const MatchRow = (props) => {
 
 }
 
+
 export const MarketList = (props) => {
 
     const {live, matchwithmarkets, pdown} = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
     const [isVisible, setIsVisible] =  useState(true);
 
+
     const handleGameSocket = (type, gameId) => {
         if (type == "listen" && socket?.connected) {
+            console.log("TRYING TO SUBSCRIBE TO GAME :::: ")
             socket.emit('user.market.listen', {parent_match_id: gameId});}
 
         else if (type == "leave") {
@@ -861,10 +860,8 @@ export const MarketList = (props) => {
 
         handleGameSocket("listen", match?.parent_match_id);
 
-        // loop though markets and update accordingly
-        // Otherwise, update the whole game odds. should all come otherwise have a market key
-        // which we update
         socket?.on(`surebet#${match?.parent_match_id}`, (data) => {
+            console.log("I GOT THE CRAP RIGHT HERE  :::: ", data);
             let new1x2 = [];
             let newOdds = Object.values(data.event_odds);
             match.odds["1x2"].forEach((item, idx) => {
@@ -919,6 +916,7 @@ export const MarketList = (props) => {
         {name: "marginals", value: "marginals"}
     ]
     const EventUnavailable = (props) => {
+        const {match} = props;
         return (
             <div className="px-3">
                 <ShimmerTable />
@@ -940,7 +938,7 @@ export const MarketList = (props) => {
 
     return (
         <div className="matches full-width">
-            {!matchwithmarkets
+            {(!matchwithmarkets || matchwithmarkets == null)
                 ? <EventUnavailable match = {matchwithmarkets?.match} />
                 : <MoreMarketsHeaderRow
 
@@ -952,19 +950,20 @@ export const MarketList = (props) => {
             {
                 /* filter for match with more markets */
 
-                <MatchDetailFilter />
+                matchwithmarkets !== null && <MatchDetailFilter />
             }
 
             <div className="web-element">
-                {(!matchwithmarkets || Object.entries(matchwithmarkets?.odds || {}).length == 0) && <EventUnavailable />}
+                {(!matchwithmarkets || Object.entries(matchwithmarkets?.odds || {}).length == 0 || matchwithmarkets == null) && <EventUnavailable />}
                 
                 {/* filter here */}
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
                     return <MarketRow
                         market_id={mkt_id}
-                        markets={markets}
+                        markets={markets?.outcomes}
                         width={markets.length == 3 ? "33.333%" : "50%"}
                         match={matchwithmarkets}
+                        marketDetail = {markets}
                         key={mkt_id}
                         live={live}
                         pdown={pdown}
@@ -1102,10 +1101,10 @@ const MatchList = (props) => {
                     ))
                 }
                 
-                {(((matches || []).length) == 0 && fetchingcount < 3) && 
+                {(((matches || []).length) == 0 && fetchingcount < 3) &&
                     <ShimmerTable row={3}/>
                 }
-                {(((matches || []).length) == 0 && fetchingcount >= 3) && 
+                {(((matches || []).length) == 0 && !fetching) && 
                     <NoEvents message={"Matches Not Found"}/>
                 }
                 
