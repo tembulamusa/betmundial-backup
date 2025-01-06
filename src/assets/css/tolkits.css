@@ -15594,7 +15594,7 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
     /*border: 1px solid red;*/
     overflow: hidden;
     border-radius: 4px;
-    margin-left: 5% !important;
+    /* margin-left: 5% !important; */
 }
 
 .c-btn-group:empty {

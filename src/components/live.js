@@ -31,10 +31,8 @@ const Live = (props) => {
         let endpoint = "/v2/sports/matches/live/" + (state?.filtersport?.sport_id || sportid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}`;
         let method =  "GET";
         setFetching(true);
-        console.log("ENTERED HERE   :::  ");
         makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
             setFetching(false)
-            console.log("THE MATCHES  ===  :::::   ", result)
             if (status == 200) {
                 setMatches(result?.data?.items || result)
                 setProducerDown(result?.producer_status == 1);
@@ -50,6 +48,12 @@ const Live = (props) => {
         }
       }, delay);
 
+      useInterval(async () => {
+        if(socket.connected) {
+            fetchData();
+        }
+      }, 5000);
+
     useEffect(() => {
         fetchData();
         let cachedSlips = getBetslip("betslip");
@@ -64,7 +68,15 @@ const Live = (props) => {
     return (
         <>
             <CarouselLoader />
-            {<MatchList fetching={fetching} three_way live matches={matches} pdown={producerDown}/>}
+            {<MatchList
+                fetching={fetching}
+                three_way
+                live
+                matches={matches}
+                pdown={producerDown}
+                subTypes={"1,10,18"}
+                
+                />}
                
         </>
     )

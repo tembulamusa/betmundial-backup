@@ -98,10 +98,16 @@ const Index = (props) => {
     }
     useInterval(async () => {
         if (!socket.connected) {
-            console.log("I AM DISCONNECTED NOW. I'LL BE POLLING ");
             fetchData();
         }
     }, delay);
+
+    // even if we are connected on socket, we may have to poll after some time so as to get the newest games
+    useInterval(async () => {
+        if (socket.connected) {
+            fetchData();
+        }
+    }, 15000);
 
     useEffect(() => {
         fetchData();
@@ -150,7 +156,9 @@ const Index = (props) => {
                 <CarouselLoader/>
                 {/* The highlights board  for running adverts and exposing high interest items */}
 
-                <section className="highlights-board"><HighlightsBoard /></section>
+                <section className="highlights-board">
+                    <HighlightsBoard />
+                </section>
                 {/* End of highlights board */}
 
                 {/* Start tabs */}
@@ -165,11 +173,7 @@ const Index = (props) => {
                         fetching={fetching}
                         subTypes={subTypes}
                         fetchingcount={fetchingCount}
-                    />
-                    
-
-                }
-                
+                    />                }
             </div>
             {/* <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}> */}
                 {/* <Spinner animation={'grow'} size={'lg'}/> */}

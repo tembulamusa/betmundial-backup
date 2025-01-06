@@ -2,10 +2,10 @@ import React from "react";
 import { IoIosLock } from "react-icons/io";
 
 const LockedButton = (props) => {
-
+    const {btnStatus} = props;
     return (
         <>
-            <button className="locked-button" disabled={true}><IoIosLock className="mx-auto"/></button>
+            <button className="locked-button" disabled={true}>{!["Deactivated"].includes(btnStatus) && <IoIosLock className="mx-auto"/>}</button>
         </>
     )
 }
@@ -13,6 +13,7 @@ const LockedButton = (props) => {
 export default React.memo(LockedButton);
 
 export const EmptyButton =  (props) => {
+    const {mktStatus} = props;
 
     return (
         <>

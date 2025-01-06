@@ -14,6 +14,7 @@ import { getBetslip } from './utils/betslip' ;
 
 import { MarketList } from './matches/index';
 import { Context } from "../context/store";
+import socket from "./utils/socket-connect";
 
 const Header = React.lazy(()=>import('./header/header'));
 const Footer = React.lazy(()=>import('./footer/footer'));
@@ -38,28 +39,10 @@ const MatchAllMarkets = (props) => {
         });
         return values;
     };
-    useInterval(() => {
-		let endpoint = live 
-			? "/v2/sports/match/live/" + params.id
-			: "/v2/sports/match/"+params.id;
-
-        let betslip = findPostableSlip();
-        let method = "GET";
-
-		makeRequest({url:endpoint, method:method, api_version:2}).then(([_status, response]) => {
-			if (_status == 200)
-                {setMatchWithMarkets(response?.data || response );
-                if(response?.slip_data) {
-                    setUserSlipsValidation(response?.slip_data);
-                }
-                setProducerDown(response?.producer_status == 1);
-            }  else {
-                navigate("/");
-            }
-		});                                                                     
-    }, (live ? 2000: null));
-
-
+       
+    
+    useEffect(() => {fetchPagedData()}, []);
+    
     const fetchPagedData =useCallback(async() => {
         if(!isLoading && !isNaN(+params.id)) {
             setIsLoading(true);
@@ -81,14 +64,6 @@ const MatchAllMarkets = (props) => {
             dispatch({type:"DEL", key: "matchlisttype"});
         }
     },[])
-
-    useLayoutEffect(() => {
-        const abortController = new AbortController();                          
-        fetchPagedData();
-        return () => {                                                          
-            abortController.abort();                                            
-        };                                                                      
-    }, [fetchPagedData, params.id]);
 
    return (
        <>

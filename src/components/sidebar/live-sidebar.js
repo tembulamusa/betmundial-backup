@@ -7,6 +7,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import {Menu, MenuItem, Sidebar, SubMenu} from "react-pro-sidebar";
 import { Link } from 'react-router-dom';
 import gameCategories from '../utils/static-data';
+import useInterval from '../../hooks/set-interval.hook';
 
 const LiveSideBar = (props) => {
 
@@ -15,7 +16,7 @@ const LiveSideBar = (props) => {
     const [toggled, setToggled] = useState(false)
 
     const fetchData = useCallback(() => {
-        let endpoint = "/v1/sports?live=1";
+        let endpoint = "/v2/sports?live=1";
         makeRequest({url: endpoint, method: "GET"})
             .then(([c_status, c_result]) => {
                 if (c_status == 200) {
@@ -23,6 +24,10 @@ const LiveSideBar = (props) => {
                 }
             });
     }, []);
+
+    useInterval(async () => {
+        fetchData();
+    }, 15000);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -51,7 +56,7 @@ const LiveSideBar = (props) => {
                 zIndex: 10,
                 top: "100px"
             }}
-                 className={`vh-100 text-white sticky-top d-none d-md-block up col-md-2`}>
+                 className={`px-2 vh-100 text-white sticky-top d-none d-md-block up col-md-2`}>
                 <Sidebar
                     style={{backgroundColor: '#16202c !important'}}
                     image={false}>
