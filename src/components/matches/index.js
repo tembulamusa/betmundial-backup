@@ -848,7 +848,8 @@ export const MarketList = (props) => {
     const {live, initialMatchwithmarkets, pdown} = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
     const [isVisible, setIsVisible] =  useState(true);
-    const [matchwithmarkets, setMatchWithMarkets] = useState(initialMatchwithmarkets)
+    const refMatch = useRef({match: initialMatchwithmarkets});
+    const matchwithmarkets = refMatch.current.match;
     
     const handleGameSocket = (type, gameId) => {
         if (type == "listen" && socket?.connected) {
@@ -861,7 +862,8 @@ export const MarketList = (props) => {
         
     }
     useEffect(() => {
-        setMatchWithMarkets(initialMatchwithmarkets);
+        refMatch.current.match = initialMatchwithmarkets;
+        console.log("THE MARKET WITH MARKETS ", refMatch.current.match);
         if (initialMatchwithmarkets) {
             handleGameSocket("listen", matchwithmarkets?.parent_match_id);
             socket?.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
@@ -889,7 +891,8 @@ export const MarketList = (props) => {
                 
                 // matchwithmarkets.odds[oddMktIdentity] matchMktsIdentified;
                 let newOdds = {...matchwithmarkets?.odds, oddMktIdentity: {...matchwithmarkets?.odds[oddMktIdentity], outcomes: newOddValues}}
-                setMatchWithMarkets({...matchwithmarkets, odds: newOdds});
+                refMatch.current = {...matchwithmarkets, odds: newOdds}
+                // setMatchWithMarkets();
 
                 console.log("THE UPDATED MATCH :::: ", matchwithmarkets)
                 
