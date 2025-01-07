@@ -187,17 +187,13 @@ const convertDateToLocalString = (date) => {
 }
 const MoreMarketsHeaderRow = (props) => {
     const {
-        
         match,
         live
     } = props;
 
-    console.log("THE LIVE MATCH PROPS::::: ", match)
-
     const LivescoreFooter = () => {
 
         return (
-
             <div className="livescore-footer-links flex capitalize px-3">
                 <div className="footer-item">Match</div>
                 <div className="footer-item">Head to head</div>
