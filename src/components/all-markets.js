@@ -32,7 +32,7 @@ const MatchAllMarkets = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [, dispatch] = useContext(Context);
     const navigate = useNavigate();
-    
+
     const findPostableSlip = () => {
         let betslips = getBetslip() || {};
         var values = Object.keys(betslips).map(function(key){
@@ -58,8 +58,16 @@ const MatchAllMarkets = (props) => {
         }
     }, [params.id]);
 
+    // even if we are connected on socket, we may have to poll after some time so as to get the newest games
+    useInterval(async () => {
+        if (socket.connected) {
+            fetchPagedData();
+        }
+    }, 10000);
+
     useEffect(()=> {
         dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
+
         return () => {
             dispatch({type:"DEL", key: "matchlisttype"});
         }

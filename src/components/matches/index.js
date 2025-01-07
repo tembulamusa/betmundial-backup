@@ -254,7 +254,7 @@ const SideBets = (props) => {
             {(match?.sidebets > 1) && <>
                 <a className="side" title={'More Markets'}
                    href={`/match/${live ? 'live/' : ''}${
-                       live ? match.parent_match_id : match?.match_id}`
+                       match?.match_id}`
                    }>+{match.sidebets}
                 </a>
                 { /**
