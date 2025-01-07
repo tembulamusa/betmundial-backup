@@ -187,6 +187,7 @@ const convertDateToLocalString = (date) => {
 }
 const MoreMarketsHeaderRow = (props) => {
     const {
+        
         match,
         live
     } = props;
@@ -194,6 +195,7 @@ const MoreMarketsHeaderRow = (props) => {
     const LivescoreFooter = () => {
 
         return (
+
             <div className="livescore-footer-links flex capitalize px-3">
                 <div className="footer-item">Match</div>
                 <div className="footer-item">Head to head</div>
@@ -471,10 +473,46 @@ const teamScore = (allscore, is_home_team) => {
 
 const MarketRow = (props) => {
     const {markets, match, market_id, width, live, pdown, marketDetail} = props;
+    const [mutableMkts, setMutableMkts] = useState([...markets]);
+    const [marketStatus, setMarketStatus] = useState({...marketDetail.market_status});
+
+    useEffect(() => {
+        socket?.on(`surebet#${match?.parent_match_id}`, (data) => {            
+            if (data.match_market.market_name == market_id){
+
+                let newOddValues = [];               
+                
+                // change the identified market
+                mutableMkts?.forEach((item, idx) => {
+                    Object.values(data.event_odds).forEach((odd, idx2) => {
+                        if(odd.odd_key == item.odd_key) {
+                            item.odd_value = odd.odd_value;
+                            item.odd_active = data.match_market.status !== "Active" ? 0 : odd.active // odd.active;
+                            newOddValues.push(item);
+                        }
+                    })
+                });
+                if (newOddValues.length > 0) {
+                    setMutableMkts(newOddValues);
+                }
+                setMarketStatus(data.match_market.status);
+
+                // matchwithmarkets.odds[oddMktIdentity] matchMktsIdentified;
+                // let newOdds = {...matchwithmarkets?.odds, oddMktIdentity: {...matchwithmarkets?.odds[oddMktIdentity], outcomes: newOddValues}}
+                // setMatchWithMarkets({...matchwithmarkets, odds: newOdds});
+
+                // console.log("THE UPDATED MATCH :::: ", matchwithmarkets)
+        }
+            
+        });
+    }, [])
 
     const MktOddsButton = (props) => {
         const {match, mktodds, live, pdown} = props;
-        const fullmatch = {...match, ...mktodds};
+        const [fullmatch, setFullmatch] = useState({...match, ...mktodds});
+
+        
+
         return (
             !pdown
             && fullmatch?.odd_value !== 'NaN' && fullmatch?.odd_active == 1
@@ -501,7 +539,7 @@ const MarketRow = (props) => {
                 <span className='col-9'>{market_id}</span>
             </Row>
 
-            {markets && markets.map((mkt_odds) => {
+            {mutableMkts && mutableMkts?.map((mkt_odds) => {
                 return (<>
                     <Col className="match-detail" style={{width: width, float: "left"}}>
                         <MktOddsButton
@@ -848,8 +886,7 @@ export const MarketList = (props) => {
     const {live, initialMatchwithmarkets, pdown} = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
     const [isVisible, setIsVisible] =  useState(true);
-    const refMatch = useRef({match: initialMatchwithmarkets});
-    const matchwithmarkets = refMatch.current.match;
+    const [matchwithmarkets, setMatchWithMarkets] = useState(initialMatchwithmarkets)
     
     const handleGameSocket = (type, gameId) => {
         if (type == "listen" && socket?.connected) {
@@ -861,43 +898,19 @@ export const MarketList = (props) => {
         }
         
     }
+
+    const MarketsList = (props) => {
+
+
+
+
+    }
     useEffect(() => {
-        refMatch.current.match = initialMatchwithmarkets;
-        console.log("THE MARKET WITH MARKETS ", refMatch.current.match);
+        setMatchWithMarkets(initialMatchwithmarkets);
+
         if (initialMatchwithmarkets) {
             handleGameSocket("listen", matchwithmarkets?.parent_match_id);
-            socket?.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
-
-                console.log("THE MATCH IS HERE    :::::  ", matchwithmarkets)
-
-                let newOddValues = [];
-                let oddMktIdentity = data.match_market.market_name;
                 
-                let mktStatus = data.match_market.status;
-                let matchMktsIdentified = matchwithmarkets.odds[oddMktIdentity] || {}
-
-                // change the identified market
-                matchMktsIdentified.market_status = mktStatus;
-                matchwithmarkets?.odds[oddMktIdentity]?.outcomes?.forEach((item, idx) => {
-                    Object.values(data.event_odds).forEach((odd, idx2) => {
-                        if(odd.odd_key == item.odd_key) {
-                            item.odd_value = odd.odd_value;
-                            item.active = data?.match_market?.status.toLowerCase() !== "active" ? 0 : odd.active;
-                            newOddValues.push(item);
-                        }
-                    })
-                })
-                newOddValues = newOddValues.length > 0 ? newOddValues : matchMktsIdentified.outcomes;
-                
-                // matchwithmarkets.odds[oddMktIdentity] matchMktsIdentified;
-                let newOdds = {...matchwithmarkets?.odds, oddMktIdentity: {...matchwithmarkets?.odds[oddMktIdentity], outcomes: newOddValues}}
-                refMatch.current = {...matchwithmarkets, odds: newOdds}
-                // setMatchWithMarkets();
-
-                console.log("THE UPDATED MATCH :::: ", matchwithmarkets)
-                
-            });
-    
             // Track tab/visibility of the of the tab
             document.addEventListener("visibilitychange", () => {
                 if (document.visibilityState === "hidden") {
@@ -975,7 +988,6 @@ export const MarketList = (props) => {
 
             {
                 /* filter for match with more markets */
-
                 matchwithmarkets !== null && <MatchDetailFilter />
             }
 
@@ -984,7 +996,8 @@ export const MarketList = (props) => {
                 
                 {/* filter here */}
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
-                    return (["active", "suspended", ""].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) && <MarketRow
+                    return (["active", "suspended", ""].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) && 
+                    <MarketRow
                         market_id={mkt_id}
                         markets={markets?.outcomes}
                         width={markets.outcomes.length == 3 ? "33.333%" : "50%"}
