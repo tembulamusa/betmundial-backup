@@ -31,6 +31,7 @@ const MatchAllMarkets = (props) => {
     const params = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [, dispatch] = useContext(Context);
+    const [delay, setDelay] = useState(10000);
     const navigate = useNavigate();
 
     const findPostableSlip = () => {
@@ -60,19 +61,23 @@ const MatchAllMarkets = (props) => {
 
     // even if we are connected on socket, we may have to poll after some time so as to get the newest games
     useInterval(async () => {
-        if (socket.connected) {
-            fetchPagedData();
-        }
-    }, 10000);
+        fetchPagedData();
+    }, delay);
 
     useEffect(()=> {
+        
+        if(live) {
+            if(socket.connected){ setDelay(5000) } else { setDelay(3000) }
+        } else {
+            if(socket.connected){ setDelay(10000) } else { setDelay(15000) }
+        }
+
         dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
 
         return () => {
             dispatch({type:"DEL", key: "matchlisttype"});
         }
     },[])
-
 
 
    return (
