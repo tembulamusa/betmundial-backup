@@ -136,6 +136,11 @@ const BigIconMenu = () => {
         }
     }, [state?.categories])
 
+    const changeUserSelection = (category) => {
+
+        dispatch({type:"SET", key:"filtersport", payload: category});
+        setLocalStorage("filtersport", category, 5 * 60 * 1000)
+    }
     return (
         <div className="relative flex items-center big-icon-container">
             {showLeftArrow && (
@@ -165,7 +170,7 @@ const BigIconMenu = () => {
                     {(!loc?.pathname?.includes("/casino") && categories || []).map((category, idx) => {
                         
                         return (
-                            <li key={idx} className={`${pathname == `/sports/matches/${category?.sport_id}` ? "active" : ''} big-icon-item text-center capitalize`}>
+                            <li onClick={() => changeUserSelection(category)} key={idx} className={`${pathname == `/sports/matches/${category?.sport_id}` ? "active" : ''} big-icon-item text-center capitalize`}>
                                 <Link to={`/sports/matches/${category?.sport_id}`} title={category?.sport_name}>
                                     <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${category?.sport_name?.toLowerCase()}.svg`)} alt={category.sport_name} /></div>
                                     <div className="big-icon-name">{category.sport_name}</div>

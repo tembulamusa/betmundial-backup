@@ -38,6 +38,7 @@ const Index = (props) => {
     // const [doPoll, setDoPoll] = useState(false);
 
     const fetchData = async () => {
+        console.log("THE sportID   ", sportid)
         setFetching(true);
         let fetchcount = fetchingCount + 1;
         let tab = 'highlights';
@@ -112,7 +113,7 @@ const Index = (props) => {
     useEffect(() => {
         fetchData();
         setFetchingCount(0);
-    }, [
+    }, [sportid,
         state?.filtersport, 
         state?.filtercategory, 
         state?.filtercompetition, 

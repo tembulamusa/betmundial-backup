@@ -46,7 +46,7 @@ const Live = (props) => {
         if(!socket.connected) {
             fetchData();
         }
-      }, delay);
+      }, 3000);
 
       useInterval(async () => {
         if(socket.connected) {

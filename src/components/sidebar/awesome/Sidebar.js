@@ -75,6 +75,7 @@ const ProSidebar = (props) => {
             // }
         } else {
             setCompetitions(cached_competitions);
+            console.log("THE LOGGED COMPETITIONS   :::::: ", cached_competitions)
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
         }
 

@@ -1772,3 +1772,38 @@ label {
 .live-unstarted {
   /* display: none !important; */
 }
+
+.inactive-odds-btn {
+  background: #cccccc !important;
+}
+
+.inactive-odds-btn .et.label {
+  float: left;
+  margin-left: 9px;
+  text-transform: uppercase;
+  font-size: 12px;
+  min-width: 50%;
+  text-align: left;
+  opacity: 0.5;
+}
+
+.inactive-odds-btn .et {
+  margin-bottom: 0;
+}
+
+.game-detail-not-available {
+
+  margin-top: 10%;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.5;
+}
+.game-detail-not-available a {
+  font-style: italic;
+  color: blue;
+  -webkit-text-decoration: dotted;
+  text-decoration: underline;
+  margin-top: 15px !important;
+  display: block;
+}
