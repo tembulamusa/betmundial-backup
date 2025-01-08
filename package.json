@@ -61,6 +61,7 @@
     "react-spinners": "^0.14.1",
     "react-sticky-box": "^2.0.5",
     "react-toastify": "^10.0.5",
+    "recharts": "^2.15.0",
     "rewire": "^7.0.0",
     "socket.io-client": "^4.8.1",
     "stream-browserify": "^3.0.0",
