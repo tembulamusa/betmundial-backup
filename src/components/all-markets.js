@@ -60,9 +60,9 @@ const MatchAllMarkets = (props) => {
     }, [params.id]);
 
     // even if we are connected on socket, we may have to poll after some time so as to get the newest games
-    useInterval(async () => {
-        fetchPagedData();
-    }, delay);
+    // useInterval(async () => {
+    //     fetchPagedData();
+    // }, delay);
 
     useEffect(()=> {
         

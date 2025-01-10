@@ -237,6 +237,9 @@ const BetslipSubmitForm = (props) => {
                         status: status,
                         message: response?.message || response?.error?.message || "Error attempting to place bet"
                     };
+                    if(qmessage.status == 500) {
+                        qmessage.message = "Error attempting to place bet"
+                    }
                     setMessage(qmessage);
                 }
                 setSubmitting(false);
@@ -401,7 +404,7 @@ const BetslipSubmitForm = (props) => {
                                 </td>
                             </tr>}
 
-                            {/* <tr id="odd-change-text" className='opacity-60'>
+                            <tr id="odd-change-text" className='opacity-60'>
                                 <td colSpan="2">
                                     <label className="checkbox">
 
@@ -414,7 +417,7 @@ const BetslipSubmitForm = (props) => {
                                         /> Accept any odds change
                                     </label>
                                 </td>
-                            </tr> */}
+                            </tr>
                             <tr>
                                 <td className='opacity-70 py-2'>AMOUNT(ksh)</td>
                                 <td className='py-2 text-right'>

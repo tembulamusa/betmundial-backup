@@ -1807,3 +1807,7 @@ label {
   margin-top: 15px !important;
   display: block;
 }
+
+.locked-button {
+  width: 50px !important;
+}

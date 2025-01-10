@@ -304,7 +304,7 @@ const OddButton = (props) => {
                 + (match?.[mkt] || match?.odd_key || mkt || "draw")
             );
             setUcn(uc);
-            setOddValue(match?.odd_value);
+            setOddValue(parseFloat(match?.odd_value).toFixed(2));
             
         }
     }, [match]);
@@ -377,7 +377,8 @@ const OddButton = (props) => {
         let sport_name = event.currentTarget.getAttribute("sport_name");
         let market_active = event.currentTarget.getAttribute("market_active");
         let start_time = event.currentTarget.getAttribute("start_time");
-        let cstm = clean(mid + "" + stid + oddk + (marketKey != undefined ? marketKey : ''))
+        let producer_id = event.currentTarget.getAttribute("producer_id");
+        let cstm = clean(mid + "" + stid + oddk + (marketKey != undefined ? marketKey : ''));
 
         let slip = {
             "match_id": mid,
@@ -391,10 +392,12 @@ const OddButton = (props) => {
             "bet_type": bet_type,
             "odd_type": odd_type,
             "sport_name": sport_name,
-            "live": live? 1: 0,
+            "live": live ? 1: 0,
             "ucn": cstm,
+            "event_status": match?.status,
             "market_active": market_active,
             "start_time": start_time,
+            "producer_id": producer_id
         }
 
         setPicked('');
@@ -404,7 +407,6 @@ const OddButton = (props) => {
                 betslip = jackpot !== true
                     ? removeFromSlip(mid)
                     : removeFromJackpotSlip(mid);
-
                 dispatch({type: "SET", key: reference, payload: "remove."+cstm });
             } else {
                 betslip = jackpot !== true
@@ -432,6 +434,7 @@ const OddButton = (props) => {
             parent_match_id={match.parent_match_id}
             match_id={match.match_id}
             custom={ucn}
+            producer_id={match?.producer_id}
             sport_name={match.sport_name}
             start_time={match.start_time}
             sub_type_id={match?.odds?.sub_type_id || match?.sub_type_id}
@@ -475,13 +478,31 @@ const MarketRow = (props) => {
     const {markets, match, market_id, width, live, pdown, marketDetail} = props;
     const [mutableMkts, setMutableMkts] = useState([...markets]);
     const [marketStatus, setMarketStatus] = useState({...marketDetail.market_status});
+    const [producerId, setProducerId] = useState()
+
+    useEffect(()=> {setProducerId(marketDetail?.producer_id)}, [marketDetail])
+
+
+
+    const handleGameSocket = (type, gameId, sub_type_id) => {
+        if (type == "listen" && socket?.connected) {
+            socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:sub_type_id});
+            
+        }
+
+        else if (type == "leave") {
+            socket?.emit("user.market.leave", {parent_match_id: gameId, sub_type_id:sub_type_id});
+        }
+        
+    }
+
 
     useEffect(() => {
-        socket?.on(`surebet#${match?.parent_match_id}`, (data) => {            
+        handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id)
+        socket?.on(`surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, (data) => {  
+            console.log("THE MARKET UPDATED ITS ODDS?STATUS   ::::::::    ", data)          
             if (data.match_market.market_name == market_id){
-
                 let newOddValues = [];               
-                
                 // change the identified market
                 mutableMkts?.forEach((item, idx) => {
                     Object.values(data.event_odds).forEach((odd, idx2) => {
@@ -497,20 +518,18 @@ const MarketRow = (props) => {
                 }
                 setMarketStatus(data.match_market.status);
 
-                // matchwithmarkets.odds[oddMktIdentity] matchMktsIdentified;
-                // let newOdds = {...matchwithmarkets?.odds, oddMktIdentity: {...matchwithmarkets?.odds[oddMktIdentity], outcomes: newOddValues}}
-                // setMatchWithMarkets({...matchwithmarkets, odds: newOdds});
-
-                // console.log("THE UPDATED MATCH :::: ", matchwithmarkets)
         }
             
         });
+
+        return () => {
+            handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id)
+        }
     }, [])
 
     const MktOddsButton = (props) => {
-        const {match, mktodds, live, pdown} = props;
-        const [fullmatch, setFullmatch] = useState({...match, ...mktodds});
-
+        const {match, mktodds, live, pdown, producerId} = props;
+        const [fullmatch, setFullmatch] = useState({...match, ...mktodds, producer_id: producerId});
         
 
         return (
@@ -545,6 +564,7 @@ const MarketRow = (props) => {
                         <MktOddsButton
                             match={match}
                             mktodds={mkt_odds}
+                            producerId={producerId}
                             live={live}
                             pdown={pdown}
                         />
@@ -595,14 +615,28 @@ const MatchRow = (props) => {
         jackpotstatus,
         sub_types} = props;
 
-    
-    const [state, ] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
     const [isVisible, setIsVisible] = useState(true);
     const [match, setMatch] = useState(initialMatch)
     // match.market_active = 1
     // if(match?.odds?.home_odd_active) {
     //     match.odds.home_odd_active = 1
     // }
+
+    const UpdateSlipChanges = (changeItem, value, match, oddsNewValue="0.00", changedMarket="1x2") => {
+        let slip = state?.betslip;
+        let slipItem = slip[match];
+        if (changeItem == "market_active"){
+            // check if the changed market is the one picked
+            slipItem = {...slipItem, market_active: value}
+        } else if( changeItem == "event_status" ) {
+            slipItem = {...slipItem, event_status: value}
+        } else if (changeItem == "odds_change"){
+
+        }
+
+        dispatch({type:"SET", key:'betslip', payload: slip})
+    }
 
     const handleGameSocket = (type, gameId) => {
         if (type == "listen" && socket?.connected) {
@@ -641,7 +675,6 @@ const MatchRow = (props) => {
             // USE STATE IS A TERRIBLE IDEA AS IT TAKES TIME  ::: 
             setMatch({...match, odds: {...match?.odds, "1x2":{...match?.odds["1x2"], outcomes: new1x2, market_status: data.match_market.status}}})
 
-            console.log("MATCH AFTER UPDATE ::::: ", match)
 
         });
         socket?.on(`surebet#${match?.parent_match_id}#10`, (data) => {
@@ -800,10 +833,10 @@ const MatchRow = (props) => {
                 <div className={`${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
                     {
                         ((!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live) && match?.odds?.["1x2"]?.market_status == "Active") && match?.odds?.["1x2"]?.outcomes?.map((marketOdd, idx) => {
-                            let matchWithDetails = {...match, ...marketOdd};
+                            let matchWithDetails = {...match, ...marketOdd, producer_id: match?.odds?.["1x2"]?.producer_id};
                             delete matchWithDetails.odds;
                             return (
-                                marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || (jackpot && jackpotstatus == "ACTIVE")
+                                marketOdd.odd_active == 1 && marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || (jackpot && jackpotstatus == "ACTIVE")
                                 ? <><OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="1x2" live={live} jackpot={jackpot}/></>
                                 : <><LockedButton/></>) 
                         })
@@ -823,9 +856,9 @@ const MatchRow = (props) => {
                 <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="223">
                    {
                         match?.odds?.["Double Chance"]?.market_status == "Active" && match?.odds?.["Double Chance"]?.outcomes?.map((marketOdd, idx) => {
-                            let matchWithDetails = {...match, ...marketOdd};
+                            let matchWithDetails = {...match, ...marketOdd, producer_id: match?.odds?.["Double Chance"]?.producer_id};
                             delete matchWithDetails.odds;
-                            return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
+                            return (marketOdd.odd_active == 1 && marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
                                 ? <OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="Double Chance" live={live} jackpot={jackpot}/>
                                 : <><LockedButton/></>) 
                            
@@ -849,9 +882,9 @@ const MatchRow = (props) => {
                 <div className={`${(live && (match?.score == "-" || !match?.score)) } ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="224">
                     {    
                         match?.odds?.["Total"]?.market_status == "Active" && match?.odds?.["Total"]?.outcomes?.map((marketOdd, idx) => {
-                            let matchWithDetails = {...match, ...marketOdd};
+                            let matchWithDetails = {...match, ...marketOdd, producer_id: match?.odds?.["Total"]?.producer_id};
                             delete matchWithDetails.odds;
-                            return (marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
+                            return ((marketOdd.odd_active == 1 && marketOdd.odd_value) && (!pdown && marketOdd.odd_value !== 'NaN' ) || jackpot
                                 ? <OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt="Total" live={live} jackpot={jackpot}/>
                                 : <><LockedButton/></>) 
                            
@@ -888,39 +921,23 @@ export const MarketList = (props) => {
     const [isVisible, setIsVisible] =  useState(true);
     const [matchwithmarkets, setMatchWithMarkets] = useState(initialMatchwithmarkets)
     
-    const handleGameSocket = (type, gameId) => {
-        if (type == "listen" && socket?.connected) {
-            socket.emit('user.match.listen', gameId);}
-
-        else if (type == "leave") {
-            socket?.emit("user.match.leave", gameId);
+    const handleGameSocket = (type, gameId, sub_type_id) => {
+        // if (type == "listen" && socket?.connected) {
+        //     socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:sub_type_id});
             
-        }
+        // }
+
+        // else if (type == "leave") {
+        //     socket?.emit("user.market.leave", {parent_match_id: gameId, sub_type_id:sub_type_id});
+        // }
         
     }
 
-    const MarketsList = (props) => {
-
-
-
-
-    }
+    
     useEffect(() => {
         setMatchWithMarkets(initialMatchwithmarkets);
 
-        if (initialMatchwithmarkets) {
-            handleGameSocket("listen", matchwithmarkets?.parent_match_id);
-                
-            // Track tab/visibility of the of the tab
-            document.addEventListener("visibilitychange", () => {
-                if (document.visibilityState === "hidden") {
-                  setIsVisible(false);
-                } else if (document.visibilityState === "visible") {
-                  setIsVisible(true);
-                }
-              });
-    
-        }
+        
         
         return () => {
             // unsubscribe trigger
@@ -1101,11 +1118,11 @@ export const JackpotResultsList = (props) => {
 
 const MatchList = (props) => {
     const {
-        live, 
-        matches, 
+        live,
+        matches,
         pdown,
         three_way, 
-        fetching, 
+        fetching,
         subTypes,
         fetchingcount
     } = props;

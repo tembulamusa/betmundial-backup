@@ -6,11 +6,9 @@ import {getJackpotBetslip, getBetslip} from './utils/betslip' ;
 import useInterval from "../hooks/set-interval.hook";
 import {Context} from '../context/store';
 import socket from "./utils/socket-connect.js";
-
+import MatchList from "./matches/index.js";
 
 const CarouselLoader = React.lazy(() => import('./carousel/index.js'));
-const MatchList = React.lazy(() => import('./matches/index.js'));
-
 
 const Live = (props) => {
     const [matches, setMatches] = useState([]);
@@ -27,7 +25,7 @@ const Live = (props) => {
 
     
 
-    const fetchData = useCallback(() => {
+    const fetchData = () => {
         let endpoint = "/v2/sports/matches/live/" + (state?.filtersport?.sport_id || sportid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}`;
         let method =  "GET";
         setFetching(true);
@@ -40,7 +38,7 @@ const Live = (props) => {
                 setMatches([])
             }
         });
-    }, [sportid]);
+    };
 
     useInterval(async () => {
         if(!socket.connected) {
@@ -48,11 +46,11 @@ const Live = (props) => {
         }
       }, 3000);
 
-      useInterval(async () => {
-        if(socket.connected) {
-            fetchData();
-        }
-      }, 5000);
+    //   useInterval(async () => {
+    //     if(socket.connected) {
+    //         fetchData();
+    //     }
+    //   }, 5000);
 
     useEffect(() => {
         fetchData();
@@ -63,7 +61,7 @@ const Live = (props) => {
         return () => {
             setMatches(null);
         };
-    }, [fetchData]);
+    }, [sportid]);
 
     return (
         <>
