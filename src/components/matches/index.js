@@ -480,9 +480,7 @@ const MarketRow = (props) => {
     const [marketStatus, setMarketStatus] = useState("");
     const [producerId, setProducerId] = useState()
 
-    useEffect(()=> {setMarketStatus(marketDetail?.market_status);setProducerId(marketDetail?.producer_id)}, [marketDetail])
-
-
+    useEffect(()=> {setMarketStatus(marketDetail?.market_status); setProducerId(marketDetail?.producer_id)}, [marketDetail])
 
     const handleGameSocket = (type, gameId, sub_type_id) => {
         if (type == "listen" && socket?.connected) {
@@ -498,24 +496,31 @@ const MarketRow = (props) => {
 
 
     useEffect(() => {
+        console.log("MARKET ROW  ", props)
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id)
-        socket?.on(`surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, (data) => {  
+        socket?.on(`surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, (data) => {
+            console.log("THE INITIAL MARKET  Status :::: ", marketStatus) 
             console.log("THE MARKET UPDATED ITS ODDS?STATUS   ::::::::    ", data)          
+            
             if (data.match_market.market_name == market_id){
-                let newOddValues = [];               
+                let newOddValues = mutableMkts;               
                 // change the identified market
-                mutableMkts?.forEach((item, idx) => {
-                    Object.values(data.event_odds).forEach((odd, idx2) => {
-                        if(odd.odd_key == item.odd_key) {
-                            item.odd_value = odd.odd_value;
-                            item.odd_active = data.match_market.status !== "Active" ? 0 : odd.active // odd.active;
-                            newOddValues.push(item);
-                        }
-                    })
-                });
-                if (newOddValues.length > 0) {
-                    setMutableMkts(newOddValues);
-                }
+                Object.values(data.event_odds).forEach((odd, idx2) => {
+                    let currentItemsPresent = newOddValues.filter((item) => item.odd_key == odd.odd_key);
+                    if(currentItemsPresent.length == 1) {
+                        let idx = newOddValues.findIndex(obj => obj.odd_key === currentItemsPresent[0].odd_key);
+                        let item = newOddValues[idx];
+                        item.odd_value = odd.odd_value;
+                        item.odd_active = data.match_market.status !== "Active" ? 0 : odd.active // odd.active;
+                        newOddValues[idx] = item
+                    }
+
+                    if(currentItemsPresent.length === 0) {
+                        newOddValues.push(odd);
+                    }
+                })
+
+                setMutableMkts(newOddValues.sort((a,b) => a.special_bet_value - b.special_bet_value)); // b - a for reverse sort
                 setMarketStatus(data.match_market.status);
 
         }

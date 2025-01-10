@@ -23,14 +23,13 @@ const clean_rep = (str) => {
 }
 
 const BetSlip = (props) => {
-    const {jackpot, betslipValidationData, jackpotData} = props;
-
+    const {jackpot, betslipValidationData, jackpotData} = props;    
     const [is_jackpot, setIsJackpot] = useState(jackpot);
     const [localJPData, setLocalJPData] = useState(jackpotData);
     const { code } = useParams();
     const [state, dispatch] = useContext(Context);
     const [betslipKey, setBetslipKey] = useState(
-       () => state?.jackpotbetslip ? "jackpotbestslip":"bestslip"
+       () => state?.jackpotbetslip ? "jackpotbestslip": "bestslip"
     );
     const [betslipsData, setBetslipsData] = useState({});
     const [hasBetslip, setHasBetslip] = useState(false);
@@ -74,7 +73,7 @@ const BetSlip = (props) => {
 
     }
     //Handle db validation of betslip
-    const validateBetslipwithDbData = useCallback(() => {
+    const validateBetslipwithDbData = () => {
         if (betslipValidationData && betslipsData) {
             let clone_slip = betslipsData;
             Object.entries(betslipValidationData).forEach(([key, slipdata]) => {
@@ -113,9 +112,10 @@ const BetSlip = (props) => {
                     clone_slip[match_id] = slip;
                 }
             });
+
             dispatch({type: "SET", key: betslipKey, payload: clone_slip});
         }
-    }, []);
+    };
 
     useEffect(() => {
         validateBetslipwithDbData();
