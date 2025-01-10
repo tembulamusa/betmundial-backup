@@ -496,9 +496,9 @@ const MarketRow = (props) => {
 
 
     useEffect(() => {
-        console.log("MARKET ROW  ", props)
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id)
         socket?.on(`surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, (data) => {
+            console.log("THE LOGGED DATA IS SOMEWHERE :::  ", data)
             if (data.match_market.market_name == market_id){
                 let newOddValues = mutableMkts;               
                 // change the identified market
@@ -509,7 +509,7 @@ const MarketRow = (props) => {
                         let item = newOddValues[idx];
                         item.odd_value = odd.odd_value;
                         item.market_status = odd?.market_status;
-                        item.odd_active = data.match_market.status !== "Active" ? 0 : odd.active // odd.active;
+                        item.odd_active = data.match_market.status == "Suspended"  ? 0 : odd.active // odd.active;
                         newOddValues[idx] = item
                     }
 
@@ -539,7 +539,7 @@ const MarketRow = (props) => {
 
         return (
             !pdown
-            && fullmatch?.odd_value !== 'NaN' && fullmatch?.odd_active == 1
+            && fullmatch?.odd_value !== 'NaN' && fullmatch?.odd_active == 1 && fullmatch?.market_status == "Active"
         )
             ? <OddButton match={fullmatch} detail mkt={"detail"} live={live}/>
             : <EmptyTextRow odd_key={fullmatch?.odd_key}/>;
@@ -566,9 +566,6 @@ const MarketRow = (props) => {
             </Row>
 
             {mutableMkts && mutableMkts?.map((mkt_odds) => {
-
-                console.log("THE MARKETACTIVE STUFF  :::  ", mkt_odds);
-
                 return (<>
                     {["active", "suspended"].includes(mkt_odds.market_status?.toLowerCase()) && <Col className="match-detail" style={{width: width, float: "left"}}>
                         <MktOddsButton

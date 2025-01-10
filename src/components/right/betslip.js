@@ -17,6 +17,7 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import Notify from "../utils/Notify";
 import Alert from '../utils/alert';
+import useInterval from '../../hooks/set-interval.hook';
 const clean_rep = (str) => {
     str = str.replace(/[^A-Za-z0-9\-]/g, '');
     return str.replace(/-+/g, '-');
@@ -74,7 +75,7 @@ const BetSlip = (props) => {
     }
     //Handle db validation of betslip
     const validateBetslipwithDbData = () => {
-        const betslipValidationData = state?.betslip;
+        const betslipValidationData = state?.betslipValidationData;
 
         if (betslipValidationData && betslipsData) {
             let clone_slip = betslipsData;
@@ -116,9 +117,16 @@ const BetSlip = (props) => {
                 }
             });
 
-            dispatch({type: "SET", key: betslipKey, payload: clone_slip});
+            dispatch({type: "SET", key: "betslip", payload: clone_slip});
+            dispatch({type: "SET", key: "betslipValidationData", payload: clone_slip});
+
         }
     };
+
+
+    useInterval(async () => {
+        validateBetslipwithDbData()
+    }, 4000);
 
     // betslip key watch
     const setJackpotSlipkey = useCallback(() => {
