@@ -525,6 +525,8 @@ const MarketRow = (props) => {
         return () => {
             handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id)
         }
+
+        
     }, [])
 
     const MktOddsButton = (props) => {
