@@ -477,10 +477,10 @@ const teamScore = (allscore, is_home_team) => {
 const MarketRow = (props) => {
     const {markets, match, market_id, width, live, pdown, marketDetail} = props;
     const [mutableMkts, setMutableMkts] = useState([...markets]);
-    const [marketStatus, setMarketStatus] = useState({...marketDetail.market_status});
+    const [marketStatus, setMarketStatus] = useState("");
     const [producerId, setProducerId] = useState()
 
-    useEffect(()=> {setProducerId(marketDetail?.producer_id)}, [marketDetail])
+    useEffect(()=> {setMarketStatus(marketDetail?.market_status);setProducerId(marketDetail?.producer_id)}, [marketDetail])
 
 
 
@@ -543,7 +543,9 @@ const MarketRow = (props) => {
     }
 
     return (
-        <div className="top-matches event-row">
+        <>
+        {["active", "suspended"].includes(marketStatus?.toLowerCase()) && <div className="top-matches event-row">
+            
             <Row className="top-matches header">
                 {live &&
                     <div
@@ -574,7 +576,8 @@ const MarketRow = (props) => {
                 </>)
             })
             }
-        </div>
+        </div>}
+        </>
     )
 }
 
