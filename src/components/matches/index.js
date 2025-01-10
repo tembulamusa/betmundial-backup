@@ -508,6 +508,7 @@ const MarketRow = (props) => {
                         let idx = newOddValues.findIndex(obj => obj.odd_key === currentItemsPresent[0].odd_key);
                         let item = newOddValues[idx];
                         item.odd_value = odd.odd_value;
+                        item.market_status = odd?.market_status;
                         item.odd_active = data.match_market.status !== "Active" ? 0 : odd.active // odd.active;
                         newOddValues[idx] = item
                     }
