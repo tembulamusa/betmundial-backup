@@ -443,7 +443,7 @@ const OddButton = (props) => {
             {!detail &&
                 (
                     <span className="theodds odd-fix">
-                            {oddValue}
+                            {parseFloat(oddValue).toFixed(2)}
                         </span>
                 )
             }
@@ -451,7 +451,7 @@ const OddButton = (props) => {
                 (<>
                       <span
                           className="label label-inverse">
-                        {match.odd_key} {!match?.odd_key.includes(match?.special_bet_value) && `(${match?.special_bet_value})`}
+                        {match.odd_key} {!match?.odd_key.includes(match?.special_bet_value) || !match?.special_bet_value.includes("goal") && `(${match?.special_bet_value})`}
                       </span>
                     <span
                         className="label label-inverse odd-value">
