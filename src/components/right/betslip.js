@@ -74,8 +74,11 @@ const BetSlip = (props) => {
     }
     //Handle db validation of betslip
     const validateBetslipwithDbData = () => {
+        const betslipValidationData = state?.betslip;
+
         if (betslipValidationData && betslipsData) {
             let clone_slip = betslipsData;
+
             Object.entries(betslipValidationData).forEach(([key, slipdata]) => {
                 let match_id = slipdata.match_id;
                 let slip = clone_slip[match_id];
@@ -116,11 +119,6 @@ const BetSlip = (props) => {
             dispatch({type: "SET", key: betslipKey, payload: clone_slip});
         }
     };
-
-    useEffect(() => {
-        validateBetslipwithDbData();
-    }, [validateBetslipwithDbData]);
-
 
     // betslip key watch
     const setJackpotSlipkey = useCallback(() => {

@@ -304,7 +304,7 @@ const OddButton = (props) => {
                 + (match?.[mkt] || match?.odd_key || mkt || "draw")
             );
             setUcn(uc);
-            setOddValue(parseFloat(match?.odd_value).toFixed(2));
+            setOddValue(match?.odd_value);
             
         }
     }, [match]);
@@ -451,11 +451,11 @@ const OddButton = (props) => {
                 (<>
                       <span
                           className="label label-inverse">
-                        {match.odd_key}
+                        {match.odd_key} {!match?.odd_key.includes(match?.special_bet_value) && `(${match?.special_bet_value})`}
                       </span>
                     <span
                         className="label label-inverse odd-value">
-                            {match?.odd_value}
+                            {parseFloat(match?.odd_value).toFixed(2)}
                      </span>
                 </>)}
         </button>
@@ -499,9 +499,6 @@ const MarketRow = (props) => {
         console.log("MARKET ROW  ", props)
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id)
         socket?.on(`surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, (data) => {
-            console.log("THE INITIAL MARKET  Status :::: ", marketStatus) 
-            console.log("THE MARKET UPDATED ITS ODDS?STATUS   ::::::::    ", data)          
-            
             if (data.match_market.market_name == market_id){
                 let newOddValues = mutableMkts;               
                 // change the identified market
@@ -564,12 +561,15 @@ const MarketRow = (props) => {
                         <ColoredCircle color="#cc5500"/>
                     </div>
                 }
-                <span className='col-9'>{market_id}</span>
+                <span className='col-9'>{marketDetail.name}</span>
             </Row>
 
             {mutableMkts && mutableMkts?.map((mkt_odds) => {
+
+                console.log("THE MARKETACTIVE STUFF  :::  ", mkt_odds);
+
                 return (<>
-                    <Col className="match-detail" style={{width: width, float: "left"}}>
+                    {["active", "suspended"].includes(mkt_odds.market_status?.toLowerCase()) && <Col className="match-detail" style={{width: width, float: "left"}}>
                         <MktOddsButton
                             match={match}
                             mktodds={mkt_odds}
@@ -577,7 +577,7 @@ const MarketRow = (props) => {
                             live={live}
                             pdown={pdown}
                         />
-                    </Col>
+                    </Col>}
                 </>)
             })
             }
