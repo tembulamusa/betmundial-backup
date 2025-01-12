@@ -137,7 +137,6 @@ const BigIconMenu = () => {
     }, [state?.categories])
 
     const changeUserSelection = (category) => {
-
         dispatch({type:"SET", key:"filtersport", payload: category});
         setLocalStorage("filtersport", category, 5 * 60 * 1000)
     }

@@ -477,11 +477,10 @@ const teamScore = (allscore, is_home_team) => {
 const MarketRow = (props) => {
     const {markets, match, market_id, width, live, pdown, marketDetail} = props;
     const [mutableMkts, setMutableMkts] = useState([...markets]);
-    const [marketStatus, setMarketStatus] = useState("");
-    const [producerId, setProducerId] = useState()
-
-    useEffect(()=> {setMarketStatus(marketDetail?.market_status); setProducerId(marketDetail?.producer_id)}, [marketDetail])
-
+    const [marketStatus, setMarketStatus] = useState(...marketDetail?.market_status);
+    const [producerId, setProducerId] = useState(marketDetail?.producer_id);
+    
+    
     const handleGameSocket = (type, gameId, sub_type_id) => {
         if (type == "listen" && socket?.connected) {
             socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:sub_type_id});
@@ -496,34 +495,21 @@ const MarketRow = (props) => {
 
 
     useEffect(() => {
+        setMutableMkts([...markets]);
+        setMarketStatus(marketDetail?.market_status)
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id)
-        socket?.on(`surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, (data) => {
-            console.log("THE LOGGED DATA IS SOMEWHERE :::  ", data)
-            if (data.match_market.market_name == market_id){
-                let newOddValues = mutableMkts;               
-                // change the identified market
-                Object.values(data.event_odds).forEach((odd, idx2) => {
-                    let currentItemsPresent = newOddValues.filter((item) => item.odd_key == odd.odd_key);
-                    if(currentItemsPresent.length == 1) {
-                        let idx = newOddValues.findIndex(obj => obj.odd_key === currentItemsPresent[0].odd_key);
-                        let item = newOddValues[idx];
-                        item.odd_value = odd.odd_value;
-                        item.market_status = odd?.market_status;
-                        item.odd_active = data.match_market.status == "Suspended"  ? 0 : odd.active // odd.active;
-                        newOddValues[idx] = item
-                    }
 
-                    if(currentItemsPresent.length === 0) {
-                        newOddValues.push(odd);
-                    }
-                })
-
-                setMutableMkts(newOddValues.sort((a,b) => a.special_bet_value - b.special_bet_value)); // b - a for reverse sort
-                setMarketStatus(data.match_market.status);
-
-        }
+        const socketEvent = `surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`;
+        socket?.on(socketEvent, (data) => {
+            console.log("THE MARKET BEFORE UPDATE  ", mutableMkts);
+            console.log("THE LOGGED MARKET INFO IS SOMEWHERE :::  ", data);            
+            setMutableMkts( (prevMarkets) => Object.values(data.event_odds));
+            setMarketStatus(data.match_market.status);});
+        // socket?.on(`surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, (data) => {
             
-        });
+                
+        // });
+        socket?.off(socketEvent);
 
         return () => {
             handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id)
@@ -567,7 +553,7 @@ const MarketRow = (props) => {
 
             {mutableMkts && mutableMkts?.map((mkt_odds) => {
                 return (<>
-                    {["active", "suspended"].includes(mkt_odds.market_status?.toLowerCase()) && <Col className="match-detail" style={{width: width, float: "left"}}>
+                    {(["active", "suspended"].includes(mkt_odds?.market_status?.toLowerCase())) && <Col className="match-detail" style={{width: width, float: "left"}}>
                         <MktOddsButton
                             match={match}
                             mktodds={mkt_odds}
@@ -642,7 +628,6 @@ const MatchRow = (props) => {
         } else if (changeItem == "odds_change"){
 
         }
-
         dispatch({type:"SET", key:'betslip', payload: slip})
     }
 

@@ -38,7 +38,7 @@ const Index = (props) => {
     // const [doPoll, setDoPoll] = useState(false);
 
     const fetchData = async () => {
-        console.log("THE sportID   ", sportid)
+        console.log("THE sportID   ", state?.filtersport)
         setFetching(true);
         let fetchcount = fetchingCount + 1;
         let tab = 'highlights';
@@ -83,7 +83,8 @@ const Index = (props) => {
         await makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
             setFetchingCount(fetchcount);
             if (status == 200) {
-                setMatches(matches?.length > 0 ? {...matches, ...result?.data?.items} : result?.data?.items || result)
+                // check for page and see if page is not the 
+                setMatches((matches?.length > 0 && page > 1) ? {...matches, ...result?.data?.items} : result?.data?.items || result)
                 setFetching(false)
                 if (result?.slip_data) {
                     setUserSlipsValidation(result?.slip_data);
