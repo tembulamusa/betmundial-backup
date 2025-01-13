@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useCallback, useRef, useLayoutEffect} from 'react';
+import React, {useState, useEffect, useContext, useCallback, useRef, useLayoutEffect, useMemo} from 'react';
 import {Context} from '../../context/store';
 import {
     addToSlip,
@@ -477,59 +477,63 @@ const teamScore = (allscore, is_home_team) => {
 const MarketRow = (props) => {
     const {markets, match, market_id, width, live, pdown, marketDetail} = props;
     const [mutableMkts, setMutableMkts] = useState([...markets]);
-    const [marketStatus, setMarketStatus] = useState(...marketDetail?.market_status);
+    const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     
     
-    const handleGameSocket = (type, gameId, sub_type_id) => {
-        if (type == "listen" && socket?.connected) {
-            socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:sub_type_id});
-            
-        }
-
-        else if (type == "leave") {
-            socket?.emit("user.market.leave", {parent_match_id: gameId, sub_type_id:sub_type_id});
-        }
-        
-    }
+    const socketRef = useRef(socket);
+    const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
+    
+    const handleGameSocket = useCallback((type, gameId, sub_type_id) => {
+        if (type === "listen" && socketRef.current?.connected) {
+            socketRef.current.emit('user.market.listen', { parent_match_id: gameId, sub_type_id });
+        } else if (type === "leave") {
+            socketRef.current?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id });
+     }
+    }, []);
 
 
     useEffect(() => {
-        setMutableMkts([...markets]);
-        setMarketStatus(marketDetail?.market_status)
-        handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id)
+        handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
-        const socketEvent = `surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`;
-        socket?.on(socketEvent, (data) => {
-            console.log("THE MARKET BEFORE UPDATE  ", mutableMkts);
-            console.log("THE LOGGED MARKET INFO IS SOMEWHERE :::  ", data);            
-            setMutableMkts( (prevMarkets) => Object.values(data.event_odds));
-            setMarketStatus(data.match_market.status);});
-        // socket?.on(`surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, (data) => {
+        const handleSocketData = (data) => {
             
-                
-        // });
-        socket?.off(socketEvent);
+            if (data.match_market.sub_type_id == 18) {
+                console.log("Specific Socket Data Received:", data.event_odds["1208991418under 2.52.5"]);
+            }
+
+            setMutableMkts((prevMarkets) => {
+                const newMarkets = Object.values(data.event_odds).sort((a,b) => a.special_bet_value - b.special_bet_value);
+                return JSON.stringify(prevMarkets) !== JSON.stringify(newMarkets) ? newMarkets : prevMarkets;
+            });
+
+            setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
+        };
+
+        socketRef.current?.on(socketEvent, handleSocketData);
 
         return () => {
-            handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id)
+            handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
+            socketRef.current?.off(socketEvent, handleSocketData);
+        };
+    }, [handleGameSocket, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
+
+    const MktOddsButton = React.memo(({ match, mktodds, live, pdown, producerId }) => {
+        const fullmatch = useMemo(
+            () => ({ ...match, ...mktodds, producer_id: producerId }),
+            [match, mktodds, producerId]
+        );
+
+        if (
+            !pdown &&
+            fullmatch?.odd_value !== 'NaN' &&
+            fullmatch?.odd_active === 1 &&
+            fullmatch?.market_status === "Active"
+        ) {
+            return <OddButton match={fullmatch} detail mkt={"detail"} live={live} />;
         }
-
-        
-    }, [])
-
-    const MktOddsButton = (props) => {
-        const {match, mktodds, live, pdown, producerId} = props;
-        const [fullmatch, setFullmatch] = useState({...match, ...mktodds, producer_id: producerId});
-        
-
-        return (
-            !pdown
-            && fullmatch?.odd_value !== 'NaN' && fullmatch?.odd_active == 1 && fullmatch?.market_status == "Active"
-        )
-            ? <OddButton match={fullmatch} detail mkt={"detail"} live={live}/>
-            : <EmptyTextRow odd_key={fullmatch?.odd_key}/>;
-    }
+        return <EmptyTextRow odd_key={fullmatch?.odd_key}/>;
+    });
 
     return (
         <>

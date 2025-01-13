@@ -61,22 +61,26 @@ const MatchAllMarkets = (props) => {
 
     // even if we are connected on socket, we may have to poll after some time so as to get the newest games
     useInterval(async () => {
-        fetchPagedData();
-    }, 10000);
+        if(!isLoading){
+            fetchPagedData();
+        }
+
+    }, 1500);
 
     useEffect(()=> {
         
-        if(live) {
-            if(socket.connected){ setDelay(5000) } else { setDelay(3000) }
-        } else {
-            if(socket.connected){ setDelay(10000) } else { setDelay(15000) }
-        }
+        // if(live) {
+        //     if(socket.connected){ setDelay(5000) } else { setDelay(3000) }
+        // } else {
+        //     if(socket.connected){ setDelay(10000) } else { setDelay(15000) }
+        // }
 
-        dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
+        // dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
 
-        return () => {
-            dispatch({type:"DEL", key: "matchlisttype"});
-        }
+        // return () => {
+        //     dispatch({type:"DEL", key: "matchlisttype"});
+        // }
+
     },[])
 
 

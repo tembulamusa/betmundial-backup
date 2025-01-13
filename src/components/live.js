@@ -41,16 +41,11 @@ const Live = (props) => {
     };
 
     useInterval(async () => {
-        if(!socket.connected) {
+        if(!fetching) {
             fetchData();
         }
-      }, 3000);
+      }, 1500);
 
-    //   useInterval(async () => {
-    //     if(socket.connected) {
-    //         fetchData();
-    //     }
-    //   }, 5000);
 
     useEffect(() => {
         fetchData();
