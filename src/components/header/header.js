@@ -100,8 +100,10 @@ const Header = (props) => {
                 <div className='main-header-top w-full p-0'><div className='light-blue md:hidden text-white py-1 w-full px-3'><MobileLoggedInBals/></div>
                     <Container fluid className={'d-flex justify-content-between mobile-change'}>
                         
-                        <div href="/" className="e col-md-5 col-sm-6 logo align-self-start  items-center" title="surebet">
-                            <a className='my-2 mt-3' href='/'><img src={logo} alt="surebet" title="surebet" effects="blur"/></a>
+                        <div className="e col-md-5 col-sm-6 logo align-self-start  items-center" title="surebet">
+                            <a className="my-2 mt-3 inline-block" href="/" style={{ display: "inline-block" }}>
+                                <img src={logo} alt="surebet" title="surebet" effects="blur" />
+                            </a>
                         </div>
 
                         <div className="col-md-7 col-sm-6" id="navbar-collapse-main">

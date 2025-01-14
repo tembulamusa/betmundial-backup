@@ -29,6 +29,7 @@ const BetSlip = (props) => {
     const [localJPData, setLocalJPData] = useState(jackpotData);
     const { code } = useParams();
     const [state, dispatch] = useContext(Context);
+    console.log("State In Slip", state)
     const [betslipKey, setBetslipKey] = useState(
        () => state?.jackpotbetslip ? "jackpotbestslip": "bestslip"
     );
@@ -232,7 +233,7 @@ const BetSlip = (props) => {
                 </li>
             }
             {hasBetslip  && <>
-            <div className="flow betslip-slips" style={{maxHeight: "50vh", overflowY: "auto", overflowX:"hidden"}}>
+            <div className="flow betslip-slips" style={{maxHeight: "50vh", overflowY: "auto", overflowX:"hidden", paddingRight:"8px"}}>
                 <ul style={{paddingRight:"8px", paddingLeft:"8px"}}>
 
                     
