@@ -276,7 +276,7 @@ const BetSlip = (props) => {
                                 <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'game-started'} row`}>
                                     <div className="bet-value">
                                         {slip.odd_type} - <span className='font-[500]'>{slip.bet_pick}</span>
-                                        <span className="bet-odd">{slip.odd_value}
+                                        <span className="bet-odd">{slip?.prev_odds && <span className='line-through opacity-60 mr-3'>{slip.prev_odds}</span>} {slip.odd_value}
                                                     {slip.odd_value == 1 &&
                                                         (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
                                                     }

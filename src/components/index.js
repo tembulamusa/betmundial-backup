@@ -98,11 +98,11 @@ const Index = (props) => {
     const poll = () => {
         
     }
-    useInterval(async () => {
-        if(!fetching){
-            fetchData();
-        }
-    }, 2000);
+    // useInterval(async () => {
+    //     if(!fetching){
+    //         fetchData();
+    //     }
+    // }, 2000);
 
     // even if we are connected on socket, we may have to poll after some time so as to get the newest games
     // useInterval(async () => {

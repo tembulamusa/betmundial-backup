@@ -490,6 +490,7 @@ const MarketRow = (props) => {
         // get temporary slip
         let slip = state?.betslip[matchId] || {};
         let betslip = state?.betslip
+
         if(Object.keys(slip).length > 0 ) {                       
             if(market.sub_type_id == slip.sub_type_id){
                 if (market.status !== "Active"){
@@ -497,8 +498,7 @@ const MarketRow = (props) => {
                     slip.disable = true;
                 }
 
-                console.log("BET PICKEEEEEDDDDDDDD   ", slip.bet_pick, "THE UPDATED KEY    ",  affectedChoice.odd_key, "ARE THEY EQUAL TODAY     ::::::   ", slip.bet_pick == affectedChoice.odd_key)
-                if(slip.bet_pick == affectedChoice.odd_key){
+                if (slip.bet_pick == affectedChoice.odd_key){
                     if (affectedChoice.odd_active !== 1) {
                         slip.comment = 'Option not active for betting';
                         slip.disable = true;
@@ -506,14 +506,15 @@ const MarketRow = (props) => {
                         slip.comment = 'Betting on this market is '
                             + affectedChoice.market_status;
                         slip.disable = true;
-                    } else if (affectedChoice.event_status !== 'Active') {
-                        slip.comment = 'This event is  ' + affectedChoice.event_status;
-                        slip.disable = true;
                     } else if (affectedChoice.odd_value !== slip.odd_value) {
                         slip.prev_odds = slip.odd_value;
                         slip.odd_value = affectedChoice.odd_value;
                         slip.comment = 'The odds for this event have changed';
                         slip.disable = false;
+                    } else {
+                        delete slip.comment
+                        delete slip.disable
+                        delete slip.prev_odds
                     }
                     
                 }
@@ -689,10 +690,8 @@ const MatchRow = (props) => {
                 if (market.status !== "Active"){
                     slip.comment = 'Market ' + market.status;
                     slip.disable = true;
-                }
-                console.log("BET PICKEEEEEDDDDDDDD   ", slip.bet_pick, "THE UPDATED KEY    ",  affectedChoice.odd_key, "ARE THEY EQUAL TODAY     ::::::   ", slip.bet_pick == affectedChoice.odd_key)
-                
-                if(slip.bet_pick == affectedChoice.odd_key){
+                }                
+                if (slip.bet_pick == affectedChoice.odd_key){
                     if (affectedChoice.odd_active !== 1) {
                         slip.comment = 'Option not active for betting';
                         slip.disable = true;
@@ -700,14 +699,15 @@ const MatchRow = (props) => {
                         slip.comment = 'Betting on this market is '
                             + affectedChoice.market_status;
                         slip.disable = true;
-                    } else if (affectedChoice.event_status !== 'Active') {
-                        slip.comment = 'This event is  ' + affectedChoice.event_status;
-                        slip.disable = true;
                     } else if (affectedChoice.odd_value !== slip.odd_value) {
                         slip.prev_odds = slip.odd_value;
                         slip.odd_value = affectedChoice.odd_value;
                         slip.comment = 'The odds for this event have changed';
                         slip.disable = false;
+                    } else {
+                        delete slip.comment
+                        delete slip.disable
+                        delete slip.prev_odds
                     }
                     
                 }
