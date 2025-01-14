@@ -77,7 +77,7 @@ const BetslipSubmitForm = (props) => {
                  className={`placebet-response fade alert alert-${c} show alert-dismissible`}>
 
                     <div className=''>
-                        <div className='alert-title text-2xl flex font-bold w-full py-3'>
+                        <div className='alert-title text-2xl flex font-bold w-full py-3 justify-between'>
                             <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div>
                             <div aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</div>
                         </div>
@@ -457,7 +457,7 @@ const BetslipSubmitForm = (props) => {
                         {/* the betslip form bottom */}
                         
                        
-                        <table width={100} className='betslip-placebet-section py-3' style={{fontWeight:"500"}}>
+                        <table width={100} className='betslip-placebet-section py-3' style={{fontWeight:"500", paddingRight: "10px"}}>
                             <tbody>
                                 {jackpot ? (
                                     ''
