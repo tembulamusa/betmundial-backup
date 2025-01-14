@@ -40,22 +40,22 @@ const Live = (props) => {
         });
     };
 
-    useInterval(async () => {
-        if(!fetching) {
-            fetchData();
-        }
-      }, 15000);
+    // useInterval(async () => {
+    //     if(!fetching) {
+    //         fetchData();
+    //     }
+    //   }, 15000);
 
 
     useEffect(() => {
         fetchData();
-        let cachedSlips = getBetslip("betslip");
-        if (cachedSlips) {
-            dispatch({type: "SET", key: "betslip", payload: cachedSlips});
-        }
-        return () => {
-            setMatches(null);
-        };
+        // let cachedSlips = getBetslip("betslip");
+        // if (cachedSlips) {
+        //     dispatch({type: "SET", key: "betslip", payload: cachedSlips});
+        // }
+        // return () => {
+        //     setMatches(null);
+        // };
     }, [sportid]);
 
     return (
