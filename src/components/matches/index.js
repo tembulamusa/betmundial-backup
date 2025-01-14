@@ -20,6 +20,7 @@ import socket from '../utils/socket-connect';
 import { ShimmerTable } from "react-shimmer-effects";
 import MatchDetailBetrandder from "../../assets/img/betrader/test-game-details.png"
 import LockedButton, { EmptyButton } from '../utils/locked-button';
+import betslip from '../right/betslip';
 
 const clean = (_str) => {
     _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
@@ -479,8 +480,35 @@ const MarketRow = (props) => {
     const [mutableMkts, setMutableMkts] = useState([...markets]);
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
-    
-    
+    const [state, dispatch] = useContext(Context); 
+
+    useEffect(() => {
+        setMutableMkts(markets);
+    }, []);
+
+    const checkUpdateSlipChanges = (parentGame, market, affectedChoice) => {
+        // get temporary slip
+        let slip = state?.betslipValidationData || state?.betslip;
+        // check for match in slip
+        let match = slip[parentGame]
+
+        if(!match) {
+            return
+        } else {            
+            if(market.sub_type_id !== match.sub_type_id){
+                match.market_active = market.status
+            }
+
+            if(match.odd_key == affectedChoice.odd_key){
+                match.add_key = affectedChoice.odd_active;
+                match.odd_value = affectedChoice.odd_value;
+            }
+            
+        }
+        slip[parentGame] = match
+        dispatch({type:"SET", key:"betslipValidationData", payload:slip})
+         
+    }
     const socketRef = useRef(socket);
     const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
     
@@ -497,17 +525,37 @@ const MarketRow = (props) => {
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
         const handleSocketData = (data) => {
-            
-            if (data.match_market.sub_type_id == 18) {
-                console.log("Specific Socket Data Received:", data.event_odds["1208991418under 2.52.5"]);
+
+            if(data.match_market.sub_type_id == 18){
+
+                console.log("Received odds for type 18: ", data?.event_odds)
+                console.log("Received odds for type 18: ", data?.match_market.status)
             }
 
-            setMutableMkts((prevMarkets) => {
-                const newMarkets = Object.values(data.event_odds).sort((a,b) => a.special_bet_value - b.special_bet_value);
-                return JSON.stringify(prevMarkets) !== JSON.stringify(newMarkets) ? newMarkets : prevMarkets;
-            });
+        
+            Object.values(data.event_odds)?.forEach((evodd, ivg) => {
+                
+                setMutableMkts((prevMarkets) => {
+                    let index = mutableMkts?.findIndex(
+                        ev => ev.sub_type_id == evodd.sub_type_id 
+                        && ev.odd_key == evodd.odd_key
+                        && ev.special_bet_value == evodd.special_bet_value);
+                    if(index !== -1){
+                        const newOdds = [...prevMarkets];
+                        newOdds[index] = evodd;
+                        return newOdds;
+                    } else {
+                        return [...prevMarkets, evodd];
+                    }
+                });
 
-            setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
+                checkUpdateSlipChanges(match?.parent_match_id, data.match_market, evodd);
+
+            });
+        
+            if(data.match_market == "") {
+                setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
+            }
         };
 
         socketRef.current?.on(socketEvent, handleSocketData);
@@ -519,10 +567,7 @@ const MarketRow = (props) => {
     }, [handleGameSocket, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
 
     const MktOddsButton = React.memo(({ match, mktodds, live, pdown, producerId }) => {
-        const fullmatch = useMemo(
-            () => ({ ...match, ...mktodds, producer_id: producerId }),
-            [match, mktodds, producerId]
-        );
+        const fullmatch = { ...match, ...mktodds, producer_id: producerId };
 
         if (
             !pdown &&
@@ -615,24 +660,34 @@ const MatchRow = (props) => {
 
     const [state, dispatch] = useContext(Context);
     const [isVisible, setIsVisible] = useState(true);
-    const [match, setMatch] = useState(initialMatch)
+    const [match, setMatch] = useState({...initialMatch})
     // match.market_active = 1
     // if(match?.odds?.home_odd_active) {
     //     match.odds.home_odd_active = 1
     // }
 
-    const UpdateSlipChanges = (changeItem, value, match, oddsNewValue="0.00", changedMarket="1x2") => {
-        let slip = state?.betslip;
-        let slipItem = slip[match];
-        if (changeItem == "market_active"){
-            // check if the changed market is the one picked
-            slipItem = {...slipItem, market_active: value}
-        } else if( changeItem == "event_status" ) {
-            slipItem = {...slipItem, event_status: value}
-        } else if (changeItem == "odds_change"){
+    const checkUpdateSlipChanges = (parentGame, market, affectedChoice) => {
+        // get temporary slip
+        let slip = state?.betslipValidationData || state?.betslip;
+        // check for match in slip
+        let match = slip[parentGame]
 
+        if(!match) {
+            return
+        } else {            
+            if(market.sub_type_id !== match.sub_type_id){
+                match.market_active = market.status
+            }
+
+            if(match.odd_key == affectedChoice.odd_key){
+                match.add_key = affectedChoice.odd_active;
+                match.odd_value = affectedChoice.odd_value;
+            }
+            
         }
-        dispatch({type:"SET", key:'betslip', payload: slip})
+        slip[parentGame] = match
+        dispatch({type:"SET", key:"betslipValidationData", payload:slip})
+         
     }
 
     const handleGameSocket = (type, gameId) => {
@@ -652,67 +707,72 @@ const MatchRow = (props) => {
     useEffect(() => {
         handleGameSocket("listen", match?.parent_match_id);
         socket?.on(`surebet#${match?.parent_match_id}#1`, (data) => {
-            console.log("THE SOCKET DATA  ::: ", data)
-            console.log("THE MATCH BEFORE UPDATE   :::: ", match)
-            let new1x2 = [];
-            let newOdds = Object.values(data);
+            
             // Check to make sure that the odds exist...
-            match?.odds["1x2"]?.outcomes?.forEach((item, idx) => {
-                Object.values(data.event_odds).forEach((odd, idx2) => {
-                    if(odd.odd_key == item.odd_key) {
-                        item.odd_value = odd.odd_value;
-                        item.active = data?.match_market?.status.toLowerCase() !== "active" ? 0 : odd.active;
-                        new1x2.push(item)
+            Object.values(data.event_odds)?.forEach((evodd, ivg) => {
+                setMatch((prevMarkets) => {
+                    let currentItems = prevMarkets?.odds['1x2']?.outcomes || [];
+                    let index = match?.odds["1x2"]?.outcomes?.findIndex(
+                        ev => ev.sub_type_id == evodd.sub_type_id 
+                        && ev.odd_key == evodd.odd_key
+                        && ev.special_bet_value == evodd.special_bet_value);
+                    if(index !== -1){
+                        const newOdds = [...currentItems];
+                        newOdds[index] = evodd;
+                        return {...match, odds: {...match?.odds, "1x2":{...match?.odds["1x2"], outcomes: newOdds, market_status: data.match_market.status}}}
+
+                    } else {
+                        return {...match, odds: {...match?.odds, "1x2":{...match?.odds["1x2"], outcomes: [...match?.odds["1x2"]?.outcomes, evodd], market_status: data.match_market.status}}}                    
                     }
-                })
-            })
-            console.log("THE MATCH UPDATE  ::::: ", data);
-            console.log("THE NEW MRKT 1x2 ::: ", new1x2);
-            // MOST PREFERED IF we use USEREF RATHER THAN STATE WHICH CAUSES RERENDERING
-            // USE STATE IS A TERRIBLE IDEA AS IT TAKES TIME  ::: 
-            setMatch({...match, odds: {...match?.odds, "1x2":{...match?.odds["1x2"], outcomes: new1x2, market_status: data.match_market.status}}})
 
+                });
 
+                checkUpdateSlipChanges(match?.parent_match_id, data.match_market, evodd);
+
+            });
         });
         socket?.on(`surebet#${match?.parent_match_id}#10`, (data) => {
-            console.log("THE SOCKET DATA  ::: ", data)
-            let newDoubleChance = [];
-            let newOdds = Object.values(data.event_odds);
-            match?.odds["Double Chance"]?.outcomes?.forEach((item, idx) => {
-                Object.values(data.event_odds).forEach((odd, idx2) => {
-                    if(odd.odd_key == item.odd_key) {
-                        item.odd_value = parseFloat(odd.odd_value);
-                        item.active = data?.match_market?.status.toLowerCase() !== "active" ? 0 : odd.active;
-                        newDoubleChance.push(item)
+            // Check to make sure that the odds exist...
+            Object.values(data.event_odds)?.forEach((evodd, ivg) => {
+                setMatch((prevMarkets) => {
+                    let currentItems = prevMarkets?.odds['Double Chance']?.outcomes || [];
+                    let index = match?.odds["Double Chance"]?.outcomes?.findIndex(
+                        ev => ev.sub_type_id == evodd.sub_type_id 
+                        && ev.odd_key == evodd.odd_key
+                        && ev.special_bet_value == evodd.special_bet_value);
+                    if(index !== -1){
+                        const newOdds = [...currentItems];
+                        newOdds[index] = evodd;
+                        return {...match, odds: {...match?.odds, "Double Chance":{...match?.odds["Double Chance"], outcomes: newOdds, market_status: data.match_market.status}}}
+
+                    } else {
+                        return {...match, odds: {...match?.odds, "Double Chance":{...match?.odds["Double Chance"], outcomes: [...match?.odds["Double Chance"]?.outcomes, evodd], market_status: data.match_market.status}}}                    
                     }
-                })
+                });
+                checkUpdateSlipChanges(match?.parent_match_id, data.match_market, evodd);
             });
-
-            // MOST PREFERED IF we use USEREF RATHER THAN STATE WHICH CAUSES RERENDERING
-            // USE STATE IS A TERRIBLE IDEA AS IT TAKES TIME  ::: 
-            setMatch({...match, odds: {...match?.odds, "Double Chance":{...match?.odds["Double Chance"], outcomes: newDoubleChance, market_status: data.match_market.status}}})
-
             
         });
         socket?.on(`surebet#${match?.parent_match_id}#18`, (data) => {
-            let total = Object.values(data.event_odds);
-            total = total.filter(value => value.special_bet_value == "2.5")
-            let newTotal = [];
-            let newOdds = Object.values(total);
-            if(total.length == 2){
-                match?.odds["Total"]?.outcomes?.forEach((item, idx) => {
-                    total.forEach((odd, idx2) => {
-                        if(odd.odd_key == item.odd_key) {
-                            item.odd_value = odd.odd_value;
-                            item.active = data?.match_market?.status.toLowerCase() !== "active" ? 0 : odd.active;
-                            newTotal.push(item)
+            if(data.match_market.special_bet_value == 2.5){
+                Object.values(data.event_odds)?.forEach((evodd, ivg) => {
+                    setMatch((prevMarkets) => {
+                        
+                        let currentItems = prevMarkets?.odds['Total']?.outcomes || [];
+                        let index = match?.odds["Total"]?.outcomes?.findIndex(
+                            ev => ev.odd_key == evodd.odd_key);
+                        if(index !== -1){
+                            const newOdds = [...currentItems];
+                            newOdds[index] = evodd;
+                            return {...match, odds: {...match?.odds, "Total":{...match?.odds["Total"], outcomes: newOdds, market_status: data.match_market.status}}}
+    
+                        } else {
+    
+                            return {...match, odds: {...match?.odds, "Total":{...match?.odds["Total"], outcomes: [...match?.odds["Total"]?.outcomes, evodd], market_status: data.match_market.status}}}                    
                         }
-                    })
-                })
-            
-            // MOST PREFERED IF we use USEREF RATHER THAN STATE WHICH CAUSES RERENDERING
-            // USE STATE IS A TERRIBLE IDEA AS IT TAKES TIME  ::: 
-                setMatch({...match, odds: {...match?.odds, "Total":{...match?.odds["Total"], outcomes: newTotal, market_status: data.match_market.status}}})
+                    });
+                    checkUpdateSlipChanges(match?.parent_match_id, data.match_market, evodd);
+                });
             }
             
         });

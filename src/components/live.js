@@ -44,7 +44,7 @@ const Live = (props) => {
         if(!fetching) {
             fetchData();
         }
-      }, 1500);
+      }, 15000);
 
 
     useEffect(() => {

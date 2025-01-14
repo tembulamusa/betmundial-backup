@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import CompanyInfo from "./company-info";
 import makeRequest from '../utils/fetch-request';
-import { setLocalStorage } from '../utils/local-storage';
+import { getFromLocalStorage, setLocalStorage } from '../utils/local-storage';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import Notify from "../utils/Notify";
@@ -123,12 +123,13 @@ const BetSlip = (props) => {
         }
     };
 
-
-    useInterval(async () => {
-        validateBetslipwithDbData()
-    }, 4000);
-
+    useEffect(() =>{
+        if(betslipValidationData !== betslipsData ) {
+            validateBetslipwithDbData();
+        }
+    }, [state?.betslipValidationData])
     // betslip key watch
+    
     const setJackpotSlipkey = useCallback(() => {
         if (state?.jackpotbetslip) {
             setBetslipKey("jackpotbetslip");
