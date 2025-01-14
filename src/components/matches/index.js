@@ -486,43 +486,6 @@ const MarketRow = (props) => {
         setMutableMkts(markets);
     }, []);
 
-    const checkUpdateSlipChanges = (matchId, market, affectedChoice) => {
-        // get temporary slip
-        let slip = state?.betslip[matchId] || {};
-        let betslip = state?.betslip
-
-        if(Object.keys(slip).length > 0 ) {                       
-            if(market.sub_type_id == slip.sub_type_id){
-                if (market.status !== "Active"){
-                    slip.comment = 'Market ' + market.status;
-                    slip.disable = true;
-                }
-
-                if (slip.bet_pick == affectedChoice.odd_key){
-                    if (affectedChoice.odd_active !== 1) {
-                        slip.comment = 'Option not active for betting';
-                        slip.disable = true;
-                    } else if (affectedChoice.market_status !== 'Active') {
-                        slip.comment = 'Betting on this market is '
-                            + affectedChoice.market_status;
-                        slip.disable = true;
-                    } else if (affectedChoice.odd_value !== slip.odd_value) {
-                        slip.prev_odds = slip.odd_value;
-                        slip.odd_value = affectedChoice.odd_value;
-                        slip.comment = 'The odds for this event have changed';
-                        slip.disable = false;
-                    } else {
-                        delete slip.comment
-                        delete slip.disable
-                        delete slip.prev_odds
-                    }
-                    
-                }
-                
-            }            
-        };
-        dispatch({type:"SET", key:"betslip", payload:betslip})
-    }
     const socketRef = useRef(socket);
     const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
     
@@ -539,16 +502,8 @@ const MarketRow = (props) => {
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
         const handleSocketData = (data) => {
-
-            if(data.match_market.sub_type_id == 18){
-
-                console.log("Received odds for type 18: ", data?.event_odds)
-                console.log("Received odds for type 18: ", data?.match_market.status)
-            }
-
-        
+       
             Object.values(data.event_odds)?.forEach((evodd, ivg) => {
-                
                 setMutableMkts((prevMarkets) => {
                     let index = mutableMkts?.findIndex(
                         ev => ev.sub_type_id == evodd.sub_type_id 
@@ -563,7 +518,6 @@ const MarketRow = (props) => {
                     }
                 });
 
-                checkUpdateSlipChanges(match?.match_id, data.match_market, evodd);
 
             });
         
@@ -680,42 +634,7 @@ const MatchRow = (props) => {
     //     match.odds.home_odd_active = 1
     // }
 
-    const checkUpdateSlipChanges = (matchId, market, affectedChoice) => {
-        // get temporary slip
-        let slip = state?.betslip[matchId] || {};
-        let betslip = state?.betslip
-        if(Object.keys(slip).length > 0 ) {
-            console.log("THE MARKET IS HERE TODAY   :::::: ", market)                       
-            if(market.sub_type_id == slip.sub_type_id){
-                if (market.status !== "Active"){
-                    slip.comment = 'Market ' + market.status;
-                    slip.disable = true;
-                }                
-                if (slip.bet_pick == affectedChoice.odd_key){
-                    if (affectedChoice.odd_active !== 1) {
-                        slip.comment = 'Option not active for betting';
-                        slip.disable = true;
-                    } else if (affectedChoice.market_status !== 'Active') {
-                        slip.comment = 'Betting on this market is '
-                            + affectedChoice.market_status;
-                        slip.disable = true;
-                    } else if (affectedChoice.odd_value !== slip.odd_value) {
-                        slip.prev_odds = slip.odd_value;
-                        slip.odd_value = affectedChoice.odd_value;
-                        slip.comment = 'The odds for this event have changed';
-                        slip.disable = false;
-                    } else {
-                        delete slip.comment
-                        delete slip.disable
-                        delete slip.prev_odds
-                    }
-                    
-                }
-                
-            }            
-        };
-        dispatch({type:"SET", key:"betslip", payload:betslip})
-    }
+    
     
 
     const handleGameSocket = (type, gameId) => {
@@ -738,7 +657,6 @@ const MatchRow = (props) => {
             
             // Check to make sure that the odds exist...
             Object.values(data.event_odds)?.forEach((evodd, ivg) => {
-                console.log("CHECK THE STATUS HERE    ", evodd);
                 setMatch((prevMarkets) => {
                     let currentItems = prevMarkets?.odds['1x2']?.outcomes || [];
                     let index = match?.odds["1x2"]?.outcomes?.findIndex(
@@ -756,14 +674,12 @@ const MatchRow = (props) => {
 
                 });
 
-                checkUpdateSlipChanges(match?.match_id, data.match_market, evodd);
 
             });
         });
         socket?.on(`surebet#${match?.parent_match_id}#10`, (data) => {
             // Check to make sure that the odds exist...
             Object.values(data.event_odds)?.forEach((evodd, ivg) => {
-                console.log("CHECK THE STATUS HERE    ", evodd);
                 setMatch((prevMarkets) => {
                     let currentItems = prevMarkets?.odds['Double Chance']?.outcomes || [];
                     let index = match?.odds["Double Chance"]?.outcomes?.findIndex(
@@ -779,7 +695,6 @@ const MatchRow = (props) => {
                         return {...match, odds: {...match?.odds, "Double Chance":{...match?.odds["Double Chance"], outcomes: [...match?.odds["Double Chance"]?.outcomes, evodd], market_status: data.match_market.status}}}                    
                     }
                 });
-                checkUpdateSlipChanges(match?.match_id, data.match_market, evodd);
             });
             
         });
@@ -787,7 +702,6 @@ const MatchRow = (props) => {
 
             if(data.match_market.special_bet_value == 2.5){
                 Object.values(data.event_odds)?.forEach((evodd, ivg) => {
-                    console.log("CHECK THE STATUS HERE    ", evodd);
 
                     setMatch((prevMarkets) => {
                         
@@ -804,7 +718,6 @@ const MatchRow = (props) => {
                             return {...match, odds: {...match?.odds, "Total":{...match?.odds["Total"], outcomes: [...match?.odds["Total"]?.outcomes, evodd], market_status: data.match_market.status}}}                    
                         }
                     });
-                    checkUpdateSlipChanges(match?.match_id, data.match_market, evodd);
                 });
             }
             

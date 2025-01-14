@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useCallback} from 'react';
+import React, {useState, useEffect, useContext, useCallback, useMemo, useRef} from 'react';
 import BetslipSubmitForm from './betslip-submit-form';
 import {Context} from '../../context/store';
 import {
@@ -18,6 +18,7 @@ import moment from 'moment';
 import Notify from "../utils/Notify";
 import Alert from '../utils/alert';
 import useInterval from '../../hooks/set-interval.hook';
+import socket from '../utils/socket-connect';
 const clean_rep = (str) => {
     str = str.replace(/[^A-Za-z0-9\-]/g, '');
     return str.replace(/-+/g, '-');
@@ -38,6 +39,82 @@ const BetSlip = (props) => {
     
     //initial betslip loading
 
+
+    const checkUpdateSlipChanges = (matchId, market, affectedChoice) => {
+        // get temporary slip
+        let slip = state?.betslip ? state?.betslip[matchId] : {};
+        let betslip = state?.betslip
+        if(Object.keys(slip).length > 0 ) {
+            // Listen to the game for other events such as status etc etc
+            
+            if(market.sub_type_id == slip.sub_type_id){
+                if (market.status !== "Active"){
+                    slip.comment = 'Market ' + market.status;
+                    slip.disable = true;
+                }                
+                if (slip.bet_pick == affectedChoice.odd_key){
+                    if (affectedChoice.odd_active !== 1) {
+                        slip.comment = 'Option not active for betting';
+                        slip.disable = true;
+                    } else if (affectedChoice.market_status !== 'Active') {
+                        slip.comment = 'Betting on this market is '
+                            + affectedChoice.market_status;
+                        slip.disable = true;
+                    } else if (affectedChoice.odd_value !== slip.odd_value) {
+                        slip.prev_odds = slip.odd_value;
+                        slip.odd_value = affectedChoice.odd_value;
+                        slip.comment = 'The odds for this event have changed';
+                        slip.disable = false;
+                    } else {
+                        delete slip.comment
+                        delete slip.disable
+                        delete slip.prev_odds
+                    }
+                    
+                }
+                
+            }            
+        };
+        dispatch({type:"SET", key:"betslip", payload:betslip})
+    }
+
+    
+
+    const socketRef = useRef(socket);
+    
+    const socketEvent = (parent_match_id, sub_type_id) => {return `surebet#${parent_match_id}#${sub_type_id}`};
+    
+    const handleGameSocket = useCallback((type, gameId, sub_type_id) => {
+        console.log("I CONNECTED ATTEMPTED ON BETSLIP   ", type, "GAME ID  ", gameId, "SUBTYPE ID IS HERE  ", sub_type_id)
+        if (type === "listen" && socketRef.current?.connected) {
+            socketRef.current.emit('user.market.listen', { parent_match_id: gameId, sub_type_id });
+        } else if (type === "leave") {
+            socketRef.current?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id });
+    }
+    }, []);
+
+
+    const connectBetslipToScket = (betslip) => {
+
+        for (let key in betslip) {
+            handleGameSocket("listen", betslip[key].parent_match_id, betslip[key].sub_type_id)
+
+            const handleSocketData = (data) => {
+
+                console.log("I RECEIVED DATA HERE ON BETSLIP   ", data)
+
+                Object.values(data.event_odds)?.forEach((evodd, ivg) => {
+                    checkUpdateSlipChanges(key, data.match_market, evodd);  
+    
+                });
+                
+            };
+    
+            socketRef.current?.on(socketEvent(betslip[key].parent_match_id, betslip[key].sub_type_id), handleSocketData);
+    
+        }
+    }
+
     useEffect(() => {
         let b = (state?.isjackpot)
             ? getJackpotBetslip()
@@ -46,11 +123,12 @@ const BetSlip = (props) => {
         if(b){
             setHasBetslip(true);
         } else {
-
             setHasBetslip(false);
         }
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
+       
+        {state?.betslip && connectBetslipToScket(state?.betslip);}
         (!state?.betslip && !state?.jackpotbetslip) && dispatch({type:"SET", key:state?.jackpotbetslip ? "jackpotbetslip" :"betslip", payload:b})
     }, [state?.betslip, state?.jackpotbetslip]);
     
