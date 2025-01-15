@@ -28,7 +28,7 @@ const Index = (props) => {
     const [limit, setLimit] = useState(50);
     const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(true);
-    const [page, ] = useState(1);
+    const [page, setPage] = useState(1);
     const [, setUserSlipsValidation] = useState();
     const [state, dispatch] = useContext(Context);
     const [fetching, setFetching] = useState(false)
@@ -149,7 +149,7 @@ const Index = (props) => {
     document.addEventListener('scrollEnd', (event) => {
         if (!fetching) {
             setFetching(true)
-            setLimit(page + 1)
+            setPage(page + 1)
         }
     })
 
