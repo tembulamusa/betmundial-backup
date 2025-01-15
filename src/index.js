@@ -39,6 +39,7 @@ import VerifyAccount from './components/pages/auth/verify-account';
 import MobileApp from './components/pages/app';
 import ProtectedRoute from './components/utils/protected-route';
 import PrintMatches from './components/pages/downloads';
+import Promotions from './components/pages/promotions/Promotions';
 import Casino from './components/pages/casino/Casino';
 import CheckDepositStatus from "./components/check-deposit-status";
 import Exclude from "./components/pages/exclude";
@@ -103,9 +104,10 @@ const App = () => {
                             <Route exact path="/competition/:sportid/:categoryid/:competitionid"
                                 element={<Index/>}/>
                             
-                            <Route exact path="/print-matches" element={<PrintMatches/>}/>                            
-                            // <Route exact path="/promotions" element={<Promotions/>}/>
+                            <Route exact path="/print-matches" element={<PrintMatches/>}/>                           
+                           
                             */}
+                            <Route exact path="/promotions" element={<Promotions/>}/>
                             <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
                             <Route exact path="/casino" element={<Casino />}/>
                             <Route exact path="/casino/:filterType/:filterName" element={<Casino />}/>
