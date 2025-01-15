@@ -59,14 +59,23 @@ const BetSlip = (props) => {
                         slip.comment = 'Market ' + eventOdd.market_status;
                         slip.disable = true;
                     } else if (eventOdd.odd_value !== slip.odd_value) {
-                        slip.prev_odds = slip.odd_value;
+                        if(!slip.prev_odds){
+                            slip.prev_odds = slip.odd_value;
+                        }
                         slip.odd_value = eventOdd.odd_value;
                         slip.comment = 'The odds for this event have changed';
                         slip.disable = false;
                     } else {
-                        delete slip.comment
-                        delete slip.disable
-                        delete slip.prev_odds
+                        if(!slip.prev_odds){
+                            delete slip.comment
+                            delete slip.disable
+                        } else if (slip.prev_odds && slip.prev_odds == eventOdd.odd_value){
+                            delete slip.prev_odds
+                            delete slip.comment
+
+                        }
+
+                        
                     }
                     
                 }

@@ -2855,8 +2855,7 @@ nav .mobi {
 }
 
 .bet-option.warn {
-    background: #999999;
-    opacity: 0.7;
+    opacity: 0.45;
 }
 
 .bet-option .row .warn {
