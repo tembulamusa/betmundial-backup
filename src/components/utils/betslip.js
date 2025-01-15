@@ -19,7 +19,11 @@ export const addToSlip = (slip) => {
 
 export const removeFromSlip = (match_id) => {
    let current_slip = getFromLocalStorage('betslip');
-   delete current_slip[match_id];
+   if (current_slip !== undefined && current_slip !== null) {
+    delete current_slip[match_id];
+   } else {
+    window.location.reload()
+   }
    setLocalStorage('betslip', current_slip, 1*60*60*1000);
    return current_slip;
 }

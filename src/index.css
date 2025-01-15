@@ -363,6 +363,10 @@ h5, h4, h3, h2 {
   text-align: center;
 }
 
+.carousel-item {
+  height: 140px;
+}
+
 .canvas-links li a {
   padding-top: 8px;
   padding-bottom: 7px;
@@ -976,7 +980,7 @@ li.bet-option {
   margin-top: 0;
   background: #f9f9f9;
   border-bottom: 1px solid #f2f2f2;
-  padding: 5px 7px;
+  padding: 0 7px;
 }
 .highlights .marquee-card {
   text-align: left;

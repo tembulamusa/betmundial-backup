@@ -172,7 +172,7 @@ const MainTabs = (props) => {
     return (
         <div className='bg-white shadow-sm border-b border-gray-200 mb-3 block relative'>
             <div className="border-b border-gray-200 !uppercase font-bold main-tabs reduced-mobile-text px-2 md:flex">
-                <div className='col-4 col-md-4 col-sm-4 hidden md:flex !mr-0 pr-0'>
+                {/* <div className='col-4 col-md-4 col-sm-4 hidden md:flex !mr-0 pr-0'>
                     <div className="filter-group-icon mb-0" key="1">
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-custom-components" variant="transparent-selector" >
@@ -191,8 +191,8 @@ const MainTabs = (props) => {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                </div>
-                <div className='md:col-8 md:w-8/12 text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto md:!overflow-hidden'>
+                </div> */}
+                <div className='md:col-12 md:w-12/12 !w-full text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto md:!overflow-hidden'>
                     <div className='row'>
                         <div className="col-4 col-md-4 col-sm-4">
                             <div className={`home-tabs hover:text-hover ${activeTab == 'highlights' && 'home-tab-active'}`} 

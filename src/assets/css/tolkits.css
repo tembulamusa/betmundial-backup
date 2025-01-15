@@ -14098,8 +14098,8 @@ fieldset[disabled] .tw.active {
 }
 
 .amt {
-    /* margin-top: 130px; */
-    /* scroll-margin-top: 140px; */
+    /* margin-top: 60px !important; */
+    margin-top: 139px !important;
 }
 
 .amu {
@@ -15765,8 +15765,8 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
   }
 
   .carousel-item {
-    max-height: 170px;
-    
+    max-height: 140px;
+    overflow: hidden;
 }
   @media only screen and (max-width: 648px) {
     .top-matches .side {

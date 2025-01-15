@@ -30,7 +30,6 @@ const BetSlip = (props) => {
     const [localJPData, setLocalJPData] = useState(jackpotData);
     const { code } = useParams();
     const [state, dispatch] = useContext(Context);
-    console.log("State In Slip", state)
     const [betslipKey, setBetslipKey] = useState(
        () => state?.jackpotbetslip ? "jackpotbestslip": "bestslip"
     );
@@ -46,7 +45,7 @@ const BetSlip = (props) => {
         let betslip = state?.betslip
         if(Object.keys(slip).length > 0 ) {
             // Listen to the game for other events such as status etc etc
-            
+
             if(market.sub_type_id == slip.sub_type_id){
                 if (market.status !== "Active"){
                     slip.comment = 'Market ' + market.status;
@@ -85,7 +84,6 @@ const BetSlip = (props) => {
     const socketEvent = (parent_match_id, sub_type_id) => {return `surebet#${parent_match_id}#${sub_type_id}`};
     
     const handleGameSocket = useCallback((type, gameId, sub_type_id) => {
-        console.log("I CONNECTED ATTEMPTED ON BETSLIP   ", type, "GAME ID  ", gameId, "SUBTYPE ID IS HERE  ", sub_type_id)
         if (type === "listen" && socketRef.current?.connected) {
             socketRef.current.emit('user.market.listen', { parent_match_id: gameId, sub_type_id });
         } else if (type === "leave") {
@@ -100,9 +98,6 @@ const BetSlip = (props) => {
             handleGameSocket("listen", betslip[key].parent_match_id, betslip[key].sub_type_id)
 
             const handleSocketData = (data) => {
-
-                console.log("I RECEIVED DATA HERE ON BETSLIP   ", data)
-
                 Object.values(data.event_odds)?.forEach((evodd, ivg) => {
                     checkUpdateSlipChanges(key, data.match_market, evodd);  
     

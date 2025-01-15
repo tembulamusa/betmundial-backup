@@ -1140,7 +1140,7 @@ const MatchList = (props) => {
     return (
         <div className="matches full-width">
             <MatchHeaderRow 
-                 live={live} 
+                live={live} 
                 first_match={matches ? matches[0] : {}} 
                 fetching={fetching}
                 three_way={three_way}
@@ -1152,7 +1152,7 @@ const MatchList = (props) => {
                     Object.entries(matches).map(([key, match]) => (
                         <MatchRow 
                             initialMatch={match} 
-                            key={key} 
+                            key={match?.parent_match_id} 
                             live={live}
                             pdown={pdown} 
                             three_way={three_way}

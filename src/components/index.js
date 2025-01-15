@@ -14,9 +14,9 @@ import useInterval from "../hooks/set-interval.hook";
 import {Spinner} from "react-bootstrap";
 import HighlightsBoard from "./highlights-board";
 import socket from "./utils/socket-connect";
+import MatchList from './matches/index';
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
-const MatchList = React.lazy(() => import('./matches/index'));
 
 
 const Index = (props) => {
@@ -24,7 +24,7 @@ const Index = (props) => {
     const {sportid, categoryid, competitionid } = useParams();
     const [delay, setDelay] = useState(5000);
 
-    const [matches, setMatches] = useState([]);
+    const [matches, setMatches] = useState();
     const [limit, setLimit] = useState(50);
     const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(true);
@@ -38,7 +38,6 @@ const Index = (props) => {
     // const [doPoll, setDoPoll] = useState(false);
 
     const fetchData = async () => {
-        console.log("THE sportID   ", state?.filtersport)
         setFetching(true);
         let fetchcount = fetchingCount + 1;
         let tab = 'highlights';
@@ -84,7 +83,7 @@ const Index = (props) => {
             setFetchingCount(fetchcount);
             if (status == 200) {
                 // check for page and see if page is not the 
-                setMatches((matches?.length > 0 && page > 1) ? {...matches, ...result?.data?.items} : result?.data?.items || result)
+                setMatches((matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
                 setFetching(false)
                 if (result?.slip_data) {
                     setUserSlipsValidation(result?.slip_data);
@@ -124,6 +123,9 @@ const Index = (props) => {
     )
 
     useEffect(() => {
+        if((matches || []).length > 0){
+            console.log("THE NEW MATCHES LIST  ;;; ", matches)
+        }
         // if(state?.selectedmarkets){ 
         //     setSubTypes(state.selectedmarkets);
         // } 
@@ -141,13 +143,13 @@ const Index = (props) => {
         // return () => {
         //     setDelay(null);
         // };
-    }, []);
+    }, [matches]);
 
 
     document.addEventListener('scrollEnd', (event) => {
         if (!fetching) {
             setFetching(true)
-            setLimit(limit + 50)
+            setLimit(page + 1)
         }
     })
 
@@ -184,4 +186,4 @@ const Index = (props) => {
     )
 }
 
-export default Index
+export default React.memo(Index);
