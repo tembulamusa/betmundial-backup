@@ -39,7 +39,7 @@ const BetSlip = (props) => {
     //initial betslip loading
 
 
-    const checkUpdateSlipChanges = (matchId, market, affectedChoice) => {
+    const checkUpdateSlipChanges = (matchId, market, eventOdd) => {
         // get temporary slip
         let slip = state?.betslip ? state?.betslip[matchId] : {};
         let betslip = state?.betslip
@@ -51,17 +51,16 @@ const BetSlip = (props) => {
                     slip.comment = 'Market ' + market.status;
                     slip.disable = true;
                 }                
-                if (slip.bet_pick == affectedChoice.odd_key){
-                    if (affectedChoice.odd_active !== 1) {
-                        slip.comment = 'Option not active for betting';
+                if (slip.bet_pick == eventOdd.odd_key){
+                    if (eventOdd.odd_active !== 1) {
+                        slip.comment = 'Not available for staking';
                         slip.disable = true;
-                    } else if (affectedChoice.market_status !== 'Active') {
-                        slip.comment = 'Betting on this market is '
-                            + affectedChoice.market_status;
+                    } else if (eventOdd.market_status !== 'Active') {
+                        slip.comment = 'Market ' + eventOdd.market_status;
                         slip.disable = true;
-                    } else if (affectedChoice.odd_value !== slip.odd_value) {
+                    } else if (eventOdd.odd_value !== slip.odd_value) {
                         slip.prev_odds = slip.odd_value;
-                        slip.odd_value = affectedChoice.odd_value;
+                        slip.odd_value = eventOdd.odd_value;
                         slip.comment = 'The odds for this event have changed';
                         slip.disable = false;
                     } else {
@@ -94,18 +93,18 @@ const BetSlip = (props) => {
 
     const connectBetslipToScket = (betslip) => {
 
-        for (let key in betslip) {
-            handleGameSocket("listen", betslip[key].parent_match_id, betslip[key].sub_type_id)
+        for (let matchid in betslip) {
+            handleGameSocket("listen", betslip[matchid].parent_match_id, betslip[matchid].sub_type_id)
 
             const handleSocketData = (data) => {
                 Object.values(data.event_odds)?.forEach((evodd, ivg) => {
-                    checkUpdateSlipChanges(key, data.match_market, evodd);  
+                    checkUpdateSlipChanges(matchid, data.match_market, evodd);  
     
                 });
                 
             };
     
-            socketRef.current?.on(socketEvent(betslip[key].parent_match_id, betslip[key].sub_type_id), handleSocketData);
+            socketRef.current?.on(socketEvent(betslip[matchid].parent_match_id, betslip[matchid].sub_type_id), handleSocketData);
     
         }
     }
@@ -123,7 +122,8 @@ const BetSlip = (props) => {
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
        
-        {state?.betslip && connectBetslipToScket(state?.betslip);}
+        connectBetslipToScket(state?.betslip);
+
         (!state?.betslip && !state?.jackpotbetslip) && dispatch({type:"SET", key:state?.jackpotbetslip ? "jackpotbetslip" :"betslip", payload:b})
     }, [state?.betslip, state?.jackpotbetslip]);
     
