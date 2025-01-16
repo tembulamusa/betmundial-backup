@@ -654,7 +654,6 @@ const MatchRow = (props) => {
     useEffect(() => {
         handleGameSocket("listen", match?.parent_match_id);
         socket?.on(`surebet#${match?.parent_match_id}#1`, (data) => {
-            
             // Check to make sure that the odds exist...
             Object.values(data.event_odds)?.forEach((evodd, ivg) => {
                 setMatch((prevMarkets) => {
