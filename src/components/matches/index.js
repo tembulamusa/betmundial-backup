@@ -668,7 +668,7 @@ const MatchRow = (props) => {
         const {initialMatch, marketName, marketId, special_bet_key, buttonCount} = props
         const [match, setMatch] = useState({...initialMatch})
         const [btnCount, setBtnCount] = useState(3)
-        const [outcomes, setOutcomes] = useState([...initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) => b?.outcome_id - a?.outcome_id)])
+        const [outcomes, setOutcomes] = useState(initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) => b?.outcome_id - a?.outcome_id) || [])
         const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status)
 
         useEffect(() => {
