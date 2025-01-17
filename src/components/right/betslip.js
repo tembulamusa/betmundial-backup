@@ -58,9 +58,9 @@ const BetSlip = (props) => {
                     } else if (eventOdd.market_status !== 'Active') {
                         slip.comment = 'Market ' + eventOdd.market_status;
                         slip.disable = true;
-                    } else if (eventOdd.odd_value !== slip.odd_value) {
-                        
-                        console.log("THE odd values comapred  ", eventOdd.odd_value, "the curent value  :::", slip.odd_value)
+                    } else if (parseFloat(eventOdd.odd_value) !== parseFloat(slip.odd_value)) {
+
+                        console.log("THE odd values compared  ", eventOdd.odd_value, "the curent value  ::: ", slip.odd_value)
 
                         if(!("prev_odds" in slip)){
                             slip.prev_odds = slip.odd_value;
@@ -367,7 +367,7 @@ const BetSlip = (props) => {
                                 <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'game-started'} row`}>
                                     <div className="bet-value">
                                         {slip.odd_type} - <span className='font-[500]'>{slip.bet_pick}</span>
-                                        <span className="bet-odd">{slip?.prev_odds && <span className='line-through opacity-60 mr-3'>{slip.prev_odds}</span>} {slip.odd_value}
+                                        <span className="bet-odd">{slip?.prev_odds && <span className='line-through opacity-60 mr-3'>{parseFloat(slip.prev_odds).toFixed(2)}</span>} {parseFloat(slip.odd_value).toFixed(2)}
                                                     {slip.odd_value == 1 &&
                                                         (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
                                                     }
