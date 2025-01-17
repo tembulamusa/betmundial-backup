@@ -59,6 +59,7 @@ import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 import CasinoHome from "./components/pages/casino/casino-home";
 import ReactGA from "react-ga4";
 import PageviewTracker from "./components/utils/pageview-tracker";
+import CasinoHomes from "./components/pages/casino/homecopy";
 
 const container = document.getElementById("app");
 
@@ -110,6 +111,7 @@ const App = () => {
                             <Route exact path="/promotions" element={<Promotions/>}/>
                             <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
                             <Route exact path="/casino" element={<Casino />}/>
+                            <Route exact path="/casino1" element={<CasinoHomes />}/>
                             <Route exact path="/casino/:filterType/:filterName" element={<Casino />}/>
                             <Route exact path="/casino-game/:provider/:gameName" element={<CasinoLaunchedGame />}/>
                             <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
