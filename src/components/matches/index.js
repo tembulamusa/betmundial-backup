@@ -490,9 +490,9 @@ const MarketRow = (props) => {
     
     const handleGameSocket = useCallback((type, gameId, sub_type_id) => {
         if (type === "listen" && socketRef.current?.connected) {
-            socketRef.current.emit('user.market.listen', { parent_match_id: gameId, sub_type_id });
+            socketRef.current.emit('user.market.listen', { parent_match_id: gameId, sub_type_id:sub_type_id });
         } else if (type === "leave") {
-            socketRef.current?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id });
+            socketRef.current?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id:sub_type_id });
      }
     }, []);
 
@@ -668,7 +668,7 @@ const MatchRow = (props) => {
         const {initialMatch, marketName, marketId, special_bet_key, buttonCount} = props
         const [match, setMatch] = useState({...initialMatch})
         const [btnCount, setBtnCount] = useState(3)
-        const [outcomes, setOutcomes] = useState(initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) => b?.outcome_id - a?.outcome_id) || [])
+        const [outcomes, setOutcomes] = useState(initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) => a?.outcome_id - b?.outcome_id) || [])
         const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status)
 
         useEffect(() => {
@@ -678,7 +678,7 @@ const MatchRow = (props) => {
             }
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
 
-                if (match.match_id == 239447){
+                if (match.match_id == 239577){
                     console.log("THE AL MAKHDA GAME MONITOR   ", marketName, "   EVENT    ", data.match_market, "SORTED EVENT ODDS  ", Object.values(data.event_odds).sort((a, b) => a.outcome_id - b.outcome_id));
                 }
                 if(!special_bet_key) {
@@ -699,6 +699,8 @@ const MatchRow = (props) => {
 
             });
         }, [])
+
+        
         return (
             <>
                 {
