@@ -83,7 +83,7 @@ const MyBets = (props) => {
         return (
             <div className={`my-bets-header`} style={Styles.headers}>
                 <div className="row uppercase">
-                    <div className="col">ID</div>
+                    {/* <div className="col">ID</div> */}
                     <div className="col hidden md:flex">SECTION</div>
                     <div className="col">CREATED</div>
                     <div className="col hidden md:flex">GAMES</div>
@@ -143,11 +143,11 @@ const MyBets = (props) => {
         
 
         const statusMarkup = (bet) => {
+            console.log("BET HERE IS ", bet)
             let btnClass;
             let btnText; 
             let statusText;
             switch (bet?.status?.toLowerCase()) {
-                
                 case "pending":
                     btnClass = "active-bet";
                     btnText = "active";
@@ -165,7 +165,8 @@ const MyBets = (props) => {
                     btnText = "cancelled"
                     break;
                 default:
-                    statusText = "Unknown"
+                    statusText = bet.status
+                    btnText = "cancelled"
             }
             return (
                 <>
@@ -193,13 +194,13 @@ const MyBets = (props) => {
                     <Accordion.Item eventKey={bet?.bet_id}>
                         <Accordion.Header>
                             <div className="row w-full" onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
-                            <div className="col font-ligt">{ bet?.bet_id}</div>
-                            <div className="col hidden md:flex">{ betType}</div>
-                            <div className="col">{ bet?.created}</div>
-                            <div className="col hidden md:flex">{ bet?.total_games}</div>
-                            <div className="col text-cente">{ bet?.bet_amount}</div>
-                            <div className="col">{ bet?.possible_win}</div>
-                            <div className="col">{ statusMarkup(bet) }</div>
+                            {/* <div className="col font-ligt">{ bet?.bet_id}</div> */}
+                                <div className="col hidden md:flex">{ betType}</div>
+                                <div className="col">{ bet?.created}</div>
+                                <div className="col hidden md:flex">{ bet?.total_games}</div>
+                                <div className="col text-cente">{ bet?.bet_amount}</div>
+                                <div className="col">{ bet?.possible_win}</div>
+                                <div className="col">{ statusMarkup(bet) }</div>
                             </div>
                         </Accordion.Header>
                         <Accordion.Body>

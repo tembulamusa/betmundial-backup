@@ -288,7 +288,10 @@ h5, h4, h3, h2 {
 }
 
 /* custom mobile horizontal scrollbar */
-
+.mobile-custom-scrollbar {
+  scrollbar-width: none !important;
+  scrollbar-color: transparent transparent;
+}
 @media screen and (max-width:768px){
   .mobile-custom-scrollbar {
     scrollbar-width: none !important;
@@ -1814,4 +1817,15 @@ label {
 
 .locked-button {
   width: 50px !important;
+}
+
+.top-competitions-title {
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 130px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 0.8;
+  /* height: 17px; */
 }

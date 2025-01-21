@@ -234,7 +234,6 @@ const BetSlip = (props) => {
                 }
                 if (eventOdd !== null) {
                     if (newSlip.bet_pick == eventOdd.odd_key) {
-                        console.log("THE LATEST EVENT ODD  ", eventOdd)
                         if (eventOdd.odd_active !== 1) {
                             newSlip.comment = 'Not available for staking';
                             newSlip.disable = true;
@@ -247,7 +246,7 @@ const BetSlip = (props) => {
                             }
                             newSlip.odd_value = eventOdd.odd_value;
                             newSlip.comment = 'The odds for this event have changed';
-                            newSlip.disable = false;
+                            delete newSlip.prev_odds;
                         } else {
                             if(!newSlip.prev_odds){
                                 delete newSlip.comment
@@ -322,49 +321,48 @@ const BetSlip = (props) => {
                         <input id={slip?.match_id} type="submit" value="X"
                                 onClick={() => handledRemoveSlip(slip)} />
                     </div>
-
-                    <Link to={`/match/${slip?.match_id}`} style={{}} className='hover:underline'>
-                    <div className={`${(slip?.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} bet-value betslip-game`} onClick={() => dispatch({type:"SET", key:"showmobileslip", payload: false})}>
-                            {
-                                <span 
-                                    style={{
-                                    float: "left",
-                                    width: "auto",
-                                    fontWeight: "400"
-                                }}>
-                                    <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
-                                    {`${slip.home_team} VS ${slip.away_team}`}
-                                </span>}
-                            <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} opacity-60 `}>
-                                <span>
-                                    {slip.bet_type == 0 && ' Pre-match'}
-                                    {slip.bet_type == 1 && <span className='text-red'>Live</span>}: 
-                                </span>
-                                
-                                <span className='betslip-match-start-time ml-4'>
-                                    {moment(slip.start_time).format('DD/MM hh:mm A')}
+                    <Link to={`/match/${slip.bet_type == 1 && 'live/'}${slip?.match_id}`} style={{}} className='hover:underline'>
+                        <div className={`${(slip?.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} bet-value betslip-game`} onClick={() => dispatch({type:"SET", key:"showmobileslip", payload: false})}>
+                                {
+                                    <span 
+                                        style={{
+                                        float: "left",
+                                        width: "auto",
+                                        fontWeight: "400"
+                                    }}>
+                                        <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
+                                        {`${slip.home_team} VS ${slip.away_team}`}
+                                    </span>}
+                                <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} opacity-60 `}>
+                                    <span>
+                                        {slip.bet_type == 0 && ' Pre-match'}
+                                        {slip.bet_type == 1 && <span className='text-red'>Live</span>}: 
+                                    </span>
+                                    
+                                    <span className='betslip-match-start-time ml-4'>
+                                        {moment(slip.start_time).format('DD/MM hh:mm A')}
+                                    </span>
+                                </div>
+                        </div>
+                        <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'game-started'} row`}>
+                            <div className="bet-value">
+                                {slip?.odd_type} - <span className='font-[500]'>{slip?.bet_pick}</span>
+                                <span className="bet-odd">{slip?.prev_odds && <span className='line-through opacity-60 mr-3'>{parseFloat(slip?.prev_odds).toFixed(2)}</span>} {parseFloat(slip?.odd_value).toFixed(2)}
+                                            {slip?.odd_value == 1 &&
+                                                (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
+                                            }
                                 </span>
                             </div>
-                    </div>
-                    <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'game-started'} row`}>
-                        <div className="bet-value">
-                            {slip?.odd_type} - <span className='font-[500]'>{slip?.bet_pick}</span>
-                            <span className="bet-odd">{slip?.prev_odds && <span className='line-through opacity-60 mr-3'>{parseFloat(slip?.prev_odds).toFixed(2)}</span>} {parseFloat(slip?.odd_value).toFixed(2)}
-                                        {slip?.odd_value == 1 &&
-                                            (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
-                                        }
-                            </span>
+                            {/* later add for live */}
+                            
                         </div>
-                        {/* later add for live */}
-                        
-                    </div>
-                    {/* <div className="bet-pick">Your Pick - <b>{slip.bet_pick}
-                        <span className="bet-odd">{slip.odd_value}
-                            {slip.odd_value == 1 &&
-                                (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
-                            }
-                </span></b>
-                    </div> */}
+                        {/* <div className="bet-pick">Your Pick - <b>{slip.bet_pick}
+                            <span className="bet-odd">{slip.odd_value}
+                                {slip.odd_value == 1 &&
+                                    (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
+                                }
+                    </span></b>
+                        </div> */}
                     <div className="row">
                         <div className="warn">{slip?.comment} </div>
                     </div>

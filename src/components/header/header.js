@@ -95,7 +95,13 @@ const Header = (props) => {
     };
 
     useInterval( async () => {
-        if(!socket.connected){updateUserOnHistory()}
+        if(!socket.connected){
+            updateUserOnHistory()
+        }
+
+        // comment out this to stop polling
+        updateUserOnHistory()
+
     }
     ,3000);
     
