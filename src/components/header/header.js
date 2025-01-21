@@ -46,15 +46,34 @@ const Header = (props) => {
             pauseOnHover
         />
     };
+   
+    useEffect(() => {
+        if (user) {
+            const expirationTime = Date.now() + 1000 * 60 * 60 * 3; 
+            setLocalStorage("user", { ...user, expirationTime }, expirationTime);
+            dispatch({ type: "SET", key: "user", payload: user });
+        }
+    }, [user]);
 
     useEffect(() => {
-        
-        if (user){
-            setLocalStorage('user', user, 1000 * 60 * 60 * 24 * 30);
-            dispatch({type:"SET", key: "user", payload: user});
-        }
-        
-    }, [user]);
+        const checkSession = () => {
+            const storedUser = getFromLocalStorage("user");
+            const currentTime = Date.now();
+    
+            if (!storedUser || storedUser.expirationTime <= currentTime) {
+                // Session expired
+                localStorage.clear();
+                dispatch({ type: "DEL", key: "user" });
+                dispatch({ type: "DEL", key: "mybets" });
+                navigate("/"); 
+            }
+        };
+    
+        const interval = setInterval(checkSession, 30000); 
+    
+        return () => clearInterval(interval);
+    }, [dispatch, navigate]);
+    
     const updateUserOnHistory = async() => {
         if (!user) {
             return;
