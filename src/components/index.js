@@ -6,7 +6,7 @@ import React, {
     useRef
 } from "react";
 
-import {useLocation, useParams} from 'react-router-dom';
+import {useLocation, useParams, useSearchParams} from 'react-router-dom';
 import {Context} from '../context/store';
 import makeRequest from './utils/fetch-request';
 import {getBetslip} from './utils/betslip' ;
@@ -22,6 +22,7 @@ const MainTabs = React.lazy(() => import('./header/main-tabs'));
 const Index = (props) => {
     const location = useLocation();
     const {sportid, categoryid, competitionid } = useParams();
+    const [allSportId, setAllSportId ] = useState();
     const [delay, setDelay] = useState(5000);
 
     const [matches, setMatches] = useState();
@@ -36,13 +37,15 @@ const Index = (props) => {
     const homePageRef = useRef()
     const [subTypes, setSubTypes] = useState("1,10,18");
     // const [doPoll, setDoPoll] = useState(false);
+    const [searchParams] = useSearchParams();
 
-    const fetchData = async () => {
+
+    const fetchData = async (controlText) => {
         setFetching(true);
         let fetchcount = fetchingCount + 1;
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || sportid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}` ;
+        let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || allSportId || 79) +"?page=" + (page || 1) + `&size=${limit || 50}` ;
 
         let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";
@@ -58,8 +61,8 @@ const Index = (props) => {
         
         endpoint += "&tab=" + tab;
         
-        if(state?.filtercompetition ) {
-            endpoint = `/v2/sports/competitions/matches/${state?.filtercompetition?.competition_id}`;
+        if(state?.filtercompetition && controlText !=="fetchAll") {
+            endpoint = (controlText == "filtered") && `/v2/sports/competitions/matches/${state?.filtercompetition?.competition_id}`;
 
             // if (state?.filtercompetition?.competition_id == 0){
             //     endpoint = "/v2/sports/competitions/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
@@ -94,27 +97,25 @@ const Index = (props) => {
 
     };
 
+    // useEffect(() => {
+        
+    // }, [location])
+
+    
     const poll = () => {
         
     }
-    // useInterval(async () => {
-    //     if(!fetching){
-    //         fetchData();
-    //     }
-    // }, 2000);
-
-    // even if we are connected on socket, we may have to poll after some time so as to get the newest games
-    // useInterval(async () => {
-    //     if (socket.connected) {
-    //         fetchData();
-    //     }
-    // }, 15000);
-
+    
     useEffect(() => {
-        fetchData();
-        setFetchingCount(0);
+        let newSportId = searchParams.get('sportId');
+        if(newSportId !== null) {
+            fetchData("fetchAll");
+        } else {
+            fetchData("filtered")
+            setFetchingCount(0);
+        }
     }, [sportid,
-        state?.filtersport, 
+        location,
         state?.filtercategory, 
         state?.filtercompetition, 
         state?.active_tab,
@@ -123,9 +124,7 @@ const Index = (props) => {
     )
 
     useEffect(() => {
-        if((matches || []).length > 0){
-            console.log("THE NEW MATCHES LIST  ;;; ", matches)
-        }
+        
         // if(state?.selectedmarkets){ 
         //     setSubTypes(state.selectedmarkets);
         // } 
@@ -176,6 +175,7 @@ const Index = (props) => {
                         three_way={threeWay}
                         fetching={fetching}
                         subTypes={subTypes}
+                        betslip_key={"betslip"}
                         fetchingcount={fetchingCount}
                     />                }
             </div>

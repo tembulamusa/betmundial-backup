@@ -287,6 +287,7 @@ const OddButton = (props) => {
             setBetslipKey("jackpotbetslip");
         }
     }, [jackpot]);
+    
     useEffect(() => {
         updateBeslipKey();
     }, [updateBeslipKey])
@@ -296,6 +297,7 @@ const OddButton = (props) => {
 
         
     }
+    
     const updateOddValue = useCallback(() => {
         if (match) {
             let uc = clean(
@@ -307,14 +309,13 @@ const OddButton = (props) => {
             setOddValue(match?.odd_value);
             
         }
-    }, [match]);
+    }, [match, mkt]);
 
     useLayoutEffect(() => {
         updateOddValue();
     }, [updateOddValue]);
 
     const updatePickedChoices = () => {
-        
         let betslip = state?.[betslip_key]
         let uc = clean(
             match.match_id
@@ -330,8 +331,10 @@ const OddButton = (props) => {
 
     }
     useEffect(() => {
+
         updatePickedChoices();
-    }, [state?.[betslip_key], state?.betslip])
+
+    }, [state?.[betslip_key]?.[match?.match_id], state?.betslip?.[match?.match_id]])
     
     useEffect(() => {
         updatePickedChoices();
@@ -355,7 +358,7 @@ const OddButton = (props) => {
                }
           }
        }
-    }, [state?.[betslip_key]?.[match.match_id], state?.betslip, state?.jackpotbetslip, state?.[betslip_key]])
+    }, [state?.[betslip_key]?.[match.match_id]])
 
 
     useEffect(() => {
@@ -400,10 +403,11 @@ const OddButton = (props) => {
             "producer_id": producer_id
         }
 
-        setPicked('');
+       
         if (cstm == ucn) {
             let betslip;
             if (picked == 'picked') {
+                setPicked('');
                 betslip = jackpot !== true
                     ? removeFromSlip(mid)
                     : removeFromJackpotSlip(mid);
@@ -666,21 +670,14 @@ const MatchRow = (props) => {
 
     const MatchMarket = (props) => {
         const {initialMatch, marketName, marketId, special_bet_key, buttonCount} = props
-        const [match, setMatch] = useState({...initialMatch})
-        const [btnCount, setBtnCount] = useState(3)
+        const [match, setMatch] = useState({...initialMatch});
+        const [btnCount, setBtnCount] = useState(buttonCount);
         const [outcomes, setOutcomes] = useState(initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) => a?.outcome_id - b?.outcome_id) || [])
         const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status)
 
         useEffect(() => {
-
-            if(buttonCount){
-                setBtnCount(buttonCount)
-            }
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
 
-                if (match.match_id == 239577){
-                    console.log("THE AL MAKHDA GAME MONITOR   ", marketName, "   EVENT    ", data.match_market, "SORTED EVENT ODDS  ", Object.values(data.event_odds).sort((a, b) => a.outcome_id - b.outcome_id));
-                }
                 if(!special_bet_key) {
                     if(Object.keys(data.event_odds).length > 0){
                         setOutcomes(Object.values(data.event_odds).sort((a, b) => a.outcome_id - b.outcome_id));
@@ -718,9 +715,11 @@ const MatchRow = (props) => {
                 {
                     
                     !jackpot && market_status !== "Active" &&
-                    Array(btnCount).fill(0).map((btn, idx) => (
+                    ((btnCount == 2) ? [1,2].map((btn, idx) => (
                         <><LockedButton btnStatus={market_status}/></>
-                    ))
+                    )) : [1,2,3].map((btn, idx) => (
+                        <><LockedButton btnStatus={market_status}/></>
+                    )))
                 }
             </>
         )
@@ -818,7 +817,7 @@ const MatchRow = (props) => {
 
                 <div className={`${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
                     
-                        <MatchMarket initialMatch={match} marketName={"1x2"} marketId={1}/>
+                    <MatchMarket initialMatch={match} marketName={"1x2"} marketId={1}/>
                     {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--" } </>}
                 </div>
 

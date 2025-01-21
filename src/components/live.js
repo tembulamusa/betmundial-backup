@@ -7,6 +7,7 @@ import useInterval from "../hooks/set-interval.hook";
 import {Context} from '../context/store';
 import socket from "./utils/socket-connect.js";
 import MatchList from "./matches/index.js";
+import betslip from "./right/betslip.js";
 
 const CarouselLoader = React.lazy(() => import('./carousel/index.js'));
 
@@ -40,6 +41,7 @@ const Live = (props) => {
         });
     };
 
+    
     // useInterval(async () => {
     //     if(!fetching) {
     //         fetchData();
@@ -67,6 +69,7 @@ const Live = (props) => {
                 live
                 matches={matches}
                 pdown={producerDown}
+                betslip_key={'betslip'}
                 subTypes={"1,10,18"}
                 
                 />}

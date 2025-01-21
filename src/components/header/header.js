@@ -51,7 +51,7 @@ const Header = (props) => {
         
         if (user){
             setLocalStorage('user', user, 1000 * 60 * 60 * 24 * 30);
-            dispatch({type:"SET", key: "user", payload: user});
+            // dispatch({type:"SET", key: "user", payload: user});
         }
         
     }, [user]);
@@ -76,7 +76,13 @@ const Header = (props) => {
     };
 
     useInterval( async () => {
-        if(!socket.connected){updateUserOnHistory()}
+        if(!socket.connected){
+            updateUserOnHistory()
+        }
+
+        // comment out this to stop polling
+        updateUserOnHistory()
+
     }
     ,3000);
     
