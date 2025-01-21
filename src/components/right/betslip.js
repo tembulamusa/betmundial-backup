@@ -225,7 +225,6 @@ const BetSlip = (props) => {
         const [slipKey, setKey] = useState();
         
         const checkUpdateSlipChanges = (market, eventOdd) => {
-            
             setSlip((prevSlip) => {
                 let newSlip = {...prevSlip};
                 if (market.status !== "Active"){
@@ -292,7 +291,7 @@ const BetSlip = (props) => {
                         checkUpdateSlipChanges(data.match_market, evodd);
                     });
                 } else {
-                    checkUpdateSlipChanges(data.match_market, data.event_odds);
+                    checkUpdateSlipChanges(data.match_market, null);
 
                 }
                 
@@ -300,7 +299,6 @@ const BetSlip = (props) => {
             socket?.on(`surebet#${slip?.parent_match_id}#${slip.sub_type_id}`, handleSocketData)
             
             return () => {
-
                 socket.off(`surebet#${slip?.parent_match_id}#${slip.sub_type_id}`)
             }
         },[])

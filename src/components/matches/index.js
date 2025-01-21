@@ -480,7 +480,7 @@ const teamScore = (allscore, is_home_team) => {
 
 const MarketRow = (props) => {
     const {markets, match, market_id, width, live, pdown, marketDetail} = props;
-    const [mutableMkts, setMutableMkts] = useState([...markets]);
+    const [mutableMkts, setMutableMkts] = useState([...markets.sort((a, b) => a.outcome_id - b.outcome_id)]);
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context); 
@@ -505,7 +505,8 @@ const MarketRow = (props) => {
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
         const handleSocketData = (data) => {
-            Object.values(data.event_odds)?.forEach((evodd, ivg) => {
+            // console.log("THE NEW DATA IS HERE    ", data)
+            Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                 setMutableMkts((prevMarkets) => {
                     let index = mutableMkts?.findIndex(
                         ev => ev.sub_type_id == evodd.sub_type_id 
@@ -520,12 +521,8 @@ const MarketRow = (props) => {
                     }
                 });
 
-
             });
-        
-            if(data.match_market == "") {
-                setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
-            }
+            setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
         };
 
         socketRef.current?.on(socketEvent, handleSocketData);
@@ -852,23 +849,20 @@ export const MarketList = (props) => {
     const [matchwithmarkets, setMatchWithMarkets] = useState(initialMatchwithmarkets)
     
     const handleGameSocket = (type, gameId, sub_type_id) => {
-        // if (type == "listen" && socket?.connected) {
-        //     socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:sub_type_id});
+        if (type == "listen" && socket?.connected) {
+            socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:sub_type_id});
             
-        // }
+        }
 
-        // else if (type == "leave") {
-        //     socket?.emit("user.market.leave", {parent_match_id: gameId, sub_type_id:sub_type_id});
-        // }
+        else if (type == "leave") {
+            socket?.emit("user.market.leave", {parent_match_id: gameId, sub_type_id:sub_type_id});
+        }
         
     }
 
     
     useEffect(() => {
-        setMatchWithMarkets(initialMatchwithmarkets);
-
-        
-        
+        setMatchWithMarkets(initialMatchwithmarkets);        
         return () => {
             // unsubscribe trigger
             handleGameSocket("leave", matchwithmarkets?.parent_match_id);
