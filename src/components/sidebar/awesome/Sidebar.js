@@ -78,7 +78,8 @@ const ProSidebar = (props) => {
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
         }
 
-        setFocusSportId(79);
+        setFocusSportId(getFromLocalStorage("filtersport")?.sport_id || 79);
+        console.log("THE CATEGORY STUFF", cached_competitions)
     };
 
     useEffect(() => {
