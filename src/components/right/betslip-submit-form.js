@@ -177,9 +177,9 @@ const BetslipSubmitForm = (props) => {
             // endCustomerIP: getIp(),
             channel_id: 'web',
             slip: bs,
-            profile_id: state?.user?.profile_id,
+            profile_id: getFromLocalStorage("user")?.profile_id || state?.user?.profile_id,
             account: 1,
-            msisdn: state?.user?.msisdn,
+            msisdn: getFromLocalStorage("user")?.msisdn || state?.user?.msisdn,
             accept_all_odds_change: values.accept_all_odds_change == true ? 1 : 0,
             bet_type: state?.islive ? "1" : jackpot ? "9" : "3" // update for live
         };
