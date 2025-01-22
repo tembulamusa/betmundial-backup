@@ -67,7 +67,7 @@ const ProSidebar = (props) => {
             let [c_status, c_result] = competition_result;
             if (c_status == 200) {
                 setCompetitions(c_result?.data);
-                setLocalStorage('categories', c_result?.data, 5 * 60 * 1000);
+                setLocalStorage('categories', c_result?.data,  3 * 60 * 60 * 1000);
                 dispatch({type:"SET", key:"categories", payload:c_result});
             }
             //  else {
@@ -79,7 +79,6 @@ const ProSidebar = (props) => {
         }
 
         setFocusSportId(getFromLocalStorage("filtersport")?.sport_id || 79);
-        console.log("THE CATEGORY STUFF", cached_competitions)
     };
 
     useEffect(() => {
@@ -147,7 +146,7 @@ const ProSidebar = (props) => {
 
     const getSportCompetitions = async () => {
 
-        let endpoint = `/v2/sports/competitions/${focusSportId}`;
+        let endpoint = `/v2/sports/competitions/${focusSportId || state?.filtersport?.sport_id || getFromLocalStorage("filtersport")?.sport_id || 79}`;
         let cached_competitions = getFromLocalStorage('categories') || state?.categories;
 
         // get item whose id is equal the id
@@ -229,7 +228,7 @@ const ProSidebar = (props) => {
         <>
         {
             !(excludeSidebar.includes(location.pathname) || location.pathname.includes("casino"))  &&
-            (loc == "/live" ? <LiveSideBar /> : 
+            (loc.includes("live") ? <LiveSideBar /> : 
             <div style={{
                 display: 'flex',
                 overflow: 'scroll initial',

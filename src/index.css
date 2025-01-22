@@ -639,13 +639,13 @@ tr.my-bets td {
 
 .btn-bet-hist.active-bet {
   color: #FFF;
-  background: #19BC54;
+  background: #24367e;
   font-weight: 500;
 }
 
 .btn-bet-hist.won-bet {
   color: #ffffff;
-  background: #0000ffad;
+  background: #19BC54;
 }
 
 

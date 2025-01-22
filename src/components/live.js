@@ -27,7 +27,7 @@ const Live = (props) => {
     
 
     const fetchData = () => {
-        let endpoint = "/v2/sports/matches/live/" + (state?.filtersport?.sport_id || sportid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}`;
+        let endpoint = "/v2/sports/matches/live/" + (spid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}`;
         let method =  "GET";
         setFetching(true);
         makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
@@ -42,14 +42,15 @@ const Live = (props) => {
     };
 
     
-    // useInterval(async () => {
-    //     if(!fetching) {
-    //         fetchData();
-    //     }
-    //   }, 15000);
+    useInterval(async () => {
+        if(!fetching) {
+            fetchData();
+        }
+      }, 15000);
 
 
     useEffect(() => {
+        console.log("THE SPORTID CHANGED   :::::  ", spid)
         fetchData();
         // let cachedSlips = getBetslip("betslip");
         // if (cachedSlips) {
@@ -58,7 +59,7 @@ const Live = (props) => {
         // return () => {
         //     setMatches(null);
         // };
-    }, [sportid]);
+    }, [spid]);
 
     return (
         <>

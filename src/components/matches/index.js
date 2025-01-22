@@ -188,11 +188,55 @@ const convertDateToLocalString = (date) => {
 }
 const MoreMarketsHeaderRow = (props) => {
     const {
-        
         match,
         live
     } = props;
+    const [score, setScore] = useState("");
+    const [matchTime, setMatchTime] = useState();
+    const [matchStatus, setMatchStatus] = useState("")
+    // repeated functions should be refactored
+    const socketRef = useRef(socket);
+    const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}`, [match]);
+    
+    const handleGameSocket = useCallback((type, gameId) => {
+        if (type === "listen" && socketRef.current?.connected) {
+            socketRef.current.emit('user.match.listen', gameId);
+        } else if (type === "leave") {
+            socketRef.current?.emit('user.match.listen', gameId);
+     }
+    }, []);
 
+
+    useEffect(() => {
+        handleGameSocket("listen", match?.parent_match_id);
+        const handleSocketData = (data) => {
+
+            setScore((prevScore) => {
+                return data?.score
+            });
+            setMatchTime((preTime) => {
+                return data?.match_time
+            });
+            setMatchStatus((prevStatus) => {
+                return data?.match_status
+            })
+        };
+
+        socketRef.current?.on(socketEvent, handleSocketData);
+
+        return () => {
+            // handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
+            socketRef.current?.off(socketEvent, handleSocketData);
+        };
+    }, [handleGameSocket, match, socketEvent]);
+
+    const getMatchTimeMinutes = (time) => {
+        if(time == ":"){
+            return ""
+        } else {
+            return time.split(":")[0]
+        }
+    }
     const LivescoreFooter = () => {
 
         return (
@@ -215,20 +259,27 @@ const MoreMarketsHeaderRow = (props) => {
                     </div>
 
                     {live &&
-                        <Row className="header-text">
+                        <Row className="header-te">
                             <Col style={{
-                                color: "#cc5500",
-                                marginBottom: "5px"
-                            }}> {match?.status == 'Ended' && 'Ended '} {match?.score}</Col>
+                                fontWeight: "bolder",
+                                color: "rgba(255, 0, 0, 0.7)",
+                                marginBottom: "5px",
+                                background:"rgba(255,255,255, 0.8)",
+                                padding:"4px 5px",
+                                maxWidth: "100px",
+                                marginLeft:"auto",
+                                marginRight:"auto",
+                                borderRadius:"5px"
+                            }}> {match?.status == 'Ended' && 'Ended '} {score || match?.score}</Col>
                         </Row>
                     }
                     <Row className="header-text font-[400]">
                         <Col>{match?.category} - {match?.competition_name}</Col>
                     </Row>
-                    {match?.status !== 'Ended' &&
+                    {match?.status?.toLowerCase() !== 'ended' &&
                         <Row className="start-time text-center my-3">
                             {live
-                                ? <Col>Live: <span style={{color: "#cc5500"}}>{match?.match_time || match?.status}</span></Col>
+                                ? <Col>Live: <span style={{padding:"0 7px", borderRadius:"5px", color: "rgba(255, 0,0,0.7)", lineHeight:"0", background:"rgba(255,255,255,0.7)", fontWeight:"bolder"}}>{getMatchTimeMinutes(matchTime || match?.match_time || ":") || matchStatus || match?.status}</span></Col>
                                 : <Col className="capitalize font-[400]"><span className='opacity-70'></span> {convertDateToLocalString(match?.start_time)}</Col>}
 
                             <Col className='font-normal opacity-70' style={{fontSize:"1.2rem"}}>Game ID: {match?.game_id} </Col>
@@ -240,7 +291,7 @@ const MoreMarketsHeaderRow = (props) => {
             {/* The livescore filter */}
             <div id='livescore' className=''>
                 <div id='livescore-content'><img src={MatchDetailBetrandder} className="main-img" alt="" /></div>
-                <div id='livescore-footer-links'><LivescoreFooter /></div>
+                {/* <div id='livescore-footer-links'><LivescoreFooter /></div> */}
             </div>
         </>
     )
@@ -629,6 +680,9 @@ const MatchRow = (props) => {
     const [isVisible, setIsVisible] = useState(true);
     const [match, setMatch] = useState({...initialMatch})
     const [availableMarkets, setAvailableMarkets] = useState(subTypes || [1, 10, 18])
+    const [updatedMatchStatus, setUpdatedMatchStatus] = useState(null);
+    const [updatedMatchTime, setUpdatedMatchTime] = useState();
+    const [updatedMatchScore, setUpdatedMatchScore] = useState();
     // match.market_active = 1
     // if(match?.odds?.home_odd_active) {
     //     match.odds.home_odd_active = 1
@@ -656,6 +710,26 @@ const MatchRow = (props) => {
               setIsVisible(true);
             }
           });
+        
+
+        //   Listen for the whole match as well 
+        socket.emit('user.match.listen', match?.parent_match_id);
+
+        // manage game socket data
+        socket.on(`surebet#${match?.parent_match_id}`, (data) => {
+
+            console.log("DATA LOGGED FOR GAME SOCKET DETAIL  ;:: ", data);
+
+            setUpdatedMatchScore((prevScore) => {
+                return data.match_score
+            });
+            setUpdatedMatchStatus((prevScore) => {
+                return data.match_status
+            });
+            setUpdatedMatchTime((prevTime) => {
+                return data.match_time;
+            })
+        })
 
         return () => {
             // unsubscribe trigger
@@ -757,12 +831,11 @@ const MatchRow = (props) => {
                 {(live && Date.parse(match?.start_time) > Date.now()) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime = {match?.start_time} /></div>}
 
                     <span className={'small'}>
-                        {(live && match?.match_time) || (live && match?.match_status == "Halftime" ) ?
-                            <span className='font-[500] uppercase'>{match?.match_status}<span className='text-red-500 ml-2'>{`${match?.match_time || match?.match_status}`}</span></span> : match?.start_time}
+                        {(live && (updatedMatchTime || match?.match_time)) || (live && match?.match_status == "Halftime" ) ?
+                            <span className='font-[500] uppercase'>{match?.match_status}<span className='text-red-500 ml-2'>{`${updatedMatchTime || match?.match_time || updatedMatchStatus || match?.match_status}`}</span></span> : updatedMatchTime || match?.start_time}
                     </span>
                     <>ID: {match?.match_id}</>
                 </div>
-
             </div>
             <div className="col-md-2 col-sm-4 col-xs-12 match-detail-container" key="23">
                 <Link to={(jackpot) ? '#' : `/match/${live ? 'live/' : "" }`+ match?.match_id}>
@@ -786,9 +859,9 @@ const MatchRow = (props) => {
             {(live ) &&
                 <div className="text-red-500 font-bold">
                     <br/>
-                    {teamScore(match?.score, true)}
+                    {teamScore((updatedMatchScore || match?.score), true)}
                     <br/>
-                    {teamScore(match?.score, false)}
+                    {teamScore((updatedMatchScore || match?.score), false)}
                 </div>
             }
 
@@ -928,8 +1001,8 @@ export const MarketList = (props) => {
             }
 
             {
-                /* filter for match with more markets */
-                matchwithmarkets !== null && <MatchDetailFilter />
+                                    /* filter for match with more markets */
+                // matchwithmarkets !== null && <MatchDetailFilter />
             }
 
             <div className="web-element">
@@ -937,10 +1010,23 @@ export const MarketList = (props) => {
                 
                 {/* filter here */}
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
+
                     return (["active", "suspended", ""].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) && 
                     <MarketRow
                         market_id={mkt_id}
-                        markets={markets?.outcomes}
+                        markets={markets?.outcomes?.sort((a, b) =>{
+                            let asbv = a.special_bet_value;
+                            let bsbv = b.special_bet_value;
+                            let aoid = a.outcome_id;
+                            let boid = b.outcome_id;
+                        
+                            // If first value is same
+                            if (asbv == bsbv) {
+                                return (asbv < bsbv) ? -1 : (aoid > boid) ? 1 : 0;
+                            } else {
+                                return (asbv < bsbv) ? -1 : 1;
+                            }
+                            })}
                         width={markets.outcomes.length == 3 ? "33.333%" : "50%"}
                         match={matchwithmarkets}
                         marketDetail = {markets}

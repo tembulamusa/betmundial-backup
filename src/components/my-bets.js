@@ -35,7 +35,7 @@ const MyBets = (props) => {
     const [message, setMessage] = useState({});
     const [sharableBet, setSharableBet] = useState(null);
     const [showSharableBet, setShowSharableBet] = useState(false);
-
+    const [userBets, setUserBets] = useState([])
 
 
     const Alert = (props) => {
@@ -66,7 +66,7 @@ const MyBets = (props) => {
         makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
             
             if ([200, 201].includes(status)){
-                dispatch({type: "SET", key: "mybets", payload: result?.data || result});
+                setUserBets(result?.data || result)
             } else {
                 setMessage({status: status, message:"Unable to process"})
             }
@@ -83,7 +83,7 @@ const MyBets = (props) => {
         return (
             <div className={`my-bets-header`} style={Styles.headers}>
                 <div className="row uppercase">
-                    {/* <div className="col">ID</div> */}
+                    <div className="col">ID</div>
                     <div className="col hidden md:flex">SECTION</div>
                     <div className="col">CREATED</div>
                     <div className="col hidden md:flex">GAMES</div>
@@ -97,13 +97,13 @@ const MyBets = (props) => {
     const BetItem = (props) => {
         const { bet } = props;
         const [betStatus, setBetStatus] = useState(bet.status_desc);
-        const [canCancel, setCanCancel] = useState(bet.can_cancel == 1);
+        const [canCancel, setCanCancel] = useState(bet.cancellable == 1);
         const [isOpen, setIsOpen] = useState(false);
         const [currentBetDetail, setCurrentBetDetail] = useState(null)
         const [isLoadingBetItems, setIsLoadingBetItems] = useState(false);
         const [betType, setBetType] = useState();
 
-        useEffect(( )=> {
+        useEffect(( ) => {
             if(bet?.jackpot_bet_id){
                 setBetType("Jackpot");
             } else if(bet?.total_games > 1){
@@ -143,7 +143,6 @@ const MyBets = (props) => {
         
 
         const statusMarkup = (bet) => {
-            console.log("BET HERE IS ", bet)
             let btnClass;
             let btnText; 
             let statusText;
@@ -194,7 +193,7 @@ const MyBets = (props) => {
                     <Accordion.Item eventKey={bet?.bet_id}>
                         <Accordion.Header>
                             <div className="row w-full" onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
-                            {/* <div className="col font-ligt">{ bet?.bet_id}</div> */}
+                                <div className="col font-ligt">{ bet?.bet_id}</div>
                                 <div className="col hidden md:flex">{ betType}</div>
                                 <div className="col">{ bet?.created}</div>
                                 <div className="col hidden md:flex">{ bet?.total_games}</div>
@@ -205,7 +204,7 @@ const MyBets = (props) => {
                         </Accordion.Header>
                         <Accordion.Body>
                             <div className="bet-detail-header">
-                                <span><CancelBetMarkup txt="Cancel Bet" /></span>
+                                {bet?.cancelable ? <span><CancelBetMarkup txt="Cancel Bet" /></span> : ""}
                                 {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
                             </div>
                             <div className="overflow-x-auto"> 
@@ -238,12 +237,12 @@ const MyBets = (props) => {
         const winsCount = betslip?.filter(item => item?.status?.toLowerCase() == "won")?.length;
         return (
             <tr className={`betslip-header`} >
-                    <td className="hidden md:table-cell">No.</td>
+                    {/* <td className="hidden md:table-cell">No.</td> */}
                     {/* <td className="">ID</td> */}
                     <td className="">Date</td>
                     <td className="">Game</td>
                     {/* <td className="hidden md:table-cell">Odds</td> */}
-                    {/* <td className="hidden md:table-cell">Market</td> */}
+                    <td className="hidden md:table-cell">Market</td>
                     <td className="">Pick</td>
                     <td className="">Results</td>
                     <td className="hidden md:table-cell">{`${winsCount}/${betslip?.length}`}</td>
@@ -298,14 +297,14 @@ const MyBets = (props) => {
     const BetslipItem = ({ slip, index }) => {
         return (
             <tr className={`my-bets`}  key={slip.game_id}>
-                <td className="hidden md:table-cell">{index + 1}</td> 
-                {/* <td className="">{ slip?.game_id}</td> */}
+                {/* <td className="hidden md:table-cell">{index + 1}</td>  */}
+                {/* <td className="">{ slip?.match_id}</td> */}
                 <td className="">{ slip?.start_time}</td>
                 <td className="">{ slip?.home_team} - {slip.away_team}</td>
                 {/* <td className="hidden md:table-cell">{ slip?.odd_value}</td> */}
-                {/* <td className="hidden md:table-cell">{ slip?.market}</td> */}
-                <td className="">{ slip?.bet_pick}</td>
-                <td className="">{ slip?.results?.length > 0 ? slip.results : "--"} <span className="md:hidden">{ gameBetStatus(slip.status)}</span></td>
+                <td className="">{ slip?.market_name}</td>
+                <td className="">{slip?.bet_pick}{slip?.special_bet_value && `(${slip?.special_bet_value})`}</td>
+                <td className="">{ slip?.result !== null ? slip.result : "--"} <span className="md:hidden">{ gameBetStatus(slip.status)}</span></td>
                 {/* <td className="">{ slip.ft_result}</td> */}
                 <td className="hidden md:table-cell">{ gameBetStatus(slip.status)}</td>
             </tr>
@@ -317,16 +316,15 @@ const MyBets = (props) => {
             <>
             <BetItemHeader />
             {
-                (state?.mybets || []).length > 1 ?
+                (userBets || []).length > 1 ?
                     <Accordion 
                     className="accordion"
                     defaultActiveKey={0}
                     allowMultipleExpanded={false}
                     // uuid = {}
                     >
-                    {(state?.mybets || []).map((bet, idx) => (
+                    {(userBets || []).map((bet, idx) => (
                         <>
-                        
                         <div className="mybet-list" 
                             key = {bet?.bet_id}
                             uuid = { bet?.bet_id }
@@ -356,6 +354,9 @@ const MyBets = (props) => {
             </div>
        )
     }
+
+
+
     return (
         <>
             <div className="homepage">

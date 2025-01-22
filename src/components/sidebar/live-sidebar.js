@@ -16,11 +16,12 @@ const LiveSideBar = (props) => {
     const [toggled, setToggled] = useState(false)
 
     const fetchData = useCallback(() => {
-        let endpoint = "/v2/sports?live=1";
-        makeRequest({url: endpoint, method: "GET"})
+        let endpoint = "/v2/sports/live";
+        makeRequest({url: endpoint, method: "GET", api_version:2})
             .then(([c_status, c_result]) => {
+                // console.log("THE REQUEST RESULT IS HERE  ::: ", c_result)
                 if (c_status == 200) {
-                    setLiveSports(c_result)
+                    setLiveSports(c_result?.data)
                 }
             });
     }, []);
@@ -116,17 +117,17 @@ const LiveSideBar = (props) => {
                                     <Menu iconShape="circle">
                                         <MenuItem>
                                             <Link className="col-12 font-[500]"
-                                               to={`/live/${livesport.sport_id}`}>
+                                               to={`/live/${livesport?.sport_id}`}>
                                                 <Row>
                                                     <Col lg="11" md="11" sm="11" xs="11" className="topl">
                                                         <Row style={{color: "#69819a"}}>
-                                                            <Col className={''}>{livesport.sport_name} </Col>
+                                                            <Col className={''}>{livesport?.sport_name} </Col>
                                                             <Col>
                                                                 <span className={'badge rounded-pill bg-dark'} style={{
                                                                     float: "right",
                                                                     color: "#fff"
                                                                 }}>
-                                                                        {livesport.count}
+                                                                        {livesport?.count}
                                                                 </span>
                                                             </Col>
                                                         </Row>

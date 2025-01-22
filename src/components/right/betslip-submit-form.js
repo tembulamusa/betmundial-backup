@@ -23,7 +23,7 @@ import {
 } from 'formik';
 import { isNull } from 'util';
 import { TbRefreshAlert } from "react-icons/tb";
-import { setLocalStorage } from '../utils/local-storage';
+import { getFromLocalStorage, setLocalStorage } from '../utils/local-storage';
 
 const Float = (equation, precision = 4) => {
     return Math.round(equation * (10 ** precision)) / (10 ** precision);
@@ -325,7 +325,7 @@ const BetslipSubmitForm = (props) => {
 
         let errors = {}
 
-        if (!state.user) {
+        if (!getFromLocalStorage("user")) {
             dispatch({type: "SET", key: "showloginmodal", payload: true})
             // errors.user_id = 'Kindly login to proceed';
             setMessage({status: 400, message: errors.user_id});

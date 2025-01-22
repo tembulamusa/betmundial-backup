@@ -51,7 +51,7 @@ const Header = (props) => {
         if (user) {
             const expirationTime = Date.now() + 1000 * 60 * 60 * 3; 
             setLocalStorage("user", { ...user, expirationTime }, expirationTime);
-            dispatch({ type: "SET", key: "user", payload: user });
+            // dispatch({ type: "SET", key: "user", payload: user });
         }
     }, [user]);
 
@@ -64,7 +64,6 @@ const Header = (props) => {
                 // Session expired
                 localStorage.clear();
                 dispatch({ type: "DEL", key: "user" });
-                dispatch({ type: "DEL", key: "mybets" });
                 navigate("/"); 
             }
         };
@@ -72,7 +71,7 @@ const Header = (props) => {
         const interval = setInterval(checkSession, 30000); 
     
         return () => clearInterval(interval);
-    }, [dispatch, navigate]);
+    }, [navigate]);
     
     const updateUserOnHistory = async() => {
         if (!user) {
