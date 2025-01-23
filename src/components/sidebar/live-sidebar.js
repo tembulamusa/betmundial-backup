@@ -15,7 +15,8 @@ const LiveSideBar = (props) => {
     const [collapsed, setCollapsed] = useState(false)
     const [toggled, setToggled] = useState(false)
 
-    const fetchData = useCallback(() => {
+    const fetchData = () => {
+        const abortController = new AbortController();
         let endpoint = "/v2/sports/live";
         makeRequest({url: endpoint, method: "GET", api_version:2})
             .then(([c_status, c_result]) => {
@@ -24,20 +25,22 @@ const LiveSideBar = (props) => {
                     setLiveSports(c_result?.data)
                 }
             });
-    }, []);
 
-    useInterval(async () => {
-        fetchData();
-    }, 15000);
+            return () => abortController.abort();
+        };
+
+    // useInterval(async () => {
+    //     fetchData();
+    // }, 15000);
 
     useEffect(() => {
-        const abortController = new AbortController();
         fetchData();
 
+        const abortController = new AbortController();
         return () => {
             abortController.abort();
         };
-    }, [fetchData]);
+    }, []);
 
     const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
 
@@ -59,6 +62,7 @@ const LiveSideBar = (props) => {
             }}
                  className={`px-2 vh-100 text-white sticky-top d-none d-md-block up col-md-2`}>
                 <Sidebar
+                    id='live-sidebar-left'
                     style={{backgroundColor: '#16202c !important'}}
                     image={false}>
                     <div>
@@ -107,7 +111,7 @@ const LiveSideBar = (props) => {
                                                     src={getSportImageIcon(competition.sport_name)} alt=''/>}
                                         label={competition.sport_name}
                                         className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football', 'gaelic hurling', 'gaelic football'].includes(competition?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
-                                        key={index}>
+                                        key={`live-listing-${index}`}>
                                 </SubMenu>
                             ))}
                         </Menu>
@@ -115,7 +119,7 @@ const LiveSideBar = (props) => {
                 }
                             {liveSports && Object.entries(liveSports)?.map(([index, livesport]) => (
                                     <Menu iconShape="circle">
-                                        <MenuItem>
+                                        <MenuItem key={`live-sidebar-item-${index}`}>
                                             <Link className="col-12 font-[500]"
                                                to={`/live/${livesport?.sport_id}`}>
                                                 <Row>
@@ -145,4 +149,4 @@ const LiveSideBar = (props) => {
     );
 
 }
-export default LiveSideBar;
+export default React.memo(LiveSideBar);

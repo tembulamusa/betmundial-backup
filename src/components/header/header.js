@@ -93,16 +93,16 @@ const Header = (props) => {
         });
     };
 
-    useInterval( async () => {
-        if(!socket.connected){
-            updateUserOnHistory()
-        }
+    // useInterval( async () => {
+    //     if(!socket.connected){
+    //         updateUserOnHistory()
+    //     }
 
-        // comment out this to stop polling
-        updateUserOnHistory()
+    //     // comment out this to stop polling
+    //     updateUserOnHistory()
 
-    }
-    ,3000);
+    // }
+    // ,3000);
     
     const nextNavigate = () => {
         const path = location.pathname

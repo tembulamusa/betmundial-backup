@@ -82,9 +82,8 @@ const ProSidebar = (props) => {
     };
 
     useEffect(() => {
-        if (!state?.nosports) {
-            fetchData();
-        }
+        
+        fetchData();
         const abortController = new AbortController();
 
         return () => {

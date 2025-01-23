@@ -58,13 +58,13 @@ const MyBets = (props) => {
 
     };
 
-    const fetchData = () => {
+    const fetchData2 = () => {
         if(isLoading) return;
+        const abortController = new AbortController();
         setIsLoading(true);
         setMessage(null);
         let endpoint = "/v2/user/bets?size=20&page=1";
         makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
-            
             if ([200, 201].includes(status)){
                 setUserBets(result?.data || result)
             } else {
@@ -72,10 +72,12 @@ const MyBets = (props) => {
             }
             setIsLoading(false);
         });
+
+        return () => abortController.abort();
     };
 
     useEffect(() => {
-       fetchData();
+       fetchData2();        
     }, []);
 
     
@@ -190,7 +192,7 @@ const MyBets = (props) => {
 
         
         return (
-                    <Accordion.Item eventKey={bet?.bet_id}>
+                    <Accordion.Item eventKey={"mybets-" + bet?.bet_id}>
                         <Accordion.Header>
                             <div className="row w-full" onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
                                 <div className="col font-ligt">{ bet?.bet_id}</div>
@@ -296,7 +298,7 @@ const MyBets = (props) => {
     }
     const BetslipItem = ({ slip, index }) => {
         return (
-            <tr className={`my-bets`}  key={slip.game_id}>
+            <tr className={`my-bets`}  key={`slip-game-${slip.game_id}`}>
                 {/* <td className="hidden md:table-cell">{index + 1}</td>  */}
                 {/* <td className="">{ slip?.match_id}</td> */}
                 <td className="">{ slip?.start_time}</td>
@@ -319,17 +321,18 @@ const MyBets = (props) => {
                 (userBets || []).length > 1 ?
                     <Accordion 
                     className="accordion"
-                    defaultActiveKey={0}
+                    id="mybets-accordion"
+                    defaultActiveKey={null}
                     allowMultipleExpanded={false}
-                    // uuid = {}
+                    uuid = {63213}
                     >
                     {(userBets || []).map((bet, idx) => (
                         <>
                         <div className="mybet-list" 
-                            key = {bet?.bet_id}
-                            uuid = { bet?.bet_id }
+                            key = {`mybet-list-22-${bet?.bet_id}`}
+                            uuid = { `my-bet-list-2134-${bet?.bet_id}` }
                             >
-                                <BetItem bet={bet}  key={bet?.bet_id}/>
+                                <BetItem bet={bet}  key={`bet-item654-${bet?.bet_id}`}/>
                             
                         </div>
                         </>
@@ -371,4 +374,4 @@ const MyBets = (props) => {
     )
 }
 
-export default MyBets
+export default React.memo(MyBets)
