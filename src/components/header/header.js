@@ -69,8 +69,8 @@ const Header = (props) => {
         };
     
         const interval = setInterval(checkSession, 30000); 
-    
         return () => clearInterval(interval);
+        
     }, [navigate]);
     
     const updateUserOnHistory = async() => {

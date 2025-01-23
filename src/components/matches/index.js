@@ -27,6 +27,14 @@ const clean = (_str) => {
     return _str.replace(/-+/g, '-');
 }
 
+const getMatchTimeMinutes = (time) => {
+    if(time == ":"){
+        return ""
+    } else {
+        return time.split(":")[0]
+    }
+}
+
 const EmptyTextRow = (props) => {
     const {odd_key, classname} = props;
 
@@ -114,11 +122,13 @@ const MatchHeaderRow = (props) => {
                  style={{opacity: "1", top: "100px", height:""}}>
                 <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
                     <div className="align-self-center col">
+
                    { fetching && <div className="filter-group-icon " >
-                           <Spinner animation="border" size="sm" variant="secondary" />
+                        {/* Uncomment this just to illustrate to the user... */}
+                        {/* <Spinner animation="border" size="sm" variant="secondary" /> */}
                        </div>
                    }
-        {/* <h3 className="main-heading-1 ">
+                    {/* <h3 className="main-heading-1 ">
                             {live && <span className="live-header">LIVE </span> }
                             {!live && <span className="">PREMATCH </span> }
                         </h3> */} 
@@ -697,6 +707,8 @@ const MatchRow = (props) => {
                 socket.emit('user.market.listen', {parent_match_id: gameId, sub_type_id:subTypeId});
             } else if (type == "leave") {
                 socket?.emit("user.market.leave", {parent_match_id: gameId, sub_type_id:subTypeId});
+                socket?.emit("user.match.leave", gameId);
+                
             }
         });
     }
@@ -717,7 +729,6 @@ const MatchRow = (props) => {
 
         // manage game socket data
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
-
             console.log("DATA LOGGED FOR GAME SOCKET DETAIL  ;:: ", data);
 
             setUpdatedMatchScore((prevScore) => {
@@ -734,6 +745,7 @@ const MatchRow = (props) => {
         return () => {
             // unsubscribe trigger
             handleGameSocket("leave", match?.parent_match_id);
+
         }
 
     }, []);
@@ -832,7 +844,7 @@ const MatchRow = (props) => {
 
                     <span className={'small'}>
                         {(live && (updatedMatchTime || match?.match_time)) || (live && match?.match_status == "Halftime" ) ?
-                            <span className='font-[500] uppercase'>{match?.match_status}<span className='text-red-500 ml-2'>{`${updatedMatchTime || match?.match_time || updatedMatchStatus || match?.match_status}`}</span></span> : updatedMatchTime || match?.start_time}
+                            <span className='font-[500] uppercase'>{match?.match_status}<span className='text-red-500 ml-2'>{`${getMatchTimeMinutes(updatedMatchTime || match?.match_time) || updatedMatchStatus || match?.match_status}`}</span></span> : updatedMatchTime || match?.start_time}
                     </span>
                     <>ID: {match?.match_id}</>
                 </div>
