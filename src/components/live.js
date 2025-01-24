@@ -50,7 +50,6 @@ const Live = (props) => {
 
 
     useEffect(() => {
-        console.log("THE SPORTID CHANGED   :::::  ", spid)
         fetchData();
         // let cachedSlips = getBetslip("betslip");
         // if (cachedSlips) {

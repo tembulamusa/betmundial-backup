@@ -49,8 +49,8 @@ const Deposit = (props) => {
                 }, 7000);
                 const removePoll = setTimeout(() => {clearInterval(pollBalID)}, 60000)
             } else {
-                setMessage({status: 400, message: "Error pushing stk. Please deposit directly"})
-                Notify({status: 400, message:"Error making a deposit. Seek custome care support"})
+                setMessage({status: 400, message: "STK not Available. Click to deposit directly"})
+                Notify({status: 400, message:"Error making a deposit. Seek customer care support"})
             }
             setIsLoading(false)
         })
@@ -98,7 +98,10 @@ const Deposit = (props) => {
                 <div className="form-group row d-flex justify-content-center mt-4">
                     
                     <div className="row">
-                        {message && <div className='mt-3 font-bold'><Alert/></div> }
+                        {message && 
+                        <div className='mt-3 font-bold'>
+                            <Link to={"#pay-via-mobile"}><Alert/></Link>
+                        </div> }
                         <input
                             onChange={ev => onFieldChanged(ev)}
                             style={{}}
@@ -151,7 +154,9 @@ const Deposit = (props) => {
                         <div className="col"> 3. Enter Paybill number: <span className='text-2x font-bold'>599488</span></div>
                     </div>
                     <div className="row">
-                        <div className="col"> 4. Account Number: <span className='text-2x font-bold'>Enter your phone number</span></div>
+                        <div className="col"> 4. Account Number: 
+                            <span className='text-2x font-bold'>Enter your phone number</span>
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col"> 5. Enter Amount</div>
@@ -177,13 +182,18 @@ const Deposit = (props) => {
         const DepositSelfService = (props) => {
 
             return (
-                <div className='cursor-pointer opacity-80 hover:opacity-100' onClick={() => dispatch({type:"SET", key:"showcheckmpesadepositstatus", payload:true})}>
+                <div className='cursor-pointer opacity-80 hover:opacity-100' 
+                    onClick={() => dispatch({type:"SET", key:"showcheckmpesadepositstatus", payload:true})}>
                     <div className='flex'>
                         <GoAlertFill className='text-3xl mr-4 align-middle' size={30}/>
                         <div className=''>
                             <div className='font-bold'>Missing Deposit</div>
-                            <div className='block font-[500] opacity-70'>Deposit not reflecting? sort your missing deposit here</div>
-                            <button className='btn rounded-md btn-default text-gray-700 capitalize py-3 my-2 font-[500]'>Check Deposit status</button>
+                            <div className='block font-[500] opacity-70'>
+                                Deposit not reflecting? sort your missing deposit here
+                            </div>
+                            <button className='btn rounded-md btn-default text-gray-700 capitalize py-3 my-2 font-[500]'>
+                                Check Deposit status
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -246,7 +256,15 @@ const Deposit = (props) => {
 
     const Alert = (props) => {
         let c = success ? 'success' : 'danger';
-        return (<>{message && <div role="alert" className={`rounded-md fade alert alert-${c} show`}>{message?.message}</div>} </>);
+        return (
+            <>
+                {message && 
+                    <div role="alert" className={`rounded-md fade alert alert-${c} show`}>
+                        {message?.message}
+                    </div>
+                } 
+            </>
+        );
 
     };
 
