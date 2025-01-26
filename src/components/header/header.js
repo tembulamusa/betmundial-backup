@@ -56,11 +56,13 @@ const Header = (props) => {
     }, [user]);
 
     useEffect(() => {
+
+        // Redo this stuff with ALEXIS
         const checkSession = () => {
             const storedUser = getFromLocalStorage("user");
             const currentTime = Date.now();
     
-            if (!storedUser || storedUser.expirationTime <= currentTime) {
+            if (storedUser && storedUser.expirationTime <= currentTime) {
                 // Session expired
                 localStorage.removeItem("user");
                 if(state?.user) {
@@ -73,7 +75,7 @@ const Header = (props) => {
         const interval = setInterval(checkSession, 60000); 
         return () => clearInterval(interval);
 
-    }, [navigate]);
+    }, []);
     
     const updateUserOnHistory = async() => {
         if (!user) {

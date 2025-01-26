@@ -22,7 +22,7 @@ import MatchDetailBetrandder from "../../assets/img/betrader/test-game-details.p
 import LockedButton, { EmptyButton } from '../utils/locked-button';
 import betslip from '../right/betslip';
 import useInterval from '../../hooks/set-interval.hook';
-
+import MatchWidget from './match-widget';
 const clean = (_str) => {
     _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
     return _str.replace(/-+/g, '-');
@@ -292,6 +292,9 @@ const MoreMarketsHeaderRow = (props) => {
     }
     return (
         <>
+            {/* Initial custom header */}
+
+            {/*
             <div className="match-detail-header panel-header primary-bg pt-3">
                 <div className="text-center">
 
@@ -299,13 +302,34 @@ const MoreMarketsHeaderRow = (props) => {
                         {match?.home_team} <small> - </small> {match?.away_team}
                     </div>
 
+                    {match?.status?.toLowerCase() !== 'ended' &&
+                            <span className="start-time block text-center my-3">
+                            {live
+                                ? 
+                                <Col> 
+                                    <span style={{display:"inline-block", width:"100px",  marginLeft:"2px", padding: "0 7px", borderRadius: "5px", color: "rgba(255, 0,0,0.7)", background: "rgba(255,255,255,1)", fontWeight: "bd" }}>
+                                        {(matchTime || match?.match_time) 
+                                        
+                                        ?
+                                        <TimeCounter minutes={matchTime?.minutes} seconds={matchTime?.seconds} />
+                                        :
+                                        matchStatus || match?.status}
+
+                                    </span>
+                                </Col>
+                                : 
+                                <Col className="capitalize font-[400]"><span className='opacity-70'></span> {convertDateToLocalString(match?.start_time)}</Col>
+                            }
+                            </span>
+                            }
                     {live &&
                         <Row className="header-te">
+                            
                             <Col style={{
                                 fontWeight: "",
                                 color: "rgba(255, 0, 0, 0.7)",
                                 marginBottom: "5px",
-                                background: "rgba(255,255,255, 0.8)",
+                                background: "rgba(255,255,255)",
                                 padding: "4px 5px",
                                 maxWidth: "100px",
                                 marginLeft: "auto",
@@ -317,33 +341,20 @@ const MoreMarketsHeaderRow = (props) => {
                     <Row className="header-text font-[400]">
                         <Col>{match?.category} - {match?.competition_name}</Col>
                     </Row>
-                    {match?.status?.toLowerCase() !== 'ended' &&
-                        <Row className="start-time text-center my-3">
-                            {live
-                                ? <Col>Live: 
-                                    <span style={{ marginLeft:"2px", padding: "0 7px", borderRadius: "5px", color: "rgba(255, 0,0,0.7)", lineHeight: "0", background: "rgba(255,255,255,1)", fontWeight: "bd" }}>
-                                        {(matchTime || match?.match_time) 
-                                        
-                                        ?
-                                        <TimeCounter minutes={matchTime?.minutes} seconds={matchTime?.seconds} />
-                                        :
-                                        matchStatus || match?.status}
-
-                                    </span>
-                                </Col>
-                                : <Col className="capitalize font-[400]"><span className='opacity-70'></span> {convertDateToLocalString(match?.start_time)}</Col>}
-
-                            <Col className='font-normal opacity-70' style={{ fontSize: "1.2rem" }}>Game ID: {match?.game_id} </Col>
-                        </Row>
-                    }
+                    
                 </div>
             </div>
-
+            */}
             {/* The livescore filter */}
-            <div id='livescore' className=''>
-                <div id='livescore-content'><img src={MatchDetailBetrandder} className="main-img" alt="" /></div>
+            {/* <div id='livescore' className=''> */}
+                {/* <div id='livescore-content'><img src={MatchDetailBetrandder} className="main-img" alt="" /></div> */}
+                
                 {/* <div id='livescore-footer-links'><LivescoreFooter /></div> */}
-            </div>
+            {/* </div> */}
+
+
+        {/* THE BETRADDER WIDGET */}
+        <MatchWidget parentMatchId={match?.parent_match_id}/>
         </>
     )
 }
@@ -893,7 +904,7 @@ const MatchRow = (props) => {
                         </>
                     }
                     <div className="d-flex flex-column" key="20">
-                        {(live && Date.parse(match?.start_time) > Date.now()) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime={match?.start_time} /></div>}
+                        {(live && (Date.parse(match?.start_time) > Date.now() && !match?.match_time)) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime={match?.start_time} /></div>}
 
                         <span className={'small'}>
                             {(live && match?.match_status)
@@ -907,6 +918,7 @@ const MatchRow = (props) => {
                         <>ID: {match?.match_id}</>
                     </div>
                 </div>
+                
                 <div className="col-md-2 col-sm-4 col-xs-12 match-detail-container" key="23">
                     <Link to={(jackpot) ? '#' : `/match/${live ? 'live/' : ""}` + match?.match_id}>
                         <div className="d-flex flex-column primary-text">
