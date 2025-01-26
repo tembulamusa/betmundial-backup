@@ -62,15 +62,17 @@ const Header = (props) => {
     
             if (!storedUser || storedUser.expirationTime <= currentTime) {
                 // Session expired
-                localStorage.clear();
-                dispatch({ type: "DEL", key: "user" });
-                navigate("/"); 
+                localStorage.removeItem("user");
+                if(state?.user) {
+                    dispatch({ type: "DEL", key: "user" });
+                }
+                // navigate("/");
             }
         };
     
-        const interval = setInterval(checkSession, 30000); 
+        const interval = setInterval(checkSession, 60000); 
         return () => clearInterval(interval);
-        
+
     }, [navigate]);
     
     const updateUserOnHistory = async() => {
