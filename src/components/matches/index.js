@@ -23,6 +23,7 @@ import LockedButton, { EmptyButton } from '../utils/locked-button';
 import betslip from '../right/betslip';
 import useInterval from '../../hooks/set-interval.hook';
 import MatchWidget from './match-widget';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const clean = (_str) => {
     _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
     return _str.replace(/-+/g, '-');
@@ -293,7 +294,6 @@ const MoreMarketsHeaderRow = (props) => {
     return (
         <>
             {/* Initial custom header */}
-
             {/*
             <div className="match-detail-header panel-header primary-bg pt-3">
                 <div className="text-center">
@@ -354,6 +354,9 @@ const MoreMarketsHeaderRow = (props) => {
 
 
         {/* THE BETRADDER WIDGET */}
+        <div className="match-detail-header panel-header primary-bg pt-3">
+           <span> <FontAwesomeIcon icon={"carret"} /> {match?.home_team} - {match?.away_team} </span>
+        </div>
         <MatchWidget parentMatchId={match?.parent_match_id}/>
         </>
     )
