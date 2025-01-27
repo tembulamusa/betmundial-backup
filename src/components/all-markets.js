@@ -60,12 +60,12 @@ const MatchAllMarkets = (props) => {
     }, [params.id]);
 
     // even if we are connected on socket, we may have to poll after some time so as to get the newest games
-    // useInterval(async () => {
-    //     if(!isLoading){
-    //         fetchPagedData();
-    //     }
+    useInterval(async () => {
+        if(!isLoading){
+            fetchPagedData();
+        }
 
-    // }, 1500);
+    }, 1500);
 
     useEffect(()=> {
         
@@ -94,8 +94,8 @@ const MatchAllMarkets = (props) => {
         </div>
 
 
-        {(!matchwithmarkets || matchwithmarkets == null) && 
-            <AllMarketsUnavailable backLink={live ? "/live" : "/"}/>
+        {((!matchwithmarkets || matchwithmarkets == null) && !isLoading) && 
+            <AllMarketsUnavailable backLink={live ? "/live" : "/"} isLoading={isLoading}/>
         }
            
        </>

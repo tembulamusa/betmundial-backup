@@ -27,7 +27,7 @@ const Live = (props) => {
     
 
     const fetchData = () => {
-        let endpoint = "/v2/sports/matches/live/" + (spid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}`;
+        let endpoint = "/v2/sports/matches/live/" + (spid || 79) +"?page=" + (page || 1) + `&size=${limit || 200}`;
         let method =  "GET";
         setFetching(true);
         makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
@@ -46,7 +46,7 @@ const Live = (props) => {
         if(!fetching) {
             fetchData();
         }
-      }, 15000);
+      }, 10000);
 
 
     useEffect(() => {
