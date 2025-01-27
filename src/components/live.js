@@ -17,7 +17,7 @@ const Live = (props) => {
     const [delay,  ] = useState(3000);
     const [fetching, setFetching] = useState(false)
     const {sportid, categoryid, competitionid } = useParams();
-    const [limit, setLimit] = useState(20);
+    const [limit, setLimit] = useState(200);
     const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(true);
     const [page, ] = useState(1);

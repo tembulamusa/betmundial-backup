@@ -65,7 +65,7 @@ const MatchAllMarkets = (props) => {
             fetchPagedData();
         }
 
-    }, 1500);
+    }, 15000);
 
     useEffect(()=> {
         

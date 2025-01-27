@@ -245,7 +245,6 @@ const BetSlip = (props) => {
                             }
                             newSlip.odd_value = eventOdd.odd_value;
                             newSlip.comment = 'The odds for this event have changed';
-                            delete newSlip.prev_odds;
                         } else {
                             if(!newSlip.prev_odds){
                                 delete newSlip.comment

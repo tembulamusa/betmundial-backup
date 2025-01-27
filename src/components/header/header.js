@@ -81,8 +81,8 @@ const Header = (props) => {
         if (!user) {
             return;
         }
+
         let endpoint = "/v2/user/balance";
-      
         await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
             if (_status == 200) {
                 let u = {...user, ...response?.data, bonus_balace: response?.data?.bonus};
@@ -97,16 +97,18 @@ const Header = (props) => {
         });
     };
 
-    // useInterval( async () => {
-    //     if(!socket.connected){
-    //         updateUserOnHistory()
-    //     }
+    useInterval( async () => {
+        if (user?.balance) {
 
-    //     // comment out this to stop polling
-    //     updateUserOnHistory()
+            if(!socket.connected){
+                updateUserOnHistory()
+            }
 
-    // }
-    // ,3000);
+            // comment out this to stop polling
+            updateUserOnHistory()
+
+        }
+    } ,3000);
     
     const nextNavigate = () => {
         const path = location.pathname
