@@ -57,6 +57,8 @@ const BodyLogin = (props) => {
                 const queryParams = new URLSearchParams(location.search);
                 const next = queryParams.get('next');
                 window.location.href = next ? next : '/';
+
+
             }
 
         }
@@ -122,9 +124,9 @@ const BodyLogin = (props) => {
     }
 
     useEffect(() => {
-        if (user) {
-            navigate("/")
-        }
+        // if (user) {
+        //     navigate("/")
+        // }
     }, [])
 
     const navigateAway = (url) => {

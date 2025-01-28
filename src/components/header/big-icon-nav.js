@@ -74,7 +74,7 @@ const BigIconMenu = () => {
             <>
                 {casinoProviders?.map((provider, idx) => {
                     return (
-                        <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize`}
+                        provider?.name.toLowerCase() !== "aviatrix" && <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize`}
                             onClick={() => filterGames("provider", provider)}
                         >
                             <span title={provider?.name}>
