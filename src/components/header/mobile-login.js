@@ -119,9 +119,9 @@ const BodyLogin = (props) => {
     }
 
     useEffect(() => {
-        if (user) {
-            navigate("/")
-        }
+        // if (user) {
+        //     navigate("/")
+        // }
     }, [])
 
     const navigateAway = (url) => {
