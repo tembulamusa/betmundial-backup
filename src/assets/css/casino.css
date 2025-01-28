@@ -191,6 +191,42 @@
     padding-left: 8px;
     padding-right: 8px;
 }
+.virtual-game-image {
+    cursor: pointer;
+    width: 100%;
+    /* height: 170px; */
+}
+.game-height-fix {
+    max-height: 231px;
+    overflow: hidden;
+    text-align: center;
+    /* display: flex; */
+    position: relative;
+    height: 140px;
+}
+.casino-game img {
+    border-radius: 5px;
+    background-size: cover;
+    /* margin: auto; */
+    /* display: block; */
+    position: absolute;
+    top: 50%;
+    height: 140px;
+    max-width: 100% !important;
+    width: 99% !important;
+    transform: translateY(-50%);
+}
+@media screen and (max-width:648px) {
+    .casino-game img {
+        height: 100px;
+
+    }
+    .game-height-fix {
+        max-height: 100px;
+        
+    }
+    
+
 
 .virtual-game-image {
     cursor: pointer;
