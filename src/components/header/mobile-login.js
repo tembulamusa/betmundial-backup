@@ -46,15 +46,18 @@ const BodyLogin = (props) => {
         if ([200, 201, 204].includes(message.status)) {
             //setLocalStorage('user', message.user, 1000 * 60 * 60 * 24 * 30);
             setLocalStorage('user', message.user, 1000 * 60 * 60 * 3);
-            // setUser(message.user);
+            if(state?.showloginmodal == true) {
+                setUser(message.user);
+            }
             // toast.success(`🚀 ${message.message || "Login successful"}`, options);
             dispatch({type:"DEL", key:"showloginmodal"});
             if(navigateAwayRoutes.includes(location.pathname)) {
+                console.log("location name: ", location.pathname)
                 const queryParams = new URLSearchParams(location.search);
                 const next = queryParams.get('next');
-                window.location.href = next ? `${next}` : '/'
-            }
+                window.location.href = next ? next : '/';
 
+            }
 
         }
 
