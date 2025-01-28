@@ -54,6 +54,7 @@ import Logout from "./components/pages/auth/logout";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import SureCoin from "./components/pages/sure-coin";
 import SureBoxIndex from "./components/pages/sure-box/surebox-index";
+import SureboxMines from "./components/pages/sure-box/surebox-mines";
 import SkipRopeIndex from "./components/pages/skip-rope/skiprope-index";
 import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 import CasinoHome from "./components/pages/casino/casino-home";
@@ -137,6 +138,7 @@ const App = () => {
                             <Route exact path="/exclude" element={<Exclude/>}/>
                             <Route exact path="/surecoin" element={<SureCoin/>}/>
                             <Route exact path="/surebox" element={<SureBoxIndex/>}/>
+                            <Route exact path="/surebox-mines" element={<SureboxMines/>}/>
                             <Route exact path="/skip-rope" element={<SkipRopeIndex/>}/>
                             <Route exact path="/livescore" element={<LiveScore/>}/>
                             <Route exact path="/deposit"

@@ -47,13 +47,24 @@ const Header = (props) => {
         />
     };
    
+    // useEffect(() => {
+    //     if (user) {
+    //         const expirationTime = Date.now() + 1000 * 60 * 60 * 3; 
+    //         setLocalStorage("user", { ...user, expirationTime }, expirationTime);
+    //         // dispatch({ type: "SET", key: "user", payload: user });
+    //     }
+    // }, [user]);
+
     useEffect(() => {
         if (user) {
-            const expirationTime = Date.now() + 1000 * 60 * 60 * 3; 
-            setLocalStorage("user", { ...user, expirationTime }, expirationTime);
-            // dispatch({ type: "SET", key: "user", payload: user });
+          const expirationTime = Date.now() + 1000 * 60 * 60 * 3; 
+          setLocalStorage("user", { ...user, expirationTime });
+          dispatch({ type: "SET", key: "user", payload: user });
+        } else {
+          dispatch({ type: "SET", key: "showLoginModal", payload: true });
         }
-    }, [user]);
+      }, [user, dispatch]);
+
 
     useEffect(() => {
 
