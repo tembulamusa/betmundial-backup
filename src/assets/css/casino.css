@@ -212,6 +212,10 @@
     transform: translateY(-50%);
 }
 @media screen and (max-width:648px) {
+    .casino-game img {
+        height: 100px;
+
+    }
     .game-height-fix {
         max-height: 100px;
         
