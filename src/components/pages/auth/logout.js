@@ -6,11 +6,16 @@ const Logout = () => {
     const [_, dispatch] = useContext(Context);
         
 
-        useEffect(() => {
-            localStorage.clear();
-            localStorage.clear();
-            dispatch({type: "DEL", key: "user"});
-            dispatch({type: "DEL", key: "mybets"});
+        useEffect(async () => {
+
+            try {
+                localStorage.clear();
+                console.log('localStorage cleared successfully.');
+            } catch (error) {
+                console.error('Error clearing localStorage:', error);
+            }
+            await dispatch({type: "DEL", key: "user"});
+            await dispatch({type: "DEL", key: "mybets"});
             window.location.href = "/";
         }, [])
     

@@ -44,17 +44,30 @@ const BodyLogin = (props) => {
             toastId: 673738 /* this is hack to prevent multiple toasts */
         }
         if ([200, 201, 204].includes(message.status)) {
+<<<<<<< Updated upstream
             setLocalStorage('user', message.user, 1000 * 60 * 60 * 24 * 30);
             setUser(message.user);
             dispatch({type:"SET", key: "user", payload: message?.user});
+=======
+            //setLocalStorage('user', message.user, 1000 * 60 * 60 * 24 * 30);
+            setLocalStorage('user', message.user, 1000 * 60 * 60 * 3);
+
+            if(state?.showloginmodal == true) {
+                setUser(message.user);
+            }
+>>>>>>> Stashed changes
             // toast.success(`🚀 ${message.message || "Login successful"}`, options);
             dispatch({type:"DEL", key:"showloginmodal"});
             if(navigateAwayRoutes.includes(location.pathname)) {
+                console.log("location name: ", location.pathname)
                 const queryParams = new URLSearchParams(location.search);
                 const next = queryParams.get('next');
+<<<<<<< Updated upstream
                 navigate(next ? `${next}` : '/');
+=======
+                window.location.href = next ? next : '/';
+>>>>>>> Stashed changes
             }
-
 
         }
 
