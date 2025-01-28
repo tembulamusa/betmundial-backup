@@ -51,7 +51,8 @@ const Header = (props) => {
       
         await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
             if (_status == 200) {
-                let u = {...user, ...response?.data};
+                console.log("UPDATED USER BALANCE   :::::  ", response)
+                let u = {...user, ...response?.data, bonus_balace: response?.data?.bonus};
                 let prevUser = user;
                 setLocalStorage('user', u);
                 setUser(u);

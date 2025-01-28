@@ -10,7 +10,7 @@ import One from  '../../assets/img/casino/carousel/1.jpg';
 import Two from  '../../assets/img/casino/carousel/2.png';
 import Three from  '../../assets/img/casino/carousel/3.png';
 import Four from  '../../assets/img/casino/carousel/4.png';
-import Five from  '../../assets/img/casino/carousel/5.jpg';
+// import Five from  '../../assets/img/casino/carousel/5.jpg';
 import Six from  '../../assets/img/casino/carousel/6.png';
 import Seven from  '../../assets/img/casino/carousel/7.jpg';
 import Eight from  '../../assets/img/casino/carousel/8.jpg';
@@ -18,8 +18,9 @@ import Nine from  '../../assets/img/casino/carousel/9.png';
 import Ten from  '../../assets/img/casino/carousel/10.png';
 import Eleven from  '../../assets/img/casino/carousel/11.jpg';
 import Twelve from  '../../assets/img/casino/carousel/12.jpg';
-import Intro from  '../../assets/img/casino/carousel/intro.png';
-import Tick from  '../../assets/img/casino/carousel/Tick.png';
+import { Link } from "react-router-dom";
+// import Intro from  '../../assets/img/casino/carousel/intro.png';
+// import Tick from  '../../assets/img/casino/carousel/Tick.png';
 
 
 const CasinoCarousel = (props) => {
@@ -45,26 +46,7 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item>
             */}
-            <Carousel.Item >
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Intro}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
-            </Carousel.Item>
-            <Carousel.Item >
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Tick}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
-            </Carousel.Item>
+            
             <Carousel.Item >
                 <img
                     className="d-block w-100"
@@ -85,7 +67,7 @@ const CasinoCarousel = (props) => {
                     effects="blur"
                 />
             </Carousel.Item>
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -94,7 +76,7 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             <Carousel.Item >
                 <img
                     className="d-block w-100"
@@ -106,7 +88,7 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item>
             
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -115,7 +97,7 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             
             <Carousel.Item >
                 <img
@@ -139,7 +121,7 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item>
             
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -148,9 +130,9 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -159,9 +141,10 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             
             <Carousel.Item >
+                
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -173,6 +156,7 @@ const CasinoCarousel = (props) => {
             </Carousel.Item>
             
             <Carousel.Item >
+                <Link to={"/surecoin"}>
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -181,6 +165,7 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
+                </Link>
             </Carousel.Item>
             
             <Carousel.Item >
