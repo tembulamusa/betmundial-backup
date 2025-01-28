@@ -142,7 +142,7 @@ const SureCoinIndex = (props) => {
                 api_version:"sureCoin"}).then(([status, response]) => {
                 if(status == 200) {
                     let cpBt = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-                    console.log("THE CPBT RESULT :::: ")
+                    // console.log("THE CPBT RESULT ::::   ", cpBt)
                     if (cpBt?.[process.env.REACT_APP_RSPST] == 200) {
                         dispatch({type:"SET", key: "toggleuserbalance", payload:state?.toggleuserbalance ? !state?.toggleuserbalance : true})
                         getCoinRoll(cpBt?.[process.env.REACT_APP_BID], session, nxtRound);

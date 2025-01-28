@@ -23,19 +23,27 @@
 }
 
 .surebox-header {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 0 1rem; 
-    margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem; 
+  margin-bottom: 1rem;
+  max-height: 30px; 
+  width: 100%;
 }
 
-.surebox-title {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #ffffff;
-    margin: 0;
-    padding-right: 1rem; 
+.surebox-logo {
+  width: 120px; 
+  height: auto; 
+  flex-shrink: 0; 
+}
+
+.surebox-sound-icon {
+  font-size: 1.8rem; 
+  cursor: pointer;
+  color: #ffffff; 
+  flex-shrink: 0; 
+  margin-left: auto; 
 }
 
 .surebox-sound-icon {

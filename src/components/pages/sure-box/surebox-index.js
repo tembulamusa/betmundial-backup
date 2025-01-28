@@ -16,6 +16,7 @@ import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
 import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
 import WinGif from "../../../assets/img/casino/surebox-win.gif";
 import LostGif from "../../../assets/img/casino/surebox-unlucky.gif";
+import SureBoxLogo from "../../../assets/img/casino/surebox-logo-white.png";
 
 const SureBoxIndex = () => {
   const [state, dispatch] = useContext(Context);
@@ -298,12 +299,12 @@ const SureBoxIndex = () => {
   return (
     <div className="surebox-container">
       <div className="surebox-section">
-        <div className="surebox-header">
-          <h1 className="surebox-title">SureBox</h1>
-          <div className="surebox-sound-icon" onClick={isMutedToggle}>
-            {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
-          </div>
+      <div className="surebox-header">
+        <img src={SureBoxLogo} alt="SureBox Logo" className="surebox-logo" />
+        <div className="surebox-sound-icon" onClick={isMutedToggle}>
+          {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
         </div>
+      </div>
 
         {outcome && (
           <div

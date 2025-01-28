@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Switch } from "@mui/material";
 import { MdOutlineAddTask } from "react-icons/md";
+import { CiBookmarkMinus, CiBookmarkPlus, CiSquareMinus, CiSquarePlus } from "react-icons/ci";
 
 const SureBoxControls = ({
   autoRestart,
@@ -19,17 +20,18 @@ const SureBoxControls = ({
 
   const handleAutoRestartToggle = () => {
     const newAutoRestartState = !autoRestart;
-    setUserDisabledAutoRestart(!newAutoRestartState); 
+    setUserDisabledAutoRestart(!newAutoRestartState);
     setAutoRestart(newAutoRestartState);
   };
 
-  const handleBetAmountChange = (e) => {
-    const newBetAmount = Number(e.target.value);
-    setBetAmount(newBetAmount);
+  const handleBetAmountChange = (newAmount) => {
+    if (newAmount >= 5) {
+      setBetAmount(newAmount);
 
-    // Enable Auto Restart if the bet is valid and not manually disabled by the user
-    if (newBetAmount >= 5 && !userDisabledAutoRestart) {
-      setAutoRestart(true);
+      // Enable Auto Restart if bet is valid and not manually disabled
+      if (!userDisabledAutoRestart) {
+        setAutoRestart(true);
+      }
     } else {
       setAutoRestart(false);
     }
@@ -37,16 +39,11 @@ const SureBoxControls = ({
 
   const handleStartGame = () => {
     if (betAmount < 5) {
-      alert("Bet amount must be at least 5 to start the game."); 
+      alert("Bet amount must be at least 5 to start the game.");
       return;
     }
-  
     startGame();
-  
-    // Enable Auto Restart when starting the game unless manually disabled
-    if (!userDisabledAutoRestart) {
-      setAutoRestart(true);
-    }
+    if (!userDisabledAutoRestart) setAutoRestart(true);
   };
 
   const toggleInstructions = () => {
@@ -55,36 +52,80 @@ const SureBoxControls = ({
 
   return (
     <div className="surebox-controls w-full max-w-none p-4 bg-[#102f56] rounded-lg flex flex-col gap-6">
-      {/* Auto Toggles and Stake Section */}
-      <div className="flex flex-col gap-6">
-        <div className="flex items-center justify-between">
-          <label className="text-lg font-semibold text-white">Auto Restart</label>
-          <Switch
-            checked={autoRestart}
-            onChange={handleAutoRestartToggle}
-            color="primary"
-          />
-        </div>
+      {/* Auto Restart Section */}
+      <div className="flex items-center justify-between">
+        <label className="text-lg font-semibold text-white">Auto Restart</label>
+        <Switch
+          checked={autoRestart}
+          onChange={handleAutoRestartToggle}
+          color="primary"
+        />
+      </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-          <label className="text-lg font-semibold text-white sm:mr-4">
-            Bet Amount
-          </label>
+      {/* Bet Amount Section */}
+      <div className="flex items-center justify-between space-x-2 bg-[#0b121b] p-3 rounded-md border border-[#456185]">
+        {/* Reset to Minimum Button */}
+        <button
+          onClick={() => handleBetAmountChange(5)}
+          disabled={gameInProgress}
+          className="flex items-center justify-center bg-[#1c2834] hover:bg-[#22303e] text-white w-8 h-8 rounded-md focus:ring-2 focus:ring-[#5a7699] disabled:opacity-50"
+        >
+          <CiBookmarkMinus size={20} />
+        </button>
+
+        {/* Decrease Button */}
+        <button
+          onClick={() => handleBetAmountChange(betAmount - 5)}
+          disabled={betAmount <= 5 || gameInProgress}
+          className="flex items-center justify-center bg-[#1c2834] hover:bg-[#22303e] text-white w-8 h-8 rounded-md focus:ring-2 focus:ring-[#5a7699] disabled:opacity-50"
+        >
+          <CiSquareMinus size={20} />
+        </button>
+
+        {/* Input Field with Label */}
+        <div className="relative w-32">
           <input
             type="number"
             value={betAmount}
-            onChange={handleBetAmountChange}
-            className="bg-[#0b121b] text-white px-4 py-2 rounded-md border border-[#456185] focus:outline-none focus:ring-2 focus:ring-[#5a7699] w-full sm:w-auto"
+            onChange={(e) => handleBetAmountChange(Number(e.target.value))}
+            className="peer text-center bg-[#0b121b] text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5a7699] w-full"
+            placeholder=" "
             min={5}
-            step={1}
+            step={5}
             disabled={gameInProgress}
           />
+          <label
+            htmlFor="betAmount"
+            className="absolute left-4 top-1 transform -translate-y-1/2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-gray-500 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#5a7699] peer-focus:mt-1"
+          >
+            BET AMOUNT
+          </label>
         </div>
 
-        <div className="flex justify-between">
-          <label className="text-lg font-semibold text-white">Possible Win</label>
-          <span className="text-[#5a7699] font-semibold">{possibleWin} KES</span>
-        </div>
+        {/* Increase Button */}
+        <button
+          onClick={() => handleBetAmountChange(betAmount + 5)}
+          disabled={gameInProgress}
+          className="flex items-center justify-center bg-[#1c2834] hover:bg-[#22303e] text-white w-8 h-8 rounded-md focus:ring-2 focus:ring-[#5a7699] disabled:opacity-50"
+        >
+          <CiSquarePlus size={20} />
+        </button>
+
+        {/* Reset to Maximum Button */}
+        <button
+          onClick={() => handleBetAmountChange(1000)}
+          disabled={gameInProgress}
+          className="flex items-center justify-center bg-[#1c2834] hover:bg-[#22303e] text-white w-8 h-8 rounded-md focus:ring-2 focus:ring-[#5a7699] disabled:opacity-50"
+        >
+          <CiBookmarkPlus size={20} />
+        </button>
+      </div>
+
+
+      {/* Possible Win Section */}
+      <div className="flex justify-between">
+        <label className="text-lg font-semibold text-white">Possible Win</label>
+        <span className="text-[#5a7699] font-semibold">{possibleWin} KES</span>
       </div>
 
       {/* Action Buttons Section */}
@@ -114,7 +155,7 @@ const SureBoxControls = ({
         >
           {gameInProgress ? (
             <>
-              Choosing ?
+              Choosing?
               <MdOutlineAddTask size={20} />
             </>
           ) : (
@@ -123,7 +164,7 @@ const SureBoxControls = ({
         </button>
       </div>
 
-      {/* Bets List */}
+      {/* Bets List Section */}
       <div className="flex flex-col gap-2 mt-4">
         <label className="text-lg font-semibold text-white">Your Game Bets</label>
         {bets.length > 0 ? (
@@ -151,7 +192,7 @@ const SureBoxControls = ({
         )}
       </div>
 
-      {/* Game Instructions */}
+      {/* Game Instructions Section */}
       <div className="flex flex-col gap-4 mt-6">
         <div className="flex items-center justify-between">
           <label className="text-lg font-semibold text-white">
