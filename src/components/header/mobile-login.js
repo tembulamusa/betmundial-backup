@@ -46,7 +46,6 @@ const BodyLogin = (props) => {
         if ([200, 201, 204].includes(message.status)) {
             //setLocalStorage('user', message.user, 1000 * 60 * 60 * 24 * 30);
             setLocalStorage('user', message.user, 1000 * 60 * 60 * 3);
-
             if(state?.showloginmodal == true) {
                 setUser(message.user);
             }
@@ -57,6 +56,7 @@ const BodyLogin = (props) => {
                 const queryParams = new URLSearchParams(location.search);
                 const next = queryParams.get('next');
                 window.location.href = next ? next : '/';
+
             }
 
         }
@@ -122,9 +122,9 @@ const BodyLogin = (props) => {
     }
 
     useEffect(() => {
-        if (user) {
-            navigate("/")
-        }
+        // if (user) {
+        //     navigate("/")
+        // }
     }, [])
 
     const navigateAway = (url) => {
