@@ -45,7 +45,7 @@ const Index = (props) => {
         let fetchcount = fetchingCount + 1;
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || allSportId || 79) +"?page=" + (page || 1) + `&size=${limit || 50}` ;
+        let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || allSportId || 79) + (state?.filtersport?.sport_name?.toLowerCase() !== "soccer" ? + "/" + state?.filtersport?.sub_type_id : 1)  +"?page=" + (page || 1) + `&size=${limit || 50}` ;
 
         let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";

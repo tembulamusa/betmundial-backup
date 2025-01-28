@@ -21,13 +21,13 @@ const Live = (props) => {
     const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(true);
     const [page, ] = useState(1);
-    const {spid} = useParams();
+    const {spid, sub_type_id} = useParams();
 
 
     
 
     const fetchData = () => {
-        let endpoint = "/v2/sports/matches/live/" + (spid || 79) +"?page=" + (page || 1) + `&size=${limit || 200}`;
+        let endpoint = "/v2/sports/matches/live/" + (spid || 79) + (`/${sub_type_id || 1}`) +"?page=" + (page || 1) + `&size=${limit || 200}`;
         let method =  "GET";
         setFetching(true);
         makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {

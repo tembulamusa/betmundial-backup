@@ -166,21 +166,21 @@ const MatchHeaderRow = (props) => {
                     </span>
                 </div>
                 <div className={`${jackpot && "is-jackpot-buttons"} col ${'d-flex flex-row justify-content-between'}`}>
-                    {three_way &&
+                    {
                         <div className={`markets-header ${'d-flex flex-row'}`} key="d3">
                             <div className={`d-flex flex-column text-center`}>
                                 <div className={'bold hidden md:block'}>
-                                    3 WAY
+                                    {three_way && <span>3 WAY</span>}
                                 </div>
                                 <div className={'mt-3 c-btn-group align-self-end'}>
                                     <a className="c-btn-header" href='#/'>1</a>
-                                    <a className="c-btn-header" href='#/'>X</a>
+                                    {three_way && <a className="c-btn-header" href='#/'>X</a>}
                                     <a className="c-btn-header" href='#/'>2</a>
                                 </div>
                             </div>
                         </div>
                     }
-                    {!jackpot && (
+                    {(!jackpot && sportName?.toLowerCase() == "soccer") && (
                         <div className='hidden md:flex flex-row'>
                             {extraMarketDisplays?.map((extra_market) => (
                                 <div className={'d-flex flex-column'} key={extra_market.name}>
@@ -229,7 +229,7 @@ const MoreMarketsHeaderRow = (props) => {
     } = props;
     const [score, setScore] = useState("");
     const [matchTime, setMatchTime] = useState({});
-    const [matchStatus, setMatchStatus] = useState("")
+    const [matchStatus, setMatchStatus] = useState("");
     // repeated functions should be refactored
     const socketRef = useRef(socket);
     const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}`, [match]);
@@ -976,14 +976,21 @@ const MatchRow = (props) => {
                         {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
                     </div>
 
+                    {
+                        // Only soccer has 3 markets
+                        // hence a control for the soccer
+                        initialMatch?.sport_name?.toLowerCase() == "soccer" &&
+                        <>
+                            <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="223">
+                                <MatchMarket initialMatch={match} marketName={"Double Chance"} marketId={10} />
+                            </div>
 
-                    <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="223">
-                        <MatchMarket initialMatch={match} marketName={"Double Chance"} marketId={10} />
-                    </div>
-
-                    <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="224">
-                        <MatchMarket initialMatch={match} marketName={"Total"} marketId={10} special_bet_key="2.5" buttonCount={2} />
-                    </div>
+                            <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="224">
+                                <MatchMarket initialMatch={match} marketName={"Total"} marketId={10} special_bet_key="2.5" buttonCount={2} />
+                            </div>
+                        </>
+                    }
+                    
 
                 </div>
 
