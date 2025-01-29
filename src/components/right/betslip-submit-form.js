@@ -78,7 +78,7 @@ const BetslipSubmitForm = (props) => {
 
                     <div className=''>
                         <div className='alert-title text-2xl flex font-bold w-full py-3 justify-between'>
-                            <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div>
+                            {/* <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div> */}
                             <div aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</div>
                         </div>
                         <div className='text-2xl mb-3 font-normal'>{message.message}</div>
@@ -91,10 +91,8 @@ const BetslipSubmitForm = (props) => {
                             </div>
                         }
                     </div>
-                
             </div>}
         </>);
-
     };
 
     useEffect(() => {
@@ -127,7 +125,6 @@ const BetslipSubmitForm = (props) => {
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
 
-        console.log("THE LOCAL STORAGE   ", window.localStorage)
         let bs = Object.values(state?.[betslipkey] || []);
         
         let slipHasOddsChange = false;
