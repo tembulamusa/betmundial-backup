@@ -84,8 +84,13 @@ const ProSidebar = (props) => {
     };
 
     useEffect(() => {
-        
-        fetchData();
+        let currentlySelectedSport  = getFromLocalStorage("filtersport");
+        if (currentlySelectedSport) {
+            dispatch({type:"SET", key: "filtersport", payload: currentlySelectedSport})
+        } else {
+            fetchData();
+
+        }
         const abortController = new AbortController();
 
         return () => {
@@ -187,7 +192,7 @@ const ProSidebar = (props) => {
     const handleOpenChange = (sport) => {
         dispatch({type:"SET", key:"filtersport", payload: sport});
         setLocalStorage("filtersport", sport, 5 * 60 * 1000);
-        navigate(`/sports/matches/${sport?.sport_name}?sportId=${sport?.sport_id}`)
+        navigate(`/sports/matches/${sport?.sport_id}?sportId=${sport?.sport_id}`)
     }
     // comment for normal games
 
@@ -286,8 +291,6 @@ const ProSidebar = (props) => {
                         </Menu>
                 </Sidebar>
                 }
-
-
 
                 {/* The new  */}
 

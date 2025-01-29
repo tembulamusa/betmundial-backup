@@ -15,6 +15,7 @@ import {Spinner} from "react-bootstrap";
 import HighlightsBoard from "./highlights-board";
 import socket from "./utils/socket-connect";
 import MatchList from './matches/index';
+import { getFromLocalStorage } from "./utils/local-storage";
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 
@@ -41,12 +42,11 @@ const Index = (props) => {
 
 
     const fetchData = async (controlText) => {
-        console.log("THE FILTERED SPORT LOG  ::: ", state?.filtersport)
         setFetching(true);
         let fetchcount = fetchingCount + 1;
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || allSportId || 79) + (state?.filtersport ? "/" + state?.filtersport?.default_market : "")  +"?page=" + (page || 1) + `&size=${limit || 50}` ;
+        let endpoint = "/v2/sports/matches/" + (getFromLocalStorage("filtersport")?.sport_id || state?.filtersport?.sport_id || allSportId || 79) + (state?.filtersport ? "/" + state?.filtersport?.default_market : "")  +"?page=" + (page || 1) + `&size=${limit || 50}` ;
 
         let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";
