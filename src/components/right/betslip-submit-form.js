@@ -127,7 +127,7 @@ const BetslipSubmitForm = (props) => {
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
 
-
+        console.log("THE LOCAL STORAGE   ", window.localStorage)
         let bs = Object.values(state?.[betslipkey] || []);
         
         let slipHasOddsChange = false;
