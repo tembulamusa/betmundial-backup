@@ -986,7 +986,7 @@ const MatchRow = (props) => {
                     }
 
                     {
-
+                        initialMatch?.sport_name?.toLowerCase() !== "soccer" &&
                         Object.keys(match?.odds)?.map((odd, idx) => {
                             return (
                                 <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">

@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState, useContext} from 'react';
 import {
+    ProSidebar as ProSidebar2,
     Sidebar, 
     Menu, 
     MenuItem, 
@@ -35,6 +36,7 @@ const ProSidebar = (props) => {
     const queryParamValue = searchParams.get('id');
     const [competitions, setCompetitions] = useState(null);
     const [focusSportId, setFocusSportId] = useState(null);
+    // const []
     const excludeSidebar = ["/login", "/signup", '/withdraw', "/deposit", '/livescore']
     const navigate = useNavigate()
 
@@ -304,6 +306,7 @@ const ProSidebar = (props) => {
                                                     src={getSportImageIcon(sport?.sport_name)} alt=''/>}
                                         label={sport?.sport_name}
                                         onOpenChange={() => handleOpenChange(sport)}
+                                        open={focusSportId ==  sport?.sport_id}
                                         className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football', 'gaelic hurling', 'gaelic football'].includes(sport?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
                                         key={idx}>
                                 {/* <SubMenu title={'Countries'}

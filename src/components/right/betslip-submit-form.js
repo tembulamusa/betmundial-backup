@@ -11,7 +11,6 @@ import {
     formatNumber
 } from '../utils/betslip';
 import {toast} from 'react-toastify';
-import {publicIp} from 'public-ip';
 import makeRequest from '../utils/fetch-request';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -41,12 +40,19 @@ const BetslipSubmitForm = (props) => {
     const [withholdingTax, setWithholdingTax] = useState(0);
     const [possibleWin, setPossibleWin] = useState(0);
     const [netWin, setNetWin] = useState(0);
-    const [betslipkey, setBetslipKey] = useState(() => jackpot ? "jackpotbetslip": "betslip")
-
+    const [betslipkey, setBetslipKey] = useState(() => jackpot ? "jackpotbetslip": "betslip");
+    const [ipInfo, setIpInfo] = useState({});
     const [totalGames, setTotalGames] = useState(0);
     const [totalOdds, setTotalOdds] = useState(1);
 
-
+    useEffect(() => {
+        fetch("https://api64.ipify.org?format=json")
+          .then((response) => response.json())
+          .then((data) => setIpInfo(data.ip))
+          .catch((error) => setIpInfo({city: "Error fetching IP"}));
+      }, []);
+      
+      
     const rebet = async() => {
         // check for the betslip to be reloaded
         if (state?.jackpotrebetslip) {
@@ -175,21 +181,11 @@ const BetslipSubmitForm = (props) => {
                 message: message
             });
 
-            console.log("THE PREBET CHECKS...  ", message)
             setSubmitting(false);
             return;
         }
 
-        // const getIp = async () => {
-        //     let ipv4 = await publicIp.v4({
-        //         fallbackUrls: ['https://ifconfig.co/ip']
-        //     }).then((result) => {
-        //         return result
-        //     });
-        //     return ipv4;
-        // }
-
-
+        console.log("THE IP ADDREEE SSSSSS ", ipInfo)
         let payload = {
             bet_string: 'web',
             app_name: 'desktop',
@@ -197,7 +193,7 @@ const BetslipSubmitForm = (props) => {
             stake_amount: values.bet_amount,
             amount: values.bet_amount,
             bet_total_odds: Float(totalOdds, 2),
-            // endCustomerIP: getIp(),
+            ip_address: ipInfo,
             channel_id: 'web',
             slip: bs,
             profile_id: getFromLocalStorage("user")?.profile_id || state?.user?.profile_id,
