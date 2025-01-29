@@ -181,7 +181,7 @@ const BetslipSubmitForm = (props) => {
             account: 1,
             msisdn: getFromLocalStorage("user")?.msisdn || state?.user?.msisdn,
             accept_all_odds_change: values.accept_all_odds_change == true ? 1 : 0,
-            bet_type: state?.islive ? "1" : jackpot ? "9" : "3" // update for live
+            bet_type: getFromLocalStorage("liveCount") > 0 ? "1" : jackpot ? "9" : "3" // update for live
         };
         let endpoint = '/v2/user/place-bet';
         let method = "POST"

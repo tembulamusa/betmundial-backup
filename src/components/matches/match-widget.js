@@ -35,6 +35,7 @@ const MatchWidget = (props) => {
   return (
     <div>
       {/* Container for the widget */}
+      
       <div className="sr-widget-1"></div>
     </div>
   );
