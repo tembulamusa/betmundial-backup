@@ -77,7 +77,7 @@ const BetslipSubmitForm = (props) => {
                  className={`placebet-response fade alert alert-${c} show alert-dismissible`}>
 
                     <div className=''>
-                        <div className='alert-title text-2xl flex font-bold w-full py-3 justify-between'>
+                        <div className='alert-title text-2xl fex font-bold w-full py-3 justify-between'>
                             {/* <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div> */}
                             <div aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</div>
                         </div>
@@ -128,32 +128,58 @@ const BetslipSubmitForm = (props) => {
         let bs = Object.values(state?.[betslipkey] || []);
         
         let slipHasOddsChange = false;
+        let slipHasUnbettableEvents = false;
         let jackpotMessage = 'jp';
 
 
         for (let slip of bs) {
-            delete slip.start_time
             if (jackpot) {
                 jackpotMessage += "#" + slip.bet_pick
             }
-            if (slip.prev_odds
+
+            if(slip.disable == true) {
+                slipHasUnbettableEvents = true;
+                break;
+            } else if (slip.prev_odds
                 && slip.prev_odds !== slip.odd_value
                 && values.accept_all_odds_change == false) {
                 slipHasOddsChange = true;
                 break;
+            } else {
+                delete slip.start_time
+                delete slip.disable
+                delete slip.comment
+                delete slip.prev_odds
             }
+            
+
+            
         }
 
 
-        if (slipHasOddsChange == true) {
+        if (slipHasUnbettableEvents == true || slipHasOddsChange == true) {
+            
+            let message = ""
+
+            if (slipHasUnbettableEvents == true) {
+                message += "Slip has events that have been disabled or suspended."
+                + " Please remove to proceed"
+            }
+
+            if (slipHasOddsChange == true) {
+                message += "Slip has events with changed odds, tick "
+                    + " accept odds all odds change box to accept and place bet"
+            }
             setMessage({
                 status: 400,
-                message: "Slip has events with changed odds, tick "
-                    + " accept odds all odds change box to accept and place bet"
+                message: message
             });
+
+            console.log("THE PREBET CHECKS...  ", message)
             setSubmitting(false);
-            return false;
+            return;
         }
+
         // const getIp = async () => {
         //     let ipv4 = await publicIp.v4({
         //         fallbackUrls: ['https://ifconfig.co/ip']
