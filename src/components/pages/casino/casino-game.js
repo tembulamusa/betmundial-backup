@@ -95,7 +95,7 @@ const CasinoGame = (props) => {
                     {game?.aggregator?.toLowerCase() != "suregames" &&
                         <Button className="casino-demo-btn casino-cta"
                                 onClick={() => launchGame(game, 0)}>
-                            Demo   
+                            Demo  
                         </Button>       
                     }     
             </div>

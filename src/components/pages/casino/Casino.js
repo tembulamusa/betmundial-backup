@@ -13,6 +13,7 @@ import { Context } from '../../../context/store';
 import { ShimmerTable } from "react-shimmer-effects";
 import NoEvents from '../../utils/no-events';
 import CategoryListing from './category-listing';
+import CasinoJackpots from './casino-jackpots';
 
 const Casino = (props) => {
     const {filterType, filterName} = useParams();
@@ -89,6 +90,9 @@ const Casino = (props) => {
     return (
         <>
             <CasinoCarousel />
+
+            <CasinoJackpots />
+            
             <div className="casino-games-list">
                 {fetching && <ShimmerTable row={3} />}
                 {!fetching && (!games || games?.length < 1) && (
