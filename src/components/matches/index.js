@@ -165,12 +165,12 @@ const MatchHeaderRow = (props) => {
                         {sportName}
                     </span>
                 </div>
-                <div className={`${jackpot ? "is-jackpot-buttons" : ""} col ${sportName.toLowerCase() == "soccer" ? 'd-flex flex-row justify-content-between' : "single-market-container"}`}>
+                <div className={`${jackpot ? "is-jackpot-buttons" : ""} col ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row justify-content-between' : "single-market-container"}`}>
                     {
-                        <div className={`markets-header ${sportName.toLowerCase() == "soccer" ? 'd-flex flex-row' : "single-market-content"}`} key="d3">
-                            <div className={`d-flex flex-column text-center ${sportName.toLowerCase() == "soccer" ? 'd-flex flex-row' : ""}`}>
+                        <div className={`markets-header ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "single-market-content"}`} key="d3">
+                            <div className={`d-flex flex-column text-center ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "!pr-0"}`}>
                                 <div className={'bold hidden md:block'}>
-                                    {three_way && <span>3 WAY</span>}
+                                    <span>{three_way ? "3 WAY" : "Winner"}</span>
                                 </div>
                                 <div className={'mt-3 c-btn-group align-self-end'}>
                                     <a className="c-btn-header" href='#/'>1</a>
