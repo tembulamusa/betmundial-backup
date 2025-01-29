@@ -106,7 +106,6 @@ const MatchHeaderRow = (props) => {
     const [marketCols, setMarketCols] = useState(3)
 
 
-
     const extraMarketDisplays = [
         {
             id: "10",
@@ -133,17 +132,12 @@ const MatchHeaderRow = (props) => {
         if (first_match) {
             setSportName(first_match.sport_name);
             setMarket(first_match.market_name);
-            /**
-             * I blew the shiet here someone help recoil this to API call results
-             */
-            setShowX(!["186", "340"].includes(first_match.sub_type_id));
-
         }
-    }, [first_match?.parent_match_id])
+    }, [first_match])
 
 
     return (
-        <Container className={`${live && 'live'} full-mobile sticky-top`} style={{ position: "sticky" }}>
+        first_match && <Container className={`${live && 'live'} full-mobile sticky-top`} style={{ position: "sticky" }}>
             <div className={`${jackpot && 'jackpot-zero-top'} top-matches d-flex position-sticky sticky-top `}
                 style={{ opacity: "1", top: "100px", height: "" }}>
                 <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
@@ -180,7 +174,7 @@ const MatchHeaderRow = (props) => {
                             </div>
                         </div>
                     }
-                    {(!jackpot && sportName?.toLowerCase() == "soccer") && (
+                    {(!jackpot && sportName?.toLowerCase() == "soccer" && first_match) && (
                         <div className='hidden md:flex flex-row'>
                             {extraMarketDisplays?.map((extra_market) => (
                                 <div className={'d-flex flex-column'} key={extra_market.name}>
@@ -737,6 +731,7 @@ const MatchRow = (props) => {
         jackpot,
         live,
         pdown,
+        three_way,
         jackpotstatus,
         subTypes } = props;
 
@@ -969,17 +964,17 @@ const MatchRow = (props) => {
 
                     </div>
 
-                    <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">
-
-                        <MatchMarket initialMatch={match} marketName={"1x2"} marketId={1} />
-                        {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
-                    </div>
-
+                    
                     {
                         // Only soccer has 3 markets
                         // hence a control for the soccer
                         initialMatch?.sport_name?.toLowerCase() == "soccer" &&
                         <>
+                            <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">
+                                <MatchMarket initialMatch={match} marketName={"1x2"} marketId={1} />
+                                {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
+                            </div>
+
                             <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="223">
                                 <MatchMarket initialMatch={match} marketName={"Double Chance"} marketId={10} />
                             </div>
@@ -989,7 +984,19 @@ const MatchRow = (props) => {
                             </div>
                         </>
                     }
+
+                    {
+
+                        Object.keys(match?.odds)?.map((odd, idx) => {
+                            return (
+                                <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">
+                                    <MatchMarket initialMatch={match} marketName={odd} marketId={1} buttonCount={three_way ? 3 : 2} />
+                                {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
+                            </div>
+                            )
+                        })
                     
+                    }                 
 
                 </div>
 

@@ -65,7 +65,7 @@ const Live = (props) => {
     }, [state?.selectedLivesport]);
 
     useEffect(() => {
-        let currentLive = getFromLocalStorage("selectedLivesport")
+        let currentLive = getFromLocalStorage("selectedLivesport");
         if(!state?.selectedLivesport && currentLive) {
             dispatch({type:"SET", key:"selectedLivesport", payload: currentLive});
         }

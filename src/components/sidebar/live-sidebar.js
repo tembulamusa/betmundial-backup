@@ -62,7 +62,7 @@ const LiveSideBar = (props) => {
     const handleLiveSportsNavigation = (livesport) => {
 
         dispatch({type:"SET", key:"selectedLivesport", payload: livesport})
-        setLocalStorage("selectedLivesport", liveSports, 1000 * 60 * 60);
+        setLocalStorage("selectedLivesport", livesport, 1000 * 60 * 60);
         navigate(`/live/${livesport.sport_id}`)
     }
     useEffect(()=> {
