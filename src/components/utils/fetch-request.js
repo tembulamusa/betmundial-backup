@@ -9,6 +9,7 @@ const CASINOGAMELaunch = process.env.REACT_APP_CASINO_LAUNCH_URL;
 const CASINOFAZI = process.env.REACT_APP_CASINOFAZI_URL;
 const SURECOIN_URL = process.env.REACT_APP_SURECOIN_URL;
 const SUREBOX_URL = process.env.REACT_APP_SUREBOX_URL;
+const PRAGMATIC_JACKPOT_URL = process.env.REACT_APP_PRAGMATIC_JACKPOT_URL;
 const AVIATRIX_URL = process.env.REACT_APP_AVIATRIX_URL;
 const CASINO_INTOUCHVAS_URL = process.env.REACT_APP_INTOUCHVAS_URL; // split the pot casino
 const CASINO_PRAGMATIC_URL = process.env.REACT_APP_PRAGMATIC_URL; // pragmatic
@@ -25,12 +26,13 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
             if (api_version == "sureCoin") {
                 url = SURECOIN_URL + url;
             } else if (api_version == "sureBox") {
-                url = SUREBOX_URL + url
-            }
-            else if (api_version == "casinoGames") {
+                url = SUREBOX_URL + url;
+            } else if (api_version == "casinoGames") {
                 url = CASINOGAMES + url;
             } else if (api_version == "CasinoGameLaunch") {
-                url = CASINOGAMELaunch + url
+                url = CASINOGAMELaunch + url;
+            } else if (api_version == "casinoJackpots") {
+                url = PRAGMATIC_JACKPOT_URL + url;  
             }
         }
     }
