@@ -1,19 +1,23 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import makeRequest from "../utils/fetch-request";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import {Menu, MenuItem, Sidebar, SubMenu} from "react-pro-sidebar";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import gameCategories from '../utils/static-data';
 import useInterval from '../../hooks/set-interval.hook';
+import { removeItem, setLocalStorage } from '../utils/local-storage';
+import { Context } from '../../context/store';
 
 const LiveSideBar = (props) => {
 
     const [liveSports, setLiveSports] = useState([])
     const [collapsed, setCollapsed] = useState(false)
     const [toggled, setToggled] = useState(false)
+    const [, dispatch] = useContext(Context);
+    const navigate = useNavigate();
 
     const fetchData = () => {
         const abortController = new AbortController();
@@ -53,6 +57,20 @@ const LiveSideBar = (props) => {
         }
         return sport_image
     }
+
+    
+    const handleLiveSportsNavigation = (livesport) => {
+
+        dispatch({type:"SET", key:"selectedLivesport", payload: livesport})
+        setLocalStorage("selectedLivesport", liveSports, 1000 * 60 * 60);
+        navigate(`/live/${livesport.sport_id}`)
+    }
+    useEffect(()=> {
+        return () => {
+            removeItem("selectedLivesport");
+            dispatch({type:"DEL", key:"selectedLivesport"});
+        }
+    }, [])
     return (
             <div style={{
                 display: 'flex',
@@ -120,8 +138,7 @@ const LiveSideBar = (props) => {
                             {liveSports && Object.entries(liveSports)?.map(([index, livesport]) => (
                                     <Menu iconShape="circle">
                                         <MenuItem key={`live-sidebar-item-${index}`}>
-                                            <Link className="col-12 font-[500]"
-                                               to={`/live/${livesport?.sport_id}`}>
+                                            <div className="col-12 font-[500]" onClick={() => handleLiveSportsNavigation(livesport)}>
                                                 <Row>
                                                     <Col lg="11" md="11" sm="11" xs="11" className="topl">
                                                         <Row style={{color: "#69819a"}}>
@@ -137,7 +154,7 @@ const LiveSideBar = (props) => {
                                                         </Row>
                                                     </Col>
                                                 </Row>
-                                            </Link>
+                                            </div>
                                         </MenuItem>
                                     </Menu>
                                 )
