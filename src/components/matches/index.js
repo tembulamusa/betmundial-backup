@@ -96,7 +96,7 @@ const MatchHeaderRow = (props) => {
     } = props;
 
     //const [state, ]  = useContext(Context);
-    const categories = getFromLocalStorage('categories')
+    const categories = getFromLocalStorage('categories');
     const sport_id = new URL(window.location).searchParams.get('sport_id') || 79
     let sport = categories?.all_sports?.filter((category) => category.sport_id == sport_id)
 
@@ -165,10 +165,10 @@ const MatchHeaderRow = (props) => {
                         {sportName}
                     </span>
                 </div>
-                <div className={`${jackpot && "is-jackpot-buttons"} col ${'d-flex flex-row justify-content-between'}`}>
+                <div className={`${jackpot ? "is-jackpot-buttons" : ""} col ${sportName.toLowerCase() == "soccer" ? 'd-flex flex-row justify-content-between' : "single-market-container"}`}>
                     {
-                        <div className={`markets-header ${'d-flex flex-row'}`} key="d3">
-                            <div className={`d-flex flex-column text-center`}>
+                        <div className={`markets-header ${sportName.toLowerCase() == "soccer" ? 'd-flex flex-row' : "single-market-content"}`} key="d3">
+                            <div className={`d-flex flex-column text-center ${sportName.toLowerCase() == "soccer" ? 'd-flex flex-row' : ""}`}>
                                 <div className={'bold hidden md:block'}>
                                     {three_way && <span>3 WAY</span>}
                                 </div>
@@ -531,7 +531,6 @@ const OddButton = (props) => {
                 betslip = jackpot !== true
                     ? addToSlip(slip)
                     : addToJackpotSlip(slip);
-
                 dispatch({ type: "SET", key: reference, payload: cstm });
             }
             dispatch({ type: "SET", key: betslip_key, payload: betslip });
@@ -950,7 +949,7 @@ const MatchRow = (props) => {
                     </div>
                 }
 
-                <div className={`${jackpot && "is-jackpot"} ${live && 'live-game'} col block md:flex justify-content-between`} key="24">
+                <div className={`${jackpot && "is-jackpot"} ${live && 'live-game'} col block ${match?.sport_name.toLowerCase() == "soccer" ? "md:flex" : "single-market-container"} justify-content-between`} key="24">
                     {/* Mobile only datetime */}
 
                     <div className="md:hidden block">
@@ -970,7 +969,7 @@ const MatchRow = (props) => {
 
                     </div>
 
-                    <div className={`${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
+                    <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">
 
                         <MatchMarket initialMatch={match} marketName={"1x2"} marketId={1} />
                         {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
