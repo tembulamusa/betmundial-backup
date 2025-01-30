@@ -140,8 +140,14 @@ const MatchHeaderRow = (props) => {
         first_match && <Container className={`${live && 'live'} full-mobile sticky-top`} style={{ position: "sticky" }}>
             <div className={`${jackpot && 'jackpot-zero-top'} top-matches d-flex position-sticky sticky-top `}
                 style={{ opacity: "1", top: "100px", height: "" }}>
-                {/* <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
-                    <div className="align-self-center col"> */}
+                
+                <div className={'col-2 col-xs-12 match-detail-container'} key="d4">
+                    <span className='text-gray-500 font-bold'>
+                        {sportName}
+                    </span>
+                </div>
+                <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
+                    <div className="align-self-center col">
 
                         {fetching && <div className="filter-group-icon " >
                             {/* Uncomment this just to illustrate to the user... */}
@@ -152,12 +158,7 @@ const MatchHeaderRow = (props) => {
                             {live && <span className="live-header">LIVE </span> }
                             {!live && <span className="">PREMATCH </span> }
                         </h3> */}
-                    {/* </div>
-                </div> */}
-                <div className={'col-2 col-xs-12 match-detail-container'} key="d4">
-                    <span className='text-gray-500 font-bold'>
-                        {sportName}
-                    </span>
+                    </div>
                 </div>
                 <div className={`${jackpot ? "is-jackpot-buttons" : ""} col ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row justify-content-between' : "single-market-container"}`}>
                     {
@@ -585,8 +586,6 @@ const teamScore = (allscore, is_home_team) => {
     }
     let convertedScore = function () {try {
             let intScore = parseInt(score);
-            console.log("THE PARSEINT CONVERETER   ", intScore == "NaN")
-
             if (!isNaN(intScore)){
                 return intScore
             } else {

@@ -1798,7 +1798,7 @@ label {
   margin-bottom: 0;
 }
 
-.ps-menu-root .active, .ps-menu-button:focus{
+.live-sidebar .ps-menu-root .active, .live-sidebar .ps-menu-button:focus{
   background: #24367e !important;
 }
 
@@ -1807,7 +1807,7 @@ label {
 }
 
 
-.ps-menu-root, .ps-menu-root a, .ps-menu-button .topl {
+.live-sidebar .ps-menu-root, .live-sidebar .ps-menu-root a, .live-sidebar .ps-menu-button .topl {
   color: #69819a;
 }
 
