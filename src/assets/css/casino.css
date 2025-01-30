@@ -297,3 +297,39 @@
 .page-title {
     background-color: #ffffff;
 }
+
+.casino-jackpot-cards{
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    margin-bottom: 12px;
+}
+
+.primary-color {
+    background: #24367e !important;
+    color: #ffffff;
+}
+
+.bronze-bg {
+    background-color: #cd7f32 !important;
+}
+
+.silver-bg {
+    background-color: #c0c0c0 !important;
+    color: #2f4f4f !important;
+}
+
+.gold-bg {
+    background-color: #e3c768 !important;
+}
+
+.platinum-bg {
+    background-color: #e2e2e5 !important;
+    color:#1a237e !important;
+}
+
+.jackpot-tooltip {
+
+    width: 180px !important;
+}
+
