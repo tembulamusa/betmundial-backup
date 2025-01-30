@@ -584,15 +584,18 @@ const teamScore = (allscore, is_home_team) => {
         score = awayScore
     }
     let convertedScore = function () {try {
-            let score = parseInt(score);
-            if (score !== NaN){
-                return score
+            let intScore = parseInt(score);
+            console.log("THE PARSEINT CONVERETER   ", intScore == "NaN")
+
+            if (!isNaN(intScore)){
+                return intScore
             } else {
                 return "-"
             }
         } catch (err) {
             return "-"
         }
+        
     }
     return convertedScore();
 }
