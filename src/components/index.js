@@ -15,6 +15,7 @@ import {Spinner} from "react-bootstrap";
 import HighlightsBoard from "./highlights-board";
 import socket from "./utils/socket-connect";
 import MatchList from './matches/index';
+import { getFromLocalStorage } from "./utils/local-storage";
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 
@@ -45,7 +46,7 @@ const Index = (props) => {
         let fetchcount = fetchingCount + 1;
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || allSportId || 79) +"?page=" + (page || 1) + `&size=${limit || 50}` ;
+        let endpoint = "/v2/sports/matches/" + ((location.pathname !== "/" && getFromLocalStorage("filtersport")?.sport_id || state?.filtersport?.sport_id) || allSportId || 79) + (state?.filtersport ? "/" + state?.filtersport?.default_market : "")  +"?page=" + (page || 1) + `&size=${limit || 50}` ;
 
         let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";
@@ -84,8 +85,9 @@ const Index = (props) => {
 
         await makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
             setFetchingCount(fetchcount);
+
             if (status == 200) {
-                // check for page and see if page is not the 
+                // check for page and see if page is not the
                 setMatches((matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
                 setFetching(false)
                 if (result?.slip_data) {
@@ -172,12 +174,13 @@ const Index = (props) => {
                         live={false}
                         matches={matches}
                         pdown={producerDown}
-                        three_way={threeWay}
+                        three_way={state?.filtersport ? state?.filtersport?.sport_type == "threeway" : true}
                         fetching={fetching}
                         subTypes={subTypes}
                         betslip_key={"betslip"}
                         fetchingcount={fetchingCount}
-                    />                }
+                    />
+                }
             </div>
             {/* <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}> */}
                 {/* <Spinner animation={'grow'} size={'lg'}/> */}

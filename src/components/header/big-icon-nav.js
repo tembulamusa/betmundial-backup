@@ -20,7 +20,7 @@ const BigIconMenu = () => {
     
 
     const linkItems = [
-        {name: "home", icon:"home.svg", link:"/", parentTo:null},
+        // {name: "home", icon:"home.svg", link:"/", parentTo:null},
         {name: "live", icon:"livescore.svg", link:"/live", parentTo:null},
         {name: "jackpot", icon:"jackpot.svg", link:"/jackpot", parentTo:null},
         // {name: "aviator", icon:"aviator.svg", link:"/aviator", parentTo:null},
@@ -154,6 +154,12 @@ const BigIconMenu = () => {
                 style={{ maxWidth: '100%', backgroundColor: 'transparent' }}
             >
                 <ListGroup as="ul" horizontal className="flex space-x-4 big-icon-list">
+                    <li key={"idx-0"} className={`${pathname == "/" ? "active" : ''} big-icon-item text-center capitalize`}>
+                        <a href={"/"} title={"home"}>
+                            <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon("home.svg")} alt={"home"} /></div>
+                            <div className="big-icon-name">{"home"}</div>
+                        </a>
+                    </li>
                     {(linkItems || []).map((item, idx) => {
                         return (
                             <li key={idx} className={`${pathname == item.link ? "active" : ''} big-icon-item text-center capitalize`}>

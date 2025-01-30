@@ -20,14 +20,9 @@
 }
 .casino-game img {
     border-radius: 5px;
-    height: 200px !important;
+    /* height: 200px; */
 }
-.virtual-game-image {
-    cursor: pointer;
-    width: 100%;
-    object-fit: cover;
-    /* height: 100%; */
-}
+
 .game-height-fix {
     /* max-height: 150px; */
     /* overflow: hidden; */
@@ -196,15 +191,51 @@
     padding-left: 8px;
     padding-right: 8px;
 }
+.game-image-wrapper {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+}
+
+.virtual-game-image {
+    width: 100%; /* Cover the full width */
+    height: 100%; /* Cover the full height */
+    object-fit: cover; /* Ensure the image fits without stretching */
+    object-position: center; /* Center the image within the container */
+  
+}
 .virtual-game-image {
     cursor: pointer;
     width: 100%;
-    height: 170px;
+    /* height: 170px; */
+}
+.game-height-fix {
+    max-height: 231px;
+    overflow: hidden;
+    text-align: center;
+    /* display: flex; */
+    position: relative;
+    height: 140px;
+}
+.casino-game img {
+    border-radius: 5px;
+    background-size: cover;
+    /* margin: auto; */
+    /* display: block; */
+    position: absolute;
+    top: 50%;
+    height: 140px;
+    max-width: 100% !important;
+    width: 99% !important;
+    transform: translateY(-50%);
 }
 @media screen and (max-width:648px) {
-    .virtual-game-image {
-        
+    .game-image-wrapper {
+        width: 100%;
         height: 100px;
+        overflow: hidden;
+        position: relative;
     }
     .game-buttons {
         position: absolute;
@@ -263,3 +294,39 @@
 .page-title {
     background-color: #ffffff;
 }
+
+.casino-jackpot-cards{
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    margin-bottom: 12px;
+}
+
+.primary-color {
+    background: #24367e !important;
+    color: #ffffff;
+}
+
+.bronze-bg {
+    background-color: #cd7f32 !important;
+}
+
+.silver-bg {
+    background-color: #c0c0c0 !important;
+    color: #2f4f4f !important;
+}
+
+.gold-bg {
+    background-color: #e3c768 !important;
+}
+
+.platinum-bg {
+    background-color: #e2e2e5 !important;
+    color:#1a237e !important;
+}
+
+.jackpot-tooltip {
+
+    width: 180px !important;
+}
+

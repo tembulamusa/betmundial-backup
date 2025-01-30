@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState, useContext} from 'react';
 import {
+    ProSidebar as ProSidebar2,
     Sidebar, 
     Menu, 
     MenuItem, 
@@ -35,6 +36,7 @@ const ProSidebar = (props) => {
     const queryParamValue = searchParams.get('id');
     const [competitions, setCompetitions] = useState(null);
     const [focusSportId, setFocusSportId] = useState(null);
+    // const []
     const excludeSidebar = ["/login", "/signup", '/withdraw', "/deposit", '/livescore']
     const navigate = useNavigate()
 
@@ -82,8 +84,13 @@ const ProSidebar = (props) => {
     };
 
     useEffect(() => {
-        
-        fetchData();
+        let currentlySelectedSport  = getFromLocalStorage("filtersport");
+        if (currentlySelectedSport) {
+            dispatch({type:"SET", key: "filtersport", payload: currentlySelectedSport})
+        } else {
+            fetchData();
+
+        }
         const abortController = new AbortController();
 
         return () => {
@@ -185,7 +192,7 @@ const ProSidebar = (props) => {
     const handleOpenChange = (sport) => {
         dispatch({type:"SET", key:"filtersport", payload: sport});
         setLocalStorage("filtersport", sport, 5 * 60 * 1000);
-        navigate(`/sports/matches/${sport?.sport_name}?sportId=${sport?.sport_id}`)
+        navigate(`/sports/matches/${sport?.sport_id}?sportId=${sport?.sport_id}`)
     }
     // comment for normal games
 
@@ -285,8 +292,6 @@ const ProSidebar = (props) => {
                 </Sidebar>
                 }
 
-
-
                 {/* The new  */}
 
                 <Sidebar
@@ -304,6 +309,7 @@ const ProSidebar = (props) => {
                                                     src={getSportImageIcon(sport?.sport_name)} alt=''/>}
                                         label={sport?.sport_name}
                                         onOpenChange={() => handleOpenChange(sport)}
+                                        open={focusSportId ==  sport?.sport_id}
                                         className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football', 'gaelic hurling', 'gaelic football'].includes(sport?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
                                         key={idx}>
                                 {/* <SubMenu title={'Countries'}

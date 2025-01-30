@@ -46,21 +46,44 @@ const Header = (props) => {
             pauseOnHover
         />
     };
+   
+    useEffect(() => {
+        if (user) {
+            const expirationTime = Date.now() + 1000 * 60 * 60 * 3; 
+            setLocalStorage("user", { ...user, expirationTime }, expirationTime);
+            // dispatch({ type: "SET", key: "user", payload: user });
+        }
+    }, [user]);
+
 
     useEffect(() => {
-        
-        if (user){
-            setLocalStorage('user', user, 1000 * 60 * 60 * 24 * 30);
-            dispatch({type:"SET", key: "user", payload: user});
-        }
-        
-    }, [user]);
+
+        // Redo this stuff with ALEXIS
+        const checkSession = () => {
+            const storedUser = getFromLocalStorage("user");
+            const currentTime = Date.now();
+    
+            if (storedUser && storedUser.expirationTime <= currentTime) {
+                // Session expired
+                localStorage.removeItem("user");
+                if(state?.user) {
+                    dispatch({ type: "DEL", key: "user" });
+                }
+                // navigate("/");
+            }
+        };
+    
+        const interval = setInterval(checkSession, 60000); 
+        return () => clearInterval(interval);
+
+    }, []);
+    
     const updateUserOnHistory = async() => {
         if (!user) {
             return;
         }
+
         let endpoint = "/v2/user/balance";
-      
         await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
             if (_status == 200) {
                 let u = {...user, ...response?.data, bonus_balace: response?.data?.bonus};
@@ -76,9 +99,17 @@ const Header = (props) => {
     };
 
     useInterval( async () => {
-        if(!socket.connected){updateUserOnHistory()}
-    }
-    ,3000);
+        if (user?.balance) {
+
+            if(!socket.connected){
+                updateUserOnHistory()
+            }
+
+            // comment out this to stop polling
+            updateUserOnHistory()
+
+        }
+    } ,3000);
     
     const nextNavigate = () => {
         const path = location.pathname
