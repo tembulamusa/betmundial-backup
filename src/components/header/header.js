@@ -104,13 +104,13 @@ const Header = (props) => {
             if(!socket.connected){
                 updateUserOnHistory()
             }
-
-            // comment out this to stop polling
-            updateUserOnHistory()
-
         }
     } ,3000);
     
+
+    useEffect(() => {
+        
+    }, [])
     const nextNavigate = () => {
         const path = location.pathname
         const next = searchParams.get("next") || "/";
