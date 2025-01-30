@@ -83,9 +83,10 @@ const CasinoGame = (props) => {
                 key={game.game_id}>
                 <LazyLoadImage src={getCasinoImageIcon(game.image_url)}
                                 className={'virtual-game-image'}/>
-                {/* <p className={'py-2 font-[500] text-elipsis'}>{game?.game_name}</p> */}
+                
                 {alertMessage && <div className="game-launch-issue"><Alert message={alertMessage} /></div>}
-            </div>                  
+            </div>
+            <p className={'py-2 font-[500] text-elipsis text-gray-700'}>{game?.game_name}</p>                  
             <div className="game-buttons">
                     <Button className="casino-play-btn red-bg casino-cta"
                             onClick={() => launchGame(game, 1)}>
