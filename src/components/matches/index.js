@@ -925,7 +925,7 @@ const MatchRow = (props) => {
                                 </span>
                                 : match?.start_time}
                         </span>
-                        <>ID: {match?.game_id}</>
+                        <>ID: {!live && match?.game_id}</>
                     </div>
                 </div>
                 
