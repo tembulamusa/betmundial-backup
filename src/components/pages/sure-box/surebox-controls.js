@@ -137,7 +137,10 @@ const SureBoxControls = ({
           >
             Cash Out:
             <div className="bg-white text-black px-4 py-1 rounded-md font-semibold inline-block ml-2">
-              {cashOutAmount} KES
+              {new Intl.NumberFormat('en-KE', {
+                style: 'currency',
+                currency: 'KES',
+              }).format(cashOutAmount)}
             </div>
           </button>
         ) : (
@@ -177,7 +180,10 @@ const SureBoxControls = ({
               >
                 Picked Box {bet.box}: Won
                 <div className="bg-custom-red text-white px-4 py-1 rounded-md font-semibold inline-block ml-2">
-                  {bet.possibleWin} KES
+                  {new Intl.NumberFormat('en-KE', { 
+                    style: 'currency',
+                    currency: 'KES',
+                  }).format(bet.possibleWin)}
                 </div>
               </button>
             ))}
