@@ -55,6 +55,7 @@ const Header = (props) => {
         }
     }, [user]);
 
+
     useEffect(() => {
 
         // Redo this stuff with ALEXIS

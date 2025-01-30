@@ -78,8 +78,8 @@ const CasinoGame = (props) => {
         <>
         
             <div
-                style={{minWidth:"100px", minHeight: "100px"}}
-                className="game-height-fix"       
+                style={{}}
+                className="game-image-wrapper"       
                 key={game.game_id}>
                 <LazyLoadImage src={getCasinoImageIcon(game.image_url)}
                                 className={'virtual-game-image'}/>

@@ -6,8 +6,6 @@ import '../../assets/css/theme.css';
 const MatchWidget = (props) => {
     const { parentMatchId } = props;
      
-    console.log("Loading widget for parent match ID", parentMatchId);
-
     const loadWidget = (parentMatchId) => {
         if (!window.SIR) {
             const script = document.createElement("script");

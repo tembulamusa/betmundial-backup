@@ -11945,6 +11945,8 @@ fieldset[disabled] .tw.active {
     padding-right: 12px \9;
 }
 
+
+
 .ue:focus {
     border-color: #66afe9;
     outline: 0;
@@ -15785,4 +15787,14 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
         max-height: 80px;
         
     }
+  }
+
+
+  .single-market-container {
+    
+  }
+  
+
+  .single-market-content {
+    float: right;
   }

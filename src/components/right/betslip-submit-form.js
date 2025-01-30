@@ -11,7 +11,6 @@ import {
     formatNumber
 } from '../utils/betslip';
 import {toast} from 'react-toastify';
-import {publicIp} from 'public-ip';
 import makeRequest from '../utils/fetch-request';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -41,12 +40,19 @@ const BetslipSubmitForm = (props) => {
     const [withholdingTax, setWithholdingTax] = useState(0);
     const [possibleWin, setPossibleWin] = useState(0);
     const [netWin, setNetWin] = useState(0);
-    const [betslipkey, setBetslipKey] = useState(() => jackpot ? "jackpotbetslip": "betslip")
-
+    const [betslipkey, setBetslipKey] = useState(() => jackpot ? "jackpotbetslip": "betslip");
+    const [ipInfo, setIpInfo] = useState({});
     const [totalGames, setTotalGames] = useState(0);
     const [totalOdds, setTotalOdds] = useState(1);
 
-
+    useEffect(() => {
+        fetch("https://api64.ipify.org?format=json")
+          .then((response) => response.json())
+          .then((data) => setIpInfo(data.ip))
+          .catch((error) => setIpInfo({city: "Error fetching IP"}));
+      }, []);
+      
+      
     const rebet = async() => {
         // check for the betslip to be reloaded
         if (state?.jackpotrebetslip) {
@@ -77,8 +83,8 @@ const BetslipSubmitForm = (props) => {
                  className={`placebet-response fade alert alert-${c} show alert-dismissible`}>
 
                     <div className=''>
-                        <div className='alert-title text-2xl flex font-bold w-full py-3 justify-between'>
-                            <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div>
+                        <div className='alert-title text-2xl fex font-bold w-full py-3 justify-between'>
+                            {/* <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div> */}
                             <div aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</div>
                         </div>
                         <div className='text-2xl mb-3 font-normal'>{message.message}</div>
@@ -91,10 +97,8 @@ const BetslipSubmitForm = (props) => {
                             </div>
                         }
                     </div>
-                
             </div>}
         </>);
-
     };
 
     useEffect(() => {
@@ -127,46 +131,61 @@ const BetslipSubmitForm = (props) => {
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
 
-
         let bs = Object.values(state?.[betslipkey] || []);
         
         let slipHasOddsChange = false;
+        let slipHasUnbettableEvents = false;
         let jackpotMessage = 'jp';
 
 
         for (let slip of bs) {
-            delete slip.start_time
             if (jackpot) {
                 jackpotMessage += "#" + slip.bet_pick
             }
-            if (slip.prev_odds
+
+            if(slip.disable == true) {
+                slipHasUnbettableEvents = true;
+                break;
+            } else if (slip.prev_odds
                 && slip.prev_odds !== slip.odd_value
                 && values.accept_all_odds_change == false) {
                 slipHasOddsChange = true;
                 break;
+            } else {
+                delete slip.start_time
+                delete slip.disable
+                delete slip.comment
+                delete slip.prev_odds
             }
+            
+
+            
         }
 
 
-        if (slipHasOddsChange == true) {
+        if (slipHasUnbettableEvents == true || slipHasOddsChange == true) {
+            
+            let message = ""
+
+            if (slipHasUnbettableEvents == true) {
+                message += "Slip has events that have been disabled or suspended."
+                + " Please remove to proceed"
+            }
+
+            if (slipHasOddsChange == true) {
+                message += "Slip has events with changed odds, tick "
+                    + " accept odds all odds change box to accept and place bet"
+            }
             setMessage({
                 status: 400,
-                message: "Slip has events with changed odds, tick "
-                    + " accept odds all odds change box to accept and place bet"
+                message: message
             });
+
             setSubmitting(false);
-            return false;
+            return;
         }
-        // const getIp = async () => {
-        //     let ipv4 = await publicIp.v4({
-        //         fallbackUrls: ['https://ifconfig.co/ip']
-        //     }).then((result) => {
-        //         return result
-        //     });
-        //     return ipv4;
-        // }
 
-
+        console.log("THE IP ADDREEE SSSSSS ", ipInfo)
         let payload = {
             bet_string: 'web',
             app_name: 'desktop',
@@ -174,14 +193,14 @@ const BetslipSubmitForm = (props) => {
             stake_amount: values.bet_amount,
             amount: values.bet_amount,
             bet_total_odds: Float(totalOdds, 2),
-            // endCustomerIP: getIp(),
+            ip_address: ipInfo,
             channel_id: 'web',
             slip: bs,
             profile_id: getFromLocalStorage("user")?.profile_id || state?.user?.profile_id,
             account: 1,
             msisdn: getFromLocalStorage("user")?.msisdn || state?.user?.msisdn,
             accept_all_odds_change: values.accept_all_odds_change == true ? 1 : 0,
-            bet_type: state?.islive ? "1" : jackpot ? "9" : "3" // update for live
+            bet_type: getFromLocalStorage("liveCount") > 0 ? "1" : jackpot ? "9" : "3" // update for live
         };
         let endpoint = '/v2/user/place-bet';
         let method = "POST"

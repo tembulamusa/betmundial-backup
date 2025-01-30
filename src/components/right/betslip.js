@@ -221,6 +221,8 @@ const BetSlip = (props) => {
     const SlipEntry = (props) => {
         const {match_id, initialSlip} = props;
         // let odd = slip.odd_value;
+        
+        // get the entire betslip
         const [slip, setSlip] = useState(initialSlip)
         const [slipKey, setKey] = useState();
         
@@ -258,10 +260,30 @@ const BetSlip = (props) => {
                         
                     }
                 }
-                addToSlip(slip)
                 return newSlip;  // Return the updated state
             })     
         }
+
+        const updateBetslipChange = async (slip) => {
+            console.log("THE CHANGING SLIP  ", slip)
+
+            let betslip = await state?.betslip;
+            if (betslip && betslip[slip.match_id]){
+                await addToSlip(slip);
+                if(JSON.stringify(betslip[slip.match_id]) !== JSON.stringify(slip)) {
+                    betslip[slip.match_id] = slip;
+                    dispatch({type: "SET", key:"betslip", payload: betslip})
+                }
+            }
+            
+
+        }
+
+        useEffect( () => {
+            if (slip) {
+                updateBetslipChange(slip);                
+            }
+        }, [slip])
             
        const socketRef = useRef(socket);
 
