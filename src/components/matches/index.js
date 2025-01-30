@@ -140,8 +140,8 @@ const MatchHeaderRow = (props) => {
         first_match && <Container className={`${live && 'live'} full-mobile sticky-top`} style={{ position: "sticky" }}>
             <div className={`${jackpot && 'jackpot-zero-top'} top-matches d-flex position-sticky sticky-top `}
                 style={{ opacity: "1", top: "100px", height: "" }}>
-                <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
-                    <div className="align-self-center col">
+                {/* <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
+                    <div className="align-self-center col"> */}
 
                         {fetching && <div className="filter-group-icon " >
                             {/* Uncomment this just to illustrate to the user... */}
@@ -152,10 +152,10 @@ const MatchHeaderRow = (props) => {
                             {live && <span className="live-header">LIVE </span> }
                             {!live && <span className="">PREMATCH </span> }
                         </h3> */}
-                    </div>
-                </div>
+                    {/* </div>
+                </div> */}
                 <div className={'col-2 col-xs-12 match-detail-container'} key="d4">
-                    <span className='md:hidden text-gray-500 font-bold'>
+                    <span className='text-gray-500 font-bold'>
                         {sportName}
                     </span>
                 </div>
@@ -583,7 +583,18 @@ const teamScore = (allscore, is_home_team) => {
     if (is_home_team == false) {
         score = awayScore
     }
-    return score;
+    let convertedScore = function () {try {
+            let score = parseInt(score);
+            if (score !== NaN){
+                return score
+            } else {
+                return "-"
+            }
+        } catch (err) {
+            return "-"
+        }
+    }
+    return convertedScore();
 }
 
 const MarketRow = (props) => {
