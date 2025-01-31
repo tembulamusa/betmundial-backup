@@ -58,9 +58,11 @@ const Live = (props) => {
 
     useEffect(() => {
         if (reload == true) {
+            console.log("THE RELOAD REQUEST SENT:::  ", reload)
             fetchData();
         }
         setReload(false);
+
     }, [reload])
     useEffect(() => {
         let currentLive = getFromLocalStorage("selectedLivesport");

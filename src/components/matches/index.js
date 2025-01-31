@@ -56,7 +56,7 @@ const TimeCounter = (props) => {
     useInterval(incrementTimer, timer.mins && 1000);
 
     return (
-        timer.mins && <span className=''>{String(timer.mins).padStart(2, "0")} : {String(timer.secs).padStart(2, "0")}</span>
+        timer.mins && <span className=''>{timer.mins < 89 ? String(timer.mins).padStart(2, "0") : "90:00+"} {timer.mins < 89 && " : " + String(timer.secs).padStart(2, "0")}</span>
     )
 
 }
@@ -767,6 +767,7 @@ const MatchRow = (props) => {
             setReload(true);
         }
     }, [updatedMatchStatus])
+
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
         setUpdatedMatchTime((prevTime) => {
             if (match_time) {
@@ -807,13 +808,13 @@ const MatchRow = (props) => {
 
         // manage game socket data
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
-            console.log("DATA LOGGED FOR GAME SOCKET DETAIL  ;:: ", data);
 
             setUpdatedMatchScore((prevScore) => {
                 return data.score
             });
             setUpdatedMatchStatus((prevStatus) => {
                 return data.match_status
+                console.log("THE MATCH STATUS  ", data.match_status)
 
             });
 
@@ -935,7 +936,13 @@ const MatchRow = (props) => {
                         <>ID:  && {match?.game_id} </>
                         : 
                         <span className='text-red-500 ml-2'>
-                            <TimeCounter minutes={updatedMatchTime?.minutes} seconds={updatedMatchTime?.seconds} />
+                            {updatedMatchTime?.minutes == 90 
+                            ?
+                                "90:00+" 
+                            :
+                                <TimeCounter minutes={updatedMatchTime?.minutes} seconds={updatedMatchTime?.seconds} />
+                            }
+                            
                         </span>
                         }
                     </div>
