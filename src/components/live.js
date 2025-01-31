@@ -23,10 +23,8 @@ const Live = (props) => {
     const [threeWay, setThreeWay] = useState(true);
     const [refresh, setRefresh] = useState(false);
     const [page, ] = useState(1);
+    const [reload, setReload] = useState(false)
     const {spid, sub_type_id} = useParams();
-
-
-    
 
     const fetchData = () => {
         let endpoint = "/v2/sports/matches/live/" + (spid || 79) + (`/${ state?.selectedLivesport?.default_market || 1}`) +"?page=" + (page || 1) + `&size=${limit || 200}`;
@@ -59,11 +57,19 @@ const Live = (props) => {
     }, [state?.selectedLivesport]);
 
     useEffect(() => {
+        if (reload == true) {
+            fetchData();
+        }
+        setReload(false);
+    }, [reload])
+    useEffect(() => {
         let currentLive = getFromLocalStorage("selectedLivesport");
         if(!state?.selectedLivesport && currentLive) {
             dispatch({type:"SET", key:"selectedLivesport", payload: currentLive});
         }
-    }, [])
+    }, []);
+
+
 
     return (
         <>
@@ -72,6 +78,7 @@ const Live = (props) => {
                 fetching={fetching}
                 three_way = {state?.selectedLivesport ? state?.selectedLivesport?.sport_type == "threeway" : true}
                 live
+                setReload={setReload}
                 matches={matches}
                 pdown={producerDown}
                 betslip_key={'betslip'}

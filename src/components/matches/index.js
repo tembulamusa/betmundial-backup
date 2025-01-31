@@ -746,6 +746,7 @@ const MatchRow = (props) => {
         pdown,
         three_way,
         jackpotstatus,
+        setReload,
         subTypes } = props;
 
     const [state, dispatch] = useContext(Context);
@@ -759,7 +760,13 @@ const MatchRow = (props) => {
     // if(match?.odds?.home_odd_active) {
     //     match.odds.home_odd_active = 1
     // }
+    
 
+    useEffect(()=>{
+        if (["ended", "deactivated", "abandoned"].includes?.updatedMatchStatus?.toLowerCase()) {
+            setReload(true);
+        }
+    }, [updatedMatchStatus])
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
         setUpdatedMatchTime((prevTime) => {
             if (match_time) {
@@ -800,13 +807,14 @@ const MatchRow = (props) => {
 
         // manage game socket data
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
-            // console.log("DATA LOGGED FOR GAME SOCKET DETAIL  ;:: ", data);
+            console.log("DATA LOGGED FOR GAME SOCKET DETAIL  ;:: ", data);
 
             setUpdatedMatchScore((prevScore) => {
                 return data.score
             });
             setUpdatedMatchStatus((prevStatus) => {
                 return data.match_status
+
             });
 
             updateMatchTimeMinutesAndSeconds(data.match_time);
@@ -853,7 +861,6 @@ const MatchRow = (props) => {
 
             });
         }, [])
-
 
         return (
             <>
@@ -918,14 +925,18 @@ const MatchRow = (props) => {
 
                         <span className={'small'}>
                             {(live && match?.match_status)
-                                ? <span className='font-[500] uppercase'>{match?.match_status}
-                                    <span className='text-red-500 ml-2'>
-                                        <TimeCounter minutes={updatedMatchTime?.minutes} seconds={updatedMatchTime?.seconds} />
-                                    </span>
-                                </span>
+                                ?
+                                <span className='font-[500] uppercase'>{match?.match_status}</span>
                                 : match?.start_time}
                         </span>
-                        {!live && <>ID:  && {match?.game_id} </>}
+                        {!live 
+                        ? 
+                        <>ID:  && {match?.game_id} </>
+                        : 
+                        <span className='text-red-500 ml-2'>
+                            <TimeCounter minutes={updatedMatchTime?.minutes} seconds={updatedMatchTime?.seconds} />
+                        </span>
+                        }
                     </div>
                 </div>
                 
@@ -1244,6 +1255,7 @@ const MatchList = (props) => {
         pdown,
         three_way,
         fetching,
+        setReload,
         subTypes,
         fetchingcount
     } = props;
@@ -1273,6 +1285,7 @@ const MatchList = (props) => {
                             key={match?.parent_match_id}
                             live={live}
                             pdown={pdown}
+                            setReload={setReload}
                             three_way={three_way}
                             sub_types={subTypes} />
                     ))
