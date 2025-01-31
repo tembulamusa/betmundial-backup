@@ -444,7 +444,7 @@ const OddButton = (props) => {
 
         updatePickedChoices();
 
-    }, [state?.[betslip_key]?.[match?.match_id], state?.betslip?.[match?.match_id]])
+    }, [state?.[betslip_key]?.[match?.match_id], state?.betslip?.[match?.match_id]], state?.betslip)
 
     useEffect(() => {
         updatePickedChoices();
