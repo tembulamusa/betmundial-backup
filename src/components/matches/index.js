@@ -140,6 +140,12 @@ const MatchHeaderRow = (props) => {
         first_match && <Container className={`${live && 'live'} full-mobile sticky-top`} style={{ position: "sticky" }}>
             <div className={`${jackpot && 'jackpot-zero-top'} top-matches d-flex position-sticky sticky-top `}
                 style={{ opacity: "1", top: "100px", height: "" }}>
+                
+                <div className={'col-2 col-xs-12 match-detail-container'} key="d4">
+                    <span className='text-gray-500 font-bold'>
+                        {sportName}
+                    </span>
+                </div>
                 <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
                     <div className="align-self-center col">
 
@@ -153,11 +159,6 @@ const MatchHeaderRow = (props) => {
                             {!live && <span className="">PREMATCH </span> }
                         </h3> */}
                     </div>
-                </div>
-                <div className={'col-2 col-xs-12 match-detail-container'} key="d4">
-                    <span className='md:hidden text-gray-500 font-bold'>
-                        {sportName}
-                    </span>
                 </div>
                 <div className={`${jackpot ? "is-jackpot-buttons" : ""} col ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row justify-content-between' : "single-market-container"}`}>
                     {
@@ -583,7 +584,19 @@ const teamScore = (allscore, is_home_team) => {
     if (is_home_team == false) {
         score = awayScore
     }
-    return score;
+    let convertedScore = function () {try {
+            let intScore = parseInt(score);
+            if (!isNaN(intScore)){
+                return intScore
+            } else {
+                return "-"
+            }
+        } catch (err) {
+            return "-"
+        }
+        
+    }
+    return convertedScore();
 }
 
 const MarketRow = (props) => {
@@ -912,7 +925,7 @@ const MatchRow = (props) => {
                                 </span>
                                 : match?.start_time}
                         </span>
-                        <>ID: {match?.match_id}</>
+                        {!live && <>ID:  && {match?.game_id} </>}
                     </div>
                 </div>
                 

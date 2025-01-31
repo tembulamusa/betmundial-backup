@@ -185,7 +185,6 @@ const BetslipSubmitForm = (props) => {
             return;
         }
 
-        console.log("THE IP ADDREEE SSSSSS ", ipInfo)
         let payload = {
             bet_string: 'web',
             app_name: 'desktop',

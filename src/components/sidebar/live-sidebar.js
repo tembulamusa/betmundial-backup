@@ -5,19 +5,21 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import {Menu, MenuItem, Sidebar, SubMenu} from "react-pro-sidebar";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import gameCategories from '../utils/static-data';
 import useInterval from '../../hooks/set-interval.hook';
 import { removeItem, setLocalStorage } from '../utils/local-storage';
 import { Context } from '../../context/store';
 
 const LiveSideBar = (props) => {
-
+    const {spid} = useParams();
     const [liveSports, setLiveSports] = useState([])
     const [collapsed, setCollapsed] = useState(false)
     const [toggled, setToggled] = useState(false)
     const [, dispatch] = useContext(Context);
     const navigate = useNavigate();
+    const [currentSportId, setCurrentSportId] = useState(79);
+    const location = useLocation();
 
     const fetchData = () => {
         const abortController = new AbortController();
@@ -37,6 +39,10 @@ const LiveSideBar = (props) => {
     //     fetchData();
     // }, 15000);
 
+    useEffect(()=> {
+        console.log("THE SPORT ID  :::: ", spid);
+        setCurrentSportId(spid)
+    }, [location])
     useEffect(() => {
         fetchData();
 
@@ -78,7 +84,7 @@ const LiveSideBar = (props) => {
                 zIndex: 10,
                 top: "100px"
             }}
-                 className={`px-2 vh-100 text-white sticky-top d-none d-md-block up col-md-2`}>
+                 className={`px-2 vh-100 text-white sticky-top d-none d-md-block up col-md-2 live-sidebar`}>
                 <Sidebar
                     id='live-sidebar-left'
                     style={{backgroundColor: '#16202c !important'}}
@@ -115,38 +121,19 @@ const LiveSideBar = (props) => {
                         </div>
                     </div>
                         <Menu iconShape="circle">
-                        {!liveSports &&
-                    <Sidebar
-                    style={{backgroundColor: '#16202c !important'}}
-                    image={false}
-                    // onToggle={handleToggleSidebar}
-                    collapsed={collapsed}
-                    toggled={toggled}>
-                        <Menu iconShape="circle">
-                            {gameCategories.map((competition, index) => (
-                                    <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name == "Soccer"}
-                                        icon={<img style={{borderRadius: '50%', height: '30px'}}
-                                                    src={getSportImageIcon(competition.sport_name)} alt=''/>}
-                                        label={competition.sport_name}
-                                        className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football', 'gaelic hurling', 'gaelic football'].includes(competition?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
-                                        key={`live-listing-${index}`}>
-                                </SubMenu>
-                            ))}
-                        </Menu>
-                </Sidebar>
-                }
+                        
                             {liveSports && Object.entries(liveSports)?.map(([index, livesport]) => (
-                                    <Menu iconShape="circle">
-                                        <MenuItem key={`live-sidebar-item-${index}`}>
+                                    <Menu iconShape="circle" className="">
+                                        <MenuItem key={`live-sidebar-item-${index}`} className={`${(location?.pathname?.includes(livesport?.sport_id)) ? "active" : ""}`}>
                                             <div className="col-12 font-[500]" onClick={() => handleLiveSportsNavigation(livesport)}>
                                                 <Row>
                                                     <Col lg="11" md="11" sm="11" xs="11" className="topl">
-                                                        <Row style={{color: "#69819a"}}>
+                                                        <Row>
                                                             <Col className={''}>{livesport?.sport_name} </Col>
                                                             <Col>
                                                                 <span className={'badge rounded-pill bg-dark'} style={{
                                                                     float: "right",
-                                                                    color: "#fff"
+                                                                    color: ""
                                                                 }}>
                                                                         {livesport?.count}
                                                                 </span>

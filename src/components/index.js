@@ -47,7 +47,6 @@ const Index = (props) => {
         let tab = 'highlights';
         let method = "GET";
         let endpoint = "/v2/sports/matches/" + ((location.pathname !== "/" && getFromLocalStorage("filtersport")?.sport_id || state?.filtersport?.sport_id) || allSportId || 79) + (state?.filtersport ? "/" + state?.filtersport?.default_market : "")  +"?page=" + (page || 1) + `&size=${limit || 50}` ;
-
         let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";
         if(state?.filtercategory) {

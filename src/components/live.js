@@ -21,6 +21,7 @@ const Live = (props) => {
     const [limit, setLimit] = useState(200);
     const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(true);
+    const [refresh, setRefresh] = useState(false);
     const [page, ] = useState(1);
     const {spid, sub_type_id} = useParams();
 
@@ -41,13 +42,6 @@ const Live = (props) => {
             }
         });
     };
-
-    
-    useInterval(async () => {
-        if(!fetching) {
-            fetchData();
-        }
-      }, 15000);
 
 
     useEffect(() => {
@@ -84,7 +78,6 @@ const Live = (props) => {
                 subTypes={"1,10,18"}
                 
                 />}
-               
         </>
     )
 }

@@ -104,13 +104,36 @@ const Header = (props) => {
             if(!socket.connected){
                 updateUserOnHistory()
             }
-
-            // comment out this to stop polling
-            updateUserOnHistory()
-
         }
     } ,3000);
     
+
+
+    useEffect(() => {
+        if(user) {
+            if (socket.connected) {
+                socket.emit('user.profile', user?.profile_id);
+            }
+        }
+
+
+        socket.on(`user#profile#${user?.profile_id}`, (data) => {
+            setUser({...user, balance: data.balance, bonus_balance: data.bonus})
+        })
+    }, [socket.connected, user]);
+
+    useEffect(()=> {
+        if(user) {
+            if (socket.connected) {
+                socket.emit('user.profile', user?.profile_id);
+            }
+
+            socket.on(`user#profile#${user?.profile_id}`, (data) => {
+                setUser({...user, balance: data.balance, bonus_balance: data.bonus})
+            })
+        }        
+    }, [])
+
     const nextNavigate = () => {
         const path = location.pathname
         const next = searchParams.get("next") || "/";
