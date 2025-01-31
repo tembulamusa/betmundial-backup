@@ -192,9 +192,9 @@ const MyBets = (props) => {
 
         
         return (
-                    <Accordion.Item eventKey={"mybets-" + bet?.bet_id}>
+                    <Accordion.Item eventKey={"mybets-" + bet?.bet_id} onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
                         <Accordion.Header>
-                            <div className="row w-full" onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
+                            <div className="row w-full">
                                 <div className="col font-ligt">{ bet?.bet_id}</div>
                                 <div className="col hidden md:flex">{ betType}</div>
                                 <div className="col">{ bet?.created}</div>

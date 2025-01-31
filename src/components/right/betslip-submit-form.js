@@ -62,9 +62,10 @@ const BetslipSubmitForm = (props) => {
 
 
         } else {
-            dispatch({type:"SET", key:"betslip", payload: state?.rebetslip});
+            dispatch({type:"SET", key:"betslip", payload: state?.rebetslip});            
             setLocalStorage('betslip', state?.rebetslip, 1*60*60*1000);
-            dispatch({type:"DEL", key:"rebetslip"})
+            dispatch({type:"DEL", key:"rebetslip"});
+            // window.location.href = '/'
         }
 
     }
