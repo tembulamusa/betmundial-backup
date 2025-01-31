@@ -426,7 +426,7 @@ const OddButton = (props) => {
     }, [updateOddValue]);
 
     const updatePickedChoices = () => {
-        let betslip = state?.[betslip_key]
+        let betslip = getFromLocalStorage("betslip") || state?.[betslip_key]
         let uc = clean(
             match.match_id
             + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
@@ -444,7 +444,7 @@ const OddButton = (props) => {
 
         updatePickedChoices();
 
-    }, [state?.[betslip_key]?.[match?.match_id], state?.betslip?.[match?.match_id]], state?.betslip)
+    }, [state?.[betslip_key]?.[match?.match_id], state?.betslip?.[match?.match_id]])
 
     useEffect(() => {
         updatePickedChoices();
@@ -925,7 +925,7 @@ const MatchRow = (props) => {
                         {(live && (Date.parse(match?.start_time) > Date.now() && !match?.match_time)) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime={match?.start_time} /></div>}
 
                         <span className={'small'}>
-                            {(live && updatedMatchStatus || match?.match_status)
+                            {(live && (updatedMatchStatus || match?.match_status))
                                 ?
                                 <span className='font-[500] uppercase'>{updatedMatchStatus || match?.match_status}</span>
                                 : match?.start_time}
@@ -933,7 +933,7 @@ const MatchRow = (props) => {
                         {
                         !live 
                         ?
-                        <>ID:  && {match?.game_id} </>
+                        <>ID:  {match?.game_id} </>
                         : 
                         <span className='text-red-500 ml-2'>
                             {updatedMatchTime?.minutes == 90 

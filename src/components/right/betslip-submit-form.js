@@ -56,7 +56,6 @@ const BetslipSubmitForm = (props) => {
     const rebet = async() => {
         // check for the betslip to be reloaded
         if (state?.jackpotrebetslip) {
-            
             dispatch({type:"SET", key:"jackpotbetslip", payload: state?.jackpotrebetslip});
             setLocalStorage('jackpotbetslip', state?.jackpotrebetslip, 1*60*60*1000);
             dispatch({type:"DEL", key:"jackpotrebetslip"});
