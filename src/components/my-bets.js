@@ -5,13 +5,14 @@ import makeRequest from './utils/fetch-request';
 import Accordion from 'react-bootstrap/Accordion';
 
 import '../assets/css/accordion.react.css';
-import { FaCheckCircle, FaShare } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
-import { IoMdRemoveCircleOutline } from "react-icons/io";
+import { FaCheckCircle, FaCircle, FaShare, FaTrash, FaTrashAlt } from "react-icons/fa";
+import { MdCancel, MdPending } from "react-icons/md";
+import { IoMdCloseCircle, IoMdRemoveCircleOutline } from "react-icons/io";
 import { GrAddCircle } from "react-icons/gr";
 import NoEvents from "./utils/no-events";
 import ShareExistingbet from "./utils/shareexisting-bet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { TbForbid2, TbForbid2Filled } from "react-icons/tb";
 
 
 const Styles = {
@@ -105,7 +106,9 @@ const MyBets = (props) => {
         const [currentBetDetail, setCurrentBetDetail] = useState(null)
         const [isLoadingBetItems, setIsLoadingBetItems] = useState(false);
         const [betType, setBetType] = useState();
-
+        const [showMarkup, setShowMarkup] = useState(true);
+        const [alertCancel, setAlertCancel] = useState(null);
+            
         useEffect(( ) => {
             if(bet?.jackpot_bet_id){
                 setBetType("Jackpot");
@@ -116,73 +119,80 @@ const MyBets = (props) => {
             }
         }, [bet])
 
-        const cancelBet = () => {
-            let endpoint = '/v2/user/bet/cancel?bet-id=' + bet?.bet_id;
-            
-            makeRequest({url: endpoint, method: "POST", api_version:2}).then(([status, result]) => {
-                if(status == 201){
-                   setBetStatus('CANCEL RQ');
-                   setCanCancel(false);
-                }
-            });
-        };
+        
 
         const CancelBetMarkup = (props) => {
+            
+            const cancelBet = () => {
+                let endpoint = '/v2/user/bet/cancel?bet-id=' + bet?.bet_id;
+                makeRequest({url: endpoint, method: "POST", api_version:2}).then(([status, result]) => {
+                    if(result?.status == '200'){
+                       setShowMarkup(false);
+                       setAlertCancel({message:"bet Cancelled Successfully", status: 200})
+                    } else {
+                        setAlertCancel({message: "unable to cancel", status: 400})
+                    }
+                });
+            };
+
+            useEffect(()=> {
+                if(alertCancel) {
+                    setTimeout(function name() {
+                        setAlertCancel(null)
+                    }, 3000)
+                }
+            }, [alertCancel])
             const {txt} = props;
             return (
-                    !canCancel && <button
-                         title="Cancel Bet"
-                         className="secondary-text uppercase btn btn-sm cancel-bet secondary-ation"
-                         onClick={()=> cancelBet()}
-                         >
-                         {txt?txt:"Cancel"}
-                    </button>
-            )
+                <>
+                    {alertCancel && 
+                        <div className={`show-betcancel-response alert alert-${alertCancel?.status !== 200 ? "danger" : "success" }`}>
+                        {alertCancel?.message}</div>
+                    }
+                    {showMarkup && <FaTrash color="rgb(255 66 131 / 96%)" size={20}  onClick={()=> cancelBet()} className="inline-block mr-3"/>}                </>
+                )
         }
 
         
 
         const statusMarkup = (bet) => {
-            let icon;
+            let Icon;
             let color; 
             let statusText;
             switch (bet?.status?.toLowerCase()) {
                 case "pending":
-                    icon = "circle";
-                    color = "blue";
+                    Icon = FaCircle;
+                    color = "#00A8FA";
                     break;
                 case "won":
-                    icon = "tick";
+                    Icon = FaCheckCircle;
                     color = "green";
                     break;
                 case "lost":
-                    icon = "close";
-                    color = "red"
+                    Icon = IoMdCloseCircle;
+                    color = "#f86d6d"
                     break;
                 case "cancelled":
-                    icon = "delete"
+                    Icon = TbForbid2Filled
                     color = "gray"
                     break;
                 default:
-                    icon = bet.status
+                    Icon = MdPending
                     color = "gray"
             }
             return (
                 <>
-                  {icon && <FontAwesomeIcon icon={icon} color={color}/>}
+                  {<Icon color={color} size={20} className="inline-block mr-3"/>}
                 </>
             )
         }
 
         const shareMarkup = (bet) => {
             const shareBet = () => {
-                setSharableBet(bet);
-                setShowSharableBet(true)
             }
             return (
                 <>
-                    {sharableBet == bet && <ShareExistingbet bet={bet} showshare={true}/>}
-                    <button className="btn btn-bet-hist light-btn mb-1" onClick={() => shareBet() }><FaShare  className="inline-block mr-2"/>Share</button>
+                    <FaShare className="inline-block" size={20} color="#FFB200"/>
                 </>
             )
         }
@@ -198,8 +208,9 @@ const MyBets = (props) => {
                                 <div className="col hidden md:flex">{ bet?.total_games}</div>
                                 <div className="col text-cente">{ bet?.bet_amount}</div>
                                 <div className="col">{ bet?.possible_win}</div>
-                                <div className="col">{ statusMarkup(bet) }</div>
-                                <div className="bet-detail-header">
+                                {/* <div className="col">{ statusMarkup(bet) }</div> */}
+                                <div className="col">
+                                    {statusMarkup(bet)}
                                     {bet?.cancelable ? <span><CancelBetMarkup txt="Cancel Bet" /></span> : ""}
                                     {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
                                 </div>

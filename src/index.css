@@ -535,7 +535,7 @@ h5, h4, h3, h2 {
 }
 
 .results-icon.won {
-  color: #00A8FA;
+  color: #22af22;
 }
 .results-icon.lost {
   color: #999999;
@@ -546,6 +546,22 @@ h5, h4, h3, h2 {
   border-bottom: none;
 }
 
+
+.show-betcancel-response {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 99999;
+  height: 50px;
+  width: 200px;
+  border-radius: 7px;
+  text-transform: capitalize;
+  /* color: green !important; */
+  font-weight: 500;
+}
+.show-betcancel-response.danger {
+  /* color: red !important; */
+}
 .my-bets td {
   padding: 4px;
 }
