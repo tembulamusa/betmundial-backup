@@ -11,6 +11,7 @@ import { IoMdRemoveCircleOutline } from "react-icons/io";
 import { GrAddCircle } from "react-icons/gr";
 import NoEvents from "./utils/no-events";
 import ShareExistingbet from "./utils/shareexisting-bet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const Styles = {
@@ -116,12 +117,9 @@ const MyBets = (props) => {
         }, [bet])
 
         const cancelBet = () => {
-            let endpoint = '/bet-cancel';
-            let data = {
-                    bet_id:bet.bet_id,
-                    cancel_code:101,
-            }
-            makeRequest({url: endpoint, method: "POST", data: data, use_jwt:true}).then(([status, result]) => {
+            let endpoint = '/v2/user/bet/cancel?bet-id=' + bet?.bet_id;
+            
+            makeRequest({url: endpoint, method: "POST", api_version:2}).then(([status, result]) => {
                 if(status == 201){
                    setBetStatus('CANCEL RQ');
                    setCanCancel(false);
@@ -145,34 +143,33 @@ const MyBets = (props) => {
         
 
         const statusMarkup = (bet) => {
-            let btnClass;
-            let btnText; 
+            let icon;
+            let color; 
             let statusText;
             switch (bet?.status?.toLowerCase()) {
                 case "pending":
-                    btnClass = "active-bet";
-                    btnText = "active";
+                    icon = "circle";
+                    color = "blue";
                     break;
                 case "won":
-                    btnClass = "won-bet";
-                    btnText = "won";
+                    icon = "tick";
+                    color = "green";
                     break;
                 case "lost":
-                    btnClass = "lost-bet";
-                    btnText = "lost"
+                    icon = "close";
+                    color = "red"
                     break;
                 case "cancelled":
-                    btnClass = "cancelled-bet"
-                    btnText = "cancelled"
+                    icon = "delete"
+                    color = "gray"
                     break;
                 default:
-                    statusText = bet.status
-                    btnText = "cancelled"
+                    icon = bet.status
+                    color = "gray"
             }
             return (
                 <>
-                  {btnClass && <button className = {`btn btn-bet-hist mb-1 ${btnClass}`}>{btnText}</button>}
-                  {statusText && statusText}
+                  {icon && <FontAwesomeIcon icon={icon} color={color}/>}
                 </>
             )
         }
@@ -202,13 +199,13 @@ const MyBets = (props) => {
                                 <div className="col text-cente">{ bet?.bet_amount}</div>
                                 <div className="col">{ bet?.possible_win}</div>
                                 <div className="col">{ statusMarkup(bet) }</div>
+                                <div className="bet-detail-header">
+                                    {bet?.cancelable ? <span><CancelBetMarkup txt="Cancel Bet" /></span> : ""}
+                                    {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
+                                </div>
                             </div>
                         </Accordion.Header>
                         <Accordion.Body>
-                            <div className="bet-detail-header">
-                                {bet?.cancelable ? <span><CancelBetMarkup txt="Cancel Bet" /></span> : ""}
-                                {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
-                            </div>
                             <div className="overflow-x-auto"> 
                                 <table className="table w-full mt-3 mb-0">
                                     <thead>

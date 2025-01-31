@@ -162,8 +162,8 @@ const MatchHeaderRow = (props) => {
                 </div>
                 <div className={`${jackpot ? "is-jackpot-buttons" : ""} col ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row justify-content-between' : "single-market-container"}`}>
                     {
-                        <div className={`markets-header ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "single-market-content"}`} key="d3">
-                            <div className={`d-flex flex-column text-center ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "!pr-0"}`}>
+                        // <div className={``} key="d3">
+                            <div className={`${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "single-market-content"} d-flex flex-column text-center ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "!pr-0"}`}>
                                 <div className={'bold hidden md:block'}>
                                     <span>{three_way ? "3 WAY" : "Winner"}</span>
                                 </div>
@@ -173,12 +173,11 @@ const MatchHeaderRow = (props) => {
                                     <a className="c-btn-header" href='#/'>2</a>
                                 </div>
                             </div>
-                        </div>
+                        // </div>
                     }
                     {(!jackpot && sportName?.toLowerCase() == "soccer" && first_match) && (
-                        <div className='hidden md:flex flex-row'>
-                            {extraMarketDisplays?.map((extra_market) => (
-                                <div className={'d-flex flex-column'} key={extra_market.name}>
+                            extraMarketDisplays?.map((extra_market) => (
+                                <div className={`d-flex flex-column ${extra_market?.id == 18 ? "pr-0" : ""}`} key={extra_market.name}>
                                     <span className={'small text-center text-uppercase bold'}>
                                         {extra_market.name}
                                     </span>
@@ -195,8 +194,7 @@ const MatchHeaderRow = (props) => {
                                             </a>}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            ))
                     )}
                     <div
                         className="bet-fix events-odd pad undefined align-self-center more-markets-container m-lg-2 col-3">

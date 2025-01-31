@@ -27,7 +27,7 @@ const Live = (props) => {
     const {spid, sub_type_id} = useParams();
 
     const fetchData = () => {
-        let endpoint = "/v2/sports/matches/live/" + (spid || 79) + (`/${ state?.selectedLivesport?.default_market || 1}`) +"?page=" + (page || 1) + `&size=${limit || 200}`;
+        let endpoint = "/v2/sports/matches/live/" + (spid || 79) + (`${ state?.selectedLivesport && state?.selectedLivesport?.sport_name?.toLowerCase() !== "soccer" ? "/" + state?.selectedLivesport?.default_market : ""}`) +"?page=" + (page || 1) + `&size=${limit || 200}`;
         let method =  "GET";
         setFetching(true);
         makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
@@ -58,7 +58,6 @@ const Live = (props) => {
 
     useEffect(() => {
         if (reload == true) {
-            console.log("THE RELOAD REQUEST SENT:::  ", reload)
             fetchData();
         }
         setReload(false);
