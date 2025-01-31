@@ -1,11 +1,13 @@
 .casino-sidebar {
     border-right: 1px solid #a6a6a6;
     min-height: 100vh;
-    box-shadow: 1px 0 2px rgba(0,0,0,0.2);
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2);
 }
+
 .casino-games-liting {
     /* display: inline-flex; */
 }
+
 .casino-game {
     width: 20%;
     margin-left: 0;
@@ -18,6 +20,7 @@
     position: relative;
     font-weight: 400;
 }
+
 .casino-game img {
     border-radius: 5px;
     /* height: 200px; */
@@ -27,13 +30,14 @@
     /* max-height: 150px; */
     /* overflow: hidden; */
 }
+
 .game-buttons {
     position: absolute;
     left: 50%;
     translate: -50% 30%;
     right: auto;
     top: 10%;
-    background: rgba(0,0,0, 0.4);
+    background: rgba(0, 0, 0, 0.4);
     display: none;
     padding: 10px 2px;
     padding-right: 40px;
@@ -69,7 +73,7 @@
     /* box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
     /* -moz-box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
     /* -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.062); */
-    border-bottom: 1px solid rgba(0,0,0,0.124);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.124);
     font-size: 15px;
     font-weight: 700;
     padding-top: 8px !important;
@@ -77,16 +81,14 @@
     padding-bottom: 8px !important;
     text-transform: uppercase;
 }
+
 .category-products {
     /* margin-bottom: 5px; */
 }
 
-.casino-list-block {
+.casino-list-block {}
 
-}
-.casino-sidebar .menu-card {
-
-}
+.casino-sidebar .menu-card {}
 
 .casino-list-block {
     display: block;
@@ -98,7 +100,9 @@
     --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
     /* box-shadow: 0 0 2px rgba(0,0,0, 0.1); */
 }
-.casino-list-block ul li, .casino-list-block ul a {
+
+.casino-list-block ul li,
+.casino-list-block ul a {
     margin-left: 5px;
     margin-right: 0;
     display: flex;
@@ -110,7 +114,7 @@
     font-size: 15px;
     line-height: 1.5;
     font-weight: 400;
-    color: rgba(38,38,38,.7);
+    color: rgba(38, 38, 38, .7);
     opacity: 1;
     margin-bottom: 0px;
     /* border-bottom: 1px solid #eee; */
@@ -119,12 +123,15 @@
     padding-top: 8px !important;
     border-bottom: 1px solid #ebebeb;
 }
+
 .casino-list-block ul li:last-child {
     border-bottom: none !important;
     margin-bottom: 0;
     padding-bottom: 0;
 }
-.casino-list-block ul li:hover, .casino-list-block ul li.active {
+
+.casino-list-block ul li:hover,
+.casino-list-block ul li.active {
     background-color: #eee;
     color: #444;
     /* transition: all ease-in-out 0.3s; */
@@ -150,9 +157,7 @@
     float: right;
 }
 
-.launched-game-header {
-
-}
+.launched-game-header {}
 
 .casino-launched-game-frame {
     height: calc(100vh - 10vh);
@@ -161,11 +166,13 @@
 .launched-casino-wrapper .amt {
     /* margin-top: 0 !important; */
 }
+
 .casino-icon {
     /* font-size: 10px; */
     width: 15px;
     margin-right: 3px;
 }
+
 .casino-class-header {
     padding-bottom: 6px;
     background: #ececec;
@@ -176,6 +183,7 @@
     border-top: 1px solid #c6c6c6;
     border-bottom: 1px solid #c6c6c6;
 }
+
 .casino.banner-imgs img {
     /* height: 170px; */
 }
@@ -187,10 +195,12 @@
     left: 3%;
     right: auto;
 }
+
 .casino-sidebar-items {
     padding-left: 8px;
     padding-right: 8px;
 }
+
 .game-image-wrapper {
     width: 100%;
     height: 150px;
@@ -199,17 +209,23 @@
 }
 
 .virtual-game-image {
-    width: 100%; /* Cover the full width */
-    height: 100%; /* Cover the full height */
-    object-fit: cover; /* Ensure the image fits without stretching */
-    object-position: center; /* Center the image within the container */
-  
+    width: 100%;
+    /* Cover the full width */
+    height: 100%;
+    /* Cover the full height */
+    object-fit: cover;
+    /* Ensure the image fits without stretching */
+    object-position: center;
+    /* Center the image within the container */
+
 }
+
 .virtual-game-image {
     cursor: pointer;
     width: 100%;
     /* height: 170px; */
 }
+
 .game-height-fix {
     max-height: 231px;
     overflow: hidden;
@@ -218,6 +234,7 @@
     position: relative;
     height: 140px;
 }
+
 .casino-game img {
     border-radius: 5px;
     background-size: cover;
@@ -230,6 +247,7 @@
     width: 99% !important;
     transform: translateY(-50%);
 }
+
 @media screen and (max-width:648px) {
     .game-image-wrapper {
         width: 100%;
@@ -237,27 +255,30 @@
         overflow: hidden;
         position: relative;
     }
+
     .game-buttons {
         position: absolute;
         left: 50%;
         translate: -50% 10%;
         right: auto;
         top: 10%;
-        background: rgba(0,0,0, 0.6);
+        background: rgba(0, 0, 0, 0.6);
         display: none;
         padding: 5px 10px;
         padding-right: 10px;
         border-radius: 4px;
         padding-left: 10px;
     }
+
     .casino-category-header {
         /* background: #ffffff; */
         margin-bottom: 4px;
         /* box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
         /* -moz-box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
         /* -webkit-box-shadow: 0 1px 0px rgba(0,0,0,0.062); */
-        border-bottom: 1px solid rgba(0,0,0,0.124);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.124);
     }
+
     .casino-game {
         width: 20%;
         margin-left: 0;
@@ -270,6 +291,7 @@
         position: relative;
         font-weight: 400;
     }
+
     .casino.banner-imgs img {
         height: inherit;
     }
@@ -277,6 +299,7 @@
     .banner-imgs img {
         height: 80px !important;
     }
+
     .casino-game {
         width: 50%;
     }
@@ -284,18 +307,19 @@
     .casino-game img {
         /* height: 150px; */
     }
+
     .game-height-fix {
         max-height: 100px;
         overflow: hidden;
     }
-    
+
 }
 
 .page-title {
     background-color: #ffffff;
 }
 
-.casino-jackpot-cards{
+.casino-jackpot-cards {
     overflow: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -318,15 +342,15 @@
 
 .gold-bg {
     background-color: #e3c768 !important;
+    color: #333333 !important;
 }
 
 .platinum-bg {
     background-color: #e2e2e5 !important;
-    color:#1a237e !important;
+    color: #1a237e !important;
 }
 
 .jackpot-tooltip {
 
     width: 180px !important;
 }
-

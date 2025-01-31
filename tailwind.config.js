@@ -13,9 +13,10 @@ module.exports = {
     extend: {
       colors: {
         'custom-red': 'rgba(231, 6, 84, 1)',
+        'custom-orange': 'rgba(255, 178, 0, 1)'
       },
     },
-    
+
   },
 
   plugins: [],
