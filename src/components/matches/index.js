@@ -924,13 +924,14 @@ const MatchRow = (props) => {
                         {(live && (Date.parse(match?.start_time) > Date.now() && !match?.match_time)) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime={match?.start_time} /></div>}
 
                         <span className={'small'}>
-                            {(live && match?.match_status)
+                            {(live && updatedMatchStatus || match?.match_status)
                                 ?
-                                <span className='font-[500] uppercase'>{match?.match_status}</span>
+                                <span className='font-[500] uppercase'>{updatedMatchStatus || match?.match_status}</span>
                                 : match?.start_time}
                         </span>
-                        {!live 
-                        ? 
+                        {
+                        !live 
+                        ?
                         <>ID:  && {match?.game_id} </>
                         : 
                         <span className='text-red-500 ml-2'>
