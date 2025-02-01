@@ -599,11 +599,14 @@ const teamScore = (allscore, is_home_team) => {
 
 const MarketRow = (props) => {
     const { markets, match, market_id, width, live, pdown, marketDetail } = props;
-    const [mutableMkts, setMutableMkts] = useState([...markets.sort((a, b) => a.outcome_id - b.outcome_id)]);
+    const [mutableMkts, setMutableMkts] = useState([...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]);
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
 
+    if (market_id.toLowerCase() == "total") {
+        console.log("THE MARKET FOR COMPARING odds  ", markets)
+    }
     useEffect(() => {
         setMutableMkts(markets);
     }, []);
@@ -1142,19 +1145,9 @@ export const MarketList = (props) => {
                     return (["active", "suspended", ""].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) &&
                         <MarketRow
                             market_id={mkt_id}
-                            markets={markets?.outcomes?.sort((a, b) => {
-                                let asbv = a.special_bet_value;
-                                let bsbv = b.special_bet_value;
-                                let aoid = a.outcome_id;
-                                let boid = b.outcome_id;
-
-                                // If first value is same
-                                if (asbv == bsbv) {
-                                    return (asbv < bsbv) ? -1 : (aoid > boid) ? 1 : 0;
-                                } else {
-                                    return (asbv < bsbv) ? -1 : 1;
-                                }
-                            })}
+                            markets={markets?.outcomes?.sort((a, b) => 
+                                a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
+                             )}
                             width={markets.outcomes.length == 3 ? "33.333%" : "50%"}
                             match={matchwithmarkets}
                             marketDetail={markets}
