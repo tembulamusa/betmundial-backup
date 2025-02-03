@@ -45,7 +45,7 @@ const Index = (props) => {
         setFetching(true);
         let fetchcount = fetchingCount + 1;
         let filtersport = state?.filtersport || getFromLocalStorage("filtersport");
-        let pageNo = page;
+        let pageNo = 1;
         let limitSize = limit || 200;
         let tab = 'highlights';
         let method = "GET";
