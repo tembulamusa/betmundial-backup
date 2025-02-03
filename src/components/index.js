@@ -49,7 +49,7 @@ const Index = (props) => {
         let limitSize = limit || 200;
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v2/sports/matches/" 
+        let endpoint = "/v2/sports/matches/pre-match/" 
             + ((location.pathname !== "/" && filtersport?.sport_id 
             || filtersport?.sport_id) || allSportId || 79) 
             + ((filtersport && filtersport?.sport_name?.toLowerCase() !== "soccer") ? "/" 
@@ -78,7 +78,7 @@ const Index = (props) => {
             // }
         }
         if (search_term && search_term.length >= 3) {
-            endpoint = `/v2/matches?limit=10&search=${search_term}`;
+            endpoint = `/v2/matches/pre-match?limit=10&search=${search_term}`;
         } 
         // else {
         //     if(state?.filtercompetition ) {
