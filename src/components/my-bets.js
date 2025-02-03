@@ -6,13 +6,14 @@ import Accordion from 'react-bootstrap/Accordion';
 
 import '../assets/css/accordion.react.css';
 import { FaCheckCircle, FaCircle, FaShare, FaTrash, FaTrashAlt } from "react-icons/fa";
-import { MdCancel, MdPending } from "react-icons/md";
+import { MdCancel, MdOutlineWarning, MdPending } from "react-icons/md";
 import { IoMdCloseCircle, IoMdRemoveCircleOutline } from "react-icons/io";
 import { GrAddCircle } from "react-icons/gr";
 import NoEvents from "./utils/no-events";
 import ShareExistingbet from "./utils/shareexisting-bet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TbForbid2, TbForbid2Filled } from "react-icons/tb";
+import { Modal } from "react-bootstrap";
 
 
 const Styles = {
@@ -38,7 +39,6 @@ const MyBets = (props) => {
     const [sharableBet, setSharableBet] = useState(null);
     const [showSharableBet, setShowSharableBet] = useState(false);
     const [userBets, setUserBets] = useState([])
-
 
     const Alert = (props) => {
         let c = message?.status == (200 || 201) ? 'success' : 'danger';
@@ -108,6 +108,7 @@ const MyBets = (props) => {
         const [betType, setBetType] = useState();
         const [showMarkup, setShowMarkup] = useState(true);
         const [alertCancel, setAlertCancel] = useState(null);
+        const [showConfirmCancel, setShowConfirmCancel] = useState(false);
             
         useEffect(( ) => {
             if(bet?.jackpot_bet_id){
@@ -128,7 +129,10 @@ const MyBets = (props) => {
                 makeRequest({url: endpoint, method: "POST", api_version:2}).then(([status, result]) => {
                     if(result?.status == '200'){
                        setShowMarkup(false);
-                       setAlertCancel({message:"bet Cancelled Successfully", status: 200})
+                       setAlertCancel({message:"bet Cancelled Successfully", status: 200});
+                       setTimeout(() => {
+                            window.location.reload()
+                        }, 2000)
                     } else {
                         setAlertCancel({message: "unable to cancel", status: 400})
                     }
@@ -143,13 +147,44 @@ const MyBets = (props) => {
                 }
             }, [alertCancel])
             const {txt} = props;
+
+            const confirmCancel = (confirm) => {
+                if(confirm == "yes"){
+                    cancelBet();
+                }
+                setShowConfirmCancel(false);
+            }
             return (
                 <>
                     {alertCancel && 
                         <div className={`show-betcancel-response alert alert-${alertCancel?.status !== 200 ? "danger" : "success" }`}>
                         {alertCancel?.message}</div>
                     }
-                    {showMarkup && <FaTrash color="rgb(255 66 131 / 96%)" size={20}  onClick={()=> cancelBet()} className="inline-block mr-3"/>}                </>
+                    {showMarkup 
+                        && 
+                        <FaTrash color="rgb(255 66 131 / 96%)" size={20}  onClick={()=> setShowConfirmCancel(true)} className="inline-block mr-3"/>}
+                        <Modal
+                            animation={true}
+                            show={showConfirmCancel}
+                            onHide={() => setShowConfirmCancel(false)}
+                            dialog className="popover-login-modal"
+                            aria-labelledby="contained-modal-title-vcenter">
+                                    <Modal.Body className=" text-center">
+                                    <div className="alert alert-warning font-[500] flex">
+                                        <MdOutlineWarning size={30} className="mr-3"/>
+                                        <div className="flex-column">
+                                            <p>Canceling this bet is not reversible.</p>
+                                            <p>Are you sure you want to cancel this Bet?</p>
+                                        </div>
+                                    </div>
+                                    <div className="mt-3">
+                                        <button className="btn btn-default btn-lg mr-3 px-5" onClick={() => confirmCancel("no")}>No</button>
+                                        <button className="btn btn-danger btn-lg px-5" onClick={()=> confirmCancel("yes")}>Yes</button>
+                                    </div>
+                                    </Modal.Body>
+                        </Modal>
+                    {/* confirm bet cancel */}
+                </>
                 )
         }
 
@@ -326,7 +361,7 @@ const MyBets = (props) => {
             <>
             <BetItemHeader />
             {
-                (userBets || []).length > 1 ?
+                (userBets || []).length > 0 ?
                     <Accordion 
                     className="accordion"
                     id="mybets-accordion"
