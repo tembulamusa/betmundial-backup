@@ -1863,6 +1863,6 @@ label {
   max-width: 130px;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 0.8;
+  /* line-height: 0.8; */
   /* height: 17px; */
 }

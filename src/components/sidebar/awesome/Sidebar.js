@@ -76,7 +76,6 @@ const ProSidebar = (props) => {
             setCompetitions(cached_competitions);
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
         }
-
         setFocusSportId(location.pathname !== "/" ? getFromLocalStorage("filtersport")?.sport_id : 79);
     };
 
