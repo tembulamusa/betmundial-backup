@@ -77,7 +77,7 @@ const ProSidebar = (props) => {
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
         }
 
-        setFocusSportId(getFromLocalStorage("filtersport")?.sport_id || 79);
+        setFocusSportId(location.pathname !== "/" ? getFromLocalStorage("filtersport")?.sport_id : 79);
     };
 
     useEffect(() => {
@@ -123,6 +123,13 @@ const ProSidebar = (props) => {
         window.addEventListener("resize", updateDimensions);
         return () => window.removeEventListener("resize", updateDimensions);
     }, [width]);
+
+    useEffect(() => {
+            if(location?.pathname == "/") {
+                removeItem("filtersport");
+                dispatch({type:"DEL", key:"filtersport"});
+            }
+        }, [location])
 
     const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
 

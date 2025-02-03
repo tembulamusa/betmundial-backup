@@ -15,7 +15,7 @@ import {Spinner} from "react-bootstrap";
 import HighlightsBoard from "./highlights-board";
 import socket from "./utils/socket-connect";
 import MatchList from './matches/index';
-import { getFromLocalStorage } from "./utils/local-storage";
+import { getFromLocalStorage, removeItem } from "./utils/local-storage";
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 
@@ -40,18 +40,21 @@ const Index = (props) => {
     // const [doPoll, setDoPoll] = useState(false);
     const [searchParams] = useSearchParams();
 
-
+    
     const fetchData = async (controlText) => {
         setFetching(true);
         let fetchcount = fetchingCount + 1;
         let filtersport = state?.filtersport || getFromLocalStorage("filtersport");
+        if(location?.pathname == "/"){
+            filtersport = null
+        }
         let pageNo = 1;
         let limitSize = limit || 200;
         let tab = 'highlights';
         let method = "GET";
         let endpoint = "/v2/sports/matches/pre-match/" 
-            + ((location.pathname !== "/" && filtersport?.sport_id 
-            || filtersport?.sport_id) || allSportId || 79) 
+            + ((location.pathname !== "/" && filtersport?.sport_id) 
+            || filtersport?.sport_id || allSportId || 79) 
             + ((filtersport && filtersport?.sport_name?.toLowerCase() !== "soccer") ? "/" 
             + filtersport?.default_market : "")  
             +"?page=" + pageNo + `&size=${limitSize}` ;
