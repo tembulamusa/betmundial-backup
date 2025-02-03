@@ -24,6 +24,9 @@ import betslip from '../right/betslip';
 import useInterval from '../../hooks/set-interval.hook';
 import MatchWidget from './match-widget';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from "react-router-dom";
+import { IoIosArrowBack } from 'react-icons/io';
+
 const clean = (_str) => {
     _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
     return _str.replace(/-+/g, '-');
@@ -226,6 +229,7 @@ const MoreMarketsHeaderRow = (props) => {
     // repeated functions should be refactored
     const socketRef = useRef(socket);
     const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}`, [match]);
+    const navigate = useNavigate();
 
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
         setMatchTime((prevTime) => {
@@ -348,7 +352,7 @@ const MoreMarketsHeaderRow = (props) => {
 
         {/* THE BETRADDER WIDGET */}
         <div className="match-detail-header panel-header primary-bg pt-3">
-           <span> <FontAwesomeIcon icon={"carret"} /> {match?.home_team} - {match?.away_team} </span>
+           <span> <a href={"#"} className="opacity-60 hover:opacity-100" onClick={(e) => { e.preventDefault(); navigate(-1); }}> <IoIosArrowBack className="inline-block" /> <span className='' style={{fontSize:"13px"}}>Back</span></a> {match?.home_team} - {match?.away_team} </span>
         </div>
         <MatchWidget parentMatchId={match?.parent_match_id}/>
         </>
@@ -1100,7 +1104,7 @@ export const MarketList = (props) => {
         return (
             <div className="px-3">
                 <ShimmerTable />
-                <Link className='font-bold hover:underline text-blue-700' to={live ? "/live" : "/matches"}>Back to {live && "live "} Matches</Link>
+                {/* <Link className='font-bold hover:underline text-blue-700' to={live ? "/live" : "/matches"}>Back to {live && "live "} Matches</Link> */}
             </div>
         )
     }
