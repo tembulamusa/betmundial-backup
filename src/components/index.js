@@ -44,9 +44,18 @@ const Index = (props) => {
     const fetchData = async (controlText) => {
         setFetching(true);
         let fetchcount = fetchingCount + 1;
+        let filtersport = state?.filtersport || getFromLocalStorage("filtersport");
+        let pageNo = page;
+        let limitSize = limit || 200;
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v2/sports/matches/" + ((location.pathname !== "/" && getFromLocalStorage("filtersport")?.sport_id || state?.filtersport?.sport_id) || allSportId || 79) + (state?.filtersport ? "/" + state?.filtersport?.default_market : "")  +"?page=" + (page || 1) + `&size=${limit || 50}` ;
+        let endpoint = "/v2/sports/matches/" 
+            + ((location.pathname !== "/" && filtersport?.sport_id 
+            || filtersport?.sport_id) || allSportId || 79) 
+            + ((filtersport && filtersport?.sport_name?.toLowerCase() !== "soccer") ? "/" 
+            + filtersport?.default_market : "")  
+            +"?page=" + pageNo + `&size=${limitSize}` ;
+
         let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";
         if(state?.filtercategory) {

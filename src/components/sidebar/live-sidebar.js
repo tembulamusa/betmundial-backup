@@ -57,7 +57,7 @@ const LiveSideBar = (props) => {
         let default_img = 'sure'
         let sport_image;
         try {
-            sport_image = topLeagues ? require(`../../assets${sport_name}`) : require(`../../assets/${folder}/${sport_name}.svg`);
+            sport_image = topLeagues ? require(`../../assets/img/flags-1-1/${sport_name}.svg`) : require(`../../assets/${folder}/${sport_name}.svg`);
         } catch (error) {
             sport_image = require(`../../assets/${folder}/${default_img}.png`);
         }
@@ -124,8 +124,14 @@ const LiveSideBar = (props) => {
                         
                             {liveSports && Object.entries(liveSports)?.map(([index, livesport]) => (
                                     <Menu iconShape="circle" className="">
-                                        <MenuItem key={`live-sidebar-item-${index}`} className={`${(location?.pathname?.includes(livesport?.sport_id)) ? "active" : ""}`}>
-                                            <div className="col-12 font-[500]" onClick={() => handleLiveSportsNavigation(livesport)}>
+                                        <MenuItem
+                                            icon = {<img
+                                                src={getSportImageIcon(livesport?.sport_name)}
+                                                alt='' className='inline-block mr-2'/>}
+                                            key={`live-sidebar-item-${index}`}
+                                            className={`${(location?.pathname?.includes(livesport?.sport_id)) ? "active" : ""}`}>
+                                            <div className="col-12 font-[500]" 
+                                            onClick={() => handleLiveSportsNavigation(livesport)}>
                                                 <Row>
                                                     <Col lg="11" md="11" sm="11" xs="11" className="topl">
                                                         <Row>

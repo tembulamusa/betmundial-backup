@@ -603,10 +603,6 @@ const MarketRow = (props) => {
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
-
-    if (market_id.toLowerCase() == "total") {
-        console.log("THE MARKET FOR COMPARING odds  ", markets)
-    }
     useEffect(() => {
         setMutableMkts(markets);
     }, []);
