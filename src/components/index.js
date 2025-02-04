@@ -27,7 +27,7 @@ const Index = (props) => {
     const [delay, setDelay] = useState(5000);
 
     const [matches, setMatches] = useState();
-    const [limit, setLimit] = useState(50);
+    const [limit, setLimit] = useState(300);
     const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(true);
     const [page, setPage] = useState(1);

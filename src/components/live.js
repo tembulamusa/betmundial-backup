@@ -18,7 +18,7 @@ const Live = (props) => {
     const [delay,  ] = useState(3000);
     const [fetching, setFetching] = useState(false)
     const {sportid, categoryid, competitionid } = useParams();
-    const [limit, setLimit] = useState(200);
+    const [limit, setLimit] = useState(300);
     const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(true);
     const [refresh, setRefresh] = useState(false);
@@ -27,7 +27,9 @@ const Live = (props) => {
     const {spid, sub_type_id} = useParams();
 
     const fetchData = () => {
-        let endpoint = "/v2/sports/matches/live/" + (spid || 79) + (`${ state?.selectedLivesport && state?.selectedLivesport?.sport_name?.toLowerCase() !== "soccer" ? "/" + state?.selectedLivesport?.default_market : ""}`) +"?page=" + (page || 1) + `&size=${limit || 200}`;
+        let endpoint = "/v2/sports/matches/live/" + (spid || 79) 
+            + (`${ state?.selectedLivesport && state?.selectedLivesport?.sport_name?.toLowerCase() !== "soccer" ? "/" 
+            + state?.selectedLivesport?.default_market : ""}`) +"?page=" + (page || 1) + `&size=${limit || 200}`;
         let method =  "GET";
         setFetching(true);
         makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
