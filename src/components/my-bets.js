@@ -87,7 +87,7 @@ const MyBets = (props) => {
         return (
             <div className={`my-bets-header`} style={Styles.headers}>
                 <div className="row uppercase">
-                    <div className="col">ID</div>
+                    <div className="col hidden md:flex">ID</div>
                     <div className="col hidden md:flex">SECTION</div>
                     <div className="col">CREATED</div>
                     <div className="col hidden md:flex">GAMES</div>
@@ -237,7 +237,7 @@ const MyBets = (props) => {
                     <Accordion.Item eventKey={"mybets-" + bet?.bet_id} onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
                         <Accordion.Header>
                             <div className="row w-full">
-                                <div className="col font-ligt">{ bet?.bet_id}</div>
+                                <div className="col hidden md:flex font-ligt">{ bet?.bet_id}</div>
                                 <div className="col hidden md:flex">{ betType}</div>
                                 <div className="col">{ bet?.created}</div>
                                 <div className="col hidden md:flex">{ bet?.total_games}</div>
@@ -252,7 +252,10 @@ const MyBets = (props) => {
                             </div>
                         </Accordion.Header>
                         <Accordion.Body>
-                            <div className="overflow-x-auto"> 
+                            <div className="overflow-x-auto">
+                                {/* mobile */}
+                                <MobileDetail bet={bet} key={`mobile-item-${bet?.bet_id}`}/>
+
                                 <table className="table w-full mt-3 mb-0">
                                     <thead>
                                         <BetslipHeader betslip={bet?.betslip} />
@@ -332,7 +335,6 @@ const MyBets = (props) => {
 
         return (
             <>
-                
                 {icon && <span className={`results-icon ${colorClass}`}>{icon}</span>}
                 {textDisp && textDisp}
             </>
@@ -347,12 +349,21 @@ const MyBets = (props) => {
                 <td className="">{ slip?.start_time}</td>
                 <td className="">{ slip?.home_team} - {slip.away_team}</td>
                 {/* <td className="hidden md:table-cell">{ slip?.odd_value}</td> */}
-                <td className="">{ slip?.market_name}</td>
+                <td className="hidden md:table-cell">{ slip?.market_name}</td>
                 <td className="">{slip?.bet_pick}{slip?.special_bet_value && `(${slip?.special_bet_value})`}</td>
                 <td className="">{ slip?.result !== null ? slip.result : "--"} <span className="md:hidden">{ gameBetStatus(slip.status)}</span></td>
                 {/* <td className="">{ slip.ft_result}</td> */}
                 <td className="hidden md:table-cell">{ gameBetStatus(slip.status)}</td>
             </tr>
+        )
+    }
+
+    const MobileDetail = ({bet, key}) => {
+
+        return (
+            <div key={key}>
+                <div>Bet ID: {bet?.bet_id}</div>
+            </div>
         )
     }
 
