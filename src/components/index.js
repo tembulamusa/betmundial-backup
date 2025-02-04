@@ -49,7 +49,7 @@ const Index = (props) => {
             filtersport = null
         }
         let pageNo = 1;
-        let limitSize = limit || 200;
+        let limitSize = limit || 300;
         let tab = 'highlights';
         let method = "GET";
         let endpoint = "/v2/sports/matches/pre-match/" 
@@ -99,7 +99,7 @@ const Index = (props) => {
 
             if (status == 200) {
                 // check for page and see if page is not the
-                setMatches((matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
+                setMatches(result?.data?.items || result) //(matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
                 setFetching(false)
                 if (result?.slip_data) {
                     setUserSlipsValidation(result?.slip_data);
