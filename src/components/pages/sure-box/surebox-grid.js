@@ -14,7 +14,7 @@ const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
     [selectedBoxes, boxOdds]
   );
 
-  console.log("Box odds", boxOdds); // Log the array to verify contents and length
+  //console.log("Box odds", boxOdds); // Log the array to verify contents and length
 
   return (
     <>

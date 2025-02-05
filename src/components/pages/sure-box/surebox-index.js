@@ -16,6 +16,7 @@ import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
 import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
 import WinGif from "../../../assets/img/casino/surebox-win.gif";
 import LostGif from "../../../assets/img/casino/surebox-unlucky.gif";
+import LostBox from "../../../assets/img/casino/lost-box.png";
 import SureBoxLogo from "../../../assets/img/casino/surebox-logo-white.png";
 
 const SureBoxIndex = () => {
@@ -36,6 +37,9 @@ const SureBoxIndex = () => {
   const [outcome, setOutcome] = useState(null);
   const [showWinGif, setShowWinGif] = useState(false);
   const [showLostGif, setShowLostGif] = useState(false);
+  const [showLostBox, setShowLostBox] = useState(false);
+  const [lostBoxPosition, setLostBoxPosition] = useState({ top: "50%", left: "50%" });
+
   
   const gamePlaySound = useRef(new Audio(GamePlaySoundFile));
   const openBoxSound = useRef(new Audio(OpenBoxSoundFile));
@@ -46,13 +50,33 @@ const SureBoxIndex = () => {
     setGameActive(false);
     setOutcome(result);
   
+    if (result === "lost") {
+      setShowLostGif(true);
+      setShowLostBox(true); 
+  
+      const interval = setInterval(() => {
+        setLostBoxPosition({
+          top: `${Math.random() * 80 + 10}%`, 
+          left: `${Math.random() * 80 + 10}%`,
+        });
+      }, 500);
+  
+      setTimeout(() => {
+        setShowLostGif(false);
+        setShowLostBox(false);
+        clearInterval(interval);
+        resetGame();
+      }, 2000);
+    }
+  
     setTimeout(() => {
-      setOutcome(null); 
+      setOutcome(null);
       if (autoRestart) {
-        startGame(); 
+        startGame();
       }
-    }, 2000); 
+    }, 2000);
   };
+  
 
   useEffect(() => {
     if (!gameActive && autoRestart) {
@@ -172,15 +196,11 @@ const SureBoxIndex = () => {
             if (!win) {
               looseSound.current.play();
               setShowLostGif(true);
-              //setOutcome("lost");
+              setShowLostBox(true); 
               handleGameEnd("lost");
-              setTimeout(() => {
-                setShowLostGif(false);
-                resetGame();
-              }, 2000);
               return;
-            }
-  
+            }            
+            
             setSelectedBoxes((prev) => [...prev, id]);
             setBets((prevBets) => [
               ...prevBets,
@@ -357,6 +377,23 @@ const SureBoxIndex = () => {
             bets={bets}
           />
         </div>
+
+        {showLostBox && (
+          <img
+            src={LostBox}
+            alt="Lost Box"
+            style={{
+              position: "absolute",
+              top: lostBoxPosition.top,
+              left: lostBoxPosition.left,
+              width: "100px",
+              height: "100px",
+              transition: "top 0.5s, left 0.5s",
+              zIndex: 1000,
+            }}
+          />
+        )}
+
       </div>
       <RandomPlayers />
     </div>

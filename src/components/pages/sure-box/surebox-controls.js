@@ -51,7 +51,7 @@ const SureBoxControls = ({
   };
 
   return (
-    <div className="surebox-controls w-full max-w-none p-4 bg-[#102f56] rounded-lg flex flex-col gap-6">
+    <div className="surebox-controls w-full max-w-none p-4 rounded-lg flex flex-col gap-6">
       {/* Auto Restart Section */}
       <div className="flex items-center justify-between">
         <label className="text-lg font-semibold text-white">Auto Restart</label>
@@ -63,7 +63,7 @@ const SureBoxControls = ({
       </div>
 
       {/* Bet Amount Section */}
-      <div className="flex items-center justify-between space-x-2 bg-[#0b121b] p-3 rounded-md border border-[#456185]">
+      <div className="flex items-center justify-between space-x-2 bg-transparent p-3 rounded-md border-2 border-[#456185]">
         {/* Reset to Minimum Button */}
         <button
           onClick={() => handleBetAmountChange(5)}
@@ -88,7 +88,7 @@ const SureBoxControls = ({
             type="number"
             value={betAmount}
             onChange={(e) => handleBetAmountChange(Number(e.target.value))}
-            className="peer text-center bg-[#0b121b] text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5a7699] w-full"
+            className="peer text-center bg-transparent text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5a7699] w-full"
             placeholder=" "
             min={5}
             step={5}
@@ -96,7 +96,7 @@ const SureBoxControls = ({
           />
           <label
             htmlFor="betAmount"
-            className="absolute left-4 top-1 transform -translate-y-1/2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-gray-500 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#5a7699] peer-focus:mt-1"
+            className="absolute left-4 top-1 transform -translate-y-1/2 text-white text-sm transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-gray-500 peer-focus:top-1 peer-focus:text-xs peer-focus:text-[#5a7699] peer-focus:mt-1"
           >
             BET AMOUNT
           </label>
@@ -125,17 +125,24 @@ const SureBoxControls = ({
       {/* Possible Win Section */}
       <div className="flex justify-between">
         <label className="text-lg font-semibold text-white">Possible Win</label>
-        <span className="text-[#5a7699] font-semibold">{possibleWin} KES</span>
+        <span className="text-[#5a7699] font-semibold">
+          {new Intl.NumberFormat('en-KE', {
+            style: 'currency',
+            currency: 'KES',
+          }).format(possibleWin)}
+        </span>
       </div>
 
       {/* Action Buttons Section */}
       <div className="flex flex-col gap-4">
-        {gameInProgress ? (
+      {gameInProgress ? (
+        <div className="w-full border-2 border-[#456185] hover:border-[#5a7699] rounded-md transition-all">
           <button
             onClick={cashOut}
-            className="w-full py-2 text-white bg-[#456185] rounded-md hover:bg-[#5a7699] transition-all flex items-center justify-center"
+            className="w-full py-2 rounded-md transition-all flex items-center justify-center 
+              text-white hover:text-[#5a7699] bg-transparent"
           >
-            Cash Out:
+            CASH OUT:
             <div className="bg-white text-black px-4 py-1 rounded-md font-semibold inline-block ml-2">
               {new Intl.NumberFormat('en-KE', {
                 style: 'currency',
@@ -143,18 +150,21 @@ const SureBoxControls = ({
               }).format(cashOutAmount)}
             </div>
           </button>
-        ) : (
+        </div>
+      ) : (
+        <div className="w-full border-2 border-[#456185] rounded-md">
           <button
             disabled
-            className="w-full py-2 text-white bg-gray-600 rounded-md cursor-not-allowed"
+            className="w-full py-2 rounded-md cursor-not-allowed text-white bg-transparent"
           >
-            Cash Out
+            CASH OUT
           </button>
-        )}
+        </div>
+      )}
 
         <button
           onClick={handleStartGame}
-          className="w-full py-2 text-white bg-custom-red rounded-md hover:opacity-90 transition-all flex items-center justify-center gap-2"
+          className="w-full py-2 text-white bg-[#456185] rounded-md hover:opacity-90 transition-all flex items-center justify-center gap-2 relative" 
         >
           {gameInProgress ? (
             <>
@@ -162,8 +172,9 @@ const SureBoxControls = ({
               <MdOutlineAddTask size={20} />
             </>
           ) : (
-            "Start Game"
+            "PLACE BET"
           )}
+          <span className="absolute bottom-0 left-1/4 w-1/2 h-[2px] bg-custom-red"></span> 
         </button>
       </div>
 
@@ -191,7 +202,7 @@ const SureBoxControls = ({
         ) : (
           <button
             disabled
-            className="w-full py-2 text-white bg-gray-600 rounded-md cursor-not-allowed"
+            className="w-full py-2 text-white bg-[#456185] rounded-md cursor-not-allowed"
           >
             No Picks yet
           </button>
@@ -211,7 +222,7 @@ const SureBoxControls = ({
           />
         </div>
         {showInstructions && (
-          <ul className="list-decimal list-inside bg-[#0b121b] text-white px-4 py-2 rounded-md border border-[#456185]">
+          <ul className="list-decimal list-inside bg-[#456185] text-white px-4 py-2 rounded-md border border-custom-red">
             <li>Click "Start Game" to begin, or enable "Auto Restart" for continuous play.</li>
             <li>Select boxes to win and multiply your winnings.</li>
             <li>Cash out or keep playing with Auto Restart for seamless rounds.</li>
