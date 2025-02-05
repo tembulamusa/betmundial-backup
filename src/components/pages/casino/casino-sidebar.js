@@ -12,6 +12,7 @@ const CasinoSidebar = (props) => {
     const loc = useLocation();
     
     const getSportImageIcon = (sport_name) => {
+        console.log('Categories', sport_name);
 
         let sport_image;
         try {
