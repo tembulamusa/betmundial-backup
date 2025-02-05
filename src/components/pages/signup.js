@@ -15,8 +15,12 @@ const Signup = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
-    const [_, dispatch] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
     const navigate = useNavigate();
+    const app_name = "desktop-web";
+    const promoName = state?.promoInfo;
+    const app = promoName ? `${app_name}:${promoName}` : app_name;
+
 
     const initialValues = {
         msisdn: '',
@@ -28,7 +32,11 @@ const Signup = (props) => {
     const handleSubmit = values => {
         let endpoint = '/v2/auth/signup';
         setIsLoading(true);
-        let data = {msisdn:values.msisdn, password: values.password}
+        let data = {
+            msisdn: values.msisdn,
+            password: values.password,
+            app_name: app,
+        };
 
         makeRequest({url: endpoint, method: 'POST', data: data, api_version:2}).then(([status, response]) => {
             setMessage(response?.message);
