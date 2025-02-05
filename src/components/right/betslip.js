@@ -265,8 +265,6 @@ const BetSlip = (props) => {
         }
 
         const updateBetslipChange = async (slip) => {
-            console.log("THE CHANGING SLIP  ", slip)
-
             let betslip = await state?.betslip;
             if (betslip && betslip[slip.match_id]){
                 await addToSlip(slip);

@@ -24,6 +24,9 @@ import betslip from '../right/betslip';
 import useInterval from '../../hooks/set-interval.hook';
 import MatchWidget from './match-widget';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from "react-router-dom";
+import { IoIosArrowBack } from 'react-icons/io';
+
 const clean = (_str) => {
     _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
     return _str.replace(/-+/g, '-');
@@ -56,7 +59,7 @@ const TimeCounter = (props) => {
     useInterval(incrementTimer, timer.mins && 1000);
 
     return (
-        timer.mins && <span className=''>{String(timer.mins).padStart(2, "0")} : {String(timer.secs).padStart(2, "0")}</span>
+        timer.mins && <span className=''>{timer.mins < 89 ? String(timer.mins).padStart(2, "0") : "90:00+"} {timer.mins < 89 && " : " + String(timer.secs).padStart(2, "0")}</span>
     )
 
 }
@@ -140,6 +143,12 @@ const MatchHeaderRow = (props) => {
         first_match && <Container className={`${live && 'live'} full-mobile sticky-top`} style={{ position: "sticky" }}>
             <div className={`${jackpot && 'jackpot-zero-top'} top-matches d-flex position-sticky sticky-top `}
                 style={{ opacity: "1", top: "100px", height: "" }}>
+                
+                <div className={'col-2 col-xs-12 match-detail-container'} key="d4">
+                    <span className='text-gray-500 font-bold'>
+                        {sportName}
+                    </span>
+                </div>
                 <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="d5">
                     <div className="align-self-center col">
 
@@ -154,15 +163,10 @@ const MatchHeaderRow = (props) => {
                         </h3> */}
                     </div>
                 </div>
-                <div className={'col-2 col-xs-12 match-detail-container'} key="d4">
-                    <span className='md:hidden text-gray-500 font-bold'>
-                        {sportName}
-                    </span>
-                </div>
                 <div className={`${jackpot ? "is-jackpot-buttons" : ""} col ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row justify-content-between' : "single-market-container"}`}>
                     {
-                        <div className={`markets-header ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "single-market-content"}`} key="d3">
-                            <div className={`d-flex flex-column text-center ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "!pr-0"}`}>
+                        // <div className={``} key="d3">
+                            <div className={`${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "single-market-content"} d-flex flex-column text-center ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "!pr-0"}`}>
                                 <div className={'bold hidden md:block'}>
                                     <span>{three_way ? "3 WAY" : "Winner"}</span>
                                 </div>
@@ -172,12 +176,11 @@ const MatchHeaderRow = (props) => {
                                     <a className="c-btn-header" href='#/'>2</a>
                                 </div>
                             </div>
-                        </div>
+                        // </div>
                     }
                     {(!jackpot && sportName?.toLowerCase() == "soccer" && first_match) && (
-                        <div className='hidden md:flex flex-row'>
-                            {extraMarketDisplays?.map((extra_market) => (
-                                <div className={'d-flex flex-column'} key={extra_market.name}>
+                            extraMarketDisplays?.map((extra_market) => (
+                                <div className={`d-flex flex-column ${extra_market?.id == 18 ? "pr-0" : ""}`} key={extra_market.name}>
                                     <span className={'small text-center text-uppercase bold'}>
                                         {extra_market.name}
                                     </span>
@@ -194,8 +197,7 @@ const MatchHeaderRow = (props) => {
                                             </a>}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            ))
                     )}
                     <div
                         className="bet-fix events-odd pad undefined align-self-center more-markets-container m-lg-2 col-3">
@@ -227,6 +229,7 @@ const MoreMarketsHeaderRow = (props) => {
     // repeated functions should be refactored
     const socketRef = useRef(socket);
     const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}`, [match]);
+    const navigate = useNavigate();
 
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
         setMatchTime((prevTime) => {
@@ -349,7 +352,7 @@ const MoreMarketsHeaderRow = (props) => {
 
         {/* THE BETRADDER WIDGET */}
         <div className="match-detail-header panel-header primary-bg pt-3">
-           <span> <FontAwesomeIcon icon={"carret"} /> {match?.home_team} - {match?.away_team} </span>
+           <span> <a href={"#"} className="opacity-60 hover:opacity-100" onClick={(e) => { e.preventDefault(); navigate(-1); }}> <IoIosArrowBack className="inline-block" /> <span className='' style={{fontSize:"13px"}}>Back</span></a> {match?.home_team} - {match?.away_team} </span>
         </div>
         <MatchWidget parentMatchId={match?.parent_match_id}/>
         </>
@@ -425,7 +428,7 @@ const OddButton = (props) => {
     }, [updateOddValue]);
 
     const updatePickedChoices = () => {
-        let betslip = state?.[betslip_key]
+        let betslip = getFromLocalStorage("betslip") || state?.[betslip_key]
         let uc = clean(
             match.match_id
             + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
@@ -583,16 +586,27 @@ const teamScore = (allscore, is_home_team) => {
     if (is_home_team == false) {
         score = awayScore
     }
-    return score;
+    let convertedScore = function () {try {
+            let intScore = parseInt(score);
+            if (!isNaN(intScore)){
+                return intScore
+            } else {
+                return "-"
+            }
+        } catch (err) {
+            return "-"
+        }
+        
+    }
+    return convertedScore();
 }
 
 const MarketRow = (props) => {
     const { markets, match, market_id, width, live, pdown, marketDetail } = props;
-    const [mutableMkts, setMutableMkts] = useState([...markets.sort((a, b) => a.outcome_id - b.outcome_id)]);
+    const [mutableMkts, setMutableMkts] = useState([...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]);
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
-
     useEffect(() => {
         setMutableMkts(markets);
     }, []);
@@ -733,6 +747,7 @@ const MatchRow = (props) => {
         pdown,
         three_way,
         jackpotstatus,
+        setReload,
         subTypes } = props;
 
     const [state, dispatch] = useContext(Context);
@@ -746,6 +761,13 @@ const MatchRow = (props) => {
     // if(match?.odds?.home_odd_active) {
     //     match.odds.home_odd_active = 1
     // }
+    
+
+    useEffect(()=>{
+        if (["ended", "deactivated", "abandoned"].includes?.updatedMatchStatus?.toLowerCase()) {
+            setReload(true);
+        }
+    }, [updatedMatchStatus])
 
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
         setUpdatedMatchTime((prevTime) => {
@@ -787,13 +809,14 @@ const MatchRow = (props) => {
 
         // manage game socket data
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
-            // console.log("DATA LOGGED FOR GAME SOCKET DETAIL  ;:: ", data);
 
             setUpdatedMatchScore((prevScore) => {
                 return data.score
             });
             setUpdatedMatchStatus((prevStatus) => {
                 return data.match_status
+                console.log("THE MATCH STATUS  ", data.match_status)
+
             });
 
             updateMatchTimeMinutesAndSeconds(data.match_time);
@@ -840,7 +863,6 @@ const MatchRow = (props) => {
 
             });
         }, [])
-
 
         return (
             <>
@@ -904,15 +926,26 @@ const MatchRow = (props) => {
                         {(live && (Date.parse(match?.start_time) > Date.now() && !match?.match_time)) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime={match?.start_time} /></div>}
 
                         <span className={'small'}>
-                            {(live && match?.match_status)
-                                ? <span className='font-[500] uppercase'>{match?.match_status}
-                                    <span className='text-red-500 ml-2'>
-                                        <TimeCounter minutes={updatedMatchTime?.minutes} seconds={updatedMatchTime?.seconds} />
-                                    </span>
-                                </span>
+                            {(live && (updatedMatchStatus || match?.match_status))
+                                ?
+                                <span className='font-[500] uppercase'>{updatedMatchStatus || match?.match_status}</span>
                                 : match?.start_time}
                         </span>
-                        <>ID: {match?.match_id}</>
+                        {
+                        !live 
+                        ?
+                        <>ID:  {match?.game_id} </>
+                        : 
+                        <span className='text-red-500 ml-2'>
+                            {updatedMatchTime?.minutes == 90 
+                            ?
+                                "90:00+" 
+                            :
+                                <TimeCounter minutes={updatedMatchTime?.minutes} seconds={updatedMatchTime?.seconds} />
+                            }
+                            
+                        </span>
+                        }
                     </div>
                 </div>
                 
@@ -1071,7 +1104,7 @@ export const MarketList = (props) => {
         return (
             <div className="px-3">
                 <ShimmerTable />
-                <Link className='font-bold hover:underline text-blue-700' to={live ? "/live" : "/matches"}>Back to {live && "live "} Matches</Link>
+                {/* <Link className='font-bold hover:underline text-blue-700' to={live ? "/live" : "/matches"}>Back to {live && "live "} Matches</Link> */}
             </div>
         )
     }
@@ -1112,19 +1145,9 @@ export const MarketList = (props) => {
                     return (["active", "suspended", ""].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) &&
                         <MarketRow
                             market_id={mkt_id}
-                            markets={markets?.outcomes?.sort((a, b) => {
-                                let asbv = a.special_bet_value;
-                                let bsbv = b.special_bet_value;
-                                let aoid = a.outcome_id;
-                                let boid = b.outcome_id;
-
-                                // If first value is same
-                                if (asbv == bsbv) {
-                                    return (asbv < bsbv) ? -1 : (aoid > boid) ? 1 : 0;
-                                } else {
-                                    return (asbv < bsbv) ? -1 : 1;
-                                }
-                            })}
+                            markets={markets?.outcomes?.sort((a, b) => 
+                                a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
+                             )}
                             width={markets.outcomes.length == 3 ? "33.333%" : "50%"}
                             match={matchwithmarkets}
                             marketDetail={markets}
@@ -1231,6 +1254,7 @@ const MatchList = (props) => {
         pdown,
         three_way,
         fetching,
+        setReload,
         subTypes,
         fetchingcount
     } = props;
@@ -1260,6 +1284,7 @@ const MatchList = (props) => {
                             key={match?.parent_match_id}
                             live={live}
                             pdown={pdown}
+                            setReload={setReload}
                             three_way={three_way}
                             sub_types={subTypes} />
                     ))

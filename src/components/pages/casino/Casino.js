@@ -36,9 +36,9 @@ const Casino = (props) => {
             
         } else if (filterType === "providers") {
             if (state?.casinogamesfilter?.provider) {
-                endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`;
+                endpoint = `provider/all-games/${state?.casinogamesfilter?.provider?.id}`;
             } else {
-                endpoint = `provider/games-list/n/${filterName}`;
+                endpoint = `provider/all-games/n/${filterName}`;
 
             }
         }

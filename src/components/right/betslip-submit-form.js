@@ -56,16 +56,16 @@ const BetslipSubmitForm = (props) => {
     const rebet = async() => {
         // check for the betslip to be reloaded
         if (state?.jackpotrebetslip) {
-            
             dispatch({type:"SET", key:"jackpotbetslip", payload: state?.jackpotrebetslip});
             setLocalStorage('jackpotbetslip', state?.jackpotrebetslip, 1*60*60*1000);
             dispatch({type:"DEL", key:"jackpotrebetslip"});
 
 
         } else {
-            dispatch({type:"SET", key:"betslip", payload: state?.rebetslip});
+            dispatch({type:"SET", key:"betslip", payload: state?.rebetslip});            
             setLocalStorage('betslip', state?.rebetslip, 1*60*60*1000);
-            dispatch({type:"DEL", key:"rebetslip"})
+            dispatch({type:"DEL", key:"rebetslip"});
+            // window.location.href = '/'
         }
 
     }
@@ -185,7 +185,6 @@ const BetslipSubmitForm = (props) => {
             return;
         }
 
-        console.log("THE IP ADDREEE SSSSSS ", ipInfo)
         let payload = {
             bet_string: 'web',
             app_name: 'desktop',
@@ -418,7 +417,7 @@ const BetslipSubmitForm = (props) => {
                             <tbody>
                             {!jackpot && <tr className="hide-on-affix">
                                 <td className='opacity-60 py-3'>TOTAL ODDS</td>
-                                <td className=' py-3 text-right'>
+                                <td className=' py-3 text-right pr-2'>
                                     <b>{Float(totalOdds, 2)}</b>
                                 </td>
                             </tr>}
@@ -439,7 +438,7 @@ const BetslipSubmitForm = (props) => {
                             </tr>
                             <tr>
                                 <td className='opacity-70 py-2'>AMOUNT(ksh)</td>
-                                <td className='py-2 text-right'>
+                                <td className='py-2 text-right pr-2'>
                                     <div id="betting">
                                         {jackpot ?
                                             jackpotData?.bet_amount :
@@ -460,7 +459,7 @@ const BetslipSubmitForm = (props) => {
                             </tr>
                             {!jackpot && <tr className="bet-win-tr hide-on-affix">
                                 <td className='opacity-70 py-2'>Stake after tax</td>
-                                <td className='text-right py-2'>
+                                <td className='text-right py-2 pr-2'>
                                     KSH. <span
                                     id="pos_win">{formatNumber(stakeAfterTax)}</span>
                                 </td>
@@ -468,7 +467,7 @@ const BetslipSubmitForm = (props) => {
 
                             <tr className="bet-win-tr hide-on-affix">
                                 <td className='opacity-70 pb-4'> Excise Tax (12.5%)</td>
-                                <td className='text-right pb-4'>KSH. <span id="tax">{formatNumber(exciseTax)} </span></td>
+                                <td className='text-right pb-4 pr-2'>KSH. <span id="tax">{formatNumber(exciseTax)} </span></td>
                             </tr>
                             </tbody>
                         </table>
@@ -484,21 +483,21 @@ const BetslipSubmitForm = (props) => {
                                     <>
                                         <tr className="in-blue-highlight secondary-text">
                                             <td className='py-3 px-3'>Bonus</td>
-                                            <td className='text-right py-3 px-2'>KES. <span id="tax">{0/*formatNumber(withholdingTax)*/}</span></td>
+                                            <td className='text-right py-3 px-3'>KES. <span id="tax">{0/*formatNumber(withholdingTax)*/}</span></td>
                                         </tr>
                                         <tr className="bet-win-tr hide-on-affix opacity-70">
                                             <td className='px-3'> Win</td>
-                                            <td className='text-right px-2'>KES. <span id="tax">{formatNumber(possibleWin)}</span></td>
+                                            <td className='text-right px-3'>KES. <span id="tax">{formatNumber(possibleWin)}</span></td>
                                         </tr>
                                         <tr className="bet-win-tr hide-on-affix opacity-70">
                                             <td className='px-3'> Withholding (20%)</td>
-                                            <td className='text-right px-2'>KES. <span id="tax">{formatNumber(withholdingTax)}</span></td>
+                                            <td className='text-right px-3'>KES. <span id="tax">{formatNumber(withholdingTax)}</span></td>
                                         </tr>
                                     </>
                                 )}
                                 <tr className="bet-win-tr hide-on-affix">
                                     <td className='py-2 px-3'>{'possible payout'}</td>
-                                    <td className='px-2 text-right py-2'>KSH. <span
+                                    <td className='px-3 text-right py-2'>KSH. <span
                                         id="net-amount">{formatNumber(jackpot ? jackpotData?.jackpot_amount : Float((netWin), 2))}</span></td>
                                 </tr>
                                 <tr>
@@ -508,7 +507,7 @@ const BetslipSubmitForm = (props) => {
                                                 onClick={() => handleRemoveAll()}>REMOVE ALL
                                         </button>
                                     </td>
-                                    <td className='px-2 py-3'>
+                                    <td className='px-3 py-3'>
                                         { (!jackpot || (jackpot && Object.entries(state?.[betslipkey] || []).length == JSON.stringify(jackpotData?.total_games))) &&
                                             <SubmitButton id="place_bet_button"
                                                 disabled={jackpot && Object.entries(state?.[betslipkey] || []).length != JSON.stringify(jackpotData?.total_games)}

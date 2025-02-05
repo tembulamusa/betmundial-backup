@@ -6,7 +6,7 @@ import { Context } from "../../../context/store";
 const tierColors = [
   { name: "BRONZE", text: "text-gray-100", bg: "bg-black-800", desc: "bronze" },
   { name: "SILVER", text: "text-gray-100", bg: "bg-black-900", desc: "silver" },
-  { name: "GOLD", text: "text-gray-100", bg: "bg-black-800", desc: "gold" }, 
+  { name: "GOLD", text: "text-gray-100", bg: "bg-black-800", desc: "gold" },
   { name: "PLATINUM", text: "text-gray-100", bg: "bg-black-900", desc: "platinum" },
 ];
 
@@ -68,7 +68,7 @@ const CasinoJackpots = () => {
 
   return (
     <section className="p-6 bg-primary text-white w-full">
-      <h2 className="text-left text-3xl text-custom-red font-bold mb-4">Casino Jackpots</h2>
+      <h2 className="text-left text-3xl text-custom-orange font-bold mb-4">Casino Jackpots</h2>
       <div className="relative flex justify-center items-center w-full">
         {/* Navigation Arrows on Mobile */}
         {/* <button
@@ -96,8 +96,8 @@ const CasinoJackpots = () => {
                   </div>
                 }
                 arrow
-                disableInteractive={true} 
-                enterTouchDelay={0} 
+                disableInteractive={true}
+                enterTouchDelay={0}
                 PopperProps={{
                   modifiers: [
                     {
@@ -112,9 +112,9 @@ const CasinoJackpots = () => {
                 <div
                   className={`p-4 rounded-lg border-2 ${tier.bg} ${tier.text} transition-all duration-500 cursor-pointer shadow-lg
                     ${isActive ? `${tier.desc}-bg` : "primary-color"}
-                    w-full sm:w-[calc(100%-1rem)] md:w-[calc(50%-1rem)] lg:w-[calc(25%-1rem)] mx-2`}  
+                    w-full sm:w-[calc(100%-1rem)] md:w-[calc(50%-1rem)] lg:w-[calc(25%-1rem)] mx-2`}
                 >
-                  <p className="text-lg font-semibold">{ tier.name || jackpot.name }</p>
+                  <p className="text-lg font-semibold">{tier.name || jackpot.name}</p>
                   <p className="text-2xl font-bold">
                     KES {jackpot.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                   </p>

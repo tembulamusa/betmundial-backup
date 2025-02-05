@@ -62,7 +62,7 @@ const ProSidebar = (props) => {
         // get all categories
         let endpoint2 = "/v2/sports";
         let cached_competitions = getFromLocalStorage('categories');
-        if (!cached_competitions || cached_competitions.length < 1) {
+        if (!cached_competitions || cached_competitions?.length < 1) {
             const [competition_result] = await Promise.all([
                 makeRequest({url: endpoint2, method: "get", api_version:2}),
             ]);
@@ -72,30 +72,19 @@ const ProSidebar = (props) => {
                 setLocalStorage('categories', c_result?.data,  3 * 60 * 60 * 1000);
                 dispatch({type:"SET", key:"categories", payload:c_result});
             }
-            //  else {
-            //     Notify({status: 400, message: "Sport categories not found"});
-            // }
         } else {
             setCompetitions(cached_competitions);
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
         }
-
-        setFocusSportId(getFromLocalStorage("filtersport")?.sport_id || 79);
+        setFocusSportId(location.pathname !== "/" ? getFromLocalStorage("filtersport")?.sport_id : 79);
     };
 
     useEffect(() => {
         let currentlySelectedSport  = getFromLocalStorage("filtersport");
         if (currentlySelectedSport) {
             dispatch({type:"SET", key: "filtersport", payload: currentlySelectedSport})
-        } else {
-            fetchData();
-
         }
-        const abortController = new AbortController();
-
-        return () => {
-            abortController.abort();
-        };
+        fetchData();
     }, []);
 
     const [width, setWidth] = useState(window.innerWidth);
@@ -133,6 +122,13 @@ const ProSidebar = (props) => {
         window.addEventListener("resize", updateDimensions);
         return () => window.removeEventListener("resize", updateDimensions);
     }, [width]);
+
+    useEffect(() => {
+            if(location?.pathname == "/") {
+                removeItem("filtersport");
+                dispatch({type:"DEL", key:"filtersport"});
+            }
+        }, [location])
 
     const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
 
@@ -244,52 +240,7 @@ const ProSidebar = (props) => {
                  className={`vh-100 sticky-top d-none d-md-block up col-md-2`}>
 
                     {!competitions &&
-                    <Sidebar
-                    style={{backgroundColor: '#16202c !important'}}
-                    image={false}
-                    onToggle={handleToggleSidebar}
-                    collapsed={collapsed}
-                    toggled={toggled}>
-                        <Menu iconShape="circle">
-                            {gameCategories?.map((competition, index) => (
-                                    <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name == "Soccer"}
-                                        icon={<img style={{borderRadius: '50%', height: '30px'}}
-                                                    src={getSportImageIcon(competition.sport_name)} alt=''/>}
-                                        label={competition.sport_name}
-                                        className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football', 'gaelic hurling', 'gaelic football'].includes(competition?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
-                                        key={index}>
-                                {/* <SubMenu title={'Countries'}
-                                             style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}
-                                        <PerfectScrollbar >
-                                        
-                                        {/* For soccer, let's have the top soccer leagues here as well */}
-                                        {
-                                            competition.sport_name =="Soccer"
-                                            &&
-                                            competitions?.top_soccer?.map ((league, idx) => (
-                                                <MenuItem
-                                                    title={league.competition_name}
-                                                    // label = {country.category_name}
-                                                    key={league?.competition_id}
-                                                    icon = {<img style={{borderRadius: '1px', height: '13px', width:"13px" }}
-                                                    src={getSportImageIcon(league?.flag_icon, 'img/flags-1-1', true)}
-                                                    alt='' className='inline-block mr-2'/>}
-                                                    >
-                                                        <Link className={`sidebar-link ${(queryParamValue == league.competition_id) && 'active'}`} to={`/sports/competition/matches?id=${league.competition_id}`}
-                                                            onClick={() => changeMatches("competition", league)}>
-                                                            <span>{league?.competition_name}</span>
-                                                        </Link>
-                                                </MenuItem>
-                                            ))
-                                        
-                                        }
-                                        
-                                        </PerfectScrollbar >
-                                { /* </SubMenu> */}
-                                </SubMenu>
-                            ))}
-                        </Menu>
-                </Sidebar>
+                    <>All Sports</>
                 }
 
                 {/* The new  */}

@@ -15,7 +15,7 @@ import {Spinner} from "react-bootstrap";
 import HighlightsBoard from "./highlights-board";
 import socket from "./utils/socket-connect";
 import MatchList from './matches/index';
-import { getFromLocalStorage } from "./utils/local-storage";
+import { getFromLocalStorage, removeItem } from "./utils/local-storage";
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
 
@@ -27,7 +27,7 @@ const Index = (props) => {
     const [delay, setDelay] = useState(5000);
 
     const [matches, setMatches] = useState();
-    const [limit, setLimit] = useState(50);
+    const [limit, setLimit] = useState(300);
     const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(true);
     const [page, setPage] = useState(1);
@@ -40,13 +40,24 @@ const Index = (props) => {
     // const [doPoll, setDoPoll] = useState(false);
     const [searchParams] = useSearchParams();
 
-
+    
     const fetchData = async (controlText) => {
         setFetching(true);
         let fetchcount = fetchingCount + 1;
+        let filtersport = state?.filtersport || getFromLocalStorage("filtersport");
+        if(location?.pathname == "/"){
+            filtersport = null
+        }
+        let pageNo = 1;
+        let limitSize = limit || 300;
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v2/sports/matches/" + ((location.pathname !== "/" && getFromLocalStorage("filtersport")?.sport_id || state?.filtersport?.sport_id) || allSportId || 79) + (state?.filtersport ? "/" + state?.filtersport?.default_market : "")  +"?page=" + (page || 1) + `&size=${limit || 50}` ;
+        let endpoint = "/v2/sports/matches/pre-match/" 
+            + ((location.pathname !== "/" && filtersport?.sport_id) 
+            || filtersport?.sport_id || allSportId || 79) 
+            + ((filtersport && filtersport?.sport_name?.toLowerCase() !== "soccer") ? "/" 
+            + filtersport?.default_market : "")  
+            +"?page=" + pageNo + `&size=${limitSize}` ;
 
         let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";
@@ -70,7 +81,7 @@ const Index = (props) => {
             // }
         }
         if (search_term && search_term.length >= 3) {
-            endpoint = `/v2/matches?limit=10&search=${search_term}`;
+            endpoint = `/v2/matches/pre-match?limit=10&search=${search_term}`;
         } 
         // else {
         //     if(state?.filtercompetition ) {
@@ -88,7 +99,7 @@ const Index = (props) => {
 
             if (status == 200) {
                 // check for page and see if page is not the
-                setMatches((matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
+                setMatches(result?.data?.items || result) //(matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
                 setFetching(false)
                 if (result?.slip_data) {
                     setUserSlipsValidation(result?.slip_data);
