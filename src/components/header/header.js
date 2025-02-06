@@ -51,11 +51,12 @@ const Header = (props) => {
       
         await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([_status, response]) => {
             if (_status == 200) {
-                console.log("UPDATED USER BALANCE   :::::  ", response)
                 let u = {...user, ...response?.data, bonus_balace: response?.data?.bonus};
                 let prevUser = user;
                 setLocalStorage('user', u);
-                setUser(u);
+                if(!state?.iscoinrotating){
+                    setUser(u);
+                }
                 // check if still on deposit page and if has next url and navigate
                 if(parseInt(prevUser?.balance) < parseInt(response?.data?.balance)){
                     nextNavigate();
@@ -65,7 +66,9 @@ const Header = (props) => {
         });
     };
 
-    useInterval(updateUserOnHistory, 3000);
+    useInterval(() => 
+        updateUserOnHistory()
+        , 3000);
     
     const nextNavigate = () => {
         const path = location.pathname
