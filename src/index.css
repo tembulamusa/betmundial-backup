@@ -1681,8 +1681,8 @@ label {
 
 .no-bet-btn:hover, button.no-bet-btn, button.no-bet-btn:hover, .no-bet-btn, button.locked-button, .locked-button, button.locked-button:hover {
   background-color: #dddddd !important;
-  min-width: 50px;
-  min-height: 40px;
+  min-width: 56px;
+  min-height: 48px;
   text-align: center;
   opacity: 0.4;
   color: #666666 !important;

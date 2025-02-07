@@ -15598,8 +15598,8 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
     border-radius: 0;
     border: none;
     border: 1px solid #ddd !important;
-    width: 50px !important;
-    height: 40px !important;
+    width: 56px !important;
+    height: 48px !important;
     line-height: 30px;
 }
 
