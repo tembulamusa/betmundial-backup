@@ -37,6 +37,7 @@ const CasinoLaunchedGame = (props) => {
         dispatch({type: "SET", key:"iscasinopage", payload: true});
         // check for game that is currently loaded on local storage
         if(provider.toLowerCase() == "eurovirtuals") {
+            dispatch({type:"SET", key:"casinolaunch", payload: {launched:true}});
             getEurovirtualsLaunchUrl()
         } else {
 
@@ -49,7 +50,7 @@ const CasinoLaunchedGame = (props) => {
             
         }
         
-        if (fullScreens.includes(launchedGame?.game?.provider_name?.toLowerCase())) {
+        if (fullScreens.includes(launchedGame?.game?.provider_name?.toLowerCase() || "")) {
             // let dga = xlg;
             // dga.connect("prelive-dga0.pragmaticplaylive.net")
             
