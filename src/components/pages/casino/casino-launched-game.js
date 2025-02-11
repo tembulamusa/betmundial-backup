@@ -37,7 +37,7 @@ const CasinoLaunchedGame = (props) => {
         dispatch({type: "SET", key:"iscasinopage", payload: true});
         // check for game that is currently loaded on local storage
         if(provider.toLowerCase() == "eurovirtuals") {
-            dispatch({type:"SET", key:"casinolaunch", payload: {launched:true}});
+            dispatch({type:"SET", key:"casinolaunch", payload: {game: "", url: ""}});
             getEurovirtualsLaunchUrl()
         } else {
 
