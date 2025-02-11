@@ -134,16 +134,18 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item> */}
             
-            {/* <Carousel.Item >
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Nine}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
-            </Carousel.Item> */}
+            <Carousel.Item >
+                <Link to={"/casino-game/smartsoft/jetx"}>
+                    <img
+                        className="d-block w-100"
+                        style={{display: imageLoaded ? 'block' : 'none'}}
+                        src={Nine}
+                        onLoad={onImageLoaded}
+                        alt="surebet"
+                        effects="blur"
+                    />
+                </Link>
+            </Carousel.Item>
             
             <Carousel.Item >
                 <Link to={"/casino-game/aviatrix/aviatrix"}>
