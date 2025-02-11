@@ -63,6 +63,7 @@ const BigIconMenu = () => {
                     dispatch({type:"SET", key:"showloginmodal", payload: true})
                     return
                 } else {
+                    dispatch({type:"SET", key:"casinolaunch", payload: {game: "", url: ""}});
                     navigate(`/casino-game/eurovirtuals/virtual-league`);
                 }
             }else {
