@@ -316,6 +316,29 @@ const SureBoxIndex = () => {
     };
   }, [userMuted]);
 
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        gamePlaySound.current.muted = true;
+        openBoxSound.current.muted = true;
+        looseSound.current.muted = true;
+        winSound.current.muted = true;
+      } else {
+        gamePlaySound.current.muted = userMuted;
+        openBoxSound.current.muted = userMuted;
+        looseSound.current.muted = userMuted;
+        winSound.current.muted = userMuted;
+      }
+    };
+  
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+  
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [userMuted]);
+  
+
   return (
     <div className="surebox-container">
       <div className="surebox-section">
@@ -382,15 +405,8 @@ const SureBoxIndex = () => {
           <img
             src={LostBox}
             alt="Lost Box"
-            style={{
-              position: "absolute",
-              top: lostBoxPosition.top,
-              left: lostBoxPosition.left,
-              width: "100px",
-              height: "100px",
-              transition: "top 0.5s, left 0.5s",
-              zIndex: 1000,
-            }}
+            className="surebox-lost-box"
+            style={{ top: lostBoxPosition.top, left: lostBoxPosition.left }}
           />
         )}
 
