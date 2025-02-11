@@ -88,7 +88,10 @@ const Header = (props) => {
             if (_status == 200) {
                 let u = {...user, ...response?.data, bonus_balace: response?.data?.bonus};
                 let prevUser = user;
-                if (u !== user){setUser(u);}
+                setLocalStorage('user', u);
+                if(!state?.iscoinrotating){
+                    setUser(u);
+                }
                 // check if still on deposit page and if has next url and navigate
                 if(parseInt(prevUser?.balance) < parseInt(response?.data?.balance)){
                     nextNavigate();

@@ -42,8 +42,11 @@ const SureCoinIndex = (props) => {
     useEffect(() => {
         if (runCoinSpin) {
             placeBet(nextSession);
+            dispatch({type:"SET", key:"iscoinrotating", payload:true})
 
-        }        
+        } else {
+            dispatch({type:"DEL", key:"iscoinrotating"})
+        }   
         
     }, [runCoinSpin]);
 

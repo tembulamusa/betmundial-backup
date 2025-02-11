@@ -32,7 +32,7 @@ const CasinoGame = (props) => {
         }
 
         await makeRequest({url: endpoint,  method: "GET", api_version:'CasinoGameLaunch'}).then(([status, result]) => {
-            if (status == 200) {
+            if (status == 200 && result?.tea_pot == null) {
                 let launchUrl = result?.game_url || result?.gameUrl;
                 dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: launchUrl}});
                 setLocalStorage("casinolaunch", {game: game, url: launchUrl})
