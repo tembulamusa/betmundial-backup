@@ -4,7 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Context } from "../../context/store";
 import DefaultImg from "../../assets/img/casino/icons/default.svg";
-import { setLocalStorage } from "../utils/local-storage";
+import { getFromLocalStorage, setLocalStorage } from "../utils/local-storage";
 
 
 const BigIconMenu = () => {
@@ -58,7 +58,14 @@ const BigIconMenu = () => {
         if(filterName == "provider") {
             if(filterItem?.name.toLowerCase() == "surecoin") {
                navigate("/surecoin") 
-            } else {
+            } else if (filterItem?.name.toLowerCase() == "eurovirtuals") {
+                if(!getFromLocalStorage("user")){
+                    dispatch({type:"SET", key:"showloginmodal", payload: true})
+                    return
+                } else {
+                    navigate(`/casino-game/eurovirtuals/virtual-league`);
+                }
+            }else {
                 setLocalStorage("casinogamesfilter", payload);
                 dispatch({type:"SET", key:"casinogamesfilter", payload: payload});
                 navigate(`/casino/providers/${filterItem?.name}`);
