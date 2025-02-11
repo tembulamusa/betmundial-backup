@@ -1679,7 +1679,13 @@ label {
   background-size: 100% 100%;
 }
 
-.no-bet-btn:hover, button.no-bet-btn, button.no-bet-btn:hover, .no-bet-btn, button.locked-button, .locked-button, button.locked-button:hover {
+.no-bet-btn:hover,
+button.no-bet-btn,
+button.no-bet-btn:hover,
+.no-bet-btn,
+button.locked-button,
+.locked-button,
+button.locked-button:hover {
   background-color: #dddddd !important;
   min-width: 56px;
   min-height: 48px;
