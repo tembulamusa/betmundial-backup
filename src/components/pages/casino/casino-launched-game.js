@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
-import { getFromLocalStorage } from "../../utils/local-storage";
-import { useNavigate } from "react-router-dom";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
+import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineClose } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import useInterval from "../../../hooks/set-interval.hook";
+import { isMobile } from "react-device-detect";
+import makeRequest from "../../utils/fetch-request";
 
 const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -12,18 +14,37 @@ const CasinoLaunchedGame = (props) => {
     const user = getFromLocalStorage("user");
     const [showPreload, setShowPreload] = useState(true);
     const launchedGame = getFromLocalStorage("casinolaunch");
+    const [noStateGame, setNoStateGame] = useState();
     const fullScreens = ["aviatrix"];
+    const {provider, gameName} = useParams();
 
+
+
+    const getEurovirtualsLaunchUrl = async () => {
+
+        let endpoint = `Eurovirtuals/casino/game-url/${isMobile ? "mobile": "desktop"}/${1}/${"550e8400-e29b-41d4-a716-446655440000"}`;
+
+        await makeRequest({url: endpoint,  method: "GET", api_version:'CasinoGameLaunch'}).then(([status, result]) => {
+            if (status == 200) {
+                setNoStateGame(result?.gameUrl || result?.game_url);
+            } else {
+                navigate("/casino")
+            }
+        });
+    }
     useEffect(() => {
         // Balance polling fxn
         dispatch({type: "SET", key:"iscasinopage", payload: true});
         // check for game that is currently loaded on local storage
+        if(provider.toLowerCase() == "eurovirtuals") {
+            getEurovirtualsLaunchUrl()
+        } else {
+
+        }
         if(!state?.casinolaunch) {
             if (user?.token) {
                 let storedCasino = getFromLocalStorage("casinolaunch");                
                 dispatch({type:"SET", key:"casinolaunch", payload: storedCasino});
-            } else {
-                navigate("/casino")
             }
             
         }
@@ -56,7 +77,7 @@ const CasinoLaunchedGame = (props) => {
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
                     width="100%"
                     height="100%"
-                    src={state?.casinolaunch?.url ? state?.casinolaunch?.url : ""}
+                    src={provider.toLowerCase() == "eurovirtuals" ? noStateGame :  state?.casinolaunch?.url ? state?.casinolaunch?.url : ""}
                     >
                 </iframe>
             </div>
