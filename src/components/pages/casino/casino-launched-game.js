@@ -50,7 +50,7 @@ const CasinoLaunchedGame = (props) => {
             
         }
         
-        if (fullScreens.includes(launchedGame?.game?.provider_name?.toLowerCase() || "")) {
+        if (fullScreens.includes(launchedGame?.game?.provider_name?.toLowerCase()) || provider.toLowerCase() == "eurovirtuals") {
             // let dga = xlg;
             // dga.connect("prelive-dga0.pragmaticplaylive.net")
             
