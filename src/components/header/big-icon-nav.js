@@ -89,7 +89,7 @@ const BigIconMenu = () => {
                         >
                             <span title={provider?.name}>
                                 <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${provider?.name?.toLowerCase()}.svg`, "casino")} alt={provider?.name} /></div>
-                                <div className="big-icon-name">{provider.name}</div>
+                                <div className="big-icon-name">{provider.name == 'Eurovirtuals'?'Ligi Sure':provider.name}</div>
                             </span>
                         </li>
                     )
