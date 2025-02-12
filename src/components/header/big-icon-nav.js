@@ -66,6 +66,7 @@ const BigIconMenu = () => {
                     // dispatch({type:"SET", key:"casinolaunch", payload: {game: "", url: ""}});
                     // navigate(`/casino-game/eurovirtuals/virtual-league`);
                     window.location.href = `/casino-game/eurovirtuals/virtual-league`;
+
                 }
             }else {
                 setLocalStorage("casinogamesfilter", payload);
