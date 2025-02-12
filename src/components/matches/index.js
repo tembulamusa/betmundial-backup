@@ -815,7 +815,6 @@ const MatchRow = (props) => {
             });
             setUpdatedMatchStatus((prevStatus) => {
                 return data.match_status
-                console.log("THE MATCH STATUS  ", data.match_status)
 
             });
 
@@ -844,7 +843,10 @@ const MatchRow = (props) => {
 
         useEffect(() => {
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
-
+                console.log("THE LOGED MATCH  ", data);
+                if (match?.parent_match_id == 32898527) {
+                    console.log("THE LOGED MATCH  ", data);
+                }
                 if (!special_bet_key) {
                     if (Object.keys(data.event_odds).length > 0) {
                         setOutcomes(Object.values(data.event_odds).sort((a, b) => a.outcome_id - b.outcome_id));
@@ -856,24 +858,31 @@ const MatchRow = (props) => {
                             setOutcomes(Object.values(data.event_odds).sort((a, b) => a.outcome_id - b.outcome_id));
                         }
                         setMarketStatus(data.match_market.status)
-
                     }
                 }
-
-
             });
         }, [])
 
         return (
             <>
                 {
-                    ((!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live) && market_status == "Active") && outcomes?.map((marketOdd, idx) => {
+                    ((!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live) 
+                    &&
+                    market_status == "Active") && outcomes?.map((marketOdd, idx) => {
                         let matchWithDetails = { ...match, market_status: market_status, ...marketOdd, producer_id: match?.odds?.[marketName]?.producer_id };
                         delete matchWithDetails.odds;
 
                         return (
                             marketOdd.odd_active == 1 && marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN') || (jackpot && jackpotstatus == "ACTIVE")
-                                ? <><OddButton key={`${match?.match_id}-${idx}`} match={matchWithDetails} mkt={marketName} live={live} jackpot={jackpot} /></>
+                                ? 
+                                <>
+                                    <OddButton 
+                                        key={`${match?.match_id}-${idx}`} 
+                                        match={matchWithDetails}
+                                        mkt={marketName}
+                                        live={live}
+                                        jackpot={jackpot} />
+                                </>
                                 : <><LockedButton /></>)
                     })
                 }
