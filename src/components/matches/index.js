@@ -630,19 +630,24 @@ const MarketRow = (props) => {
             // console.log("THE DATA IS NOW HERE  ", data);
             if(marketDetail.sub_type_id == 18) {
 
-                console.log("THE NEW LOST TOTALS   ::::::    ", data)
+                if(data.match_market.status == "Suspended") {
+                    console.log("SUSPENDED ODDS  ", data);
+                }
             }
 
-            Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
+            if(Object.keys(data.event_odds).length > 0) {
+                Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                 setMutableMkts((prevMarkets) => {
                     let index = prevMarkets?.findIndex(
                         ev => ev.sub_type_id == evodd.sub_type_id
                             && ev.outcome_id == evodd.outcome_id
                             && ev.special_bet_value == evodd.special_bet_value);
+
                     if(marketDetail.sub_type_id == 18 && index == -1) {
+                        // console.log("THE EVENT ODD ", data, " AND THE MARKETS ::: ", prevMarkets)    
                     }
                     if (index !== -1) {
-                        const newOdds = [...prevMarkets];
+                        const newOdds = prevMarkets;
                         newOdds[index] = evodd;
                         if(data.match_market.status !== "Active"){
                             newOdds[index].market_status = data.match_market.status
@@ -658,7 +663,31 @@ const MarketRow = (props) => {
                 });
 
             });
-            if(!data.match_market.special_bet_value && data.special_bet_value == ""){
+            } else {
+                
+                setMutableMkts((prevMarkets) => {
+                    let indexes = prevMarkets?.map(
+                        (item, idx) => 
+                            item.sub_type_id == data.match_market.sub_type_id
+                            && item.special_bet_key == data.special_odd_key
+                            && item.special_bet_value == data.match_market.special_bet_value 
+                            ? 
+                            idx 
+                            :
+                            -1).filter(index => index !== -1);  
+                    
+                    if (data.match_market.status == "Suspended" && marketDetail.sub_type_id == 18){
+                        console.log("SUSPENDED MARKET CHECK  :::  ", indexes, "THE SOCKET DATA ::: ", data, " THE DATA PRINTED  :::: ", prevMarkets)
+                    }
+                    const newOdds = [...prevMarkets];
+                    indexes.forEach(index => newOdds[index].market_status = data.match_market.status)
+                    return newOdds.sort((a, b) => 
+                        a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
+                        );
+                    
+                });
+            }
+            if(!data.match_market.special_bet_value){
                 setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
             }
         };
@@ -678,7 +707,7 @@ const MarketRow = (props) => {
             !pdown &&
             fullmatch?.odd_value !== 'NaN' &&
             fullmatch?.odd_active === 1 &&
-            fullmatch?.market_status === "Active"
+            ["active", "suspended"].includes(fullmatch?.market_status.toLowerCase())
         ) {
             return <OddButton match={fullmatch} detail mkt={"detail"} live={live} />;
         }
