@@ -71,7 +71,7 @@ const App = () => {
             <BrowserRouter>
             <PageviewTracker />
             <PromoTracker />
-            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper"}`}>
+            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper "} ${state?.hideBigIconNav && 'no-big-icon-nav'}`}>
                 <Suspense fallback={<p></p>}>
                 { !state?.fullcasinoscreen && <Header /> }
                 <div className={`${state?.fullcasinoscreen && "no-header"} amt `}>
