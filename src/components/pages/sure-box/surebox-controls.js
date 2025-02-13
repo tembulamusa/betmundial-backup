@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch } from "@mui/material";
 import { MdOutlineAddTask } from "react-icons/md";
 import { CiBookmarkMinus, CiBookmarkPlus, CiSquareMinus, CiSquarePlus } from "react-icons/ci";
@@ -17,33 +17,34 @@ const SureBoxControls = ({
 }) => {
   const [userDisabledAutoRestart, setUserDisabledAutoRestart] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [tempBetAmount, setTempBetAmount] = useState(betAmount);
 
   const handleAutoRestartToggle = () => {
     const newAutoRestartState = !autoRestart;
-    setUserDisabledAutoRestart(!newAutoRestartState);
+    setUserDisabledAutoRestart(!newAutoRestartState); 
     setAutoRestart(newAutoRestartState);
   };
 
   const handleBetAmountChange = (newAmount) => {
     if (newAmount >= 5) {
-      setBetAmount(newAmount);
-
-      // Enable Auto Restart if bet is valid and not manually disabled
-      if (!userDisabledAutoRestart) {
-        setAutoRestart(true);
-      }
-    } else {
-      setAutoRestart(false);
+      setTempBetAmount(newAmount);
     }
   };
 
   const handleStartGame = () => {
-    if (betAmount < 5) {
+    if (tempBetAmount < 5) {
       alert("Bet amount must be at least 5 to start the game.");
       return;
     }
-    startGame();
-    if (!userDisabledAutoRestart) setAutoRestart(true);
+
+    setBetAmount(tempBetAmount);
+
+    setTimeout(() => {
+      startGame();
+      if (!userDisabledAutoRestart) {
+        setAutoRestart(true); 
+      }
+    }, 3000);
   };
 
   const toggleInstructions = () => {
@@ -75,7 +76,7 @@ const SureBoxControls = ({
 
         {/* Decrease Button */}
         <button
-          onClick={() => handleBetAmountChange(betAmount - 5)}
+          onClick={() => handleBetAmountChange(tempBetAmount - 5)}
           disabled={betAmount <= 5 || gameInProgress}
           className="flex items-center justify-center bg-[#1c2834] hover:bg-[#22303e] text-white w-8 h-8 rounded-md focus:ring-2 focus:ring-[#5a7699] disabled:opacity-50"
         >
@@ -86,7 +87,7 @@ const SureBoxControls = ({
         <div className="relative w-32">
           <input
             type="number"
-            value={betAmount}
+            value={tempBetAmount}
             onChange={(e) => handleBetAmountChange(Number(e.target.value))}
             className="peer text-center bg-transparent text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#5a7699] w-full"
             placeholder=" "
@@ -104,7 +105,7 @@ const SureBoxControls = ({
 
         {/* Increase Button */}
         <button
-          onClick={() => handleBetAmountChange(betAmount + 5)}
+          onClick={() => handleBetAmountChange(tempBetAmount+ 5)}
           disabled={gameInProgress}
           className="flex items-center justify-center bg-[#1c2834] hover:bg-[#22303e] text-white w-8 h-8 rounded-md focus:ring-2 focus:ring-[#5a7699] disabled:opacity-50"
         >
@@ -223,10 +224,11 @@ const SureBoxControls = ({
         </div>
         {showInstructions && (
           <ul className="list-decimal list-inside bg-[#456185] text-white px-4 py-2 rounded-md border border-custom-red">
-            <li>Click "Start Game" to begin, or enable "Auto Restart" for continuous play.</li>
-            <li>Select boxes to win and multiply your winnings.</li>
-            <li>Cash out or keep playing with Auto Restart for seamless rounds.</li>
-          </ul>
+            <li>Set your bet amount, then click 'Place Bet' to start. Enable 'Auto Restart' for automatic continuous play.</li>
+            <li>Select a box to reveal its value. Higher-value boxes increase your winnings.</li>
+            <li>If you reveal a box with value, you can either pick another box to multiply your winnings or cash out at any time.</li>
+            <li>If 'Auto Restart' is enabled, the game will start again automatically after cashing out.</li>
+          </ul>        
         )}
       </div>
     </div>

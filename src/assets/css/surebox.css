@@ -194,4 +194,12 @@
     border: 1px solid rgba(214, 23, 23, 0.5);
   }
   
+  .surebox-lost-box {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    transition: top 0.5s, left 0.5s;
+    z-index: 1000;
+  }
+  
   
