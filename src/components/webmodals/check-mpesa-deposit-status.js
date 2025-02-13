@@ -19,7 +19,7 @@ const CheckMpesaDepositStatus = (props) => {
 
         const handleSubmit = (values, { setSubmitting }) => {
             // Validate the code first
-            let endpoint = '/v2/transaction/status';
+            let endpoint = 'v2/transaction/status';
             setIsSubmitting(true);
             makeRequest({url: endpoint,data:{mpesa_receipt_code: values.mpesa_code},  method: 'POST', api_version:3}).then(([status, response]) => {
 
