@@ -5,7 +5,6 @@ const CheckDepositStatus = () => {
     const initialValues = { msisdn: '' };
 
     const handleSubmit = (values, { setSubmitting }) => {
-        console.log("Submitted values:", values);
         setTimeout(() => {
             setSubmitting(false); 
         }, 1000);
