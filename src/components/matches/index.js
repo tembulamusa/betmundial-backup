@@ -627,24 +627,40 @@ const MarketRow = (props) => {
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
         const handleSocketData = (data) => {
-            // console.log("THE NEW DATA IS HERE    ", data)
+            // console.log("THE DATA IS NOW HERE  ", data);
+            if(marketDetail.sub_type_id == 18) {
+
+                console.log("THE NEW LOST TOTALS   ::::::    ", data)
+            }
+
             Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                 setMutableMkts((prevMarkets) => {
-                    let index = mutableMkts?.findIndex(
+                    let index = prevMarkets?.findIndex(
                         ev => ev.sub_type_id == evodd.sub_type_id
-                            && ev.odd_key == evodd.odd_key
+                            && ev.outcome_id == evodd.outcome_id
                             && ev.special_bet_value == evodd.special_bet_value);
+                    if(marketDetail.sub_type_id == 18 && index == -1) {
+                    }
                     if (index !== -1) {
                         const newOdds = [...prevMarkets];
                         newOdds[index] = evodd;
-                        return newOdds;
+                        if(data.match_market.status !== "Active"){
+                            newOdds[index].market_status = data.match_market.status
+                        }
+                        return newOdds.sort((a, b) => 
+                            a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
+                         );
                     } else {
-                        return [...prevMarkets, evodd];
+                        return [...prevMarkets, evodd].sort((a, b) => 
+                            a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
+                         );
                     }
                 });
 
             });
-            setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
+            if(!data.match_market.special_bet_value && data.special_bet_value == ""){
+                setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
+            }
         };
 
         socketRef.current?.on(socketEvent, handleSocketData);
@@ -843,10 +859,6 @@ const MatchRow = (props) => {
 
         useEffect(() => {
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
-                console.log("THE LOGED MATCH  ", data);
-                if (match?.parent_match_id == 32898527) {
-                    console.log("THE LOGED MATCH  ", data);
-                }
                 if (!special_bet_key) {
                     if (Object.keys(data.event_odds).length > 0) {
                         setOutcomes(Object.values(data.event_odds).sort((a, b) => a.outcome_id - b.outcome_id));
