@@ -66,6 +66,7 @@ const BigIconMenu = () => {
                     // dispatch({type:"SET", key:"casinolaunch", payload: {game: "", url: ""}});
                     // navigate(`/casino-game/eurovirtuals/virtual-league`);
                     window.location.href = `/casino-game/eurovirtuals/virtual-league`;
+
                 }
             }else {
                 setLocalStorage("casinogamesfilter", payload);
@@ -88,7 +89,7 @@ const BigIconMenu = () => {
                         >
                             <span title={provider?.name}>
                                 <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${provider?.name?.toLowerCase()}.svg`, "casino")} alt={provider?.name} /></div>
-                                <div className="big-icon-name">{provider.name}</div>
+                                <div className="big-icon-name">{provider.name == 'Eurovirtuals'?'Ligi Sure':provider.name}</div>
                             </span>
                         </li>
                     )
