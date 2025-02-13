@@ -50,7 +50,7 @@ const CasinoLaunchedGame = (props) => {
             
         }
         
-        if (fullScreens.includes(launchedGame?.game?.provider_name?.toLowerCase()) || provider.toLowerCase() == "eurovirtuals") {
+        if (fullScreens.includes(launchedGame?.game?.provider_name?.toLowerCase())) {
             // let dga = xlg;
             // dga.connect("prelive-dga0.pragmaticplaylive.net")
             
@@ -65,7 +65,7 @@ const CasinoLaunchedGame = (props) => {
     
     return (
         <>
-            {!state?.fullcasinoscreen && <section className="launched-game-header">
+            {(!state?.fullcasinoscreen && !state?.hideBigIconNav) && <section className="launched-game-header">
                 <div className="row">
                     <div className="col-10"><span className="py-1 pl-2 pr-3 mt-1 ml-3 bg-[rgba(255,255,255,0.1)] cursor-pointer" onClick={() => navigate("/casino")}><FaArrowLeftLong className="inline-block"/></span></div>
                     <div className="dismiss-casino-game col-2 mx-auto"><span className="casino-page-close cursor-pointer" onClick={() => navigate("/casino")}><MdOutlineClose /></span></div>

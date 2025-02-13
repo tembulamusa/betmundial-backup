@@ -1699,8 +1699,15 @@ label {
   opacity: 0.7;
 }
 
-@media screen and (max-width: 648px) {
 
+.no-big-icon-nav .amt {
+  /* margin-top: 60px !important; */
+  margin-top: 60px !important;
+}
+@media screen and (max-width: 648px) {
+  .no-big-icon-nav .amt {
+    margin-top: 74px !important;
+}
   .big-icon-item {
     padding: 5px 4px 4px;
     

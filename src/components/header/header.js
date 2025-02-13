@@ -2,7 +2,7 @@ import React, {useEffect, useCallback, useState, useContext, useRef} from 'react
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import {Context} from '../../context/store';
-import {getFromLocalStorage} from '../utils/local-storage';
+import {getFromLocalStorage, removeItem} from '../utils/local-storage';
 import {ToastContainer} from 'react-toastify';
 import makeRequest from '../utils/fetch-request';
 import {setLocalStorage} from '../utils/local-storage';
@@ -25,7 +25,7 @@ const HeaderLogin = React.lazy(() => import('./top-login'));
 
 const Header = (props) => {
     const [user, setUser] = useState(getFromLocalStorage("user"));
-    const [state, ] = useContext(Context);
+    const [state, dispatch] = useContext(Context);
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams] = useSearchParams();
@@ -78,6 +78,15 @@ const Header = (props) => {
         }
         
     }
+
+    useEffect(()=> {
+        if(location.pathname == "/casino-game/eurovirtuals/virtual-league") {
+            dispatch({type:"SET", key:"hideBigIconNav", payload:true})
+            removeItem("casinolaunch");
+        } else {
+            dispatch({type:"DEL", key:"hideBigIconNav"})
+        }
+    }, [location.pathname])
     const expand = "md"
 // toggle bal requ every 7 seconds
 
@@ -100,7 +109,8 @@ const Header = (props) => {
                             
                     </Container>
                 </div>
-                <div className='block w-full'><BigIconNav /></div>
+
+                <div className={`block w-full ${state?.hideBigIconNav && 'hidden'}`}><BigIconNav /></div>
             </Navbar>
 
             {/* mobile bottom menu */}
