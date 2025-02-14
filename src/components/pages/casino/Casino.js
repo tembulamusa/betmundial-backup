@@ -26,7 +26,6 @@ const Casino = (props) => {
     const fetchCasinoGames = async () => {
         setFetching(true);
         let endpoint = "games-list";
-        console.log("GET FILTER ", filterName)
         if (filterType === "categories") {
             if(state?.state?.casinogamesfilter?.category) {
                 endpoint = `game-type/games-list/${state?.casinogamesfilter?.category?.id}`;
@@ -41,6 +40,10 @@ const Casino = (props) => {
                 endpoint = `provider/games-list/n/${filterName}`;
 
             }
+        } else if (filterType == "combinedprovidercategory") {
+            endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}/`
+                        + `${state?.casinogamesfilter?.category?.id}/`
+                        +`${state?.casinogamesfilter?.page}/100`
         }
 
         const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "casinoGames" });
