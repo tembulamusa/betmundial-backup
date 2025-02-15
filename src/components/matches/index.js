@@ -627,14 +627,7 @@ const MarketRow = (props) => {
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
         const handleSocketData = (data) => {
-            // console.log("THE DATA IS NOW HERE  ", data);
-            if(marketDetail.sub_type_id == 18) {
-
-                if(data.match_market.status == "Suspended") {
-                    console.log("SUSPENDED ODDS  ", data);
-                }
-            }
-
+            
             if(Object.keys(data.event_odds).length > 0) {
                 Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                 setMutableMkts((prevMarkets) => {
@@ -643,15 +636,21 @@ const MarketRow = (props) => {
                             && ev.outcome_id == evodd.outcome_id
                             && ev.special_bet_value == evodd.special_bet_value);
 
-                    if(marketDetail.sub_type_id == 18 && index == -1) {
-                        // console.log("THE EVENT ODD ", data, " AND THE MARKETS ::: ", prevMarkets)    
+                    if(marketDetail.sub_type_id == 18) {
+                        // console.log("THE EVENT ODD INDEX ", index, " DATA ::: ",  data, " AND THE MARKETS ::: ", prevMarkets)    
                     }
+
+                    
                     if (index !== -1) {
                         const newOdds = prevMarkets;
-                        newOdds[index] = evodd;
                         if(data.match_market.status !== "Active"){
-                            newOdds[index].market_status = data.match_market.status
+                            evodd.market_status = data.match_market.status
+
                         }
+                        if(data.match_market.status !== "Active"){
+                            evodd.market_status = data.match_market.status
+                        }
+                        newOdds[index] = evodd;
                         return newOdds.sort((a, b) => 
                             a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
                          );
@@ -676,9 +675,7 @@ const MarketRow = (props) => {
                             :
                             -1).filter(index => index !== -1);  
                     
-                    if (data.match_market.status == "Suspended" && marketDetail.sub_type_id == 18){
-                        console.log("SUSPENDED MARKET CHECK  :::  ", indexes, "THE SOCKET DATA ::: ", data, " THE DATA PRINTED  :::: ", prevMarkets)
-                    }
+                    
                     const newOdds = [...prevMarkets];
                     indexes.forEach(index => newOdds[index].market_status = data.match_market.status)
                     return newOdds.sort((a, b) => 
@@ -707,7 +704,7 @@ const MarketRow = (props) => {
             !pdown &&
             fullmatch?.odd_value !== 'NaN' &&
             fullmatch?.odd_active === 1 &&
-            ["active", "suspended"].includes(fullmatch?.market_status.toLowerCase())
+            ["active"].includes(fullmatch?.market_status.toLowerCase())
         ) {
             return <OddButton match={fullmatch} detail mkt={"detail"} live={live} />;
         }
@@ -738,6 +735,7 @@ const MarketRow = (props) => {
                     return (<>
                         {(["active", "suspended"].includes(mkt_odds?.market_status?.toLowerCase())) 
                         && <Col className="match-detail" style={{ width: width, float: "left" }}>
+                            {/* <div>{mkt_odds.market_status}</div> */}
                             <MktOddsButton
                                 match={match}
                                 mktodds={mkt_odds}
@@ -1329,7 +1327,19 @@ const MatchList = (props) => {
             <Container className="web-element">
                 {matches &&
                     Object.entries(matches).map(([key, match]) => (
+                        live 
+                        ? 
+                        match?.match_status?.toLowerCase() !== "ended" &&
                         <MatchRow
+                            initialMatch={match}
+                            key={match?.parent_match_id}
+                            live={live}
+                            pdown={pdown}
+                            setReload={setReload}
+                            three_way={three_way}
+                            sub_types={subTypes} /> 
+                            : 
+                            <MatchRow
                             initialMatch={match}
                             key={match?.parent_match_id}
                             live={live}
