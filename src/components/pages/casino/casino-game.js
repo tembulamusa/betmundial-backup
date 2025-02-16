@@ -25,7 +25,7 @@ const CasinoGame = (props) => {
         setFetching(true);
         let endpoint = `${game?.aggregator ? game?.aggregator : game?.provider_name}/casino/game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
 
-        if(game?.aggregator.toLowerCase() == "intouchvas") {
+        if(game?.aggregator && game?.aggregator?.toLowerCase() == "intouchvas") {
             endpoint = endpoint + `-${game?.provider_name}`
         }
         if (moneyType == 1 && !user?.token) {
