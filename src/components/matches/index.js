@@ -627,7 +627,11 @@ const MarketRow = (props) => {
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
         const handleSocketData = (data) => {
-            
+
+            if(marketDetail.sub_type_id == 18) {
+                console.log("THE LOGGED TOTALS MARKET :::: ", data.match_market)
+            }
+
             if(Object.keys(data.event_odds).length > 0) {
                 Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                 setMutableMkts((prevMarkets) => {
@@ -635,11 +639,6 @@ const MarketRow = (props) => {
                         ev => ev.sub_type_id == evodd.sub_type_id
                             && ev.outcome_id == evodd.outcome_id
                             && ev.special_bet_value == evodd.special_bet_value);
-
-                    if(marketDetail.sub_type_id == 18) {
-                        // console.log("THE EVENT ODD INDEX ", index, " DATA ::: ",  data, " AND THE MARKETS ::: ", prevMarkets)    
-                    }
-
                     
                     if (index !== -1) {
                         const newOdds = prevMarkets;
@@ -685,7 +684,7 @@ const MarketRow = (props) => {
                 });
             }
             if(!data.match_market.special_bet_value){
-                setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
+                // setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
             }
         };
 
