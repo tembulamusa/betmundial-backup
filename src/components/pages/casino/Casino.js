@@ -41,6 +41,10 @@ const Casino = (props) => {
                 endpoint = `provider/all-games/n/${filterName}`;
 
             }
+        } else if (filterType == "combinedprovidercategory") {
+            endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}/`
+                        + `${state?.casinogamesfilter?.category?.id}/`
+                        +`${state?.casinogamesfilter?.page}/100`
         }
 
         const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "casinoGames" });
