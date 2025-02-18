@@ -21,6 +21,7 @@ import Twelve from  '../../assets/img/casino/carousel/12.jpg';
 import Thirteen from  '../../assets/img/casino/carousel/13.jpg';
 import Fourteen from  '../../assets/img/casino/carousel/14.jpg';
 import Fifteen from  '../../assets/img/casino/carousel/15.jpg';
+import Sixteen from  '../../assets/img/casino/carousel/16.jpg';
 import { Link } from "react-router-dom";
 // import Intro from  '../../assets/img/casino/carousel/intro.png';
 // import Tick from  '../../assets/img/casino/carousel/Tick.png';
@@ -225,6 +226,18 @@ const CasinoCarousel = (props) => {
                 />
                 </Link>
             </Carousel.Item>
+
+             
+            <Carousel.Item >
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Sixteen}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+            </Carousel.Item> 
         </Carousel>
 
 
