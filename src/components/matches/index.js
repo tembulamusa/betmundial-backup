@@ -604,7 +604,9 @@ const teamScore = (allscore, is_home_team) => {
 
 const MarketRow = (props) => {
     const { markets, match, market_id, width, live, pdown, marketDetail } = props;
-    const [mutableMkts, setMutableMkts] = useState([...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]);
+    const [mutableMkts, setMutableMkts] = useState(
+        [...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]
+    );
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
@@ -628,7 +630,6 @@ const MarketRow = (props) => {
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
         const handleSocketData = (data) => {
-
             if(Object.keys(data.event_odds).length > 0) {
                 Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                 setMutableMkts((prevMarkets) => {
@@ -639,13 +640,6 @@ const MarketRow = (props) => {
                     
                     if (index !== -1) {
                         const newOdds = prevMarkets;
-                        if(data.match_market.status !== "Active"){
-                            evodd.market_status = data.match_market.status
-
-                        }
-                        if(data.match_market.status !== "Active"){
-                            evodd.market_status = data.match_market.status
-                        }
                         newOdds[index] = evodd;
                         return newOdds.sort((a, b) => 
                             a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
@@ -659,7 +653,6 @@ const MarketRow = (props) => {
 
             });
             } else {
-                
                 setMutableMkts((prevMarkets) => {
                     let indexes = prevMarkets?.map(
                         (item, idx) => 
@@ -678,9 +671,7 @@ const MarketRow = (props) => {
 
                 });
             }
-            if(!data.match_market.special_bet_value){
-                // setMarketStatus((prevStatus) => (prevStatus !== data.match_market.status ? data.match_market.status : prevStatus));
-            }
+            
         };
 
         socketRef.current?.on(socketEvent, handleSocketData);
@@ -708,7 +699,6 @@ const MarketRow = (props) => {
     return (
         <>
             {["active", "suspended"].includes(marketStatus?.toLowerCase()) && <div className="top-matches event-row">
-
                 <Row className="top-matches header">
                     {live &&
                         <div
