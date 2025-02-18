@@ -3,11 +3,10 @@ import CasinoGame from "./casino-game";
 import { useNavigate, useParams } from "react-router-dom";
 
 const GameCategoryListing = (props) => {
-    const { filterType, gameType, categoryType } = useParams(); // Add more params if needed
+    const { filterType, gameType, categoryType } = useParams(); 
     const navigate = useNavigate();
     const { gamestype, games, gamesprovider } = props;
 
-    // Check if the current URL ends with "/all"
     const isShowingAll = window.location.pathname.endsWith("/all");
 
     const fetchAllCategoryGames = (gameType) => {
@@ -18,7 +17,7 @@ const GameCategoryListing = (props) => {
             if (gamesprovider?.id) {
                 navigate(`/casino/providers/${gamesprovider.id}/categories/${gameType}/all`);
             } else {
-                console.log("Warning: gamesprovider.id is missing!");
+                console.log("Retrieving ...");
             }
         } else {
             navigate(`/casino/categories/${gameType}/all`);

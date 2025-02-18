@@ -40,7 +40,7 @@ const CasinoCarousel = (props) => {
             className='casino banner-imgs'>
 
             <Carousel.Item >
-                <Link to={"/casino-game/casino-game/aviator/aviator"}>
+                <Link to={"/casino-game/aviator/aviator"}>
                     <img
                         className="d-block w-100"
                         style={{ display: imageLoaded ? 'block' : 'none' }}
