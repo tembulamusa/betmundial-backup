@@ -16,14 +16,14 @@ export const addToSlip = (slip) => {
         current_slip[slip.match_id] = slip;
     } else {
         current_slip = {[slip.match_id] : slip};
-            if(slip?.bet_type == 1) {
-                let liveCount = getFromLocalStorage("liveCount");
-                if(liveCount) {
-                    liveCount += 1;
-                } else {
-                    liveCount = 1
-                }
-                setLocalStorage("liveCount", liveCount);
+        if(slip?.bet_type == 1) {
+            let liveCount = getFromLocalStorage("liveCount");
+            if(liveCount) {
+                liveCount += 1;
+            } else {
+                liveCount = 1
+            }
+            setLocalStorage("liveCount", liveCount);
                 
         }
     }

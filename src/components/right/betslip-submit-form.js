@@ -156,6 +156,7 @@ const BetslipSubmitForm = (props) => {
                 delete slip.disable
                 delete slip.comment
                 delete slip.prev_odds
+                delete slip.changeOrigin
             }
             
 

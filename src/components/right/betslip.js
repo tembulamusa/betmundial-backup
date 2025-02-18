@@ -223,8 +223,9 @@ const BetSlip = (props) => {
         // let odd = slip.odd_value;
         
         // get the entire betslip
-        const [slip, setSlip] = useState(initialSlip)
+        const [slip, setSlip] = useState({...initialSlip, changeOrigin: "main"});
         const [slipKey, setKey] = useState();
+        // const [slipChangeOrigin, setSlipChangeOrigin] = useState("original")
         
         const checkUpdateSlipChanges = (market, eventOdd) => {
             setSlip((prevSlip) => {
@@ -259,7 +260,12 @@ const BetSlip = (props) => {
                         }
                         
                     }
+                    if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
+                    newSlip.comment = 'Market ' + market.status;
+                    newSlip.disable = true;
                 }
+                }
+                newSlip.changeOrigin = "socket"
                 return newSlip;  // Return the updated state
             })     
         }
@@ -273,12 +279,11 @@ const BetSlip = (props) => {
                     dispatch({type: "SET", key:"betslip", payload: betslip})
                 }
             }
-            
 
         }
 
         useEffect( () => {
-            if (slip) {
+            if (slip.changeOrigin == "socket") {
                 updateBetslipChange(slip);                
             }
         }, [slip])
@@ -297,7 +302,6 @@ const BetSlip = (props) => {
     
     
         const connectBetslipToScket = () => {
-
             handleGameSocket("listen", slip?.parent_match_id, slip?.sub_type_id);
         
         }
