@@ -26,6 +26,7 @@ import MatchWidget from './match-widget';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from 'react-icons/io';
+import { event } from 'jquery';
 
 const clean = (_str) => {
     _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
@@ -628,10 +629,6 @@ const MarketRow = (props) => {
 
         const handleSocketData = (data) => {
 
-            if(marketDetail.sub_type_id == 18) {
-                console.log("THE LOGGED TOTALS MARKET :::: ", data.match_market)
-            }
-
             if(Object.keys(data.event_odds).length > 0) {
                 Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                 setMutableMkts((prevMarkets) => {
@@ -672,15 +669,13 @@ const MarketRow = (props) => {
                             ? 
                             idx 
                             :
-                            -1).filter(index => index !== -1);  
-                    
-                    
+                            -1).filter(index => index !== -1);                     
                     const newOdds = [...prevMarkets];
                     indexes.forEach(index => newOdds[index].market_status = data.match_market.status)
                     return newOdds.sort((a, b) => 
                         a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
                         );
-                    
+
                 });
             }
             if(!data.match_market.special_bet_value){

@@ -229,7 +229,7 @@ const BetSlip = (props) => {
         const checkUpdateSlipChanges = (market, eventOdd) => {
             setSlip((prevSlip) => {
                 let newSlip = {...prevSlip};
-                if (market.status !== "Active"){
+                if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
                     newSlip.comment = 'Market ' + market.status;
                     newSlip.disable = true;
                 }
