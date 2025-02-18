@@ -15,11 +15,12 @@ import Six from  '../../assets/img/casino/carousel/6.png';
 import Seven from  '../../assets/img/casino/carousel/7.jpg';
 import Eight from  '../../assets/img/casino/carousel/8.jpg';
 import Nine from  '../../assets/img/casino/carousel/9.png';
-import Ten from  '../../assets/img/casino/carousel/10.png';
+import Ten from  '../../assets/img/casino/carousel/10.jpg';
 import Eleven from  '../../assets/img/casino/carousel/11.jpg';
 import Twelve from  '../../assets/img/casino/carousel/12.jpg';
 import Thirteen from  '../../assets/img/casino/carousel/13.jpg';
 import Fourteen from  '../../assets/img/casino/carousel/14.jpg';
+import Fifteen from  '../../assets/img/casino/carousel/15.jpg';
 import { Link } from "react-router-dom";
 // import Intro from  '../../assets/img/casino/carousel/intro.png';
 // import Tick from  '../../assets/img/casino/carousel/Tick.png';
@@ -205,6 +206,19 @@ const CasinoCarousel = (props) => {
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Fourteen}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+                </Link>
+            </Carousel.Item>
+
+            <Carousel.Item >
+                <Link to={"/casino-game/casino-game/aviator/aviator"}>
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Fifteen}
                     onLoad={onImageLoaded}
                     alt="surebet"
                     effects="blur"
