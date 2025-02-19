@@ -641,72 +641,74 @@ const MarketRow = (props) => {
 
 
     useEffect(() => {
-        handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
+        if (socket.connected) {
+            handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
-        if (marketDetail?.sub_type_id == 18 ) {
-            
-        }
-        const handleSocketData = (data) => {
-
-            if (marketDetail.sub_type_id == 18 ) {
-                console.log("THE TOTAL MARKET  IS HERE  :::  ", data.match_market, " THE EVENT ODDS  ::: ", data.event_odds)
+            if (marketDetail?.sub_type_id == 18 ) {
+                
             }
+            const handleSocketData = (data) => {
 
-            if (marketDetail.sub_type_id == 18 && data.special_bet_value == 3) {
-                console.log("THE TOTAL 333  IS HERE  :::  ", data.match_market, " THE EVENT ODDS  ::: ", data.event_odds)
-            }
+                if (marketDetail.sub_type_id == 18 ) {
+                    console.log("THE TOTAL MARKET  IS HERE  :::  ", data.match_market, " THE EVENT ODDS  ::: ", data.event_odds)
+                }
 
-            if(Object.keys(data.event_odds).length > 0) {
-                Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
-                setMutableMkts((prevMarkets) => {
-                    let index = prevMarkets?.findIndex(
-                        ev => ev.sub_type_id == evodd.sub_type_id
-                            && ev.outcome_id == evodd.outcome_id
-                            && ev.special_bet_value == evodd.special_bet_value);
-                    
-                    if (index !== -1) {
-                        const newOdds = prevMarkets;
-                        newOdds[index] = evodd;
+                if (marketDetail.sub_type_id == 18 && data.special_bet_value == 3) {
+                    console.log("THE TOTAL 333  IS HERE  :::  ", data.match_market, " THE EVENT ODDS  ::: ", data.event_odds)
+                }
+
+                if(Object.keys(data.event_odds).length > 0) {
+                    Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
+                    setMutableMkts((prevMarkets) => {
+                        let index = prevMarkets?.findIndex(
+                            ev => ev.sub_type_id == evodd.sub_type_id
+                                && ev.outcome_id == evodd.outcome_id
+                                && ev.special_bet_value == evodd.special_bet_value);
+                        
+                        if (index !== -1) {
+                            const newOdds = prevMarkets;
+                            newOdds[index] = evodd;
+                            return newOdds.sort((a, b) => 
+                                a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
+                            );
+                        } else {
+                            return [...prevMarkets, evodd].sort((a, b) => 
+                                a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
+                            );
+                        }
+                    });
+
+                });
+                } else {
+                    setMutableMkts((prevMarkets) => {
+                        let indexes = prevMarkets?.map(
+                            (item, idx) => 
+                                item.sub_type_id == data.match_market.sub_type_id
+                                && item.special_bet_key == data.special_odd_key
+                                && item.special_bet_value == data.match_market.special_bet_value 
+                                ? 
+                                idx
+                                :
+                                -1).filter(index => index !== -1);                     
+                        const newOdds = [...prevMarkets];
+                        indexes.forEach(index => newOdds[index].market_status = data.match_market.status)
                         return newOdds.sort((a, b) => 
                             a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
-                         );
-                    } else {
-                        return [...prevMarkets, evodd].sort((a, b) => 
-                            a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
-                         );
-                    }
-                });
+                            );
 
-            });
-            } else {
-                setMutableMkts((prevMarkets) => {
-                    let indexes = prevMarkets?.map(
-                        (item, idx) => 
-                            item.sub_type_id == data.match_market.sub_type_id
-                            && item.special_bet_key == data.special_odd_key
-                            && item.special_bet_value == data.match_market.special_bet_value 
-                            ? 
-                            idx
-                            :
-                            -1).filter(index => index !== -1);                     
-                    const newOdds = [...prevMarkets];
-                    indexes.forEach(index => newOdds[index].market_status = data.match_market.status)
-                    return newOdds.sort((a, b) => 
-                        a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
-                        );
+                    });
+                }
+                
+            };
 
-                });
-            }
-            
-        };
-
-        socketRef.current?.on(socketEvent, handleSocketData);
-
+            socketRef.current?.on(socketEvent, handleSocketData);
+        
         return () => {
             handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
             socketRef.current?.off(socketEvent, handleSocketData);
         };
-    }, [socket, handleGameSocket, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
+    }
+    }, [socket.connected, handleGameSocket, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
 
     const MktOddsButton = React.memo(({ match, mktodds, live, pdown, producerId }) => {
         const fullmatch = { ...match, ...mktodds, producer_id: producerId };
