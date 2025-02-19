@@ -245,7 +245,7 @@ const MoreMarketsHeaderRow = (props) => {
         if (type === "listen" && socketRef.current?.connected) {
             socketRef.current.emit('user.match.listen', gameId);
         } else if (type === "leave") {
-            socketRef.current?.emit('user.match.listen', gameId);
+            socketRef.current?.emit('user.match.leave', gameId);
         }
     }, []);
 
@@ -603,7 +603,7 @@ const teamScore = (allscore, is_home_team) => {
 }
 
 const MarketRow = (props) => {
-    const { markets, match, market_id, width, live, pdown, marketDetail } = props;
+    const { markets, match, market_id, width, live, pdown, marketDetail, betStopDetail} = props;
     const [mutableMkts, setMutableMkts] = useState(
         [...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]
     );
@@ -625,11 +625,37 @@ const MarketRow = (props) => {
         }
     }, []);
 
+    useEffect(() => {
+        if(betStopDetail?.markets == "" || betStopDetail?.markets?.includes(marketDetail.sub_type_id) ) {
+            // for all the bestuffs, set to current bet status
+            setMutableMkts((prevMarkets) => {
+
+                let newOdds = prevMarkets;
+                newOdds.forEach(odd => {
+                    odd.market_status = betStopDetail.market_status
+                });
+                return newOdds
+            })
+        }
+    }, [betStopDetail]);
+
 
     useEffect(() => {
         handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
+        if (marketDetail?.sub_type_id == 18 ) {
+            
+        }
         const handleSocketData = (data) => {
+
+            if (marketDetail.sub_type_id == 18 ) {
+                console.log("THE TOTAL MARKET  IS HERE  :::  ", data.match_market, " THE EVENT ODDS  ::: ", data.event_odds)
+            }
+
+            if (marketDetail.sub_type_id == 18 && data.special_bet_value == 3) {
+                console.log("THE TOTAL 333  IS HERE  :::  ", data.match_market, " THE EVENT ODDS  ::: ", data.event_odds)
+            }
+
             if(Object.keys(data.event_odds).length > 0) {
                 Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                 setMutableMkts((prevMarkets) => {
@@ -660,7 +686,7 @@ const MarketRow = (props) => {
                             && item.special_bet_key == data.special_odd_key
                             && item.special_bet_value == data.match_market.special_bet_value 
                             ? 
-                            idx 
+                            idx
                             :
                             -1).filter(index => index !== -1);                     
                     const newOdds = [...prevMarkets];
@@ -680,7 +706,7 @@ const MarketRow = (props) => {
             handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
             socketRef.current?.off(socketEvent, handleSocketData);
         };
-    }, [handleGameSocket, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
+    }, [socket, handleGameSocket, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
 
     const MktOddsButton = React.memo(({ match, mktodds, live, pdown, producerId }) => {
         const fullmatch = { ...match, ...mktodds, producer_id: producerId };
@@ -824,9 +850,9 @@ const MatchRow = (props) => {
         // Track tab/visibility of the of the tab
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === "hidden") {
-                setIsVisible(false);
+                // setIsVisible(false);
             } else if (document.visibilityState === "visible") {
-                setIsVisible(true);
+                // setIsVisible(true);
             }
         });
 
@@ -1079,7 +1105,7 @@ const MatchRow = (props) => {
 
 export const MarketList = (props) => {
 
-    const { live, initialMatchwithmarkets, pdown } = props;
+    const { live, initialMatchwithmarkets, pdown, betStopDetail } = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
     const [isVisible, setIsVisible] = useState(true);
     const [matchwithmarkets, setMatchWithMarkets] = useState(initialMatchwithmarkets)
@@ -1103,8 +1129,6 @@ export const MarketList = (props) => {
             // unsubscribe trigger
             handleGameSocket("leave", matchwithmarkets?.parent_match_id);
         }
-
-
     }, [initialMatchwithmarkets]);
 
     useEffect(() => {
@@ -1176,6 +1200,7 @@ export const MarketList = (props) => {
 
                     return (["active", "suspended", ""].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) &&
                         <MarketRow
+                            betStopDetail = {betStopDetail}
                             market_id={mkt_id}
                             markets={markets?.outcomes?.sort((a, b) => 
                                 a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id

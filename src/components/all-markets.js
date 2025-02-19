@@ -31,8 +31,9 @@ const MatchAllMarkets = (props) => {
     const params = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [, dispatch] = useContext(Context);
-    const [delay, setDelay] = useState(10000);
+    const [betStopDetail, setBetStopDetail] = useState({});
     const navigate = useNavigate();
+    
 
     const findPostableSlip = () => {
         let betslips = getBetslip() || {};
@@ -59,6 +60,34 @@ const MatchAllMarkets = (props) => {
         }
     }, [params.id]);
 
+    const handleGameSocket = (type) => {
+            if (type === "listen" && socket.connected) {
+                socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);
+            } else if (type === "leave") {
+                socket.emit('user.match.leave', matchwithmarkets?.parent_match_id);
+            }
+    };
+    useEffect(() => {
+
+        if(matchwithmarkets) {
+            handleGameSocket("listen")
+        }
+
+
+        socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
+            console.log("ANY GAME LEVEL MESSAGE", data);
+            if (data.message_type == "betstop") {
+                console.log("THE BETSTOP MESSAGE RECEIVED WELL  ::: ", data);
+                setBetStopDetail(data);
+            }
+            
+
+        })
+        return () => {
+            handleGameSocket("listen")
+
+        }
+    }, [matchwithmarkets])
     // even if we are connected on socket, we may have to poll after some time so as to get the newest games
     
     // useInterval(async () => {
@@ -89,7 +118,7 @@ const MatchAllMarkets = (props) => {
        <>
            
         <div className="homepage">
-            {matchwithmarkets !== null && <MarketList live={live}  
+            {matchwithmarkets !== null && <MarketList betStopDetail = {betStopDetail} live={live}  
                 initialMatchwithmarkets={matchwithmarkets} 
                 pdown={producerDown} />}
         </div>

@@ -1,4 +1,4 @@
-import React, {useContext, useLayoutEffect, useEffect, useCallback, useState, useMemo} from "react";
+import React, {useContext, useLayoutEffect, useEffect, useCallback, useState, useMemo, useRef} from "react";
 import {useLocation, useParams} from 'react-router-dom';
 import makeRequest from './utils/fetch-request';
 import {getJackpotBetslip, getBetslip} from './utils/betslip' ;
@@ -23,8 +23,48 @@ const Live = (props) => {
     const [threeWay, setThreeWay] = useState(true);
     const [refresh, setRefresh] = useState(false);
     const [page, ] = useState(1);
+    const [sportName, setSportName] = useState(state?.selectedLivesport || "soccer");
     const [reload, setReload] = useState(false)
     const {spid, sub_type_id} = useParams();
+    const socketRef = useRef(socket);
+    const socketEvent = useMemo(() => `surebet#live-match-page#${sportName}`, [sportName]);
+
+
+    const handleGameSocket = useCallback((type) => {
+        if(sportName) {
+            if (type === "listen" && socketRef.current?.connected) {
+                socketRef.current.emit('user.live-match-page.listen', sportName);
+            } else if (type === "leave") {
+                socketRef.current?.emit('user.live-match-page.leave', sportName);
+            }
+        }
+        }, [sportName]);
+
+    useEffect(() => {
+        if (sportName) {
+
+            handleGameSocket("listen");
+       
+            const handleSocketData = (data) => {
+                console.log("The LOGGED GAME IN IS HERE    ::::  ", data);
+            // add only matches
+            if(data.name) {
+
+            }
+            setMatches([...matches, data].sort((a, b) => a.start_time - b.start_time));
+        };
+
+        socketRef.current?.on(socketEvent, handleSocketData);
+
+        return () => {
+            handleGameSocket("leave");
+            socketRef.current?.off(socketEvent, handleSocketData);
+        };
+        }
+        
+        
+    }, [sportName])
+
 
     const fetchData = () => {
         let endpoint = "/v2/sports/matches/live/" + (spid || 79) 
@@ -71,7 +111,6 @@ const Live = (props) => {
             dispatch({type:"SET", key:"selectedLivesport", payload: currentLive});
         }
     }, []);
-
 
 
     return (
