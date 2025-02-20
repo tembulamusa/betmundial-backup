@@ -906,8 +906,9 @@ const MatchRow = (props) => {
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
                 if(marketId == 18) {
                     console.log("THE TOTALS ODDS ARE HERE  ::::  ", data )
-
-                    
+                    if(data.match_market.special_bet_value == 2.5) {
+                        console.log("THE SPECIAL UNDER OVER  ::::  ", marketId, "THE MARKET IS LOADING  :::  ", data)
+                    }
                 }
                 if (!special_bet_key) {
                     if (Object.keys(data.event_odds).length > 0) {
