@@ -71,7 +71,7 @@ const Live = (props) => {
                         data.odds = odds;
                         data.sport_name = sport_name
 
-                        return [...preveMatches, data].sort((a, b) => (b.match_time - a.match_time) || (a.start_time - b.start_time))
+                        return [...preveMatches, data].sort((a, b) => ((a.start_time - b.start_time) || (b.match_time - a.match_time)))
                     }
                         
                     );
