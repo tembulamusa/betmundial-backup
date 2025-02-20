@@ -1037,7 +1037,7 @@ const MatchRow = (props) => {
                     </div>
                 }
 
-                <div className={`${jackpot && "is-jackpot"} ${live && 'live-game'} col block ${match?.sport_name.toLowerCase() == "soccer" ? "md:flex" : "single-market-container"} justify-content-between`} key="24">
+                <div className={`${jackpot && "is-jackpot"} ${live && 'live-game'} col block ${match?.sport_name?.toLowerCase() == "soccer" ? "md:flex" : "single-market-container"} justify-content-between`} key="24">
                     {/* Mobile only datetime */}
 
                     <div className="md:hidden block">
@@ -1080,7 +1080,7 @@ const MatchRow = (props) => {
 
                     {
                         initialMatch?.sport_name?.toLowerCase() !== "soccer" &&
-                        Object.keys(match?.odds)?.map((odd, idx) => {
+                        Object.keys(match?.odds || [])?.map((odd, idx) => {
                             return (
                                 <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">
                                     <MatchMarket initialMatch={match} marketName={odd} marketId={1} buttonCount={three_way ? 3 : 2} />
@@ -1318,7 +1318,7 @@ const MatchList = (props) => {
         fetchingcount
     } = props;
     const [state, dispatch] = useContext(Context);
-
+    console.log("THE SELECTED SUBTYPES ARE ::: ", subTypes)
     useEffect(() => {
         dispatch({ type: "SET", key: "matchlisttype", payload: "normal" });
         return () => {
@@ -1333,6 +1333,7 @@ const MatchList = (props) => {
                 fetching={fetching}
                 three_way={three_way}
                 sub_types={subTypes}
+                subTypes={subTypes}
             />
 
             <Container className="web-element">
@@ -1348,6 +1349,7 @@ const MatchList = (props) => {
                             pdown={pdown}
                             setReload={setReload}
                             three_way={three_way}
+                            subTypes={subTypes}
                             sub_types={subTypes} /> 
                             : 
                             <MatchRow
@@ -1357,6 +1359,7 @@ const MatchList = (props) => {
                             pdown={pdown}
                             setReload={setReload}
                             three_way={three_way}
+                            subTypes={subTypes}
                             sub_types={subTypes} />
                     ))
                 }

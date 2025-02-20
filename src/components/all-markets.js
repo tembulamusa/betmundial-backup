@@ -68,26 +68,28 @@ const MatchAllMarkets = (props) => {
             }
     };
     useEffect(() => {
-
-        if(matchwithmarkets) {
-            handleGameSocket("listen")
-        }
-
-
-        socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
-            console.log("ANY GAME LEVEL MESSAGE", data);
-            if (data.message_type == "betstop") {
-                console.log("THE BETSTOP MESSAGE RECEIVED WELL  ::: ", data);
-                setBetStopDetail(data);
+        if(socket.connected){
+            if(matchwithmarkets) {
+                handleGameSocket("listen")
             }
-            
-
-        })
-        return () => {
-            handleGameSocket("listen")
-
+    
+    
+            socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
+                console.log("ANY GAME LEVEL MESSAGE", data);
+                if (data.message_type == "betstop") {
+                    console.log("THE BETSTOP MESSAGE RECEIVED WELL  ::: ", data);
+                    setBetStopDetail(data);
+                }
+                
+    
+            })
+            return () => {
+                handleGameSocket("listen")
+    
+            }
         }
-    }, [matchwithmarkets])
+        
+    }, [matchwithmarkets, socket.connected])
     // even if we are connected on socket, we may have to poll after some time so as to get the newest games
     
     // useInterval(async () => {

@@ -23,47 +23,56 @@ const Live = (props) => {
     const [threeWay, setThreeWay] = useState(true);
     const [refresh, setRefresh] = useState(false);
     const [page, ] = useState(1);
-    const [sportName, setSportName] = useState(state?.selectedLivesport || "soccer");
+    const [betradarSportId, setBetradarSportId] = useState(1);
     const [reload, setReload] = useState(false)
     const {spid, sub_type_id} = useParams();
     const socketRef = useRef(socket);
-    const socketEvent = useMemo(() => `surebet#live-match-page#${sportName}`, [sportName]);
+    const socketEvent = useMemo(() => `surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, [state?.selectedLivesport?.betradar_sport_id || 1]);
 
 
     const handleGameSocket = useCallback((type) => {
-        if(sportName) {
+        console.log("SOCKET STARTED LISTENING  :::  ")
+        if(state?.selectedLivesport?.betradar_sport_id || 1) {
             if (type === "listen" && socketRef.current?.connected) {
-                socketRef.current.emit('user.live-match-page.listen', sportName);
+                socketRef.current.emit('user.live-match-page.listen', betradarSportId);
             } else if (type === "leave") {
-                socketRef.current?.emit('user.live-match-page.leave', sportName);
+                socketRef.current?.emit('user.live-match-page.leave', betradarSportId);
             }
         }
-        }, [sportName]);
+        }, [state?.selectedLivesport?.betradar_sport_id || 1]);
 
     useEffect(() => {
-        if (sportName) {
+        if(socket.connected) {
+            if (betradarSportId) {
 
-            handleGameSocket("listen");
-       
-            const handleSocketData = (data) => {
-                console.log("The LOGGED GAME IN IS HERE    ::::  ", data);
-            // add only matches
-            if(data.name) {
+                console.log("Sport ID changed to  ::: ", state?.selectedLivesport?.betradar_sport_id || 1)
+                handleGameSocket("listen");
+        
+                socket.on(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
+                    
+                    console.log("THE GAME ADDITION RECEIVED  ::::  ", data);
+                    
 
+                    setMatches((preveMatches) => {
+
+                        return [...preveMatches, data].sort((a, b) => a.start_time - b.start_time)
+                    }
+                        
+                    );
+        
+                })
+
+                
+            // socketRef.current?.on(socketEvent, handleSocketData);
+
+            return () => {
+                handleGameSocket("leave");
+                socket.off(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`);
+            };
             }
-            setMatches([...matches, data].sort((a, b) => a.start_time - b.start_time));
-        };
-
-        socketRef.current?.on(socketEvent, handleSocketData);
-
-        return () => {
-            handleGameSocket("leave");
-            socketRef.current?.off(socketEvent, handleSocketData);
-        };
         }
         
-        
-    }, [sportName])
+    }, [betradarSportId, socket.connected])
 
 
     const fetchData = () => {
@@ -94,6 +103,7 @@ const Live = (props) => {
             if(spid) {
                 fetchData();
             }
+            setBetradarSportId(state?.selectedLivesport?.betradar_sport_id)
         }
 
     }, [state?.selectedLivesport]);
@@ -124,7 +134,7 @@ const Live = (props) => {
                 matches={matches}
                 pdown={producerDown}
                 betslip_key={'betslip'}
-                subTypes={"1,10,18"}
+                subTypes={state?.selectedLivesport?.sport_name?.toLowerCase() !== "soccer" ? state?.selectedLivesport?.default_market : "1,10,18"}
                 
                 />}
         </>
