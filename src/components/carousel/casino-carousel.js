@@ -15,12 +15,12 @@ import Six from '../../assets/img/casino/carousel/6.png';
 import Seven from '../../assets/img/casino/carousel/7.jpg';
 import Eight from '../../assets/img/casino/carousel/8.jpg';
 import Nine from '../../assets/img/casino/carousel/9.png';
-import Ten from '../../assets/img/casino/carousel/10.jpg';
-import Eleven from '../../assets/img/casino/carousel/11.jpg';
+import Ten from '../../assets/img/casino/carousel/10.png';
+import Eleven from '../../assets/img/casino/carousel/11.png';
 import Twelve from '../../assets/img/casino/carousel/12.jpg';
 import Thirteen from '../../assets/img/casino/carousel/13.jpg';
-import Fourteen from '../../assets/img/casino/carousel/14.jpg';
-import Fifteen from '../../assets/img/casino/carousel/15.jpg';
+import Fourteen from '../../assets/img/casino/carousel/14.png';
+import Fifteen from '../../assets/img/casino/carousel/15.png';
 import Sixteen from '../../assets/img/casino/carousel/16.jpg';
 import { Link } from "react-router-dom";
 // import Intro from  '../../assets/img/casino/carousel/intro.png';
@@ -73,17 +73,19 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
-            <Carousel.Item >
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Two}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
             </Carousel.Item> */}
+            <Carousel.Item >
+                <Link to={"/casino-game/pragmatic/spaceman"}>
+                    <img
+                        className="d-block w-100"
+                        style={{display: imageLoaded ? 'block' : 'none'}}
+                        src={Two}
+                        onLoad={onImageLoaded}
+                        alt="surebet"
+                        effects="blur"
+                    />
+                </Link>
+            </Carousel.Item>
             {/* <Carousel.Item >
                 <img
                     className="d-block w-100"

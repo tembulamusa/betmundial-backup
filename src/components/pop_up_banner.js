@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import One from "../assets/img/casino/carousel/1.jpg";
-import Two from "../assets/img/casino/carousel/2.png";
-import Three from "../assets/img/casino/carousel/3.png";
+import One from "../assets/img/popups/1.jpg";
+import Two from "../assets/img/popups/2.jpg";
+import Three from "../assets/img/popups/3.jpg";
+import Four from "../assets/img/popups/4.jpg";
 
 const images = [
     { src: One, link: "/surecoin" },
     { src: Two, link: "/surebox" },
-    { src: Three, link: "/casino" }
+    { src: Three, link: "/casino-game/pragmatic/spaceman" },
+    { src: Four, link: "/casino" },
 ];
 
 const PopupBanner = () => {
@@ -37,42 +39,24 @@ const PopupBanner = () => {
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
                 >
-                    <Modal.Body className="position-relative p-0">
+                    <Modal.Body className="p-0 d-flex flex-column align-items-center">
+                        {/* Image */}
                         <LazyLoadImage
-                            className="d-block w-100"
+                            className="popup-responsive-image"
                             src={randomImage.src}
                             alt="Popup Promotion"
-                            style={{ maxwidth: "500px", height: "100px", objectFit: "cover" }}
                         />
-                        {/* Floating Buttons */}
-                        <div
-                            className="position-absolute w-100 d-flex justify-content-between px-3 pb-"
-                            style={{
-                                bottom: "10px",
-                                left: "0",
-                                display: "flex",
-                                justifyContent: "space-around",
-                            }}
-                        >
+                        
+                        <div className="buttons-container">
                             <Button
                                 onClick={() => setShow(false)}
-                                style={{
-                                    backgroundColor: "rgba(255, 0, 0, 0.3)", // Transparent Red
-                                    border: "none",
-                                    padding: "10px 20px",
-                                    color: "#fff",
-                                }}
+                                className="no-thanks-button"
                             >
                                 No Thanks
                             </Button>
                             <Button
                                 onClick={() => (window.location.href = randomImage.link)}
-                                style={{
-                                    backgroundColor: "rgba(0, 255, 0, 0.3)", // Transparent Green
-                                    border: "none",
-                                    padding: "10px 20px",
-                                    color: "#fff",
-                                }}
+                                className="play-now-button"
                             >
                                 Play Now
                             </Button>

@@ -97,7 +97,8 @@ const BodyLogin = (props) => {
                 if (response?.result == "User account not verified") {
                     setAlertVerifyMessage({status: 400, message:response.result})
                 } else {
-                    setAlertVerifyMessage({status: 400, message:"An error occurred. Check details"})
+                    //setAlertVerifyMessage({status: 400, message:"An error occurred. Check details"})
+                    setAlertVerifyMessage({status: 400,  message:response.result})
 
                 }
 

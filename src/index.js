@@ -56,6 +56,7 @@ import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 import CasinoHome from "./components/pages/casino/casino-home";
 import ReactGA from "react-ga4";
 import PageviewTracker from "./components/utils/pageview-tracker";
+import PopupBanner from "./components/pop_up_banner";
 import { PromoTracker } from "./promo-tracker";
 
 const container = document.getElementById("app");
@@ -71,6 +72,7 @@ const App = () => {
             <BrowserRouter>
             <PageviewTracker />
             <PromoTracker />
+            {/* <PopupBanner /> */}
             <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper "} ${state?.hideBigIconNav && 'no-big-icon-nav'}`}>
                 <Suspense fallback={<p></p>}>
                 { !state?.fullcasinoscreen && <Header /> }
