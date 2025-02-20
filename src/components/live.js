@@ -47,7 +47,9 @@ const Live = (props) => {
                 handleGameSocket("listen");
         
                 socket.on(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
-                    
+                    if(data?.parent_match_id == 33428653) {
+                        console.log("THE MARKET TRACKING FOR THE MATCH   ", data)
+                    }
                     console.log("THE GAME ADDITION RECEIVED  ::::  ", data);
 
                     setMatches((preveMatches) => {

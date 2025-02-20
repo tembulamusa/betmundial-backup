@@ -794,6 +794,110 @@ const BetNowButton = (props) => {
     </>);
 }
 
+const MatchMarket = (props) => {
+    const { 
+        initialMatch, 
+        marketName, 
+        marketId, 
+        buttonCount, 
+        special_bet_value, 
+        jackpot, 
+        jackpotstatus, 
+        live,
+        pdown,
+        availableMarkets } = props
+    const [match, ] = useState({ ...initialMatch });
+    const [btnCount, ] = useState(buttonCount);
+    const [outcomes, setOutcomes] = useState(
+        initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) =>
+            a?.outcome_id - b?.outcome_id) || [])
+    
+    const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status);
+
+    const handleGameSocket = (type, gameId) => {
+        availableMarkets?.forEach((subTypeId) => {
+            if (type == "listen" && socket?.connected) {
+                socket.emit('user.market.listen', { parent_match_id: gameId, sub_type_id: subTypeId });
+            } else if (type == "leave") {
+                socket?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id: subTypeId });
+            }
+        });
+    }
+
+
+    useEffect(() => {
+        handleGameSocket("listen", match?.parent_match_id);
+
+        socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
+            
+            if(marketId == 18) {
+                console.log("THE TOTALS ODDS ARE HERE  ::::  ", data )
+                if(data.match_market.special_bet_value == 2.5) {
+                    console.log("THE SPECIAL UNDER OVER  ::::  ", marketId, "THE MARKET IS LOADING  :::  ", data)
+                }
+            }
+
+            if (data.match_market.special_bet_value == special_bet_value) {
+                if (Object.keys(data.event_odds).length > 0) {
+                    setOutcomes(
+                        Object.values(data.event_odds).sort(
+                            (a, b) => a.outcome_id - b.outcome_id
+                        )
+                    );
+                } 
+                setMarketStatus(data.match_market.market_status)
+            }
+        });
+
+        return () => {
+            handleGameSocket("leave", match?.parent_match_id);
+        }
+    }, [socket.connected])
+
+    return (
+        <>
+            {
+                ((!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live) 
+                &&
+                market_status == "Active") && outcomes?.map((marketOdd, idx) => {
+                    let matchWithDetails = { 
+                        ...match, 
+                        market_status: market_status, 
+                        ...marketOdd, 
+                        producer_id: match?.odds?.[marketName]?.producer_id 
+                    };
+                    delete matchWithDetails.odds;
+
+                    return (
+                        marketOdd.odd_active == 1 
+                             && marketOdd.odd_value 
+                             && (!pdown && marketOdd.odd_value !== 'NaN') || (jackpot && jackpotstatus == "ACTIVE")
+                            ? 
+                            <>
+                                <OddButton 
+                                    key={`${match?.match_id}-${idx}`} 
+                                    match={matchWithDetails}
+                                    mkt={marketName}
+                                    live={live}
+                                    jackpot={jackpot} />
+                            </>
+                            : <><LockedButton /></>)
+                })
+            }
+
+            {
+
+                !jackpot && market_status !== "Active" &&
+                ((btnCount == 2) ? [1, 2].map((btn, idx) => (
+                    <><LockedButton btnStatus={market_status} /></>
+                )) : [1, 2, 3].map((btn, idx) => (
+                    <><LockedButton btnStatus={market_status} /></>
+                )))
+            }
+        </>
+    )
+}
+
 const MatchRow = (props) => {
     const {
         initialMatch,
@@ -805,23 +909,11 @@ const MatchRow = (props) => {
         setReload,
         subTypes } = props;
 
-    const [state, dispatch] = useContext(Context);
-    const [isVisible, setIsVisible] = useState(true);
-    const [match, setMatch] = useState({ ...initialMatch })
-    const [availableMarkets, setAvailableMarkets] = useState(subTypes || [1, 10, 18])
+    const [match, ] = useState({ ...initialMatch })
+    const [availableMarkets, ] = useState(subTypes || [1, 10, 18])
     const [updatedMatchStatus, setUpdatedMatchStatus] = useState(null);
     const [updatedMatchTime, setUpdatedMatchTime] = useState({});
     const [updatedMatchScore, setUpdatedMatchScore] = useState();
-
-    
-    // match.market_active = 1
-    // if(match?.odds?.home_odd_active) {
-    //     match.odds.home_odd_active = 1
-    // }
-    
-    useEffect(() => {
-        setAvailableMarkets(subTypes)
-    }, [])
 
     useEffect(()=>{
         if (["ended", "deactivated", "abandoned"].includes?.updatedMatchStatus?.toLowerCase()) {
@@ -839,139 +931,25 @@ const MatchRow = (props) => {
         });
     }
 
-
-    const handleGameSocket = (type, gameId) => {
-        availableMarkets?.forEach((subTypeId) => {
-            if (type == "listen" && socket?.connected) {
-                socket.emit('user.market.listen', { parent_match_id: gameId, sub_type_id: subTypeId });
-            } else if (type == "leave") {
-                socket?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id: subTypeId });
-                socket?.emit("user.match.leave", gameId);
-
-            }
-        });
-    }
     useEffect(() => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
-        handleGameSocket("listen", match?.parent_match_id);
-        // Track tab/visibility of the of the tab
-        document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState === "hidden") {
-                // setIsVisible(false);
-            } else if (document.visibilityState === "visible") {
-                // setIsVisible(true);
-            }
-        });
-
-
-        //   Listen for the whole match as well 
+        
         socket.emit('user.match.listen', match?.parent_match_id);
-
-        // manage game socket data
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
-
             setUpdatedMatchScore((prevScore) => {
                 return data.score
             });
             setUpdatedMatchStatus((prevStatus) => {
                 return data.match_status
-
             });
-
             updateMatchTimeMinutesAndSeconds(data.match_time);
-
-
         })
 
         return () => {
-            // unsubscribe trigger
-            handleGameSocket("leave", match?.parent_match_id);
-
+            socket?.emit("user.market.leave", match?.parent_match_id );
         }
 
-    }, []);
-
-
-    const MatchMarket = (props) => {
-        const { initialMatch, marketName, marketId, special_bet_key, buttonCount } = props
-        const [match, setMatch] = useState({ ...initialMatch });
-        const [btnCount, setBtnCount] = useState(buttonCount);
-        const [outcomes, setOutcomes] = useState(
-            initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) =>
-                a?.outcome_id - b?.outcome_id) || [])
-        const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status);
-
-
-        useEffect(() => {
-            socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
-                if(marketId == 18) {
-                    console.log("THE TOTALS ODDS ARE HERE  ::::  ", data )
-                    if(data.match_market.special_bet_value == 2.5) {
-                        console.log("THE SPECIAL UNDER OVER  ::::  ", marketId, "THE MARKET IS LOADING  :::  ", data)
-                    }
-                }
-                if (!special_bet_key) {
-                    if (Object.keys(data.event_odds).length > 0) {
-                        setOutcomes(Object.values(data.event_odds).sort((a, b) => a.outcome_id - b.outcome_id));
-                    }
-                    setMarketStatus(data.match_market.status)
-                } else {
-                    if (data.match_market.special_bet_key == special_bet_key) {
-                        if (Object.keys(data.event_odds).length > 0) {
-                            setOutcomes(Object.values(data.event_odds).sort((a, b) => a.outcome_id - b.outcome_id));
-                        }
-                        setMarketStatus(data.match_market.status)
-                    }
-                }
-            });
-        }, [])
-
-        return (
-            <>
-                {
-                    ((!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live) 
-                    &&
-                    market_status == "Active") && outcomes?.map((marketOdd, idx) => {
-                        let matchWithDetails = { ...match, market_status: market_status, ...marketOdd, producer_id: match?.odds?.[marketName]?.producer_id };
-                        delete matchWithDetails.odds;
-
-                        return (
-                            marketOdd.odd_active == 1 && marketOdd.odd_value && (!pdown && marketOdd.odd_value !== 'NaN') || (jackpot && jackpotstatus == "ACTIVE")
-                                ? 
-                                <>
-                                    <OddButton 
-                                        key={`${match?.match_id}-${idx}`} 
-                                        match={matchWithDetails}
-                                        mkt={marketName}
-                                        live={live}
-                                        jackpot={jackpot} />
-                                </>
-                                : <><LockedButton /></>)
-                    })
-                }
-
-                {
-
-                    !jackpot && market_status !== "Active" &&
-                    ((btnCount == 2) ? [1, 2].map((btn, idx) => (
-                        <><LockedButton btnStatus={market_status} /></>
-                    )) : [1, 2, 3].map((btn, idx) => (
-                        <><LockedButton btnStatus={market_status} /></>
-                    )))
-                }
-            </>
-        )
-    }
-    useEffect(() => {
-        if (socket.connected) {
-            handleGameSocket("listen", match?.parent_match_id);
-        }
-        if (isVisible) {
-            handleGameSocket("listen", match?.parent_match_id);
-        } else if (!isVisible) {
-            handleGameSocket("leave", match?.parent_match_id)
-        }
-    }, [socket.connected, isVisible]);
+    }, [socket.connected]);
 
     const TimeToLiveStarting = (props) => {
         const { starttime } = props;
@@ -1076,16 +1054,50 @@ const MatchRow = (props) => {
                         initialMatch?.sport_name?.toLowerCase() == "soccer" &&
                         <>
                             <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">
-                                <MatchMarket initialMatch={match} marketName={"1x2"} marketId={1} />
+                                <MatchMarket 
+                                    initialMatch={match} 
+                                    marketName={"1x2"} 
+                                    marketId={1} 
+                                    special_bet_value = ""
+                                    jackpot={jackpot}
+                                    jackpotstatus={jackpotstatus}
+                                    live={live}
+                                    pdown={pdown}
+                                    availableMarkets={availableMarkets}
+                                
+                                />
                                 {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
                             </div>
 
                             <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="223">
-                                <MatchMarket initialMatch={match} marketName={"Double Chance"} marketId={10} />
+                                <MatchMarket 
+                                    initialMatch={match} 
+                                    marketName={"Double Chance"} 
+                                    marketId={10}  
+                                    special_bet_value = ""
+                                    jackpot={jackpot}
+                                    jackpotstatus={jackpotstatus}
+                                    live={live}
+                                    pdown={pdown}
+                                    availableMarkets={availableMarkets}
+                                
+                                />
                             </div>
 
                             <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="224">
-                                <MatchMarket initialMatch={match} marketName={"Total"} marketId={18} special_bet_key="2.5" buttonCount={2} />
+                                <MatchMarket 
+                                    initialMatch={match} 
+                                    marketName={"Total"} 
+                                    marketId={18} 
+                                    special_bet_value="2.5"
+                                    buttonCount={2} 
+                                    jackpot={jackpot}
+                                    jackpotstatus={jackpotstatus}
+                                    live={live}
+                                    pdown={pdown}
+                                    availableMarkets={availableMarkets}
+                                     
+                                     />
                             </div>
                         </>
                     }
@@ -1096,7 +1108,18 @@ const MatchRow = (props) => {
                         Object.keys(match?.odds || [])?.map((odd, idx) => {
                             return (
                                 <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">
-                                    <MatchMarket initialMatch={match} marketName={odd} marketId={1} buttonCount={three_way ? 3 : 2} />
+                                    <MatchMarket 
+                                        initialMatch={match} 
+                                        marketName={odd} 
+                                        marketId={1} 
+                                        buttonCount={three_way ? 3 : 2}  
+                                        special_bet_value = ""
+                                        jackpot={jackpot}
+                                        jackpotstatus={jackpotstatus}
+                                        live={live}
+                                        pdown={pdown}
+                                        availableMarkets={availableMarkets}
+                                    />
                                 {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
                             </div>
                             )
