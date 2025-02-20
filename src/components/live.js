@@ -83,7 +83,7 @@ const Live = (props) => {
 
             return () => {
                 handleGameSocket("leave");
-                socket.off(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`);
+                // socket.off(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`);
             };
             }
         }
