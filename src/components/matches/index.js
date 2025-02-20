@@ -845,7 +845,7 @@ const MatchMarket = (props) => {
                         )
                     );
                 } 
-                setMarketStatus(data.match_market.market_status)
+                setMarketStatus(data.match_market.status)
             }
         });
 
