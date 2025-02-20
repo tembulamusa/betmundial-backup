@@ -31,7 +31,6 @@ const Live = (props) => {
 
 
     const handleGameSocket = useCallback((type) => {
-        console.log("SOCKET STARTED LISTENING  :::  ")
         if(state?.selectedLivesport?.betradar_sport_id || 1) {
             if (type === "listen" && socketRef.current?.connected) {
                 socketRef.current.emit('user.live-match-page.listen', betradarSportId);
@@ -45,17 +44,32 @@ const Live = (props) => {
         if(socket.connected) {
             if (betradarSportId) {
 
-                console.log("Sport ID changed to  ::: ", state?.selectedLivesport?.betradar_sport_id || 1)
                 handleGameSocket("listen");
         
                 socket.on(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
                     
                     console.log("THE GAME ADDITION RECEIVED  ::::  ", data);
-                    
 
                     setMatches((preveMatches) => {
+                        let odds = {}
+                        let selectedSport = state?.selectedLivesport ? state?.selectedLivesport?.betradar_sport_id : 1
+                        let sport_name = state?.selectedLivesport ? state?.selectedLivesport?.sport_name : "soccer"
+                        if(selectedSport == 1){
+                            odds["1x2"] = {"sub_type_id":1, "name":"1x2", "special_bet_value":"", "outcomes":[]};
+                            odds["Double Chance"] = {"sub_type_id":10, "name":"Double Chance", "special_bet_value":"", "outcomes":[]};
+                            odds["Total"] = {"sub_type_id":18, "name":"Total", "special_bet_value": "2.5", "outcomes":[]};
 
-                        return [...preveMatches, data].sort((a, b) => a.start_time - b.start_time)
+                        } else {
+                            odds[state?.selectedLivesport?.dafault_display_markets] = {
+                                "sub_type_id": state?.selectedLivesport?.default_market, 
+                                "name": state?.selectedLivesport?.dafault_display_markets, "special_bet_value":"", "outcomes": []}
+
+                        }
+                        
+                        data.odds = odds;
+                        data.sport_name = sport_name
+
+                        return [...preveMatches, data].sort((a, b) => (b.match_time - a.match_time) || (a.start_time - b.start_time))
                     }
                         
                     );
@@ -134,7 +148,16 @@ const Live = (props) => {
                 matches={matches}
                 pdown={producerDown}
                 betslip_key={'betslip'}
-                subTypes={state?.selectedLivesport?.sport_name?.toLowerCase() !== "soccer" ? state?.selectedLivesport?.default_market : "1,10,18"}
+                subTypes={state?.selectedLivesport 
+                    ? 
+                    state?.selectedLivesport?.sport_name?.toLowerCase() !== "soccer" 
+                    ? 
+                    [state?.selectedLivesport?.default_market] 
+                    :
+                    [1,10,18]
+                    :
+                    [1,10,18]
+                }
                 
                 />}
         </>

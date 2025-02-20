@@ -36,7 +36,7 @@ const Index = (props) => {
     const [fetching, setFetching] = useState(false)
     const [fetchingCount, setFetchingCount] = useState(0)
     const homePageRef = useRef()
-    const [subTypes, setSubTypes] = useState("1,10,18");
+    const [subTypes, setSubTypes] = useState([1,10,18]);
     // const [doPoll, setDoPoll] = useState(false);
     const [searchParams] = useSearchParams();
 
@@ -187,7 +187,16 @@ const Index = (props) => {
                         pdown={producerDown}
                         three_way={state?.filtersport ? state?.filtersport?.sport_type == "threeway" : true}
                         fetching={fetching}
-                        subTypes={subTypes}
+                        subTypes={state?.filtersport 
+                            ?
+                            state?.filtersport?.sport_name.toLowerCase() !== "soccer"
+                            ?
+                            [state?.filtersport?.default_market] 
+                            :
+                            [1,10,18]
+                            :
+                            [1,10,18]
+                            }
                         betslip_key={"betslip"}
                         fetchingcount={fetchingCount}
                     />

@@ -812,11 +812,16 @@ const MatchRow = (props) => {
     const [updatedMatchStatus, setUpdatedMatchStatus] = useState(null);
     const [updatedMatchTime, setUpdatedMatchTime] = useState({});
     const [updatedMatchScore, setUpdatedMatchScore] = useState();
+
+    
     // match.market_active = 1
     // if(match?.odds?.home_odd_active) {
     //     match.odds.home_odd_active = 1
     // }
     
+    useEffect(() => {
+        setAvailableMarkets(subTypes)
+    }, [])
 
     useEffect(()=>{
         if (["ended", "deactivated", "abandoned"].includes?.updatedMatchStatus?.toLowerCase()) {
@@ -836,7 +841,7 @@ const MatchRow = (props) => {
 
 
     const handleGameSocket = (type, gameId) => {
-        availableMarkets.forEach((subTypeId) => {
+        availableMarkets?.forEach((subTypeId) => {
             if (type == "listen" && socket?.connected) {
                 socket.emit('user.market.listen', { parent_match_id: gameId, sub_type_id: subTypeId });
             } else if (type == "leave") {
@@ -894,10 +899,16 @@ const MatchRow = (props) => {
         const [outcomes, setOutcomes] = useState(
             initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) =>
                 a?.outcome_id - b?.outcome_id) || [])
-        const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status)
+        const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status);
+
 
         useEffect(() => {
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
+                if(marketId == 18) {
+                    console.log("THE TOTALS ODDS ARE HERE  ::::  ", data )
+
+                    
+                }
                 if (!special_bet_key) {
                     if (Object.keys(data.event_odds).length > 0) {
                         setOutcomes(Object.values(data.event_odds).sort((a, b) => a.outcome_id - b.outcome_id));
@@ -1073,12 +1084,13 @@ const MatchRow = (props) => {
                             </div>
 
                             <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="224">
-                                <MatchMarket initialMatch={match} marketName={"Total"} marketId={10} special_bet_key="2.5" buttonCount={2} />
+                                <MatchMarket initialMatch={match} marketName={"Total"} marketId={18} special_bet_key="2.5" buttonCount={2} />
                             </div>
                         </>
                     }
 
                     {
+                       
                         initialMatch?.sport_name?.toLowerCase() !== "soccer" &&
                         Object.keys(match?.odds || [])?.map((odd, idx) => {
                             return (
@@ -1252,8 +1264,7 @@ export const JackpotMatchList = (props) => {
     return (
         <div className="matches is-jackpot-matches full-width mt-3">
 
-            <MatchHeaderRow jackpot={true} first_match={matches ? matches[0] : []} />
-
+            <MatchHeaderRow jackpot={true} first_match={matches ? matches[0] : {}} />
             <Container className="web-element">
                 {matches && Object.entries(matches?.matches).map(([key, match]) => (
                     <MatchRow initialMatchmatch={match} jackpot key={key} jackpotstatus={matches?.status} />
@@ -1318,7 +1329,6 @@ const MatchList = (props) => {
         fetchingcount
     } = props;
     const [state, dispatch] = useContext(Context);
-    console.log("THE SELECTED SUBTYPES ARE ::: ", subTypes)
     useEffect(() => {
         dispatch({ type: "SET", key: "matchlisttype", payload: "normal" });
         return () => {
@@ -1364,7 +1374,7 @@ const MatchList = (props) => {
                     ))
                 }
 
-                {(((matches || []).length) == 0 && fetchingcount < 3) &&
+                {(((matches || []).length) == 0 && fetching) &&
                     <ShimmerTable row={3} />
                 }
                 {(((matches || []).length) == 0 && !fetching) &&
