@@ -649,14 +649,6 @@ const MarketRow = (props) => {
             }
             const handleSocketData = (data) => {
 
-                if (marketDetail.sub_type_id == 18 ) {
-                    console.log("THE TOTAL MARKET  IS HERE  :::  ", data.match_market, " THE EVENT ODDS  ::: ", data.event_odds)
-                }
-
-                if (marketDetail.sub_type_id == 18 && data.special_bet_value == 3) {
-                    console.log("THE TOTAL 333  IS HERE  :::  ", data.match_market, " THE EVENT ODDS  ::: ", data.event_odds)
-                }
-
                 if(Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                     setMutableMkts((prevMarkets) => {
@@ -830,13 +822,6 @@ const MatchMarket = (props) => {
 
         socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
             
-            if(marketId == 18) {
-                console.log("THE TOTALS ODDS ARE HERE  ::::  ", data )
-                if(data.match_market.special_bet_value == 2.5) {
-                    console.log("THE SPECIAL UNDER OVER  ::::  ", marketId, "THE MARKET IS LOADING  :::  ", data)
-                }
-            }
-
             if (data.match_market.special_bet_value == special_bet_value) {
                 if (Object.keys(data.event_odds).length > 0) {
                     setOutcomes(
@@ -909,11 +894,12 @@ const MatchRow = (props) => {
         setReload,
         subTypes } = props;
 
-    const [match, ] = useState({ ...initialMatch })
+    const [match, setMatch] = useState({ ...initialMatch })
     const [availableMarkets, ] = useState(subTypes || [1, 10, 18])
     const [updatedMatchStatus, setUpdatedMatchStatus] = useState(null);
     const [updatedMatchTime, setUpdatedMatchTime] = useState({});
     const [updatedMatchScore, setUpdatedMatchScore] = useState();
+    const [betStop, setBetStop] = useState({});
 
     useEffect(()=>{
         if (["ended", "deactivated", "abandoned"].includes?.updatedMatchStatus?.toLowerCase()) {
@@ -936,6 +922,41 @@ const MatchRow = (props) => {
         
         socket.emit('user.match.listen', match?.parent_match_id);
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
+
+            if(data.message_type == "betstop") {
+                
+                if(data.markets == "all") {
+                    setMatch((prevMatch) =>{
+                        let newOdds = prevMatch.odds;
+                        let newOddsMatch = prevMatch
+                        Object.keys(newOdds).forEach(key => {
+                            newOdds[key].outcomes.forEach((item, idx) => {
+                                newOdds[key].outcomes[idx].market_status = data.market_status
+                            })
+                        })
+                        newOddsMatch.odds = newOdds;
+                        return newOddsMatch
+                    })
+                } else {
+                    let marketIds = data.markets.split(",");
+                    marketIds.forEach(item => {
+                        setMatch((prevMatch) =>{
+                            let newOdds = prevMatch.odds;
+                            let newOddsMatch = prevMatch
+                            Object.keys(newOdds).forEach(key => {
+                                if (newOdds[key].sub_type_id == item) {
+                                    newOdds[key].outcomes.forEach((item, idx) => {
+                                        newOdds[key].outcomes[idx].market_status = data.market_status
+                                    })
+                                }
+                            })
+                            newOddsMatch.odds = newOdds;
+                            return newOddsMatch
+                        })
+                    })
+                }
+            }
+
             setUpdatedMatchScore((prevScore) => {
                 return data.score
             });
@@ -1062,6 +1083,7 @@ const MatchRow = (props) => {
                                     jackpot={jackpot}
                                     jackpotstatus={jackpotstatus}
                                     live={live}
+                                    betStop={betStop}
                                     pdown={pdown}
                                     availableMarkets={availableMarkets}
                                 
@@ -1073,7 +1095,8 @@ const MatchRow = (props) => {
                                 <MatchMarket 
                                     initialMatch={match} 
                                     marketName={"Double Chance"} 
-                                    marketId={10}  
+                                    marketId={10}
+                                    betStop={betStop}
                                     special_bet_value = ""
                                     jackpot={jackpot}
                                     jackpotstatus={jackpotstatus}
@@ -1094,6 +1117,7 @@ const MatchRow = (props) => {
                                     jackpot={jackpot}
                                     jackpotstatus={jackpotstatus}
                                     live={live}
+                                    betStop={betStop}
                                     pdown={pdown}
                                     availableMarkets={availableMarkets}
                                      
@@ -1118,6 +1142,7 @@ const MatchRow = (props) => {
                                         jackpotstatus={jackpotstatus}
                                         live={live}
                                         pdown={pdown}
+                                        betStop={betStop}
                                         availableMarkets={availableMarkets}
                                     />
                                 {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
@@ -1160,7 +1185,6 @@ export const MarketList = (props) => {
 
     }
 
-
     useEffect(() => {
         setMatchWithMarkets(initialMatchwithmarkets);
         return () => {
@@ -1174,14 +1198,9 @@ export const MarketList = (props) => {
             if (socket.connected) {
                 handleGameSocket("listen", matchwithmarkets?.parent_match_id);
             }
-            if (isVisible) {
-                handleGameSocket("listen", matchwithmarkets?.parent_match_id);
-            } else if (!isVisible) {
-                handleGameSocket("leave", matchwithmarkets?.parent_match_id)
-            }
         }
 
-    }, [socket.connected, isVisible]);
+    }, [socket.connected, ]);
 
     // comes from the markets with filter
     const marketFilters = [

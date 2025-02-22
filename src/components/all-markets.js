@@ -31,7 +31,6 @@ const MatchAllMarkets = (props) => {
     const params = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [, dispatch] = useContext(Context);
-    const [betStopDetail, setBetStopDetail] = useState({});
     const navigate = useNavigate();
     
 
@@ -76,15 +75,45 @@ const MatchAllMarkets = (props) => {
     
             socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
                 console.log("ANY GAME LEVEL MESSAGE", data);
-                if (data.message_type == "betstop") {
-                    console.log("THE BETSTOP MESSAGE RECEIVED WELL  ::: ", data);
-                    setBetStopDetail(data);
-                }
+                console.log("THE MATCHWITH MARKETS SHOW  ", matchwithmarkets)
                 
+                if(data.message_type == "betstop") {
+                
+                    if(data.markets == "all") {
+                        setMatchWithMarkets((prevMatch) =>{
+                            let newOdds = prevMatch.odds;
+                            let newOddsMatch = prevMatch
+                            Object.keys(newOdds).forEach(key => {
+                                newOdds[key].outcomes.forEach((item, idx) => {
+                                    newOdds[key].outcomes[idx].market_status = data.market_status
+                                })
+                            })
+                            newOddsMatch.odds = newOdds;
+                            return newOddsMatch
+                        })
+                    } else {
+                        let marketIds = data.markets.split(",");
+                        marketIds.forEach(item => {
+                            setMatchWithMarkets((prevMatch) =>{
+                                let newOdds = prevMatch.odds;
+                                let newOddsMatch = prevMatch
+                                Object.keys(newOdds).forEach(key => {
+                                    if (newOdds[key].sub_type_id == item) {
+                                        newOdds[key].outcomes.forEach((item, idx) => {
+                                            newOdds[key].outcomes[idx].market_status = data.market_status
+                                        })
+                                    }
+                                })
+                                newOddsMatch.odds = newOdds;
+                                return newOddsMatch
+                            })
+                        })
+                    }
+                }
     
             })
             return () => {
-                handleGameSocket("listen")
+                handleGameSocket("leave")
     
             }
         }
@@ -120,7 +149,7 @@ const MatchAllMarkets = (props) => {
        <>
            
         <div className="homepage">
-            {matchwithmarkets !== null && <MarketList betStopDetail = {betStopDetail} live={live}  
+            {matchwithmarkets !== null && <MarketList live={live}  
                 initialMatchwithmarkets={matchwithmarkets} 
                 pdown={producerDown} />}
         </div>
