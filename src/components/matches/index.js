@@ -628,12 +628,18 @@ const MarketRow = (props) => {
     useEffect(() => {
         if(betstopMessage){
 
-            let affectedMarkets = betstopMessage.split(",");
+            let affectedMarkets = betstopMessage.markets.split(",");
             if(affectedMarkets.includes('all')  
                 ||  affectedMarkets.includes(marketDetail.sub_type_id)){
                     setMutableMkts((prevMarkets) => {
                         const newOdds = [...prevMarkets];
-                        newOdds.forEach((odd) => odd.market_status = betstopMessage.market_status)
+                        newOdds.forEach((odd) => {
+                            if(odd.market_status.toLowerCase() == "active") {
+                                odd.market_status = betstopMessage.market_status
+                            }
+                        }
+                            
+                    )
                         return newOdds;
 
                     });
@@ -651,12 +657,6 @@ const MarketRow = (props) => {
 
             
             const handleSocketData = (data) => {
-                if (marketDetail?.sub_type_id == 18 ) {
-                    console.log("THE MARKET 18 MESSAGE ::::  ", data)
-                    if(data.match_market.special_bet_value.includes("4")){
-                        console.log("LOGGING FOR Market 4   :::::   ", data)
-                    }
-                }
                 if(Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                     setMutableMkts((prevMarkets) => {
@@ -675,6 +675,11 @@ const MarketRow = (props) => {
                             return [...prevMarkets, evodd].sort((a, b) => 
                                 a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
                             );
+                        }
+                        if(marketStatus.toLowerCase() !== "active" 
+                            && 
+                            evodd.market_status.toLowerCase() == "active") {
+                                setMarketStatus(evodd.market_status);
                         }
                     });
 
@@ -695,7 +700,6 @@ const MarketRow = (props) => {
                         return newOdds.sort((a, b) => 
                             a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
                             );
-
                     });
                 }
                 
