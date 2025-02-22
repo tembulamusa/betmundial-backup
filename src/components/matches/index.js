@@ -603,7 +603,7 @@ const teamScore = (allscore, is_home_team) => {
 }
 
 const MarketRow = (props) => {
-    const { markets, match, market_id, width, live, pdown, marketDetail, betStopDetail} = props;
+    const { markets, match, market_id, width, live, pdown, marketDetail, betstopMessage, setBetstopMessage} = props;
     const [mutableMkts, setMutableMkts] = useState(
         [...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]
     );
@@ -626,29 +626,37 @@ const MarketRow = (props) => {
     }, []);
 
     useEffect(() => {
-        if(betStopDetail?.markets == "" || betStopDetail?.markets?.includes(marketDetail.sub_type_id) ) {
-            // for all the bestuffs, set to current bet status
-            setMutableMkts((prevMarkets) => {
+        if(betstopMessage){
 
-                let newOdds = prevMarkets;
-                newOdds.forEach(odd => {
-                    odd.market_status = betStopDetail.market_status
-                });
-                return newOdds
-            })
+            let affectedMarkets = betstopMessage.split(",");
+            if(affectedMarkets.includes('all')  
+                ||  affectedMarkets.includes(marketDetail.sub_type_id)){
+                    setMutableMkts((prevMarkets) => {
+                        const newOdds = [...prevMarkets];
+                        newOdds.forEach((odd) => odd.market_status = betstopMessage.market_status)
+                        return newOdds;
+
+                    });
+                    setMarketStatus(betstopMessage.market_status);
+            }
+            setBetstopMessage(null);
         }
-    }, [betStopDetail]);
+        
+    }, [betstopMessage]);
 
 
     useEffect(() => {
         if (socket.connected) {
             handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
 
-            if (marketDetail?.sub_type_id == 18 ) {
-                
-            }
+            
             const handleSocketData = (data) => {
-
+                if (marketDetail?.sub_type_id == 18 ) {
+                    console.log("THE MARKET 18 MESSAGE ::::  ", data)
+                    if(data.match_market.special_bet_value.includes("4")){
+                        console.log("LOGGING FOR Market 4   :::::   ", data)
+                    }
+                }
                 if(Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                     setMutableMkts((prevMarkets) => {
@@ -919,7 +927,6 @@ const MatchRow = (props) => {
 
     useEffect(() => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
-        
         socket.emit('user.match.listen', match?.parent_match_id);
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
 
@@ -1168,7 +1175,7 @@ const MatchRow = (props) => {
 
 export const MarketList = (props) => {
 
-    const { live, initialMatchwithmarkets, pdown, betStopDetail } = props;
+    const { live, initialMatchwithmarkets, pdown , betstopMessage, setBetstopMessage} = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
     const [isVisible, setIsVisible] = useState(true);
     const [matchwithmarkets, setMatchWithMarkets] = useState(initialMatchwithmarkets)
@@ -1257,7 +1264,8 @@ export const MarketList = (props) => {
 
                     return (["active", "suspended", ""].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) &&
                         <MarketRow
-                            betStopDetail = {betStopDetail}
+                            betstopMessage = {betstopMessage}
+                            setBetstopMessage = {setBetstopMessage}
                             market_id={mkt_id}
                             markets={markets?.outcomes?.sort((a, b) => 
                                 a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id

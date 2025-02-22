@@ -32,6 +32,7 @@ const MatchAllMarkets = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [, dispatch] = useContext(Context);
     const navigate = useNavigate();
+    const [betstopMessage, setBetstopMessage] = useState();
     
 
     const findPostableSlip = () => {
@@ -72,44 +73,18 @@ const MatchAllMarkets = (props) => {
                 handleGameSocket("listen")
             }
     
-    
+            console.log("THE MATCH WITH MARKETS  :::  ", matchwithmarkets)
+
             socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
-                console.log("ANY GAME LEVEL MESSAGE", data);
-                console.log("THE MATCHWITH MARKETS SHOW  ", matchwithmarkets)
-                
+                console.log("The Game received INFO :::  ", data)
                 if(data.message_type == "betstop") {
-                
-                    if(data.markets == "all") {
-                        setMatchWithMarkets((prevMatch) =>{
-                            let newOdds = prevMatch.odds;
-                            let newOddsMatch = prevMatch
-                            Object.keys(newOdds).forEach(key => {
-                                newOdds[key].outcomes.forEach((item, idx) => {
-                                    newOdds[key].outcomes[idx].market_status = data.market_status
-                                })
-                            })
-                            newOddsMatch.odds = newOdds;
-                            return newOddsMatch
-                        })
-                    } else {
-                        let marketIds = data.markets.split(",");
-                        marketIds.forEach(item => {
-                            setMatchWithMarkets((prevMatch) =>{
-                                let newOdds = prevMatch.odds;
-                                let newOddsMatch = prevMatch
-                                Object.keys(newOdds).forEach(key => {
-                                    if (newOdds[key].sub_type_id == item) {
-                                        newOdds[key].outcomes.forEach((item, idx) => {
-                                            newOdds[key].outcomes[idx].market_status = data.market_status
-                                        })
-                                    }
-                                })
-                                newOddsMatch.odds = newOdds;
-                                return newOddsMatch
-                            })
-                        })
+                   setBetstopMessage(data);
+                } else {
+                    if(["ended", "suspended", "deactivated"].includes(data.match_status.toLowerCase())) {
+                        window.location.reload();
                     }
                 }
+                
     
             })
             return () => {
@@ -119,31 +94,6 @@ const MatchAllMarkets = (props) => {
         }
         
     }, [matchwithmarkets, socket.connected])
-    // even if we are connected on socket, we may have to poll after some time so as to get the newest games
-    
-    // useInterval(async () => {
-    //     if(!isLoading){
-    //         fetchPagedData();
-    //     }
-
-    // }, 5000);
-
-    useEffect(()=> {
-        
-        // if(live) {
-        //     if(socket.connected){ setDelay(5000) } else { setDelay(3000) }
-        // } else {
-        //     if(socket.connected){ setDelay(10000) } else { setDelay(15000) }
-        // }
-
-        // dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
-
-        // return () => {
-        //     dispatch({type:"DEL", key: "matchlisttype"});
-        // }
-
-    },[])
-
 
    return (
        <>
@@ -151,7 +101,10 @@ const MatchAllMarkets = (props) => {
         <div className="homepage">
             {matchwithmarkets !== null && <MarketList live={live}  
                 initialMatchwithmarkets={matchwithmarkets} 
-                pdown={producerDown} />}
+                pdown={producerDown} 
+                betstopMessage = {betstopMessage} 
+                setBetstopMessage={setBetstopMessage}
+                />}
         </div>
 
 
