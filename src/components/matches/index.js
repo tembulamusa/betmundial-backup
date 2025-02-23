@@ -271,7 +271,7 @@ const MoreMarketsHeaderRow = (props) => {
         socketRef.current?.on(socketEvent, handleSocketData);
 
         return () => {
-            // handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
+            // handleGameSocket("leave", match?.parent_match_id);
             socketRef.current?.off(socketEvent, handleSocketData);
         };
     }, [handleGameSocket, match, socketEvent]);
@@ -708,7 +708,7 @@ const MarketRow = (props) => {
             socketRef.current?.on(socketEvent, handleSocketData);
         
         return () => {
-            handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
+            // handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
             socketRef.current?.off(socketEvent, handleSocketData);
         };
     }
