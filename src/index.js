@@ -72,7 +72,7 @@ const App = () => {
             <BrowserRouter>
             <PageviewTracker />
             <PromoTracker />
-            {/* <PopupBanner /> */}
+            <PopupBanner />
             <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper "} ${state?.hideBigIconNav && 'no-big-icon-nav'}`}>
                 <Suspense fallback={<p></p>}>
                 { !state?.fullcasinoscreen && <Header /> }

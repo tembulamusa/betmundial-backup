@@ -449,6 +449,22 @@ display: none;
 }
 
 /* Popup CSS. Shown on initial site load */
+.popup-banner-modal .modal-content {
+  background: transparent !important;
+  border: none;
+  box-shadow: none;
+}
+
+.transparent-backdrop {
+  background-color: rgba(0, 0, 0, 0) !important; 
+}
+
+.popup-banner-modal .modal-dialog {
+  top: 30vh !important;  
+  transform: translateY(0) !important;  
+  margin: 0 auto;
+}
+
 .popup-responsive-image {
   width: 100%;
   height: auto;

@@ -6,12 +6,16 @@ import One from "../assets/img/popups/1.jpg";
 import Two from "../assets/img/popups/2.jpg";
 import Three from "../assets/img/popups/3.jpg";
 import Four from "../assets/img/popups/4.jpg";
+import Five from "../assets/img/popups/5.jpg";
+import Six from "../assets/img/popups/6.jpg";
 
 const images = [
-    { src: One, link: "/surecoin" },
-    { src: Two, link: "/surebox" },
-    { src: Three, link: "/casino-game/pragmatic/spaceman" },
-    { src: Four, link: "/casino" },
+    { src: One, link: "/casino-game/aviator/aviator" },
+    { src: Two, link: "/casino-game/aviatrix/aviatrix" },
+    { src: Three, link: "/casino-game/smartsoft/jetx" },
+    { src: Four, link: "/casino-game/eurovirtuals/virtual-league" },
+    { src: Five, link: "/casino-game/pragmatic/spaceman" },
+    { src: Six, link: "/surecoin" },
 ];
 
 const PopupBanner = () => {
@@ -35,9 +39,10 @@ const PopupBanner = () => {
                 <Modal
                     show={show}
                     onHide={() => setShow(false)}
-                    dialogClassName="modal-90w world-cup-ad"
+                    dialogClassName="popup-banner-modal"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
+                    backdropClassName="transparent-backdrop"
                 >
                     <Modal.Body className="p-0 d-flex flex-column align-items-center">
                         {/* Image */}
@@ -46,7 +51,7 @@ const PopupBanner = () => {
                             src={randomImage.src}
                             alt="Popup Promotion"
                         />
-                        
+
                         <div className="buttons-container">
                             <Button
                                 onClick={() => setShow(false)}
