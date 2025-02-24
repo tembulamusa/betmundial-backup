@@ -38,7 +38,7 @@ export const PromoTracker = () => {
                 dispatch({ type: "SET", key: "promoInfo", payload: null }); 
             }
         }
-    }, [promoInfo, promoTimestamp, dispatch, state.promoInfo]);
+    }, [location, promoInfo, promoTimestamp, state.promoInfo]);
 
     useEffect(() => {
         const path = location.pathname;

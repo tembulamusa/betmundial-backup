@@ -813,7 +813,7 @@ header, li a, .thedate span {
     min-width: 0 !important;
     display: block;
     position: absolute;
-    right: -10px;
+    right: -5px;
     text-align: right !important;
     padding-right: 0 !important;
     bottom: 20%;

@@ -25,8 +25,8 @@ import useInterval from '../../hooks/set-interval.hook';
 import MatchWidget from './match-widget';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from "react-router-dom";
-import { IoIosArrowBack } from 'react-icons/io';
-import { event } from 'jquery';
+import { IoIosArrowBack, IoIosStats } from 'react-icons/io';
+import { TfiStatsUp } from "react-icons/tfi";
 
 const clean = (_str) => {
     _str = _str.replace(/[^A-Za-z0-9\-]/g, '');
@@ -363,23 +363,29 @@ const MoreMarketsHeaderRow = (props) => {
 const SideBets = (props) => {
     const { match, live } = props;
     const [picked,] = useState();
+
+    const openLiveStats = (parent_match_id) => {
+
+        window.open(`https://s5dev.sir.sportradar.com/risecommts/en/1/season/118703/team/${match?.parent_match_id}`, 'myWindow', 'width=648,height=700');
+    }
     return (
         <div
             className={` ${picked} align-self-center more-markets-container m-lg-2`}>
-            {(match?.sidebets > 1) && <>
-                <a className="side" title={'More Markets'}
-                    href={`/match/${live ? 'live/' : ''}${match?.match_id}`
-                    }>+{match.sidebets}
-                </a>
-                { /**
-                   <a className="side"
-                   href=#
-                   target={"_blank"}
-                   title={'View Stats'}>
-                    <FontAwesomeIcon icon={faChartLine}/>
-                </a>
-                **/ }
-            </>}
+            {
+                // <a className="side pl-2 text-sm font-light !text-[9px]" title={'More Markets'}
+                //     href={`/match/${live ? 'live/' : ''}${match?.match_id}`
+                //     }> <span>+</span>
+                // </a>
+
+
+            }
+
+            <div 
+                onClick={() => openLiveStats(match?.parent_match_id)}
+                className='side !pl-2 !ml-3 text-blue-700 font-bold opacity-60 hover:opacity-100 cursor-pointer'>
+                {/* <TfiStatsUp size={15}/> */}
+                <IoIosStats size={20}/>
+            </div>
         </div>
     )
 
