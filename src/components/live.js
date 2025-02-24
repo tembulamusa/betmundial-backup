@@ -30,7 +30,7 @@ const Live = (props) => {
     const socketEvent = useMemo(() => `surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, [state?.selectedLivesport?.betradar_sport_id || 1]);
 
 
-    const handleGameSocket = useCallback((type) => {
+    const handleGameSocket = (type) => {
         if(state?.selectedLivesport?.betradar_sport_id || 1) {
             if (type === "listen" && socketRef.current?.connected) {
                 socketRef.current.emit('user.live-match-page.listen', betradarSportId);
@@ -38,14 +38,12 @@ const Live = (props) => {
                 socketRef.current?.emit('user.live-match-page.leave', betradarSportId);
             }
         }
-        }, [state?.selectedLivesport?.betradar_sport_id || 1]);
+        };
 
     useEffect(() => {
-        if(socket.connected) {
-            if (betradarSportId) {
-
-                handleGameSocket("listen");
         
+            if (betradarSportId) {
+                handleGameSocket("listen");
                 socket.on(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
                     setMatches((preveMatches) => {
                         let odds = {}
@@ -72,6 +70,7 @@ const Live = (props) => {
                     );
         
                 })
+            }
 
                 
             // socketRef.current?.on(socketEvent, handleSocketData);
@@ -80,8 +79,7 @@ const Live = (props) => {
                 handleGameSocket("leave");
                 // socket.off(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`);
             };
-            }
-        }
+            
         
     }, [betradarSportId, socket.connected])
 

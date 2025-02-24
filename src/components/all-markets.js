@@ -72,9 +72,6 @@ const MatchAllMarkets = (props) => {
             if(matchwithmarkets) {
                 handleGameSocket("listen")
             }
-    
-            console.log("THE MATCH WITH MARKETS  :::  ", matchwithmarkets)
-
             socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
                 console.log("The Game received INFO :::  ", data)
                 if(data.message_type == "betstop") {
