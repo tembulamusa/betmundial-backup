@@ -207,13 +207,17 @@ const MyBets = (props) => {
                     Icon = IoMdCloseCircle;
                     color = "#f86d6d"
                     break;
+                case "lost":
+                    Icon = IoMdCloseCircle;
+                    color = "#f86d6d"
+                    break;
                 case "cancelled":
                     Icon = TbForbid2Filled
                     color = "gray"
                     break;
                 default:
                     Icon = MdPending
-                    color = "gray"
+                    color = "orange"
             }
             return (
                 <>
