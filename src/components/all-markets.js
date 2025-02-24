@@ -75,7 +75,7 @@ const MatchAllMarkets = (props) => {
         let interval;
         if(!socket.connected) {
             interval = setInterval(() => {
-                fetchData();
+                fetchPagedData();
             }, 3000);
             
         } else {
