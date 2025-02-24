@@ -451,8 +451,9 @@ display: none;
 /* Popup CSS. Shown on initial site load */
 .popup-banner-modal .modal-content {
   background: transparent !important;
-  border: none;
-  box-shadow: none;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
 .transparent-backdrop {
@@ -463,18 +464,19 @@ display: none;
   top: 30vh !important;  
   transform: translateY(0) !important;  
   margin: 0 auto;
+  border: none !important;
 }
 
 .popup-responsive-image {
-  width: 100%;
+  width: 80%;
   height: auto;
-  max-width: 500px;
-  max-height: 500px;
+  max-width: 300px;
+   /* max-height: 500px; */
   object-fit: cover;
 }
 
 .buttons-container {
-  width: 100%;
+  width: 60%;
   max-width: 500px;
   display: flex;
   justify-content: space-between;
@@ -501,6 +503,6 @@ display: none;
 @media (max-width: 768px) {
   .popup-responsive-image {
       max-width: 250px;
-      max-height: 250px;
+      /* max-height: 250px; */
   }
 }
