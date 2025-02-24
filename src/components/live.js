@@ -28,6 +28,7 @@ const Live = (props) => {
     const {spid, sub_type_id} = useParams();
     const socketRef = useRef(socket);
 
+
     const handleGameSocket = (type) => {
         if(state?.selectedLivesport?.betradar_sport_id || 1) {
             if (type === "listen" && socketRef.current?.connected) {
@@ -39,44 +40,50 @@ const Live = (props) => {
         };
 
     useEffect(() => {
+        let interval;
+        if(!socket.connected) {
+            interval = setInterval(() => {
+                fetchData();
+            }, 3000);
+            
+        } else {
+            clearInterval(interval);
+            handleGameSocket("listen");
+            socket.on(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
+                setMatches((preveMatches) => {
+                    let odds = {}
+                    let selectedSport = state?.selectedLivesport ? state?.selectedLivesport?.betradar_sport_id : 1
+                    let sport_name = state?.selectedLivesport ? state?.selectedLivesport?.sport_name : "soccer"
+                    if(selectedSport == 1){
+                        odds["1x2"] = {"sub_type_id":1, "name":"1x2", "special_bet_value":"", "outcomes":[]};
+                        odds["Double Chance"] = {"sub_type_id":10, "name":"Double Chance", "special_bet_value":"", "outcomes":[]};
+                        odds["Total"] = {"sub_type_id":18, "name":"Total", "special_bet_value": "2.5", "outcomes":[]};
 
-            if (betradarSportId) {
-                handleGameSocket("listen");
-                socket.on(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
-                    setMatches((preveMatches) => {
-                        let odds = {}
-                        let selectedSport = state?.selectedLivesport ? state?.selectedLivesport?.betradar_sport_id : 1
-                        let sport_name = state?.selectedLivesport ? state?.selectedLivesport?.sport_name : "soccer"
-                        if(selectedSport == 1){
-                            odds["1x2"] = {"sub_type_id":1, "name":"1x2", "special_bet_value":"", "outcomes":[]};
-                            odds["Double Chance"] = {"sub_type_id":10, "name":"Double Chance", "special_bet_value":"", "outcomes":[]};
-                            odds["Total"] = {"sub_type_id":18, "name":"Total", "special_bet_value": "2.5", "outcomes":[]};
+                    } else {
+                        odds[state?.selectedLivesport?.dafault_display_markets] = {
+                            "sub_type_id": state?.selectedLivesport?.default_market, 
+                            "name": state?.selectedLivesport?.dafault_display_markets, "special_bet_value":"", "outcomes": []}
 
-                        } else {
-                            odds[state?.selectedLivesport?.dafault_display_markets] = {
-                                "sub_type_id": state?.selectedLivesport?.default_market, 
-                                "name": state?.selectedLivesport?.dafault_display_markets, "special_bet_value":"", "outcomes": []}
-
-                        }
-                        
-                        data.odds = odds;
-                        data.sport_name = sport_name
-
-                        return [...preveMatches, data].sort((a, b) => ((a.start_time - b.start_time) || (b.match_time - a.match_time)))
                     }
-                        
-                    );
-        
-                })
-            }
+                    
+                    data.odds = odds;
+                    data.sport_name = sport_name
 
+                    return [...preveMatches, data].sort((a, b) => ((a.start_time - b.start_time) || (b.match_time - a.match_time)))
+                }
                 
-            // socketRef.current?.on(socketEvent, handleSocketData);
+            );
 
-            return () => {
-                handleGameSocket("leave");
-                // socket.off(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`);
-            };
+        })
+    }
+
+    
+
+
+    return () => {
+        clearInterval(interval);
+        handleGameSocket("leave");
+    };
         
     }, [betradarSportId, socket.connected])
 
@@ -101,7 +108,6 @@ const Live = (props) => {
 
     useEffect(() => {
         fetchData();
-        
     }, [spid]);
 
     useEffect(() => {
@@ -130,12 +136,6 @@ const Live = (props) => {
             dispatch({type:"SET", key:"selectedLivesport", payload: currentLive});
         }
     }, []);
-
-    useInterval( async () => {
-        if(!socket.connected){
-            fetchData()
-        }
-    } ,1000 * 10);
 
     return (
         <>

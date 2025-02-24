@@ -64,12 +64,6 @@ const MatchAllMarkets = (props) => {
         }
     }, [params.id]);
 
-    useInterval( async () => {
-        if(!socket.connected){
-            fetchPagedData()
-        }
-    } ,1000 * 10);
-    
     const handleGameSocket = (type) => {
             if (type === "listen" && socket.connected) {
                 socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);
@@ -78,12 +72,18 @@ const MatchAllMarkets = (props) => {
             }
     };
     useEffect(() => {
-        if(socket.connected){
+        let interval;
+        if(!socket.connected) {
+            interval = setInterval(() => {
+                fetchData();
+            }, 3000);
+            
+        } else {
+            clearInterval(interval);
             if(matchwithmarkets) {
                 handleGameSocket("listen")
             }
             socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
-                console.log("The Game received INFO :::  ", data)
                 if(data.message_type == "betstop") {
                    setBetstopMessage(data);
                 } else {
@@ -92,11 +92,11 @@ const MatchAllMarkets = (props) => {
                     }
                 }
                 
-    
             })
             return () => {
-                handleGameSocket("leave")
-    
+                clearInterval(interval)
+                handleGameSocket("leave");
+                    
             }
         }
         
