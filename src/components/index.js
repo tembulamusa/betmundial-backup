@@ -136,27 +136,11 @@ const Index = (props) => {
     ]
     )
 
-    useEffect(() => {
-        
-        // if(state?.selectedmarkets){ 
-        //     setSubTypes(state.selectedmarkets);
-        // } 
-
-        // if(state?.categories) {
-        //     let spid = Number(sportid || 79);
-        //     let sp = state.categories.all_sports.find((sport) => sport.sport_id == spid);
-        //     setSubTypes(state?.selectedmarkets || sp.default_display_markets);
-        // } 
-        // let cbetslip = getBetslip();
-
-        // if(cbetslip) {
-        //     dispatch({type:"SET", key:"betslip", payload:cbetslip})
-        // }
-        // return () => {
-        //     setDelay(null);
-        // };
-    }, [matches]);
-
+    useInterval( async () => {
+        if(!socket.connected){
+            fetchData()
+        }
+    } ,1000 * 60);
 
     document.addEventListener('scrollEnd', (event) => {
         if (!fetching) {

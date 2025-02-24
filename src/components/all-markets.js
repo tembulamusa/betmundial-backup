@@ -44,7 +44,11 @@ const MatchAllMarkets = (props) => {
     };
        
     
-    useEffect(() => {fetchPagedData()}, []);
+    useEffect(() => {
+        fetchPagedData()
+    }, []);
+
+    
 
     const fetchPagedData =useCallback(async() => {
         if(!isLoading && !isNaN(+params.id)) {
@@ -60,6 +64,12 @@ const MatchAllMarkets = (props) => {
         }
     }, [params.id]);
 
+    useInterval( async () => {
+        if(!socket.connected){
+            fetchPagedData()
+        }
+    } ,1000 * 10);
+    
     const handleGameSocket = (type) => {
             if (type === "listen" && socket.connected) {
                 socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);

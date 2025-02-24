@@ -27,8 +27,6 @@ const Live = (props) => {
     const [reload, setReload] = useState(false)
     const {spid, sub_type_id} = useParams();
     const socketRef = useRef(socket);
-    const socketEvent = useMemo(() => `surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, [state?.selectedLivesport?.betradar_sport_id || 1]);
-
 
     const handleGameSocket = (type) => {
         if(state?.selectedLivesport?.betradar_sport_id || 1) {
@@ -41,7 +39,7 @@ const Live = (props) => {
         };
 
     useEffect(() => {
-        
+
             if (betradarSportId) {
                 handleGameSocket("listen");
                 socket.on(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
@@ -79,7 +77,6 @@ const Live = (props) => {
                 handleGameSocket("leave");
                 // socket.off(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`);
             };
-            
         
     }, [betradarSportId, socket.connected])
 
@@ -124,6 +121,9 @@ const Live = (props) => {
         setReload(false);
 
     }, [reload])
+
+    
+
     useEffect(() => {
         let currentLive = getFromLocalStorage("selectedLivesport");
         if(!state?.selectedLivesport && currentLive) {
@@ -131,6 +131,11 @@ const Live = (props) => {
         }
     }, []);
 
+    useInterval( async () => {
+        if(!socket.connected){
+            fetchData()
+        }
+    } ,1000 * 10);
 
     return (
         <>
