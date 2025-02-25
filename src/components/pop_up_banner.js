@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "./utils/local-storage";
-import CasinoGame from "./pages/casino/casino-game";
 
 import One from "../assets/img/popups/1.1.jpg";
 import Two from "../assets/img/popups/2.1.jpg";
@@ -13,12 +12,12 @@ import Five from "../assets/img/popups/5.1.jpg";
 import Six from "../assets/img/popups/6.1.jpg";
 
 const images = [
-    // { src: One, link: "/casino-game/aviator/aviator", game: { game_id: "1", provider_name: "Aviator", aggregator: "intouchvas" } },
-    // { src: Two, link: "/casino-game/aviatrix/aviatrix", game: { game_id: "aviatrix", provider_name: "aviatrix", aggregator: null } },
-    // { src: Three, link: "/casino-game/smartsoft/jetx", game: { game_id: "13", provider_name: "SmartSoft", aggregator: null } },
-    { src: Four, link: "/casino-game/eurovirtuals/virtual-league", game: { game_id: "virtual-league", provider_name: "eurovirtuals", aggregator: "eurovirtuals" } },
-    // { src: Five, link: "/casino-game/pragmatic/spaceman", game: { game_id: "1301", provider_name: "Pragmatic", aggregator: "pragmatic" } },
-    { src: Six, link: "/surecoin", game: { game_id: "surecoin", provider_name: "surecoin", aggregator: "suregames" } },
+    { src: One, link: "/casino-game/aviator/aviator/sure-popular" },
+    { src: Two, link: "/casino-game/aviatrix/aviatrix/sure-popular" },
+    { src: Three, link: "/casino-game/smartsoft/jetx/sure-popular" },
+    { src: Four, link: "/casino-game/eurovirtuals/virtual-league/sure-popular" },
+    { src: Five, link: "/casino-game/pragmatic/spaceman/sure-popular" },
+    { src: Six, link: "/surecoin" },
 ];
 
 const PopupBanner = () => {
@@ -40,14 +39,12 @@ const PopupBanner = () => {
     }, []);
 
     const handlePlayNow = () => {
-        setShow(false); // Close the modal first
+        setShow(false); 
     
         if (!user) {
             navigate(`/login?next=${encodeURIComponent(randomImage.link)}`);
         } else {
-            // Launch the game using the existing method
-            const casinoGame = new CasinoGame({ game: randomImage.game });
-            casinoGame.launchGame(randomImage.game, 1);
+            navigate(randomImage.link, { state: { game: randomImage } });
         }
     };
     

@@ -40,7 +40,7 @@ const CasinoCarousel = (props) => {
             className='casino banner-imgs'>
 
             <Carousel.Item >
-                <Link to={"/casino-game/aviator/aviator"}>
+                <Link to={"/casino-game/aviator/aviator/sure-popular"}>
                     <img
                         className="d-block w-100"
                         style={{ display: imageLoaded ? 'block' : 'none' }}
@@ -75,7 +75,7 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item> */}
             <Carousel.Item >
-                <Link to={"/casino-game/pragmatic/spaceman"}>
+                <Link to={"/casino-game/pragmatic/spaceman/sure-popular"}>
                     <img
                         className="d-block w-100"
                         style={{display: imageLoaded ? 'block' : 'none'}}
@@ -95,7 +95,7 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item> */}
+            </Carousel.Item> 
             <Carousel.Item >
                 <Link to={"/casino-game/stp/comet"}>
                     <img
@@ -107,7 +107,7 @@ const CasinoCarousel = (props) => {
                         effects="blur"
                     />
                 </Link>
-            </Carousel.Item>
+            </Carousel.Item>*/}
 
             {/* <Carousel.Item >
                 <img
@@ -154,7 +154,7 @@ const CasinoCarousel = (props) => {
             </Carousel.Item> */}
 
             <Carousel.Item >
-                <Link to={"/casino-game/smartsoft/jetx"}>
+                <Link to={"/casino-game/smartsoft/jetx/sure-popular"}>
                     <img
                         className="d-block w-100"
                         style={{ display: imageLoaded ? 'block' : 'none' }}
@@ -167,7 +167,7 @@ const CasinoCarousel = (props) => {
             </Carousel.Item>
 
             <Carousel.Item >
-                <Link to={"/casino-game/aviatrix/aviatrix"}>
+                <Link to={"/casino-game/aviatrix/aviatrix/sure-popular"}>
                     <img
                         className="d-block w-100"
                         style={{ display: imageLoaded ? 'block' : 'none' }}
