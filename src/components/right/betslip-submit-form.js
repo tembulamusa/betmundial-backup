@@ -130,6 +130,12 @@ const BetslipSubmitForm = (props) => {
     }
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
+        
+        
+        
+        if (!getFromLocalStorage("user") || !getFromLocalStorage("user")?.token) {
+            return false
+        }
 
         let bs = Object.values(state?.[betslipkey] || []);
         
@@ -157,10 +163,8 @@ const BetslipSubmitForm = (props) => {
                 delete slip.comment
                 delete slip.prev_odds
                 delete slip.changeOrigin
+                delete slip.event_status
             }
-            
-
-            
         }
 
 
@@ -347,8 +351,8 @@ const BetslipSubmitForm = (props) => {
         if (!getFromLocalStorage("user")) {
             dispatch({type: "SET", key: "showloginmodal", payload: true})
             // errors.user_id = 'Kindly login to proceed';
-            setMessage({status: 400, message: errors.user_id});
-            return errors;
+            // setMessage({status: 400, message: errors.user_id});
+            return false;
         }
 
         if (!values.bet_amount || values.bet_amount < 1) {
