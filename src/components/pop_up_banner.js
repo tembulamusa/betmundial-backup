@@ -7,7 +7,7 @@ import { getFromLocalStorage } from "./utils/local-storage";
 import One from "../assets/img/popups/1.1.jpg";
 import Two from "../assets/img/popups/2.1.jpg";
 import Three from "../assets/img/popups/3.1.jpg";
-import Four from "../assets/img/popups/4.jpg";
+import Four from "../assets/img/popups/4.1.jpg";
 import Five from "../assets/img/popups/5.1.jpg";
 import Six from "../assets/img/popups/6.1.jpg";
 
