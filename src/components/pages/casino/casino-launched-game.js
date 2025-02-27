@@ -16,15 +16,15 @@ const CasinoLaunchedGame = (props) => {
     const launchedGame = getFromLocalStorage("casinolaunch");
     const [noStateGame, setNoStateGame] = useState();
     const fullScreens = ["aviatrix"];
-    const {provider, gameName} = useParams();
+    const { provider, gameName } = useParams();
 
 
 
     const getEurovirtualsLaunchUrl = async () => {
 
-        let endpoint = `Eurovirtuals/casino/game-url/${isMobile ? "mobile": "desktop"}/${1}/${"550e8400-e29b-41d4-a716-446655440000"}`;
+        let endpoint = `Eurovirtuals/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${"550e8400-e29b-41d4-a716-446655440000"}`;
 
-        await makeRequest({url: endpoint,  method: "GET", api_version:'CasinoGameLaunch'}).then(([status, result]) => {
+        await makeRequest({ url: endpoint, method: "GET", api_version: 'CasinoGameLaunch' }).then(([status, result]) => {
             if (status == 200) {
                 setNoStateGame(result?.gameUrl || result?.game_url);
             } else {
@@ -34,52 +34,52 @@ const CasinoLaunchedGame = (props) => {
     }
     useEffect(() => {
         // Balance polling fxn
-        dispatch({type: "SET", key:"iscasinopage", payload: true});
+        dispatch({ type: "SET", key: "iscasinopage", payload: true });
         // check for game that is currently loaded on local storage
-        if(provider.toLowerCase() == "eurovirtuals") {
-            dispatch({type:"SET", key:"casinolaunch", payload: {game: "", url: ""}});
+        if (provider.toLowerCase() == "eurovirtuals") {
+            dispatch({ type: "SET", key: "casinolaunch", payload: { game: "", url: "" } });
             getEurovirtualsLaunchUrl()
         } else {
 
         }
-        if(!state?.casinolaunch) {
+        if (!state?.casinolaunch) {
             if (user?.token) {
-                let storedCasino = getFromLocalStorage("casinolaunch");                
-                dispatch({type:"SET", key:"casinolaunch", payload: storedCasino});
+                let storedCasino = getFromLocalStorage("casinolaunch");
+                dispatch({ type: "SET", key: "casinolaunch", payload: storedCasino });
             }
-            
+
         }
-        
+
         if (fullScreens.includes(launchedGame?.game?.provider_name?.toLowerCase())) {
             // let dga = xlg;
             // dga.connect("prelive-dga0.pragmaticplaylive.net")
-            
-            dispatch({type:"SET", key:"fullcasinoscreen", payload: true})
+
+            dispatch({ type: "SET", key: "fullcasinoscreen", payload: true })
         }
         return () => {
-            dispatch({type:"DEL", key:"iscasinopage"});
-            dispatch({type:"DEL", key:"fullcasinoscreen"});            
-            dispatch({type:"DEL", key:"casinolaunch"});
+            dispatch({ type: "DEL", key: "iscasinopage" });
+            dispatch({ type: "DEL", key: "fullcasinoscreen" });
+            dispatch({ type: "DEL", key: "casinolaunch" });
         }
     }, []);
-    
+
     return (
         <>
             {(!state?.fullcasinoscreen && !state?.hideBigIconNav) && <section className="launched-game-header">
                 <div className="row">
-                    <div className="col-10"><span className="py-1 pl-2 pr-3 mt-1 ml-3 bg-[rgba(255,255,255,0.1)] cursor-pointer" onClick={() => navigate("/casino")}><FaArrowLeftLong className="inline-block"/></span></div>
+                    <div className="col-10"><span className="py-1 pl-2 pr-3 mt-1 ml-3 bg-[rgba(255,255,255,0.1)] cursor-pointer" onClick={() => navigate("/casino")}><FaArrowLeftLong className="inline-block" /></span></div>
                     <div className="dismiss-casino-game col-2 mx-auto"><span className="casino-page-close cursor-pointer" onClick={() => navigate("/casino")}><MdOutlineClose /></span></div>
                 </div>
             </section>}
             <div className={`casino-launched-game-frame flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
                 {/* {showPreload && <span>Loading content, please wait...</span>} */}
-                <iframe
+                <iframe allowfullscreen webkitallowfullscreen mozallowfullscreen
                     allow="autoplay; clipboard-write"
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
                     width="100%"
                     height="100%"
-                    src={provider.toLowerCase() == "eurovirtuals" ? noStateGame :  state?.casinolaunch?.url ? state?.casinolaunch?.url : ""}
-                    >
+                    src={provider.toLowerCase() == "eurovirtuals" ? noStateGame : state?.casinolaunch?.url ? state?.casinolaunch?.url : ""}
+                >
                 </iframe>
             </div>
         </>
