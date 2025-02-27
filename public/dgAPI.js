@@ -154,10 +154,10 @@ let xlg = {
             "1024", "1101", "1301", "1320", "1401", "1501", "1601", "1701"
         ];
 
-        dga.available(xlg.casinoId)
+        dga.available("ppcwx00000016711")
 
         tables.forEach(function (value) {
-            dga.subscribe(xlg.casinoId, value, "KES")
+            dga.subscribe("ppcwx00000016711", value, "KES")
         })
     },
     // public
