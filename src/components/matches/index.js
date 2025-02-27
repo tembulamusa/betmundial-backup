@@ -244,7 +244,7 @@ const MoreMarketsHeaderRow = (props) => {
     const handleGameSocket = useCallback((type, gameId) => {
         if (type === "listen" && socketRef.current?.connected) {
             socketRef.current.emit('user.match.listen', gameId);
-        } else if (type === "leave") {
+        } else if (type === "leave" && matchStatus.trim() == "ended") {
             socketRef.current?.emit('user.match.leave', gameId);
         }
     }, []);
@@ -271,8 +271,7 @@ const MoreMarketsHeaderRow = (props) => {
         socketRef.current?.on(socketEvent, handleSocketData);
 
         return () => {
-            // handleGameSocket("leave", match?.parent_match_id);
-            socketRef.current?.off(socketEvent, handleSocketData);
+            handleGameSocket("leave", match?.parent_match_id);
         };
     }, [handleGameSocket, match, socketEvent]);
 
@@ -714,8 +713,7 @@ const MarketRow = (props) => {
             socketRef.current?.on(socketEvent, handleSocketData);
         
         return () => {
-            // handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
-            socketRef.current?.off(socketEvent, handleSocketData);
+            handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
         };
     }
     }, [socket.connected, handleGameSocket, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
