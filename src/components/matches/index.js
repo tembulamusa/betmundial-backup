@@ -245,7 +245,7 @@ const MoreMarketsHeaderRow = (props) => {
         if (type === "listen" && socketRef.current?.connected) {
             socketRef.current.emit('user.match.listen', gameId);
         } else if (type === "leave" && matchStatus?.toLowerCase()?.trim() == "ended") {
-            socketRef.current?.emit('user.match.leave', gameId);
+            // socketRef.current?.emit('user.match.leave', gameId);
         }
     }, []);
 
@@ -626,7 +626,7 @@ const MarketRow = (props) => {
         if (type === "listen" && socketRef.current?.connected) {
             socketRef.current.emit('user.market.listen', { parent_match_id: gameId, sub_type_id: sub_type_id });
         } else if (type === "leave" && betstopMessage?.trim()?.toLowerCase() == "ended") {
-            socketRef.current?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id: sub_type_id });
+            // socketRef.current?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id: sub_type_id });
         }
     }, []);
 
@@ -825,7 +825,7 @@ const MatchMarket = (props) => {
             if (type == "listen" && socket?.connected) {
                 socket.emit('user.market.listen', { parent_match_id: gameId, sub_type_id: subTypeId });
             } else if (type == "leave") {
-                socket?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id: subTypeId });
+                // socket?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id: subTypeId });
             }
         });
     }
@@ -980,10 +980,10 @@ const MatchRow = (props) => {
         })
 
         return () => {
-            socket?.emit("user.market.leave", match?.parent_match_id );
+            // socket?.emit("user.market.leave", match?.parent_match_id );
         }
 
-    }, [socket.connected]);
+    }, []);
 
     const TimeToLiveStarting = (props) => {
         const { starttime } = props;
@@ -1193,7 +1193,7 @@ export const MarketList = (props) => {
         }
 
         else if (type == "leave") {
-            socket?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id: sub_type_id });
+            // socket?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id: sub_type_id });
         }
 
     }
