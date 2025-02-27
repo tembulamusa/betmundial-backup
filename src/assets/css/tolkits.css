@@ -813,7 +813,7 @@ header, li a, .thedate span {
     min-width: 0 !important;
     display: block;
     position: absolute;
-    right: -10px;
+    right: -5px;
     text-align: right !important;
     padding-right: 0 !important;
     bottom: 20%;
@@ -8661,15 +8661,7 @@ ul.sport {
     }
 }
 
-@media (max-width: 648px) {
 
-    .amt {
-        margin-top: 133px;
-    }
-    .move-up {
-        margin-top: -10px
-    }
-}
 
 @media (max-width: 1147px) {
     .change-display {
@@ -15606,8 +15598,8 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
     border-radius: 0;
     border: none;
     border: 1px solid #ddd !important;
-    width: 50px !important;
-    height: 40px !important;
+    width: 56px !important;
+    height: 48px !important;
     line-height: 30px;
 }
 
@@ -15798,3 +15790,15 @@ li a.live-game.active:hover, .navbar-nav li a.live-game.active:hover, li a.live-
   .single-market-content {
     float: right;
   }
+
+
+  @media (max-width: 648px) {
+
+    .amt {
+        /* margin-top: 60px !important; */
+        margin-top: 126px !important;
+    }
+    .move-up {
+        margin-top: -10px
+    }
+}

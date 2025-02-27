@@ -53,10 +53,9 @@ const BodyLogin = (props) => {
             // toast.success(`🚀 ${message.message || "Login successful"}`, options);
             dispatch({type:"DEL", key:"showloginmodal"});
             if(navigateAwayRoutes.includes(location.pathname)) {
-                console.log("location name: ", location.pathname)
                 const queryParams = new URLSearchParams(location.search);
                 const next = queryParams.get('next');
-                window.location.href = next ? next : '/';
+                window.location.href = next ? `${next}` : '/'
             }
 
         }
@@ -122,9 +121,9 @@ const BodyLogin = (props) => {
     }
 
     useEffect(() => {
-        if (user) {
-            navigate("/")
-        }
+        // if (user) {
+        //     navigate("/")
+        // }
     }, [])
 
     const navigateAway = (url) => {

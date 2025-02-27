@@ -9,7 +9,12 @@ const LiveScore = () => {
     useEffect(() => {dispatch({type:"SET", key:"fullpagewidth", payload:true}); return () => {dispatch({type:"DEL", key:"fullpagewidth"})}}, [])
     return (
         <>
-            <iframe src="https://s5dev.sir.sportradar.com/risecommts/en/1/season/118703/team/9" className={'w-full min-h-screen'} title="surebet Livescore"></iframe>
+            <iframe 
+                src="https://s5dev.sir.sportradar.com/risecommts/en/1/season/118703/team/9" 
+                className={'w-full min-h-screen'}
+                title="surebet Livescore">
+
+                </iframe>
         </>)
 }
 

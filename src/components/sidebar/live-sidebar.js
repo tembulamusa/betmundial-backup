@@ -13,9 +13,29 @@ import { Context } from '../../context/store';
 
 const LiveSideBar = (props) => {
     const {spid} = useParams();
-    const [liveSports, setLiveSports] = useState([])
-    const [collapsed, setCollapsed] = useState(false)
-    const [toggled, setToggled] = useState(false)
+    const [liveSports, setLiveSports] = useState([
+        {
+            sport_name: "Soccer",
+            betradder_sport_id: 1,
+            sport_id: 79,
+            default_market: 1,
+            sport_type: "threeway"
+        },
+        {
+            sport_name: "MMA",
+            betradder_sport_id: 117,
+            sport_id: 173,
+            default_market: 1,
+            sport_type: "competition"
+        },
+        {
+            sport_name: "Cricket",
+            betradder_sport_id: 21,
+            sport_id: 83,
+            default_market: 340,
+            sport_type: "competition"
+        }
+    ])
     const [, dispatch] = useContext(Context);
     const navigate = useNavigate();
     const [currentSportId, setCurrentSportId] = useState(79);
@@ -26,8 +46,11 @@ const LiveSideBar = (props) => {
         let endpoint = "/v2/sports/live";
         makeRequest({url: endpoint, method: "GET", api_version:2})
             .then(([c_status, c_result]) => {
-                // console.log("THE REQUEST RESULT IS HERE  ::: ", c_result)
-                if (c_status == 200) {
+                if (
+                    c_status == 200 
+                    && 
+                    c_result?.data?.length > 0
+                ) {
                     setLiveSports(c_result?.data)
                 }
             });
@@ -40,7 +63,6 @@ const LiveSideBar = (props) => {
     // }, 15000);
 
     useEffect(()=> {
-        console.log("THE SPORT ID  :::: ", spid);
         setCurrentSportId(spid)
     }, [location])
     useEffect(() => {
@@ -57,7 +79,7 @@ const LiveSideBar = (props) => {
         let default_img = 'sure'
         let sport_image;
         try {
-            sport_image = topLeagues ? require(`../../assets${sport_name}`) : require(`../../assets/${folder}/${sport_name}.svg`);
+            sport_image = topLeagues ? require(`../../assets/img/flags-1-1/${sport_name}.svg`) : require(`../../assets/${folder}/${sport_name}.svg`);
         } catch (error) {
             sport_image = require(`../../assets/${folder}/${default_img}.png`);
         }
@@ -124,8 +146,14 @@ const LiveSideBar = (props) => {
                         
                             {liveSports && Object.entries(liveSports)?.map(([index, livesport]) => (
                                     <Menu iconShape="circle" className="">
-                                        <MenuItem key={`live-sidebar-item-${index}`} className={`${(location?.pathname?.includes(livesport?.sport_id)) ? "active" : ""}`}>
-                                            <div className="col-12 font-[500]" onClick={() => handleLiveSportsNavigation(livesport)}>
+                                        <MenuItem
+                                            icon = {<img
+                                                src={getSportImageIcon(livesport?.sport_name)}
+                                                alt='' className='inline-block mr-2'/>}
+                                            key={`live-sidebar-item-${index}`}
+                                            className={`${(location?.pathname?.includes(livesport?.sport_id)) ? "active" : ""}`}>
+                                            <div className="col-12 font-[500]" 
+                                            onClick={() => handleLiveSportsNavigation(livesport)}>
                                                 <Row>
                                                     <Col lg="11" md="11" sm="11" xs="11" className="topl">
                                                         <Row>

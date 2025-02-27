@@ -31,8 +31,9 @@ const MatchAllMarkets = (props) => {
     const params = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [, dispatch] = useContext(Context);
-    const [delay, setDelay] = useState(10000);
     const navigate = useNavigate();
+    const [betstopMessage, setBetstopMessage] = useState();
+    
 
     const findPostableSlip = () => {
         let betslips = getBetslip() || {};
@@ -43,7 +44,11 @@ const MatchAllMarkets = (props) => {
     };
        
     
-    useEffect(() => {fetchPagedData()}, []);
+    useEffect(() => {
+        fetchPagedData()
+    }, []);
+
+    
 
     const fetchPagedData =useCallback(async() => {
         if(!isLoading && !isNaN(+params.id)) {
@@ -59,30 +64,43 @@ const MatchAllMarkets = (props) => {
         }
     }, [params.id]);
 
-    // even if we are connected on socket, we may have to poll after some time so as to get the newest games
-    useInterval(async () => {
-        if(!isLoading){
-            fetchPagedData();
+    const handleGameSocket = (type) => {
+            if (type === "listen" && socket.connected) {
+                socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);
+            } else if (type === "leave" && betstopMessage?.toLowerCase()?.trim() == "ended") {
+                socket.emit('user.match.leave', matchwithmarkets?.parent_match_id);
+            }
+    };
+    useEffect(() => {
+        let interval;
+        if(!socket.connected) {
+            interval = setInterval(() => {
+                fetchPagedData();
+            }, 3000);
+            
+        } else {
+            clearInterval(interval);
+            if(matchwithmarkets) {
+                handleGameSocket("listen")
+            }
+            socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
+                if(data.message_type == "betstop") {
+                   setBetstopMessage(data);
+                } else {
+                    if(["ended"].includes(data.match_status.toLowerCase())) {
+                        window.location.reload();
+                    }
+                }
+                
+            })
+            return () => {
+                clearInterval(interval)
+                handleGameSocket("leave");
+                    
+            }
         }
-
-    }, 15000);
-
-    useEffect(()=> {
         
-        // if(live) {
-        //     if(socket.connected){ setDelay(5000) } else { setDelay(3000) }
-        // } else {
-        //     if(socket.connected){ setDelay(10000) } else { setDelay(15000) }
-        // }
-
-        // dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
-
-        // return () => {
-        //     dispatch({type:"DEL", key: "matchlisttype"});
-        // }
-
-    },[])
-
+    }, [matchwithmarkets, socket.connected])
 
    return (
        <>
@@ -90,7 +108,10 @@ const MatchAllMarkets = (props) => {
         <div className="homepage">
             {matchwithmarkets !== null && <MarketList live={live}  
                 initialMatchwithmarkets={matchwithmarkets} 
-                pdown={producerDown} />}
+                pdown={producerDown} 
+                betstopMessage = {betstopMessage} 
+                setBetstopMessage={setBetstopMessage}
+                />}
         </div>
 
 

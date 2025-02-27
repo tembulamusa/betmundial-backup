@@ -111,13 +111,13 @@ const BetSlip = (props) => {
 
     const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
 
-        let default_img = 'sure'
+        let default_img = 'Soccer'
         let sport_image;
         try {
             sport_image = topLeagues ? require(`../../assets${sport_name}`) : require(`../../assets/${folder}/${sport_name}.svg`);
         } catch (error) {
             
-            sport_image = require(`../../assets/${folder}/${default_img}.png`);
+            sport_image = require(`../../assets/${folder}/${default_img}.svg`);
             if (is_jackpot) {
                 sport_image = require(`../../assets/${folder}/Soccer.svg`);
             }
@@ -223,13 +223,14 @@ const BetSlip = (props) => {
         // let odd = slip.odd_value;
         
         // get the entire betslip
-        const [slip, setSlip] = useState(initialSlip)
+        const [slip, setSlip] = useState({...initialSlip, changeOrigin: "main"});
         const [slipKey, setKey] = useState();
+        // const [slipChangeOrigin, setSlipChangeOrigin] = useState("original")
         
         const checkUpdateSlipChanges = (market, eventOdd) => {
             setSlip((prevSlip) => {
                 let newSlip = {...prevSlip};
-                if (market.status !== "Active"){
+                if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
                     newSlip.comment = 'Market ' + market.status;
                     newSlip.disable = true;
                 }
@@ -259,7 +260,12 @@ const BetSlip = (props) => {
                         }
                         
                     }
+                    if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
+                    newSlip.comment = 'Market ' + market.status;
+                    newSlip.disable = true;
                 }
+                }
+                newSlip.changeOrigin = "socket"
                 return newSlip;  // Return the updated state
             })     
         }
@@ -273,12 +279,11 @@ const BetSlip = (props) => {
                     dispatch({type: "SET", key:"betslip", payload: betslip})
                 }
             }
-            
 
         }
 
         useEffect( () => {
-            if (slip) {
+            if (slip.changeOrigin == "socket") {
                 updateBetslipChange(slip);                
             }
         }, [slip])
@@ -297,7 +302,6 @@ const BetSlip = (props) => {
     
     
         const connectBetslipToScket = () => {
-
             handleGameSocket("listen", slip?.parent_match_id, slip?.sub_type_id);
         
         }

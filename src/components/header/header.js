@@ -2,7 +2,7 @@ import React, {useEffect, useCallback, useState, useContext, useRef} from 'react
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import {Context} from '../../context/store';
-import {getFromLocalStorage} from '../utils/local-storage';
+import {getFromLocalStorage, removeItem} from '../utils/local-storage';
 import {ToastContainer} from 'react-toastify';
 import makeRequest from '../utils/fetch-request';
 import {setLocalStorage} from '../utils/local-storage';
@@ -88,7 +88,10 @@ const Header = (props) => {
             if (_status == 200) {
                 let u = {...user, ...response?.data, bonus_balace: response?.data?.bonus};
                 let prevUser = user;
-                if (u !== user){setUser(u);}
+                setLocalStorage('user', u);
+                if(!state?.iscoinrotating){
+                    setUser(u);
+                }
                 // check if still on deposit page and if has next url and navigate
                 if(parseInt(prevUser?.balance) < parseInt(response?.data?.balance)){
                     nextNavigate();
@@ -142,6 +145,15 @@ const Header = (props) => {
         }
         
     }
+
+    useEffect(()=> {
+        if(location.pathname == "/casino-game/eurovirtuals/virtual-league") {
+            dispatch({type:"SET", key:"hideBigIconNav", payload:true})
+            removeItem("casinolaunch");
+        } else {
+            dispatch({type:"DEL", key:"hideBigIconNav"})
+        }
+    }, [location.pathname])
     const expand = "md"
 // toggle bal requ every 7 seconds
 
@@ -166,7 +178,8 @@ const Header = (props) => {
                             
                     </Container>
                 </div>
-                <div className='block w-full'><BigIconNav /></div>
+
+                <div className={`block w-full ${state?.hideBigIconNav && 'hidden'}`}><BigIconNav /></div>
             </Navbar>
 
             {/* mobile bottom menu */}

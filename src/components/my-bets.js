@@ -5,12 +5,15 @@ import makeRequest from './utils/fetch-request';
 import Accordion from 'react-bootstrap/Accordion';
 
 import '../assets/css/accordion.react.css';
-import { FaCheckCircle, FaShare } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
-import { IoMdRemoveCircleOutline } from "react-icons/io";
+import { FaCheckCircle, FaCircle, FaShare, FaTrash, FaTrashAlt } from "react-icons/fa";
+import { MdCancel, MdOutlineWarning, MdPending } from "react-icons/md";
+import { IoMdCloseCircle, IoMdRemoveCircleOutline } from "react-icons/io";
 import { GrAddCircle } from "react-icons/gr";
 import NoEvents from "./utils/no-events";
 import ShareExistingbet from "./utils/shareexisting-bet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { TbForbid2, TbForbid2Filled } from "react-icons/tb";
+import { Modal } from "react-bootstrap";
 
 
 const Styles = {
@@ -36,7 +39,6 @@ const MyBets = (props) => {
     const [sharableBet, setSharableBet] = useState(null);
     const [showSharableBet, setShowSharableBet] = useState(false);
     const [userBets, setUserBets] = useState([])
-
 
     const Alert = (props) => {
         let c = message?.status == (200 || 201) ? 'success' : 'danger';
@@ -85,7 +87,7 @@ const MyBets = (props) => {
         return (
             <div className={`my-bets-header`} style={Styles.headers}>
                 <div className="row uppercase">
-                    <div className="col">ID</div>
+                    <div className="col hidden md:flex">ID</div>
                     <div className="col hidden md:flex">SECTION</div>
                     <div className="col">CREATED</div>
                     <div className="col hidden md:flex">GAMES</div>
@@ -104,7 +106,10 @@ const MyBets = (props) => {
         const [currentBetDetail, setCurrentBetDetail] = useState(null)
         const [isLoadingBetItems, setIsLoadingBetItems] = useState(false);
         const [betType, setBetType] = useState();
-
+        const [showMarkup, setShowMarkup] = useState(true);
+        const [alertCancel, setAlertCancel] = useState(null);
+        const [showConfirmCancel, setShowConfirmCancel] = useState(false);
+            
         useEffect(( ) => {
             if(bet?.jackpot_bet_id){
                 setBetType("Jackpot");
@@ -115,101 +120,146 @@ const MyBets = (props) => {
             }
         }, [bet])
 
-        const cancelBet = () => {
-            let endpoint = '/bet-cancel';
-            let data = {
-                    bet_id:bet.bet_id,
-                    cancel_code:101,
-            }
-            makeRequest({url: endpoint, method: "POST", data: data, use_jwt:true}).then(([status, result]) => {
-                if(status == 201){
-                   setBetStatus('CANCEL RQ');
-                   setCanCancel(false);
-                }
-            });
-        };
+        
 
         const CancelBetMarkup = (props) => {
+            
+            const cancelBet = () => {
+                let endpoint = '/v2/user/bet/cancel?bet-id=' + bet?.bet_id;
+                makeRequest({url: endpoint, method: "POST", api_version:2}).then(([status, result]) => {
+                    if(result?.status == '200'){
+                       setShowMarkup(false);
+                       setAlertCancel({message:"bet Cancelled Successfully", status: 200});
+                       setTimeout(() => {
+                            window.location.reload()
+                        }, 2000)
+                    } else {
+                        setAlertCancel({message: "unable to cancel", status: 400})
+                    }
+                });
+            };
+
+            useEffect(()=> {
+                if(alertCancel) {
+                    setTimeout(function name() {
+                        setAlertCancel(null)
+                    }, 3000)
+                }
+            }, [alertCancel])
             const {txt} = props;
+
+            const confirmCancel = (confirm) => {
+                if(confirm == "yes"){
+                    cancelBet();
+                }
+                setShowConfirmCancel(false);
+            }
             return (
-                    !canCancel && <button
-                         title="Cancel Bet"
-                         className="secondary-text uppercase btn btn-sm cancel-bet secondary-ation"
-                         onClick={()=> cancelBet()}
-                         >
-                         {txt?txt:"Cancel"}
-                    </button>
-            )
+                <>
+                    {alertCancel && 
+                        <div className={`show-betcancel-response alert alert-${alertCancel?.status !== 200 ? "danger" : "success" }`}>
+                        {alertCancel?.message}</div>
+                    }
+                    {showMarkup 
+                        && 
+                        <FaTrash color="rgb(255 66 131 / 96%)" size={20}  onClick={()=> setShowConfirmCancel(true)} className="inline-block mr-3"/>}
+                        <Modal
+                            animation={true}
+                            show={showConfirmCancel}
+                            onHide={() => setShowConfirmCancel(false)}
+                            dialog className="popover-login-modal"
+                            aria-labelledby="contained-modal-title-vcenter">
+                                    <Modal.Body className=" text-center">
+                                    <div className="alert alert-warning font-[500] flex">
+                                        <MdOutlineWarning size={30} className="mr-3"/>
+                                        <div className="flex-column">
+                                            <p>Canceling this bet is not reversible.</p>
+                                            <p>Are you sure you want to cancel this Bet?</p>
+                                        </div>
+                                    </div>
+                                    <div className="mt-3">
+                                        <button className="btn btn-default btn-lg mr-3 px-5" onClick={() => confirmCancel("no")}>No</button>
+                                        <button className="btn btn-danger btn-lg px-5" onClick={()=> confirmCancel("yes")}>Yes</button>
+                                    </div>
+                                    </Modal.Body>
+                        </Modal>
+                    {/* confirm bet cancel */}
+                </>
+                )
         }
 
         
 
         const statusMarkup = (bet) => {
-            let btnClass;
-            let btnText; 
+            let Icon;
+            let color; 
             let statusText;
             switch (bet?.status?.toLowerCase()) {
                 case "pending":
-                    btnClass = "active-bet";
-                    btnText = "active";
+                    Icon = FaCircle;
+                    color = "#00A8FA";
                     break;
                 case "won":
-                    btnClass = "won-bet";
-                    btnText = "won";
+                    Icon = FaCheckCircle;
+                    color = "green";
                     break;
                 case "lost":
-                    btnClass = "lost-bet";
-                    btnText = "lost"
+                    Icon = IoMdCloseCircle;
+                    color = "#f86d6d"
+                    break;
+                case "lost":
+                    Icon = IoMdCloseCircle;
+                    color = "#f86d6d"
                     break;
                 case "cancelled":
-                    btnClass = "cancelled-bet"
-                    btnText = "cancelled"
+                    Icon = TbForbid2Filled
+                    color = "gray"
                     break;
                 default:
-                    statusText = bet.status
-                    btnText = "cancelled"
+                    Icon = MdPending
+                    color = "orange"
             }
             return (
                 <>
-                  {btnClass && <button className = {`btn btn-bet-hist mb-1 ${btnClass}`}>{btnText}</button>}
-                  {statusText && statusText}
+                  {<Icon color={color} size={20} className="inline-block mr-3"/>}
                 </>
             )
         }
 
         const shareMarkup = (bet) => {
             const shareBet = () => {
-                setSharableBet(bet);
-                setShowSharableBet(true)
             }
             return (
                 <>
-                    {sharableBet == bet && <ShareExistingbet bet={bet} showshare={true}/>}
-                    <button className="btn btn-bet-hist light-btn mb-1" onClick={() => shareBet() }><FaShare  className="inline-block mr-2"/>Share</button>
+                    <FaShare className="inline-block" size={20} color="#FFB200"/>
                 </>
             )
         }
 
         
         return (
-                    <Accordion.Item eventKey={"mybets-" + bet?.bet_id}>
+                    <Accordion.Item eventKey={"mybets-" + bet?.bet_id} onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
                         <Accordion.Header>
-                            <div className="row w-full" onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
-                                <div className="col font-ligt">{ bet?.bet_id}</div>
+                            <div className="row w-full">
+                                <div className="col hidden md:flex font-ligt">{ bet?.bet_id}</div>
                                 <div className="col hidden md:flex">{ betType}</div>
                                 <div className="col">{ bet?.created}</div>
                                 <div className="col hidden md:flex">{ bet?.total_games}</div>
                                 <div className="col text-cente">{ bet?.bet_amount}</div>
                                 <div className="col">{ bet?.possible_win}</div>
-                                <div className="col">{ statusMarkup(bet) }</div>
+                                {/* <div className="col">{ statusMarkup(bet) }</div> */}
+                                <div className="col">
+                                    {statusMarkup(bet)}
+                                    {bet?.cancelable ? <span><CancelBetMarkup txt="Cancel Bet" /></span> : ""}
+                                    {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
+                                </div>
                             </div>
                         </Accordion.Header>
                         <Accordion.Body>
-                            <div className="bet-detail-header">
-                                {bet?.cancelable ? <span><CancelBetMarkup txt="Cancel Bet" /></span> : ""}
-                                {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
-                            </div>
-                            <div className="overflow-x-auto"> 
+                            <div className="overflow-x-auto">
+                                {/* mobile */}
+                                <MobileDetail bet={bet} key={`mobile-item-${bet?.bet_id}`}/>
+
                                 <table className="table w-full mt-3 mb-0">
                                     <thead>
                                         <BetslipHeader betslip={bet?.betslip} />
@@ -289,7 +339,6 @@ const MyBets = (props) => {
 
         return (
             <>
-                
                 {icon && <span className={`results-icon ${colorClass}`}>{icon}</span>}
                 {textDisp && textDisp}
             </>
@@ -304,7 +353,7 @@ const MyBets = (props) => {
                 <td className="">{ slip?.start_time}</td>
                 <td className="">{ slip?.home_team} - {slip.away_team}</td>
                 {/* <td className="hidden md:table-cell">{ slip?.odd_value}</td> */}
-                <td className="">{ slip?.market_name}</td>
+                <td className="hidden md:table-cell">{ slip?.market_name}</td>
                 <td className="">{slip?.bet_pick}{slip?.special_bet_value && `(${slip?.special_bet_value})`}</td>
                 <td className="">{ slip?.result !== null ? slip.result : "--"} <span className="md:hidden">{ gameBetStatus(slip.status)}</span></td>
                 {/* <td className="">{ slip.ft_result}</td> */}
@@ -313,12 +362,21 @@ const MyBets = (props) => {
         )
     }
 
+    const MobileDetail = ({bet, key}) => {
+
+        return (
+            <div key={key}>
+                <div>Bet ID: {bet?.bet_id}</div>
+            </div>
+        )
+    }
+
     const MyBetsList = (props) => {
 		return (
             <>
             <BetItemHeader />
             {
-                (userBets || []).length > 1 ?
+                (userBets || []).length > 0 ?
                     <Accordion 
                     className="accordion"
                     id="mybets-accordion"

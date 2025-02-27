@@ -54,12 +54,14 @@ import Logout from "./components/pages/auth/logout";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import SureCoin from "./components/pages/sure-coin";
 import SureBoxIndex from "./components/pages/sure-box/surebox-index";
+import SureboxMines from "./components/pages/sure-box/surebox-mines";
 import SkipRopeIndex from "./components/pages/skip-rope/skiprope-index";
 import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 import CasinoHome from "./components/pages/casino/casino-home";
 import ReactGA from "react-ga4";
 import PageviewTracker from "./components/utils/pageview-tracker";
 import CasinoHomes from "./components/pages/casino/homecopy";
+import { PromoTracker } from "./promo-tracker";
 
 const container = document.getElementById("app");
 
@@ -73,7 +75,8 @@ const App = () => {
     return (
             <BrowserRouter>
             <PageviewTracker />
-            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper"}`}>
+            <PromoTracker />
+            <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper "} ${state?.hideBigIconNav && 'no-big-icon-nav'}`}>
                 <Suspense fallback={<p></p>}>
                 { !state?.fullcasinoscreen && <Header /> }
                 <div className={`${state?.fullcasinoscreen && "no-header"} amt `}>
@@ -137,6 +140,7 @@ const App = () => {
                             <Route exact path="/exclude" element={<Exclude/>}/>
                             <Route exact path="/surecoin" element={<SureCoin/>}/>
                             <Route exact path="/surebox" element={<SureBoxIndex/>}/>
+                            <Route exact path="/surebox-mines" element={<SureboxMines/>}/>
                             <Route exact path="/skip-rope" element={<SkipRopeIndex/>}/>
                             <Route exact path="/livescore" element={<LiveScore/>}/>
                             <Route exact path="/deposit"

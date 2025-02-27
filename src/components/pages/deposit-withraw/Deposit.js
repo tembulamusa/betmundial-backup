@@ -16,6 +16,14 @@ import { getFromLocalStorage } from '../../utils/local-storage';
 const Deposit = (props) => {
 
     const [state, dispatch] = useContext(Context);
+    console.log("Demon State", state);
+
+    const app_name = "desktop-web";
+    const promoName = state?.promoInfo;
+    console.log('Promo Name IN POST Deposit', promoName);
+    const app = promoName ? `${app_name}:${promoName}` : app_name;
+
+
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +32,7 @@ const Deposit = (props) => {
     const initialValues = {
         amount: '',
         msisdn: user?.msisdn || ''
+        
     }
 
     useEffect(() => {
@@ -39,7 +48,13 @@ const Deposit = (props) => {
         setIsLoading(true);
         setMessage(null);
         setSuccess(false)
-        makeRequest({url: endpoint, method: 'POST', data: values, api_version:3}).then(([status, response]) => {
+        const requestData = {
+            ...values, 
+            app_name: app 
+        };
+    
+        makeRequest({ url: endpoint, method: 'POST', data: requestData, api_version: 3 })
+            .then(([status, response]) => {
             dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
             if(status == 200) {
                 setSuccess(true)

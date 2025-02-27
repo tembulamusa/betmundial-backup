@@ -9,12 +9,13 @@ import { useLocation } from "react-router-dom";
 
 const LoginModal = (props) => {
     const {setUser} = props;
+    
     const [state, dispatch] = useContext(Context);
     const location = useLocation();
 
     useEffect(() => {
         if(state?.showloginmodal == true) {
-            dispatch({type:"DEL", key:"showloginmodal"})
+            // dispatch({type:"DEL", key:"showloginmodal"})
         }
     }, [location]);
 

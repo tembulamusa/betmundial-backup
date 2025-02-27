@@ -18,6 +18,8 @@ import Nine from  '../../assets/img/casino/carousel/9.png';
 import Ten from  '../../assets/img/casino/carousel/10.png';
 import Eleven from  '../../assets/img/casino/carousel/11.jpg';
 import Twelve from  '../../assets/img/casino/carousel/12.jpg';
+import Thirteen from  '../../assets/img/casino/carousel/13.jpg';
+import Fourteen from  '../../assets/img/casino/carousel/14.jpg';
 import { Link } from "react-router-dom";
 // import Intro from  '../../assets/img/casino/carousel/intro.png';
 // import Tick from  '../../assets/img/casino/carousel/Tick.png';
@@ -47,7 +49,7 @@ const CasinoCarousel = (props) => {
             </Carousel.Item>
             */}
             
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -66,7 +68,7 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
@@ -78,14 +80,16 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item> */}
             <Carousel.Item >
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Four}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
+                <Link to={"/casino-game/stp/comet"}>
+                    <img
+                        className="d-block w-100"
+                        style={{display: imageLoaded ? 'block' : 'none'}}
+                        src={Four}
+                        onLoad={onImageLoaded}
+                        alt="surebet"
+                        effects="blur"
+                    />
+                </Link>
             </Carousel.Item>
             
             {/* <Carousel.Item >
@@ -99,7 +103,7 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item> */}
             
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -119,7 +123,7 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
-            </Carousel.Item>
+            </Carousel.Item> */}
             
             {/* <Carousel.Item >
                 <img
@@ -132,27 +136,30 @@ const CasinoCarousel = (props) => {
                 />
             </Carousel.Item> */}
             
-            {/* <Carousel.Item >
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Nine}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
-            </Carousel.Item> */}
+            <Carousel.Item >
+                <Link to={"/casino-game/smartsoft/jetx"}>
+                    <img
+                        className="d-block w-100"
+                        style={{display: imageLoaded ? 'block' : 'none'}}
+                        src={Nine}
+                        onLoad={onImageLoaded}
+                        alt="surebet"
+                        effects="blur"
+                    />
+                </Link>
+            </Carousel.Item>
             
             <Carousel.Item >
-                
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Ten}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
+                <Link to={"/casino-game/aviatrix/aviatrix"}>
+                    <img
+                        className="d-block w-100"
+                        style={{display: imageLoaded ? 'block' : 'none'}}
+                        src={Ten}
+                        onLoad={onImageLoaded}
+                        alt="surebet"
+                        effects="blur"
+                    />
+                </Link>
             </Carousel.Item>
             
             <Carousel.Item >
@@ -168,7 +175,7 @@ const CasinoCarousel = (props) => {
                 </Link>
             </Carousel.Item>
             
-            <Carousel.Item >
+            {/* <Carousel.Item >
                 <img
                     className="d-block w-100"
                     style={{display: imageLoaded ? 'block' : 'none'}}
@@ -177,6 +184,32 @@ const CasinoCarousel = (props) => {
                     alt="surebet"
                     effects="blur"
                 />
+            </Carousel.Item> */}
+
+            <Carousel.Item >
+                <Link to={"/casino"}>
+                    <img
+                        className="d-block w-100"
+                        style={{display: imageLoaded ? 'block' : 'none'}}
+                        src={Thirteen}
+                        onLoad={onImageLoaded}
+                        alt="surebet"
+                        effects="blur"
+                    />
+                </Link>
+            </Carousel.Item>
+            
+            <Carousel.Item >
+                <Link to={"/casino-game/eurovirtuals/virtual-league"}>
+                <img
+                    className="d-block w-100"
+                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    src={Fourteen}
+                    onLoad={onImageLoaded}
+                    alt="surebet"
+                    effects="blur"
+                />
+                </Link>
             </Carousel.Item>
         </Carousel>
 

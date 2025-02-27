@@ -4,7 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Context } from "../../context/store";
 import DefaultImg from "../../assets/img/casino/icons/default.svg";
-import { setLocalStorage } from "../utils/local-storage";
+import { getFromLocalStorage, setLocalStorage } from "../utils/local-storage";
 
 
 const BigIconMenu = () => {
@@ -58,7 +58,17 @@ const BigIconMenu = () => {
         if(filterName == "provider") {
             if(filterItem?.name.toLowerCase() == "surecoin") {
                navigate("/surecoin") 
-            } else {
+            } else if (filterItem?.name.toLowerCase() == "eurovirtuals") {
+                if(!getFromLocalStorage("user")){
+                    dispatch({type:"SET", key:"showloginmodal", payload: true})
+                    return
+                } else {
+                    // dispatch({type:"SET", key:"casinolaunch", payload: {game: "", url: ""}});
+                    // navigate(`/casino-game/eurovirtuals/virtual-league`);
+                    window.location.href = `/casino-game/eurovirtuals/virtual-league`;
+
+                }
+            }else {
                 setLocalStorage("casinogamesfilter", payload);
                 dispatch({type:"SET", key:"casinogamesfilter", payload: payload});
                 navigate(`/casino/providers/${filterItem?.name}`);
@@ -78,8 +88,8 @@ const BigIconMenu = () => {
                             onClick={() => filterGames("provider", provider)}
                         >
                             <span title={provider?.name}>
-                                <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${provider?.name}.svg`, "casino")} alt={provider?.name} /></div>
-                                <div className="big-icon-name">{provider.name}</div>
+                                <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${provider?.name?.toLowerCase()}.svg`, "casino")} alt={provider?.name} /></div>
+                                <div className="big-icon-name">{provider.name == 'Eurovirtuals'?'Ligi Sure':provider.name}</div>
                             </span>
                         </li>
                     )
@@ -154,10 +164,10 @@ const BigIconMenu = () => {
                 style={{ maxWidth: '100%', backgroundColor: 'transparent' }}
             >
                 <ListGroup as="ul" horizontal className="flex space-x-4 big-icon-list">
-                    <li key={"idx-0"} className={`${pathname == "/" ? "active" : ''} big-icon-item text-center capitalize`}>
+                    <li key={"home-menu-item"} className={`${pathname == "/home" || "/" ? "active" : ''} big-icon-item text-center capitalize`}>
                         <a href={"/"} title={"home"}>
                             <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon("home.svg")} alt={"home"} /></div>
-                            <div className="big-icon-name">{"home"}</div>
+                            <div className="big-icon-name">{"Home"}</div>
                         </a>
                     </li>
                     {(linkItems || []).map((item, idx) => {
