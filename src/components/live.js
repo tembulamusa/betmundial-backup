@@ -121,7 +121,9 @@ const Live = (props) => {
     }, [state?.selectedLivesport]);
 
     useEffect(() => {
+        console.log("RELOAD REQUEST SENT HERE ::: ", reload)
         if (reload == true) {
+            console.log("THE RELOAD REQUEST TESTED TRUE SO IT SHOULD BE SENT HERE ::::  ")
             fetchData();
         }
         setReload(false);

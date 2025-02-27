@@ -366,7 +366,7 @@ const SideBets = (props) => {
 
     const openLiveStats = (parent_match_id) => {
 
-        window.open(`https://s5dev.sir.sportradar.com/risecommts/en/1/season/118703/team/${match?.parent_match_id}`, 'myWindow', 'width=648,height=700');
+        window.open(`https://s5dev.sir.sportradar.com/risecommts/en/1/season/118703/team/${match?.parent_match_id}`, 'sportradderwindow', 'width=648,height=700');
     }
     return (
         <div
@@ -920,7 +920,8 @@ const MatchRow = (props) => {
     const [betStop, setBetStop] = useState({});
 
     useEffect(()=>{
-        if (["ended", "deactivated", "abandoned"].includes?.updatedMatchStatus?.toLowerCase()) {
+        console.log("DETECTED MATCH CHANGE  ")
+        if (["ended", "deactivated", "abandoned"].includes?.updatedMatchStatus?.toLowerCase().trim()) {
             setReload(true);
         }
     }, [updatedMatchStatus])
@@ -978,6 +979,7 @@ const MatchRow = (props) => {
                 return data.score
             });
             setUpdatedMatchStatus((prevStatus) => {
+                console.log("MATCH STATUS UPDATE:::   for Match:::  ", data.match_status)
                 return data.match_status
             });
             updateMatchTimeMinutesAndSeconds(data.match_time);
