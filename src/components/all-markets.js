@@ -67,7 +67,7 @@ const MatchAllMarkets = (props) => {
     const handleGameSocket = (type) => {
             if (type === "listen" && socket.connected) {
                 socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);
-            } else if (type === "leave") {
+            } else if (type === "leave" && betstopMessage?.toLowerCase()?.trim() == "ended") {
                 socket.emit('user.match.leave', matchwithmarkets?.parent_match_id);
             }
     };

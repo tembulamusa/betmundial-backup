@@ -244,7 +244,7 @@ const MoreMarketsHeaderRow = (props) => {
     const handleGameSocket = useCallback((type, gameId) => {
         if (type === "listen" && socketRef.current?.connected) {
             socketRef.current.emit('user.match.listen', gameId);
-        } else if (type === "leave" && matchStatus.trim() == "ended") {
+        } else if (type === "leave" && matchStatus?.toLowerCase()?.trim() == "ended") {
             socketRef.current?.emit('user.match.leave', gameId);
         }
     }, []);
@@ -625,7 +625,7 @@ const MarketRow = (props) => {
     const handleGameSocket = useCallback((type, gameId, sub_type_id) => {
         if (type === "listen" && socketRef.current?.connected) {
             socketRef.current.emit('user.market.listen', { parent_match_id: gameId, sub_type_id: sub_type_id });
-        } else if (type === "leave") {
+        } else if (type === "leave" && betstopMessage?.trim()?.toLowerCase() == "ended") {
             socketRef.current?.emit("user.market.leave", { parent_match_id: gameId, sub_type_id: sub_type_id });
         }
     }, []);
@@ -659,8 +659,6 @@ const MarketRow = (props) => {
     useEffect(() => {
         if (socket.connected) {
             handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
-
-            
             const handleSocketData = (data) => {
                 if(Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
