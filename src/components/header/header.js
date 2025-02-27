@@ -32,7 +32,7 @@ const Header = (props) => {
     const [searchParams] = useSearchParams();
     
 
-
+    
     const NotifyToastContaner = () => {
         return <ToastContainer
             position="top-right"
@@ -58,6 +58,7 @@ const Header = (props) => {
 
     useEffect(() => {
 
+        
         // Redo this stuff with ALEXIS
         const checkSession = () => {
             const storedUser = getFromLocalStorage("user");
@@ -147,6 +148,7 @@ const Header = (props) => {
     }
 
     useEffect(()=> {
+        socket.connect();
         if(location.pathname == "/casino-game/eurovirtuals/virtual-league") {
             dispatch({type:"SET", key:"hideBigIconNav", payload:true})
             removeItem("casinolaunch");

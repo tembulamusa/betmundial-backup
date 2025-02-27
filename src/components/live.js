@@ -121,9 +121,7 @@ const Live = (props) => {
     }, [state?.selectedLivesport]);
 
     useEffect(() => {
-        console.log("RELOAD REQUEST SENT HERE ::: ", reload)
         if (reload == true) {
-            console.log("THE RELOAD REQUEST TESTED TRUE SO IT SHOULD BE SENT HERE ::::  ")
             fetchData();
         }
         setReload(false);
@@ -133,9 +131,15 @@ const Live = (props) => {
     
 
     useEffect(() => {
+            
         let currentLive = getFromLocalStorage("selectedLivesport");
         if(!state?.selectedLivesport && currentLive) {
             dispatch({type:"SET", key:"selectedLivesport", payload: currentLive});
+        }
+        
+        socket.connect();
+        return () => {
+            socket.disconnect();
         }
     }, []);
 

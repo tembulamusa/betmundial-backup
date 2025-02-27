@@ -73,7 +73,10 @@ const CasinoLaunchedGame = (props) => {
             </section>}
             <div className={`casino-launched-game-frame flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
                 {/* {showPreload && <span>Loading content, please wait...</span>} */}
-                <iframe allowfullscreen webkitallowfullscreen mozallowfullscreen
+                <iframe 
+                    allowfullscreen
+                    webkitallowfullscreen
+                    mozallowfullscreen
                     allow="autoplay; clipboard-write"
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
                     width="100%"
