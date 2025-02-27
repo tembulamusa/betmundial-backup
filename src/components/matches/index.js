@@ -920,8 +920,7 @@ const MatchRow = (props) => {
     const [betStop, setBetStop] = useState({});
 
     useEffect(()=>{
-        console.log("DETECTED MATCH CHANGE  ")
-        if (["ended", "deactivated", "abandoned"].includes?.updatedMatchStatus?.toLowerCase().trim()) {
+        if (["ended"].includes?.updatedMatchStatus?.toLowerCase().trim()) {
             setReload(true);
         }
     }, [updatedMatchStatus])
@@ -979,7 +978,6 @@ const MatchRow = (props) => {
                 return data.score
             });
             setUpdatedMatchStatus((prevStatus) => {
-                console.log("MATCH STATUS UPDATE:::   for Match:::  ", data.match_status)
                 return data.match_status
             });
             updateMatchTimeMinutesAndSeconds(data.match_time);
@@ -1274,7 +1272,7 @@ export const MarketList = (props) => {
                 {/* filter here */}
                 {Object.entries(matchwithmarkets?.odds || {}).map(([mkt_id, markets]) => {
 
-                    return (["active", "suspended", ""].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) &&
+                    return (["active", "suspended"].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) &&
                         <MarketRow
                             betstopMessage = {betstopMessage}
                             setBetstopMessage = {setBetstopMessage}

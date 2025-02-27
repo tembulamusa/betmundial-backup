@@ -87,7 +87,7 @@ const MatchAllMarkets = (props) => {
                 if(data.message_type == "betstop") {
                    setBetstopMessage(data);
                 } else {
-                    if(["ended", "suspended", "deactivated"].includes(data.match_status.toLowerCase())) {
+                    if(["ended"].includes(data.match_status.toLowerCase())) {
                         window.location.reload();
                     }
                 }
