@@ -69,15 +69,12 @@ const MatchAllMarkets = (props) => {
     }, [params.id]);
 
     const handleGameSocket = (type) => {
-            if (type === "listen" && socket.connected) {
-                socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);
-            } else if (type === "leave" && betstopMessage?.toLowerCase()?.trim() == "ended") {
-                socket.emit('user.match.leave', matchwithmarkets?.parent_match_id);
-            }
+        socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);
+            
     };
     useEffect(() => {
         let interval;
-        if(!socket.connected) {
+        if(socket.connected == false) {
             interval = setInterval(() => {
                 fetchPagedData();
             }, 3000);
@@ -97,13 +94,13 @@ const MatchAllMarkets = (props) => {
                 }
                 
             })
-            return () => {
-                clearInterval(interval)
-                handleGameSocket("leave");
-                    
-            }
+            
         }
-        
+
+        return () => {
+            clearInterval(interval)
+                
+        }
     }, [matchwithmarkets, socket.connected])
 
    return (
