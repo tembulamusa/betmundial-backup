@@ -229,7 +229,13 @@ const BetSlip = (props) => {
         
         const checkUpdateSlipChanges = (market, eventOdd) => {
             setSlip((prevSlip) => {
-                let newSlip = {...prevSlip};
+                console.log("THE NEW MARKET :::: ", market, "THE EVENT ODD   :::: ", eventOdd, "THE PREV SLIP  :::  ", prevSlip);
+
+
+                if( market.sub_type_id == prevSlip.sub_type_id 
+                    && market.special_bet_value == prevSlip.special_bet_value) {
+                        let newSlip = {...prevSlip};
+
                 if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
                     newSlip.comment = 'Market ' + market.status;
                     newSlip.disable = true;
@@ -267,6 +273,10 @@ const BetSlip = (props) => {
                 }
                 newSlip.changeOrigin = "socket"
                 return newSlip;  // Return the updated state
+            } else {
+                return prevSlip
+            }
+                
             })     
         }
 
@@ -322,7 +332,6 @@ const BetSlip = (props) => {
             socket?.on(`surebet#${slip?.parent_match_id}#${slip.sub_type_id}`, handleSocketData)
             
             return () => {
-                socket.off(`surebet#${slip?.parent_match_id}#${slip.sub_type_id}`)
             }
         },[])
 
