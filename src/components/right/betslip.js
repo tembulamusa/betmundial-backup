@@ -229,50 +229,51 @@ const BetSlip = (props) => {
         
         const checkUpdateSlipChanges = (market, eventOdd) => {
             setSlip((prevSlip) => {
-                console.log("THE NEW MARKET :::: ", market, "THE EVENT ODD   :::: ", eventOdd, "THE PREV SLIP  :::  ", prevSlip);
+                let betslips = getBetslip();
 
+                if(!betslips[match_id]) { return false}
 
                 if( market.sub_type_id == prevSlip.sub_type_id 
                     && market.special_bet_value == prevSlip.special_bet_value) {
                         let newSlip = {...prevSlip};
 
-                if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
-                    newSlip.comment = 'Market ' + market.status;
-                    newSlip.disable = true;
-                }
-                if (eventOdd !== null) {
-                    if (newSlip.bet_pick == eventOdd.odd_key) {
-                        if (eventOdd.odd_active !== 1) {
-                            newSlip.comment = 'Not available for staking';
-                            newSlip.disable = true;
-                        } else if (eventOdd.market_status !== 'Active') {
-                            newSlip.comment = 'Market ' + eventOdd.market_status;
-                            newSlip.disable = true;
-                        } else if (parseFloat(eventOdd.odd_value) !== parseFloat(newSlip.odd_value)) {
-                            if(!("prev_odds" in newSlip)){
-                                newSlip.prev_odds = newSlip.odd_value;
-                            }
-                            newSlip.odd_value = eventOdd.odd_value;
-                            newSlip.comment = 'The odds for this event have changed';
-                        } else {
-                            if(!newSlip.prev_odds){
-                                delete newSlip.comment
-                                delete newSlip.disable
-                            } else if (newSlip.prev_odds && newSlip.prev_odds == eventOdd.odd_value){
-                                delete newSlip.prev_odds
-                                delete newSlip.comment
+                    if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
+                        newSlip.comment = 'Market ' + market.status;
+                        newSlip.disable = true;
+                    }
+                    if (eventOdd !== null) {
+                        if (newSlip.bet_pick == eventOdd.odd_key) {
+                            if (eventOdd.odd_active !== 1) {
+                                newSlip.comment = 'Not available for staking';
+                                newSlip.disable = true;
+                            } else if (eventOdd.market_status !== 'Active') {
+                                newSlip.comment = 'Market ' + eventOdd.market_status;
+                                newSlip.disable = true;
+                            } else if (parseFloat(eventOdd.odd_value) !== parseFloat(newSlip.odd_value)) {
+                                if(!("prev_odds" in newSlip)){
+                                    newSlip.prev_odds = newSlip.odd_value;
+                                }
+                                newSlip.odd_value = eventOdd.odd_value;
+                                newSlip.comment = 'The odds for this event have changed';
+                            } else {
+                                if(!newSlip.prev_odds){
+                                    delete newSlip.comment
+                                    delete newSlip.disable
+                                } else if (newSlip.prev_odds && newSlip.prev_odds == eventOdd.odd_value){
+                                    delete newSlip.prev_odds
+                                    delete newSlip.comment
+                                }
+                                
                             }
                             
                         }
-                        
+                        if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
+                        newSlip.comment = 'Market ' + market.status;
+                        newSlip.disable = true;
                     }
-                    if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
-                    newSlip.comment = 'Market ' + market.status;
-                    newSlip.disable = true;
-                }
-                }
-                newSlip.changeOrigin = "socket"
-                return newSlip;  // Return the updated state
+                    }
+                    newSlip.changeOrigin = "socket"
+                    return newSlip;  // Return the updated state
             } else {
                 return prevSlip
             }

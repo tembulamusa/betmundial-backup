@@ -316,20 +316,25 @@ const BetslipSubmitForm = (props) => {
 
     const handleRemoveAll = () => {
         let betslips = state?.isjackpot ? getJackpotBetslip() : getBetslip();
+
         if (betslips) {
             Object.entries(betslips).map(([match_id, match]) => {
-            state?.isjackpot ? removeFromJackpotSlip(match_id) : removeFromSlip(match_id);
-            let match_selector = match.match_id + "_selected";
-            let ucn = clean_rep(
-                match.match_id
-                + "" + match.sub_type_id
-                + (match.bet_pick)
-            );
-            dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
+                state?.isjackpot 
+                    ? removeFromJackpotSlip(match_id) 
+                    : removeFromSlip(match_id);
+                    
+                let match_selector = match.match_id + "_selected";
+                let ucn = clean_rep(
+                    match.match_id
+                    + "" + match.sub_type_id
+                    + (match.bet_pick)
+                );
+                dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
             });
         }
         state?.isjackpot ? clearJackpotSlip() : clearSlip();
         dispatch({type: "DEL", key: state?.isjackpot ? "jackpotbetslip" : "betslip"});
+
     };
 
     useEffect(() => {

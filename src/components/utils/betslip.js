@@ -34,21 +34,21 @@ export const addToSlip = (slip) => {
 
 export const removeFromSlip = (match_id) => {
    let current_slip = getFromLocalStorage('betslip');
-   if (current_slip !== undefined && current_slip !== null) {
+   if (current_slip) {
     let liveCount = getFromLocalStorage("liveCount");
 
     if (current_slip[match_id].bet_type == 1) {
         if(liveCount > 0) {
-            liveCount -= liveCount
+            liveCount--;
             setLocalStorage("liveCount", liveCount);
         }
     }
 
     delete current_slip[match_id];
-   } else {
-    window.location.reload()
-   }
-   setLocalStorage('betslip', current_slip, 1*60*60*1000);
+    setLocalStorage('betslip', current_slip, 1*60*60*1000);
+   } 
+
+   
    return current_slip;
 }
 
