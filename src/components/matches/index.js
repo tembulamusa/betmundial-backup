@@ -731,7 +731,12 @@ const MarketRow = (props) => {
 
     return (
         <>
-            {["active", "suspended"].includes(marketStatus?.toLowerCase()) && <div className="top-matches event-row">
+            {(
+                ["active", "suspended"].includes(marketStatus?.toLowerCase()) 
+                && mutableMkts?.some(odd => ["active","suspended"].includes(odd?.market_status?.toLowerCase()))
+            ) 
+                && 
+            <div className="top-matches event-row">
                 <Row className="top-matches header">
                     {live &&
                         <div
