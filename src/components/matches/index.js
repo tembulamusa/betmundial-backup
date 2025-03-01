@@ -909,7 +909,7 @@ const MatchRow = (props) => {
 
     const [match, setMatch] = useState({ ...initialMatch })
     const [availableMarkets, ] = useState(subTypes || [1, 10, 18])
-    const [updatedMatchStatus, setUpdatedMatchStatus] = useState(null);
+    const [updatedMatchStatus, setUpdatedMatchStatus] = useState("Not Started");
     const [updatedMatchTime, setUpdatedMatchTime] = useState({});
     const [updatedMatchScore, setUpdatedMatchScore] = useState();
     const [betStop, setBetStop] = useState({});
@@ -991,7 +991,7 @@ const MatchRow = (props) => {
     }
     return (
         <>
-            { updatedMatchStatus.toLowerCase().trim() !== "ended" &&
+            { updatedMatchStatus?.toLowerCase()?.trim() !== "ended" &&
                 <div className="top-matches d-flex">
                     <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="21">
                         {live &&
