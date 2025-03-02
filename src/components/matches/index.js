@@ -290,67 +290,7 @@ const MoreMarketsHeaderRow = (props) => {
     }
     return (
         <>
-            {/* Initial custom header */}
-            {/*
-            <div className="match-detail-header panel-header primary-bg pt-3">
-                <div className="text-center">
-
-                    <div className="inline-block text-center mb-3">
-                        {match?.home_team} <small> - </small> {match?.away_team}
-                    </div>
-
-                    {match?.status?.toLowerCase() !== 'ended' &&
-                            <span className="start-time block text-center my-3">
-                            {live
-                                ? 
-                                <Col> 
-                                    <span style={{display:"inline-block", width:"100px",  marginLeft:"2px", padding: "0 7px", borderRadius: "5px", color: "rgba(255, 0,0,0.7)", background: "rgba(255,255,255,1)", fontWeight: "bd" }}>
-                                        {(matchTime || match?.match_time) 
-                                        
-                                        ?
-                                        <TimeCounter minutes={matchTime?.minutes} seconds={matchTime?.seconds} />
-                                        :
-                                        matchStatus || match?.status}
-
-                                    </span>
-                                </Col>
-                                : 
-                                <Col className="capitalize font-[400]"><span className='opacity-70'></span> {convertDateToLocalString(match?.start_time)}</Col>
-                            }
-                            </span>
-                            }
-                    {live &&
-                        <Row className="header-te">
-                            
-                            <Col style={{
-                                fontWeight: "",
-                                color: "rgba(255, 0, 0, 0.7)",
-                                marginBottom: "5px",
-                                background: "rgba(255,255,255)",
-                                padding: "4px 5px",
-                                maxWidth: "100px",
-                                marginLeft: "auto",
-                                marginRight: "auto",
-                                borderRadius: "5px"
-                            }}> {match?.status == 'Ended' && 'Ended '} {score || match?.score}</Col>
-                        </Row>
-                    }
-                    <Row className="header-text font-[400]">
-                        <Col>{match?.category} - {match?.competition_name}</Col>
-                    </Row>
-                    
-                </div>
-            </div>
-            */}
-            {/* The livescore filter */}
-            {/* <div id='livescore' className=''> */}
-                {/* <div id='livescore-content'><img src={MatchDetailBetrandder} className="main-img" alt="" /></div> */}
-                
-                {/* <div id='livescore-footer-links'><LivescoreFooter /></div> */}
-            {/* </div> */}
-
-
-        {/* THE BETRADDER WIDGET */}
+           
         <div className="match-detail-header panel-header primary-bg pt-3">
            <span> <a href={"#"} className="opacity-60 hover:opacity-100" onClick={(e) => { e.preventDefault(); navigate(-1); }}> <IoIosArrowBack className="inline-block" /> <span className='' style={{fontSize:"13px"}}>Back</span></a> {match?.home_team} - {match?.away_team} </span>
         </div>
@@ -370,19 +310,10 @@ const SideBets = (props) => {
     return (
         <div
             className={` ${picked} align-self-center more-markets-container m-lg-2`}>
-            {
-                // <a className="side pl-2 text-sm font-light !text-[9px]" title={'More Markets'}
-                //     href={`/match/${live ? 'live/' : ''}${match?.match_id}`
-                //     }> <span>+</span>
-                // </a>
-
-
-            }
-
+            
             <div 
                 onClick={() => openLiveStats(match?.parent_match_id)}
                 className='side !pl-2 !ml-3 text-blue-700 font-bold opacity-60 hover:opacity-100 cursor-pointer'>
-                {/* <TfiStatsUp size={15}/> */}
                 <IoIosStats size={20}/>
             </div>
         </div>
@@ -710,10 +641,9 @@ const MarketRow = (props) => {
             socketRef.current?.on(socketEvent, handleSocketData);
         
         return () => {
-            handleGameSocket("leave", match?.parent_match_id, marketDetail?.sub_type_id);
         };
     }
-    }, [socket.connected, handleGameSocket, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
+    }, [socket.connected, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
 
     const MktOddsButton = React.memo(({ match, mktodds, live, pdown, producerId }) => {
         const fullmatch = { ...match, ...mktodds, producer_id: producerId };
@@ -836,24 +766,26 @@ const MatchMarket = (props) => {
 
 
     useEffect(() => {
-        handleGameSocket("listen", match?.parent_match_id);
+        if (socket.connected) {
+            handleGameSocket("listen", match?.parent_match_id);
 
-        socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
-            
-            if (data.match_market.special_bet_value == special_bet_value) {
-                if (Object.keys(data.event_odds).length > 0) {
-                    setOutcomes(
-                        Object.values(data.event_odds).sort(
-                            (a, b) => a.outcome_id - b.outcome_id
-                        )
-                    );
-                } 
-                setMarketStatus(data.match_market.status)
-            }
-        });
+            socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
+                
+                if (data.match_market.special_bet_value == special_bet_value) {
+                    if (Object.keys(data.event_odds).length > 0) {
+                        setOutcomes(
+                            Object.values(data.event_odds).sort(
+                                (a, b) => a.outcome_id - b.outcome_id
+                            )
+                        );
+                    } 
+                    setMarketStatus(data.match_market.status)
+                }
+            });
+        }
+        
 
         return () => {
-            handleGameSocket("leave", match?.parent_match_id);
         }
     }, [socket.connected])
 
@@ -1200,8 +1132,6 @@ export const MarketList = (props) => {
     useEffect(() => {
         setMatchWithMarkets(initialMatchwithmarkets);
         return () => {
-            // unsubscribe trigger
-            handleGameSocket("leave", matchwithmarkets?.parent_match_id);
         }
     }, [initialMatchwithmarkets]);
 
@@ -1212,7 +1142,7 @@ export const MarketList = (props) => {
             }
         }
 
-    }, [socket.connected, ]);
+    }, [socket.connected]);
 
     // comes from the markets with filter
     const marketFilters = [
