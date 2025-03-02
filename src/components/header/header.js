@@ -134,7 +134,12 @@ const Header = (props) => {
     }
 
     useEffect(()=> {
-        socket.connect();
+        try {
+            socket.connect();
+
+        } catch (err) {
+            console.log("UNABLE TO CONNECT  ::: Why?W?")
+        }
         if(location.pathname == "/casino-game/eurovirtuals/virtual-league") {
             dispatch({type:"SET", key:"hideBigIconNav", payload:true})
             removeItem("casinolaunch");

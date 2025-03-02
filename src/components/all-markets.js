@@ -33,6 +33,7 @@ const MatchAllMarkets = (props) => {
     const [, dispatch] = useContext(Context);
     const navigate = useNavigate();
     const [betstopMessage, setBetstopMessage] = useState();
+    const [socketIsConnected, setSockectIsConnected] = useState(socket.connected);
     
 
     const findPostableSlip = () => {
@@ -72,34 +73,34 @@ const MatchAllMarkets = (props) => {
         socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);
             
     };
-    useEffect(() => {
-        let interval;
-        if(!socket.connected) {
-            interval = setInterval(() => {
-                fetchPagedData();
-            }, 3000);
-            
-        } else {
-            clearInterval(interval);
-            if(matchwithmarkets) {
-                handleGameSocket("listen")
-            }
-            socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
-                if(data.message_type == "betstop") {
-                   setBetstopMessage(data);
-                } else {
-                    if(["ended"].includes(data.match_status.toLowerCase())) {
-                        window.location.reload();
-                    }
-                }
-                
-            })
-            
-        }
 
-        return () => {
-            clearInterval(interval)
+
+    useInterval(() => {
+        if(!socketIsConnected){
+            fetchPagedData();
         }
+    }, !socketIsConnected ? 3000 : null );
+
+    useEffect(() => {
+        
+        const handleConnect = () => setSockectIsConnected(true);
+        const handleDisconnect = () => setSockectIsConnected(false);
+        if(matchwithmarkets) {
+            handleGameSocket("listen")
+        }
+        socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
+            if(data.message_type == "betstop") {
+                setBetstopMessage(data);
+            } else {
+                if(["ended"].includes(data.match_status.toLowerCase())) {
+                    window.location.reload();
+                }
+            }
+            
+        });
+        socket.on("connect", handleConnect);
+        socket.on("disconnect", handleDisconnect);
+       
     }, [matchwithmarkets, socket.connected])
 
    return (
