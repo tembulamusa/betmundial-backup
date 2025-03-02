@@ -112,20 +112,6 @@ const Header = (props) => {
     } ,3000);
     
 
-
-    useEffect(() => {
-        if(user) {
-            if (socket.connected) {
-                socket.emit('user.profile', user?.profile_id);
-            }
-        }
-
-
-        socket.on(`user#profile#${user?.profile_id}`, (data) => {
-            setUser({...user, balance: data.balance, bonus_balance: data.bonus})
-        })
-    }, [socket.connected, user]);
-
     useEffect(()=> {
         if(user) {
             if (socket.connected) {
@@ -136,7 +122,7 @@ const Header = (props) => {
                 setUser({...user, balance: data.balance, bonus_balance: data.bonus})
             })
         }        
-    }, [])
+    }, [socket.connected, user])
 
     const nextNavigate = () => {
         const path = location.pathname
@@ -148,7 +134,12 @@ const Header = (props) => {
     }
 
     useEffect(()=> {
-        socket.connect();
+        socket.disconnect();
+        console.log("THE SOCKET CONNECTED :: ", socket.connected)
+        setTimeout(() => {
+            socket.connect();
+            console.log("THE SOCKET RECONNECTED  ::: ", socket.connected)
+        }, 1000);
         if(location.pathname == "/casino-game/eurovirtuals/virtual-league") {
             dispatch({type:"SET", key:"hideBigIconNav", payload:true})
             removeItem("casinolaunch");

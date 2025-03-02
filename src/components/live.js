@@ -137,8 +137,6 @@ const Live = (props) => {
             dispatch({type:"SET", key:"selectedLivesport", payload: currentLive});
         }
 
-        socket.connect();
-        
         return () => {
             socket.disconnect();
         }

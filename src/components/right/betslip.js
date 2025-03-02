@@ -240,6 +240,8 @@ const BetSlip = (props) => {
                     if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
                         newSlip.comment = 'Market ' + market.status;
                         newSlip.disable = true;
+                    } else {
+                        delete newSlip.disable
                     }
                     if (eventOdd !== null) {
                         if (newSlip.bet_pick == eventOdd.odd_key) {
