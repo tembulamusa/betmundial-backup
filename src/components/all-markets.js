@@ -45,6 +45,7 @@ const MatchAllMarkets = (props) => {
        
     
     useEffect(() => {
+        socket.connect();
         fetchPagedData()
         return () => {
             socket.disconnect();
@@ -98,8 +99,6 @@ const MatchAllMarkets = (props) => {
 
         return () => {
             clearInterval(interval)
-            socket.disconnect();
-                
         }
     }, [matchwithmarkets, socket.connected])
 

@@ -271,7 +271,6 @@ const MoreMarketsHeaderRow = (props) => {
         socketRef.current?.on(socketEvent, handleSocketData);
 
         return () => {
-            handleGameSocket("leave", match?.parent_match_id);
         };
     }, [handleGameSocket, match, socketEvent]);
 
@@ -556,13 +555,12 @@ const MarketRow = (props) => {
     const handleGameSocket = useCallback((type, gameId, sub_type_id) => {
         if (type === "listen" && socketRef.current?.connected) {
             socketRef.current.emit('user.market.listen', { parent_match_id: gameId, sub_type_id: sub_type_id });
-        } else if (type === "leave" && betstopMessage?.trim()?.toLowerCase() == "ended") {
         }
     }, []);
 
     useEffect(() => {
         if(betstopMessage){
-
+            console.log("  ===  RECEIVING BET STOP MESSAGES   :::  === ", betstopMessage )
             let affectedMarkets = betstopMessage.markets.split(",");
             if(affectedMarkets.includes('all')  
                 ||  affectedMarkets.includes(marketDetail.sub_type_id)){
@@ -590,6 +588,7 @@ const MarketRow = (props) => {
         if (socket.connected) {
             handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
             const handleSocketData = (data) => {
+                console.log("  ===  RECEIVING ODD RELATED MESSAGES   :::  === ", data )
                 if(Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                     setMutableMkts((prevMarkets) => {
@@ -1114,7 +1113,6 @@ export const MarketList = (props) => {
 
     const { live, initialMatchwithmarkets, pdown , betstopMessage, setBetstopMessage} = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
-    const [isVisible, setIsVisible] = useState(true);
     const [matchwithmarkets, setMatchWithMarkets] = useState(initialMatchwithmarkets)
 
     const handleGameSocket = (type, gameId, sub_type_id) => {
