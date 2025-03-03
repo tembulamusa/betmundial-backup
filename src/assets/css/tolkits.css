@@ -4571,11 +4571,10 @@ fieldset[disabled] .fm.fl {
     /* background-image: -moz-linear-gradient(#ed4381 30%, #c51759 80%); */
     /* background-image: -o-linear-gradient(#ed4381 30%, #c51759 80%); */
 }
-
 .ss.profile {
-    padding-bottom: 7px;
-    padding-top: 5px;
-    /*margin-right: 40px !important;*/
+    padding-bottom: 4px;
+    padding-top: 4px;
+    /* margin-right: 40px !important; */
     width: auto;
     font-size: 12px;
     font-weight: normal;
@@ -14968,7 +14967,7 @@ img.zoom-img {
 .logo {
     position: relative;
     color: #fff !important;
-    padding-top: 8px;
+    padding-top: 4px;
 }
 
 .panel {

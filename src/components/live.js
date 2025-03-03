@@ -26,6 +26,7 @@ const Live = (props) => {
     const [betradarSportId, setBetradarSportId] = useState(1);
     const [reload, setReload] = useState(false)
     const {spid, sub_type_id} = useParams();
+    const [socketIsConnected, setSockectIsConnected] = useState(socket.connected);
     const socketRef = useRef(socket);
 
 
@@ -39,15 +40,14 @@ const Live = (props) => {
         }
         };
 
+    useInterval(() => {
+        if(!socketIsConnected){
+            fetchData();
+        }
+    }, !socketIsConnected ? 3000 : null );
+
     useEffect(() => {
-        let interval;
-        if(!socket.connected) {
-            interval = setInterval(() => {
-                fetchData();
-            }, 3000);
-            
-        } else {
-            clearInterval(interval);
+        
             handleGameSocket("listen");
             socket.on(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
                 setMatches((preveMatches) => {
@@ -75,14 +75,13 @@ const Live = (props) => {
             );
 
         })
-    }
-
+    const handleConnect = () => setSockectIsConnected(true);
+    const handleDisconnect = () => setSockectIsConnected(false);
     
-
-
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
     return () => {
-        clearInterval(interval);
-        handleGameSocket("leave");
+
     };
         
     }, [betradarSportId, socket.connected])
@@ -129,7 +128,7 @@ const Live = (props) => {
     }, [reload])
 
     
-
+    
     useEffect(() => {
             
         let currentLive = getFromLocalStorage("selectedLivesport");

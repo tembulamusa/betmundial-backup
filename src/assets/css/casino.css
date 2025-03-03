@@ -157,8 +157,9 @@
     float: right;
 }
 
-.launched-game-header {}
-
+.launched-game-header {
+    background: rgba(255,255,255, 0.026);
+}
 .casino-launched-game-frame {
     height: calc(100vh - 10vh);
 }

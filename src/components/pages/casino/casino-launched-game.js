@@ -71,16 +71,17 @@ const CasinoLaunchedGame = (props) => {
                     <div className="dismiss-casino-game col-2 mx-auto"><span className="casino-page-close cursor-pointer" onClick={() => navigate("/casino")}><MdOutlineClose /></span></div>
                 </div>
             </section>}
-            <div className={`casino-launched-game-frame flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
+            <div className={`casino-launched-game-frame relative flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
                 {/* {showPreload && <span>Loading content, please wait...</span>} */}
                 <iframe 
+                    className="h-[70%]"
                     allowfullscreen
                     webkitallowfullscreen
                     mozallowfullscreen
-                    allow="autoplay; clipboard-write"
+                    allow="autoplay; clipboard-write; fullscreen"
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
-                    width="100%"
-                    height="100%"
+                    width="80%"
+                    height="80%"
                     src={provider.toLowerCase() == "eurovirtuals" ? noStateGame : state?.casinolaunch?.url ? state?.casinolaunch?.url : ""}
                 >
                 </iframe>

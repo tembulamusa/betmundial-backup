@@ -560,7 +560,6 @@ const MarketRow = (props) => {
 
     useEffect(() => {
         if(betstopMessage){
-            console.log("  ===  RECEIVING BET STOP MESSAGES   :::  === ", betstopMessage )
             let affectedMarkets = betstopMessage.markets.split(",");
             if(affectedMarkets.includes('all')  
                 ||  affectedMarkets.includes(marketDetail.sub_type_id)){
@@ -582,7 +581,6 @@ const MarketRow = (props) => {
         }
         
     }, [betstopMessage]);
-
 
     useEffect(() => {
         if (socket.connected) {
@@ -643,7 +641,7 @@ const MarketRow = (props) => {
     }
     }, [socket.connected, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
 
-    const MktOddsButton = React.memo(({ match, mktodds, live, pdown, producerId }) => {
+    const MktOddsButton = ({ match, mktodds, live, pdown, producerId }) => {
         const fullmatch = { ...match, ...mktodds, producer_id: producerId };
 
         if (
@@ -655,7 +653,7 @@ const MarketRow = (props) => {
             return <OddButton match={fullmatch} detail mkt={"detail"} live={live} />;
         }
         return <EmptyTextRow odd_key={fullmatch?.odd_key} />;
-    });
+    };
 
     return (
         <>
@@ -1112,7 +1110,7 @@ export const MarketList = (props) => {
 
     const { live, initialMatchwithmarkets, pdown , betstopMessage, setBetstopMessage} = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
-    const [matchwithmarkets, setMatchWithMarkets] = useState(initialMatchwithmarkets)
+    const [matchwithmarkets, setMatchWithMarkets] = useState({...initialMatchwithmarkets})
 
     const handleGameSocket = (type, gameId, sub_type_id) => {
         if (type == "listen" && socket?.connected) {
@@ -1127,7 +1125,8 @@ export const MarketList = (props) => {
     }
 
     useEffect(() => {
-        setMatchWithMarkets(initialMatchwithmarkets);
+        console.log("THE NEW POLLING MATCHES   :::  ", initialMatchwithmarkets)
+        setMatchWithMarkets({...initialMatchwithmarkets});
         return () => {
         }
     }, [initialMatchwithmarkets]);

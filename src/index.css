@@ -1697,8 +1697,8 @@ label {
 }
 
 .big-icon-icon img {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   opacity: 0.8;
   transition: opacity 0.2s, filter 0.2s;
 }

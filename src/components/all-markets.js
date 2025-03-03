@@ -16,6 +16,7 @@ import { MarketList } from './matches/index';
 import { Context } from "../context/store";
 import socket from "./utils/socket-connect";
 import AllMarketsUnavailable from "./utils/all-markets-unavailable";
+import { data } from "jquery";
 
 const Header = React.lazy(()=>import('./header/header'));
 const Footer = React.lazy(()=>import('./footer/footer'));
@@ -55,19 +56,19 @@ const MatchAllMarkets = (props) => {
 
     
 
-    const fetchPagedData =useCallback(async() => {
+    const fetchPagedData =() => {
         if(!isLoading && !isNaN(+params.id)) {
             setIsLoading(true);
             let betslip = findPostableSlip();
             let endpoint = live ? "/v2/sports/match/live/" + params.id :
             "/v2/sports/match/" + params.id
-            await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
+            makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
                 setMatchWithMarkets(result?.data);
                 setProducerDown(result?.producer_status == 1);
                 setIsLoading(false);
             });
         }
-    }, [params.id]);
+    };
 
     const handleGameSocket = (type) => {
         socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);
@@ -107,7 +108,7 @@ const MatchAllMarkets = (props) => {
        <>
            
         <div className="homepage">
-            {matchwithmarkets !== null && <MarketList live={live}  
+            {matchwithmarkets && <MarketList live={live}  
                 initialMatchwithmarkets={matchwithmarkets} 
                 pdown={producerDown} 
                 betstopMessage = {betstopMessage} 
@@ -116,7 +117,7 @@ const MatchAllMarkets = (props) => {
         </div>
 
 
-        {((!matchwithmarkets || matchwithmarkets == null) && !isLoading) && 
+        {(!matchwithmarkets && !isLoading) && 
             <AllMarketsUnavailable backLink={live ? "/live" : "/"} isLoading={isLoading}/>
         }
            
