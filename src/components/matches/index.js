@@ -15,6 +15,7 @@ import padlock from '../../assets/img/padlock.png';
 import { getFromLocalStorage } from "../utils/local-storage";
 import { Link } from 'react-router-dom';
 import NoEvents from '../utils/no-events';
+import usePrevious from "../../hooks/previous.hook"
 import { match } from 'assert';
 import socket from '../utils/socket-connect';
 import { ShimmerTable } from "react-shimmer-effects";
@@ -353,7 +354,7 @@ const OddButton = (props) => {
                 + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
                 + (match?.[mkt] || match?.odd_key || mkt || "draw")
             );
-            setUcn(uc);
+            setUcn(uc);            
             setOddValue(match?.odd_value);
 
         }
@@ -488,8 +489,8 @@ const OddButton = (props) => {
             producer_id={match?.producer_id}
             sport_name={match.sport_name}
             start_time={match.start_time}
-            sub_type_id={match?.odds?.sub_type_id || match?.sub_type_id}
-            special_bet_value={match?.odds?.special_bet_value || match?.special_bet_value || ''}
+            sub_type_id={ match?.sub_type_id}
+            special_bet_value={ match?.special_bet_value || ''}
             onClick={handleButtonOnClick}>
             {!detail &&
                 (
@@ -546,7 +547,9 @@ const MarketRow = (props) => {
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
     useEffect(() => {
-        setMutableMkts(markets);
+        // if (markets){
+            setMutableMkts([...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]);
+        // }
     }, []);
 
     const socketRef = useRef(socket);
@@ -586,17 +589,29 @@ const MarketRow = (props) => {
         if (socket.connected) {
             handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
             const handleSocketData = (data) => {
+
+                
+
                 if(Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                     setMutableMkts((prevMarkets) => {
+                        if (evodd.sub_type_id == 10) {
+                            console.log("Odd market 10 found   ::: ", evodd.odd_key, evodd.odd_value)
+
+                        }
                         let index = prevMarkets?.findIndex(
                             ev => ev.sub_type_id == evodd.sub_type_id
                                 && ev.outcome_id == evodd.outcome_id
-                                && ev.special_bet_value == evodd.special_bet_value);
+                                && (!evodd.special_bet_value || (ev.special_bet_value== evodd.special_bet_value)));
                         
+                        if(marketStatus.toLowerCase() !== "active" 
+                                && 
+                                evodd.market_status.toLowerCase() == "active") {
+                                    setMarketStatus(evodd.market_status);
+                            }
                         if (index !== -1) {
-                            const newOdds = prevMarkets;
-                            newOdds[index] = evodd;
+                            const newOdds = [...prevMarkets];
+                            newOdds[index] = {...evodd};
                             return newOdds.sort((a, b) => 
                                 a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
                             );
@@ -605,11 +620,7 @@ const MarketRow = (props) => {
                                 a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
                             );
                         }
-                        if(marketStatus.toLowerCase() !== "active" 
-                            && 
-                            evodd.market_status.toLowerCase() == "active") {
-                                setMarketStatus(evodd.market_status);
-                        }
+                        
                     });
 
                 });
@@ -640,6 +651,15 @@ const MarketRow = (props) => {
         };
     }
     }, [socket.connected, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
+
+    // useEffect(() => {
+    //     if(marketDetail.sub_type_id == 18) {
+    //         console.log("THE MUTABLE MARKETS CHANGED ::: ", mutableMkts)
+
+    //     } else if (marketDetail.sub_type_id == 10) {
+    //         console.log("THE MARKET 10 LOGS HERE ", mutableMkts)
+    //     }
+    // }, [mutableMkts])
 
     const MktOddsButton = ({ match, mktodds, live, pdown, producerId }) => {
         const fullmatch = { ...match, ...mktodds, producer_id: producerId };
@@ -806,7 +826,7 @@ const MatchMarket = (props) => {
                             ? 
                             <>
                                 <OddButton 
-                                    key={`${match?.match_id}-${idx}`} 
+                                    key={`match-with-detail-market-${idx}`} 
                                     match={matchWithDetails}
                                     mkt={marketName}
                                     live={live}
@@ -840,7 +860,7 @@ const MatchRow = (props) => {
         setReload,
         subTypes } = props;
 
-    const [match, setMatch] = useState({ ...initialMatch })
+    const [match, setMatch] = useState({...initialMatch})
     const [availableMarkets, ] = useState(subTypes || [1, 10, 18])
     const [updatedMatchStatus, setUpdatedMatchStatus] = useState("Not Started");
     const [updatedMatchTime, setUpdatedMatchTime] = useState({});
@@ -856,6 +876,7 @@ const MatchRow = (props) => {
             return null;
         });
     }
+
 
     useEffect(() => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
@@ -1125,7 +1146,6 @@ export const MarketList = (props) => {
     }
 
     useEffect(() => {
-        console.log("THE NEW POLLING MATCHES   :::  ", initialMatchwithmarkets)
         setMatchWithMarkets({...initialMatchwithmarkets});
         return () => {
         }
@@ -1317,6 +1337,8 @@ const MatchList = (props) => {
             dispatch({ type: "DEL", key: "matchlisttype" });
         }
     }, [])
+
+
     return (
         <div className="matches full-width">
             <MatchHeaderRow
@@ -1334,6 +1356,7 @@ const MatchList = (props) => {
                         live 
                         ? 
                         match?.match_status?.toLowerCase() !== "ended" &&
+                        <div>
                         <MatchRow
                             initialMatch={match}
                             key={match?.parent_match_id}
@@ -1342,8 +1365,10 @@ const MatchList = (props) => {
                             setReload={setReload}
                             three_way={three_way}
                             subTypes={subTypes}
-                            sub_types={subTypes} /> 
-                            : 
+                            sub_types={subTypes} />
+                        </div>
+                            :
+                        <div key={match?.match_time || match?.start_time}>
                             <MatchRow
                             initialMatch={match}
                             key={match?.parent_match_id}
@@ -1353,6 +1378,7 @@ const MatchList = (props) => {
                             three_way={three_way}
                             subTypes={subTypes}
                             sub_types={subTypes} />
+                        </div>
                     ))
                 }
 
