@@ -595,10 +595,6 @@ const MarketRow = (props) => {
                 if(Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                     setMutableMkts((prevMarkets) => {
-                        if (evodd.sub_type_id == 10) {
-                            console.log("Odd market 10 found   ::: ", evodd.odd_key, evodd.odd_value)
-
-                        }
                         let index = prevMarkets?.findIndex(
                             ev => ev.sub_type_id == evodd.sub_type_id
                                 && ev.outcome_id == evodd.outcome_id
