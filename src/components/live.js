@@ -1,4 +1,4 @@
-import React, {useContext, useLayoutEffect, useEffect, useCallback, useState, useMemo, useRef} from "react";
+import React, {useContext, useLayoutEffect, useEffect, useCallback, useState, useRef} from "react";
 import {useLocation, useParams} from 'react-router-dom';
 import makeRequest from './utils/fetch-request';
 import {getJackpotBetslip, getBetslip} from './utils/betslip' ;
@@ -96,7 +96,7 @@ const Live = (props) => {
         makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
             setFetching(false)
             if (status == 200) {
-                setMatches(result?.data?.items || result)
+                setMatches(result?.data?.items?.sort((a, b) => ((a.start_time - b.start_time) || (b.match_time - a.match_time))) || result)
                 setProducerDown(result?.producer_status == 1);
             } else {
                 setMatches([])
