@@ -546,10 +546,8 @@ const MarketRow = (props) => {
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
     useEffect(() => {
-        if (markets){
-            setMutableMkts(markets);
-        }
-    }, [markets]);
+        setMutableMkts(markets);
+    }, []);
 
     const socketRef = useRef(socket);
     const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
@@ -682,7 +680,7 @@ const MarketRow = (props) => {
                 </Row>
 
                 {mutableMkts && mutableMkts?.map((mkt_odds) => {
-                    return (<span key={mkt_odds.odd_value}>
+                    return (<>
                         {(["active", "suspended"].includes(mkt_odds?.market_status?.toLowerCase())) 
                         && <Col className="match-detail" style={{ width: width, float: "left" }}>
                             {/* <div>{mkt_odds.market_status}</div> */}
@@ -694,7 +692,7 @@ const MarketRow = (props) => {
                                 pdown={pdown}
                             />
                         </Col>}
-                    </span>)
+                    </>)
                 })
                 }
             </div>}
@@ -808,7 +806,7 @@ const MatchMarket = (props) => {
                             ? 
                             <>
                                 <OddButton 
-                                    key={`match-with-detail-market-${marketOdd?.odd_value}-${idx}`} 
+                                    key={`${match?.match_id}-${idx}`} 
                                     match={matchWithDetails}
                                     mkt={marketName}
                                     live={live}
@@ -842,7 +840,7 @@ const MatchRow = (props) => {
         setReload,
         subTypes } = props;
 
-    const [match, setMatch] = useState({...initialMatch})
+    const [match, setMatch] = useState({ ...initialMatch })
     const [availableMarkets, ] = useState(subTypes || [1, 10, 18])
     const [updatedMatchStatus, setUpdatedMatchStatus] = useState("Not Started");
     const [updatedMatchTime, setUpdatedMatchTime] = useState({});
@@ -858,7 +856,6 @@ const MatchRow = (props) => {
             return null;
         });
     }
-
 
     useEffect(() => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
@@ -928,7 +925,7 @@ const MatchRow = (props) => {
     return (
         <>
             { updatedMatchStatus?.toLowerCase()?.trim() !== "ended" &&
-                <div key={initialMatch.start_time} className="top-matches d-flex">
+                <div className="top-matches d-flex">
                     <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="21">
                         {live &&
                             <>
@@ -1128,6 +1125,7 @@ export const MarketList = (props) => {
     }
 
     useEffect(() => {
+        console.log("THE NEW POLLING MATCHES   :::  ", initialMatchwithmarkets)
         setMatchWithMarkets({...initialMatchwithmarkets});
         return () => {
         }
@@ -1319,8 +1317,6 @@ const MatchList = (props) => {
             dispatch({ type: "DEL", key: "matchlisttype" });
         }
     }, [])
-
-
     return (
         <div className="matches full-width">
             <MatchHeaderRow
@@ -1338,7 +1334,6 @@ const MatchList = (props) => {
                         live 
                         ? 
                         match?.match_status?.toLowerCase() !== "ended" &&
-                        <div key={match?.match_time || match?.start_time}>
                         <MatchRow
                             initialMatch={match}
                             key={match?.parent_match_id}
@@ -1347,10 +1342,8 @@ const MatchList = (props) => {
                             setReload={setReload}
                             three_way={three_way}
                             subTypes={subTypes}
-                            sub_types={subTypes} />
-                        </div>
-                            :
-                        <div key={match?.match_time || match?.start_time}>
+                            sub_types={subTypes} /> 
+                            : 
                             <MatchRow
                             initialMatch={match}
                             key={match?.parent_match_id}
@@ -1360,7 +1353,6 @@ const MatchList = (props) => {
                             three_way={three_way}
                             subTypes={subTypes}
                             sub_types={subTypes} />
-                        </div>
                     ))
                 }
 
