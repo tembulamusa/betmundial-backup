@@ -60,7 +60,7 @@ import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 import CasinoHome from "./components/pages/casino/casino-home";
 import ReactGA from "react-ga4";
 import PageviewTracker from "./components/utils/pageview-tracker";
-import CasinoHomes from "./components/pages/casino/homecopy";
+import PopupBanner from "./components/pop_up_banner";
 import { PromoTracker } from "./promo-tracker";
 
 const container = document.getElementById("app");
@@ -76,6 +76,7 @@ const App = () => {
             <BrowserRouter>
             <PageviewTracker />
             <PromoTracker />
+            <PopupBanner />
             <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper "} ${state?.hideBigIconNav && 'no-big-icon-nav'}`}>
                 <Suspense fallback={<p></p>}>
                 { !state?.fullcasinoscreen && <Header /> }
@@ -88,35 +89,12 @@ const App = () => {
                         {!(state?.casinolaunch || state?.fullpagewidth || state?.surecoinlaunched) && <Sidebar />}
                         <div className={`${(state?.casinolaunch || state?.fullpagewidth || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
                         <Routes>
-                            {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
-                            <Route exact path="/" element={<Index/>}/>
-                            {/* <Route exact path="/virtuals" element={<Casino/>}/>
-                            <Route exact path="/virtuals/index" element={<Virtuals />}/>
-                            <Route exact path="/virtuals/casino" element={<Casino />}/>
-                            <Route exact path="/livescore" element={<LiveScore/>}/> */}
-                            {/* <Route exact path="/casino" element={<Casino/>}/> */}
-                            {/* <Route exact path="/" element={<CasinoHome/>}/> */}
-
-                            {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
-
-                            {/* <Route exact path="/livecasino" element={<LiveCasino/>}/>
-                            <Route exact path="/virtuals/launch/:game_id" element={<CasinoGamePlay/>}/>
-                            <Route exact path="/highlights" element={<Index/>}/>
-                            <Route exact path="/upcoming" element={<Index/>}/>
-                            <Route exact path="/tomorrow" element={<Index/>}/>
-                            <Route exact path="/competition/:id" element={<Index/>}/>
-                            <Route exact path="/competition/:sportid/:categoryid/:competitionid"
-                                element={<Index/>}/>
                             
-                            <Route exact path="/print-matches" element={<PrintMatches/>}/>                           
-                           
-                            */}
-                            <Route exact path="/promotions" element={<Promotions/>}/>
-                            <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
                             <Route exact path="/casino" element={<Casino />}/>
-                            <Route exact path="/casino1" element={<CasinoHomes />}/>
+                            <Route exact path="/casino1" element={<CasinoHome />}/>
                             <Route exact path="/casino/:filterType/:filterName" element={<Casino />}/>
                             <Route exact path="/casino-game/:provider/:gameName" element={<CasinoLaunchedGame />}/>
+                            <Route exact path="/casino-game/:provider/:gameName/sure-popular" element={<CasinoLaunchedGame />} />
                             <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
                             <Route exact path="/jackpot" element={<Jackpot/>}/>
                             <Route exact path="/live" element={<Live/>}/>

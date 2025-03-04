@@ -58,14 +58,13 @@ const BigIconMenu = () => {
         if(filterName == "provider") {
             if(filterItem?.name.toLowerCase() == "surecoin") {
                navigate("/surecoin") 
-            } else if (filterItem?.name.toLowerCase() == "eurovirtuals") {
+            } else if (["eurovirtuals", "aviator"].includes(filterItem?.name.toLowerCase())) {
                 if(!getFromLocalStorage("user")){
                     dispatch({type:"SET", key:"showloginmodal", payload: true})
                     return
                 } else {
-                    // dispatch({type:"SET", key:"casinolaunch", payload: {game: "", url: ""}});
-                    // navigate(`/casino-game/eurovirtuals/virtual-league`);
-                    window.location.href = `/casino-game/eurovirtuals/virtual-league`;
+                    let associativeLinks = {aviator:"aviator/aviator", eurovirtuals: "eurovirtuals/virtual-league"}
+                    window.location.href = `/casino-game/${associativeLinks[filterItem?.name.toLowerCase()]}`;
 
                 }
             }else {
@@ -78,25 +77,67 @@ const BigIconMenu = () => {
     }
 
 
-    const CasinoProviders = (props) => {
+    // const CasinoProviders = (props) => {
 
+    //     return (
+    //         <>
+    //             {casinoProviders?.map((provider, idx) => {
+    //                 return (
+    //                     provider?.name.toLowerCase() !== "aviatrix" && <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize`}
+    //                         onClick={() => filterGames("provider", provider)}
+    //                     >
+    //                         <span title={provider?.name}>
+    //                             <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${provider?.name?.toLowerCase()}.svg`, "casino")} alt={provider?.name} /></div>
+    //                             <div className="big-icon-name">{provider.name == 'Eurovirtuals'?'Ligi Sure':provider.name}</div>
+    //                         </span>
+    //                     </li>
+    //                 )
+    //             })}
+    //         </>
+    //     )
+    // }
+
+    const CasinoProviders = (props) => {
         return (
             <>
                 {casinoProviders?.map((provider, idx) => {
+                    const isLigiSure = provider?.name === 'Eurovirtuals';
+    
                     return (
-                        provider?.name.toLowerCase() !== "aviatrix" && <li key={idx} className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize`}
-                            onClick={() => filterGames("provider", provider)}
-                        >
-                            <span title={provider?.name}>
-                                <div className="big-icon-icon"><img className="mx-auto" src={getSportImageIcon(`${provider?.name?.toLowerCase()}.svg`, "casino")} alt={provider?.name} /></div>
-                                <div className="big-icon-name">{provider.name == 'Eurovirtuals'?'Ligi Sure':provider.name}</div>
-                            </span>
-                        </li>
-                    )
+                        provider?.name.toLowerCase() !== "aviatrix" && (
+                            <li
+                                key={idx}
+                                className={`cursor-pointer ${loc?.pathname?.includes(provider?.name) ? "active" : ''} big-icon-item text-center capitalize relative`}
+                                onClick={() => filterGames("provider", provider)}
+                            >
+                                <span title={provider?.name} className="relative inline-block">
+                                    <div className="big-icon-icon">
+                                        <img 
+                                            className="mx-auto" 
+                                            src={getSportImageIcon(`${provider?.name?.toLowerCase()}.svg`, "casino")} 
+                                            alt={provider?.name} 
+                                        />
+                                    </div>
+                                    <div className="big-icon-name">
+                                        {isLigiSure ? 'Ligi Sure' : provider.name}
+                                    </div>
+                                    {isLigiSure && (
+                                        <span 
+                                            className="new-alert-badge absolute top-0 right-0 bg-custom-red text-white text-xs px-1 rounded" 
+                                            style={{ transform: 'translate(50%, -50%)' }}
+                                        >
+                                            New
+                                        </span>
+                                    )}
+                                </span>
+                            </li>
+                        )
+                    );
                 })}
             </>
-        )
-    }
+        );
+    };
+    
 
     const getSportImageIcon = (sport_name, iconGroup=null) => {
         let sport_image;

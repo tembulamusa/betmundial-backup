@@ -45,6 +45,12 @@ const Casino = (props) => {
             endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}/`
                         + `${state?.casinogamesfilter?.category?.id}/`
                         +`${state?.casinogamesfilter?.page}/100`
+        } else if (filterType === "providercategory") {
+            const providerId = state?.casinofilters?.providers?.id || "defaultProviderId"; 
+            const categoryId = state?.casinofilters?.gameTypes?.id || "defaultCategoryId"; 
+            const page = state?.casinogamesfilter?.page || 1; 
+            const limit = 100;         
+            endpoint = `provider/games-list/${providerId}/${categoryId}?page=${page}&limit=${limit}`;
         }
 
         const [status, result] = await makeRequest({ url: endpoint, method: "GET", api_version: "casinoGames" });
@@ -103,7 +109,14 @@ const Casino = (props) => {
                     <NoEvents message="Casino Games not found" />
                 )}
                 {games?.map((category, idx) => (
-                    category?.gameList?.length > 0 && <CategoryListing key={idx} games={category?.gameList} gamestype={category?.game_type} />
+                    category?.gameList?.length > 0 && 
+                    <CategoryListing 
+                        key={idx} 
+                        games={category?.gameList} 
+                        gamestype={category?.game_type}
+                        gamesCategory={state?.casinofilters?.gameTypes}
+                        gamesprovider={state?.casinogamesfilter?.provider} 
+                    />
                 ))}
             </div>
         </>

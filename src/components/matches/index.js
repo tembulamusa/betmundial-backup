@@ -546,8 +546,10 @@ const MarketRow = (props) => {
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
     useEffect(() => {
-        setMutableMkts(markets);
-    }, []);
+        if (markets){
+            setMutableMkts(markets);
+        }
+    }, [markets]);
 
     const socketRef = useRef(socket);
     const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
@@ -680,7 +682,7 @@ const MarketRow = (props) => {
                 </Row>
 
                 {mutableMkts && mutableMkts?.map((mkt_odds) => {
-                    return (<>
+                    return (<span key={mkt_odds.odd_value}>
                         {(["active", "suspended"].includes(mkt_odds?.market_status?.toLowerCase())) 
                         && <Col className="match-detail" style={{ width: width, float: "left" }}>
                             {/* <div>{mkt_odds.market_status}</div> */}
@@ -692,7 +694,7 @@ const MarketRow = (props) => {
                                 pdown={pdown}
                             />
                         </Col>}
-                    </>)
+                    </span>)
                 })
                 }
             </div>}
@@ -806,7 +808,7 @@ const MatchMarket = (props) => {
                             ? 
                             <>
                                 <OddButton 
-                                    key={`${match?.match_id}-${idx}`} 
+                                    key={`match-with-detail-market-${marketOdd?.odd_value}-${idx}`} 
                                     match={matchWithDetails}
                                     mkt={marketName}
                                     live={live}
