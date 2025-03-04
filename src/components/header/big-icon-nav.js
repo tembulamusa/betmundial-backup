@@ -58,14 +58,13 @@ const BigIconMenu = () => {
         if(filterName == "provider") {
             if(filterItem?.name.toLowerCase() == "surecoin") {
                navigate("/surecoin") 
-            } else if (filterItem?.name.toLowerCase() == "eurovirtuals") {
+            } else if (["eurovirtuals", "aviator"].includes(filterItem?.name.toLowerCase())) {
                 if(!getFromLocalStorage("user")){
                     dispatch({type:"SET", key:"showloginmodal", payload: true})
                     return
                 } else {
-                    // dispatch({type:"SET", key:"casinolaunch", payload: {game: "", url: ""}});
-                    // navigate(`/casino-game/eurovirtuals/virtual-league`);
-                    window.location.href = `/casino-game/eurovirtuals/virtual-league`;
+                    let associativeLinks = {aviator:"aviator/aviator", eurovirtuals: "eurovirtuals/virtual-league"}
+                    window.location.href = `/casino-game/${associativeLinks[filterItem?.name.toLowerCase()]}`;
 
                 }
             }else {

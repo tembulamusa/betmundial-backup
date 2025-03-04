@@ -21,10 +21,6 @@ const CasinoSidebar = (props) => {
         }
         return sport_image;
     }
-
-    useEffect(() => {
-        console.log("I clicked on game", searchParams.get("selected-category"))
-    }, [searchParams.get("selected-category")])
     // load categories and providers
 
 
@@ -111,9 +107,7 @@ const CasinoSidebar = (props) => {
     return (
         <div className="casino-sidebar ml-2">
             <h1 className="mb-2 bg-white pt-2 pb-3  text-4xl px-3 text-gray-600 font-[600] border-b border-gray-200">Casino</h1>
-            {/* <Favorites /> */}
             <CasinoCategories />
-            {/* <CasinoProviders /> */}
         </div>
     )
 }

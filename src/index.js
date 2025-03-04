@@ -83,30 +83,7 @@ const App = () => {
                         {!(state?.casinolaunch || state?.surecoinlaunched) && <Sidebar />}
                         <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
                         <Routes>
-                            {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
-                            {/* <Route exact path="/" element={<Index/>}/>
-                            <Route exact path="/virtuals" element={<Casino/>}/>
-                            <Route exact path="/virtuals/index" element={<Virtuals />}/>
-                            <Route exact path="/virtuals/casino" element={<Casino />}/>
-                            <Route exact path="/livescore" element={<LiveScore/>}/> */}
-                            {/* <Route exact path="/casino" element={<Casino/>}/> */}
-                            {/* <Route exact path="/" element={<CasinoHome/>}/> */}
-
-                            {/* NO SPORTS CURRENTLY. UNCOMMENT WHEN AVAILABLE */}
-
-                            {/* <Route exact path="/livecasino" element={<LiveCasino/>}/>
-                            <Route exact path="/virtuals/launch/:game_id" element={<CasinoGamePlay/>}/>
-                            <Route exact path="/highlights" element={<Index/>}/>
-                            <Route exact path="/upcoming" element={<Index/>}/>
-                            <Route exact path="/tomorrow" element={<Index/>}/>
-                            <Route exact path="/competition/:id" element={<Index/>}/>
-                            <Route exact path="/competition/:sportid/:categoryid/:competitionid"
-                                element={<Index/>}/>
-                            <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
                             
-                            <Route exact path="/print-matches" element={<PrintMatches/>}/>                            
-                            // <Route exact path="/promotions" element={<Promotions/>}/>
-                            */}
                             <Route exact path="/casino" element={<Casino />}/>
                             <Route exact path="/casino/:filterType/:filterName" element={<Casino />}/>
                             <Route exact path="/casino-game/:provider/:gameName" element={<CasinoLaunchedGame />}/>

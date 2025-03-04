@@ -20,10 +20,12 @@ const CasinoLaunchedGame = (props) => {
 
 
 
-    const getEurovirtualsLaunchUrl = async () => {
+    const hardLaunches = async () => {
 
         let endpoint = `Eurovirtuals/casino/game-url/${isMobile ? "mobile": "desktop"}/${1}/${"550e8400-e29b-41d4-a716-446655440000"}`;
-
+        if(provider.toLowerCase() == "aviator") {
+            endpoint = `intouchvas/casino/game-url/${isMobile ? "mobile": "desktop"}/${1}/1-Aviator`
+        }
         await makeRequest({url: endpoint,  method: "GET", api_version:'CasinoGameLaunch'}).then(([status, result]) => {
             if (status == 200) {
                 setNoStateGame(result?.gameUrl || result?.game_url);
@@ -36,9 +38,9 @@ const CasinoLaunchedGame = (props) => {
         // Balance polling fxn
         dispatch({type: "SET", key:"iscasinopage", payload: true});
         // check for game that is currently loaded on local storage
-        if(provider.toLowerCase() == "eurovirtuals") {
-            dispatch({type:"SET", key:"casinolaunch", payload: {game: "", url: ""}});
-            getEurovirtualsLaunchUrl()
+        if(["eurovirtuals", "aviator"].includes(provider.toLowerCase())) {
+            dispatch({type:"SET", key:"casinolaunch", payload: {game: "gg", url: "xx"}});
+            hardLaunches(provider.toLowerCase(provider.toLowerCase()))
         } else {
 
         }
@@ -78,7 +80,7 @@ const CasinoLaunchedGame = (props) => {
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
                     width="100%"
                     height="100%"
-                    src={provider.toLowerCase() == "eurovirtuals" ? noStateGame :  state?.casinolaunch?.url ? state?.casinolaunch?.url : ""}
+                    src={["aviator", "eurovirtuals"].includes(provider.toLowerCase()) ? noStateGame :  state?.casinolaunch?.url ? state?.casinolaunch?.url : ""}
                     >
                 </iframe>
             </div>
