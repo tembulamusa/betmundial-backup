@@ -1,66 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useLocation } from 'react-router-dom';
 import { Context } from "./context/store";
 
 export const PromoTracker = () => {
     const location = useLocation();
-    const [promoInfo, setPromoInfo] = React.useState(null);
-    const [promoTimestamp, setPromoTimestamp] = React.useState(null);
-    const [state, dispatch] = React.useContext(Context);  
-
-    // List of valid paths
-    const validPaths = [
-        "/", "/match/:id", "/casino", "/casino/:filterType/:filterName", 
-        "/casino-game/:provider/:gameName", "/match/live/:id", "/jackpot", 
-        "/live", "/live/:spid", "/privacy-policy", "/anti-money-laundering", 
-        "/responsible-gambling", "/dispute-resolution", "/cookie-policy", 
-        "/faqs", "/terms-and-conditions", "/how-to-play", "/signup", 
-        "/login", "/reset-password", "/forgot-password", "/verify-account", 
-        "/app", "/logout", "/check-deposit-status", "/exclude", 
-        "/surecoin", "/surebox", "/livescore", "/deposit", "/withdraw", 
-        "/my-bets"
-    ];
+    const [state, dispatch] = React.useContext(Context);
+    const promoInfoRef = useRef(null);
+    const promoTimestampRef = useRef(null);
 
     useEffect(() => {
-        // Check if promo info is valid based on the timestamp
         const now = new Date().getTime();
-        if (promoTimestamp && now - promoTimestamp < 30 * 60 * 1000) {
-            // Avoid setting the same value again
-            if (promoInfo !== state.promoInfo) {
-                setPromoInfo(promoInfo);
-                dispatch({ type: "SET", key: "promoInfo", payload: promoInfo }); 
+
+        // Check if promo info is valid based on the timestamp
+        if (promoTimestampRef.current && now - promoTimestampRef.current < 30 * 60 * 1000) {
+            if (promoInfoRef.current !== state?.promoInfo) {
+                dispatch({ type: "SET", key: "promoInfo", payload: promoInfoRef.current });
             }
         } else {
-            // Reset if expired
-            if (promoInfo !== null) {
-                setPromoInfo(null);
-                setPromoTimestamp(null);
-                dispatch({ type: "SET", key: "promoInfo", payload: null }); 
+            if (promoInfoRef.current !== null) {
+                promoInfoRef.current = null;
+                promoTimestampRef.current = null;
+                dispatch({ type: "SET", key: "promoInfo", payload: null });
             }
         }
-    }, [promoInfo, promoTimestamp, dispatch, state.promoInfo]);
+    }, [state.promoInfo]);
 
     useEffect(() => {
         const path = location.pathname;
 
-        // Check if the path is not in the list of valid paths
-        const isPromoPath = !validPaths.some(validPath => {
-            const regex = new RegExp(`^${validPath.replace(/:[^\s/]+/g, '[^/]+')}$`);
-            return regex.test(path);
-        });
+        // Check if the user is coming from an external source or root
+        const referrer = document.referrer;
+        const isExternalNavigation = !referrer || !referrer.includes("surebet.co.ke");
 
-        if (isPromoPath && path !== promoInfo) {
-            const now = new Date().getTime();
+        if (isExternalNavigation && path !== "/") {
             const promoName = path.startsWith("/") ? path.slice(1) : path;
 
-            // Only update if promoName is different
-            if (promoName !== promoInfo) {
-                setPromoInfo(promoName);
-                setPromoTimestamp(now);
+            if (promoName !== promoInfoRef.current) {
+                const now = new Date().getTime();
+                promoInfoRef.current = promoName;
+                promoTimestampRef.current = now;
                 dispatch({ type: "SET", key: "promoInfo", payload: promoName });
             }
         }
-    }, [location, promoInfo, validPaths, dispatch]);
+    }, [location]);
 
     return null;
 };

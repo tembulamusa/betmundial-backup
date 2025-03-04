@@ -1,20 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useNavigate } from "react-router-dom";
+import { getFromLocalStorage } from "./utils/local-storage";
 
-import One from "../assets/img/casino/carousel/1.jpg";
-import Two from "../assets/img/casino/carousel/2.png";
-import Three from "../assets/img/casino/carousel/3.png";
+import One from "../assets/img/popups/1.1.jpg";
+import Two from "../assets/img/popups/2.1.jpg";
+import Three from "../assets/img/popups/3.1.jpg";
+import Four from "../assets/img/popups/4.1.jpg";
+import Five from "../assets/img/popups/5.1.jpg";
+import Six from "../assets/img/popups/6.1.jpg";
 
 const images = [
-    { src: One, link: "/surecoin" },
-    { src: Two, link: "/surebox" },
-    { src: Three, link: "/casino" }
+    { src: One, link: "/casino-game/aviator/aviator/sure-popular" },
+    { src: Two, link: "/casino-game/aviatrix/aviatrix/sure-popular" },
+    { src: Three, link: "/casino-game/smartsoft/jetx/sure-popular" },
+    { src: Four, link: "/casino-game/eurovirtuals/virtual-league/sure-popular" },
+    { src: Five, link: "/casino-game/pragmatic/spaceman/sure-popular" },
+    { src: Six, link: "/surecoin" },
 ];
 
 const PopupBanner = () => {
+    const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const [randomImage, setRandomImage] = useState(null);
+
+    const user = getFromLocalStorage("user");
 
     useEffect(() => {
         const hasSeenPopup = sessionStorage.getItem("hasSeenPopup");
@@ -23,9 +34,20 @@ const PopupBanner = () => {
             const selectedImage = images[Math.floor(Math.random() * images.length)];
             setRandomImage(selectedImage);
             setShow(true);
-            sessionStorage.setItem("hasSeenPopup", "true"); // Set in sessionStorage
+            sessionStorage.setItem("hasSeenPopup", "true");
         }
     }, []);
+
+    const handlePlayNow = () => {
+        setShow(false); 
+    
+        if (!user) {
+            navigate(`/login?next=${encodeURIComponent(randomImage.link)}`);
+        } else {
+            navigate(randomImage.link, { state: { game: randomImage } });
+        }
+    };
+    
 
     return (
         <>
@@ -33,46 +55,29 @@ const PopupBanner = () => {
                 <Modal
                     show={show}
                     onHide={() => setShow(false)}
-                    dialogClassName="modal-90w world-cup-ad"
+                    dialogClassName="popup-banner-modal"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
+                    backdropClassName="transparent-backdrop"
                 >
-                    <Modal.Body className="position-relative p-0">
+                    <Modal.Body className="p-0 d-flex flex-column align-items-center">
+                        {/* Image */}
                         <LazyLoadImage
-                            className="d-block w-100"
+                            className="popup-responsive-image"
                             src={randomImage.src}
                             alt="Popup Promotion"
-                            style={{ maxwidth: "500px", height: "100px", objectFit: "cover" }}
                         />
-                        {/* Floating Buttons */}
-                        <div
-                            className="position-absolute w-100 d-flex justify-content-between px-3 pb-"
-                            style={{
-                                bottom: "10px",
-                                left: "0",
-                                display: "flex",
-                                justifyContent: "space-around",
-                            }}
-                        >
+
+                        <div className="buttons-container">
                             <Button
                                 onClick={() => setShow(false)}
-                                style={{
-                                    backgroundColor: "rgba(255, 0, 0, 0.3)", // Transparent Red
-                                    border: "none",
-                                    padding: "10px 20px",
-                                    color: "#fff",
-                                }}
+                                className="no-thanks-button"
                             >
                                 No Thanks
                             </Button>
                             <Button
-                                onClick={() => (window.location.href = randomImage.link)}
-                                style={{
-                                    backgroundColor: "rgba(0, 255, 0, 0.3)", // Transparent Green
-                                    border: "none",
-                                    padding: "10px 20px",
-                                    color: "#fff",
-                                }}
+                                onClick={handlePlayNow}
+                                className="play-now-button"
                             >
                                 Play Now
                             </Button>

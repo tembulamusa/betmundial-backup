@@ -55,8 +55,13 @@ const BodyLogin = (props) => {
             if(navigateAwayRoutes.includes(location.pathname)) {
                 console.log("location name: ", location.pathname)
                 const queryParams = new URLSearchParams(location.search);
-                const next = queryParams.get('next');
-                window.location.href = next ? next : '/';
+                const next = queryParams.get('next') || '/';
+                
+                if (typeof navigate === 'function') {
+                    navigate(next);
+                } else {
+                    window.location.href = next;
+                }
 
 
             }
@@ -97,7 +102,8 @@ const BodyLogin = (props) => {
                 if (response?.result == "User account not verified") {
                     setAlertVerifyMessage({status: 400, message:response.result})
                 } else {
-                    setAlertVerifyMessage({status: 400, message:"An error occurred. Check details"})
+                    //setAlertVerifyMessage({status: 400, message:"An error occurred. Check details"})
+                    setAlertVerifyMessage({status: 400,  message:response.result})
 
                 }
 
