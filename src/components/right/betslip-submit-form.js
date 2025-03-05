@@ -154,7 +154,7 @@ const BetslipSubmitForm = (props) => {
                 break;
             } else if (slip.prev_odds
                 && slip.prev_odds !== slip.odd_value
-                && values.accept_all_odds_change == false) {
+                && (values.accept_all_odds_change == 0 || !values.accept_all_odds_change)) {
                 slipHasOddsChange = true;
                 break;
             } else {

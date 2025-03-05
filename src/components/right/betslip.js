@@ -284,9 +284,9 @@ const BetSlip = (props) => {
         }
 
         const updateBetslipChange = async (slip) => {
-            let betslip = await state?.betslip;
+            let betslip = await {...state?.betslip};
             if (betslip && betslip[slip.match_id]){
-                await addToSlip(slip);
+                await addToSlip({...slip});
                 if(JSON.stringify(betslip[slip.match_id]) !== JSON.stringify(slip)) {
                     betslip[slip.match_id] = slip;
                     dispatch({type: "SET", key:"betslip", payload: betslip})
