@@ -69,7 +69,7 @@ const Live = (props) => {
                     data.odds = odds;
                     data.sport_name = sport_name
                     let index = preveMatches?.findIndex(ev => ev.match_id == data.match_id);
-                    if(index == -1){
+                    if(index !== -1){
                         return preveMatches;
                     }
                     return [...preveMatches, data].sort((a, b) => ((a.start_time - b.start_time) || (b.match_time - a.match_time)))
