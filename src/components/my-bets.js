@@ -293,7 +293,7 @@ const MyBets = (props) => {
                     {/* <td className="">ID</td> */}
                     <td className="">Date</td>
                     <td className="">Game</td>
-                    {/* <td className="hidden md:table-cell">Odds</td> */}
+                    <td className="hidden md:table-cell">Odds</td>
                     <td className="hidden md:table-cell">Market</td>
                     <td className="">Pick</td>
                     <td className="">Results</td>
@@ -352,7 +352,7 @@ const MyBets = (props) => {
                 {/* <td className="">{ slip?.match_id}</td> */}
                 <td className="">{ slip?.start_time}</td>
                 <td className="">{ slip?.home_team} - {slip.away_team}</td>
-                {/* <td className="hidden md:table-cell">{ slip?.odd_value}</td> */}
+                <td className="hidden md:table-cell">{ slip?.odd_value}</td>
                 <td className="hidden md:table-cell">{ slip?.market_name}</td>
                 <td className="">{slip?.bet_pick}{slip?.special_bet_value && `(${slip?.special_bet_value})`}</td>
                 <td className="">{ slip?.result !== null ? slip.result : "--"} <span className="md:hidden">{ gameBetStatus(slip.status)}</span></td>

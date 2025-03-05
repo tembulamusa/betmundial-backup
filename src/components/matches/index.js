@@ -547,10 +547,10 @@ const MarketRow = (props) => {
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
     useEffect(() => {
-        // if (markets){
+        if (markets){
             setMutableMkts([...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]);
-        // }
-    }, []);
+        }
+    }, [markets]);
 
     const socketRef = useRef(socket);
     const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
