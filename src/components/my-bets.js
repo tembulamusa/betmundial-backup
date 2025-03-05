@@ -91,6 +91,7 @@ const MyBets = (props) => {
                     <div className="col hidden md:flex">SECTION</div>
                     <div className="col">CREATED</div>
                     <div className="col hidden md:flex">GAMES</div>
+                    <div className="col">ODDS</div>
                     <div className="col">AMOUNT</div>
                     <div className="col">Payout</div>
                     <div className="col">Status</div>
@@ -245,6 +246,7 @@ const MyBets = (props) => {
                                 <div className="col hidden md:flex">{ betType}</div>
                                 <div className="col">{ bet?.created}</div>
                                 <div className="col hidden md:flex">{ bet?.total_games}</div>
+                                <div className="col text-cente">{ bet?.total_odd}</div>
                                 <div className="col text-cente">{ bet?.bet_amount}</div>
                                 <div className="col">{ bet?.possible_win}</div>
                                 {/* <div className="col">{ statusMarkup(bet) }</div> */}
