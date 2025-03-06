@@ -60,6 +60,14 @@ const PopupBanner = () => {
                     centered
                     backdropClassName="transparent-backdrop"
                 >
+                    {/* Floating X Button */}
+                    <button
+                        className="floating-x-button"
+                        onClick={() => setShow(false)}
+                    >
+                        &#10005; {/* Unicode for X symbol */}
+                    </button>
+
                     <Modal.Body className="p-0 d-flex flex-column align-items-center">
                         {/* Image */}
                         <LazyLoadImage
@@ -71,13 +79,13 @@ const PopupBanner = () => {
                         <div className="buttons-container">
                             <Button
                                 onClick={() => setShow(false)}
-                                className="no-thanks-button"
+                                className="no-thanks-button text-xl"
                             >
                                 No Thanks
                             </Button>
                             <Button
                                 onClick={handlePlayNow}
-                                className="play-now-button"
+                                className="play-now-button text-xl"
                             >
                                 Play Now
                             </Button>
