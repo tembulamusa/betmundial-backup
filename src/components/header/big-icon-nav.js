@@ -59,6 +59,8 @@ const BigIconMenu = () => {
             if(filterItem?.name.toLowerCase() == "surecoin") {
                navigate("/surecoin") 
             } else if (["eurovirtuals", "aviator"].includes(filterItem?.name.toLowerCase())) {
+                dispatch({type:"SET", key:"casinolaunch", payload: {game: '', url: ''}});
+                setLocalStorage("casinolaunch", {game: '', url: ''})
                 if(!getFromLocalStorage("user")){
                     dispatch({type:"SET", key:"showloginmodal", payload: true})
                     return

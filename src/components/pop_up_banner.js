@@ -12,10 +12,10 @@ import Five from "../assets/img/popups/5.1.jpg";
 import Six from "../assets/img/popups/6.1.jpg";
 
 const images = [
-    { src: One, link: "/casino-game/aviator/aviator/sure-popular" },
+    { src: One, link: "/casino-game/aviator/aviator" },
     { src: Two, link: "/casino-game/aviatrix/aviatrix/sure-popular" },
     { src: Three, link: "/casino-game/smartsoft/jetx/sure-popular" },
-    { src: Four, link: "/casino-game/eurovirtuals/virtual-league/sure-popular" },
+    { src: Four, link: "/casino-game/eurovirtuals/virtual-league" },
     { src: Five, link: "/casino-game/pragmatic/spaceman/sure-popular" },
     { src: Six, link: "/surecoin" },
 ];
@@ -60,6 +60,14 @@ const PopupBanner = () => {
                     centered
                     backdropClassName="transparent-backdrop"
                 >
+                    {/* Floating X Button */}
+                    <button
+                        className="floating-x-button"
+                        onClick={() => setShow(false)}
+                    >
+                        &#10005; {/* Unicode for X symbol */}
+                    </button>
+
                     <Modal.Body className="p-0 d-flex flex-column align-items-center">
                         {/* Image */}
                         <LazyLoadImage
@@ -71,15 +79,15 @@ const PopupBanner = () => {
                         <div className="buttons-container">
                             <Button
                                 onClick={() => setShow(false)}
-                                className="no-thanks-button"
+                                className="no-thanks-button text-xl"
                             >
-                                No Thanks
+                                Cancel
                             </Button>
                             <Button
                                 onClick={handlePlayNow}
-                                className="play-now-button"
+                                className="play-now-button text-xl"
                             >
-                                Play Now
+                                Play 
                             </Button>
                         </div>
                     </Modal.Body>
