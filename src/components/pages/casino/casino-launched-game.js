@@ -15,7 +15,7 @@ const CasinoLaunchedGame = (props) => {
     const fullScreens = ["aviatrix"];
     const { provider, gameName } = useParams(); 
     const surePopular = window.location.pathname.includes("sure-popular"); 
-
+    const directLaunch = ['eurovirtuals', 'aviator']
 
     const findGameId = (provider, gameName) => {
         const games = state?.casinofilters?.games?.[0]?.gameList || [];
@@ -29,7 +29,6 @@ const CasinoLaunchedGame = (props) => {
 
     const fetchGameUrl = async (provider, gameId) => {
         let endpoint;
-
         endpoint = `${provider}/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${gameId}`;
         
         await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
@@ -48,17 +47,17 @@ const CasinoLaunchedGame = (props) => {
         if (provider.toLowerCase() === "aviator") {
             endpoint = `intouchvas/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/1-Aviator`;
         }
-            await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
-                ([status, result]) => {
-                    if (status === 200) {
-                        setNoStateGame(result?.gameUrl || result?.game_url);
-                    } else {
-                        navigate("/casino");
-                    }
+        await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
+            ([status, result]) => {
+                if (status === 200) {
+                    setNoStateGame(result?.gameUrl || result?.game_url);
+                } else {
+                    navigate("/casino");
                 }
-            );
-            dispatch({type:"SET", key:"casinolaunch", payload: {game: '', url: ''}});
-            setLocalStorage("casinolaunch", {game: '', url: ''})
+            }
+        );
+        dispatch({type:"SET", key:"casinolaunch", payload: {game: '', url: ''}});
+        setLocalStorage("casinolaunch", {game: '', url: ''})
         
     };
 
@@ -75,8 +74,13 @@ const CasinoLaunchedGame = (props) => {
                 navigate("/casino");
             }
         } else {
-            // Old way: Handle non-advertised games
-            launchOldWay();
+            if(directLaunch.includes(provider.toLowerCase())) {
+                launchOldWay();
+            } else {
+                let game = state?.casinolaunch || getFromLocalStorage("casinolaunch");
+                dispatch({type:"SET", key:"casinolaunch", payload: game});
+                setNoStateGame(game.url)
+            }
         }
 
         // Cleanup function
@@ -87,6 +91,20 @@ const CasinoLaunchedGame = (props) => {
         };
     }, [provider, gameName, surePopular, state?.casinofilters?.games]);
 
+    const fullScreen = (mode) => {
+        if(mode === "view-full") {
+            let iframe = document.getElementById("myIframe");
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) { // Firefox
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { // IE/Edge
+                iframe.msRequestFullscreen();
+            }
+        }
+    }
     return (
         <>
             {(!state?.fullcasinoscreen && !state?.hideBigIconNav) && (
@@ -101,6 +119,7 @@ const CasinoLaunchedGame = (props) => {
                             </span>
                         </div>
                         <div className="dismiss-casino-game col-2 mx-auto">
+                            <button className="px-2 my-2 rounded-md border border-gray-50 bg-[rgba(255,255,255,0.2)]" onClick={() => fullScreen("view-full")}>Fullscreen</button>
                             <span
                                 className="casino-page-close cursor-pointer"
                                 onClick={() => navigate("/casino")}
@@ -113,6 +132,7 @@ const CasinoLaunchedGame = (props) => {
             )}
             <div className={`casino-launched-game-frame flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
                 <iframe
+                    id="myIframe"
                     allow="autoplay; clipboard-write"
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
                     width="100%"

@@ -24,10 +24,6 @@ const GameCategoryListing = (props) => {
         }
     };
 
-    useEffect(() => {
-        console.log("URL changed, re-rendering component...");
-    }, [window.location.pathname]);
-
     return (
         <>
             {!isShowingAll ? (
