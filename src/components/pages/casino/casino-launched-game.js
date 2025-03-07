@@ -91,6 +91,20 @@ const CasinoLaunchedGame = (props) => {
         };
     }, [provider, gameName, surePopular, state?.casinofilters?.games]);
 
+    const fullScreen = (mode) => {
+        if(mode === "view-full") {
+            let iframe = document.getElementById("myIframe");
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) { // Firefox
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { // IE/Edge
+                iframe.msRequestFullscreen();
+            }
+        }
+    }
     return (
         <>
             {(!state?.fullcasinoscreen && !state?.hideBigIconNav) && (
@@ -105,6 +119,7 @@ const CasinoLaunchedGame = (props) => {
                             </span>
                         </div>
                         <div className="dismiss-casino-game col-2 mx-auto">
+                            <button className="px-2 my-2 rounded-md border border-gray-50 bg-[rgba(255,255,255,0.2)]" onClick={() => fullScreen("view-full")}>Fullscreen</button>
                             <span
                                 className="casino-page-close cursor-pointer"
                                 onClick={() => navigate("/casino")}
@@ -117,6 +132,7 @@ const CasinoLaunchedGame = (props) => {
             )}
             <div className={`casino-launched-game-frame flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
                 <iframe
+                    id="myIframe"
                     allow="autoplay; clipboard-write"
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
                     width="100%"
