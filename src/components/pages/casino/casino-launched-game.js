@@ -45,33 +45,22 @@ const CasinoLaunchedGame = (props) => {
     };
 
     const launchOldWay = async () => {
-        if (provider.toLowerCase() === "eurovirtuals") {
-            const endpoint = `Eurovirtuals/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${"550e8400-e29b-41d4-a716-446655440000"}`;
-            await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
-                ([status, result]) => {
-                    if (status === 200) {
-                        setNoStateGame(result?.gameUrl || result?.game_url);
-                    } else {
-                        navigate("/casino");
-                    }
-                }
-            );
-        } else if (provider.toLowerCase() === "aviator") {
-            const endpoint = `intouchvas/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/1-Aviator`;
-            await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
-                ([status, result]) => {
-                    if (status === 200) {
-                        setNoStateGame(result?.gameUrl || result?.game_url);
-                    } else {
-                        navigate("/casino");
-                    }
-                }
-            );
-        } else if (state?.casinolaunch?.url) {
-            setNoStateGame(state?.casinolaunch?.url);
-        } else {
-            navigate("/casino");
+        let endpoint = `Eurovirtuals/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${"550e8400-e29b-41d4-a716-446655440000"}`;
+        if (provider.toLowerCase() === "aviator") {
+            endpoint = `intouchvas/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/1-Aviator`;
         }
+            await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
+                ([status, result]) => {
+                    if (status === 200) {
+                        setNoStateGame(result?.gameUrl || result?.game_url);
+                    } else {
+                        navigate("/casino");
+                    }
+                }
+            );
+            dispatch({type:"SET", key:"casinolaunch", payload: {game: '', url: ''}});
+            setLocalStorage("casinolaunch", {game: '', url: ''})
+        
     };
 
     useEffect(() => {
@@ -84,7 +73,6 @@ const CasinoLaunchedGame = (props) => {
             if (gameId) {
                 fetchGameUrl(provider, gameId);
             } else {
-                console.log("No game ID found. Redirecting to /casino.");
                 navigate("/casino");
             }
         } else {

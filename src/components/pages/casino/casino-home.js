@@ -36,7 +36,6 @@ const CasinoHome = () => {
                 dispatch({ type: "SET", key: "casinogames", payload: result.games });
                 setLocalStorage('casinogames', result.games);
             } else {
-                console.error('Fetched data does not contain a games array:', result);
                 setGames([]);
             }
         }
