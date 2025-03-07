@@ -119,7 +119,10 @@ const CasinoLaunchedGame = (props) => {
                             </span>
                         </div>
                         <div className="dismiss-casino-game col-2 mx-auto">
-                            <button className="px-2 my-2 rounded-md border border-gray-50 bg-[rgba(255,255,255,0.2)]" onClick={() => fullScreen("view-full")}>Fullscreen</button>
+                            <button 
+                                className="px-2 my-2 rounded-md border border-gray-50 bg-[rgba(255,255,255,0.2)]" onClick={() => fullScreen("view-full")}>
+                                    Fullscreen
+                            </button>
                             <span
                                 className="casino-page-close cursor-pointer"
                                 onClick={() => navigate("/casino")}
