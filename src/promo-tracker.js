@@ -23,7 +23,7 @@ export const PromoTracker = () => {
                 dispatch({ type: "SET", key: "promoInfo", payload: null });
             }
         }
-    }, [state.promoInfo]);
+    }, [state?.promoInfo]);
 
     useEffect(() => {
         const path = location.pathname;

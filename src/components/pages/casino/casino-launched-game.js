@@ -15,7 +15,7 @@ const CasinoLaunchedGame = (props) => {
     const fullScreens = ["aviatrix"];
     const { provider, gameName } = useParams(); 
     const surePopular = window.location.pathname.includes("sure-popular"); 
-
+    const directLaunch = ['eurovirtuals', 'aviator']
 
     const findGameId = (provider, gameName) => {
         const games = state?.casinofilters?.games?.[0]?.gameList || [];
@@ -29,7 +29,6 @@ const CasinoLaunchedGame = (props) => {
 
     const fetchGameUrl = async (provider, gameId) => {
         let endpoint;
-
         endpoint = `${provider}/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${gameId}`;
         
         await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
@@ -48,17 +47,17 @@ const CasinoLaunchedGame = (props) => {
         if (provider.toLowerCase() === "aviator") {
             endpoint = `intouchvas/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/1-Aviator`;
         }
-            await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
-                ([status, result]) => {
-                    if (status === 200) {
-                        setNoStateGame(result?.gameUrl || result?.game_url);
-                    } else {
-                        navigate("/casino");
-                    }
+        await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
+            ([status, result]) => {
+                if (status === 200) {
+                    setNoStateGame(result?.gameUrl || result?.game_url);
+                } else {
+                    navigate("/casino");
                 }
-            );
-            dispatch({type:"SET", key:"casinolaunch", payload: {game: '', url: ''}});
-            setLocalStorage("casinolaunch", {game: '', url: ''})
+            }
+        );
+        dispatch({type:"SET", key:"casinolaunch", payload: {game: '', url: ''}});
+        setLocalStorage("casinolaunch", {game: '', url: ''})
         
     };
 
@@ -75,8 +74,13 @@ const CasinoLaunchedGame = (props) => {
                 navigate("/casino");
             }
         } else {
-            // Old way: Handle non-advertised games
-            launchOldWay();
+            if(directLaunch.includes(provider.toLowerCase())) {
+                launchOldWay();
+            } else {
+                let game = state?.casinolaunch || getFromLocalStorage("casinolaunch");
+                dispatch({type:"SET", key:"casinolaunch", payload: game});
+                setNoStateGame(game.url)
+            }
         }
 
         // Cleanup function
