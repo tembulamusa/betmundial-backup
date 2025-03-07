@@ -37,7 +37,6 @@ const CasinoLaunchedGame = (props) => {
                 if (status === 200) {
                     setNoStateGame(result?.gameUrl || result?.game_url);
                 } else {
-                    console.log("Failed to fetch game URL. Status:", status);
                     navigate("/casino");
                 }
             }
