@@ -12,10 +12,10 @@ import Five from "../assets/img/popups/5.1.jpg";
 import Six from "../assets/img/popups/6.1.jpg";
 
 const images = [
-    { src: One, link: "/casino-game/aviator/aviator/sure-popular" },
+    { src: One, link: "/casino-game/aviator/aviator" },
     { src: Two, link: "/casino-game/aviatrix/aviatrix/sure-popular" },
     { src: Three, link: "/casino-game/smartsoft/jetx/sure-popular" },
-    { src: Four, link: "/casino-game/eurovirtuals/virtual-league/sure-popular" },
+    { src: Four, link: "/casino-game/eurovirtuals/virtual-league" },
     { src: Five, link: "/casino-game/pragmatic/spaceman/sure-popular" },
     { src: Six, link: "/surecoin" },
 ];

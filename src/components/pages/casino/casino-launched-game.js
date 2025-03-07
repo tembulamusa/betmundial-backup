@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../../context/store";
-import { getFromLocalStorage } from "../../utils/local-storage";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineClose } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -13,9 +13,9 @@ const CasinoLaunchedGame = (props) => {
     const user = getFromLocalStorage("user");
     const [noStateGame, setNoStateGame] = useState();
     const fullScreens = ["aviatrix"];
-    const { provider, gameName } = useParams();
-    const surePopular = window.location.pathname.includes("sure-popular");
-    const launchedGame = getFromLocalStorage("casinolaunch"); 
+    const { provider, gameName } = useParams(); 
+    const surePopular = window.location.pathname.includes("sure-popular"); 
+
 
     const findGameId = (provider, gameName) => {
         const games = state?.casinofilters?.games?.[0]?.gameList || [];
@@ -30,14 +30,8 @@ const CasinoLaunchedGame = (props) => {
     const fetchGameUrl = async (provider, gameId) => {
         let endpoint;
 
-        // Special handling for Aviator game
-        if (provider.toLowerCase() === "aviator") {
-            endpoint = `intouchvas/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${gameId}-${provider}`;
-        } else {
-            // Default endpoint for other games
-            endpoint = `${provider}/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${gameId}`;
-        }
-
+        endpoint = `${provider}/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${gameId}`;
+        
         await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
             ([status, result]) => {
                 if (status === 200) {
@@ -50,28 +44,41 @@ const CasinoLaunchedGame = (props) => {
         );
     };
 
-    const hardLaunches = async () => {
-        let endpoint = `Eurovirtuals/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${"550e8400-e29b-41d4-a716-446655440000"}`;
-        if (provider.toLowerCase() === "aviator") {
-            endpoint = `intouchvas/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/1-Aviator`;
-        }
-        await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
-            ([status, result]) => {
-                if (status === 200) {
-                    setNoStateGame(result?.gameUrl || result?.game_url);
-                } else {
-                    navigate("/casino");
+    const launchOldWay = async () => {
+        if (provider.toLowerCase() === "eurovirtuals") {
+            const endpoint = `Eurovirtuals/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${"550e8400-e29b-41d4-a716-446655440000"}`;
+            await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
+                ([status, result]) => {
+                    if (status === 200) {
+                        setNoStateGame(result?.gameUrl || result?.game_url);
+                    } else {
+                        navigate("/casino");
+                    }
                 }
-            }
-        );
+            );
+        } else if (provider.toLowerCase() === "aviator") {
+            const endpoint = `intouchvas/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/1-Aviator`;
+            await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
+                ([status, result]) => {
+                    if (status === 200) {
+                        setNoStateGame(result?.gameUrl || result?.game_url);
+                    } else {
+                        navigate("/casino");
+                    }
+                }
+            );
+        } else if (state?.casinolaunch?.url) {
+            setNoStateGame(state?.casinolaunch?.url);
+        } else {
+            navigate("/casino");
+        }
     };
 
     useEffect(() => {
-        // Set the casino page state
         dispatch({ type: "SET", key: "iscasinopage", payload: true });
 
         if (surePopular) {
-            // Handle advertised games
+            // New way: Handle advertised games
             const gameId = findGameId(provider, gameName);
 
             if (gameId) {
@@ -81,20 +88,8 @@ const CasinoLaunchedGame = (props) => {
                 navigate("/casino");
             }
         } else {
-            // Handle non-advertised games with hard launch
-            if (["eurovirtuals", "aviator"].includes(provider.toLowerCase())) {
-                dispatch({ type: "SET", key: "casinolaunch", payload: { game: "gg", url: "xx" } });
-                hardLaunches();
-            } else if (!state?.casinolaunch && user?.token) {
-                // Fallback to local storage if no state is available
-                const storedCasino = getFromLocalStorage("casinolaunch");
-                dispatch({ type: "SET", key: "casinolaunch", payload: storedCasino });
-            }
-        }
-
-        // Handle fullscreen logic
-        if (fullScreens.includes(launchedGame?.game?.provider_name?.toLowerCase())) {
-            dispatch({ type: "SET", key: "fullcasinoscreen", payload: true });
+            // Old way: Handle non-advertised games
+            launchOldWay();
         }
 
         // Cleanup function
@@ -135,7 +130,7 @@ const CasinoLaunchedGame = (props) => {
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
                     width="100%"
                     height="100%"
-                    src={noStateGame || state?.casinolaunch?.url || ""} 
+                    src={noStateGame || ""}
                 ></iframe>
             </div>
         </>

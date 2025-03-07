@@ -13,7 +13,7 @@ import Fifteen from "../../assets/img/casino/carousel/15.png";
 import Sixteen from "../../assets/img/casino/carousel/16.jpg";
 
 const banners = [
-    { src: Fifteen, link: "/casino-game/aviator/aviator/sure-popular", requiresAuth: true },
+    { src: Fifteen, link: "/casino-game/aviator/aviator", requiresAuth: true },
     { src: Two, link: "/casino-game/pragmatic/spaceman/sure-popular", requiresAuth: true },
     { src: Nine, link: "/casino-game/smartsoft/jetx/sure-popular", requiresAuth: true },
     { src: Ten, link: "/casino-game/aviatrix/aviatrix/sure-popular", requiresAuth: true },
