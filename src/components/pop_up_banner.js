@@ -81,13 +81,13 @@ const PopupBanner = () => {
                                 onClick={() => setShow(false)}
                                 className="no-thanks-button text-xl"
                             >
-                                No Thanks
+                                Cancel
                             </Button>
                             <Button
                                 onClick={handlePlayNow}
                                 className="play-now-button text-xl"
                             >
-                                Play Now
+                                Play 
                             </Button>
                         </div>
                     </Modal.Body>
