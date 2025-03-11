@@ -87,12 +87,12 @@ const MyBets = (props) => {
         return (
             <div className={`my-bets-header`} style={Styles.headers}>
                 <div className="row uppercase">
-                    <div className="col hidden md:flex">ID</div>
-                    <div className="col hidden md:flex">Bet Type</div>
                     <div className="col">CREATED</div>
+                    <div className="col hidden md:flex">Bet ID</div>
+                    <div className="col hidden md:flex">Bet Type</div>
                     <div className="col hidden md:flex">GAMES</div>
-                    <div className="col">ODDS</div>
-                    <div className="col">AMOUNT</div>
+                    <div className="col">Total ODDS</div>
+                    <div className="col">Stake</div>
                     <div className="col">Payout</div>
                     <div className="col">Status</div>
                 </div>
@@ -242,9 +242,9 @@ const MyBets = (props) => {
                     <Accordion.Item eventKey={"mybets-" + bet?.bet_id} onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
                         <Accordion.Header>
                             <div className="row w-full">
+                                <div className="col">{ bet?.created}</div>
                                 <div className="col hidden md:flex font-ligt">{ bet?.bet_id}</div>
                                 <div className="col hidden md:flex">{ betType}</div>
-                                <div className="col">{ bet?.created}</div>
                                 <div className="col hidden md:flex">{ bet?.total_games}</div>
                                 <div className="col text-cente">{ bet?.total_odd}</div>
                                 <div className="col text-cente">{ bet?.bet_amount}</div>

@@ -476,7 +476,7 @@ const OddButton = (props) => {
             ref={ref}
             className={`secondary-bg-2 home-team ${match.match_id} ${ucn} ${picked} c-btn`}
             home_team={match.home_team}
-            odd_type={match?.market_name || match?.display || match?.special_bet_key || "1X2"}
+            odd_type={match?.name || match?.market_name}
             bet_type={live ? 1 : 0}
             away_team={match.away_team}
             market_active={match.market_active}
@@ -594,30 +594,31 @@ const MarketRow = (props) => {
 
                 if(Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
-                    setMutableMkts((prevMarkets) => {
-                        let index = prevMarkets?.findIndex(
-                            ev => ev.sub_type_id == evodd.sub_type_id
-                                && ev.outcome_id == evodd.outcome_id
-                                && (!evodd.special_bet_value || (ev.special_bet_value== evodd.special_bet_value)));
-                        
-                        if(marketStatus.toLowerCase() !== "active" 
-                                && 
-                                evodd.market_status.toLowerCase() == "active") {
-                                    setMarketStatus(evodd.market_status);
+                        evodd.name = data.match_market.market_name;
+                        setMutableMkts((prevMarkets) => {
+                            let index = prevMarkets?.findIndex(
+                                ev => ev.sub_type_id == evodd.sub_type_id
+                                    && ev.outcome_id == evodd.outcome_id
+                                    && (!evodd.special_bet_value || (ev.special_bet_value== evodd.special_bet_value)));
+                            
+                            if(marketStatus.toLowerCase() !== "active" 
+                                    && 
+                                    evodd.market_status.toLowerCase() == "active") {
+                                        setMarketStatus(evodd.market_status);
+                                }
+                            if (index !== -1) {
+                                const newOdds = [...prevMarkets];
+                                newOdds[index] = {...evodd};
+                                return newOdds.sort((a, b) => 
+                                    a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
+                                );
+                            } else {
+                                return [...prevMarkets, evodd].sort((a, b) => 
+                                    a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
+                                );
                             }
-                        if (index !== -1) {
-                            const newOdds = [...prevMarkets];
-                            newOdds[index] = {...evodd};
-                            return newOdds.sort((a, b) => 
-                                a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
-                            );
-                        } else {
-                            return [...prevMarkets, evodd].sort((a, b) => 
-                                a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
-                            );
-                        }
-                        
-                    });
+                            
+                        });
 
                 });
                 } else {
