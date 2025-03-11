@@ -41,7 +41,7 @@ const Index = (props) => {
     const [searchParams] = useSearchParams();
 
     
-    const fetchData = async (controlText) => {
+    const fetchData = (controlText) => {
         setFetching(true);
         let fetchcount = fetchingCount + 1;
         let filtersport = state?.filtersport || getFromLocalStorage("filtersport");
@@ -94,16 +94,14 @@ const Index = (props) => {
         // } 
         endpoint = endpoint.replaceAll(" ", '');
 
-        await makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
+        makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
             setFetchingCount(fetchcount);
 
             if (status == 200) {
-                // check for page and see if page is not the
+
                 setMatches(result?.data?.items || result) //(matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
                 setFetching(false)
-                if (result?.slip_data) {
-                    setUserSlipsValidation(result?.slip_data);
-                }
+                
                 setProducerDown(result?.producer_status == 1);
             }
         });

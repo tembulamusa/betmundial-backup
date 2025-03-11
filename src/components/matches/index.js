@@ -470,7 +470,6 @@ const OddButton = (props) => {
             dispatch({ type: "SET", key: betslip_key, payload: betslip });
         }
     };
-    console.log("THE BET TYPE FOR THE WHOLE MARKET  ::::   ", match)
     return (
         <button
             ref={ref}
@@ -863,7 +862,6 @@ const MatchRow = (props) => {
         jackpotstatus,
         setReload,
         subTypes } = props;
-
     const [match, setMatch] = useState({...initialMatch})
     const [availableMarkets, ] = useState(subTypes || [1, 10, 18])
     const [updatedMatchStatus, setUpdatedMatchStatus] = useState("Not Started");
@@ -950,7 +948,7 @@ const MatchRow = (props) => {
     return (
         <>
             { updatedMatchStatus?.toLowerCase()?.trim() !== "ended" &&
-                <div className="top-matches d-flex">
+                <div className="top-matches d-flex" key={"match-list-" + match?.match_id}>
                     <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="21">
                         {live &&
                             <>
@@ -1336,11 +1334,19 @@ const MatchList = (props) => {
     } = props;
     const [state, dispatch] = useContext(Context);
     useEffect(() => {
+        
+        if(matches?.length > 0 ) {
+
+            console.log("THE NEW MATHCES ::::: ", matches, " ::: AND THE LENGTH  ::: ", matches?.length);
+
+        }
+
         dispatch({ type: "SET", key: "matchlisttype", payload: "normal" });
         return () => {
+            
             dispatch({ type: "DEL", key: "matchlisttype" });
         }
-    }, [])
+    }, [matches])
 
 
     return (
@@ -1357,22 +1363,8 @@ const MatchList = (props) => {
             <Container className="web-element">
                 {matches &&
                     Object.entries(matches).map(([key, match]) => (
-                        live 
-                        ? 
                         match?.match_status?.toLowerCase() !== "ended" &&
-                        <div>
-                        <MatchRow
-                            initialMatch={match}
-                            key={match?.parent_match_id}
-                            live={live}
-                            pdown={pdown}
-                            setReload={setReload}
-                            three_way={three_way}
-                            subTypes={subTypes}
-                            sub_types={subTypes} />
-                        </div>
-                            :
-                        <div key={match?.match_time || match?.start_time}>
+
                             <MatchRow
                             initialMatch={match}
                             key={match?.parent_match_id}
@@ -1382,7 +1374,7 @@ const MatchList = (props) => {
                             three_way={three_way}
                             subTypes={subTypes}
                             sub_types={subTypes} />
-                        </div>
+
                     ))
                 }
 
