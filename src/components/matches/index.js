@@ -783,7 +783,6 @@ const MatchMarket = (props) => {
             handleGameSocket("listen", match?.parent_match_id);
 
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
-                console.log("THE LOGGED DATA IS HERE  :::  ", data)
                 if (data.match_market.special_bet_value == special_bet_value) {
                     if (Object.keys(data.event_odds).length > 0) {
                         setOutcomes(
@@ -814,7 +813,7 @@ const MatchMarket = (props) => {
                         ...match, 
                         market_status: market_status, 
                         ...marketOdd, 
-                        producer_id: producerId || match?.odds?.[marketName]?.producer_id 
+                        producer_id: producerId || match?.odds?.[marketName]?.producer_id || live ? 1 : 3
                     };
                     delete matchWithDetails.odds;
 
