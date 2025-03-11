@@ -762,7 +762,8 @@ const MatchMarket = (props) => {
     const [btnCount, ] = useState(buttonCount);
     const [outcomes, setOutcomes] = useState(
         initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) =>
-            a?.outcome_id - b?.outcome_id) || [])
+            a?.outcome_id - b?.outcome_id) || []);
+    const [producerId, setProducerId] = useState(null)
     
     const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status);
 
@@ -782,7 +783,7 @@ const MatchMarket = (props) => {
             handleGameSocket("listen", match?.parent_match_id);
 
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
-                
+                console.log("THE LOGGED DATA IS HERE  :::  ", data)
                 if (data.match_market.special_bet_value == special_bet_value) {
                     if (Object.keys(data.event_odds).length > 0) {
                         setOutcomes(
@@ -793,6 +794,8 @@ const MatchMarket = (props) => {
                     } 
                     setMarketStatus(data.match_market.status)
                 }
+
+                setProducerId(data?.match_market?.producer_id);
             });
         }
         
@@ -811,7 +814,7 @@ const MatchMarket = (props) => {
                         ...match, 
                         market_status: market_status, 
                         ...marketOdd, 
-                        producer_id: match?.odds?.[marketName]?.producer_id 
+                        producer_id: producerId ?? match?.odds?.[marketName]?.producer_id 
                     };
                     delete matchWithDetails.odds;
 
