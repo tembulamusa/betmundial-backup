@@ -7,29 +7,34 @@ let xlg = {
 
     // public
     connect: function (wsUri, casinoId, tableId) {
-        let self = this;
-        self.tryToConnect = true;
-        self.wsUri = wsUri;
-        if (self.websocket !== null && self.websocket.readyState !== 3) {
-            self.websocket.close();
+        try {
+            let self = this;
+            self.tryToConnect = true;
+            self.wsUri = wsUri;
+            if (self.websocket !== null && self.websocket.readyState !== 3) {
+                self.websocket.close();
+            }
+            self.websocket = new WebSocket('wss://' + wsUri + '/ws');
+            self.websocket.onopen = function (evt) {
+                self.onWsOpen(evt, casinoId, tableId)
+            };
+            self.websocket.onclose = function (evt) {
+                self.onWsClose(evt)
+            };
+            self.websocket.onmessage = function (evt) {
+                self.onWsMessage(evt)
+            };
+            self.websocket.onerror = function (evt) {
+                self.onWsError(evt)
+            };
+            if (tableId) {
+                self.tableId = tableId;
+            }
+            self.casinoId = casinoId;
+        } catch(err) {
+            console.log(er)
         }
-        self.websocket = new WebSocket('wss://' + wsUri + '/ws');
-        self.websocket.onopen = function (evt) {
-            self.onWsOpen(evt, casinoId, tableId)
-        };
-        self.websocket.onclose = function (evt) {
-            self.onWsClose(evt)
-        };
-        self.websocket.onmessage = function (evt) {
-            self.onWsMessage(evt)
-        };
-        self.websocket.onerror = function (evt) {
-            self.onWsError(evt)
-        };
-        if (tableId) {
-            self.tableId = tableId;
-        }
-        self.casinoId = casinoId;
+        
     },
     // public
     onMessage: function (data) {
