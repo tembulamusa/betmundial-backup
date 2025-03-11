@@ -814,7 +814,7 @@ const MatchMarket = (props) => {
                         ...match, 
                         market_status: market_status, 
                         ...marketOdd, 
-                        producer_id: producerId ?? match?.odds?.[marketName]?.producer_id 
+                        producer_id: producerId || match?.odds?.[marketName]?.producer_id 
                     };
                     delete matchWithDetails.odds;
 
