@@ -88,7 +88,7 @@ const MyBets = (props) => {
             <div className={`my-bets-header`} style={Styles.headers}>
                 <div className="row uppercase">
                     <div className="col hidden md:flex">ID</div>
-                    <div className="col hidden md:flex">SECTION</div>
+                    <div className="col hidden md:flex">Bet Type</div>
                     <div className="col">CREATED</div>
                     <div className="col hidden md:flex">GAMES</div>
                     <div className="col">ODDS</div>
