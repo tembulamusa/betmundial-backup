@@ -470,7 +470,7 @@ const OddButton = (props) => {
             dispatch({ type: "SET", key: betslip_key, payload: betslip });
         }
     };
-
+    console.log("THE BET TYPE FOR THE WHOLE MARKET  ::::   ", match)
     return (
         <button
             ref={ref}
@@ -786,11 +786,16 @@ const MatchMarket = (props) => {
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
                 if (data.match_market.special_bet_value == special_bet_value) {
                     if (Object.keys(data.event_odds).length > 0) {
-                        setOutcomes(
-                            Object.values(data.event_odds).sort(
+                        setOutcomes((prev) =>{
+                            let newOdds = Object.values(data.event_odds).sort(
                                 (a, b) => a.outcome_id - b.outcome_id
                             )
-                        );
+                            newOdds.forEach(odd => {
+                                odd.name = data.match_market.market_name;
+                            });
+                            return newOdds
+                        })
+                        
                     } 
                     setMarketStatus(data.match_market.status)
                 }
