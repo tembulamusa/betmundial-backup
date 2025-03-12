@@ -15,6 +15,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TbForbid2, TbForbid2Filled } from "react-icons/tb";
 import { Modal } from "react-bootstrap";
 import { Tooltip } from "@mui/material";
+import { IoLogoVimeo } from "react-icons/io";
+
 
 const Styles = {
    container: {
@@ -195,6 +197,10 @@ const MyBets = (props) => {
             let Icon;
             let color; 
             let statusText;
+            let rounded;
+            let bg;
+            let size = 20;
+            let pd;
             switch (bet?.status?.toLowerCase()) {
                 case "pending":
                     Icon = FaCircle;
@@ -217,12 +223,22 @@ const MyBets = (props) => {
                     color = "gray"
                     break;
                 default:
-                    Icon = MdPending
-                    color = "orange"
+                    Icon = IoLogoVimeo
+                    color = "white"
+                    bg = "bg-green-500 "
+                    rounded = "rounded-full "
+                    pd = "p-1"
             }
             return (
                 <>
-                  {<Icon color={color} size={20} className="inline-block mr-3"/>}
+                  {
+                    <Tooltip title={bet?.status} arrow placement="top">
+                        <Icon 
+                            color={color}
+                            size={size} 
+                            className={`${rounded + bg + pd} inline-block mr-3`}/>
+                    </Tooltip>
+                    }
                 </>
             )
         }
@@ -324,7 +340,7 @@ const MyBets = (props) => {
                 break;
 
             case "pending":
-                textDisp = "--";
+                textDisp = "n/a";
                 colorClass = "pending";
                 break;
             case "cancelled":
@@ -364,7 +380,9 @@ const MyBets = (props) => {
                 <td className="hidden md:table-cell">{ slip?.odd_value}</td>
                 <td className="hidden md:table-cell">{ slip?.market_name}</td>
                 <td className="">{slip?.bet_pick}{slip?.special_bet_value && `(${slip?.special_bet_value})`}</td>
-                <td className="">{ slip?.result !== null ? slip.result : "--"} <span className="md:hidden">{ gameBetStatus(slip.status)}</span></td>
+                <td className="">{ slip?.result !== null ? slip.result : "n/a"} 
+                    <span className="md:hidden">{ gameBetStatus(slip.status)}</span>
+                </td>
                 {/* <td className="">{ slip.ft_result}</td> */}
                 <td className="hidden md:table-cell">{ gameBetStatus(slip.status)}</td>
             </tr>

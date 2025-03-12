@@ -121,7 +121,7 @@ const Header = (props) => {
             socket.on(`user#profile#${user?.profile_id}`, (data) => {
                 setUser({...user, balance: data.balance, bonus_balance: data.bonus})
             })
-        }        
+        }
     }, [socket.connected, user])
 
     const nextNavigate = () => {
