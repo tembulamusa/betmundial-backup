@@ -14,7 +14,7 @@ import ShareExistingbet from "./utils/shareexisting-bet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TbForbid2, TbForbid2Filled } from "react-icons/tb";
 import { Modal } from "react-bootstrap";
-
+import { Tooltip } from "@mui/material";
 
 const Styles = {
    container: {
@@ -293,7 +293,7 @@ const MyBets = (props) => {
             <tr className={`betslip-header`} >
                     {/* <td className="hidden md:table-cell">No.</td> */}
                     {/* <td className="">ID</td> */}
-                    <td className="">Date</td>
+                    <td className="">Start Time</td>
                     <td className="">Game</td>
                     <td className="hidden md:table-cell">Odds</td>
                     <td className="hidden md:table-cell">Market</td>
@@ -309,7 +309,7 @@ const MyBets = (props) => {
 
         let icon;
         let colorClass;
-        let textDisp;
+        let textDisp = status;
         switch (status.toLowerCase()){
             case "won":
                 icon = <FaCheckCircle />
@@ -327,12 +327,17 @@ const MyBets = (props) => {
                 textDisp = "--";
                 colorClass = "pending";
                 break;
-            case 4:
-                textDisp = "cancelled"
+            case "cancelled":
+                icon= <TbForbid2Filled />
+                // textDisp = "";
+                colorClass = "lost"
                 break;
-            case 5:
-                textDisp = ""
+            case "void":
+                icon = <TbForbid2Filled />
+                textDisp = "";
+                colorClass = "lost"
                 break;
+
             default:
                 textDisp = "";
                 // colorClass = "lost";
@@ -341,8 +346,10 @@ const MyBets = (props) => {
 
         return (
             <>
-                {icon && <span className={`results-icon ${colorClass}`}>{icon}</span>}
-                {textDisp && textDisp}
+
+                <Tooltip title={textDisp} arrow placement="top">
+                    {icon && <span className={`results-icon ${colorClass}`}>{icon}</span>}
+                </Tooltip>
             </>
         )
     
