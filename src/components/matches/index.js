@@ -864,7 +864,7 @@ const MatchRow = (props) => {
         subTypes } = props;
     const [match, setMatch] = useState({...initialMatch})
     const [availableMarkets, ] = useState(subTypes || [1, 10, 18])
-    const [updatedMatchStatus, setUpdatedMatchStatus] = useState("Not Started");
+    const [updatedMatchStatus, setUpdatedMatchStatus] = useState(initialMatch?.match_status);
     const [updatedMatchTime, setUpdatedMatchTime] = useState({});
     const [updatedMatchScore, setUpdatedMatchScore] = useState();
     const [betStop, setBetStop] = useState({});
