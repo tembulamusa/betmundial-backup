@@ -334,6 +334,14 @@ const BetSlip = (props) => {
             };
             socket?.on(`surebet#${slip?.parent_match_id}#${slip.sub_type_id}`, handleSocketData)
             
+            socket.emit('user.match.listen', slip?.parent_match_id);
+            socket.on(`surebet#${slip?.parent_match_id}`, (data) => {
+                if(data.message_type !== "betstop") {
+                    slip.bet_type = 1
+                    }
+                }
+            )
+
             return () => {
             }
         },[])

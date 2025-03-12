@@ -868,6 +868,7 @@ const MatchRow = (props) => {
     const [updatedMatchTime, setUpdatedMatchTime] = useState({});
     const [updatedMatchScore, setUpdatedMatchScore] = useState();
     const [betStop, setBetStop] = useState({});
+    const [updatedLive, setUpdatedLive] = useState(live);
 
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
         setUpdatedMatchTime((prevTime) => {
@@ -884,9 +885,7 @@ const MatchRow = (props) => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
         socket.emit('user.match.listen', match?.parent_match_id);
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
-
             if(data.message_type == "betstop") {
-                
                 if(data.markets == "all") {
                     setMatch((prevMatch) =>{
                         let newOdds = prevMatch.odds;
@@ -917,8 +916,9 @@ const MatchRow = (props) => {
                         })
                     })
                 }
+            } else {
+                setUpdatedLive(true);
             }
-
             setUpdatedMatchScore((prevScore) => {
                 return data.score
             });
@@ -950,7 +950,7 @@ const MatchRow = (props) => {
             { updatedMatchStatus?.toLowerCase()?.trim() !== "ended" &&
                 <div className="top-matches d-flex" key={"match-list-" + match?.match_id}>
                     <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="21">
-                        {live &&
+                        {updatedLive &&
                             <>
                                 <small style={{ color: "red" }}> { } </small>
                                 <br />
@@ -1045,7 +1045,7 @@ const MatchRow = (props) => {
                                         special_bet_value = ""
                                         jackpot={jackpot}
                                         jackpotstatus={jackpotstatus}
-                                        live={live}
+                                        live={updatedLive}
                                         betStop={betStop}
                                         pdown={pdown}
                                         availableMarkets={availableMarkets}
@@ -1063,7 +1063,7 @@ const MatchRow = (props) => {
                                         special_bet_value = ""
                                         jackpot={jackpot}
                                         jackpotstatus={jackpotstatus}
-                                        live={live}
+                                        live={updatedLive}
                                         pdown={pdown}
                                         availableMarkets={availableMarkets}
                                     
@@ -1079,7 +1079,7 @@ const MatchRow = (props) => {
                                         buttonCount={2} 
                                         jackpot={jackpot}
                                         jackpotstatus={jackpotstatus}
-                                        live={live}
+                                        live={updatedLive}
                                         betStop={betStop}
                                         pdown={pdown}
                                         availableMarkets={availableMarkets}
@@ -1103,7 +1103,7 @@ const MatchRow = (props) => {
                                             special_bet_value = ""
                                             jackpot={jackpot}
                                             jackpotstatus={jackpotstatus}
-                                            live={live}
+                                            live={updatedLive}
                                             pdown={pdown}
                                             betStop={betStop}
                                             availableMarkets={availableMarkets}
@@ -1118,8 +1118,8 @@ const MatchRow = (props) => {
                     </div>
 
                     {/* Jackpot buttons */}
-                    {(!pdown && (!jackpot && !(live && !match?.score))) &&
-                        <SideBets match={match} live={live} style={{ d: "inline" }} />}
+                    {(!pdown && (!jackpot && !(updatedLive && !match?.score))) &&
+                        <SideBets match={match} live={updatedLive} style={{ d: "inline" }} />}
                 </div>
             }
         </>
@@ -1187,7 +1187,10 @@ export const MarketList = (props) => {
         return (
             <div className='flex match-markets-filter'>
                 {marketFilters?.map((item, idx) => (
-                    <div className={`cursor-pointer item capitalize ${marketsFilter == item ? "active" : ""}`} onClick={() => setMarketsFilter(item)}>{item?.name}</div>
+                    <div 
+                        className={`cursor-pointer item capitalize ${marketsFilter == item ? "active" : ""}`}
+                        onClick={() => setMarketsFilter(item)}>{item?.name}
+                    </div>
                 ))}
             </div>
         )
@@ -1334,19 +1337,12 @@ const MatchList = (props) => {
     } = props;
     const [state, dispatch] = useContext(Context);
     useEffect(() => {
-        
-        if(matches?.length > 0 ) {
-
-            console.log("THE NEW MATHCES ::::: ", matches, " ::: AND THE LENGTH  ::: ", matches?.length);
-
-        }
-
         dispatch({ type: "SET", key: "matchlisttype", payload: "normal" });
         return () => {
             
             dispatch({ type: "DEL", key: "matchlisttype" });
         }
-    }, [matches])
+    }, [matches]);
 
 
     return (
