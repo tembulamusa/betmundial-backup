@@ -377,7 +377,7 @@ const BetSlip = (props) => {
                                 <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} opacity-60 `}>
                                     <span>
                                         {slip.bet_type == 0 && ' Pre-match'}
-                                        {slip.bet_type == 1 && <span className='text-red'>Live</span>}: 
+                                        {slip.bet_type == 1 && <span className='text-red-500'>Live</span>}: 
                                     </span>
                                     
                                     <span className='betslip-match-start-time ml-4'>
