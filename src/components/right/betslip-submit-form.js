@@ -428,7 +428,7 @@ const BetslipSubmitForm = (props) => {
                             {!jackpot && <tr className="hide-on-affix">
                                 <td className='opacity-60 py-3'>TOTAL ODDS</td>
                                 <td className=' py-3 text-right pr-2'>
-                                    <b>{Float(totalOdds, 2)}</b>
+                                    <b>{parseFloat(totalOdds).toFixed(2)}</b>
                                 </td>
                             </tr>}
 
