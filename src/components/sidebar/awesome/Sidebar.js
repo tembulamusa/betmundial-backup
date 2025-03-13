@@ -196,25 +196,22 @@ const ProSidebar = (props) => {
         // Check for and update for categories
         let endpoint = "/v2/sports/categories/" + focusSportId
         let sport = competitions?.find(obj => obj?.sport_id == focusSportId);
-        let hasCategories = Object.keys(sport).includes('categories');
-        if (!hasCategories){
-            makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {
-                let sportIndex = competitions?.findIndex(obj => obj?.sport_id == focusSportId);
-                // update the sport with competitions
-                if (status == 200) {
-                    sport.categories = response?.data[0].categories
-                    let newCompetitions = competitions;
-                    // get new competitions with the updated stuff
-                    newCompetitions[sportIndex] = sport;
-                    setCompetitions(newCompetitions);
-                    dispatch({type: "SET", key: "categories", payload: newCompetitions})
-                    setLocalStorage("categories", newCompetitions, 24 * 7 * 60 * 1000)
-                } else {
-                    sport.categories = [];
-                }
-                 
-            })
-        }
+        makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {
+            let sportIndex = competitions?.findIndex(obj => obj?.sport_id == focusSportId);
+            // update the sport with competitions
+            if (status == 200) {
+                sport.categories = response?.data[0]?.categories
+                let newCompetitions = competitions;
+                // get new competitions with the updated stuff
+                newCompetitions[sportIndex] = sport;
+                setCompetitions(newCompetitions);
+                dispatch({type: "SET", key: "categories", payload: newCompetitions})
+                setLocalStorage("categories", newCompetitions, 24 * 7 * 60 * 60 * 1000)
+            } else {
+                sport.categories = [];
+            }
+                
+        })
     }
 
 
