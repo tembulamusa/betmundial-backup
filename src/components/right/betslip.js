@@ -336,7 +336,13 @@ const BetSlip = (props) => {
             
             socket.emit('user.match.listen', slip?.parent_match_id);
             socket.on(`surebet#${slip?.parent_match_id}`, (data) => {
-                if(data.message_type !== "betstop") {
+                if(
+                    data.message_type !== "betstop" 
+                    && 
+                    validateStarted(slip.start_time)
+                    &&
+                    slip.bet_type == 0
+                ) {
                     slip.bet_type = 1
                     }
                 }
@@ -373,7 +379,8 @@ const BetSlip = (props) => {
                                     }}>
                                         <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
                                         {`${slip.home_team} VS ${slip.away_team}`}
-                                    </span>}
+                                    </span>
+                                    }
                                 <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} opacity-60 `}>
                                     <span>
                                         {slip.bet_type == 0 && ' Pre-match'}

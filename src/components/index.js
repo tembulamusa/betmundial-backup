@@ -152,8 +152,8 @@ const Index = (props) => {
     },[])
     document.addEventListener('scrollEnd', (event) => {
         if (!fetching) {
-            setFetching(true)
-            setPage(page + 1)
+            setFetching(true);
+            setPage(page + 1);
         }
     })
 

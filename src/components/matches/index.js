@@ -869,7 +869,6 @@ const MatchRow = (props) => {
     const [updatedMatchScore, setUpdatedMatchScore] = useState();
     const [betStop, setBetStop] = useState({});
     const [updatedLive, setUpdatedLive] = useState(live);
-
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
         setUpdatedMatchTime((prevTime) => {
             if (match_time) {
@@ -880,7 +879,21 @@ const MatchRow = (props) => {
         });
     }
 
+    const validateStarted = (start_time) => {
+        const matchDate = new Date(start_time);
+        const timeOff = new Date()
+        timeOff.setSeconds(timeOff.getSeconds() - 10);
+        if (matchDate <= timeOff) {
+            setUpdatedLive(true)
+        }    
+    }
 
+    useInterval(function(){
+        if(!live) {
+            validateStarted(match?.start_time);
+        }
+    }, !updatedLive ? 10000 : null);
+    
     useEffect(() => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
         socket.emit('user.match.listen', match?.parent_match_id);
@@ -947,7 +960,7 @@ const MatchRow = (props) => {
     }
     return (
         <>
-            { updatedMatchStatus?.toLowerCase()?.trim() !== "ended" &&
+            { (updatedMatchStatus?.toLowerCase()?.trim() !== "ended" || updatedLive == live) &&
                 <div className="top-matches d-flex" key={"match-list-" + match?.match_id}>
                     <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="21">
                         {updatedLive &&
