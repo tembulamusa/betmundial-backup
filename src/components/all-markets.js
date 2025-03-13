@@ -64,7 +64,7 @@ const MatchAllMarkets = (props) => {
             "/v2/sports/match/" + params.id
             makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
                 setMatchWithMarkets(result?.data);
-                setProducerDown(result?.producer_status == 1);
+                setProducerDown(result?.producer_status?.disabled);
                 setIsLoading(false);
             });
         }
@@ -102,8 +102,9 @@ const MatchAllMarkets = (props) => {
 
 
         // producer status
-        socket.on(`surebet#producer_status}`, (data) => {
-            setProducerDown(data.producer_status == 1);
+        socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
+            console.log(data);
+            setProducerDown(data.producer_status.disabled);
             
         });
         socket.on("connect", handleConnect);

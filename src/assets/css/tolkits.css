@@ -2574,7 +2574,7 @@ footer a {
     color: #666;
     border-radius: 3px;
     padding: 9px 10px;
-    margin: 2px 0px;
+    margin: 0px 0px;
     background: rgba(0,0,0,0.1);
 }
 
@@ -14091,7 +14091,7 @@ fieldset[disabled] .tw.active {
 
 .amt {
     /* margin-top: 60px !important; */
-    margin-top: 139px !important;
+    margin-top: 135px !important;
 }
 
 .amu {

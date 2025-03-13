@@ -159,7 +159,7 @@ const Header = (props) => {
                     <Container fluid className={'d-flex justify-content-between mobile-change'}>
                         
                         <div className="e col-md-5 col-sm-6 logo align-self-start  items-center" title="surebet">
-                            <a className="my-2 mt-3 inline-block" href="/" style={{ display: "inline-block" }}>
+                            <a className="mt-2 inline-block" href="/" style={{ display: "inline-block" }}>
                                 <img src={logo} alt="surebet" title="surebet" effects="blur" />
                             </a>
                         </div>

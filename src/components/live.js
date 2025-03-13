@@ -85,8 +85,9 @@ const Live = (props) => {
     socket.on("disconnect", handleDisconnect);
 
 
-    socket.on(`surebet#producer_status}`, (data) => {
-        setProducerDown(data.producer_status == 1);
+    socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
+        console.log(data);
+        setProducerDown(data.producer_status.disabled);
         
     });
     return () => {
@@ -106,7 +107,7 @@ const Live = (props) => {
             setFetching(false)
             if (status == 200) {
                 setMatches(result?.data?.items?.sort((a, b) => ((a.start_time - b.start_time) || (b.match_time - a.match_time))) || result)
-                setProducerDown(result?.producer_status == 1);
+                setProducerDown(result?.producer_status?.disabled);
             } else {
                 setMatches([])
             }

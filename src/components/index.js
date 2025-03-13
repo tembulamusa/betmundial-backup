@@ -102,7 +102,7 @@ const Index = (props) => {
                 setMatches(result?.data?.items || result) //(matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
                 setFetching(false)
                 
-                setProducerDown(result?.producer_status == 1);
+                setProducerDown(result?.producer_status?.disabled);
             }
         });
 
@@ -142,10 +142,10 @@ const Index = (props) => {
 
     useEffect(()=> {
         socket.connect();
-        socket.on(`surebet#producer_status}`, (data) => {
-            setProducerDown(data.producer_status == 1);
+        socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
+            setProducerDown(data.producer_status.disabled);
             
-        });        
+        });       
         return () => {
             socket.disconnect();
         }
