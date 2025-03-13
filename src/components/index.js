@@ -142,7 +142,10 @@ const Index = (props) => {
 
     useEffect(()=> {
         socket.connect();
-        
+        socket.on(`surebet#producer_status}`, (data) => {
+            setProducerDown(data.producer_status == 1);
+            
+        });        
         return () => {
             socket.disconnect();
         }

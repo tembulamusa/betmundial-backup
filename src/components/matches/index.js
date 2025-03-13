@@ -1048,8 +1048,7 @@ const MatchRow = (props) => {
                                         live={updatedLive}
                                         betStop={betStop}
                                         pdown={pdown}
-                                        availableMarkets={availableMarkets}
-                                    
+                                        availableMarkets={availableMarkets}                                
                                     />
                                     {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
                                 </div>

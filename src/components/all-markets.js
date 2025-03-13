@@ -99,6 +99,13 @@ const MatchAllMarkets = (props) => {
             }
             
         });
+
+
+        // producer status
+        socket.on(`surebet#producer_status}`, (data) => {
+            setProducerDown(data.producer_status == 1);
+            
+        });
         socket.on("connect", handleConnect);
         socket.on("disconnect", handleDisconnect);
        

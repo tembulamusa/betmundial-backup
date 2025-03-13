@@ -83,6 +83,12 @@ const Live = (props) => {
     
     socket.on("connect", handleConnect);
     socket.on("disconnect", handleDisconnect);
+
+
+    socket.on(`surebet#producer_status}`, (data) => {
+        setProducerDown(data.producer_status == 1);
+        
+    });
     return () => {
 
     };
