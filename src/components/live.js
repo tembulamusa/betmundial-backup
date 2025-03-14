@@ -19,7 +19,7 @@ const Live = (props) => {
     const [fetching, setFetching] = useState(false)
     const {sportid, categoryid, competitionid } = useParams();
     const [limit, setLimit] = useState(300);
-    const [producerDown, setProducerDown] = useState(false);
+    const [producers, setProducers] = useState([]);
     const [threeWay, setThreeWay] = useState(true);
     const [refresh, setRefresh] = useState(false);
     const [page, ] = useState(1);
@@ -83,13 +83,6 @@ const Live = (props) => {
     
     socket.on("connect", handleConnect);
     socket.on("disconnect", handleDisconnect);
-
-
-    socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
-        console.log(data);
-        setProducerDown(data.producer_status.disabled);
-        
-    });
     return () => {
 
     };
@@ -107,7 +100,7 @@ const Live = (props) => {
             setFetching(false)
             if (status == 200) {
                 setMatches(result?.data?.items?.sort((a, b) => ((a.start_time - b.start_time) || (b.match_time - a.match_time))) || result)
-                setProducerDown(result?.producer_status?.disabled);
+                setProducers(result?.producer_statuses);
             } else {
                 setMatches([])
             }
@@ -161,7 +154,7 @@ const Live = (props) => {
                 live
                 setReload={setReload}
                 matches={matches}
-                pdown={producerDown}
+                producers={producers}
                 betslip_key={'betslip'}
                 subTypes={state?.selectedLivesport 
                     ? 

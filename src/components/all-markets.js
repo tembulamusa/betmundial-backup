@@ -25,7 +25,7 @@ const Right = React.lazy(()=>import('./right/index'));
 
 const MatchAllMarkets = (props) => {
     const [page, setPage] = useState(1);
-    const [producerDown, setProducerDown] = useState(false);
+    const [producers, setProducers] = useState([]);
     const { live } = props;
     const [matchwithmarkets, setMatchWithMarkets] = useState();
     const [userSlipsValidation, setUserSlipsValidation] = useState();
@@ -64,7 +64,7 @@ const MatchAllMarkets = (props) => {
             "/v2/sports/match/" + params.id
             makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
                 setMatchWithMarkets(result?.data);
-                setProducerDown(result?.producer_status?.disabled);
+                setProducers(result?.producer_statuses);
                 setIsLoading(false);
             });
         }
@@ -101,12 +101,7 @@ const MatchAllMarkets = (props) => {
         });
 
 
-        // producer status
-        socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
-            console.log(data);
-            setProducerDown(data.producer_status.disabled);
-            
-        });
+        
         socket.on("connect", handleConnect);
         socket.on("disconnect", handleDisconnect);
        
@@ -118,7 +113,7 @@ const MatchAllMarkets = (props) => {
         <div className="homepage">
             {matchwithmarkets && <MarketList live={live}  
                 initialMatchwithmarkets={matchwithmarkets} 
-                pdown={producerDown} 
+                producers={producers} 
                 betstopMessage = {betstopMessage} 
                 setBetstopMessage={setBetstopMessage}
                 />}

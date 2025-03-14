@@ -538,16 +538,24 @@ const teamScore = (allscore, is_home_team) => {
 }
 
 const MarketRow = (props) => {
-    const { markets, match, market_id, width, live, pdown, marketDetail, betstopMessage, setBetstopMessage} = props;
+    const { markets, match, market_id, width, live, producers, marketDetail, betstopMessage, setBetstopMessage} = props;
     const [mutableMkts, setMutableMkts] = useState(
         [...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]
     );
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
+    const [pdown, setPdown] = useState(false);
+
     useEffect(() => {
         if (markets){
             setMutableMkts([...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]);
+        }
+
+        // computed producer down
+        const producer = producers.find(producer => producer.producer_id === marketDetail?.producer_id);
+        if(producer) {
+            setPdown(producer.disabled);
         }
     }, [markets]);
 
@@ -640,11 +648,16 @@ const MarketRow = (props) => {
                 }
                 
             };
-
             socketRef.current?.on(socketEvent, handleSocketData);
+
         
-        return () => {
-        };
+            // producer status
+        socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
+            if(data.producer_id == producerId) {
+                setPdown(data.disabled);
+            }
+            
+        });
     }
     }, [socket.connected, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
 
@@ -798,7 +811,6 @@ const MatchMarket = (props) => {
                     } 
                     setMarketStatus(data.match_market.status)
                 }
-
                 setProducerId(data?.match_market?.producer_id);
             });
         }
@@ -857,7 +869,7 @@ const MatchRow = (props) => {
         initialMatch,
         jackpot,
         live,
-        pdown,
+        producers,
         three_way,
         jackpotstatus,
         setReload,
@@ -910,7 +922,7 @@ const MatchRow = (props) => {
                         })
                         newOddsMatch.odds = newOdds;
                         return newOddsMatch
-                    })
+                    });
                 } else {
                     let marketIds = data.markets.split(",");
                     marketIds.forEach(item => {
@@ -1060,7 +1072,7 @@ const MatchRow = (props) => {
                                         jackpotstatus={jackpotstatus}
                                         live={updatedLive}
                                         betStop={betStop}
-                                        pdown={pdown}
+                                        producers={producers}
                                         availableMarkets={availableMarkets}                                
                                     />
                                     {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
@@ -1076,7 +1088,7 @@ const MatchRow = (props) => {
                                         jackpot={jackpot}
                                         jackpotstatus={jackpotstatus}
                                         live={updatedLive}
-                                        pdown={pdown}
+                                        producers={producers}
                                         availableMarkets={availableMarkets}
                                     
                                     />
@@ -1093,7 +1105,7 @@ const MatchRow = (props) => {
                                         jackpotstatus={jackpotstatus}
                                         live={updatedLive}
                                         betStop={betStop}
-                                        pdown={pdown}
+                                        producers={producers}
                                         availableMarkets={availableMarkets}
                                         
                                         />
@@ -1116,7 +1128,7 @@ const MatchRow = (props) => {
                                             jackpot={jackpot}
                                             jackpotstatus={jackpotstatus}
                                             live={updatedLive}
-                                            pdown={pdown}
+                                            producers={producers}
                                             betStop={betStop}
                                             availableMarkets={availableMarkets}
                                         />
@@ -1130,7 +1142,7 @@ const MatchRow = (props) => {
                     </div>
 
                     {/* Jackpot buttons */}
-                    {(!pdown && (!jackpot && !(updatedLive && !match?.score))) &&
+                    {((!jackpot && !(updatedLive && !match?.score))) &&
                         <SideBets match={match} live={updatedLive} style={{ d: "inline" }} />}
                 </div>
             }
@@ -1143,7 +1155,7 @@ const MatchRow = (props) => {
 
 export const MarketList = (props) => {
 
-    const { live, initialMatchwithmarkets, pdown , betstopMessage, setBetstopMessage} = props;
+    const { live, initialMatchwithmarkets, producers , betstopMessage, setBetstopMessage} = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
     const [matchwithmarkets, setMatchWithMarkets] = useState({...initialMatchwithmarkets})
 
@@ -1243,7 +1255,7 @@ export const MarketList = (props) => {
                             marketDetail={markets}
                             key={mkt_id}
                             live={live}
-                            pdown={pdown}
+                            producers={producers}
                         />
                 })
                 }
@@ -1340,7 +1352,7 @@ const MatchList = (props) => {
     const {
         live,
         matches,
-        pdown,
+        producers,
         three_way,
         fetching,
         setReload,
@@ -1377,7 +1389,7 @@ const MatchList = (props) => {
                             initialMatch={match}
                             key={match?.parent_match_id}
                             live={live}
-                            pdown={pdown}
+                            producers={producers}
                             setReload={setReload}
                             three_way={three_way}
                             subTypes={subTypes}

@@ -28,7 +28,6 @@ const Index = (props) => {
 
     const [matches, setMatches] = useState();
     const [limit, setLimit] = useState(300);
-    const [producerDown, setProducerDown] = useState(false);
     const [threeWay, setThreeWay] = useState(true);
     const [page, setPage] = useState(1);
     const [, setUserSlipsValidation] = useState();
@@ -39,6 +38,7 @@ const Index = (props) => {
     const [subTypes, setSubTypes] = useState([1,10,18]);
     // const [doPoll, setDoPoll] = useState(false);
     const [searchParams] = useSearchParams();
+    const [producers, setProducers] = useState([])
 
     
     const fetchData = (controlText) => {
@@ -98,11 +98,9 @@ const Index = (props) => {
             setFetchingCount(fetchcount);
 
             if (status == 200) {
-
                 setMatches(result?.data?.items || result) //(matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
-                setFetching(false)
-                
-                setProducerDown(result?.producer_status?.disabled);
+                setFetching(false);
+                setProducers(result?.producer_statuses);
             }
         });
 
@@ -142,10 +140,6 @@ const Index = (props) => {
 
     useEffect(()=> {
         socket.connect();
-        socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
-            setProducerDown(data.producer_status.disabled);
-            
-        });       
         return () => {
             socket.disconnect();
         }
@@ -176,7 +170,7 @@ const Index = (props) => {
                         socket={socket}
                         live={false}
                         matches={matches}
-                        pdown={producerDown}
+                        producers={producers}
                         three_way={state?.filtersport ? state?.filtersport?.sport_type == "threeway" : true}
                         fetching={fetching}
                         subTypes={state?.filtersport 
