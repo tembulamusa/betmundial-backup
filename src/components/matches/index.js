@@ -881,6 +881,7 @@ const MatchRow = (props) => {
     const [updatedMatchScore, setUpdatedMatchScore] = useState();
     const [betStop, setBetStop] = useState({});
     const [updatedLive, setUpdatedLive] = useState(live);
+    const [transitioned, setTransitioned] = useState(false);
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
         setUpdatedMatchTime((prevTime) => {
             if (match_time) {
@@ -891,26 +892,19 @@ const MatchRow = (props) => {
         });
     }
 
-    const validateStarted = (start_time) => {
-        const matchDate = new Date(start_time);
-        const timeOff = new Date()
-        timeOff.setSeconds(timeOff.getSeconds() - 10);
-        if (matchDate <= timeOff) {
-            setUpdatedLive(true)
-        }    
-    }
 
-    useInterval(function(){
-        if(!live) {
-            validateStarted(match?.start_time);
-        }
-    }, !updatedLive ? 10000 : null);
     
     useEffect(() => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
         socket.emit('user.match.listen', match?.parent_match_id);
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
             if(data.message_type == "betstop") {
+                console.log("LOGGING BETSTOP :::: ", "IS LIVE ::", live)
+
+                if(!live) {
+                    console.log("GOT INTO THE NON >IVE CHECK:::  ", live)
+                    setTransitioned(true);
+                }
                 if(data.markets == "all") {
                     setMatch((prevMatch) =>{
                         let newOdds = prevMatch.odds;
@@ -942,8 +936,14 @@ const MatchRow = (props) => {
                     })
                 }
             } else {
-                setUpdatedLive(true);
+                console.log("LOGGING NON BETSTOP :::: ", "IS LIVE ::", live)
+                if(!live) {
+                    setTransitioned(true);
+                }
+                // setUpdatedLive(true);
             }
+
+
             setUpdatedMatchScore((prevScore) => {
                 return data.score
             });
@@ -972,7 +972,7 @@ const MatchRow = (props) => {
     }
     return (
         <>
-            { (updatedMatchStatus?.toLowerCase()?.trim() !== "ended" || updatedLive == live) &&
+            { (updatedMatchStatus?.toLowerCase()?.trim() !== "ended" && !transitioned) &&
                 <div className="top-matches d-flex" key={"match-list-" + match?.match_id}>
                     <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="21">
                         {updatedLive &&
