@@ -770,6 +770,8 @@ const MatchMarket = (props) => {
         jackpot, 
         jackpotstatus, 
         live,
+        transitioned,
+        setTransitioned,
         producers,
         availableMarkets } = props
     const [match, ] = useState({ ...initialMatch });
@@ -821,10 +823,21 @@ const MatchMarket = (props) => {
                     } 
                     setMarketStatus(data.match_market.status)
                 }
-                setProducerId(data?.match_market?.producer_id);
+
+                setProducerId((prevId) =>{
+                    if (
+                        data.match_market.producer_id == 1
+                        && !transitioned
+                        && !live
+                    ) {
+                        setTransitioned(true);
+                    }
+                    return data?.match_market?.producer_id
+                });
             });
         }
         
+
 
         // for match producer down message
         socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
@@ -836,7 +849,7 @@ const MatchMarket = (props) => {
 
         return () => {
         }
-    }, [socket.connected])
+    }, [socket.connected]);
 
     return (
         <>
@@ -917,9 +930,6 @@ const MatchRow = (props) => {
         socket.emit('user.match.listen', match?.parent_match_id);
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
             if(data.message_type == "betstop") {
-                if(!live) {
-                    setTransitioned(true);
-                }
                 if(data.markets == "all") {
                     setMatch((prevMatch) =>{
                         let newOdds = prevMatch.odds;
@@ -950,13 +960,7 @@ const MatchRow = (props) => {
                         })
                     })
                 }
-            } else {
-                if(!live) {
-                    setTransitioned(true);
-                }
-                // setUpdatedLive(true);
             }
-
 
             setUpdatedMatchScore((prevScore) => {
                 return data.score
@@ -1095,6 +1099,8 @@ const MatchRow = (props) => {
                                         jackpot={jackpot}
                                         jackpotstatus={jackpotstatus}
                                         live={updatedLive}
+                                        transitioned={transitioned}
+                                        setTransitioned={setTransitioned}
                                         betStop={betStop}
                                         producers={producers}
                                         availableMarkets={availableMarkets}                                
@@ -1110,6 +1116,8 @@ const MatchRow = (props) => {
                                         betStop={betStop}
                                         special_bet_value = ""
                                         jackpot={jackpot}
+                                        transitioned={transitioned}
+                                        setTransitioned={setTransitioned}
                                         jackpotstatus={jackpotstatus}
                                         live={updatedLive}
                                         producers={producers}
@@ -1122,7 +1130,9 @@ const MatchRow = (props) => {
                                     <MatchMarket 
                                         initialMatch={match} 
                                         marketName={"Total"} 
-                                        marketId={18} 
+                                        marketId={18}
+                                        transitioned={transitioned}
+                                        setTransitioned={setTransitioned}
                                         special_bet_value="2.5"
                                         buttonCount={2} 
                                         jackpot={jackpot}
