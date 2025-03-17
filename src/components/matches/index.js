@@ -653,6 +653,7 @@ const MarketRow = (props) => {
         
             // producer status
         socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
+            console.log("THE PRODUCER IN  ::: ", data, "THE CURRENT PRODUCER ID::: ", producerId)
             if(data.producer_id == producerId) {
                 setPdown(data.disabled);
             }
@@ -769,16 +770,25 @@ const MatchMarket = (props) => {
         jackpot, 
         jackpotstatus, 
         live,
-        pdown,
+        producers,
         availableMarkets } = props
     const [match, ] = useState({ ...initialMatch });
+    const [pdown, setPdown] = useState(false);
     const [btnCount, ] = useState(buttonCount);
     const [outcomes, setOutcomes] = useState(
         initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) =>
             a?.outcome_id - b?.outcome_id) || []);
-    const [producerId, setProducerId] = useState(null)
+    const [producerId, setProducerId] = useState(initialMatch?.odds?.[marketName]?.producer_id);
     
     const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status);
+
+    useEffect(() => {
+        let pId = initialMatch?.odds?.[marketName]?.producer_id
+        const producer = producers.find(producer => producer.producer_id === pId);
+        if(producer) {
+            setPdown(producer.disabled);
+        }
+    }, [])
 
     const handleGameSocket = (type, gameId) => {
         availableMarkets?.forEach((subTypeId) => {
@@ -815,6 +825,14 @@ const MatchMarket = (props) => {
             });
         }
         
+
+        // for match producer down message
+        socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
+            if(data.producer_id == producerId) {
+                setPdown(data.disabled);
+            }
+            
+        });
 
         return () => {
         }
@@ -899,10 +917,7 @@ const MatchRow = (props) => {
         socket.emit('user.match.listen', match?.parent_match_id);
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
             if(data.message_type == "betstop") {
-                console.log("LOGGING BETSTOP :::: ", "IS LIVE ::", live)
-
                 if(!live) {
-                    console.log("GOT INTO THE NON >IVE CHECK:::  ", live)
                     setTransitioned(true);
                 }
                 if(data.markets == "all") {
@@ -936,7 +951,6 @@ const MatchRow = (props) => {
                     })
                 }
             } else {
-                console.log("LOGGING NON BETSTOP :::: ", "IS LIVE ::", live)
                 if(!live) {
                     setTransitioned(true);
                 }
@@ -961,12 +975,21 @@ const MatchRow = (props) => {
 
     const TimeToLiveStarting = (props) => {
         const { starttime } = props;
+
         let startDiff = Date.parse(starttime) - Date.now();
         let diffHrs = Math.floor((startDiff % 86400000) / 3600000);
         let diffMins = Math.round(((startDiff % 86400000) % 3600000) / 60000);
         return (
             <>
-                <span className='text-blue-700'>{diffHrs > 0 && diffHrs + " Hrs"} {startDiff >= 0 && diffMins + " Mins"}</span> to start
+                {
+                starttime == '0' 
+                ?
+                <span className=''>Not  Started</span> 
+                :
+                <span><span className='text-blue-700'>{diffHrs > 0 && diffHrs + " Hrs"} {startDiff >= 0 && diffMins + " Mins"}</span> to start</span>
+                
+            }
+                
             </>
         )
     }
@@ -982,13 +1005,14 @@ const MatchRow = (props) => {
                             </>
                         }
                         <div className="d-flex flex-column" key="20">
-                            {(live && (Date.parse(match?.start_time) > Date.now() && !match?.match_time)) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime={match?.start_time} /></div>}
+                            {(live && (Date.parse(match?.start_time) >= Date.now() && !match?.match_time)) && <div className='w-full float-right font-[500]'><TimeToLiveStarting starttime={match?.start_time} /></div>}
 
                             <span className={'small'}>
                                 {(live && (updatedMatchStatus || match?.match_status))
                                     ?
                                     <span className='font-[500] uppercase'>{updatedMatchStatus || match?.match_status}</span>
-                                    : match?.start_time}
+                                    : match?.start_time == 0 ? "NOT STARTED" : match?.start_time
+                                }
                             </span>
                             {
                             !live 

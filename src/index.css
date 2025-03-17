@@ -1965,3 +1965,7 @@ button.locked-button:hover {
   /* line-height: 0.8; */
   /* height: 17px; */
 }
+
+@media only screen and (min-resolution: 192dpi) {
+  
+}
