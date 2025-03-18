@@ -808,6 +808,7 @@ const MatchMarket = (props) => {
             handleGameSocket("listen", match?.parent_match_id);
 
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
+                console.log("THE LOGGED PRODUCER IS ::: ", data.match_market)
                 if (data.match_market.special_bet_value == special_bet_value) {
                     if (Object.keys(data.event_odds).length > 0) {
                         setOutcomes((prev) =>{
@@ -830,6 +831,7 @@ const MatchMarket = (props) => {
                         && !transitioned
                         && !live
                     ) {
+                        
                         setTransitioned(true);
                     }
                     return data?.match_market?.producer_id
@@ -1162,6 +1164,8 @@ const MatchRow = (props) => {
                                             jackpot={jackpot}
                                             jackpotstatus={jackpotstatus}
                                             live={updatedLive}
+                                            transitioned={transitioned}
+                                            setTransitioned={setTransitioned}
                                             producers={producers}
                                             betStop={betStop}
                                             availableMarkets={availableMarkets}
