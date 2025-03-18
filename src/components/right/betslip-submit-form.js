@@ -130,9 +130,7 @@ const BetslipSubmitForm = (props) => {
     }
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
-        
-        
-        
+                
         if (!getFromLocalStorage("user") || !getFromLocalStorage("user")?.token) {
             return false
         }
@@ -217,7 +215,13 @@ const BetslipSubmitForm = (props) => {
             .then(([status, response]) => {
                 if (status == 200 || status == 201 || status == 204 || jackpot) {
                     if (response?.status == 200) {
-                        dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
+                        dispatch({
+                            type:"SET",
+                            key:"toggleuserbalance",
+                            payload: state?.toggleuserbalance 
+                            ?
+                            !state?.toggleuserbalance : true
+                        })
                         handleRemoveAll();
                         if (jackpot) {
                             // save betslip into state before proceeding
@@ -231,15 +235,20 @@ const BetslipSubmitForm = (props) => {
                             dispatch({type:"SET", key:"rebetslip", payload:state?.betslip})
                             clearSlip();
                         }
-                    
-                    
                     dispatch({type: "DEL", key: jackpot ? 'jackpotbetslip' : 'betslip'});
                     response = {...response, ...{title: successfulBetHeading()}}
                     setMessage({status: status, message: response?.data?.message, title:successfulBetHeading()})
                     } else {
+                        console.log("THE LOGGED IN FAILURE:: ", response, "  THE STATUS  ", status);
                         let qmessage = {
                             status: 400,
-                            message: response?.message || response?.error?.message || response?.result || "Error attempting to place bet"
+                            message: response?.message
+                            ||
+                            response?.error?.message
+                            ||
+                            response?.result
+                            ||
+                            "Error attempting to place bet"
                         };
                         if (response.status == 402) {
                             // remove the betslip

@@ -70,10 +70,7 @@ const Live = (props) => {
                     data.sport_name = sport_name;
 
                     let startTime = data.start_time[1] || "";
-                    data.start_time = startTime;
-                    console.log("THE START TIME ::: ", startTime);
-                    console.log("THE WHOLE MATCH ::: ", data);
-                    
+                    data.start_time = startTime;                    
                     let index = preveMatches?.findIndex(ev => ev.match_id == data.match_id);
 
                     if(index !== -1){

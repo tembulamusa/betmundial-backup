@@ -254,7 +254,6 @@ const MoreMarketsHeaderRow = (props) => {
     useEffect(() => {
         handleGameSocket("listen", match?.parent_match_id);
         updateMatchTimeMinutesAndSeconds(match?.match_time);
-
         const handleSocketData = (data) => {
 
             setScore((prevScore) => {
@@ -596,9 +595,6 @@ const MarketRow = (props) => {
         if (socket.connected) {
             handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
             const handleSocketData = (data) => {
-
-                
-
                 if(Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                         evodd.name = data.match_market.market_name;
@@ -646,18 +642,18 @@ const MarketRow = (props) => {
                             );
                     });
                 }
-                
-            };
-            socketRef.current?.on(socketEvent, handleSocketData);
 
-        
-            // producer status
+                if(producerId !== data.match_market.producer_id && pdown) {
+                    setPdown(false);
+                }
+                setProducerId(data.match_market.producer_id);
+            };
+            socketRef.current?.on(socketEvent, handleSocketData);        
+        // producer status
         socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
-            console.log("THE PRODUCER IN  ::: ", data, "THE CURRENT PRODUCER ID::: ", producerId)
             if(data.producer_id == producerId) {
                 setPdown(data.disabled);
             }
-            
         });
     }
     }, [socket.connected, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
@@ -765,10 +761,10 @@ const MatchMarket = (props) => {
         initialMatch, 
         marketName, 
         marketId, 
-        buttonCount, 
+        buttonCount,
         special_bet_value, 
         jackpot, 
-        jackpotstatus, 
+        jackpotstatus,
         live,
         transitioned,
         setTransitioned,
@@ -806,9 +802,7 @@ const MatchMarket = (props) => {
     useEffect(() => {
         if (socket.connected) {
             handleGameSocket("listen", match?.parent_match_id);
-
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
-                console.log("THE LOGGED PRODUCER IS ::: ", data.match_market)
                 if (data.match_market.special_bet_value == special_bet_value) {
                     if (Object.keys(data.event_odds).length > 0) {
                         setOutcomes((prev) =>{
@@ -825,6 +819,9 @@ const MatchMarket = (props) => {
                     setMarketStatus(data.match_market.status)
                 }
 
+                if(producerId !== data.match_market.producer_id && pdown) {
+                    setPdown(false);
+                }
                 setProducerId((prevId) =>{
                     if (
                         data.match_market.producer_id == 1
