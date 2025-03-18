@@ -136,12 +136,14 @@ const CasinoLaunchedGame = (props) => {
             <div className={`casino-launched-game-frame flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
                 <iframe
                     id="myIframe"
-                    allow="autoplay; clipboard-write; fullscreen"
+                    allow="autoplay; clipboard-write;"
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
                     width="100%"
                     height="100%"
-                    src={noStateGame || ""}
+                    src={noStateGame || "about:blank"}
                     allowfullscreen
+                    webkitallowfullscreen
+                    mozallowfullscreen
                 ></iframe>
             </div>
         </>
