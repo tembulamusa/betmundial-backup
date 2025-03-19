@@ -646,7 +646,9 @@ const MarketRow = (props) => {
                 if(producerId !== data.match_market.producer_id && pdown) {
                     setPdown(false);
                 }
-                setProducerId(data.match_market.producer_id);
+                if(data.match_market.producer_id){
+                    setProducerId(data.match_market.producer_id);
+                }
             };
             socketRef.current?.on(socketEvent, handleSocketData);        
         // producer status
@@ -822,7 +824,8 @@ const MatchMarket = (props) => {
                 if(producerId !== data.match_market.producer_id && pdown) {
                     setPdown(false);
                 }
-                setProducerId((prevId) =>{
+                if(data.match_market.producer_id){
+                    setProducerId((prevId) =>{
                     if (
                         data.match_market.producer_id == 1
                         && !transitioned
@@ -832,7 +835,7 @@ const MatchMarket = (props) => {
                         setTransitioned(true);
                     }
                     return data?.match_market?.producer_id
-                });
+                });}
             });
         }
         
@@ -840,6 +843,8 @@ const MatchMarket = (props) => {
 
         // for match producer down message
         socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
+            console.log("THE RECEIVED PRODUCER  ", data);
+            console.log("THE CURRENT PRODUCER :: ", producerId);
             if(data.producer_id == producerId) {
                 setPdown(data.disabled);
             }

@@ -67,7 +67,6 @@ const LiveSideBar = (props) => {
     }, [location])
     useEffect(() => {
         fetchData();
-
         const abortController = new AbortController();
         return () => {
             abortController.abort();
