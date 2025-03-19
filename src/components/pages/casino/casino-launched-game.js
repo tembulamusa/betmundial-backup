@@ -13,8 +13,8 @@ const CasinoLaunchedGame = (props) => {
     const user = getFromLocalStorage("user");
     const [noStateGame, setNoStateGame] = useState();
     const fullScreens = ["aviatrix"];
-    const { provider, gameName } = useParams(); 
-    const surePopular = window.location.pathname.includes("sure-popular"); 
+    const { provider, gameName } = useParams();
+    const surePopular = window.location.pathname.includes("sure-popular");
     const directLaunch = ['eurovirtuals', 'aviator']
 
     const findGameId = (provider, gameName) => {
@@ -30,7 +30,7 @@ const CasinoLaunchedGame = (props) => {
     const fetchGameUrl = async (provider, gameId) => {
         let endpoint;
         endpoint = `${provider}/casino/game-url/${isMobile ? "mobile" : "desktop"}/${1}/${gameId}`;
-        
+
         await makeRequest({ url: endpoint, method: "GET", api_version: "CasinoGameLaunch" }).then(
             ([status, result]) => {
                 if (status === 200) {
@@ -56,9 +56,9 @@ const CasinoLaunchedGame = (props) => {
                 }
             }
         );
-        dispatch({type:"SET", key:"casinolaunch", payload: {game: '', url: ''}});
-        setLocalStorage("casinolaunch", {game: '', url: ''})
-        
+        dispatch({ type: "SET", key: "casinolaunch", payload: { game: '', url: '' } });
+        setLocalStorage("casinolaunch", { game: '', url: '' })
+
     };
 
     useEffect(() => {
@@ -74,11 +74,11 @@ const CasinoLaunchedGame = (props) => {
                 navigate("/casino");
             }
         } else {
-            if(directLaunch.includes(provider.toLowerCase())) {
+            if (directLaunch.includes(provider.toLowerCase())) {
                 launchOldWay();
             } else {
                 let game = state?.casinolaunch || getFromLocalStorage("casinolaunch");
-                dispatch({type:"SET", key:"casinolaunch", payload: game});
+                dispatch({ type: "SET", key: "casinolaunch", payload: game });
                 setNoStateGame(game.url)
             }
         }
@@ -92,7 +92,7 @@ const CasinoLaunchedGame = (props) => {
     }, [provider, gameName, surePopular, state?.casinofilters?.games]);
 
     const fullScreen = (mode) => {
-        if(mode === "view-full") {
+        if (mode === "view-full") {
             let iframe = document.getElementById("myIframe");
             if (iframe.requestFullscreen) {
                 iframe.requestFullscreen();
@@ -119,9 +119,9 @@ const CasinoLaunchedGame = (props) => {
                             </span>
                         </div>
                         <div className="dismiss-casino-game col-2 mx-auto">
-                            <button 
+                            <button
                                 className="px-5 py-1 float-end my-1 rounded-md border-gray-50 bg-[rgba(255,255,255,0.2)]" onClick={() => fullScreen("view-full")}>
-                                    Fullscreen
+                                Fullscreen
                             </button>
                             {/* <span
                                 className="casino-page-close cursor-pointer"
@@ -136,11 +136,14 @@ const CasinoLaunchedGame = (props) => {
             <div className={`casino-launched-game-frame flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
                 <iframe
                     id="myIframe"
-                    allow="autoplay; clipboard-write"
+                    allow="autoplay; clipboard-write;"
                     title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
                     width="100%"
                     height="100%"
-                    src={noStateGame || ""}
+                    src={noStateGame || "about:blank"}
+                    allowfullscreen
+                    webkitallowfullscreen
+                    mozallowfullscreen
                 ></iframe>
             </div>
         </>
