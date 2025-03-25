@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState, useCallback} from "react";
-import {Context} from '../context/store';
+import React, { useContext, useEffect, useState, useCallback } from "react";
+import { Context } from '../context/store';
 import makeRequest from './utils/fetch-request';
 
 import Accordion from 'react-bootstrap/Accordion';
@@ -19,19 +19,19 @@ import { IoLogoVimeo } from "react-icons/io";
 
 
 const Styles = {
-   container: {
-   },
-   headers: {
-    //    background:'#613354',
-    //    color:'#ffffff',
-    //    padding: '10px 40px 10px',
-    //    fontSize: '12px'
-   },
-   bet:{
-    //    background:'#947389',
-    //    color:'#fff',
-    //    padding: '5px',
-   }
+    container: {
+    },
+    headers: {
+        //    background:'#613354',
+        //    color:'#ffffff',
+        //    padding: '10px 40px 10px',
+        //    fontSize: '12px'
+    },
+    bet: {
+        //    background:'#947389',
+        //    color:'#fff',
+        //    padding: '5px',
+    }
 };
 
 const MyBets = (props) => {
@@ -54,7 +54,7 @@ const MyBets = (props) => {
         }
         return (<>{message?.status &&
             <div role="alert"
-                 className={`fade alert alert-${c} show alert-dismissible`}>
+                className={`fade alert alert-${c} show alert-dismissible`}>
                 {message.message}
                 <span aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</span>
             </div>}
@@ -63,16 +63,16 @@ const MyBets = (props) => {
     };
 
     const fetchData2 = () => {
-        if(isLoading) return;
+        if (isLoading) return;
         const abortController = new AbortController();
         setIsLoading(true);
         setMessage(null);
         let endpoint = "/v2/user/bets?size=20&page=1";
-        makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
-            if ([200, 201].includes(status)){
+        makeRequest({ url: endpoint, method: "GET", api_version: 2 }).then(([status, result]) => {
+            if ([200, 201].includes(status)) {
                 setUserBets(result?.data || result)
             } else {
-                setMessage({status: status, message:"Unable to process"})
+                setMessage({ status: status, message: "Unable to process" })
             }
             setIsLoading(false);
         });
@@ -81,10 +81,10 @@ const MyBets = (props) => {
     };
 
     useEffect(() => {
-       fetchData2();        
+        fetchData2();
     }, []);
 
-    
+
     const BetItemHeader = (props) => {
         return (
             <div className={`my-bets-header`} style={Styles.headers}>
@@ -112,90 +112,90 @@ const MyBets = (props) => {
         const [showMarkup, setShowMarkup] = useState(true);
         const [alertCancel, setAlertCancel] = useState(null);
         const [showConfirmCancel, setShowConfirmCancel] = useState(false);
-            
-        useEffect(( ) => {
-            if(bet?.jackpot_bet_id){
+
+        useEffect(() => {
+            if (bet?.jackpot_bet_id) {
                 setBetType("Jackpot");
-            } else if(bet?.total_games > 1){
+            } else if (bet?.total_games > 1) {
                 setBetType("Multibet");
             } else {
                 setBetType("Single Bet")
             }
         }, [bet])
 
-        
+
 
         const CancelBetMarkup = (props) => {
-            
+
             const cancelBet = () => {
                 let endpoint = '/v2/user/bet/cancel?bet-id=' + bet?.bet_id;
-                makeRequest({url: endpoint, method: "POST", api_version:2}).then(([status, result]) => {
-                    if(result?.status == '200'){
-                       setShowMarkup(false);
-                       setAlertCancel({message:"bet Cancelled Successfully", status: 200});
-                       setTimeout(() => {
+                makeRequest({ url: endpoint, method: "POST", api_version: 2 }).then(([status, result]) => {
+                    if (result?.status == '200') {
+                        setShowMarkup(false);
+                        setAlertCancel({ message: "bet Cancelled Successfully", status: 200 });
+                        setTimeout(() => {
                             window.location.reload()
                         }, 2000)
                     } else {
-                        setAlertCancel({message: "unable to cancel", status: 400})
+                        setAlertCancel({ message: "unable to cancel", status: 400 })
                     }
                 });
             };
 
-            useEffect(()=> {
-                if(alertCancel) {
+            useEffect(() => {
+                if (alertCancel) {
                     setTimeout(function name() {
                         setAlertCancel(null)
                     }, 3000)
                 }
             }, [alertCancel])
-            const {txt} = props;
+            const { txt } = props;
 
             const confirmCancel = (confirm) => {
-                if(confirm == "yes"){
+                if (confirm == "yes") {
                     cancelBet();
                 }
                 setShowConfirmCancel(false);
             }
             return (
                 <>
-                    {alertCancel && 
-                        <div className={`show-betcancel-response alert alert-${alertCancel?.status !== 200 ? "danger" : "success" }`}>
-                        {alertCancel?.message}</div>
+                    {alertCancel &&
+                        <div className={`show-betcancel-response alert alert-${alertCancel?.status !== 200 ? "danger" : "success"}`}>
+                            {alertCancel?.message}</div>
                     }
-                    {showMarkup 
-                        && 
-                        <FaTrash color="rgb(255 66 131 / 96%)" size={20}  onClick={()=> setShowConfirmCancel(true)} className="inline-block mr-3"/>}
-                        <Modal
-                            animation={true}
-                            show={showConfirmCancel}
-                            onHide={() => setShowConfirmCancel(false)}
-                            dialog className="popover-login-modal"
-                            aria-labelledby="contained-modal-title-vcenter">
-                                    <Modal.Body className=" text-center">
-                                    <div className="alert alert-warning font-[500] flex">
-                                        <MdOutlineWarning size={30} className="mr-3"/>
-                                        <div className="flex-column">
-                                            <p>Canceling this bet is not reversible.</p>
-                                            <p>Are you sure you want to cancel this Bet?</p>
-                                        </div>
-                                    </div>
-                                    <div className="mt-3">
-                                        <button className="btn btn-default btn-lg mr-3 px-5" onClick={() => confirmCancel("no")}>No</button>
-                                        <button className="btn btn-danger btn-lg px-5" onClick={()=> confirmCancel("yes")}>Yes</button>
-                                    </div>
-                                    </Modal.Body>
-                        </Modal>
+                    {showMarkup
+                        &&
+                        <FaTrash color="rgb(255 66 131 / 96%)" size={20} onClick={() => setShowConfirmCancel(true)} className="inline-block mr-3" />}
+                    <Modal
+                        animation={true}
+                        show={showConfirmCancel}
+                        onHide={() => setShowConfirmCancel(false)}
+                        dialog className="popover-login-modal"
+                        aria-labelledby="contained-modal-title-vcenter">
+                        <Modal.Body className=" text-center">
+                            <div className="alert alert-warning font-[500] flex">
+                                <MdOutlineWarning size={30} className="mr-3" />
+                                <div className="flex-column">
+                                    <p>Canceling this bet is not reversible.</p>
+                                    <p>Are you sure you want to cancel this Bet?</p>
+                                </div>
+                            </div>
+                            <div className="mt-3">
+                                <button className="btn btn-default btn-lg mr-3 px-5" onClick={() => confirmCancel("no")}>No</button>
+                                <button className="btn btn-danger btn-lg px-5" onClick={() => confirmCancel("yes")}>Yes</button>
+                            </div>
+                        </Modal.Body>
+                    </Modal>
                     {/* confirm bet cancel */}
                 </>
-                )
+            )
         }
 
-        
+
 
         const statusMarkup = (bet) => {
             let Icon;
-            let color; 
+            let color;
             let statusText;
             let rounded;
             let bg;
@@ -231,13 +231,13 @@ const MyBets = (props) => {
             }
             return (
                 <>
-                  {
-                    <Tooltip title={bet?.status} arrow placement="top">
-                        <Icon 
-                            color={color}
-                            size={size} 
-                            className={`${rounded + bg + pd} inline-block mr-3`}/>
-                    </Tooltip>
+                    {
+                        <Tooltip title={bet?.status} arrow placement="top">
+                            <Icon
+                                color={color}
+                                size={size}
+                                className={`${rounded + bg + pd} inline-block mr-3`} />
+                        </Tooltip>
                     }
                 </>
             )
@@ -248,75 +248,75 @@ const MyBets = (props) => {
             }
             return (
                 <>
-                    <FaShare className="inline-block" size={20} color="#FFB200"/>
+                    <FaShare className="inline-block" size={20} color="#FFB200" />
                 </>
             )
         }
 
-        
-        return (
-                    <Accordion.Item eventKey={"mybets-" + bet?.bet_id} onClick={() => setCurrentBetDetail({betId: bet?.bet_id, games: bet?.betslip})}>
-                        <Accordion.Header>
-                            <div className="row w-full">
-                                <div className="col">{ bet?.created}</div>
-                                <div className="col hidden md:flex font-ligt">{ bet?.bet_id}</div>
-                                <div className="col hidden md:flex">{ betType}</div>
-                                <div className="col hidden md:flex">{ bet?.total_games}</div>
-                                <div className="col text-cente">{ bet?.total_odd}</div>
-                                <div className="col text-cente">{ bet?.bet_amount}</div>
-                                <div className="col">{ bet?.possible_win}</div>
-                                {/* <div className="col">{ statusMarkup(bet) }</div> */}
-                                <div className="col">
-                                    {statusMarkup(bet)}
-                                    {bet?.cancelable ? <span><CancelBetMarkup txt="Cancel Bet" /></span> : ""}
-                                    {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
-                                </div>
-                            </div>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                            <div className="overflow-x-auto">
-                                {/* mobile */}
-                                <MobileDetail bet={bet} key={`mobile-item-${bet?.bet_id}`}/>
 
-                                <table className="table w-full mt-3 mb-0">
-                                    <thead>
-                                        <BetslipHeader betslip={bet?.betslip} />
-                                    </thead>
-                                    <tbody>
-                                        {currentBetDetail?.betId === bet?.bet_id &&
-                                            currentBetDetail?.games?.map((slip, index) => (
-                                                <BetslipItem
-                                                    slip={slip}
-                                                    key={slip.game_id}
-                                                    index={index}
-                                                />
-                                            ))}
-                                        {isLoadingBetItems && (
-                                            <tr><td>fetching ...</td></tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </Accordion.Body>
-                    </Accordion.Item>            
+        return (
+            <Accordion.Item eventKey={"mybets-" + bet?.bet_id} onClick={() => setCurrentBetDetail({ betId: bet?.bet_id, games: bet?.betslip })}>
+                <Accordion.Header>
+                    <div className="row w-full">
+                        <div className="col">{bet?.created}</div>
+                        <div className="col hidden md:flex font-ligt">{bet?.bet_id}</div>
+                        <div className="col hidden md:flex">{betType}</div>
+                        <div className="col hidden md:flex">{bet?.total_games}</div>
+                        <div className="col text-cente">{bet?.total_odd}</div>
+                        <div className="col text-cente">{bet?.bet_amount}</div>
+                        <div className="col">{bet?.possible_win}</div>
+                        {/* <div className="col">{ statusMarkup(bet) }</div> */}
+                        <div className="col">
+                            {statusMarkup(bet)}
+                            {bet?.cancelable ? <span><CancelBetMarkup txt="Cancel Bet" /></span> : ""}
+                            {bet?.sharable == 1 && <span>{shareMarkup(bet)}</span>}
+                        </div>
+                    </div>
+                </Accordion.Header>
+                <Accordion.Body>
+                    <div className="overflow-x-auto">
+                        {/* mobile */}
+                        <MobileDetail bet={bet} key={`mobile-item-${bet?.bet_id}`} />
+
+                        <table className="table w-full mt-3 mb-0">
+                            <thead>
+                                <BetslipHeader betslip={bet?.betslip} />
+                            </thead>
+                            <tbody>
+                                {currentBetDetail?.betId === bet?.bet_id &&
+                                    currentBetDetail?.games?.map((slip, index) => (
+                                        <BetslipItem
+                                            slip={slip}
+                                            key={slip.game_id}
+                                            index={index}
+                                        />
+                                    ))}
+                                {isLoadingBetItems && (
+                                    <tr><td>fetching ...</td></tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </Accordion.Body>
+            </Accordion.Item>
         );
     }
 
     const BetslipHeader = (props) => {
-        const {betslip} = props;
+        const { betslip } = props;
         const winsCount = betslip?.filter(item => item?.status?.toLowerCase() == "won")?.length;
         return (
             <tr className={`betslip-header`} >
-                    {/* <td className="hidden md:table-cell">No.</td> */}
-                    {/* <td className="">ID</td> */}
-                    <td className="">Start Time</td>
-                    <td className="">Game</td>
-                    <td className="hidden md:table-cell">Odds</td>
-                    <td className="hidden md:table-cell">Market</td>
-                    <td className="">Pick</td>
-                    <td className="">Results</td>
-                    <td className="hidden md:table-cell">{`${winsCount}/${betslip?.length}`}</td>
-                    
+                {/* <td className="hidden md:table-cell">No.</td> */}
+                {/* <td className="">ID</td> */}
+                <td className="">Start Time</td>
+                <td className="">Game</td>
+                <td className="hidden md:table-cell">Odds</td>
+                <td className="hidden md:table-cell">Market</td>
+                <td className="">Pick</td>
+                <td className="">Results</td>
+                <td className="hidden md:table-cell">{`${winsCount}/${betslip?.length}`}</td>
+
             </tr>
         )
     }
@@ -326,7 +326,11 @@ const MyBets = (props) => {
         let icon;
         let colorClass;
         let textDisp = status;
-        switch (status.toLowerCase()){
+        let bg;
+        let rounded;
+        let pd;
+
+        switch (status.toLowerCase()) {
             case "won":
                 icon = <FaCheckCircle />
                 // textDisp = "";
@@ -334,7 +338,7 @@ const MyBets = (props) => {
                 break;
 
             case "lost":
-                icon= <MdCancel />
+                icon = <MdCancel />
                 // textDisp = "";
                 colorClass = "lost"
                 break;
@@ -344,52 +348,58 @@ const MyBets = (props) => {
                 colorClass = "pending";
                 break;
             case "cancelled":
-                icon= <TbForbid2Filled />
+                icon = <TbForbid2Filled />
                 // textDisp = "";
                 colorClass = "lost"
                 break;
             case "void":
-                icon = <TbForbid2Filled />
-                textDisp = "";
-                colorClass = "lost"
+                icon = <IoLogoVimeo />
+                colorClass = "white"
+                bg = "bg-green-500 "
+                rounded = "rounded-full "
+                pd = "p-1"
                 break;
 
             default:
-                textDisp = "";
-                // colorClass = "lost";
-            
+                icon = <IoLogoVimeo size={8} />
+                colorClass = "white"
+                bg = "bg-green-500 "
+                rounded = "rounded-full "
+                pd = "p-1"
+                break;
+
         }
 
         return (
             <>
 
                 <Tooltip title={textDisp} arrow placement="top">
-                    {icon && <span className={`results-icon ${colorClass}`}>{icon}</span>}
+                    {icon && <span className={`results-icon ${colorClass} ` + pd + " " + bg + " " + rounded}>{icon}</span>}
                 </Tooltip>
             </>
         )
-    
+
     }
     const BetslipItem = ({ slip, index }) => {
         return (
-            <tr className={`my-bets`}  key={`slip-game-${slip.game_id}`}>
+            <tr className={`my-bets`} key={`slip-game-${slip.game_id}`}>
                 {/* <td className="hidden md:table-cell">{index + 1}</td>  */}
                 {/* <td className="">{ slip?.match_id}</td> */}
-                <td className="">{ slip?.start_time}</td>
-                <td className="">{ slip?.home_team} - {slip.away_team}</td>
-                <td className="hidden md:table-cell">{ slip?.odd_value}</td>
-                <td className="hidden md:table-cell">{ slip?.market_name}</td>
+                <td className="">{slip?.start_time}</td>
+                <td className="">{slip?.home_team} - {slip.away_team}</td>
+                <td className="hidden md:table-cell">{slip?.odd_value}</td>
+                <td className="hidden md:table-cell">{slip?.market_name}</td>
                 <td className="">{slip?.bet_pick}{slip?.special_bet_value && `(${slip?.special_bet_value})`}</td>
-                <td className="">{ slip?.result !== null ? slip.result : "n/a"} 
-                    <span className="md:hidden">{ gameBetStatus(slip.status)}</span>
+                <td className="">{slip?.result !== null ? slip.result : "n/a"}
+                    <span className="md:hidden">{gameBetStatus(slip.status)}</span>
                 </td>
                 {/* <td className="">{ slip.ft_result}</td> */}
-                <td className="hidden md:table-cell">{ gameBetStatus(slip.status)}</td>
+                <td className="hidden md:table-cell">{gameBetStatus(slip.status)}</td>
             </tr>
         )
     }
 
-    const MobileDetail = ({bet, key}) => {
+    const MobileDetail = ({ bet, key }) => {
 
         return (
             <div key={key}>
@@ -399,48 +409,48 @@ const MyBets = (props) => {
     }
 
     const MyBetsList = (props) => {
-		return (
+        return (
             <>
-            <BetItemHeader />
-            {
-                (userBets || []).length > 0 ?
-                    <Accordion 
-                    className="accordion"
-                    id="mybets-accordion"
-                    defaultActiveKey={null}
-                    allowMultipleExpanded={false}
-                    uuid = {63213}
-                    >
-                    {(userBets || []).map((bet, idx) => (
-                        <>
-                        <div className="mybet-list" 
-                            key = {`mybet-list-22-${bet?.bet_id}`}
-                            uuid = { `my-bet-list-2134-${bet?.bet_id}` }
-                            >
-                                <BetItem bet={bet}  key={`bet-item654-${bet?.bet_id}`}/>
-                            
-                        </div>
-                        </>
-                    ))}
-                    </Accordion> :
-                    <div className="px-3"><NoEvents message="You have not yet placed any bets yet"/></div>
-            }
-        
+                <BetItemHeader />
+                {
+                    (userBets || []).length > 0 ?
+                        <Accordion
+                            className="accordion"
+                            id="mybets-accordion"
+                            defaultActiveKey={null}
+                            allowMultipleExpanded={false}
+                            uuid={63213}
+                        >
+                            {(userBets || []).map((bet, idx) => (
+                                <>
+                                    <div className="mybet-list"
+                                        key={`mybet-list-22-${bet?.bet_id}`}
+                                        uuid={`my-bet-list-2134-${bet?.bet_id}`}
+                                    >
+                                        <BetItem bet={bet} key={`bet-item654-${bet?.bet_id}`} />
+
+                                    </div>
+                                </>
+                            ))}
+                        </Accordion> :
+                        <div className="px-3"><NoEvents message="You have not yet placed any bets yet" /></div>
+                }
+
             </>
         );
 
     }
 
-    
+
 
     const PageTitle = () => {
-       return (
+        return (
             <div className='col-md-12 bg-primary p-4 text-center'>
                 <h4 className="capitalize">
                     My Bets
                 </h4>
             </div>
-       )
+        )
     }
 
 
@@ -452,7 +462,7 @@ const MyBets = (props) => {
 
                 <PageTitle />
                 <Alert />
-                <MyBetsList  />
+                <MyBetsList />
 
             </div>
         </>

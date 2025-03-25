@@ -145,7 +145,7 @@ const MatchHeaderRow = (props) => {
         first_match && <Container className={`${live && 'live'} full-mobile sticky-top`} style={{ position: "sticky" }}>
             <div className={`${jackpot && 'jackpot-zero-top'} top-matches d-flex position-sticky sticky-top `}
                 style={{ opacity: "1", top: "100px", height: "" }}>
-                
+
                 <div className={'col-2 col-xs-12 match-detail-container'} key="d4">
                     <span className='text-gray-500 font-bold'>
                         {sportName}
@@ -168,38 +168,38 @@ const MatchHeaderRow = (props) => {
                 <div className={`${jackpot ? "is-jackpot-buttons" : ""} col ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row justify-content-between' : "single-market-container"}`}>
                     {
                         // <div className={``} key="d3">
-                            <div className={`${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "single-market-content"} d-flex flex-column text-center ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "!pr-0"}`}>
-                                <div className={'bold hidden md:block'}>
-                                    <span>{three_way ? "3 WAY" : "Winner"}</span>
-                                </div>
-                                <div className={'mt-3 c-btn-group align-self-end'}>
-                                    <a className="c-btn-header" href='#/'>1</a>
-                                    {three_way && <a className="c-btn-header" href='#/'>X</a>}
-                                    <a className="c-btn-header" href='#/'>2</a>
-                                </div>
+                        <div className={`${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "single-market-content"} d-flex flex-column text-center ${sportName?.toLowerCase() == "soccer" ? 'd-flex flex-row' : "!pr-0"}`}>
+                            <div className={'bold hidden md:block'}>
+                                <span>{three_way ? "3 WAY" : "Winner"}</span>
                             </div>
+                            <div className={'mt-3 c-btn-group align-self-end'}>
+                                <a className="c-btn-header" href='#/'>1</a>
+                                {three_way && <a className="c-btn-header" href='#/'>X</a>}
+                                <a className="c-btn-header" href='#/'>2</a>
+                            </div>
+                        </div>
                         // </div>
                     }
                     {(!jackpot && sportName?.toLowerCase() == "soccer" && first_match) && (
-                            extraMarketDisplays?.map((extra_market) => (
-                                <div className={`d-flex flex-column ${extra_market?.id == 18 ? "pr-0" : ""}`} key={extra_market.name}>
-                                    <span className={'small text-center text-uppercase bold'}>
-                                        {extra_market.name}
-                                    </span>
-                                    <div className={'mt-3 c-btn-group'}>
-                                        <a className="c-btn-header" href='#/'>
-                                            {(extra_market.extra_markets_display[0])}
-                                        </a>
-                                        <a className="c-btn-header" href='#/'>
-                                            {(extra_market.extra_markets_display[1])}
-                                        </a>
-                                        {extra_market?.extra_market_cols > 2 &&
-                                            <a className={`c-btn-header`} href='#/'>
-                                                {(extra_market.extra_markets_display[2])}
-                                            </a>}
-                                    </div>
+                        extraMarketDisplays?.map((extra_market) => (
+                            <div className={`d-flex flex-column ${extra_market?.id == 18 ? "pr-0" : ""}`} key={extra_market.name}>
+                                <span className={'small text-center text-uppercase bold'}>
+                                    {extra_market.name}
+                                </span>
+                                <div className={'mt-3 c-btn-group'}>
+                                    <a className="c-btn-header" href='#/'>
+                                        {(extra_market.extra_markets_display[0])}
+                                    </a>
+                                    <a className="c-btn-header" href='#/'>
+                                        {(extra_market.extra_markets_display[1])}
+                                    </a>
+                                    {extra_market?.extra_market_cols > 2 &&
+                                        <a className={`c-btn-header`} href='#/'>
+                                            {(extra_market.extra_markets_display[2])}
+                                        </a>}
                                 </div>
-                            ))
+                            </div>
+                        ))
                     )}
                     <div
                         className="bet-fix events-odd pad undefined align-self-center more-markets-container m-lg-2 col-3">
@@ -274,7 +274,7 @@ const MoreMarketsHeaderRow = (props) => {
         };
     }, [handleGameSocket, match, socketEvent]);
 
-    
+
     const LivescoreFooter = () => {
 
         return (
@@ -289,11 +289,11 @@ const MoreMarketsHeaderRow = (props) => {
     }
     return (
         <>
-           
-        <div className="match-detail-header panel-header primary-bg pt-3">
-           <span> <a href={"#"} className="opacity-60 hover:opacity-100" onClick={(e) => { e.preventDefault(); navigate(-1); }}> <IoIosArrowBack className="inline-block" /> <span className='' style={{fontSize:"13px"}}>Back</span></a> {match?.home_team} - {match?.away_team} </span>
-        </div>
-        <MatchWidget parentMatchId={match?.parent_match_id}/>
+
+            <div className="match-detail-header panel-header primary-bg pt-3">
+                <span> <a href={"#"} className="opacity-60 hover:opacity-100" onClick={(e) => { e.preventDefault(); navigate(-1); }}> <IoIosArrowBack className="inline-block" /> <span className='' style={{ fontSize: "13px" }}>Back</span></a> {match?.home_team} - {match?.away_team} </span>
+            </div>
+            <MatchWidget parentMatchId={match?.parent_match_id} />
         </>
     )
 }
@@ -309,11 +309,11 @@ const SideBets = (props) => {
     return (
         <div
             className={` ${picked} align-self-center more-markets-container m-lg-2`}>
-            
-            <div 
+
+            <div
                 onClick={() => openLiveStats(match?.parent_match_id)}
                 className='side !pl-2 !ml-3 text-blue-700 font-bold opacity-60 hover:opacity-100 cursor-pointer'>
-                <IoIosStats size={20}/>
+                <IoIosStats size={20} />
             </div>
         </div>
     )
@@ -353,7 +353,7 @@ const OddButton = (props) => {
                 + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
                 + (match?.[mkt] || match?.odd_key || mkt || "draw")
             );
-            setUcn(uc);            
+            setUcn(uc);
             setOddValue(match?.odd_value);
 
         }
@@ -487,8 +487,8 @@ const OddButton = (props) => {
             producer_id={match?.producer_id}
             sport_name={match.sport_name}
             start_time={match.start_time}
-            sub_type_id={ match?.sub_type_id}
-            special_bet_value={ match?.special_bet_value || ''}
+            sub_type_id={match?.sub_type_id}
+            special_bet_value={match?.special_bet_value || ''}
             onClick={handleButtonOnClick}>
             {!detail &&
                 (
@@ -521,9 +521,10 @@ const teamScore = (allscore, is_home_team) => {
     if (is_home_team == false) {
         score = awayScore
     }
-    let convertedScore = function () {try {
+    let convertedScore = function () {
+        try {
             let intScore = parseInt(score);
-            if (!isNaN(intScore)){
+            if (!isNaN(intScore)) {
                 return intScore
             } else {
                 return "-"
@@ -531,13 +532,13 @@ const teamScore = (allscore, is_home_team) => {
         } catch (err) {
             return "-"
         }
-        
+
     }
     return convertedScore();
 }
 
 const MarketRow = (props) => {
-    const { markets, match, market_id, width, live, producers, marketDetail, betstopMessage, setBetstopMessage} = props;
+    const { markets, match, market_id, width, live, producers, marketDetail, betstopMessage, setBetstopMessage } = props;
     const [mutableMkts, setMutableMkts] = useState(
         [...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]
     );
@@ -548,14 +549,13 @@ const MarketRow = (props) => {
     const [pdown, setPdown] = useState(false);
 
     useEffect(() => {
-        
-        if (markets){
+        if (markets) {
             setMutableMkts([...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]);
         }
 
         // computed producer down
         const producer = producers.find(producer => producer.producer_id === marketDetail?.producer_id);
-        if(producer) {
+        if (producer) {
             setPdown(producer.disabled);
         }
     }, [markets]);
@@ -570,96 +570,100 @@ const MarketRow = (props) => {
     }, []);
 
     useEffect(() => {
-        if(betstopMessage){
+        if (betstopMessage) {
             let affectedMarkets = betstopMessage.markets.split(",");
-            if(affectedMarkets.includes('all')  
-                ||  affectedMarkets.includes(marketDetail.sub_type_id)){
-                    setMutableMkts((prevMarkets) => {
-                        const newOdds = [...prevMarkets];
-                        newOdds.forEach((odd) => {
-                            if(odd.market_status.toLowerCase() == "active") {
-                                odd.market_status = betstopMessage.market_status
-                            }
+            if (affectedMarkets.includes('all')
+                || affectedMarkets.includes(marketDetail.sub_type_id)) {
+                setMutableMkts((prevMarkets) => {
+                    const newOdds = [...prevMarkets];
+                    newOdds.forEach((odd) => {
+                        if (odd.market_status.toLowerCase() == "active") {
+                            odd.market_status = betstopMessage.market_status
                         }
-                            
-                    )
-                        return newOdds;
+                    }
 
-                    });
-                    setMarketStatus(betstopMessage.market_status);
+                    )
+                    return newOdds;
+
+                });
+                setMarketStatus(betstopMessage.market_status);
             }
             setBetstopMessage(null);
         }
-        
+
     }, [betstopMessage]);
 
     useEffect(() => {
         if (socket.connected) {
             handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
             const handleSocketData = (data) => {
-                if(Object.keys(data.event_odds).length > 0) {
+                if (Object.keys(data.event_odds).length > 0) {
+                    console.log("Listening for market ID   ::: ", data.match_market)
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                         evodd.name = data.match_market.market_name;
                         setMutableMkts((prevMarkets) => {
                             let index = prevMarkets?.findIndex(
                                 ev => ev.sub_type_id == evodd.sub_type_id
                                     && ev.outcome_id == evodd.outcome_id
-                                    && (!evodd.special_bet_value || (ev.special_bet_value== evodd.special_bet_value)));
-                            
-                            if(marketStatus.toLowerCase() !== "active" 
-                                    && 
-                                    evodd.market_status.toLowerCase() == "active") {
-                                        setMarketStatus(evodd.market_status);
-                                }
+                                    && (!evodd.special_bet_value || (ev.special_bet_value == evodd.special_bet_value)));
+
+                            if (marketStatus.toLowerCase() !== "active"
+                                &&
+                                evodd.market_status.toLowerCase() == "active") {
+                                setMarketStatus(evodd.market_status);
+                            }
                             if (index !== -1) {
                                 const newOdds = [...prevMarkets];
-                                newOdds[index] = {...evodd};
-                                return newOdds.sort((a, b) => 
+                                newOdds[index] = { ...evodd };
+                                return newOdds.sort((a, b) =>
                                     a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
                                 );
                             } else {
-                                return [...prevMarkets, evodd].sort((a, b) => 
+                                return [...prevMarkets, evodd].sort((a, b) =>
                                     a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
                                 );
                             }
-                            
+
                         });
 
-                });
+                    });
                 } else {
                     setMutableMkts((prevMarkets) => {
                         let indexes = prevMarkets?.map(
-                            (item, idx) => 
+                            (item, idx) =>
                                 item.sub_type_id == data.match_market.sub_type_id
-                                && item.special_bet_key == data.special_odd_key
-                                && item.special_bet_value == data.match_market.special_bet_value 
-                                ? 
-                                idx
-                                :
-                                -1).filter(index => index !== -1);                     
+                                    && item.special_bet_key == data.special_odd_key
+                                    && item.special_bet_value == data.match_market.special_bet_value
+                                    ?
+                                    idx
+                                    :
+                                    -1).filter(index => index !== -1);
                         const newOdds = [...prevMarkets];
                         indexes.forEach(index => newOdds[index].market_status = data.match_market.status)
-                        return newOdds.sort((a, b) => 
+                        return newOdds.sort((a, b) =>
                             a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
-                            );
+                        );
                     });
                 }
 
-                if(producerId !== data.match_market.producer_id && pdown) {
+                if (producerId !== data.match_market.producer_id && pdown) {
                     setPdown(false);
                 }
-                if(data.match_market.producer_id){
+                console.log("UNDEFINED PRODUCER ID  ", data)
+                if (data.match_market.producer_id) {
                     setProducerId(data.match_market.producer_id);
                 }
             };
-            socketRef.current?.on(socketEvent, handleSocketData);        
-        // producer status
-        socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
-            if(data.producer_id == producerId) {
-                setPdown(data.disabled);
-            }
-        });
-    }
+            socketRef.current?.on(socketEvent, handleSocketData);
+            // producer status
+            socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
+                console.log("PRODUCER DATA::: ", data);
+                console.log("Prev Producer   : ::  ", producerId)
+                if (data.producer_id == producerId) {
+                    setPdown(data.disabled);
+                }
+            });
+        }
     }, [socket.connected, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
 
     // useEffect(() => {
@@ -688,44 +692,44 @@ const MarketRow = (props) => {
     return (
         <>
             {(
-                ["active", "suspended"].includes(marketStatus?.toLowerCase()) 
-                && mutableMkts?.some(odd => ["active","suspended"].includes(odd?.market_status?.toLowerCase()))
-            ) 
-                && 
-            <div className="top-matches event-row">
-                <Row className="top-matches header">
-                    {live &&
-                        <div
-                            style={{
-                                width: "2px",
-                                marginTop: "-5px",
-                                marginRight: "5px",
-                                opacity: 0.6,
-                                paddingLeft: 0
-                            }}>
-                            <ColoredCircle color="#cc5500" />
-                        </div>
-                    }
-                    <span className='col-9'>{marketDetail.name}</span>
-                </Row>
+                ["active", "suspended"].includes(marketStatus?.toLowerCase())
+                && mutableMkts?.some(odd => ["active", "suspended"].includes(odd?.market_status?.toLowerCase()))
+            )
+                &&
+                <div className="top-matches event-row">
+                    <Row className="top-matches header">
+                        {live &&
+                            <div
+                                style={{
+                                    width: "2px",
+                                    marginTop: "-5px",
+                                    marginRight: "5px",
+                                    opacity: 0.6,
+                                    paddingLeft: 0
+                                }}>
+                                <ColoredCircle color="#cc5500" />
+                            </div>
+                        }
+                        <span className='col-9'>{marketDetail.name}</span>
+                    </Row>
 
-                {mutableMkts && mutableMkts?.map((mkt_odds) => {
-                    return (<>
-                        {(["active", "suspended"].includes(mkt_odds?.market_status?.toLowerCase())) 
-                        && <Col className="match-detail" style={{ width: width, float: "left" }}>
-                            {/* <div>{mkt_odds.market_status}</div> */}
-                            <MktOddsButton
-                                match={match}
-                                mktodds={mkt_odds}
-                                producerId={producerId}
-                                live={live}
-                                pdown={pdown}
-                            />
-                        </Col>}
-                    </>)
-                })
-                }
-            </div>}
+                    {mutableMkts && mutableMkts?.map((mkt_odds) => {
+                        return (<>
+                            {(["active", "suspended"].includes(mkt_odds?.market_status?.toLowerCase()))
+                                && <Col className="match-detail" style={{ width: width, float: "left" }}>
+                                    {/* <div>{mkt_odds.market_status}</div> */}
+                                    <MktOddsButton
+                                        match={match}
+                                        mktodds={mkt_odds}
+                                        producerId={producerId}
+                                        live={live}
+                                        pdown={pdown}
+                                    />
+                                </Col>}
+                        </>)
+                    })
+                    }
+                </div>}
         </>
     )
 }
@@ -761,34 +765,34 @@ const BetNowButton = (props) => {
 }
 
 const MatchMarket = (props) => {
-    const { 
-        initialMatch, 
-        marketName, 
-        marketId, 
+    const {
+        initialMatch,
+        marketName,
+        marketId,
         buttonCount,
-        special_bet_value, 
-        jackpot, 
+        special_bet_value,
+        jackpot,
         jackpotstatus,
         live,
         transitioned,
         setTransitioned,
         producers,
         availableMarkets } = props
-    const [match, ] = useState({ ...initialMatch });
+    const [match,] = useState({ ...initialMatch });
     const [pdown, setPdown] = useState(false);
-    const [btnCount, ] = useState(buttonCount);
+    const [btnCount,] = useState(buttonCount);
     const [outcomes, setOutcomes] = useState(
         initialMatch?.odds?.[marketName]?.outcomes.sort((a, b) =>
             a?.outcome_id - b?.outcome_id) || []);
     const [producerId, setProducerId] = useState(initialMatch?.odds?.[marketName]?.producer_id);
-    
+
     const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status);
 
     useEffect(() => {
         console.log("PRODUCER ID   ::: ", initialMatch?.odds?.[marketName]?.producer_id);
         let pId = initialMatch?.odds?.[marketName]?.producer_id
         const producer = producers.find(producer => producer.producer_id === pId);
-        if(producer) {
+        if (producer) {
             setPdown(producer.disabled);
         }
     }, [])
@@ -810,7 +814,7 @@ const MatchMarket = (props) => {
             socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
                 if (data.match_market.special_bet_value == special_bet_value) {
                     if (Object.keys(data.event_odds).length > 0) {
-                        setOutcomes((prev) =>{
+                        setOutcomes((prev) => {
                             let newOdds = Object.values(data.event_odds).sort(
                                 (a, b) => a.outcome_id - b.outcome_id
                             )
@@ -819,38 +823,40 @@ const MatchMarket = (props) => {
                             });
                             return newOdds
                         })
-                        
-                    } 
+
+                    }
                     setMarketStatus(data.match_market.status)
                 }
 
-                if(producerId !== data.match_market.producer_id && pdown) {
+                if (producerId !== data.match_market.producer_id && pdown) {
                     setPdown(false);
                 }
-                if(data.match_market.producer_id){
-                    setProducerId((prevId) =>{
-                    if (
-                        data.match_market.producer_id == 1
-                        && !transitioned
-                        && !live
-                    ) {
-                        setTransitioned(true);
-                    }
-                    return data?.match_market?.producer_id
-                });}
+                if (data.match_market.producer_id) {
+                    setProducerId((prevId) => {
+                        if (
+                            data.match_market.producer_id == 1
+                            && !transitioned
+                            && !live
+                        ) {
+
+                            setTransitioned(true);
+                        }
+                        return data?.match_market?.producer_id
+                    });
+                }
             });
         }
-        
+
 
 
         // for match producer down message
         socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
             console.log("THE RECEIVED PRODUCER  ", data);
             console.log("THE CURRENT PRODUCER :: ", producerId);
-            if(data.producer_id == producerId) {
+            if (data.producer_id == producerId) {
                 setPdown(data.disabled);
             }
-            
+
         });
 
         return () => {
@@ -860,32 +866,32 @@ const MatchMarket = (props) => {
     return (
         <>
             {
-                ((!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live) 
-                &&
-                market_status == "Active") && outcomes?.map((marketOdd, idx) => {
-                    let matchWithDetails = { 
-                        ...match, 
-                        market_status: market_status, 
-                        ...marketOdd, 
-                        producer_id: producerId || match?.odds?.[marketName]?.producer_id
-                    };
-                    delete matchWithDetails.odds;
+                ((!jackpot || (jackpot && jackpotstatus == "ACTIVE") || live)
+                    &&
+                    market_status == "Active") && outcomes?.map((marketOdd, idx) => {
+                        let matchWithDetails = {
+                            ...match,
+                            market_status: market_status,
+                            ...marketOdd,
+                            producer_id: producerId || match?.odds?.[marketName]?.producer_id
+                        };
+                        delete matchWithDetails.odds;
 
-                    return (
-                        marketOdd.odd_active == 1 
-                             && marketOdd.odd_value 
-                             && (!pdown && marketOdd.odd_value !== 'NaN') || (jackpot && jackpotstatus == "ACTIVE")
-                            ? 
-                            <>
-                                <OddButton
-                                    key={`match-with-detail-market-${idx}`} 
-                                    match={matchWithDetails}
-                                    mkt={marketName}
-                                    live={live}
-                                    jackpot={jackpot} />
-                            </>
-                            : <><LockedButton /></>)
-                })
+                        return (
+                            marketOdd.odd_active == 1
+                                && marketOdd.odd_value
+                                && (!pdown && marketOdd.odd_value !== 'NaN') || (jackpot && jackpotstatus == "ACTIVE")
+                                ?
+                                <>
+                                    <OddButton
+                                        key={`match-with-detail-market-${idx}`}
+                                        match={matchWithDetails}
+                                        mkt={marketName}
+                                        live={live}
+                                        jackpot={jackpot} />
+                                </>
+                                : <><LockedButton /></>)
+                    })
             }
 
             {
@@ -911,8 +917,8 @@ const MatchRow = (props) => {
         jackpotstatus,
         setReload,
         subTypes } = props;
-    const [match, setMatch] = useState({...initialMatch})
-    const [availableMarkets, ] = useState(subTypes || [1, 10, 18])
+    const [match, setMatch] = useState({ ...initialMatch })
+    const [availableMarkets,] = useState(subTypes || [1, 10, 18])
     const [updatedMatchStatus, setUpdatedMatchStatus] = useState(initialMatch?.match_status);
     const [updatedMatchTime, setUpdatedMatchTime] = useState({});
     const [updatedMatchScore, setUpdatedMatchScore] = useState();
@@ -930,14 +936,14 @@ const MatchRow = (props) => {
     }
 
 
-    
+
     useEffect(() => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
         socket.emit('user.match.listen', match?.parent_match_id);
         socket.on(`surebet#${match?.parent_match_id}`, (data) => {
-            if(data.message_type == "betstop") {
-                if(data.markets == "all") {
-                    setMatch((prevMatch) =>{
+            if (data.message_type == "betstop") {
+                if (data.markets == "all") {
+                    setMatch((prevMatch) => {
                         let newOdds = prevMatch.odds;
                         let newOddsMatch = prevMatch
                         Object.keys(newOdds).forEach(key => {
@@ -951,7 +957,7 @@ const MatchRow = (props) => {
                 } else {
                     let marketIds = data.markets.split(",");
                     marketIds.forEach(item => {
-                        setMatch((prevMatch) =>{
+                        setMatch((prevMatch) => {
                             let newOdds = prevMatch.odds;
                             let newOddsMatch = prevMatch
                             Object.keys(newOdds).forEach(key => {
@@ -992,20 +998,20 @@ const MatchRow = (props) => {
         return (
             <>
                 {
-                starttime == '0' 
-                ?
-                <span className=''>Not  Started</span> 
-                :
-                <span><span className='text-blue-700'>{diffHrs > 0 && diffHrs + " Hrs"} {startDiff >= 0 && diffMins + " Mins"}</span> to start</span>
-                
-            }
-                
+                    starttime == '0'
+                        ?
+                        <span className=''>Not  Started</span>
+                        :
+                        <span><span className='text-blue-700'>{diffHrs > 0 && diffHrs + " Hrs"} {startDiff >= 0 && diffMins + " Mins"}</span> to start</span>
+
+                }
+
             </>
         )
     }
     return (
         <>
-            { (updatedMatchStatus?.toLowerCase()?.trim() !== "ended" && !transitioned) &&
+            {(updatedMatchStatus?.toLowerCase()?.trim() !== "ended" && !transitioned) &&
                 <div className="top-matches d-flex" key={"match-list-" + match?.match_id}>
                     <div className="hidden md:flex col-sm-2 col-xs-12 pad left-text" key="21">
                         {updatedLive &&
@@ -1025,23 +1031,23 @@ const MatchRow = (props) => {
                                 }
                             </span>
                             {
-                            !live 
-                            ?
-                            <>ID:  {match?.game_id} </>
-                            : 
-                            <span className='text-red-500 ml-2'>
-                                {updatedMatchTime?.minutes == 90 
-                                ?
-                                    "90:00+" 
-                                :
-                                    <TimeCounter minutes={updatedMatchTime?.minutes} seconds={updatedMatchTime?.seconds} />
-                                }
-                                
-                            </span>
+                                !live
+                                    ?
+                                    <>ID:  {match?.game_id} </>
+                                    :
+                                    <span className='text-red-500 ml-2'>
+                                        {updatedMatchTime?.minutes == 90
+                                            ?
+                                            "90:00+"
+                                            :
+                                            <TimeCounter minutes={updatedMatchTime?.minutes} seconds={updatedMatchTime?.seconds} />
+                                        }
+
+                                    </span>
                             }
                         </div>
                     </div>
-                    
+
                     <div className="col-md-2 col-sm-4 col-xs-12 match-detail-container" key="23">
                         <Link to={(jackpot) ? '#' : `/match/${live ? 'live/' : ""}` + match?.match_id}>
                             <div className="d-flex flex-column primary-text">
@@ -1090,18 +1096,18 @@ const MatchRow = (props) => {
 
                         </div>
 
-                        
+
                         {
                             // Only soccer has 3 markets
                             // hence a control for the soccer
                             initialMatch?.sport_name?.toLowerCase() == "soccer" &&
                             <>
-                                <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">
-                                    <MatchMarket 
-                                        initialMatch={match} 
-                                        marketName={"1x2"} 
-                                        marketId={1} 
-                                        special_bet_value = ""
+                                <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content"} ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
+                                    <MatchMarket
+                                        initialMatch={match}
+                                        marketName={"1x2"}
+                                        marketId={1}
+                                        special_bet_value=""
                                         jackpot={jackpot}
                                         jackpotstatus={jackpotstatus}
                                         live={updatedLive}
@@ -1109,18 +1115,18 @@ const MatchRow = (props) => {
                                         setTransitioned={setTransitioned}
                                         betStop={betStop}
                                         producers={producers}
-                                        availableMarkets={availableMarkets}                                
+                                        availableMarkets={availableMarkets}
                                     />
                                     {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
                                 </div>
 
                                 <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="223">
-                                    <MatchMarket 
-                                        initialMatch={match} 
-                                        marketName={"Double Chance"} 
+                                    <MatchMarket
+                                        initialMatch={match}
+                                        marketName={"Double Chance"}
                                         marketId={10}
                                         betStop={betStop}
-                                        special_bet_value = ""
+                                        special_bet_value=""
                                         jackpot={jackpot}
                                         transitioned={transitioned}
                                         setTransitioned={setTransitioned}
@@ -1128,43 +1134,43 @@ const MatchRow = (props) => {
                                         live={updatedLive}
                                         producers={producers}
                                         availableMarkets={availableMarkets}
-                                    
+
                                     />
                                 </div>
 
                                 <div className={`${(live && (match?.score == "-" || !match?.score))} ${live && 'live-group-buttons'} hidden md:flex c-btn-group align-self-center`} key="224">
-                                    <MatchMarket 
-                                        initialMatch={match} 
-                                        marketName={"Total"} 
+                                    <MatchMarket
+                                        initialMatch={match}
+                                        marketName={"Total"}
                                         marketId={18}
                                         transitioned={transitioned}
                                         setTransitioned={setTransitioned}
                                         special_bet_value="2.5"
-                                        buttonCount={2} 
+                                        buttonCount={2}
                                         jackpot={jackpot}
                                         jackpotstatus={jackpotstatus}
                                         live={updatedLive}
                                         betStop={betStop}
                                         producers={producers}
                                         availableMarkets={availableMarkets}
-                                        
-                                        />
+
+                                    />
                                 </div>
                             </>
                         }
 
                         {
-                        
+
                             initialMatch?.sport_name?.toLowerCase() !== "soccer" &&
                             Object.keys(match?.odds || [])?.map((odd, idx) => {
                                 return (
-                                    <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content" } ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}` } key="222">
-                                        <MatchMarket 
-                                            initialMatch={match} 
-                                            marketName={odd} 
-                                            marketId={1} 
-                                            buttonCount={three_way ? 3 : 2}  
-                                            special_bet_value = ""
+                                    <div className={`${match?.sport_name?.toLowerCase() == "soccer" ? "" : "single-market-content"} ${(live && (match?.score == "-" || match?.score == null))} ${live && 'live-group-buttons'} c-btn-group align-self-center ${jackpot && "is-jackpot-bet-group-btns"} ${match?.outcome && "is-outcome"}`} key="222">
+                                        <MatchMarket
+                                            initialMatch={match}
+                                            marketName={odd}
+                                            marketId={1}
+                                            buttonCount={three_way ? 3 : 2}
+                                            special_bet_value=""
                                             jackpot={jackpot}
                                             jackpotstatus={jackpotstatus}
                                             live={updatedLive}
@@ -1174,12 +1180,12 @@ const MatchRow = (props) => {
                                             betStop={betStop}
                                             availableMarkets={availableMarkets}
                                         />
-                                    {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
-                                </div>
+                                        {(jackpot && jackpotstatus == "INACTIVE") && <>{match?.outcome || "--"} </>}
+                                    </div>
                                 )
                             })
-                        
-                        }                 
+
+                        }
 
                     </div>
 
@@ -1197,9 +1203,9 @@ const MatchRow = (props) => {
 
 export const MarketList = (props) => {
 
-    const { live, initialMatchwithmarkets, producers , betstopMessage, setBetstopMessage} = props;
+    const { live, initialMatchwithmarkets, producers, betstopMessage, setBetstopMessage } = props;
     const [marketsFilter, setMarketsFilter] = useState(null);
-    const [matchwithmarkets, setMatchWithMarkets] = useState({...initialMatchwithmarkets})
+    const [matchwithmarkets, setMatchWithMarkets] = useState({ ...initialMatchwithmarkets })
 
     const handleGameSocket = (type, gameId, sub_type_id) => {
         if (type == "listen" && socket?.connected) {
@@ -1214,7 +1220,7 @@ export const MarketList = (props) => {
     }
 
     useEffect(() => {
-        setMatchWithMarkets({...initialMatchwithmarkets});
+        setMatchWithMarkets({ ...initialMatchwithmarkets });
         return () => {
         }
     }, [initialMatchwithmarkets]);
@@ -1253,7 +1259,7 @@ export const MarketList = (props) => {
         return (
             <div className='flex match-markets-filter'>
                 {marketFilters?.map((item, idx) => (
-                    <div 
+                    <div
                         className={`cursor-pointer item capitalize ${marketsFilter == item ? "active" : ""}`}
                         onClick={() => setMarketsFilter(item)}>{item?.name}
                     </div>
@@ -1286,12 +1292,12 @@ export const MarketList = (props) => {
 
                     return (["active", "suspended"].includes(markets?.market_status.toLowerCase()) && markets.outcomes.length > 0) &&
                         <MarketRow
-                            betstopMessage = {betstopMessage}
-                            setBetstopMessage = {setBetstopMessage}
+                            betstopMessage={betstopMessage}
+                            setBetstopMessage={setBetstopMessage}
                             market_id={mkt_id}
-                            markets={markets?.outcomes?.sort((a, b) => 
+                            markets={markets?.outcomes?.sort((a, b) =>
                                 a?.special_bet_value - b?.special_bet_value || a?.outcome_id - b?.outcome_id
-                             )}
+                            )}
                             width={markets.outcomes.length == 3 ? "33.333%" : "50%"}
                             match={matchwithmarkets}
                             marketDetail={markets}
@@ -1405,7 +1411,7 @@ const MatchList = (props) => {
     useEffect(() => {
         dispatch({ type: "SET", key: "matchlisttype", payload: "normal" });
         return () => {
-            
+
             dispatch({ type: "DEL", key: "matchlisttype" });
         }
     }, [matches]);
@@ -1427,7 +1433,7 @@ const MatchList = (props) => {
                     Object.entries(matches).map(([key, match]) => (
                         match?.match_status?.toLowerCase() !== "ended" &&
 
-                            <MatchRow
+                        <MatchRow
                             initialMatch={match}
                             key={match?.parent_match_id}
                             live={live}
