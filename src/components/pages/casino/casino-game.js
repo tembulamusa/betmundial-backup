@@ -67,7 +67,6 @@ const CasinoGame = (props) => {
             if(sport_image.trim() == "") {
                 sport_image = require(`../../../assets/img/casino/default.png`);  
             }
-
             if (game?.provider_name.toLowerCase() == "aviatrix") {
                 sport_image = require("../../../assets/img/casino/aviatrix/aviatrix.jpg")
             }
@@ -84,10 +83,31 @@ const CasinoGame = (props) => {
                 style={{}}
                 className="game-image-wrapper"       
                 key={game.game_id}>
-                <LazyLoadImage src={getCasinoImageIcon(game.image_url)}
+                <LazyLoadImage id={game?.game_id} src={getCasinoImageIcon(game.image_url)}
                                 className={'virtual-game-image'}/>
                 
                 {alertMessage && <div className="game-launch-issue"><Alert message={alertMessage} /></div>}
+
+                {
+                    game?.dg_available 
+                    && 
+                    <div className="pragmatic">
+                        <div id={`betlimit-${ game?.['game_id']}`} className="prag-bet-limits">
+                            $0.1 - $5000
+                        </div>
+                        <div id={`table-${ game['game_id']}`} className="table-prag">
+                            <div className="prag-bet-table" title="Table Open">
+                                
+                            </div>
+                        </div>
+                        <div id={`seated-players-${ game['game_id'] }`} class="prag-bet-players">
+                            <img src={ require("../../../assets/img/casino/pragmatic/user.svg") } alt="" /> <span
+                                id={`seated-player-num-${ game['game_id']}`}></span>
+                        </div>
+                        <div id={`result-${game['game_id'] }`} class="prag-bet-result-holder flex">
+                      </div>
+                    </div>
+                }
             </div>
             <p className={'py-2 font-[500] text-elipsis text-gray-700'}>{game?.game_name}</p>                  
             <div className="game-buttons">

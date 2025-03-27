@@ -322,3 +322,39 @@
 
     width: 180px !important;
 }
+
+
+.pragmatic {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    padding-top: 7px;
+  }
+  .prag-bet-result-holder {
+    color: white;
+    /* font-weight: bold; */
+    scrollbar-width: none !important;
+    scrollbar-color: transparent transparent;
+    overflow: auto;
+    width: 100%;
+  }
+  .prag-bet-result {
+    width: 36px;
+    height: 28px;
+    display: inline-block;
+    margin-bottom: 4px;
+    margin-right: 5px;
+    margin-left: 4px;
+    border-radius: 5px;
+    overflow: hidden;
+    /* float: left; */
+    text-align: center;
+    padding: 5px;
+    font-size: 10px;
+    text-wrap: nowrap;
+    display: inline-block;
+  }
