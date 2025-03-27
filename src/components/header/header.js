@@ -51,32 +51,12 @@ const Header = (props) => {
         if (user) {
             const expirationTime = Date.now() + 1000 * 60 * 60 * 3; 
             setLocalStorage("user", { ...user, expirationTime }, expirationTime);
-            // dispatch({ type: "SET", key: "user", payload: user });
         }
     }, [user]);
 
 
     useEffect(() => {
-
-        
-        // Redo this stuff with ALEXIS
-        const checkSession = () => {
-            const storedUser = getFromLocalStorage("user");
-            const currentTime = Date.now();
-    
-            if (storedUser && storedUser.expirationTime <= currentTime) {
-                // Session expired
-                localStorage.removeItem("user");
-                if(state?.user) {
-                    dispatch({ type: "DEL", key: "user" });
-                }
-                // navigate("/");
-            }
-        };
-    
-        const interval = setInterval(checkSession, 60000); 
-        return () => clearInterval(interval);
-
+        handleTokenRefresh();
     }, []);
     
     const updateUserOnHistory = async() => {
@@ -109,18 +89,50 @@ const Header = (props) => {
                 updateUserOnHistory()
             }
         }
-    } ,3000);
+    } ,user ? 3000 : null);
+
+
     
+    const handleTokenRefresh = () => {
+        if (!user) {
+            return false;
+        }
+        let endpoint = "/v2/user/token/refresh";
+        let values = {refresh_token: user?.refresh_token}
+        makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
+            console.log("THE REFRESH RESPONSE ::: ", response);
+
+            if (status == 200 || status == 201 || status == 204) {
+                if (response.status == 200 || response.status == 201) {
+                    setUser(response?.data);
+                } else {
+                    removeItem("user");
+                    setUser(null);
+                    dispatch({type:"DEL", key:"user"});
+                    dispatch({type:"SET", key:"showloginmodal", payload: true});
+                    dispatch({type:"SET", key:"sessionMessage", payload: "User Session Expired. Please Login Again"})
+                    
+                }
+            } else {
+
+            }
+        })
+    }
+
+    useInterval( async () => {
+        if(user) {
+            handleTokenRefresh();
+        };
+    } , user ? 5 * 60 * 1000 : null);
 
     useEffect(()=> {
         if(user) {
             if (socket.connected) {
                 socket.emit('user.profile', user?.profile_id);
             }
-
             socket.on(`user#profile#${user?.profile_id}`, (data) => {
                 setUser({...user, balance: data.balance, bonus_balance: data.bonus})
-            })
+            });
         }
     }, [socket.connected, user])
 

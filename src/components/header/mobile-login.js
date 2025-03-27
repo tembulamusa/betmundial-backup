@@ -90,6 +90,8 @@ const BodyLogin = (props) => {
                     if (response?.result == "User account not verified") {
                         dispatch({type:"SET", key:"regmsisdn", payload:values.msisdn})
                         setAlertVerifyMessage({status: 400, message:response.result})
+                    } else {
+                        setGeneralErrorMessage({status: 400, message:response.result})
                     }
                 }
             } else {
@@ -97,6 +99,8 @@ const BodyLogin = (props) => {
                     if (response?.result == "Failed") {
                         setGeneralErrorMessage({status: 400, message: response.error.description})
                     }
+                } else {
+                    console.log("THE LOG IN DID NOT GO THROUGH  :::  ", response);
                 }
                 if (response?.result == "User account not verified") {
                     setAlertVerifyMessage({status: 400, message:response.result})
@@ -137,7 +141,6 @@ const BodyLogin = (props) => {
     const navigateAway = (url) => {
         navigate(url)
     }
-
     const MyLoginForm = (props) => {
         const {isValid, errors, values, submitForm, setFieldValue} = props;
         const [showPassword, setShowPassword] = useState(false);
@@ -161,6 +164,12 @@ const BodyLogin = (props) => {
         return (
             <div className='mt-5 mx-auto w-11/12' style={{ maxWidth: '600px'}}>
                 <Form className="">
+                    {state?.sessionMessage 
+                    && 
+                    <div className='alert alert-warning my-4'>
+                        {state?.sessionMessage}
+                    </div>
+                    }
                     <Row>
                         <div className="px-0">
                             <label className='modal-label'>Mobile Phone</label>

@@ -6,6 +6,8 @@ import { MdOutlineClose } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { isMobile } from "react-device-detect";
 import makeRequest from "../../utils/fetch-request";
+import { MdFullscreen } from "react-icons/md";
+
 
 const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -119,9 +121,10 @@ const CasinoLaunchedGame = (props) => {
                             </span>
                         </div>
                         <div className="dismiss-casino-game col-2 mx-auto">
-                            <button
-                                className="px-5 py-1 float-end my-1 rounded-md border-gray-50 bg-[rgba(255,255,255,0.2)]" onClick={() => fullScreen("view-full")}>
-                                Fullscreen
+                            <button 
+                                className="float-end px-2 my-2 rounded-md border border-gray-50 bg-[rgba(255,255,255,0.2)]" 
+                                onClick={() => fullScreen("view-full")}>
+                                    Fullscreen <MdFullscreen size={20} className="inline-block" />
                             </button>
                             {/* <span
                                 className="casino-page-close cursor-pointer"
