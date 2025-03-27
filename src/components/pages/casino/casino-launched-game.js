@@ -65,7 +65,8 @@ const CasinoLaunchedGame = (props) => {
 
     useEffect(() => {
         dispatch({ type: "SET", key: "iscasinopage", payload: true });
-
+        dispatch({ type: "SET", key: "hideBigIconNav", payload: true });
+        
         if (surePopular) {
             // New way: Handle advertised games
             const gameId = findGameId(provider, gameName);
