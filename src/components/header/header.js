@@ -97,7 +97,7 @@ const Header = (props) => {
         if (!user) {
             return false;
         }
-        let endpoint = "/v2/user/token/refresh";
+        let endpoint = "/v2/auth/token/refresh";
         let values = {refresh_token: user?.refresh_token}
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
             console.log("THE REFRESH RESPONSE ::: ", response);
