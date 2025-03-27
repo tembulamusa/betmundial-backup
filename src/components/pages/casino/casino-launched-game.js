@@ -144,9 +144,9 @@ const CasinoLaunchedGame = (props) => {
                     width="100%"
                     height="100%"
                     src={noStateGame || "about:blank"}
-                    allowFullscreen={true}
-                    webkitAllowFullscreen={true}
-                    mozAllowFullscreen={true}
+                    allowFullScreen
+                    webkitAllowFullScreen
+                    mozAllowFullScreen
                 ></iframe>
             </div>
         </>
