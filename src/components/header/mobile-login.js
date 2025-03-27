@@ -84,6 +84,8 @@ const BodyLogin = (props) => {
         let endpoint = '/v2/auth/login';
         setIsLoading(true)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
+
+            console.log("THE WHOLE LOGIN RESPONSE  :::  ", status, "  THE RESPONSE  ::: ", response);
             if (status == 200 || status == 201 || status == 204) {
                 if (response.status == 200 || response.status == 201) {
                     setMessage({user:response?.data, status:200});
@@ -91,6 +93,8 @@ const BodyLogin = (props) => {
                     if (response?.result == "User account not verified") {
                         dispatch({type:"SET", key:"regmsisdn", payload:values.msisdn})
                         setAlertVerifyMessage({status: 400, message:response.result})
+                    } else {
+                        setGeneralErrorMessage({status: 400, message:response.result})
                     }
                 }
             } else {
@@ -98,6 +102,8 @@ const BodyLogin = (props) => {
                     if (response?.result == "Failed") {
                         setGeneralErrorMessage({status: 400, message: response.error.description})
                     }
+                } else {
+                    console.log("THE LOG IN DID NOT GO THROUGH  :::  ", response);
                 }
                 if (response?.result == "User account not verified") {
                     setAlertVerifyMessage({status: 400, message:response.result})
