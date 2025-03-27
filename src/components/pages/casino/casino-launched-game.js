@@ -140,7 +140,7 @@ const CasinoLaunchedGame = (props) => {
                 <iframe
                     id="casinoIframe"
                     allow="autoplay; clipboard-write;"
-                    title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
+                    title={state?.casinolaunch?.game?.game?.game_name || gameName}
                     width="100%"
                     height="100%"
                     src={noStateGame || "about:blank"}
