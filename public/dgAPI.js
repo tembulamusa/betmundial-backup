@@ -135,6 +135,10 @@ let xlg = {
                     }
                 } else if (oneResult.hasOwnProperty("totalSum")) {
                     content = oneResult.totalSum;
+                } else if (oneResult.hasOwnProperty("winBets")) {
+                    content = oneResult.winBets.length > 0 ? oneResult.winBets[0].mul : "-";
+                } else {
+                    console.log("Result not factored ", oneResult);
                 }
 
                 innerHtml = innerHtml + content + '</div>';
