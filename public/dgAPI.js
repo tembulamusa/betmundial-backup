@@ -68,7 +68,7 @@ let xlg = {
         if (data.hasOwnProperty("tableOpen")) {
 
             if (data.tableOpen) {
-                $("#table-" + gameId).html('<div class="prag-bet-table" style="background:#000000; width: 50px; margin: auto; font-size:10px" title="Table Open uppercase">OPEN</div>')
+                $("#table-" + gameId).html('<div class="prag-bet-table" style="background:#000000; width: 40px; margin: auto; font-size:10px" title="Table Open uppercase">OPEN</div>')
                 $("#table-" + gameId).css("display", "block")
             } else {
                 $("#table-" + gameId).html('<div class="prag-bet-table" style="background:red;" title="Table Closed">C</div>')
