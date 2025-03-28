@@ -137,6 +137,10 @@ let xlg = {
                     content = oneResult.totalSum;
                 } else if (oneResult.hasOwnProperty("winBets")) {
                     content = oneResult.winBets.length > 0 ? oneResult.winBets[0].mul : "-";
+                } else if (oneResult.hasOwnProperty("winBetSpot")) {
+                    content = oneResult.winBetSpot.length > 0 ? oneResult.winBetSpot[0].bonusGameMultiplier : "-";
+                } else if (oneResult.hasOwnProperty("boosterMul")) {
+                    content = oneResult.boosterMul.length > 0 ? oneResult.boosterMul[0].mul : "-";
                 } else {
                     console.log("Result not factored ", oneResult);
                 }
