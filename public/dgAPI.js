@@ -38,6 +38,7 @@ let xlg = {
     },
     // public
     onMessage: function (data) {
+        console.log("DG API MESSAGE  :::   ", data)
         // to fill
         let gameId = data.tableId;
         $("#" + gameId).attr("src", data.tableImage);
@@ -61,7 +62,7 @@ let xlg = {
 
         if (data.hasOwnProperty("totalSeatedPlayers")) {
 
-            $("#seated-player-num-" + gameId).html(data.totalSeatedPlayers)
+            $("#seated-player-num-" + gameId).html( '<span class="mr-1"><img class="mb-1 mr-2 inline-block fill-white" src="/seated-player.svg" width="12" /></span>' + data.totalSeatedPlayers)
             $("#seated-players-" + gameId).css("display", "block")
         }
 
