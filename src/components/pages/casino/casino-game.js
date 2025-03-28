@@ -97,7 +97,7 @@ const CasinoGame = (props) => {
                         </div>
                         <div id={`table-${game['game_id']}`} className="table-prag">
                             <div className="prag-bet-table" title="Table Closed">
-                                <img src={require("../../../assets/img/pad-lock.png")} alt="C" />
+                                <img src={require("../../../assets/img/pad-lock.png")} alt="C" style={{ margin: "auto" }} />
                             </div>
                         </div>
                         <div id={`seated-players-${game['game_id']}`} class="prag-bet-players">
