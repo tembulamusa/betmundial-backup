@@ -31,10 +31,10 @@ let xlg = {
                 self.tableId = tableId;
             }
             self.casinoId = casinoId;
-        } catch(err) {
+        } catch (err) {
             console.log(er)
         }
-        
+
     },
     // public
     onMessage: function (data) {
@@ -122,6 +122,10 @@ let xlg = {
                     if (!/\d/.test(content)) {
                         content = content.substring(0, 2).toUpperCase()
                     }
+                } else if (oneResult.hasOwnProperty("ball")) {
+
+                    content = oneResult.ball;
+
                 } else if (oneResult.hasOwnProperty("winner")) {
                     content = oneResult.winner;
                     if (content == "TIE") {
