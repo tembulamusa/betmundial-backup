@@ -108,9 +108,9 @@ let xlg = {
                     innerHtml = innerHtml + '<div class="prag-bet-result" style="background:' + oneResult.color + ';">';
                 } else {
                     if (i % 2 == 0) {
-                        innerHtml = innerHtml + '<div class="prag-bet-result" style="background:green;">';
+                        innerHtml = innerHtml + '<div class="prag-bet-result" style="background:#19084C;">';
                     } else {
-                        innerHtml = innerHtml + '<div class="prag-bet-result" style="background:red;">';
+                        innerHtml = innerHtml + '<div class="prag-bet-result" style="background:#E50654;">';
                     }
                 }
 
