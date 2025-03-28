@@ -71,11 +71,11 @@ let xlg = {
                 $("#table-" + gameId).html('<div class="prag-bet-table" style="background:#000000; width: 40px; margin: auto; font-size:10px" title="Table Open uppercase">OPEN</div>')
                 $("#table-" + gameId).css("display", "block")
             } else {
-                $("#table-" + gameId).html('<div class="prag-bet-table" style="background:red;" title="Table Closed"><img src="pad-lock.png" alt="C"/></div>')
+                $("#table-" + gameId).html('<div class="prag-bet-table" style="background:red;" title="Table Closed"><img src="pad-lock.png" width="32" alt="C"/></div>')
                 $("#table-" + gameId).css("display", "block")
             }
         } else {
-            $("#table-" + gameId).html('<div class="prag-bet-table" style="background:red;" title="Table Closed"><img src="pad-lock.png" alt="C"/></div>')
+            $("#table-" + gameId).html('<div class="prag-bet-table" style="background:red;" title="Table Closed"><img src="pad-lock.png" width="32" alt="C"/></div>')
             $("#table-" + gameId).css("display", "block")
         }
 
