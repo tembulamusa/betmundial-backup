@@ -31,10 +31,10 @@ let xlg = {
                 self.tableId = tableId;
             }
             self.casinoId = casinoId;
-        } catch(err) {
+        } catch (err) {
             console.log(er)
         }
-        
+
     },
     // public
     onMessage: function (data) {
@@ -61,19 +61,22 @@ let xlg = {
 
         if (data.hasOwnProperty("totalSeatedPlayers")) {
 
-            $("#seated-player-num-" + gameId).html(data.totalSeatedPlayers)
+            $("#seated-player-num-" + gameId).html( '<span class="mr-1"><img class="mb-1 mr-2 inline-block fill-white" src="/seated-player.svg" width="12" /></span>' + data.totalSeatedPlayers)
             $("#seated-players-" + gameId).css("display", "block")
         }
 
         if (data.hasOwnProperty("tableOpen")) {
 
             if (data.tableOpen) {
-                $("#table-" + gameId).html('<div class="prag-bet-table" title="Table Open">O</div>')
+                $("#table-" + gameId).html('<div class="prag-bet-table" style="background:#000000; width: 40px; margin: auto; font-size:10px" title="Table Open uppercase">OPEN</div>')
                 $("#table-" + gameId).css("display", "block")
             } else {
-                $("#table-" + gameId).html('<div class="prag-bet-table" style="background:red;" title="Table Closed">C</div>')
+                $("#table-" + gameId).html('<div class="prag-bet-table" title="Table Closed"><img src="lock-red.png" width="18" alt="C" style="margin:auto;"/></div>')
                 $("#table-" + gameId).css("display", "block")
             }
+        } else {
+            $("#table-" + gameId).html('<div class="prag-bet-table" title="Table Closed"><img src="lock-red.png" width="18" alt="C" style="margin:auto;"/></div>')
+            $("#table-" + gameId).css("display", "block")
         }
 
         if (data.hasOwnProperty("last20Results") || data.hasOwnProperty("gameResult")) {
@@ -108,9 +111,9 @@ let xlg = {
                     innerHtml = innerHtml + '<div class="prag-bet-result" style="background:' + oneResult.color + ';">';
                 } else {
                     if (i % 2 == 0) {
-                        innerHtml = innerHtml + '<div class="prag-bet-result" style="background:green;">';
-                    } else {
                         innerHtml = innerHtml + '<div class="prag-bet-result" style="background:red;">';
+                    } else {
+                        innerHtml = innerHtml + '<div class="prag-bet-result" style="background:black;">';
                     }
                 }
 
@@ -122,6 +125,10 @@ let xlg = {
                     if (!/\d/.test(content)) {
                         content = content.substring(0, 2).toUpperCase()
                     }
+                } else if (oneResult.hasOwnProperty("ball")) {
+
+                    content = oneResult.ball;
+
                 } else if (oneResult.hasOwnProperty("winner")) {
                     content = oneResult.winner;
                     if (content == "TIE") {
@@ -131,6 +138,14 @@ let xlg = {
                     }
                 } else if (oneResult.hasOwnProperty("totalSum")) {
                     content = oneResult.totalSum;
+                } else if (oneResult.hasOwnProperty("winBets")) {
+                    content = oneResult.winBets.length > 0 ? oneResult.winBets[0].mul : "-";
+                } else if (oneResult.hasOwnProperty("winBetSpot")) {
+                    content = oneResult.winBetSpot.length > 0 ? oneResult.winBetSpot[0].bonusGameMultiplier : "-";
+                } else if (oneResult.hasOwnProperty("boosterMul")) {
+                    content = oneResult.boosterMul.length > 0 ? oneResult.boosterMul[0].mul : "-";
+                } else {
+                    console.log("Result not factored ", oneResult);
                 }
 
                 innerHtml = innerHtml + content + '</div>';

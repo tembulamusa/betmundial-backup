@@ -6,6 +6,8 @@ import { MdOutlineClose } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { isMobile } from "react-device-detect";
 import makeRequest from "../../utils/fetch-request";
+import { MdFullscreen } from "react-icons/md";
+
 
 const CasinoLaunchedGame = (props) => {
     const [state, dispatch] = useContext(Context);
@@ -63,7 +65,8 @@ const CasinoLaunchedGame = (props) => {
 
     useEffect(() => {
         dispatch({ type: "SET", key: "iscasinopage", payload: true });
-
+        dispatch({ type: "SET", key: "hideBigIconNav", payload: true });
+        
         if (surePopular) {
             // New way: Handle advertised games
             const gameId = findGameId(provider, gameName);
@@ -119,9 +122,10 @@ const CasinoLaunchedGame = (props) => {
                             </span>
                         </div>
                         <div className="dismiss-casino-game col-2 mx-auto">
-                            <button
-                                className="px-5 py-1 float-end my-1 rounded-md border-gray-50 bg-[rgba(255,255,255,0.2)]" onClick={() => fullScreen("view-full")}>
-                                Fullscreen
+                            <button 
+                                className="float-end px-2 my-2 rounded-md border border-gray-50 bg-[rgba(255,255,255,0.2)]" 
+                                onClick={() => fullScreen("view-full")}>
+                                    Fullscreen <MdFullscreen size={20} className="inline-block" />
                             </button>
                             {/* <span
                                 className="casino-page-close cursor-pointer"
@@ -135,15 +139,15 @@ const CasinoLaunchedGame = (props) => {
             )}
             <div className={`casino-launched-game-frame flex items-center justify-center ${state?.fullcasinoscreen && "h-[100vh]"}`}>
                 <iframe
-                    id="myIframe"
+                    id="casinoIframe"
                     allow="autoplay; clipboard-write;"
-                    title={state?.casinolaunch?.game?.game?.game_name + state?.casinolaunch?.game?.game?.id}
+                    title={state?.casinolaunch?.game?.game?.game_name || gameName}
                     width="100%"
                     height="100%"
                     src={noStateGame || "about:blank"}
-                    allowfullscreen
-                    webkitallowfullscreen
-                    mozallowfullscreen
+                    allowFullScreen
+                    webkitAllowFullScreen
+                    mozAllowFullScreen
                 ></iframe>
             </div>
         </>

@@ -40,6 +40,7 @@ const BetslipSubmitForm = (props) => {
     const [withholdingTax, setWithholdingTax] = useState(0);
     const [possibleWin, setPossibleWin] = useState(0);
     const [netWin, setNetWin] = useState(0);
+    const [bonus, setBonus] = useState(0);
     const [betslipkey, setBetslipKey] = useState(() => jackpot ? "jackpotbetslip": "betslip");
     const [ipInfo, setIpInfo] = useState({});
     const [totalGames, setTotalGames] = useState(0);
@@ -109,7 +110,7 @@ const BetslipSubmitForm = (props) => {
         if (Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0){
             setMessage({})
         }
-    }, [state?.betslip, state?.jackpotbetslip]);
+    }, [state?.betslip, state?.jackpotbetslip, state?.bonusCentage]);
 
     const successfulBetHeading = () => {
         let betType = "";
@@ -288,9 +289,11 @@ const BetslipSubmitForm = (props) => {
             }, 1);
             setTotalOdds(odds);
             
-            let stake_after_tax = (stake / 112.5) * 100
+            let stake_after_tax = (stake / 115) * 100
             let ext = stake - stake_after_tax;
             let raw_possible_win = stake_after_tax * Float(odds);
+            raw_possible_win += raw_possible_win * Float(parseInt(state?.bonusCentage || getFromLocalStorage("bonusCentage") || 0) / 100);
+            
             if (jackpot) {
                 raw_possible_win = jackpotData?.jackpot_amount
             }
@@ -304,9 +307,9 @@ const BetslipSubmitForm = (props) => {
             setExciseTax(Float(ext, 2));
             setStakeAfterTax(Float(stake_after_tax,2));
             setNetWin(nw > Float(5000000) ? Float(5000000) : Float(nw, 2));
-            setPossibleWin(Float(nw, 2));
+            setPossibleWin(Float(raw_possible_win, 2));
             setWithholdingTax(Float(wint, 2));
-
+            setBonus( Float(stake_after_tax * Float(odds) * Float(parseInt(state?.bonusCentage || getFromLocalStorage("bonusCentage") || 0) / 100), 2) )
             // update state espcially for the footer
             dispatch({type:"SET", key:"totalodds", payload: Float(odds)})
             dispatch({type:"SET", key:"slipnetwin", payload:Float(nw,2)})
@@ -485,7 +488,7 @@ const BetslipSubmitForm = (props) => {
                             </tr>}
 
                             <tr className="bet-win-tr hide-on-affix">
-                                <td className='opacity-70 pb-4'> Excise Tax (12.5%)</td>
+                                <td className='opacity-70 pb-4'> Excise Tax (15%)</td>
                                 <td className='text-right pb-4 pr-2'>KSH. <span id="tax">{formatNumber(exciseTax)} </span></td>
                             </tr>
                             </tbody>
@@ -502,7 +505,9 @@ const BetslipSubmitForm = (props) => {
                                     <>
                                         <tr className="in-blue-highlight secondary-text">
                                             <td className='py-3 px-3'>Bonus</td>
-                                            <td className='text-right py-3 px-3'>KES. <span id="tax">{0/*formatNumber(withholdingTax)*/}</span></td>
+                                            <td className='text-right py-3 px-3'>KES. 
+                                                <span id="tax"> {formatNumber(bonus)}</span>
+                                            </td>
                                         </tr>
                                         <tr className="bet-win-tr hide-on-affix opacity-70">
                                             <td className='px-3'> Win</td>

@@ -542,6 +542,7 @@ const MarketRow = (props) => {
     const [mutableMkts, setMutableMkts] = useState(
         [...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]
     );
+    
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
@@ -788,6 +789,7 @@ const MatchMarket = (props) => {
     const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status);
 
     useEffect(() => {
+        console.log("PRODUCER ID   ::: ", initialMatch?.odds?.[marketName]?.producer_id);
         let pId = initialMatch?.odds?.[marketName]?.producer_id
         const producer = producers.find(producer => producer.producer_id === pId);
         if (producer) {
@@ -871,7 +873,7 @@ const MatchMarket = (props) => {
                             ...match,
                             market_status: market_status,
                             ...marketOdd,
-                            producer_id: producerId || match?.odds?.[marketName]?.producer_id || live ? 1 : 3
+                            producer_id: producerId || match?.odds?.[marketName]?.producer_id
                         };
                         delete matchWithDetails.odds;
 
