@@ -122,6 +122,7 @@ const App = () => {
                             <Route exact path="/surebox-mines" element={<SureboxMines/>}/>
                             <Route exact path="/skip-rope" element={<SkipRopeIndex/>}/>
                             <Route exact path="/livescore" element={<LiveScore/>}/>
+                            <Route exact path="/promotions" element={<Promotions/>}/>
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
                             <Route exact path="/withdraw"

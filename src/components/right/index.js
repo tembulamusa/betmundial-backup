@@ -8,6 +8,8 @@ import Mpesa from "../../assets/img/mpesa-1.png";
 import Float from "../utils/mathematical-formulas";
 import MiniGames from './mini-games';
 import { Modal } from 'react-bootstrap';
+import makeRequest from '../utils/fetch-request';
+import { setLocalStorage } from '../utils/local-storage';
 
 const AlertMessage = (props) => {
   return (
@@ -178,7 +180,40 @@ const Right = (props) => {
   const { betslipValidationData, jackpotData } = props;
   const [state, dispatch] = useContext(Context);
   const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
-
+  const [bonusCentage, setBonusCentage] = useState(3);
+  const [dbWinMatrix, setDbWinMatrix] = useState({
+      "sgr_bonus_percent_29": "98",
+        "sgr_bonus_percent_27": "85",
+        "sgr_bonus_percent_28": "95",
+        "sgr_bonus_percent_9": "9",
+        "sgr_bonus_percent_10": "10",
+        "sgr_bonus_max_games": "20",
+        "sgr_bonus_percent_11": "14",
+        "sgr_bonus_percent_30": "100",
+        "sgr_bonus_percent_7": "7",
+        "sgr_bonus_percent_8": "8",
+        "sgr_bonus_percent_5": "5",
+        "sgr_bonus_percent_14": "22",
+        "sgr_bonus_percent_6": "6",
+        "sgr_bonus_percent_15": "26",
+        "sgr_bonus_percent_3": "3",
+        "sgr_bonus_percent_12": "15",
+        "sgr_bonus_percent_4": "4",
+        "sgr_bonus_percent_13": "16",
+        "sgr_bonus_percent_18": "38",
+        "sgr_bonus_percent_19": "46",
+        "sgr_bonus_percent_16": "30",
+        "sgr_bonus_enabled": "1",
+        "sgr_bonus_percent_17": "34",
+        "sgr_bonus_percent_21": "54",
+        "sgr_bonus_percent_22": "58",
+        "sgr_bonus_percent_20": "50",
+        "sgr_bonus_min_odds": "1.30",
+        "sgr_bonus_percent_25": "70",
+        "sgr_bonus_percent_26": "80",
+        "sgr_bonus_percent_23": "62",
+        "sgr_bonus_percent_24": "66"
+    });
   const showShareModalDialog = () => {
     if (!state?.user) {
       dispatch({ type: 'SET', key: 'showloginmodal', payload: true });
@@ -187,25 +222,46 @@ const Right = (props) => {
     }
   };
 
+  useEffect(() => {
+
+    dispatch({type:"SET", key:"bonusCentage", payload: bonusCentage});
+    setLocalStorage("bonusCentage", bonusCentage);
+  }, [bonusCentage])
+
+  const getDbWinMatrix = () => {
+    let endpoint = "/v2/sports/config/sgr";
+  
+    makeRequest({ url: endpoint, method: "GET", api_version: 2 }).then(([status, result]) => {
+      if (status == 200) {
+          if (result.status == 200) {
+
+          }
+        }
+        });
+      
+  }
+  useEffect(() => {
+      getDbWinMatrix();
+  }, []);
+
   const updateBongeBonusMessage = () => {
 
     let str_configs = state?.bgconfigs?.multibet_bonus_event_award_ratio?.split(",");
-    let odd_limit = state?.bgconfigs?.multibet_bonus_odd_limit || 1.25;
+    let odd_limit = dbWinMatrix?.sgr_bonus_min_odds || 1.30;
 
-    let win_matrix = {
-        3: 3, 4: 5, 5: 10, 6: 15, 7: 20, 8: 25, 9: 30, 10: 35, 11: 40, 12: 45, 13: 50, 14: 55
-    }
+    
 
-    let max_games = state?.bonusconfigs?.multibet_bonus_max_event_hard_limit || 14;
+    let max_games = dbWinMatrix?.sgr_bonus_max_games;
     let total_games = Object.values(state?.betslip||{}).filter(
         (slip) => slip.odd_value > (state?.bonusconfigs?.multibet_bonus_odd_limit || 1.25) ).length;
 
     if (total_games > max_games) {
         total_games = max_games;
     }
-    let centage = win_matrix[total_games];
-    if (!(total_games in win_matrix)) {
-        setBongeBonusMessage("Select 3 games or more above 1.25 to get a bonus")
+    let strConstruct = `sgr_bonus_percent_${total_games}`
+    let centage = total_games <= max_games ? dbWinMatrix[strConstruct] : "100";
+    if (!(strConstruct in dbWinMatrix)) {
+        setBongeBonusMessage("Select 3 games or more above 1.30 to get a bonus")
     }
 
     let bonusAdvice = "";
@@ -215,7 +271,7 @@ const Right = (props) => {
         bonusAdvice = "Add 1 more game of odds " + odd_limit + " to win a bonus of 3% on 3 games";
     } else {
         if (total_games > 2 && total_games <= max_games) {
-            var next_centage = win_matrix[total_games + 1]
+            var next_centage = dbWinMatrix[`sgr_bonus_percent_${total_games + 1}`]
             bonusAdvice = "Congratulations, You have won a bonus of "
                 + centage + "% on " + total_games + " games of "+ odd_limit + " odds"
                 + ". add 1 more game of "+ odd_limit +" odds to win a bonus of " + next_centage + "%";
@@ -224,8 +280,8 @@ const Right = (props) => {
                 + centage + "% on " + total_games + " games of more than " + odd_limit +  " odds";
         }
     }
-
     setBongeBonusMessage(bonusAdvice);
+    setBonusCentage(centage);
   }
 
   const BongeBetMarkupMessage = () => {
