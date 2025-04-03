@@ -38,7 +38,6 @@ let xlg = {
     },
     // public
     onMessage: function (data) {
-        console.log("DG API MESSAGE  :::   ", data)
         // to fill
         let gameId = data.tableId;
         $("#" + gameId).attr("src", data.tableImage);

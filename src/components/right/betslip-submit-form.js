@@ -292,7 +292,7 @@ const BetslipSubmitForm = (props) => {
             let stake_after_tax = (stake / 115) * 100
             let ext = stake - stake_after_tax;
             let raw_possible_win = stake_after_tax * Float(odds);
-            raw_possible_win += raw_possible_win * Float(parseInt(state?.bonusCentage || getFromLocalStorage("bonusCentage")) / 100);
+            raw_possible_win += raw_possible_win * Float(parseInt(state?.bonusCentage || getFromLocalStorage("bonusCentage") || 0) / 100);
             
             if (jackpot) {
                 raw_possible_win = jackpotData?.jackpot_amount
@@ -309,6 +309,7 @@ const BetslipSubmitForm = (props) => {
             setNetWin(nw > Float(5000000) ? Float(5000000) : Float(nw, 2));
             setPossibleWin(Float(raw_possible_win, 2));
             setWithholdingTax(Float(wint, 2));
+            setBonus( Float(stake_after_tax * Float(odds) * Float(parseInt(state?.bonusCentage || getFromLocalStorage("bonusCentage") || 0) / 100), 2) )
             // update state espcially for the footer
             dispatch({type:"SET", key:"totalodds", payload: Float(odds)})
             dispatch({type:"SET", key:"slipnetwin", payload:Float(nw,2)})

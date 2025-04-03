@@ -223,10 +223,9 @@ const Right = (props) => {
   };
 
   useEffect(() => {
-
     dispatch({type:"SET", key:"bonusCentage", payload: bonusCentage});
     setLocalStorage("bonusCentage", bonusCentage);
-  }, [bonusCentage])
+  }, [bonusCentage]);
 
   const getDbWinMatrix = () => {
     let endpoint = "/v2/sports/config/sgr";
@@ -252,14 +251,16 @@ const Right = (props) => {
     
 
     let max_games = dbWinMatrix?.sgr_bonus_max_games;
-    let total_games = Object.values(state?.betslip||{}).filter(
-        (slip) => slip.odd_value > (state?.bonusconfigs?.multibet_bonus_odd_limit || 1.25) ).length;
+    let total_games = Object.values(state?.betslip||{})?.filter(
+        (slip) => slip.odd_value > (dbWinMatrix?.sgr_bonus_min_odds || 1.30) ).length;
 
     if (total_games > max_games) {
         total_games = max_games;
     }
     let strConstruct = `sgr_bonus_percent_${total_games}`
-    let centage = total_games <= max_games ? dbWinMatrix[strConstruct] : "100";
+    let centage = total_games == max_games ? "100" : (dbWinMatrix[strConstruct] || "0")
+    
+    console.log("STRCONSTRUCT:::: ", strConstruct, "centage  :: ", centage)
     if (!(strConstruct in dbWinMatrix)) {
         setBongeBonusMessage("Select 3 games or more above 1.30 to get a bonus")
     }
