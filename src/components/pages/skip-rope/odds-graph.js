@@ -7,11 +7,15 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  ReferenceDot,
 } from "recharts";
+import { PiPlanetBold } from "react-icons/pi";
 
 const OddsGraph = ({ oddsHistory, currentOdds, resultMessage }) => {
-
-  const data = oddsHistory.map((odds, index) => ({ time: index, odds }));
+  const limitedData = oddsHistory.slice(-15).map((odds, index) => ({ 
+    time: index, 
+    odds 
+  }));
 
   const [playerCount, setPlayerCount] = useState(Math.floor(Math.random() * 400) + 100);
 
@@ -23,16 +27,51 @@ const OddsGraph = ({ oddsHistory, currentOdds, resultMessage }) => {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Get the last data point position
+  const lastPoint = limitedData[limitedData.length - 1] || { time: 0, odds: 0.5 };
+
   return (
-    <div className="">
+    <div className="relative">
       {/* Graph */}
       <ResponsiveContainer width="100%" height={200}>
-        <LineChart data={data} margin={{ top: 20, right: 20, bottom: 0, left: 0 }}>
+        <LineChart 
+          data={limitedData} 
+          margin={{ top: 20, right: 20, bottom: 0, left: 0 }}
+          key={resultMessage}
+        >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" hide />
           <YAxis domain={[1, 10]} hide={true} />
-          <Tooltip />
-          <Line type="monotone" dataKey="odds" stroke="#4bc0c0" strokeWidth={2} />
+          <Tooltip 
+            formatter={(value) => [`${value.toFixed(2)}x`, "Multiplier"]}
+            labelFormatter={() => ""}
+          />
+          <Line 
+            type="monotone" 
+            dataKey="odds" 
+            stroke="#4bc0c0" 
+            strokeWidth={2} 
+            dot={false}
+            isAnimationActive={false}
+          />
+          {/* Custom pointer at the end of the line */}
+          <ReferenceDot
+            x={lastPoint.time}
+            y={lastPoint.odds}
+            r={0} // Hide the default dot
+            shape={({ cx, cy }) => (
+              <foreignObject 
+                x={cx - 12} 
+                y={cy - 12} 
+                width={24} 
+                height={24}
+              >
+                <div className="flex items-center justify-center">
+                  <PiPlanetBold className="text-[#e70654] text-xl transform -rotate-45" />
+                </div>
+              </foreignObject>
+            )}
+          />
         </LineChart>
       </ResponsiveContainer>
 
