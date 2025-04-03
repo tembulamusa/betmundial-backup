@@ -67,7 +67,6 @@ const PopularGames = (props) => {
             dispatch({ type: "SET", key: "showloginmodal", payload: true });
             return false
         }
-
         await makeRequest({ url: endpoint, method: "GET", api_version: 'CasinoGameLaunch' }).then(([status, result]) => {
             if (status == 200 && result?.tea_pot == null) {
                 let launchUrl = result?.game_url || result?.gameUrl;

@@ -12,8 +12,73 @@ const FreeBet = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState({});
     const [state, dispatch] = useContext(Context);
-    const [freebet, setFreebet] = useState(null)
+    const [freebet, setFreebet] = useState(null);
+    const [freebetSlip, setFreeBetslip] = useState();
+    const [selectedOdd, setSelectedOdd] = useState();
+    const [ipInfo, setIpInfo] = useState();
 
+
+
+    useEffect(()=>{
+        let loadedBetslip = getFromLocalStorage("freebetSlip");
+        if(loadedBetslip) {
+            setFreeBetslip(loadedBetslip);
+        }
+        
+        fetch("https://api64.ipify.org?format=json")
+          .then((response) => response.json())
+          .then((data) => setIpInfo(data.ip))
+          .catch((error) => setIpInfo({city: "Error fetching IP"}));
+    }, []);
+    
+    useEffect(() => {
+
+        if(freebetSlip?.slip[0]?.bet_pick) {
+            setSelectedOdd(freebetSlip?.slip[0]?.bet_pick);
+        }
+    },[freebetSlip]);
+
+    useEffect(()=>{
+        if(freebet) {
+            let slip = [
+                {
+                    away_team: freebet?.away_team,
+                    bet_pick: "",
+                    bet_type: "0",
+                    home_team: freebet?.home_team,
+                    live: freebet?.live,
+                    market_active: freebet?.market_active,
+                    match_id: freebet?.match_id,
+                    odd_type: "1x2",
+                    odd_value: "1.00",
+                    parent_match_id: freebet?.parent_match_id,
+                    producer_id: freebet?.odds?.["1x2"]?.producer_id || "3",
+                    special_bet_value: "",
+                    sport_name: freebet?.sport_name || "Soccer",
+                    sub_type_id: "1",
+                    ucn: freebet?.parent_match_id + (selectedOdd?.trim() || "")                    
+                }
+            ];
+            setFreeBetslip(
+                {
+                    account: 1,
+                    accept_all_odds_change: 1,
+                    amount: freebet?.amount ?? 20,
+                    app_name: "desktop",
+                    bet_string: "string",
+                    bet_total_odds:1,
+                    bet_type: freebet?.live ? "1" : "3",
+                    channel_id: "web",
+                    ip_address: ipInfo,
+                    msisdn: getFromLocalStorage("user")?.msisdn,
+                    possible_win: 100,
+                    profile_id: getFromLocalStorage("user")?.profile_id,
+                    slip:slip
+                }
+            );
+        }
+    },[freebet]);
+    useEffect(()=> {console.log("THE FREE BETSLIP  :::: ", freebetSlip)},[freebetSlip])
     const fetchFreeBet = () => {
         if(isLoading) return;
         setIsLoading(true);
