@@ -260,7 +260,6 @@ const Right = (props) => {
     let strConstruct = `sgr_bonus_percent_${total_games}`
     // let centage = total_games == max_games ? "100" : (dbWinMatrix[strConstruct] || "0")
     
-    console.log("STRCONSTRUCT:::: ", strConstruct, "centage  :: ", dbWinMatrix[strConstruct])
     if (!(strConstruct in dbWinMatrix)) {
         setBongeBonusMessage("Select 3 games or more above 1.30 to get a bonus")
     }
