@@ -258,9 +258,9 @@ const Right = (props) => {
         total_games = max_games;
     }
     let strConstruct = `sgr_bonus_percent_${total_games}`
-    let centage = total_games == max_games ? "100" : (dbWinMatrix[strConstruct] || "0")
+    // let centage = total_games == max_games ? "100" : (dbWinMatrix[strConstruct] || "0")
     
-    console.log("STRCONSTRUCT:::: ", strConstruct, "centage  :: ", centage)
+    console.log("STRCONSTRUCT:::: ", strConstruct, "centage  :: ", dbWinMatrix[strConstruct])
     if (!(strConstruct in dbWinMatrix)) {
         setBongeBonusMessage("Select 3 games or more above 1.30 to get a bonus")
     }
@@ -268,21 +268,25 @@ const Right = (props) => {
     let bonusAdvice = "";
     if (total_games == 1) {
         bonusAdvice = "Add 2 more games " + odd_limit + " to win a bonus of 3% from 3 games";
+        setBonusCentage('0');
     } else if (total_games == 2) {
         bonusAdvice = "Add 1 more game of odds " + odd_limit + " to win a bonus of 3% on 3 games";
+        setBonusCentage('0');
+
     } else {
         if (total_games > 2 && total_games <= max_games) {
             var next_centage = dbWinMatrix[`sgr_bonus_percent_${total_games + 1}`]
             bonusAdvice = "Congratulations, You have won a bonus of "
-                + centage + "% on " + total_games + " games of "+ odd_limit + " odds"
+                + dbWinMatrix[strConstruct] + "% on " + total_games + " games of "+ odd_limit + " odds"
                 + ". add 1 more game of "+ odd_limit +" odds to win a bonus of " + next_centage + "%";
+            setBonusCentage(dbWinMatrix[strConstruct]);
         } else if (total_games > max_games) {
             bonusAdvice = "Congratulations: you have won a bonus of "
-                + centage + "% on " + total_games + " games of more than " + odd_limit +  " odds";
+                + 100 + "% on " + total_games + " games of more than " + odd_limit +  " odds";
+              setBonusCentage('100');
         }
     }
     setBongeBonusMessage(bonusAdvice);
-    setBonusCentage(centage);
   }
 
   const BongeBetMarkupMessage = () => {
