@@ -110,7 +110,7 @@ const BetslipSubmitForm = (props) => {
         if (Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0){
             setMessage({})
         }
-    }, [state?.betslip, state?.jackpotbetslip]);
+    }, [state?.betslip, state?.jackpotbetslip, state?.bonusCentage]);
 
     const successfulBetHeading = () => {
         let betType = "";
