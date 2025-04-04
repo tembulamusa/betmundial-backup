@@ -41,6 +41,7 @@ import MobileApp from './components/pages/app';
 import ProtectedRoute from './components/utils/protected-route';
 import PrintMatches from './components/pages/downloads';
 import Promotions from './components/pages/promotions/Promotions';
+import PromotionsNew from "./components/pages/promotions/PromotionsNew";
 import Casino from './components/pages/casino/Casino';
 import CheckDepositStatus from "./components/check-deposit-status";
 import Exclude from "./components/pages/exclude";
@@ -126,6 +127,7 @@ const App = () => {
                             <Route exact path="/jump-rope" element={<JumpRopeIndex/>}/>
                             <Route exact path="/livescore" element={<LiveScore/>}/>
                             <Route exact path="/promotions" element={<Promotions/>}/>
+                            <Route exact path="/promotions-new" element={<PromotionsNew/>}/>
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
                             <Route exact path="/withdraw"

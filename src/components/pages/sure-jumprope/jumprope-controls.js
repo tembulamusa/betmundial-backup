@@ -16,12 +16,10 @@ import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 
 const JumpRopeControls = ({
-  gameActive,
+  bettingActive,
   betAmount,
-  cashoutAvailable,
   handleBetChange,
-  startGame,
-  cashout,
+  placeBet,
 }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -41,13 +39,13 @@ const JumpRopeControls = ({
         <CiCircleMinus
           className="icon"
           onClick={() => handleBetIncrement(-5)}
-          disabled={gameActive}
+          disabled={!bettingActive}
         />
         <input
           type="number"
           value={betAmount}
           onChange={handleBetChange}
-          disabled={gameActive}
+          disabled={!bettingActive}
           placeholder="Enter bet amount"
           className="jumprope-bet-input"
           min="5"
@@ -55,25 +53,22 @@ const JumpRopeControls = ({
         <CiCirclePlus 
           className="icon" 
           onClick={() => handleBetIncrement(5)} 
-          disabled={gameActive}
+          disabled={!bettingActive}
         />
       </div>
-      {!gameActive ? (
-        <button onClick={startGame} className="jumprope-btn">
-          Place Bet
-        </button>
-      ) : (
-        <button
-          onClick={cashout}
-          className={`jumprope-btn ${cashoutAvailable ? "" : "disabled"}`}
-          disabled={!cashoutAvailable}
-        >
-          Cashout
-        </button>
-      )}
+      
+      <button 
+        onClick={placeBet} 
+        className={`jumprope-btn ${bettingActive ? "" : "disabled"}`}
+        disabled={!bettingActive}
+      >
+        {bettingActive ? "Place Bet" : "Betting Closed"}
+      </button>
+      
       <button className="bet-display-btn" disabled>
         Your Bet: ${betAmount || 0}
       </button>
+      
       <button className="custom-instructions-btn" onClick={handleDialogOpen}>
         <CiCircleMore className="icon" />
         How to Play
@@ -110,8 +105,10 @@ const JumpRopeControls = ({
         <DialogContent>
           <DialogContentText sx={{ color: "#fff" }}>
             <ul style={{ paddingLeft: "1rem", listStyleType: "disc", color: "#fff" }}>
-              <li>Place your bet and start the game.</li>
-              <li>Good luck and happy Skipping!</li>
+              <li>Place your bet during the betting period (5 seconds)</li>
+              <li>Watch the game round (12 seconds) to see if you win</li>
+              <li>Winnings are automatically credited</li>
+              <li>The game continues automatically to the next round</li>
             </ul>
           </DialogContentText>
         </DialogContent>
