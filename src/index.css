@@ -1986,11 +1986,28 @@ button.locked-button:hover {
 .freebet-team {
   overflow: hidden;
 }
-
 .freebet-btn .home-team {
   font-weight: 600 !important;
-  min-width: 120px !important;
+  min-width: 80px !important;
   height: 40px;
   border: 1px solid #ddd;
-  line-height: 40px;
+  line-height: 32px;
+  margin-right: 8px;
+}
+.ng-star-inserted:last-child .home-team {
+  /* margin-right: 0; */
+}
+
+.freebet-pick.picked {
+  background-color: #24367e !important;
+  color: white !important;
+}
+.freebet-btn-parent {
+  top: 30% !important;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn.place-free-bet {
+  padding: 8px 12px;
 }

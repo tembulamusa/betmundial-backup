@@ -371,7 +371,8 @@ const OddButton = (props) => {
             + (match?.[mkt] || match?.odd_key || mkt)
         );
         if ((betslip?.[match.match_id]?.match_id == match.match_id)
-            && uc == betslip?.[match.match_id]?.ucn) {
+            && uc == betslip?.[match.match_id]?.ucn &&
+            betslip?.[match.match_id]?.special_bet_value == match?.special_bet_value) {
             setPicked('picked');
         } else {
             setPicked('');
@@ -464,7 +465,7 @@ const OddButton = (props) => {
                 betslip = jackpot !== true
                     ? addToSlip(slip)
                     : addToJackpotSlip(slip);
-                dispatch({ type: "SET", key: reference, payload: cstm });
+                // dispatch({ type: "SET", key: reference, payload: cstm });
             }
             dispatch({ type: "SET", key: betslip_key, payload: betslip });
         }
@@ -598,7 +599,6 @@ const MarketRow = (props) => {
             handleGameSocket("listen", match?.parent_match_id, marketDetail?.sub_type_id);
             const handleSocketData = (data) => {
                 if (Object.keys(data.event_odds).length > 0) {
-                    console.log("Listening for market ID   ::: ", data.match_market)
                     Object.values(data.event_odds)?.sort((a, b) => a?.outcome_id - b?.outcome_id)?.forEach((evodd, ivg) => {
                         evodd.name = data.match_market.market_name;
                         setMutableMkts((prevMarkets) => {
@@ -789,7 +789,6 @@ const MatchMarket = (props) => {
     const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status);
 
     useEffect(() => {
-        console.log("PRODUCER ID   ::: ", initialMatch?.odds?.[marketName]?.producer_id);
         let pId = initialMatch?.odds?.[marketName]?.producer_id
         const producer = producers.find(producer => producer.producer_id === pId);
         if (producer) {

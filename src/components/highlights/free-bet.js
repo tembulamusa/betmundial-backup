@@ -16,7 +16,8 @@ const FreeBet = (props) => {
     const [freebetSlip, setFreeBetslip] = useState();
     const [selectedOdd, setSelectedOdd] = useState();
     const [ipInfo, setIpInfo] = useState();
-
+    const [submitting, setSubmitting] = useState(false);
+    const [alert, setAlert] = useState(null);
 
 
     useEffect(()=>{
@@ -38,6 +39,20 @@ const FreeBet = (props) => {
         }
     },[freebetSlip]);
 
+    const placeFreebet = () => {
+        setSubmitting(true);
+        let endpoint = "/v2/user/place-free-bet";
+        makeRequest({url: endpoint, method: "POST", data: freebetSlip, api_version:2}).then(([status, result]) => {
+            setSubmitting(false);
+            if (['200', '201'].includes(result?.status)){
+                setAlert({status: 200, message: result?.data?.message});
+                setFreebet(null);
+                setTimeout(()=> {
+                    setAlert(null)
+                }, 5000)
+            }
+        });
+    }
     useEffect(()=>{
         if(freebet) {
             let slip = [
@@ -46,7 +61,7 @@ const FreeBet = (props) => {
                     bet_pick: "",
                     bet_type: "0",
                     home_team: freebet?.home_team,
-                    live: freebet?.live,
+                    live: freebet?.live || 0,
                     market_active: freebet?.market_active,
                     match_id: freebet?.match_id,
                     odd_type: "1x2",
@@ -78,14 +93,13 @@ const FreeBet = (props) => {
             );
         }
     },[freebet]);
-    useEffect(()=> {console.log("THE FREE BETSLIP  :::: ", freebetSlip)},[freebetSlip])
+
     const fetchFreeBet = () => {
         if(isLoading) return;
         setIsLoading(true);
         setMessage(null);
         let endpoint = "/v2/user/freebet";
         makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
-            console.log("THE FREEBET REQUEST RESULT:::: ", status, "AND RESPONSE COULD BE NULL :::: ", result);
             if (['200', '201'].includes(result?.status)){
                 if(result.data != null) {
                     setFreebet(result?.data || result);
@@ -100,27 +114,73 @@ const FreeBet = (props) => {
         }
     }, []);
 
+
+    const updatePick = (outcome) => {
+
+        setFreeBetslip((prevSlip) => {
+            let currentSlip = {...prevSlip};
+            currentSlip.slip[0].bet_pick = outcome?.odd_key;
+            return currentSlip;
+        });
+ 
+        setSelectedOdd(outcome?.odd_key);
+
+    }
+
+    const Alert = ({message}) => {
+            let c = message?.status ==  200 ? 'betslip-success-box' : 'danger';
+            let x_style = {
+                fontWeight: "bold",
+                float: "right",
+                display: "block",
+                color: message?.status == 200 ? "white" : "orangered",
+                cursor: "pointer",
+            }
+            return (<>{message?.status &&
+                <div role="alert"
+                     className={`max-w-[400px] placebet-response fade alert alert-${c} show alert-dismissible`}>
+    
+                        <div className=''>
+                            <div className='alert-title text-2xl fex font-bold w-full py-3 justify-between'>
+                                {/* <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div> */}
+                                <div aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</div>
+                            </div>
+                            <div className='text-2xl mb-3 font-normal'>{message.message}</div>
+                        </div>
+                </div>}
+            </>);
+        };
     return (
         <>
+        { alert && 
+            <div className="highlights">
+                <div className="marquee-card free-bet relative">
+                    <Alert message={alert}/>
+                </div>
+            </div>
+        }
+        
         {
+        
         freebet &&
             <div className="highlights">
-                <div className="marquee-card free-bet">
+                <div className="marquee-card free-bet relative">
                     <div className="card-top-sub-heading">
                         <div className="row">
                             <div className="col-8">
-                                <GiSoccerBall className="inline-block text-3xl mr-2"/><span className="font-bold freebet-highlight highlight-color blink-me uppercase">Free Bet</span> 
+                                <GiSoccerBall className="inline-block text-3xl mr-2"/>
+                                <span className="font-[500] freebet-highlight highlight-color blink-e uppercase">Free Bet</span> 
                             </div>
                             
                         </div>
                     </div>
 
-                        <div className="main teams">
+                        <div className="main teams text-[12px]">
                             <div className="row">
                                 <div className="col-4">
                                     <div className="freebet-team  text-center">
                                         <span className="team-name m-auto">
-                                            <div className="team-flag  w-[20px]"><img src={HomeTeamDefaultFlag} alt="" /></div>
+                                            <div className="m-auto team-flag  w-[20px]"><img src={HomeTeamDefaultFlag} alt="" /></div>
                                             <div className="freebet-card team-name">{freebet?.home_team}</div>
                                         </span>
                                         
@@ -128,7 +188,7 @@ const FreeBet = (props) => {
                                     </div>
                                 </div>
                                 <div className="col-4">
-                                    <div className="overflow-hidden text-center">
+                                    <div className="overflow-hidden font-[300] text-center">
                                         {freebet?.start_time}
                                     </div>
                                 </div>
@@ -146,7 +206,7 @@ const FreeBet = (props) => {
                         <div className="bet-highlight">
                             <div className="market-type ng-star-inserted">
                                 <span className="line-span"></span>
-                                <span className="market-name-span" title="Total Goals"> Total Goals</span>
+                                <span className="market-name-span" title="Total Goals"> 1 x 2</span>
                                 <span className="line-span"></span>
                             </div>
                         </div>
@@ -157,9 +217,8 @@ const FreeBet = (props) => {
                                     {freebet?.odds?.["1x2"]?.outcomes?.map((outcome, idx) => (
 
                                         <span className="ng-star-inserted ">
-                                            <div className="secondary-bg-2 home-team c-btn">
+                                            <div className={`freebet-pick secondary-bg-2 home-team c-btn ${outcome?.odd_key == selectedOdd && "picked"}`} onClick={() => updatePick(outcome)}>
                                                 <div className="card-event-result-name card-result-name ng-star-inserted">
-                                                    
                                                 </div>
                                                 <span className="card-result-odds option-value odds-right-align ng-star-inserted">
                                                     <span className="ng-star-inserted" >{outcome?.odd_value}</span>
@@ -170,8 +229,19 @@ const FreeBet = (props) => {
                                 </span>
                             </div>
                         </div>
+                        
+                        {selectedOdd && 
+                            <div className="absolute m-auto top-0 freebet-btn-parent">
+                                <button onClick={() => placeFreebet()}
+                                    disabled={submitting} 
+                                    className="disabled:opacity-90 font-bold text-xl btn place-free-bet !bg-[#469866] rounded-md text-white"
+                                    >{submitting ? "wait..." : "Bet Now"}</button>
+                            </div>}
+                        
                 </div>
+                
                 </div>
+                
         }
         </>
     )

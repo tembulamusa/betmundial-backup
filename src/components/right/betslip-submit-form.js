@@ -25,7 +25,7 @@ import { TbRefreshAlert } from "react-icons/tb";
 import { getFromLocalStorage, setLocalStorage } from '../utils/local-storage';
 
 const Float = (equation, precision = 4) => {
-    return Math.round(equation * (10 ** precision)) / (10 ** precision);
+    return Math.trunc(equation * (10 ** precision)) / (10 ** precision);
 }
 
 
@@ -107,6 +107,7 @@ const BetslipSubmitForm = (props) => {
     }, [state?.isjackpot])
     
     useEffect(() => {
+        console.log("THE BETSLIP AND EACH SPECIAL BET V ALUE TRACKING  ::::   ", state?.betslip)
         if (Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0){
             setMessage({})
         }
