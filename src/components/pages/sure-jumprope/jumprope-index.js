@@ -166,8 +166,12 @@ const JumpRopeIndex = () => {
         setCurrentMultiplier(current);
       } else {
         // Small fluctuations but never below 1.0
-        const fluctuation = Math.max(1.0, 1 + Math.sin(progress * Math.PI * 4) * 0.1);
-        setCurrentMultiplier(fluctuation);
+        // const fluctuation = Math.max(1.0, 1 + Math.sin(progress * Math.PI * 4) * 0.1);
+        // setCurrentMultiplier(fluctuation);
+        // more fluctuations
+        const randomPeak = 1 + Math.random() * 9; // Up to 10x
+        const current = 1 + (randomPeak - 1) * easeInOutQuad(progress);
+        setCurrentMultiplier(current);
       }
     
       if (now >= endTime) {

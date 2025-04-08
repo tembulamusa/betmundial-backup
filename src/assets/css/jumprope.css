@@ -58,11 +58,11 @@
   background-color: rgba(30, 30, 56, 0.8);
   padding: 10px 15px;
   border-radius: 8px;
-  border: 2px solid #e70654;
+  /* border: 2px solid #e70654; */
 }
 
 .current-multiplier h2 {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   color: #fff;
   margin: 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
