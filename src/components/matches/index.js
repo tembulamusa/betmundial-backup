@@ -465,7 +465,7 @@ const OddButton = (props) => {
                 betslip = jackpot !== true
                     ? addToSlip(slip)
                     : addToJackpotSlip(slip);
-                // dispatch({ type: "SET", key: reference, payload: cstm });
+                dispatch({ type: "SET", key: reference, payload: cstm });
             }
             dispatch({ type: "SET", key: betslip_key, payload: betslip });
         }
