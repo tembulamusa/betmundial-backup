@@ -60,8 +60,9 @@ let xlg = {
         }
 
         if (data.hasOwnProperty("totalSeatedPlayers")) {
+            let totalSeats = data.avalaibleSeats ? "/ " + data.totalSeatedPlayers + data.availableSeats : ""
 
-            $("#seated-player-num-" + gameId).html( '<span class="mr-1"><img class="mb-1 mr-2 inline-block fill-white" src="/seated-player.svg" width="12" /></span>' + data.totalSeatedPlayers)
+            $("#seated-player-num-" + gameId).html( '<span class="mr-1"><img class="mb-1 mr-2 inline-block fill-white" src="/seated-player.svg" width="12" /></span>' + data.totalSeatedPlayers + totalSeats)
             $("#seated-players-" + gameId).css("display", "block")
         }
 
