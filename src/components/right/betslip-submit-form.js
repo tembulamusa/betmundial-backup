@@ -273,9 +273,8 @@ const BetslipSubmitForm = (props) => {
                         }
                     dispatch({type: "DEL", key: jackpot ? 'jackpotbetslip' : 'betslip'});
                     response = {...response, ...{title: successfulBetHeading()}}
-                    setMessage({status: status, message: response?.data?.message, title:successfulBetHeading()})
+                    setMessage({status: status, message: "Your place bet request received successfully", title:successfulBetHeading()})
                     } else {
-                        console.log("THE LOGGED IN FAILURE:: ", response, "  THE STATUS  ", status);
                         let qmessage = {
                             status: 400,
                             message: response?.message
