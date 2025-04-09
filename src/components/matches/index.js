@@ -502,7 +502,8 @@ const OddButton = (props) => {
                 (<>
                     <span
                         className="label label-inverse">
-                        {match.odd_key} {(!match?.odd_key.includes(match?.special_bet_value) && !match?.special_bet_value.toLowerCase().includes("sr:")) && `(${match?.special_bet_value})`}
+                        {match.odd_key} {(!match?.odd_key.includes(match?.special_bet_value.replace(/^[+-]/, ''))) 
+                        && `(${match?.special_bet_value.slice(match?.special_bet_value.lastIndexOf(":")+1)})`}
                     </span>
                     <span
                         className="label label-inverse odd-value">
@@ -541,7 +542,7 @@ const teamScore = (allscore, is_home_team) => {
 const MarketRow = (props) => {
     const { markets, match, market_id, width, live, producers, marketDetail, betstopMessage, setBetstopMessage } = props;
     const [mutableMkts, setMutableMkts] = useState(
-        [...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]
+        [...markets.sort((a, b) => a?.special_bet_value?.localeCompare(b?.special_bet_value) || a.outcome_id.localeCompare(b.outcome_id) || a.odd_key.localeCompare(b.odd_key))]
     );
     
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
@@ -551,9 +552,9 @@ const MarketRow = (props) => {
 
     useEffect(() => {
         if (markets) {
-            setMutableMkts([...markets.sort((a, b) => a?.special_bet_value - b?.special_bet_value || a.outcome_id - b.outcome_id)]);
+            setMutableMkts([...markets.sort((a, b) => a?.special_bet_value?.localeCompare(b?.special_bet_value) || a.outcome_id.localeCompare(b.outcome_id) || a.odd_key.localeCompare(b.odd_key))]);
         }
-
+       
         // computed producer down
         const producer = producers.find(producer => producer.producer_id === marketDetail?.producer_id);
         if (producer) {
