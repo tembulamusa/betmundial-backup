@@ -65,6 +65,7 @@ import ReactGA from "react-ga4";
 import PageviewTracker from "./components/utils/pageview-tracker";
 import PopupBanner from "./components/pop_up_banner";
 import { PromoTracker } from "./promo-tracker";
+import PromoWins from "./components/pages/promo-wins";
 
 const container = document.getElementById("app");
 
@@ -112,6 +113,7 @@ const App = () => {
                             <Route exact path="/terms-and-conditions" element={<TermsAndConditions/>}/>
                             <Route exact path="/how-to-play" element={<HowToPlay/>}/>
                             <Route exact path="/signup" element={<Signup/>}/>
+                            <Route exact path="/signup/:promoCode" element={<Signup />}/>
                             <Route exact path="/login" element={<Login/>}/>
                             <Route exact path="/reset-password" element={<ResetPassword/>}/>
                             <Route exact path="/forgot-password" element={<ForgotPassword/>}/>
@@ -134,6 +136,8 @@ const App = () => {
                                 element={<ProtectedRoute><Withdraw/></ProtectedRoute>}/>
                             <Route exact path="/my-bets"
                                 element={<ProtectedRoute><MyBets/> </ProtectedRoute>}/>
+                            <Route exact path="/promo-wins"
+                                element={<ProtectedRoute><PromoWins/> </ProtectedRoute>}/>
 
                             {/* DEFAULT CUrrently the default component. Switch to INDEX when SPORTS AVAILABLE */}
                             <Route path="*" element={<Index/>}/>

@@ -22,10 +22,10 @@ import {
 } from 'formik';
 import { isNull } from 'util';
 import { TbRefreshAlert } from "react-icons/tb";
-import { getFromLocalStorage, setLocalStorage } from '../utils/local-storage';
+import { getFromLocalStorage, removeItem, setLocalStorage } from '../utils/local-storage';
 
 const Float = (equation, precision = 4) => {
-    return Math.round(equation * (10 ** precision)) / (10 ** precision);
+    return Math.trunc(equation * (10 ** precision)) / (10 ** precision);
 }
 
 
@@ -45,6 +45,39 @@ const BetslipSubmitForm = (props) => {
     const [ipInfo, setIpInfo] = useState({});
     const [totalGames, setTotalGames] = useState(0);
     const [totalOdds, setTotalOdds] = useState(1);
+    const [dbWinMatrix, setDbWinMatrix] = useState({
+            "sgr_bonus_percent_29": "98",
+            "sgr_bonus_percent_27": "85",
+            "sgr_bonus_percent_28": "95",
+            "sgr_bonus_percent_9": "9",
+            "sgr_bonus_percent_10": "10",
+            "sgr_bonus_max_games": "20",
+            "sgr_bonus_percent_11": "14",
+            "sgr_bonus_percent_30": "100",
+            "sgr_bonus_percent_7": "7",
+            "sgr_bonus_percent_8": "8",
+            "sgr_bonus_percent_5": "5",
+            "sgr_bonus_percent_14": "22",
+            "sgr_bonus_percent_6": "6",
+            "sgr_bonus_percent_15": "26",
+            "sgr_bonus_percent_3": "3",
+            "sgr_bonus_percent_12": "15",
+            "sgr_bonus_percent_4": "4",
+            "sgr_bonus_percent_13": "16",
+            "sgr_bonus_percent_18": "38",
+            "sgr_bonus_percent_19": "46",
+            "sgr_bonus_percent_16": "30",
+            "sgr_bonus_enabled": "1",
+            "sgr_bonus_percent_17": "34",
+            "sgr_bonus_percent_21": "54",
+            "sgr_bonus_percent_22": "58",
+            "sgr_bonus_percent_20": "50",
+            "sgr_bonus_min_odds": "1.30",
+            "sgr_bonus_percent_25": "70",
+            "sgr_bonus_percent_26": "80",
+            "sgr_bonus_percent_23": "62",
+            "sgr_bonus_percent_24": "66"
+        });
 
     useEffect(() => {
         fetch("https://api64.ipify.org?format=json")
@@ -110,7 +143,7 @@ const BetslipSubmitForm = (props) => {
         if (Object.keys(state?.betslip || state?.jackpotbetslip || {}).length > 0){
             setMessage({})
         }
-    }, [state?.betslip, state?.jackpotbetslip, state?.bonusCentage]);
+    }, [state?.betslip, state?.jackpotbetslip]);
 
     const successfulBetHeading = () => {
         let betType = "";
@@ -223,6 +256,8 @@ const BetslipSubmitForm = (props) => {
                             ?
                             !state?.toggleuserbalance : true
                         })
+                        setBonus(0);
+                        removeItem("bonusCentage")
                         handleRemoveAll();
                         if (jackpot) {
                             // save betslip into state before proceeding
@@ -238,9 +273,8 @@ const BetslipSubmitForm = (props) => {
                         }
                     dispatch({type: "DEL", key: jackpot ? 'jackpotbetslip' : 'betslip'});
                     response = {...response, ...{title: successfulBetHeading()}}
-                    setMessage({status: status, message: response?.data?.message, title:successfulBetHeading()})
+                    setMessage({status: status, message: "Your place bet request received successfully", title:successfulBetHeading()})
                     } else {
-                        console.log("THE LOGGED IN FAILURE:: ", response, "  THE STATUS  ", status);
                         let qmessage = {
                             status: 400,
                             message: response?.message
@@ -282,6 +316,18 @@ const BetslipSubmitForm = (props) => {
     const updateWinnings = useCallback(() => {
         if (state?.[betslipkey]) {
 
+        // Get Bonus
+        let max_games = dbWinMatrix?.sgr_bonus_max_games || 30;
+        let total_games = Object.values(state?.betslip||{})?.filter(
+            (slip) => slip.odd_value > (dbWinMatrix?.sgr_bonus_min_odds || 1.30) )?.length;
+
+        if (total_games > max_games) {
+            total_games = max_games;
+        }
+        let strConstruct = `sgr_bonus_percent_${total_games}`
+        let centageInt = parseInt(dbWinMatrix[strConstruct]) / 100 || 0;
+        
+
             setTotalGames(Object.keys(state?.[betslipkey] ||{}).length);
             
             let odds = Object.values(state?.[betslipkey]||{}).reduce((previous, {odd_value}) => {
@@ -292,7 +338,7 @@ const BetslipSubmitForm = (props) => {
             let stake_after_tax = (stake / 115) * 100
             let ext = stake - stake_after_tax;
             let raw_possible_win = stake_after_tax * Float(odds);
-            raw_possible_win += raw_possible_win * Float(parseInt(state?.bonusCentage || getFromLocalStorage("bonusCentage") || 0) / 100);
+            raw_possible_win += raw_possible_win * Float(centageInt);
             
             if (jackpot) {
                 raw_possible_win = jackpotData?.jackpot_amount
@@ -304,13 +350,13 @@ const BetslipSubmitForm = (props) => {
 
             let wint = taxable_amount * 0.2;
             let nw = raw_possible_win - wint;
-            setExciseTax(Float(ext, 2));
+            let computeExAmt = stake - Float(stake_after_tax, 2);
             setStakeAfterTax(Float(stake_after_tax,2));
+            setExciseTax(Math.round(computeExAmt * (10 ** 2)) / (10 ** 2));
             setNetWin(nw > Float(5000000) ? Float(5000000) : Float(nw, 2));
             setPossibleWin(Float(raw_possible_win, 2));
             setWithholdingTax(Float(wint, 2));
-            setBonus( Float(stake_after_tax * Float(odds) * Float(parseInt(state?.bonusCentage || getFromLocalStorage("bonusCentage") || 0) / 100), 2) )
-            // update state espcially for the footer
+            setBonus( Float(stake_after_tax * Float(odds) * Float(centageInt), 2))
             dispatch({type:"SET", key:"totalodds", payload: Float(odds)})
             dispatch({type:"SET", key:"slipnetwin", payload:Float(nw,2)})
         } else {
@@ -319,6 +365,8 @@ const BetslipSubmitForm = (props) => {
             setExciseTax(0);
             setPossibleWin(0);
             setStakeAfterTax(0);
+            setBonus(0);
+            setTotalOdds(1);
         }
         if (message && message.status > 299) {
             setMessage(null);
@@ -489,7 +537,7 @@ const BetslipSubmitForm = (props) => {
 
                             <tr className="bet-win-tr hide-on-affix">
                                 <td className='opacity-70 pb-4'> Excise Tax (15%)</td>
-                                <td className='text-right pb-4 pr-2'>KSH. <span id="tax">{formatNumber(exciseTax)} </span></td>
+                                <td className='text-right pb-4 pr-2'>KSH. <span id="tax">{exciseTax} </span></td>
                             </tr>
                             </tbody>
                         </table>

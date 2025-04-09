@@ -26,7 +26,7 @@ const clean_rep = (str) => {
 }
 
 const BetSlip = (props) => {
-    const {jackpot, betslipValidationData, jackpotData} = props;    
+    const {jackpot, betslipValidationData, jackpotData, dbWinMatrix} = props;    
     const [is_jackpot, setIsJackpot] = useState(jackpot);
     const [localJPData, setLocalJPData] = useState(jackpotData);
     const { code } = useParams();
@@ -452,6 +452,7 @@ const BetSlip = (props) => {
             }
             <div className="bottom">
                 <BetslipSubmitForm
+                    dbWinMatrix={dbWinMatrix}
                     jackpotData={localJPData}
                     jackpot={is_jackpot}
                 />

@@ -83,6 +83,7 @@ const BodyLogin = (props) => {
         let endpoint = '/v2/auth/login';
         setIsLoading(true)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
+            console.log("user and FREEBET  ::: ", response);
             if (status == 200 || status == 201 || status == 204) {
                 if (response.status == 200 || response.status == 201) {
                     setMessage({user:response?.data, status:200});

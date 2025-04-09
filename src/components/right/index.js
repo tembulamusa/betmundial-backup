@@ -9,7 +9,8 @@ import Float from "../utils/mathematical-formulas";
 import MiniGames from './mini-games';
 import { Modal } from 'react-bootstrap';
 import makeRequest from '../utils/fetch-request';
-import { setLocalStorage } from '../utils/local-storage';
+import { removeItem, setLocalStorage } from '../utils/local-storage';
+import { type } from '@testing-library/user-event/dist/cjs/utility/index.js';
 
 const AlertMessage = (props) => {
   return (
@@ -58,7 +59,7 @@ const CustomerCareSection = () => (
 );
 
 
-const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
+const LoadedBetslip = ({ betslipValidationData, jackpotData, dbWinMatrix }) => {
   const [state, dispatch] = useContext(Context);
   const [footerMobileValue, setFooterMobileValue] = useState(state?.isjackpot ? jackpotData?.bet_amount : 100);
   const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
@@ -128,7 +129,12 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData }) => {
                     <Modal.Body className="bg-white px-0 py-0">
                       <div id="betslip" className="betslip">
                         {Object.keys(state?.betslip || {}).length == 0 && <BongeBetMarkupMessage />}
-                        <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
+                        <BetSlip 
+                          jackpot={state?.isjackpot}
+                          betslipValidationData={betslipValidationData}
+                          jackpotData={jackpotData}
+                          dbWinMatrix = {dbWinMatrix}
+                          />
                       </div>
                     </Modal.Body>
                  
@@ -182,7 +188,7 @@ const Right = (props) => {
   const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
   const [bonusCentage, setBonusCentage] = useState(3);
   const [dbWinMatrix, setDbWinMatrix] = useState({
-      "sgr_bonus_percent_29": "98",
+        "sgr_bonus_percent_29": "98",
         "sgr_bonus_percent_27": "85",
         "sgr_bonus_percent_28": "95",
         "sgr_bonus_percent_9": "9",
@@ -222,18 +228,13 @@ const Right = (props) => {
     }
   };
 
-  useEffect(() => {
-    dispatch({type:"SET", key:"bonusCentage", payload: bonusCentage});
-    setLocalStorage("bonusCentage", bonusCentage);
-  }, [bonusCentage]);
-
   const getDbWinMatrix = () => {
     let endpoint = "/v2/sports/config/sgr";
   
     makeRequest({ url: endpoint, method: "GET", api_version: 2 }).then(([status, result]) => {
       if (status == 200) {
           if (result.status == 200) {
-
+            setDbWinMatrix(result?.data);
           }
         }
         });
@@ -242,6 +243,11 @@ const Right = (props) => {
   useEffect(() => {
       getDbWinMatrix();
   }, []);
+  useEffect(() => {
+    if(dbWinMatrix) {
+      dispatch({type:"SET", key:"bonusCentages", dbWinMatrix});
+    }
+  }, [dbWinMatrix])
 
   const updateBongeBonusMessage = () => {
 
@@ -260,7 +266,6 @@ const Right = (props) => {
     let strConstruct = `sgr_bonus_percent_${total_games}`
     // let centage = total_games == max_games ? "100" : (dbWinMatrix[strConstruct] || "0")
     
-    console.log("STRCONSTRUCT:::: ", strConstruct, "centage  :: ", dbWinMatrix[strConstruct])
     if (!(strConstruct in dbWinMatrix)) {
         setBongeBonusMessage("Select 3 games or more above 1.30 to get a bonus")
     }
@@ -268,10 +273,11 @@ const Right = (props) => {
     let bonusAdvice = "";
     if (total_games == 1) {
         bonusAdvice = "Add 2 more games " + odd_limit + " to win a bonus of 3% from 3 games";
-        setBonusCentage('0');
+        dispatch({type:"DEL", key: "centageBonus"});
+
     } else if (total_games == 2) {
         bonusAdvice = "Add 1 more game of odds " + odd_limit + " to win a bonus of 3% on 3 games";
-        setBonusCentage('0');
+        dispatch({type:"DEL", key: "centageBonus"});
 
     } else {
         if (total_games > 2 && total_games <= max_games) {
@@ -286,6 +292,7 @@ const Right = (props) => {
               setBonusCentage('100');
         }
     }
+    dispatch({type:"DEL", key: "centageBonus"});
     setBongeBonusMessage(bonusAdvice);
   }
 
@@ -337,7 +344,10 @@ const Right = (props) => {
        
       </div>
 
-      <LoadedBetslip betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
+      <LoadedBetslip 
+        dbWinMatrix={dbWinMatrix}
+        betslipValidationData={betslipValidationData}
+        jackpotData={jackpotData} />
       </>
     }
     </>
