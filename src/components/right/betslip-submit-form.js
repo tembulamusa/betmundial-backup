@@ -20,7 +20,7 @@ import {
     useFormikContext,
     Field
 } from 'formik';
-import { isNull } from 'util';
+import { isMobile } from "react-device-detect";
 import { TbRefreshAlert } from "react-icons/tb";
 import { getFromLocalStorage, removeItem, setLocalStorage } from '../utils/local-storage';
 
@@ -223,14 +223,14 @@ const BetslipSubmitForm = (props) => {
         }
 
         let payload = {
-            bet_string: 'web',
-            app_name: 'desktop',
+            bet_string: isMobile ? 'mobile':'web',
+            app_name: isMobile ? 'mobile':'desktop',
             possible_win: possibleWin,
             stake_amount: values.bet_amount,
             amount: values.bet_amount,
             bet_total_odds: Float(totalOdds, 2),
             ip_address: ipInfo,
-            channel_id: 'web',
+            channel_id: isMobile ? 'mobile' : 'web',
             slip: bs,
             profile_id: getFromLocalStorage("user")?.profile_id || state?.user?.profile_id,
             account: 1,
