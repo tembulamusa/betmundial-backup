@@ -400,7 +400,7 @@ const OddButton = (props) => {
                     + "" + (match?.odds?.sub_type_id || match?.sub_type_id)
                     + (match?.[mkt] || match?.odd_key || mkt)
                 );
-                if (state?.[reference] == uc) {
+                if (state?.[reference] == uc + match?.special_bet_value) {
                     setPicked('picked')
                 } else {
                     setPicked('');
@@ -460,12 +460,12 @@ const OddButton = (props) => {
                 betslip = jackpot !== true
                     ? removeFromSlip(mid)
                     : removeFromJackpotSlip(mid);
-                dispatch({ type: "SET", key: reference, payload: "remove." + cstm });
+                dispatch({ type: "SET", key: reference, payload: "remove." + cstm + sbv });
             } else {
                 betslip = jackpot !== true
                     ? addToSlip(slip)
                     : addToJackpotSlip(slip);
-                dispatch({ type: "SET", key: reference, payload: cstm });
+                dispatch({ type: "SET", key: reference, payload: cstm + sbv });
             }
             dispatch({ type: "SET", key: betslip_key, payload: betslip });
         }
