@@ -132,7 +132,7 @@ const MyBets = (props) => {
                 makeRequest({ url: endpoint, method: "POST", api_version: 2 }).then(([status, result]) => {
                     if (result?.status == '200') {
                         setShowMarkup(false);
-                        setAlertCancel({ message: "bet Cancelled Successfully", status: 200 });
+                        setAlertCancel({ message: "Bet Cancel Request Submitted", status: 200 });
                         setTimeout(() => {
                             window.location.reload()
                         }, 2000)
