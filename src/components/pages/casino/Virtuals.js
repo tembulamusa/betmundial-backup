@@ -45,8 +45,6 @@ const Casino = (props) => {
 
         const userState = (getFromLocalStorage("user"));
 
-        console.log(userState)
-
         if (userState?.token) {
             return window.location.href = `/virtuals/launch/${game_id}?live=1`
         }

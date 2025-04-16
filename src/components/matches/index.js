@@ -650,7 +650,6 @@ const MarketRow = (props) => {
                 if (producerId !== data.match_market.producer_id && pdown) {
                     setPdown(false);
                 }
-                console.log("UNDEFINED PRODUCER ID  ", data)
                 if (data.match_market.producer_id) {
                     setProducerId(data.match_market.producer_id);
                 }
@@ -658,23 +657,12 @@ const MarketRow = (props) => {
             socketRef.current?.on(socketEvent, handleSocketData);
             // producer status
             socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
-                console.log("PRODUCER DATA::: ", data);
-                console.log("Prev Producer   : ::  ", producerId)
                 if (data.producer_id == producerId) {
                     setPdown(data.disabled);
                 }
             });
         }
     }, [socket.connected, match?.parent_match_id, marketDetail?.sub_type_id, socketEvent]);
-
-    // useEffect(() => {
-    //     if(marketDetail.sub_type_id == 18) {
-    //         console.log("THE MUTABLE MARKETS CHANGED ::: ", mutableMkts)
-
-    //     } else if (marketDetail.sub_type_id == 10) {
-    //         console.log("THE MARKET 10 LOGS HERE ", mutableMkts)
-    //     }
-    // }, [mutableMkts])
 
     const MktOddsButton = ({ match, mktodds, live, pdown, producerId }) => {
         const fullmatch = { ...match, ...mktodds, producer_id: producerId };
@@ -851,8 +839,6 @@ const MatchMarket = (props) => {
 
         // for match producer down message
         socket.on(`PRODUCER_STATUS_CHANNEL`, (data) => {
-            console.log("THE RECEIVED PRODUCER  ", data);
-            console.log("THE CURRENT PRODUCER :: ", producerId);
             if (data.producer_id == producerId) {
                 setPdown(data.disabled);
             }

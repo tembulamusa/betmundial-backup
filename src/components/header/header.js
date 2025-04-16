@@ -148,7 +148,7 @@ const Header = (props) => {
             socket.connect();
 
         } catch (err) {
-            console.log("UNABLE TO CONNECT  ::: Why?W?")
+
         }
         if(location.pathname == "/casino-game/eurovirtuals/virtual-league") {
             dispatch({type:"SET", key:"hideBigIconNav", payload:true})

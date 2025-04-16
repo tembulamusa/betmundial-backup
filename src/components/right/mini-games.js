@@ -22,7 +22,7 @@ const MiniGames = () => {
                 dispatch({ type: "SET", key: "miniGames", payload: first12Games });
             }
         } catch (error) {
-            console.error("Failed to fetch mini games:", error);
+
         }
     };
 
@@ -41,7 +41,7 @@ const MiniGames = () => {
                 dispatch({ type: "SET", key: "casinolaunch", payload: { game, url: result?.gameUrl } });
                 navigate(`/casino/${game.game_name.split(' ').join('')}`);
             } else {
-                console.error("Failed to launch game");
+
             }
         });
     };

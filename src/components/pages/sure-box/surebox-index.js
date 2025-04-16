@@ -132,7 +132,6 @@ const SureBoxIndex = () => {
     }
   
     if (user.balance < betAmount) {
-      console.log("Insufficient balance to start the game.");
       return;
     }
   
@@ -219,14 +218,10 @@ const SureBoxIndex = () => {
             if (win && wordsToNumber(winning_box) === id) {
               winSound.current.play();
             }
-          } else {
-            console.log("An error occurred. Please try again.");
           }
-        } else {
-          console.log("Failed to process the request. Please try again.");
         }
       } catch (error) {
-        console.error("Error handling box selection:", error);
+        
       } finally {
         setIsActionSuspended(false);
       }
@@ -238,7 +233,7 @@ const SureBoxIndex = () => {
   const cashOut = async () => {
     if (!gameActive) return;
     if (!betId) {
-      console.log("Bet ID is missing. Cannot cash out.");
+
       return;
     }
     setIsActionSuspended(true);
@@ -264,7 +259,6 @@ const SureBoxIndex = () => {
   
       if (status === 200) {
         const decryptedResponse = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-        //console.log('Decrypted Cashout Response', decryptedResponse);
   
         if (decryptedResponse?.response_status === 200) {
           winSound.current.play();
@@ -273,20 +267,12 @@ const SureBoxIndex = () => {
           handleGameEnd("won");
           setTimeout(() => {
             setShowWinGif(false);
-            console.log(`You cashed out and won ${decryptedResponse.possible_win} KES!`);
             resetGame();
           }, 1500);
-        } else {
-          console.log(decryptedResponse?.message || "Cashout failed. Please try again.");
-        }        
-      } else {
-        console.error("Request Failed:", {
-          status: status,
-          response: response
-        });
+        }       
       }
     } catch (error) {
-      console.error("Error cashing out:", error);
+
     } finally {
       setIsActionSuspended(false);
     }

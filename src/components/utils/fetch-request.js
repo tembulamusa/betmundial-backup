@@ -44,36 +44,9 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
 
     let user = getFromLocalStorage('user');
 
-    // console.log("THE ENDPOINT IS CALLING :::: ", url)
-
-    // const updateUserSession = () => {
-    //     if (user) {
-    //         setLocalStorage('user', user);
-    //     }
-    // }
-
-
-    // let jwt = null;
-
-    // if (use_jwt) {
-    //     const sign = require('jwt-encode');
-    //     const payload = {
-    //         ...data,
-    //         iat: Math.floor(Date.now() / 1000) + (1 * 60)
-    //     };
-    //     jwt = sign(payload, ENC_KEY);
-
-    //     url += (url.match(/\?/g) ? '&' : '?') + 'token=' + jwt;
-    //     data = null;
-    // } else {
-        // headers = {...headers, ...{"content-type": "application/json"}}
-    // }
-
     
 
-    const token = user?.token;
-    // compute session validity and prompt login in case it's expired
-    
+    const token = user?.token;    
     if (token) {
         headers = {...headers, ...{Authorization: "Bearer " + token}}
     }

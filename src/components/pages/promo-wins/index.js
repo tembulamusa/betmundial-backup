@@ -12,9 +12,7 @@ const PromoWins = () => {
         setIsLoading(true);
         
 
-        makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {
-            console.log("THE RESULTING COMMISIONS  ::::  ", response)
-            
+        makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {            
             
         })
     }

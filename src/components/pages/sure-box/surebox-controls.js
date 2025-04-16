@@ -187,7 +187,6 @@ const SureBoxControls = ({
             {bets.map((bet, index) => (
               <button
                 key={index}
-                onClick={() => console.log(`Bet ${bet.box} clicked`)}
                 className="w-full py-2 text-white bg-[#456185] rounded-md hover:bg-[#5a7699] transition-all flex items-center justify-center"
               >
                 Picked Box {bet.box}: Won

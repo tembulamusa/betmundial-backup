@@ -108,8 +108,6 @@ const Signup = (props) => {
                 navigate("/")
             }
             if(promoCodeRef.current) {
-                console.log("THE REFERRED PROMO CODE", promoCode);
-
                 if(promoCode){
                     promoCodeRef.current.value = promoCode;
                 }

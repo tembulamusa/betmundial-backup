@@ -16,11 +16,9 @@ import { getFromLocalStorage } from '../../utils/local-storage';
 const Deposit = (props) => {
 
     const [state, dispatch] = useContext(Context);
-    console.log("Demon State", state);
 
     const app_name = "desktop-web";
     const promoName = state?.promoInfo;
-    console.log('Promo Name IN POST Deposit', promoName);
     const app = promoName ? `${app_name}:${promoName}` : app_name;
 
 

@@ -16,9 +16,6 @@ const GamePlay = (props) => {
     const {game_id } = useParams()
     const [searchParams, setSearchParams] = useSearchParams();
     const live = searchParams.get("live");
-    console.log("This are the patams ", game_id, live);
-
-
     const [gameUrl, setGameUrl] = useState('')
 
     const [games] = useState(getFromLocalStorage('category_games'))
@@ -35,7 +32,6 @@ const GamePlay = (props) => {
 
         await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
             if (status == 200) {
-                console.log(result)
             }
         });
     }

@@ -62,7 +62,6 @@ const CasinoHome = () => {
         document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    //console.log('Games in log', filteredGames);
 
     return (
         <div className="flex">
