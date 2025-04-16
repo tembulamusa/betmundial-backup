@@ -33,14 +33,41 @@ const MiniGames = () => {
         }
     }, []);
 
-    const launchGame = (game, moneyType = 1) => {
-        const endpoint = `game-url/${isMobile ? "mobile" : "desktop"}/${moneyType}/${game.game_id}`;
-        makeRequest({ url: endpoint, method: "GET", api_version: "faziCasino" }).then(([status, result]) => {
-            if (status === 200) {
-                dispatch({ type: "SET", key: "casinolaunch", payload: { game, url: result?.gameUrl } });
-                navigate(`/casino/${game.game_name.split(' ').join('')}`);
-            } else {
+    const getCasinoImageIcon = (imgUrl) => {
+        let sport_image;
+        try {
+            sport_image = imgUrl;
+            if(sport_image.trim() === "") {
+                sport_image = require(`../../assets/img/casino/default.png`);  
+            }
+        } catch (error) {
+            sport_image = require(`../../assets/img/casino/default.png`);
+        }
+        return sport_image;
+    }
 
+    const launchGame = async (game, moneyType=1) => {
+        if (game?.aggregator?.toLowerCase() === "suregames") {
+            navigate(`/${game?.game_id.toLowerCase()}`)
+            return
+        }
+        
+        let endpoint = `${game?.aggregator ? game?.aggregator : game?.provider_name}/casino/game-url/${isMobile ? "mobile" : "desktop"}/${moneyType}/${game.game_id}`;
+
+        if (game?.aggregator && game?.aggregator?.toLowerCase() === "intouchvas") {
+            endpoint = endpoint + `-${game?.provider_name}`
+        }
+        if (moneyType === 1 && !getFromLocalStorage("user")?.token) {
+            dispatch({ type: "SET", key: "showloginmodal", payload: true });
+            return false
+        }
+        
+        await makeRequest({ url: endpoint, method: "GET", api_version: 'CasinoGameLaunch' }).then(([status, result]) => {
+            if (status === 200 && result?.tea_pot == null) {
+                let launchUrl = result?.game_url || result?.gameUrl;
+                dispatch({ type: "SET", key: "casinolaunch", payload: { game: game, url: launchUrl } });
+                setLocalStorage("casinolaunch", { game: game, url: launchUrl })
+                navigate(`/casino-game/${game?.provider_name.split(' ').join('-').toLowerCase()}/${game?.game_name.split(' ').join('-').toLowerCase()}`)
             }
         });
     }
