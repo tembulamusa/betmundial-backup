@@ -23,6 +23,7 @@ const RotatingCoin = (props) => {
     const [coinOnDisplay, setCoinOnDisplay] = useState("heads");
     const [won, setWon] = useState(null);
     const [bigPrizeVisible, setBigPrizeVisible] = useState(false);
+    const showJackpot = false; // Set to false to disable, true to enable
 
 
     useEffect(() => {
@@ -141,11 +142,13 @@ const RotatingCoin = (props) => {
 
 
     useEffect(() => {
+        if (!showJackpot) return; 
+        
         const interval = setInterval(() => {
             setBigPrizeVisible(true);
-        }, 60000); 
-
-        return () => clearInterval(interval); 
+        }, 60000);
+    
+        return () => clearInterval(interval);
     }, []);
 
     const handleBigPrizeClose = () => {
@@ -213,7 +216,7 @@ const RotatingCoin = (props) => {
             )}
 
             {/* Sure Coin Jackpot Popup */}
-            {bigPrizeVisible && (
+            {showJackpot && bigPrizeVisible && (
                 <>
                     <div className="surecoin-jackpot-modal-backdrop"></div>
                     <div className="surecoin-jackpot-modal">

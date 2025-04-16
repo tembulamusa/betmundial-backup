@@ -5,8 +5,8 @@ import { FaVolumeHigh } from "react-icons/fa6";
 
 import SkipRopeControls from "./skiprope-controls";
 import OddsGraph from "./odds-graph";
-//import NotSkipping from "../../../assets/img/casino/not-skipping.jpeg";
-import NotSkipping from "../../../assets/img/casino/jump-rope.webp";
+//import NotSkipping from "../../../assets/img/casino/jump-rope.webp";
+import NotSkipping from "../../../assets/img/casino/skiprope-start.png";
 //import Skipping from "../../../assets/img/casino/jumpropegirl.gif";
 import Skipping from "../../../assets/img/casino/jumping1.gif";
 import Kaboom from "../../../assets/img/casino/kaboom.gif";
@@ -112,6 +112,7 @@ const SkipRopeIndex = () => {
       setShowResting(true);
       setCashoutAvailable(false);
       setCurrentOdds(0.5);
+      setOddsHistory([0.5]); // Clear the history
       gamePlaySound.current.pause();
       gamePlaySound.current.currentTime = 0;
     }, 2000);
