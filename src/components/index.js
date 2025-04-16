@@ -1,42 +1,36 @@
 import React, { 
     useContext, 
     useEffect, 
-    useCallback, 
     useState, 
-    useRef
+    useRef,
+    Suspense
 } from "react";
 
 import {useLocation, useParams, useSearchParams} from 'react-router-dom';
 import {Context} from '../context/store';
 import makeRequest from './utils/fetch-request';
-import {getBetslip} from './utils/betslip' ;
 import useInterval from "../hooks/set-interval.hook";
-import {Spinner} from "react-bootstrap";
 import HighlightsBoard from "./highlights-board";
 import socket from "./utils/socket-connect";
 import MatchList from './matches/index';
 import { getFromLocalStorage, removeItem } from "./utils/local-storage";
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
+const PopupBanner = React.lazy(() => import('./pop_up_banner'));
 
 
 const Index = (props) => {
     const location = useLocation();
     const {sportid, categoryid, competitionid } = useParams();
     const [allSportId, setAllSportId ] = useState();
-    const [delay, setDelay] = useState(5000);
 
     const [matches, setMatches] = useState();
     const [limit, setLimit] = useState(300);
-    const [threeWay, setThreeWay] = useState(true);
     const [page, setPage] = useState(1);
-    const [, setUserSlipsValidation] = useState();
     const [state, dispatch] = useContext(Context);
     const [fetching, setFetching] = useState(false)
     const [fetchingCount, setFetchingCount] = useState(0)
     const homePageRef = useRef()
-    const [subTypes, setSubTypes] = useState([1,10,18]);
-    // const [doPoll, setDoPoll] = useState(false);
     const [searchParams] = useSearchParams();
     const [producers, setProducers] = useState([])
 
@@ -156,8 +150,6 @@ const Index = (props) => {
         <>
             <div className="homepage" ref={homePageRef}>
                 <CarouselLoader/>
-                {/* The highlights board  for running adverts and exposing high interest items */}
-
                 <section className="highlights-board">
                     <HighlightsBoard />
                 </section>
@@ -188,9 +180,10 @@ const Index = (props) => {
                     />
                 }
             </div>
-            {/* <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}> */}
-                {/* <Spinner animation={'grow'} size={'lg'}/> */}
-            {/* </div> */}
+            <Suspense fallback={<div></div>}>
+                <PopupBanner />
+            </Suspense>
+
         </>
     )
 }

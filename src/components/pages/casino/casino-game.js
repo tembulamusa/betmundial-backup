@@ -83,7 +83,10 @@ const CasinoGame = (props) => {
                 style={{}}
                 className="game-image-wrapper"
                 key={game.game_id}>
-                <LazyLoadImage id={game?.game_id} src={getCasinoImageIcon(game.image_url)}
+                <LazyLoadImage 
+                    alt={game.game_url}
+                    id={game?.game_id} 
+                    src={getCasinoImageIcon(game.image_url)}
                     className={'virtual-game-image'} />
 
                 {alertMessage && <div className="game-launch-issue"><Alert message={alertMessage} /></div>}

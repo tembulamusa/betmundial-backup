@@ -2,8 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import makeRequest from "../utils/fetch-request";
 import { Context } from "../../context/store";
 import { Link, useNavigate } from "react-router-dom";
-import Virtuals from "../../assets/highlight/virtuals.png";
-import CasinoGame from "../pages/casino/casino-game";
 import { getFromLocalStorage, setLocalStorage } from "../utils/local-storage";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Button } from "react-bootstrap";
@@ -90,20 +88,11 @@ const PopularGames = (props) => {
                             onClick={() => launchGame(game, 1)}      
                             key={game.game_id}>
 
-                            <LazyLoadImage src={getCasinoImageIcon(game.image_url)}
-                                            className={'virtual-game-image'}/>
-                        </div>                  
-                        {/* <div className="game-buttons">
-                                <Button className="casino-play-btn red-bg casino-cta"
-                                        onClick={() => launchGame(game, 1)}>
-                                    Play
-                                </Button>  
-                                <Button className="casino-demo-btn casino-cta"
-                                        onClick={() => launchGame(game, 0)}>
-                                    Demo   
-                                </Button>       
-                                    
-                        </div> */}
+                            <LazyLoadImage 
+                                src={getCasinoImageIcon(game.image_url)}
+                                alt={game?.game_name}
+                                className={'virtual-game-image'}/>
+                        </div>
                     </div>
                 ))
                 

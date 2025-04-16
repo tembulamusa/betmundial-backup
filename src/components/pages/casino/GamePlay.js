@@ -61,6 +61,7 @@ const GamePlay = (props) => {
                 games.map((game, index) => (
                     <LazyLoadImage
                         key={index}
+                        alt={game?.game_name}
                         onClick={() => startGame(game.game_id)}
                         style={{height: "50px", width: "60px", float: "left"}}
                         src={`${game.game_icon}`}
