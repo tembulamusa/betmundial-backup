@@ -76,12 +76,19 @@ const CasinoLaunchedGame = (props) => {
                 navigate("/casino");
             }
         } else {
+            let game = state?.casinolaunch || getFromLocalStorage("casinolaunch");
             if(directLaunch.includes(provider.toLowerCase())) {
-                launchOldWay();
+
+                if (gameName.toLowerCase() != "virtual-sports") {
+                    launchOldWay();
+                } else {
+                    dispatch({type:"SET", key:"casinolaunch", payload: game});
+                    setNoStateGame(game.url);
+                }
             } else {
                 let game = state?.casinolaunch || getFromLocalStorage("casinolaunch");
                 dispatch({type:"SET", key:"casinolaunch", payload: game});
-                setNoStateGame(game.url)
+                setNoStateGame(game.url);
             }
         }
 
