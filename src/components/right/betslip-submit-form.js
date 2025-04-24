@@ -25,7 +25,7 @@ import { TbRefreshAlert } from "react-icons/tb";
 import { getFromLocalStorage, removeItem, setLocalStorage } from '../utils/local-storage';
 
 const Float = (equation, precision = 4) => {
-    return Math.trunc(equation * (10 ** precision)) / (10 ** precision);
+    return Math.ceil(equation * (10 ** precision)) / (10 ** precision);
 }
 
 
