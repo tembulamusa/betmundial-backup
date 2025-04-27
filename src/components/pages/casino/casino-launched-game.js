@@ -17,7 +17,7 @@ const CasinoLaunchedGame = (props) => {
     const fullScreens = ["aviatrix"];
     const { provider, gameName } = useParams(); 
     const surePopular = window.location.pathname.includes("sure-popular"); 
-    const directLaunch = ['eurovirtuals', 'aviator']
+    const directLaunch = ['virtual-league', 'aviator']
 
     const findGameId = (provider, gameName) => {
         const games = state?.casinofilters?.games?.[0]?.gameList || [];
@@ -76,12 +76,12 @@ const CasinoLaunchedGame = (props) => {
                 navigate("/casino");
             }
         } else {
-            if(directLaunch.includes(provider.toLowerCase())) {
-                launchOldWay();
+            if(directLaunch.includes(gameName.toLowerCase())) {
+                launchOldWay();                
             } else {
                 let game = state?.casinolaunch || getFromLocalStorage("casinolaunch");
                 dispatch({type:"SET", key:"casinolaunch", payload: game});
-                setNoStateGame(game.url)
+                setNoStateGame(game.url);
             }
         }
 
