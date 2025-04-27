@@ -43,6 +43,39 @@ const Header = (props) => {
             pauseOnHover
         />
     };
+    useEffect(() => {
+        handleTokenRefresh();
+    }, []);
+
+    const handleTokenRefresh = () => {
+        if (!user) {
+            return false;
+        }
+        let endpoint = "/v2/auth/token/refresh";
+        let values = {refresh_token: user?.refresh_token}
+        makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
+            if (status == 200 || status == 201 || status == 204) {
+                if (response.status == 200 || response.status == 201) {
+                    setUser(response?.data);
+                } else {
+                    removeItem("user");
+                    setUser(null);
+                    dispatch({type:"DEL", key:"user"});
+                    dispatch({type:"SET", key:"showloginmodal", payload: true});
+                    dispatch({type:"SET", key:"sessionMessage", payload: "User Session Expired. Please Login Again"})
+                    
+                }
+            } else {
+
+            }
+        })
+    }
+
+    useInterval( async () => {
+        if(user) {
+            handleTokenRefresh();
+        };
+    } , user ? 5 * 60 * 1000 : null);
     const updateUserOnHistory = async() => {
         if (!user) {
             return false;
