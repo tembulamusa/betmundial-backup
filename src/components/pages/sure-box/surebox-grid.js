@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
-import ClosedBox from "../../../assets/img/casino/vault.png";
-import OpenBox from "../../../assets/img/casino/openedbox.webp";
+import ClosedBox from "../../../assets/img/casino/closedfullybox.png";
+import OpenBox from "../../../assets/img/casino/openedbox.png";
 
 const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
   const boxes = useMemo(
@@ -14,7 +14,6 @@ const SureBoxGrid = ({ selectedBoxes, setSelectedBoxes, boxOdds }) => {
     [selectedBoxes, boxOdds]
   );
 
-  console.log("Box odds", boxOdds); // Log the array to verify contents and length
 
   return (
     <>

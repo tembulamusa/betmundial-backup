@@ -2,8 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import makeRequest from "../utils/fetch-request";
 import { Context } from "../../context/store";
 import { Link, useNavigate } from "react-router-dom";
-import Virtuals from "../../assets/highlight/virtuals.png";
-import CasinoGame from "../pages/casino/casino-game";
 import { getFromLocalStorage, setLocalStorage } from "../utils/local-storage";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Button } from "react-bootstrap";
@@ -14,11 +12,12 @@ import {isMobile} from 'react-device-detect';
 const PopularGames = (props) => {
     const [state, dispatch] = useContext(Context);
     const [fetching, setFetching] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [alertMessage, setAlertMessage] = useState({})
 
     const fetchTopCasino = async() => {
         let endpoint = "top-games-list";
-        await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
+        await makeRequest({url: endpoint, method: "GET", api_version:"casinoGames"}).then(([status, result]) => {
             if (status == 200) {
                 setLocalStorage("toppopularcasino", result)
                 dispatch({type:"SET", key: "toppopularcasino", payload: result});             
@@ -51,25 +50,35 @@ const PopularGames = (props) => {
     }
 
     const launchGame = async (game, moneyType=1) => {
-        let endpoint = `game-url/${isMobile ? "mobile": "desktop"}/${moneyType}/${game.game_id}`;
-        if (moneyType == 1 && !state?.user?.token) {
+        if (game?.aggregator?.toLowerCase() == "suregames") {
+            navigate(`/${game?.game_id.toLowerCase()}`)
+            return
+        }
+        setFetching(true);
+        let endpoint = `${game?.aggregator ? game?.aggregator : game?.provider_name}/casino/game-url/${isMobile ? "mobile" : "desktop"}/${moneyType}/${game.game_id}`;
+
+        if (game?.aggregator && game?.aggregator?.toLowerCase() == "intouchvas") {
+            endpoint = endpoint + `-${game?.provider_name}`
+        }
+        if (moneyType == 1 && !getFromLocalStorage("user")?.token) {
             // later check if token is still valid
-            dispatch({type:"SET", key:"showloginmodal", payload:true});
+            dispatch({ type: "SET", key: "showloginmodal", payload: true });
             return false
         }
-        await makeRequest({url: endpoint, method: "GET", api_version:"faziCasino"}).then(([status, result]) => {
-            if (status == 200) {
-                dispatch({type:"SET", key:"casinolaunch", payload: {game: game, url: result?.gameUrl}});
-                setLocalStorage("casinolaunch", {game: game, url: result?.game_url})
-                navigate(`/casino/${game?.game_name.split(' ').join('')}`)
+        await makeRequest({ url: endpoint, method: "GET", api_version: 'CasinoGameLaunch' }).then(([status, result]) => {
+            if (status == 200 && result?.tea_pot == null) {
+                let launchUrl = result?.game_url || result?.gameUrl;
+                dispatch({ type: "SET", key: "casinolaunch", payload: { game: game, url: launchUrl } });
+                setLocalStorage("casinolaunch", { game: game, url: launchUrl })
+                navigate(`/casino-game/${game?.provider_name.split(' ').join('-').toLowerCase()}/${game?.game_name.split(' ').join('-').toLowerCase()}`)
             } else {
+                setAlertMessage({ status: 400, message: "Unable to launch Game" })
                 return false
             }
         });
 }
     return (
         <div className="popular-games marquee-card !mr-0 !pl-3">
-
             {
                 state?.toppopularcasino && 
                 state?.toppopularcasino[0]?.gameList?.map((game, idx) => (
@@ -79,20 +88,11 @@ const PopularGames = (props) => {
                             onClick={() => launchGame(game, 1)}      
                             key={game.game_id}>
 
-                            <LazyLoadImage src={getCasinoImageIcon(game.image_url)}
-                                            className={'virtual-game-image'}/>
-                        </div>                  
-                        {/* <div className="game-buttons">
-                                <Button className="casino-play-btn red-bg casino-cta"
-                                        onClick={() => launchGame(game, 1)}>
-                                    Play
-                                </Button>  
-                                <Button className="casino-demo-btn casino-cta"
-                                        onClick={() => launchGame(game, 0)}>
-                                    Demo   
-                                </Button>       
-                                    
-                        </div> */}
+                            <LazyLoadImage 
+                                src={getCasinoImageIcon(game.image_url)}
+                                alt={game?.game_name}
+                                className={'virtual-game-image'}/>
+                        </div>
                     </div>
                 ))
                 

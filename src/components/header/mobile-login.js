@@ -53,7 +53,6 @@ const BodyLogin = (props) => {
             // toast.success(`🚀 ${message.message || "Login successful"}`, options);
             dispatch({type:"DEL", key:"showloginmodal"});
             if(navigateAwayRoutes.includes(location.pathname)) {
-                console.log("location name: ", location.pathname)
                 const queryParams = new URLSearchParams(location.search);
                 const next = queryParams.get('next') || '/';
                 
@@ -84,8 +83,6 @@ const BodyLogin = (props) => {
         let endpoint = '/v2/auth/login';
         setIsLoading(true)
         makeRequest({url: endpoint, method: 'POST', data: values, api_version:2}).then(([status, response]) => {
-
-            console.log("THE WHOLE LOGIN RESPONSE  :::  ", status, "  THE RESPONSE  ::: ", response);
             if (status == 200 || status == 201 || status == 204) {
                 if (response.status == 200 || response.status == 201) {
                     setMessage({user:response?.data, status:200});
@@ -102,8 +99,6 @@ const BodyLogin = (props) => {
                     if (response?.result == "Failed") {
                         setGeneralErrorMessage({status: 400, message: response.error.description})
                     }
-                } else {
-                    console.log("THE LOG IN DID NOT GO THROUGH  :::  ", response);
                 }
                 if (response?.result == "User account not verified") {
                     setAlertVerifyMessage({status: 400, message:response.result})
@@ -144,7 +139,6 @@ const BodyLogin = (props) => {
     const navigateAway = (url) => {
         navigate(url)
     }
-
     const MyLoginForm = (props) => {
         const {isValid, errors, values, submitForm, setFieldValue} = props;
         const [showPassword, setShowPassword] = useState(false);
@@ -168,6 +162,12 @@ const BodyLogin = (props) => {
         return (
             <div className='mt-5 mx-auto w-11/12' style={{ maxWidth: '600px'}}>
                 <Form className="">
+                    {state?.sessionMessage 
+                    && 
+                    <div className='alert alert-warning my-4'>
+                        {state?.sessionMessage}
+                    </div>
+                    }
                     <Row>
                         <div className="px-0">
                             <label className='modal-label'>Mobile Phone</label>

@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState, useContext} from 'react';
 import {
+    ProSidebar as ProSidebar2,
     Sidebar, 
     Menu, 
     MenuItem, 
@@ -18,7 +19,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import {Context} from '../../../context/store';
 import LiveSideBar from '../live-sidebar';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import gameCategories from '../../utils/static-data';
 import Notify from '../../utils/Notify';
 import CasinoSidebar from '../../pages/casino/casino-sidebar';
@@ -35,8 +36,9 @@ const ProSidebar = (props) => {
     const queryParamValue = searchParams.get('id');
     const [competitions, setCompetitions] = useState(null);
     const [focusSportId, setFocusSportId] = useState(null);
-    const excludeSidebar = ["/login", "/signup", '/withdraw', "/deposit"]
-    
+    // const []
+    const excludeSidebar = ["/login", "/signup", '/withdraw', "/deposit", '/livescore']
+    const navigate = useNavigate()
 
     useEffect(() => {
         setLoc(location?.pathname)
@@ -60,40 +62,39 @@ const ProSidebar = (props) => {
         // get all categories
         let endpoint2 = "/v2/sports";
         let cached_competitions = getFromLocalStorage('categories');
-        if (!cached_competitions || cached_competitions.length < 1) {
+        if (!cached_competitions || cached_competitions?.length < 1) {
             const [competition_result] = await Promise.all([
                 makeRequest({url: endpoint2, method: "get", api_version:2}),
             ]);
             let [c_status, c_result] = competition_result;
             if (c_status == 200) {
                 setCompetitions(c_result?.data);
-                setLocalStorage('categories', c_result?.data, 5 * 60 * 1000);
+                setLocalStorage('categories', c_result?.data,  3 * 60 * 60 * 1000);
                 dispatch({type:"SET", key:"categories", payload:c_result});
             }
-            //  else {
-            //     Notify({status: 400, message: "Sport categories not found"});
-            // }
         } else {
             setCompetitions(cached_competitions);
             dispatch({type:"SET", key:"categories", payload:cached_competitions});
         }
-
-        setFocusSportId(79);
+        setFocusSportId(location.pathname !== "/" ? getFromLocalStorage("filtersport")?.sport_id : 79);
     };
 
     useEffect(() => {
-        if (!state?.nosports) {
-            fetchData();
+        let currentlySelectedSport  = getFromLocalStorage("filtersport");
+        if (currentlySelectedSport) {
+            dispatch({type:"SET", key: "filtersport", payload: currentlySelectedSport})
         }
-        const abortController = new AbortController();
-
-        return () => {
-            abortController.abort();
-        };
+        fetchData();
     }, []);
 
     const [width, setWidth] = useState(window.innerWidth);
-    
+
+    useEffect(() => {
+        if(state?.filtersport){
+            setFocusSportId(state?.filtersport?.sport_id)
+        }
+    }, [state?.filtersport]);
+
     const updateDimensions = () => {
         setWidth(window.innerWidth);
         if (width >= 768 && width <= 991) {
@@ -122,12 +123,19 @@ const ProSidebar = (props) => {
         return () => window.removeEventListener("resize", updateDimensions);
     }, [width]);
 
+    useEffect(() => {
+            if(location?.pathname == "/") {
+                removeItem("filtersport");
+                dispatch({type:"DEL", key:"filtersport"});
+            }
+        }, [location])
+
     const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
 
         let default_img = 'sure'
         let sport_image;
         try {
-            sport_image = topLeagues ? require(`../../../assets${sport_name}`) : require(`../../../assets/${folder}/${sport_name}.svg`);
+            sport_image = topLeagues ? require(`../../../assets/img/flags-1-1/${sport_name}.svg`) : require(`../../../assets/${folder}/${sport_name}.svg`);
         } catch (error) {
             sport_image = require(`../../../assets/${folder}/${default_img}.png`);
         }
@@ -140,31 +148,28 @@ const ProSidebar = (props) => {
 
     const getSportCompetitions = async () => {
 
-        let endpoint = `/v2/sports/competitions/${focusSportId}`;
+        let endpoint = `/v2/sports/competitions/${focusSportId || state?.filtersport?.sport_id || getFromLocalStorage("filtersport")?.sport_id || 79}`;
         let cached_competitions = getFromLocalStorage('categories') || state?.categories;
 
         // get item whose id is equal the id
-        
+
         let sport = competitions?.find(obj => obj?.sport_id == focusSportId);
         // check if the sport has competitions
         let hasCompetitions = sport && Object.keys(sport).includes('competitions');
-
         // Only make request for a focussport if the competitions are not existent
-        if (!hasCompetitions){
+        // if (!hasCompetitions){
             makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {
                 let sportIndex = competitions?.findIndex(obj => obj?.sport_id == focusSportId);
                 // update the sport with competitions
                 if (sport && status == 200) {
-                    sport.competitions = response?.data?.items
-                    
+                    sport.competitions = response?.data?.items || []
                     // for now, we just want to set the top competitions as soccer. later we'll set for every sport,
                     // so, on the basis of current situation
                     // if it's soccer, we take a slice of the games and set to top soccer
                     
-                    if (focusSportId == 79) {
-                        dispatch({type:"SET", key:"topcompetitions", payload:sport.competitions});
-                        setLocalStorage("topcompetitions", sport.competitions, 5 * 60 * 1000);
-                    }
+                    dispatch({type:"SET", key:"topcompetitions", payload: response?.data?.items || []});
+                    setLocalStorage("topcompetitions", response?.data?.items || [], 7 * 24 * 60 * 1000);
+                    
                     let newCompetitions = competitions;
 
                     // get new competitions with the updated stuff
@@ -178,50 +183,51 @@ const ProSidebar = (props) => {
                 }
                  
             })
-        }
+        // }
     }
-
+    const handleOpenChange = (sport) => {
+        dispatch({type:"SET", key:"filtersport", payload: sport});
+        setLocalStorage("filtersport", sport, 5 * 60 * 1000);
+        navigate(`/sports/matches/${sport?.sport_id}?sportId=${sport?.sport_id}`)
+    }
     // comment for normal games
-    useEffect(() => {dispatch({type: "SET", key: "nosports", payload: true})}, [])
 
     const getSportCategories = () => {
         // Check for and update for categories
         let endpoint = "/v2/sports/categories/" + focusSportId
         let sport = competitions?.find(obj => obj?.sport_id == focusSportId);
-        let hasCategories = Object.keys(sport).includes('categories');
-        if (!hasCategories){
-            makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {
-                let sportIndex = competitions?.findIndex(obj => obj?.sport_id == focusSportId);
-                // update the sport with competitions
-                if (status == 200) {
-                    sport.categories = response?.data[0].categories
-                    let newCompetitions = competitions;
-
-                    // get new competitions with the updated stuff
-                    newCompetitions[sportIndex] = sport;
-                    setCompetitions(newCompetitions);
-                    dispatch({type: "SET", key: "categories", payload: newCompetitions})
-                    setLocalStorage("categories", newCompetitions, 5 * 60 * 1000)
-
-                } else {
-                    sport.categories = [];
-                }
-                 
-            })
-        }
+        makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {
+            let sportIndex = competitions?.findIndex(obj => obj?.sport_id == focusSportId);
+            // update the sport with competitions
+            if (status == 200) {
+                sport.categories = response?.data[0]?.categories
+                let newCompetitions = competitions;
+                // get new competitions with the updated stuff
+                newCompetitions[sportIndex] = sport;
+                setCompetitions(newCompetitions);
+                dispatch({type: "SET", key: "categories", payload: newCompetitions})
+                setLocalStorage("categories", newCompetitions, 24 * 7 * 60 * 60 * 1000)
+            } else {
+                sport.categories = [];
+            }
+                
+        })
     }
 
 
     useEffect(() => {
-        if(competitions !== null ) {
-            getSportCompetitions();
-        }
-    }, [focusSportId])
+        // if(competitions !== null ) {
 
+            getSportCompetitions();
+        // }
+    }, [focusSportId])
+    
 
     return (
         <>
-        {(!state?.nosports) && (loc.includes("/live") ? <LiveSideBar /> : 
+        {
+            !(excludeSidebar.includes(location.pathname) || location.pathname.includes("casino"))  &&
+            (loc.includes("live") ? <LiveSideBar /> : 
             <div style={{
                 display: 'flex',
                 overflow: 'scroll initial',
@@ -229,56 +235,10 @@ const ProSidebar = (props) => {
                 top: "100px"
             }}
                  className={`vh-100 sticky-top d-none d-md-block up col-md-2`}>
+
                     {!competitions &&
-                    <Sidebar
-                    style={{backgroundColor: '#16202c !important'}}
-                    image={false}
-                    onToggle={handleToggleSidebar}
-                    collapsed={collapsed}
-                    toggled={toggled}>
-                        <Menu iconShape="circle">
-                            {gameCategories?.map((competition, index) => (
-                                    <SubMenu title={competition.sport_name} defaultOpen={competition.sport_name == "Soccer"}
-                                        icon={<img style={{borderRadius: '50%', height: '30px'}}
-                                                    src={getSportImageIcon(competition.sport_name)} alt=''/>}
-                                        label={competition.sport_name}
-                                        className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football', 'gaelic hurling', 'gaelic football'].includes(competition?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
-                                        key={index}>
-                                {/* <SubMenu title={'Countries'}
-                                             style={{maxHeight: '300px', overflowY: 'auto', overflowX: 'hidden'}}> */}
-                                        <PerfectScrollbar >
-                                        
-                                        {/* For soccer, let's have the top soccer leagues here as well */}
-                                        {
-                                            competition.sport_name =="Soccer"
-                                            &&
-                                            competitions?.top_soccer?.map ((league, idx) => (
-                                                <MenuItem
-                                                    title={league.competition_name}
-                                                    // label = {country.category_name}
-                                                    key={league?.competition_id}
-                                                    icon = {<img style={{borderRadius: '1px', height: '13px', width:"13px" }}
-                                                    src={getSportImageIcon(league?.flag, 'img/flags-1-1', true)}
-                                                    alt='' className='inline-block mr-2'/>}
-                                                    >
-                                                        <Link className={`sidebar-link ${(queryParamValue == league.competition_id) && 'active'}`} to={`/sports/competition/matches?id=${league.competition_id}`}
-                                                            onClick={() => changeMatches("competition", league)}>
-                                                            <span>{league?.competition_name}</span>
-                                                        </Link>
-                                                </MenuItem>
-                                            ))
-                                        
-                                        }
-                                        
-                                        </PerfectScrollbar >
-                                { /* </SubMenu> */}
-                                </SubMenu>
-                            ))}
-                        </Menu>
-                </Sidebar>
+                    <>All Sports</>
                 }
-
-
 
                 {/* The new  */}
 
@@ -291,11 +251,13 @@ const ProSidebar = (props) => {
                         <Menu iconShape="circle">
                             {
                                 competitions?.map((sport, idx) => (
-                                    <div onClick={() => setFocusSportId(sport.sport_id)}>
+                                    <div>
                                     <SubMenu title={sport?.sport_name} defaultOpen={sport?.sport_name == "Soccer"}
                                         icon={<img style={{borderRadius: '50%', height: '30px'}}
                                                     src={getSportImageIcon(sport?.sport_name)} alt=''/>}
                                         label={sport?.sport_name}
+                                        onOpenChange={() => handleOpenChange(sport)}
+                                        open={focusSportId ==  sport?.sport_id}
                                         className={`${['bandy','pesapallo', 'dota 2', 'starcraft', 'gaelic football', 'gaelic hurling', 'gaelic football'].includes(sport?.sport_name?.toLowerCase()) && 'force-reduce-img'}`}
                                         key={idx}>
                                 {/* <SubMenu title={'Countries'}
@@ -312,7 +274,7 @@ const ProSidebar = (props) => {
                                                     // label = {country.category_name}
                                                     key={competition?.competition_id}
                                                     icon = {<img style={{borderRadius: '1px', height: '13px', width:"13px" }}
-                                                    src={getSportImageIcon(competition?.flag, 'img/flags-1-1', true)}
+                                                    src={getSportImageIcon(competition?.flag_icon, 'img/flags-1-1', true)}
                                                     alt='' className='inline-block mr-2'/>}
                                                     >
                                                         <Link className={`sidebar-link ${(queryParamValue == competition.competition_id) && 'active'}`} to={`/sports/competition/matches?id=${competition.competition_id}`}
@@ -342,7 +304,7 @@ const ProSidebar = (props) => {
                                                         label = {category?.category_name}
                                                         icon={<img style={{borderRadius: '50%', height: '15px'}}
                                                         className=''
-                                                        src={getSportImageIcon(category?.cat_flag, 'img/flags-1-1')}
+                                                        src={getSportImageIcon(category?.flag_icon, 'img/flags-1-1')}
                                                         alt=''/>}
                                                         className='inner-submenu'
                                                         key={idx}>
@@ -381,7 +343,7 @@ const ProSidebar = (props) => {
         }
         
         {
-            !excludeSidebar.includes(location.pathname)  && 
+            (!excludeSidebar.includes(location.pathname) && location.pathname.includes("casino"))  && 
             
             <div className={`d-none d-md-block col-md-2`}>
                 <div className='bg-white'>

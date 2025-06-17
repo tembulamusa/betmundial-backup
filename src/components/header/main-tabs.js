@@ -16,7 +16,7 @@ const MainTabs = (props) => {
     const [activeTab, setActiveTab] = useState(tab);
     const [searchParams, ] = useSearchParams();
     const queryParamValue = searchParams.get('id');
-    
+    const localSport = getFromLocalStorage("filtersport")
 
     useEffect(() => {
         let topCompetitions = getFromLocalStorage("topcompetitions");
@@ -157,12 +157,12 @@ const MainTabs = (props) => {
         dispatch({type:"SET", key:"filtermenuclicked", payload:true});
     }
 
-    const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
+    const getSportImageIcon = (flag_icon, folder = 'svg', topLeagues = false) => {
 
         let default_img = 'sure'
         let sport_image;
         try {
-            sport_image = topLeagues ? require(`../../assets${sport_name}`) : require(`../../assets/${folder}/${sport_name}.svg`);
+            sport_image = require(`../../assets/img/flags-1-1/${flag_icon}.svg`);
         } catch (error) {
             sport_image = require(`../../assets/${folder}/${default_img}.png`);
         }
@@ -172,7 +172,7 @@ const MainTabs = (props) => {
     return (
         <div className='bg-white shadow-sm border-b border-gray-200 mb-3 block relative'>
             <div className="border-b border-gray-200 !uppercase font-bold main-tabs reduced-mobile-text px-2 md:flex">
-                <div className='col-4 col-md-4 col-sm-4 hidden md:flex !mr-0 pr-0'>
+                {/* <div className='col-4 col-md-4 col-sm-4 hidden md:flex !mr-0 pr-0'>
                     <div className="filter-group-icon mb-0" key="1">
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-custom-components" variant="transparent-selector" >
@@ -191,8 +191,8 @@ const MainTabs = (props) => {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                </div>
-                <div className='md:col-8 md:w-8/12 text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto md:!overflow-hidden'>
+                </div> */}
+                <div className='md:col-12 md:w-12/12 !w-full text-gray-500 cursor-pointer mobile-custom-scrollbar px-2 overflow-auto md:!overflow-hidden'>
                     <div className='row'>
                         <div className="col-4 col-md-4 col-sm-4">
                             <div className={`home-tabs hover:text-hover ${activeTab == 'highlights' && 'home-tab-active'}`} 
@@ -211,8 +211,7 @@ const MainTabs = (props) => {
             </div>
             <div className='md:mx-2 flex mobile-custom-scrollbar !px-2 overflow-auto md:overflow-hidden w-full'>
                 <Link
-                onClick={() => dispatch({type: "SET", key: "filtercompetition", payload: {competition_id: 0}})}
-                to={`/competition/${selectedSport.sport_id}`} className={`mx-3 main-tabs-submenu item ${(!queryParamValue) && 'active'}`}>
+                to={`/competition?sportId=${state?.filtersport?.sport_id || localSport?.sport_id || 79}`} className={`mx-3 main-tabs-submenu item ${(!queryParamValue) && 'active'}`}>
                     All
                 </Link>
                 {state?.topcompetitions?.slice(0, 5)?.map((competition, idx) => (
@@ -222,10 +221,10 @@ const MainTabs = (props) => {
                     to={`/sports/competition/matches?id=${competition.competition_id}`}
                     className={`mx-3 main-tabs-submenu item ${(queryParamValue == competition.competition_id) && 'active'}`} style={{fontSize: "13px"}}
                     >
-                        <img style={{borderRadius: '1px', height: '13px', width:"13px" }}
-                        src={getSportImageIcon(competition?.flag, 'img/flags-1-1', true)}
+                        <img style={{borderRadius: '1px', height: '13px', width:"13px", marginTop:"-7px" }}
+                        src={getSportImageIcon(competition?.flag_icon, 'img/flags-1-1', true)}
                         alt='' className='inline-block mr-2'/>
-                        <span className='inline-block leading-0'>{competition?.competition_name}</span>
+                        <span className='top-competitions-title inline-block leading-0'>{competition?.competition_name}</span>
                     </Link>
                 </>
                 ))}

@@ -14,6 +14,9 @@ import { getBetslip } from './utils/betslip' ;
 
 import { MarketList } from './matches/index';
 import { Context } from "../context/store";
+import socket from "./utils/socket-connect";
+import AllMarketsUnavailable from "./utils/all-markets-unavailable";
+import { data } from "jquery";
 
 const Header = React.lazy(()=>import('./header/header'));
 const Footer = React.lazy(()=>import('./footer/footer'));
@@ -22,7 +25,7 @@ const Right = React.lazy(()=>import('./right/index'));
 
 const MatchAllMarkets = (props) => {
     const [page, setPage] = useState(1);
-    const [producerDown, setProducerDown] = useState(false);
+    const [producers, setProducers] = useState([]);
     const { live } = props;
     const [matchwithmarkets, setMatchWithMarkets] = useState();
     const [userSlipsValidation, setUserSlipsValidation] = useState();
@@ -30,7 +33,10 @@ const MatchAllMarkets = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [, dispatch] = useContext(Context);
     const navigate = useNavigate();
+    const [betstopMessage, setBetstopMessage] = useState();
+    const [socketIsConnected, setSockectIsConnected] = useState(socket.connected);
     
+
     const findPostableSlip = () => {
         let betslips = getBetslip() || {};
         var values = Object.keys(betslips).map(function(key){
@@ -38,66 +44,85 @@ const MatchAllMarkets = (props) => {
         });
         return values;
     };
-    useInterval(() => {
-		let endpoint = live 
-			? "/v2/sports/match/live/" + params.id
-			: "/v2/sports/match/"+params.id;
+       
+    
+    useEffect(() => {
+        socket.connect();
+        fetchPagedData()
+        return () => {
+            socket.disconnect();
+        }
+    }, []);
 
-        let betslip = findPostableSlip();
-        let method = "GET";
+    
 
-		makeRequest({url:endpoint, method:method, api_version:2}).then(([_status, response]) => {
-			if (_status == 200)
-                {setMatchWithMarkets(response?.data || response );
-                if(response?.slip_data) {
-                    setUserSlipsValidation(response?.slip_data);
-                }
-                setProducerDown(response?.producer_status == 1);
-            }  else {
-                navigate("/");
-            }
-		});                                                                     
-    }, (live ? 2000: null));
-
-
-    const fetchPagedData =useCallback(async() => {
+    const fetchPagedData =() => {
         if(!isLoading && !isNaN(+params.id)) {
             setIsLoading(true);
             let betslip = findPostableSlip();
-            let endpoint = live 
-                ? "/v2/sports/match/live/" + params.id
-                : "/v2/sports/match/"+params.id;
-            await makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
-                setMatchWithMarkets(result?.data|| result)
-                setProducerDown(result?.producer_status == 1);
+            let endpoint = live ? "/v2/sports/match/live/" + params.id :
+            "/v2/sports/match/" + params.id
+            makeRequest({url: endpoint, method: "GET", api_version:2}).then(([status, result]) => {
+                setMatchWithMarkets(result?.data);
+                setProducers(result?.producer_statuses);
                 setIsLoading(false);
             });
         }
-    }, [params.id]);
+    };
 
-    useEffect(()=> {
-        dispatch({type:"SET", key: "matchlisttype", payload: "normal"});
-        return () => {
-            dispatch({type:"DEL", key: "matchlisttype"});
+    const handleGameSocket = (type) => {
+        socket.emit('user.match.listen', matchwithmarkets?.parent_match_id);
+            
+    };
+
+
+    useInterval(() => {
+        if(!socketIsConnected){
+            fetchPagedData();
         }
-    },[])
+    }, !socketIsConnected ? 3000 : null );
 
-    useLayoutEffect(() => {
-        const abortController = new AbortController();                          
-        fetchPagedData();
-        return () => {                                                          
-            abortController.abort();                                            
-        };                                                                      
-    }, [fetchPagedData, params.id]);
+    useEffect(() => {
+        
+        const handleConnect = () => setSockectIsConnected(true);
+        const handleDisconnect = () => setSockectIsConnected(false);
+        if(matchwithmarkets) {
+            handleGameSocket("listen")
+        }
+        socket.on(`surebet#${matchwithmarkets?.parent_match_id}`, (data) => {
+            if(data.message_type == "betstop") {
+                setBetstopMessage(data);
+            } else {
+                if(["ended"].includes(data.match_status.toLowerCase())) {
+                    window.location.reload();
+                }
+            }
+            
+        });
+
+
+        
+        socket.on("connect", handleConnect);
+        socket.on("disconnect", handleDisconnect);
+       
+    }, [matchwithmarkets, socket.connected])
 
    return (
        <>
            
         <div className="homepage">
-            <MarketList live={live}  
-                matchwithmarkets={matchwithmarkets} 
-                pdown={producerDown} />
-        </div> 
+            {matchwithmarkets && <MarketList live={live}  
+                initialMatchwithmarkets={matchwithmarkets} 
+                producers={producers} 
+                betstopMessage = {betstopMessage} 
+                setBetstopMessage={setBetstopMessage}
+                />}
+        </div>
+
+
+        {(!matchwithmarkets && !isLoading) && 
+            <AllMarketsUnavailable backLink={live ? "/live" : "/"} isLoading={isLoading}/>
+        }
            
        </>
    )

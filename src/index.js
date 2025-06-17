@@ -13,6 +13,8 @@ import './assets/css/tolkits.css';
 import './assets/css/sidebar-menu.css';
 import './assets/css/surecoin.css';
 import './assets/css/surebox.css';
+import './assets/css/skip-rope.css';
+import './assets/css/jumprope.css';
 import './assets/css/casino.css';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css'
@@ -38,6 +40,8 @@ import VerifyAccount from './components/pages/auth/verify-account';
 import MobileApp from './components/pages/app';
 import ProtectedRoute from './components/utils/protected-route';
 import PrintMatches from './components/pages/downloads';
+import Promotions from './components/pages/promotions/Promotions';
+import PromotionsNew from "./components/pages/promotions/PromotionsNew";
 import Casino from './components/pages/casino/Casino';
 import CheckDepositStatus from "./components/check-deposit-status";
 import Exclude from "./components/pages/exclude";
@@ -52,12 +56,15 @@ import Logout from "./components/pages/auth/logout";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import SureCoin from "./components/pages/sure-coin";
 import SureBoxIndex from "./components/pages/sure-box/surebox-index";
+import SureboxMines from "./components/pages/sure-box/surebox-mines";
+import SkipRopeIndex from "./components/pages/skip-rope/skiprope-index";
+import JumpRopeIndex from "./components/pages/sure-jumprope/jumprope-index";
 import CasinoLaunchedGame from "./components/pages/casino/casino-launched-game";
 import CasinoHome from "./components/pages/casino/casino-home";
 import ReactGA from "react-ga4";
 import PageviewTracker from "./components/utils/pageview-tracker";
-import PopupBanner from "./components/pop_up_banner";
 import { PromoTracker } from "./promo-tracker";
+import PromoWins from "./components/pages/promo-wins";
 
 const container = document.getElementById("app");
 
@@ -72,7 +79,6 @@ const App = () => {
             <BrowserRouter>
             <PageviewTracker />
             <PromoTracker />
-            <PopupBanner />
             <div className={`${(state?.casinolaunch || state?.surecoinlaunched) && "launched-casino-wrapper "} ${state?.hideBigIconNav && 'no-big-icon-nav'}`}>
                 <Suspense fallback={<p></p>}>
                 { !state?.fullcasinoscreen && <Header /> }
@@ -82,18 +88,20 @@ const App = () => {
                     </div>
                     <div className={`${state?.casinolaunch ? "": "diminish-mobile-row row"}`}>
                         {/* Conditional load live or otherwise */}
-                        {!(state?.casinolaunch || state?.surecoinlaunched) && <Sidebar />}
-                        <div className={`${(state?.casinolaunch || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
+                        {!(state?.casinolaunch || state?.fullpagewidth || state?.surecoinlaunched) && <Sidebar />}
+                        <div className={`${(state?.casinolaunch || state?.fullpagewidth || state?.surecoinlaunched) ? "": `${state?.nosports ? "col-md-10 mx-auto y-scrollable-window": "col-md-7 home mx-auto"}`}`}>
                         <Routes>
                             
                             <Route exact path="/casino" element={<Casino />}/>
+                            <Route exact path="/casino1" element={<CasinoHome />}/>
                             <Route exact path="/casino/:filterType/:filterName" element={<Casino />}/>
                             <Route exact path="/casino-game/:provider/:gameName" element={<CasinoLaunchedGame />}/>
                             <Route exact path="/casino-game/:provider/:gameName/sure-popular" element={<CasinoLaunchedGame />} />
                             <Route exact path="/match/live/:id" element={<MatchAllMarkets live/>}/>
+                            <Route exact path="/match/:id" element={<MatchAllMarkets/>}/>
                             <Route exact path="/jackpot" element={<Jackpot/>}/>
                             <Route exact path="/live" element={<Live/>}/>
-                            <Route exact path="/live/:spid" element={<Live/>}/>
+                            <Route exact path="/live/:spid/" element={<Live/>}/>
                             <Route exact path="/privacy-policy" element={<PrivacyPolicy/>}/>
                             <Route exact path="/anti-money-laundering" element={<AntimoneyLaundering/>}/>
                             <Route exact path="/responsible-gambling" element={<ResponsibleGambling/>}/>
@@ -103,6 +111,7 @@ const App = () => {
                             <Route exact path="/terms-and-conditions" element={<TermsAndConditions/>}/>
                             <Route exact path="/how-to-play" element={<HowToPlay/>}/>
                             <Route exact path="/signup" element={<Signup/>}/>
+                            <Route exact path="/signup/:promoCode" element={<Signup />}/>
                             <Route exact path="/login" element={<Login/>}/>
                             <Route exact path="/reset-password" element={<ResetPassword/>}/>
                             <Route exact path="/forgot-password" element={<ForgotPassword/>}/>
@@ -113,19 +122,27 @@ const App = () => {
                             <Route exact path="/exclude" element={<Exclude/>}/>
                             <Route exact path="/surecoin" element={<SureCoin/>}/>
                             <Route exact path="/surebox" element={<SureBoxIndex/>}/>
+                            <Route exact path="/surebox-mines" element={<SureboxMines/>}/>
+                            <Route exact path="/skip-rope" element={<SkipRopeIndex/>}/>
+                            <Route exact path="/jump-rope" element={<JumpRopeIndex/>}/>
+                            <Route exact path="/livescore" element={<LiveScore/>}/>
+                            <Route exact path="/promotions" element={<Promotions/>}/>
+                            <Route exact path="/promotions-new" element={<PromotionsNew/>}/>
                             <Route exact path="/deposit"
                                 element={<ProtectedRoute><Deposit/></ProtectedRoute>}/>
                             <Route exact path="/withdraw"
                                 element={<ProtectedRoute><Withdraw/></ProtectedRoute>}/>
                             <Route exact path="/my-bets"
                                 element={<ProtectedRoute><MyBets/> </ProtectedRoute>}/>
+                            <Route exact path="/promo-wins"
+                                element={<ProtectedRoute><PromoWins/> </ProtectedRoute>}/>
 
                             {/* DEFAULT CUrrently the default component. Switch to INDEX when SPORTS AVAILABLE */}
-                            <Route path="*" element={<Casino/>}/>
+                            <Route path="*" element={<Index/>}/>
 
                             </Routes>
                     </div>
-                    {!(state?.casinolaunch || state?.surecoinlaunched) && <Right />}           
+                    {!(state?.casinolaunch || state?.fullpagewidth || state?.surecoinlaunched) && <Right />}           
                 </div>
             </div>
             {!state?.fullcasinoscreen && <Footer />}

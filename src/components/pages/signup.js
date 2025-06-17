@@ -1,15 +1,16 @@
 
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Formik, Form} from 'formik';
 import makeRequest from "../utils/fetch-request";
 import mpesa from '../../assets/img/mpesa-3.png'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { Context } from '../../context/store';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Notify from '../utils/Notify';
 import { Link } from 'react-router-dom';
 import { FaRegEye, FaRegEyeSlash  } from "react-icons/fa";
+import { getFromLocalStorage } from '../utils/local-storage';
 
 const Signup = (props) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -35,6 +36,7 @@ const Signup = (props) => {
         let data = {
             msisdn: values.msisdn,
             password: values.password,
+            promo_code: values.promo_code,
             app_name: app,
         };
 
@@ -92,9 +94,25 @@ const Signup = (props) => {
     }
 
     const MySignupForm = (props) => {
+
         const { errors, values, setFieldValue, submitForm } = props;
         const [showPassword, setShowPassword] = useState(false);
         const [showPassword2, setShowPassword2] = useState(false);
+        const [searchParams] = useSearchParams();
+        const {promoCode} = useParams();
+        const promoCodeRef = useRef(null);
+
+
+        useEffect(() => {
+            if(getFromLocalStorage("user")){
+                navigate("/")
+            }
+            if(promoCodeRef.current) {
+                if(promoCode){
+                    promoCodeRef.current.value = promoCode;
+                }
+            }
+        }, [])
 
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
@@ -176,6 +194,25 @@ const Signup = (props) => {
                             </div>
                         </div>
 
+                        {/* refcode */}
+                        <div className="form-group row d-flex justify-content-center mt-5">
+                            <div className="col-md-12">
+                                <label>Promo Code</label>
+                                <input
+                                    ref={promoCodeRef}
+                                    value={values.promo_code}
+                                    className="form-control block px-3 py-3 w-full rounded-2xl std-input "
+                                    id="promo_code"
+                                    name="promo_code"
+                                    type="text"
+                                    disabled={promoCode ? true : false}
+                                    placeholder='Promo Code'
+                                    onChange={ev => onFieldChanged(ev)}
+                                />
+                                {errors.promo_code && <div className='text-danger'> {errors.promo_code} </div>}
+                            </div>
+                        </div>
+
                         <div className="form-group row d-flex justify-content-left mb-4">
                             <div className="">
                                 <button type="submit"
@@ -223,28 +260,31 @@ const Signup = (props) => {
     };
 
     return (
-        <React.Fragment>
+        <>
+        {
+            <React.Fragment>            
+                <div className='signup-container' >
+                <div className='col-md-12 border-b border-gray-200 page-title p-4 text-center mb-4'>
+                <h4 className="">
+                            Register
+                        </h4>
+                    </div>
+                    <div className='std-medium-width-block bg-white'>
+                        <div className="col-md-12 mt-2 p-2 std-boxed-form-page" 
+                            style={{}}
+                        >
 
-            
-                    <div className='signup-container' >
-                    <div className='col-md-12 border-b border-gray-200 page-title p-4 text-center mb-4'>
-                    <h4 className="">
-                                Register
-                            </h4>
-                        </div>
-                        <div className='std-medium-width-block bg-white'>
-                            <div className="col-md-12 mt-2 p-2 std-boxed-form-page" 
-                                style={{}}
-                            >
-
-                                {message ? <Alert/>:""}
-                                <div className="modal-body pb-0" data-backdrop="static">
-                                    <SignupForm/>
-                                </div>
+                            {message ? <Alert/>:""}
+                            <div className="modal-body pb-0" data-backdrop="static">
+                                <SignupForm/>
                             </div>
                         </div>
                     </div>
+                </div>
         </React.Fragment>
+        }
+    </>
+        
     );
 }
 

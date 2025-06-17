@@ -9,12 +9,13 @@ import { useLocation } from "react-router-dom";
 
 const LoginModal = (props) => {
     const {setUser} = props;
+    
     const [state, dispatch] = useContext(Context);
     const location = useLocation();
 
     useEffect(() => {
         if(state?.showloginmodal == true) {
-            dispatch({type:"DEL", key:"showloginmodal"})
+            // dispatch({type:"DEL", key:"showloginmodal"})
         }
     }, [location]);
 
@@ -26,7 +27,7 @@ const LoginModal = (props) => {
             onHide={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}
             dialog className="popover-login-modal"
             aria-labelledby="contained-modal-title-vcenter">
-                     <Modal.Header closeButton className="no-header">
+                    <Modal.Header closeButton className="no-header">
                       <Modal.Title>LOGIN IN TO SUREBET</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="p-0">

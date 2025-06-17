@@ -45,8 +45,6 @@ const Casino = (props) => {
 
         const userState = (getFromLocalStorage("user"));
 
-        console.log(userState)
-
         if (userState?.token) {
             return window.location.href = `/virtuals/launch/${game_id}?live=1`
         }
@@ -79,6 +77,7 @@ const Casino = (props) => {
                                     className="col-md-2 mt-1 d-flex flex-column shadow-sm"
                                     key={game.game_id}>
                                 <LazyLoadImage src={`${game.game_icon}`}
+                                    alt={game.gamw_name}
                                                 className={'virtual-game-image'}/>
                                 <p className={'p-2 bold'}>{game.game_name}</p>
                             </div>

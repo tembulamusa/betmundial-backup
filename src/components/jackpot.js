@@ -7,15 +7,11 @@ import Tabs from 'react-bootstrap/Tabs';
 import Container from "react-bootstrap/Container";
 import { Context } from '../context/store';
 import {
-    removeFromSlip,
-    getBetslip,
-    clearSlip,
-    clearJackpotSlip,
-    formatNumber,
     addToJackpotSlip,
     getJackpotBetslip
 } from './utils/betslip';
 import Notify from "./utils/Notify";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Jackpot = (props) => {
     const [jackpotData, setJackpotData] = useState(null);
@@ -112,7 +108,7 @@ const Jackpot = (props) => {
 
     return (
         <>
-            <img src={dailyJackpot} alt="jackpot" className="std-carousel-image"/>
+            <LazyLoadImage src={dailyJackpot} alt="jackpot" className="std-carousel-image"/>
             
                     <div className="jackpot-header row bg-secondary">
                         <div className="col-12">

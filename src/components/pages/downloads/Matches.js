@@ -151,7 +151,6 @@ export function PdfDocument(props) {
     }
 
     const getDoubleChanceOdds = (match, key) => {
-        console.log("Looking at this match", match)
         let odds = match.odds;
         let doubleChance = odds['Double Chance']
         if (key == '1X') {

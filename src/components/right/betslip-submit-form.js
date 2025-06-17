@@ -11,7 +11,6 @@ import {
     formatNumber
 } from '../utils/betslip';
 import {toast} from 'react-toastify';
-import {publicIp} from 'public-ip';
 import makeRequest from '../utils/fetch-request';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,12 +20,12 @@ import {
     useFormikContext,
     Field
 } from 'formik';
-import { isNull } from 'util';
+import { isMobile } from "react-device-detect";
 import { TbRefreshAlert } from "react-icons/tb";
-import { setLocalStorage } from '../utils/local-storage';
+import { getFromLocalStorage, removeItem, setLocalStorage } from '../utils/local-storage';
 
 const Float = (equation, precision = 4) => {
-    return Math.round(equation * (10 ** precision)) / (10 ** precision);
+    return Math.ceil(equation * (10 ** precision)) / (10 ** precision);
 }
 
 
@@ -41,25 +40,66 @@ const BetslipSubmitForm = (props) => {
     const [withholdingTax, setWithholdingTax] = useState(0);
     const [possibleWin, setPossibleWin] = useState(0);
     const [netWin, setNetWin] = useState(0);
-    const [betslipkey, setBetslipKey] = useState(() => jackpot ? "jackpotbetslip": "betslip")
-
+    const [bonus, setBonus] = useState(0);
+    const [betslipkey, setBetslipKey] = useState(() => jackpot ? "jackpotbetslip": "betslip");
+    const [ipInfo, setIpInfo] = useState({});
     const [totalGames, setTotalGames] = useState(0);
     const [totalOdds, setTotalOdds] = useState(1);
+    const [dbWinMatrix, setDbWinMatrix] = useState({
+            "sgr_bonus_percent_29": "98",
+            "sgr_bonus_percent_27": "85",
+            "sgr_bonus_percent_28": "95",
+            "sgr_bonus_percent_9": "9",
+            "sgr_bonus_percent_10": "10",
+            "sgr_bonus_max_games": "20",
+            "sgr_bonus_percent_11": "14",
+            "sgr_bonus_percent_30": "100",
+            "sgr_bonus_percent_7": "7",
+            "sgr_bonus_percent_8": "8",
+            "sgr_bonus_percent_5": "5",
+            "sgr_bonus_percent_14": "22",
+            "sgr_bonus_percent_6": "6",
+            "sgr_bonus_percent_15": "26",
+            "sgr_bonus_percent_3": "3",
+            "sgr_bonus_percent_12": "15",
+            "sgr_bonus_percent_4": "4",
+            "sgr_bonus_percent_13": "16",
+            "sgr_bonus_percent_18": "38",
+            "sgr_bonus_percent_19": "46",
+            "sgr_bonus_percent_16": "30",
+            "sgr_bonus_enabled": "1",
+            "sgr_bonus_percent_17": "34",
+            "sgr_bonus_percent_21": "54",
+            "sgr_bonus_percent_22": "58",
+            "sgr_bonus_percent_20": "50",
+            "sgr_bonus_min_odds": "1.30",
+            "sgr_bonus_percent_25": "70",
+            "sgr_bonus_percent_26": "80",
+            "sgr_bonus_percent_23": "62",
+            "sgr_bonus_percent_24": "66"
+        });
 
-
+    useEffect(() => {
+        fetch("https://api64.ipify.org?format=json")
+          .then((response) => response.json())
+          .then((data) => setIpInfo(data.ip))
+          .catch((error) => setIpInfo({city: "Error fetching IP"}));
+      }, []);
+      
+      
     const rebet = async() => {
         // check for the betslip to be reloaded
         if (state?.jackpotrebetslip) {
-            
             dispatch({type:"SET", key:"jackpotbetslip", payload: state?.jackpotrebetslip});
             setLocalStorage('jackpotbetslip', state?.jackpotrebetslip, 1*60*60*1000);
             dispatch({type:"DEL", key:"jackpotrebetslip"});
 
 
         } else {
-            dispatch({type:"SET", key:"betslip", payload: state?.rebetslip});
+            dispatch({type:"SET", key:"betslip", payload: state?.rebetslip});            
             setLocalStorage('betslip', state?.rebetslip, 1*60*60*1000);
-            dispatch({type:"DEL", key:"rebetslip"})
+            dispatch({type:"DEL", key:"rebetslip"});
+            // window.location.href = '/'
         }
 
     }
@@ -77,8 +117,8 @@ const BetslipSubmitForm = (props) => {
                  className={`placebet-response fade alert alert-${c} show alert-dismissible`}>
 
                     <div className=''>
-                        <div className='alert-title text-2xl flex font-bold w-full py-3'>
-                            <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div>
+                        <div className='alert-title text-2xl fex font-bold w-full py-3 justify-between'>
+                            {/* <div className=' w-10/12'>{message?.title ? message?.title : "Error!"}</div> */}
                             <div aria-hidden="true" style={x_style} onClick={() => setMessage(null)}>&times;</div>
                         </div>
                         <div className='text-2xl mb-3 font-normal'>{message.message}</div>
@@ -91,10 +131,8 @@ const BetslipSubmitForm = (props) => {
                             </div>
                         }
                     </div>
-                
             </div>}
         </>);
-
     };
 
     useEffect(() => {
@@ -126,62 +164,79 @@ const BetslipSubmitForm = (props) => {
     }
     const handlePlaceBet = useCallback((values,
                                         {setSubmitting, resetForm, setStatus, setErrors}) => {
-
+                
+        if (!getFromLocalStorage("user") || !getFromLocalStorage("user")?.token) {
+            return false
+        }
 
         let bs = Object.values(state?.[betslipkey] || []);
         
         let slipHasOddsChange = false;
+        let slipHasUnbettableEvents = false;
         let jackpotMessage = 'jp';
 
 
         for (let slip of bs) {
-            delete slip.start_time
             if (jackpot) {
                 jackpotMessage += "#" + slip.bet_pick
             }
-            if (slip.prev_odds
+
+            if(slip.disable == true) {
+                slipHasUnbettableEvents = true;
+                break;
+            } else if (slip.prev_odds
                 && slip.prev_odds !== slip.odd_value
-                && values.accept_all_odds_change == false) {
+                && (values.accept_all_odds_change == 0 || !values.accept_all_odds_change)) {
                 slipHasOddsChange = true;
                 break;
+            } else {
+                delete slip.start_time
+                delete slip.disable
+                delete slip.comment
+                delete slip.prev_odds
+                delete slip.changeOrigin
+                delete slip.event_status
             }
         }
 
 
-        if (slipHasOddsChange == true) {
+        if (slipHasUnbettableEvents == true || slipHasOddsChange == true) {
+            
+            let message = ""
+
+            if (slipHasUnbettableEvents == true) {
+                message += "Slip has events that have been disabled or suspended."
+                + " Please remove to proceed"
+            }
+
+            if (slipHasOddsChange == true) {
+                message += "Slip has events with changed odds, tick "
+                    + " accept odds all odds change box to accept and place bet"
+            }
             setMessage({
                 status: 400,
-                message: "Slip has events with changed odds, tick "
-                    + " accept odds all odds change box to accept and place bet"
+                message: message
             });
-            setSubmitting(false);
-            return false;
-        }
-        // const getIp = async () => {
-        //     let ipv4 = await publicIp.v4({
-        //         fallbackUrls: ['https://ifconfig.co/ip']
-        //     }).then((result) => {
-        //         return result
-        //     });
-        //     return ipv4;
-        // }
 
+            setSubmitting(false);
+            return;
+        }
 
         let payload = {
-            bet_string: 'web',
-            app_name: 'desktop',
+            bet_string: isMobile ? 'mobile':'web',
+            app_name: isMobile ? 'mobile':'desktop',
             possible_win: possibleWin,
-            stake_amount: values.bet_amount,
-            amount: values.bet_amount,
+            stake_amount: stake,
+            amount: stake,
             bet_total_odds: Float(totalOdds, 2),
-            // endCustomerIP: getIp(),
-            channel_id: 'web',
+            ip_address: ipInfo,
+            channel_id: isMobile ? 'mobile' : 'web',
             slip: bs,
-            profile_id: state?.user?.profile_id,
+            profile_id: getFromLocalStorage("user")?.profile_id || state?.user?.profile_id,
             account: 1,
-            msisdn: state?.user?.msisdn,
+            msisdn: getFromLocalStorage("user")?.msisdn || state?.user?.msisdn,
             accept_all_odds_change: values.accept_all_odds_change == true ? 1 : 0,
-            bet_type: state?.islive ? "1" : jackpot ? "9" : "3" // update for live
+            bet_type: getFromLocalStorage("liveCount") > 0 ? "1" : jackpot ? "9" : "3" // update for live
         };
         let endpoint = '/v2/user/place-bet';
         let method = "POST"
@@ -194,7 +249,15 @@ const BetslipSubmitForm = (props) => {
             .then(([status, response]) => {
                 if (status == 200 || status == 201 || status == 204 || jackpot) {
                     if (response?.status == 200) {
-                        dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true})
+                        dispatch({
+                            type:"SET",
+                            key:"toggleuserbalance",
+                            payload: state?.toggleuserbalance 
+                            ?
+                            !state?.toggleuserbalance : true
+                        })
+                        setBonus(0);
+                        removeItem("bonusCentage")
                         handleRemoveAll();
                         if (jackpot) {
                             // save betslip into state before proceeding
@@ -208,15 +271,19 @@ const BetslipSubmitForm = (props) => {
                             dispatch({type:"SET", key:"rebetslip", payload:state?.betslip})
                             clearSlip();
                         }
-                    
-                    
                     dispatch({type: "DEL", key: jackpot ? 'jackpotbetslip' : 'betslip'});
                     response = {...response, ...{title: successfulBetHeading()}}
-                    setMessage({status: status, message: response?.data?.message, title:successfulBetHeading()})
+                    setMessage({status: status, message: "Your place bet request received successfully", title:successfulBetHeading()})
                     } else {
                         let qmessage = {
                             status: 400,
-                            message: response?.message || response?.error?.message || response?.result || "Error attempting to place bet"
+                            message: response?.message
+                            ||
+                            response?.error?.message
+                            ||
+                            response?.result
+                            ||
+                            "Error attempting to place bet"
                         };
                         if (response.status == 402) {
                             // remove the betslip
@@ -237,6 +304,9 @@ const BetslipSubmitForm = (props) => {
                         status: status,
                         message: response?.message || response?.error?.message || "Error attempting to place bet"
                     };
+                    if(qmessage.status == 500) {
+                        qmessage.message = "Error attempting to place bet"
+                    }
                     setMessage(qmessage);
                 }
                 setSubmitting(false);
@@ -246,6 +316,18 @@ const BetslipSubmitForm = (props) => {
     const updateWinnings = useCallback(() => {
         if (state?.[betslipkey]) {
 
+        // Get Bonus
+        let max_games = dbWinMatrix?.sgr_bonus_max_games || 30;
+        let total_games = Object.values(state?.betslip||{})?.filter(
+            (slip) => slip.odd_value > (dbWinMatrix?.sgr_bonus_min_odds || 1.30) )?.length;
+
+        if (total_games > max_games) {
+            total_games = max_games;
+        }
+        let strConstruct = `sgr_bonus_percent_${total_games}`
+        let centageInt = parseInt(dbWinMatrix[strConstruct]) / 100 || 0;
+        
+
             setTotalGames(Object.keys(state?.[betslipkey] ||{}).length);
             
             let odds = Object.values(state?.[betslipkey]||{}).reduce((previous, {odd_value}) => {
@@ -253,9 +335,11 @@ const BetslipSubmitForm = (props) => {
             }, 1);
             setTotalOdds(odds);
             
-            let stake_after_tax = (stake / 112.5) * 100
+            let stake_after_tax = (stake / 115) * 100
             let ext = stake - stake_after_tax;
             let raw_possible_win = stake_after_tax * Float(odds);
+            raw_possible_win += raw_possible_win * Float(centageInt);
+            
             if (jackpot) {
                 raw_possible_win = jackpotData?.jackpot_amount
             }
@@ -266,13 +350,13 @@ const BetslipSubmitForm = (props) => {
 
             let wint = taxable_amount * 0.2;
             let nw = raw_possible_win - wint;
-            setExciseTax(Float(ext, 2));
+            let computeExAmt = stake - Float(stake_after_tax, 2);
             setStakeAfterTax(Float(stake_after_tax,2));
+            setExciseTax(Math.round(computeExAmt * (10 ** 2)) / (10 ** 2));
             setNetWin(nw > Float(5000000) ? Float(5000000) : Float(nw, 2));
-            setPossibleWin(Float(nw, 2));
+            setPossibleWin(Float(raw_possible_win, 2));
             setWithholdingTax(Float(wint, 2));
-
-            // update state espcially for the footer
+            setBonus( Float(stake_after_tax * Float(odds) * Float(centageInt), 2))
             dispatch({type:"SET", key:"totalodds", payload: Float(odds)})
             dispatch({type:"SET", key:"slipnetwin", payload:Float(nw,2)})
         } else {
@@ -281,6 +365,8 @@ const BetslipSubmitForm = (props) => {
             setExciseTax(0);
             setPossibleWin(0);
             setStakeAfterTax(0);
+            setBonus(0);
+            setTotalOdds(1);
         }
         if (message && message.status > 299) {
             setMessage(null);
@@ -290,20 +376,25 @@ const BetslipSubmitForm = (props) => {
 
     const handleRemoveAll = () => {
         let betslips = state?.isjackpot ? getJackpotBetslip() : getBetslip();
+
         if (betslips) {
             Object.entries(betslips).map(([match_id, match]) => {
-            state?.isjackpot ? removeFromJackpotSlip(match_id) : removeFromSlip(match_id);
-            let match_selector = match.match_id + "_selected";
-            let ucn = clean_rep(
-                match.match_id
-                + "" + match.sub_type_id
-                + (match.bet_pick)
-            );
-            dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
+                state?.isjackpot 
+                    ? removeFromJackpotSlip(match_id) 
+                    : removeFromSlip(match_id);
+                    
+                let match_selector = match.match_id + "_selected";
+                let ucn = clean_rep(
+                    match.match_id
+                    + "" + match.sub_type_id
+                    + (match.bet_pick)
+                );
+                dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
             });
         }
         state?.isjackpot ? clearJackpotSlip() : clearSlip();
         dispatch({type: "DEL", key: state?.isjackpot ? "jackpotbetslip" : "betslip"});
+
     };
 
     useEffect(() => {
@@ -322,11 +413,11 @@ const BetslipSubmitForm = (props) => {
 
         let errors = {}
 
-        if (!state.user) {
+        if (!getFromLocalStorage("user")) {
             dispatch({type: "SET", key: "showloginmodal", payload: true})
             // errors.user_id = 'Kindly login to proceed';
-            setMessage({status: 400, message: errors.user_id});
-            return errors;
+            // setMessage({status: 400, message: errors.user_id});
+            return false;
         }
 
         if (!values.bet_amount || values.bet_amount < 1) {
@@ -396,12 +487,12 @@ const BetslipSubmitForm = (props) => {
                             <tbody>
                             {!jackpot && <tr className="hide-on-affix">
                                 <td className='opacity-60 py-3'>TOTAL ODDS</td>
-                                <td className=' py-3 text-right'>
-                                    <b>{Float(totalOdds, 2)}</b>
+                                <td className=' py-3 text-right pr-2'>
+                                    <b>{parseFloat(totalOdds).toFixed(2)}</b>
                                 </td>
                             </tr>}
 
-                            {/* <tr id="odd-change-text" className='opacity-60'>
+                            <tr id="odd-change-text" className='opacity-60'>
                                 <td colSpan="2">
                                     <label className="checkbox">
 
@@ -414,10 +505,10 @@ const BetslipSubmitForm = (props) => {
                                         /> Accept any odds change
                                     </label>
                                 </td>
-                            </tr> */}
+                            </tr>
                             <tr>
                                 <td className='opacity-70 py-2'>AMOUNT(ksh)</td>
-                                <td className='py-2 text-right'>
+                                <td className='py-2 text-right pr-2'>
                                     <div id="betting">
                                         {jackpot ?
                                             jackpotData?.bet_amount :
@@ -438,15 +529,15 @@ const BetslipSubmitForm = (props) => {
                             </tr>
                             {!jackpot && <tr className="bet-win-tr hide-on-affix">
                                 <td className='opacity-70 py-2'>Stake after tax</td>
-                                <td className='text-right py-2'>
+                                <td className='text-right py-2 pr-2'>
                                     KSH. <span
                                     id="pos_win">{formatNumber(stakeAfterTax)}</span>
                                 </td>
                             </tr>}
 
                             <tr className="bet-win-tr hide-on-affix">
-                                <td className='opacity-70 pb-4'> Excise Tax (12.5%)</td>
-                                <td className='text-right pb-4'>KSH. <span id="tax">{formatNumber(exciseTax)} </span></td>
+                                <td className='opacity-70 pb-4'> Excise Tax (15%)</td>
+                                <td className='text-right pb-4 pr-2'>KSH. <span id="tax">{exciseTax} </span></td>
                             </tr>
                             </tbody>
                         </table>
@@ -454,7 +545,7 @@ const BetslipSubmitForm = (props) => {
                         {/* the betslip form bottom */}
                         
                        
-                        <table width={100} className='betslip-placebet-section py-3' style={{fontWeight:"500"}}>
+                        <table width={100} className='betslip-placebet-section py-3' style={{fontWeight:"500", paddingRight: "10px"}}>
                             <tbody>
                                 {jackpot ? (
                                     ''
@@ -462,21 +553,23 @@ const BetslipSubmitForm = (props) => {
                                     <>
                                         <tr className="in-blue-highlight secondary-text">
                                             <td className='py-3 px-3'>Bonus</td>
-                                            <td className='text-right py-3 px-2'>KES. <span id="tax">{0/*formatNumber(withholdingTax)*/}</span></td>
+                                            <td className='text-right py-3 px-3'>KES. 
+                                                <span id="tax"> {formatNumber(bonus)}</span>
+                                            </td>
                                         </tr>
                                         <tr className="bet-win-tr hide-on-affix opacity-70">
                                             <td className='px-3'> Win</td>
-                                            <td className='text-right px-2'>KES. <span id="tax">{formatNumber(possibleWin)}</span></td>
+                                            <td className='text-right px-3'>KES. <span id="tax">{formatNumber(possibleWin)}</span></td>
                                         </tr>
                                         <tr className="bet-win-tr hide-on-affix opacity-70">
                                             <td className='px-3'> Withholding (20%)</td>
-                                            <td className='text-right px-2'>KES. <span id="tax">{formatNumber(withholdingTax)}</span></td>
+                                            <td className='text-right px-3'>KES. <span id="tax">{formatNumber(withholdingTax)}</span></td>
                                         </tr>
                                     </>
                                 )}
                                 <tr className="bet-win-tr hide-on-affix">
                                     <td className='py-2 px-3'>{'possible payout'}</td>
-                                    <td className='px-2 text-right py-2'>KSH. <span
+                                    <td className='px-3 text-right py-2'>KSH. <span
                                         id="net-amount">{formatNumber(jackpot ? jackpotData?.jackpot_amount : Float((netWin), 2))}</span></td>
                                 </tr>
                                 <tr>
@@ -486,7 +579,7 @@ const BetslipSubmitForm = (props) => {
                                                 onClick={() => handleRemoveAll()}>REMOVE ALL
                                         </button>
                                     </td>
-                                    <td className='px-2 py-3'>
+                                    <td className='px-3 py-3'>
                                         { (!jackpot || (jackpot && Object.entries(state?.[betslipkey] || []).length == JSON.stringify(jackpotData?.total_games))) &&
                                             <SubmitButton id="place_bet_button"
                                                 disabled={jackpot && Object.entries(state?.[betslipkey] || []).length != JSON.stringify(jackpotData?.total_games)}
