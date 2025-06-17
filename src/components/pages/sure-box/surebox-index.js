@@ -16,6 +16,8 @@ import LooseSoundFile from "../../../assets/img/casino/surebox-loose.mp3";
 import WinSoundFile from "../../../assets/img/casino/surebox-win.mp3";
 import WinGif from "../../../assets/img/casino/surebox-win.gif";
 import LostGif from "../../../assets/img/casino/surebox-unlucky.gif";
+import LostBox from "../../../assets/img/casino/lost-box.png";
+import SureBoxLogo from "../../../assets/img/casino/surebox-logo-white.png";
 
 const SureBoxIndex = () => {
   const [state, dispatch] = useContext(Context);
@@ -35,6 +37,9 @@ const SureBoxIndex = () => {
   const [outcome, setOutcome] = useState(null);
   const [showWinGif, setShowWinGif] = useState(false);
   const [showLostGif, setShowLostGif] = useState(false);
+  const [showLostBox, setShowLostBox] = useState(false);
+  const [lostBoxPosition, setLostBoxPosition] = useState({ top: "50%", left: "50%" });
+
   
   const gamePlaySound = useRef(new Audio(GamePlaySoundFile));
   const openBoxSound = useRef(new Audio(OpenBoxSoundFile));
@@ -45,13 +50,33 @@ const SureBoxIndex = () => {
     setGameActive(false);
     setOutcome(result);
   
+    if (result === "lost") {
+      setShowLostGif(true);
+      setShowLostBox(true); 
+  
+      const interval = setInterval(() => {
+        setLostBoxPosition({
+          top: `${Math.random() * 80 + 10}%`, 
+          left: `${Math.random() * 80 + 10}%`,
+        });
+      }, 500);
+  
+      setTimeout(() => {
+        setShowLostGif(false);
+        setShowLostBox(false);
+        clearInterval(interval);
+        resetGame();
+      }, 2000);
+    }
+  
     setTimeout(() => {
-      setOutcome(null); 
+      setOutcome(null);
       if (autoRestart) {
-        startGame(); 
+        startGame();
       }
-    }, 2000); 
+    }, 2000);
   };
+  
 
   useEffect(() => {
     if (!gameActive && autoRestart) {
@@ -107,7 +132,6 @@ const SureBoxIndex = () => {
     }
   
     if (user.balance < betAmount) {
-      console.log("Insufficient balance to start the game.");
       return;
     }
   
@@ -171,15 +195,11 @@ const SureBoxIndex = () => {
             if (!win) {
               looseSound.current.play();
               setShowLostGif(true);
-              //setOutcome("lost");
+              setShowLostBox(true); 
               handleGameEnd("lost");
-              setTimeout(() => {
-                setShowLostGif(false);
-                resetGame();
-              }, 2000);
               return;
-            }
-  
+            }            
+            
             setSelectedBoxes((prev) => [...prev, id]);
             setBets((prevBets) => [
               ...prevBets,
@@ -198,14 +218,10 @@ const SureBoxIndex = () => {
             if (win && wordsToNumber(winning_box) === id) {
               winSound.current.play();
             }
-          } else {
-            console.log("An error occurred. Please try again.");
           }
-        } else {
-          console.log("Failed to process the request. Please try again.");
         }
       } catch (error) {
-        console.error("Error handling box selection:", error);
+        
       } finally {
         setIsActionSuspended(false);
       }
@@ -217,7 +233,7 @@ const SureBoxIndex = () => {
   const cashOut = async () => {
     if (!gameActive) return;
     if (!betId) {
-      console.log("Bet ID is missing. Cannot cash out.");
+
       return;
     }
     setIsActionSuspended(true);
@@ -243,7 +259,6 @@ const SureBoxIndex = () => {
   
       if (status === 200) {
         const decryptedResponse = elizabeth(response, process.env.REACT_APP_OTCMEKI);
-        //console.log('Decrypted Cashout Response', decryptedResponse);
   
         if (decryptedResponse?.response_status === 200) {
           winSound.current.play();
@@ -252,20 +267,12 @@ const SureBoxIndex = () => {
           handleGameEnd("won");
           setTimeout(() => {
             setShowWinGif(false);
-            console.log(`You cashed out and won ${decryptedResponse.possible_win} KES!`);
             resetGame();
           }, 1500);
-        } else {
-          console.log(decryptedResponse?.message || "Cashout failed. Please try again.");
-        }        
-      } else {
-        console.error("Request Failed:", {
-          status: status,
-          response: response
-        });
+        }       
       }
     } catch (error) {
-      console.error("Error cashing out:", error);
+
     } finally {
       setIsActionSuspended(false);
     }
@@ -295,15 +302,38 @@ const SureBoxIndex = () => {
     };
   }, [userMuted]);
 
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        gamePlaySound.current.muted = true;
+        openBoxSound.current.muted = true;
+        looseSound.current.muted = true;
+        winSound.current.muted = true;
+      } else {
+        gamePlaySound.current.muted = userMuted;
+        openBoxSound.current.muted = userMuted;
+        looseSound.current.muted = userMuted;
+        winSound.current.muted = userMuted;
+      }
+    };
+  
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+  
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [userMuted]);
+  
+
   return (
     <div className="surebox-container">
       <div className="surebox-section">
-        <div className="surebox-header">
-          <h1 className="surebox-title">SureBox</h1>
-          <div className="surebox-sound-icon" onClick={isMutedToggle}>
-            {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
-          </div>
+      <div className="surebox-header">
+        <img src={SureBoxLogo} alt="SureBox Logo" className="surebox-logo" />
+        <div className="surebox-sound-icon" onClick={isMutedToggle}>
+          {userMuted ? <BiSolidVolumeMute /> : <FaVolumeHigh />}
         </div>
+      </div>
 
         {outcome && (
           <div
@@ -356,6 +386,16 @@ const SureBoxIndex = () => {
             bets={bets}
           />
         </div>
+
+        {showLostBox && (
+          <img
+            src={LostBox}
+            alt="Lost Box"
+            className="surebox-lost-box"
+            style={{ top: lostBoxPosition.top, left: lostBoxPosition.left }}
+          />
+        )}
+
       </div>
       <RandomPlayers />
     </div>

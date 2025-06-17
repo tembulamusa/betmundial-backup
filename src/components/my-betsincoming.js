@@ -38,10 +38,7 @@ const MyBetsNew = (props) => {
     const [message, setMessage] = useState({});
     const [sharableBet, setSharableBet] = useState(null);
     const [showSharableBet, setShowSharableBet] = useState(false);
-    const [key, setKey] = useState("sports"); 
-
-    console.log('State Overall', state)
-
+    const [key, setKey] = useState("sports");
 
     const Alert = (props) => {
         let c = message?.status == (200 || 201) ? 'success' : 'danger';

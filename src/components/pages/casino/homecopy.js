@@ -6,13 +6,13 @@ import CategoryListing from './category-listing';
 import { Context } from '../../../context/store';
 
 import { IoGameController } from "react-icons/io5";
-import { FaHotjar } from "react-icons/fa";
+import { FaHotjar, FaGamepad } from "react-icons/fa";
 import { RiLiveFill } from "react-icons/ri";
 import { SiNintendogamecube } from "react-icons/si";
 import { HiGiftTop } from "react-icons/hi2";
 import { BiSolidOffer } from "react-icons/bi";
 
-const CasinoHome = () => {
+const CasinoHomes = () => {
     const { games, fetching } = useContext(Context);
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -86,7 +86,7 @@ const CasinoHome = () => {
                                 {section.replace('-', ' ')}
                             </h2>
                             {/* Responsive Cards Container */}
-                            <div className="cards-container grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <div className="cards-container grid sm:grid-cols-2 md:grid-cols-4 gap-4">
                                 <div className="card-item bg-white shadow-lg rounded-lg p-4">
                                     <img
                                         src={require(`../../../assets/img/casino/icons/casinohome.avif`)}
@@ -111,6 +111,14 @@ const CasinoHome = () => {
                                     />
                                     <p className="card-description mt-2 text-center">Game</p>
                                 </div>
+                                <div className="card-item bg-white shadow-lg rounded-lg p-4">
+                                    <img
+                                        src={require(`../../../assets/img/casino/icons/aviatorhome.avif`)} // New image added here
+                                        alt="Card Item"
+                                        className="card-image object-cover w-full h-48 sm:h-60 rounded-lg"
+                                    />
+                                    <p className="card-description mt-2 text-center">Game</p>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -128,9 +136,23 @@ const CasinoHome = () => {
                         ))
                     )}
                 </div>
+
+                {/* "More Games" Button */}
+                <div className="flex justify-center mt-8">
+                   <button 
+                        type="button" 
+                        className="casino-more-games-btn border border-blue-500 min-w-[100px] rounded-lg bg-blue-100 hover:bg-red-100 hover:border-2 hover:border-custom-red flex items-center justify-center gap-2 px-4 py-2 transition-colors"
+                    >
+                        <span className="ant-btn-icon">
+                            <FaGamepad size={24} />
+                        </span>
+                        <span>More Games</span>
+                    </button>
+                </div>
+                
             </main>
         </div>
     );
 };
 
-export default CasinoHome;
+export default CasinoHomes;

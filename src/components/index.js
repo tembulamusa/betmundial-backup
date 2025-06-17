@@ -1,59 +1,57 @@
 import React, { 
     useContext, 
     useEffect, 
-    useCallback, 
     useState, 
-    useRef
+    useRef,
+    Suspense
 } from "react";
 
-import {useLocation, useParams} from 'react-router-dom';
+import {useLocation, useParams, useSearchParams} from 'react-router-dom';
 import {Context} from '../context/store';
 import makeRequest from './utils/fetch-request';
-import {getBetslip} from './utils/betslip' ;
 import useInterval from "../hooks/set-interval.hook";
-import {Spinner} from "react-bootstrap";
 import HighlightsBoard from "./highlights-board";
-import io from 'socket.io-client';
-
+import socket from "./utils/socket-connect";
+import MatchList from './matches/index';
+import { getFromLocalStorage, removeItem } from "./utils/local-storage";
 const CarouselLoader = React.lazy(() => import('./carousel/index'));
 const MainTabs = React.lazy(() => import('./header/main-tabs'));
-const MatchList = React.lazy(() => import('./matches/index'));
+const PopupBanner = React.lazy(() => import('./pop_up_banner'));
 
 
 const Index = (props) => {
     const location = useLocation();
     const {sportid, categoryid, competitionid } = useParams();
-    const [delay, setDelay] = useState(5000);
+    const [allSportId, setAllSportId ] = useState();
 
-    const [matches, setMatches] = useState([]);
-    const [limit, setLimit] = useState(50);
-    const [producerDown, setProducerDown] = useState(false);
-    const [threeWay, setThreeWay] = useState(true);
-    const [page, ] = useState(1);
-    const [, setUserSlipsValidation] = useState();
+    const [matches, setMatches] = useState();
+    const [limit, setLimit] = useState(300);
+    const [page, setPage] = useState(1);
     const [state, dispatch] = useContext(Context);
     const [fetching, setFetching] = useState(false)
     const [fetchingCount, setFetchingCount] = useState(0)
     const homePageRef = useRef()
-    const [subTypes, setSubTypes] = useState("1,10,18");
-    const socket = io('wss://wss.surebet.co.ke/surebet', {
-        transports: ['websocket'],
-        pingInterval: 30000,
-        pingTimeOut: 90000, 
-        reconnection: true,
-        upgradeTimeout: 30000,
-        EIO: 4,
-        reconnectionAttempts: Infinity, // retry indefinitely
-        reconnectionDelay: 2000,        // initial delay between reconnections
-        reconnectionDelayMax: 10000     // maximum delay between reconnections
-    });
+    const [searchParams] = useSearchParams();
+    const [producers, setProducers] = useState([])
 
-    const fetchData = async () => {
+    
+    const fetchData = (controlText) => {
         setFetching(true);
         let fetchcount = fetchingCount + 1;
+        let filtersport = state?.filtersport || getFromLocalStorage("filtersport");
+        if(location?.pathname == "/"){
+            filtersport = null
+        }
+        let pageNo = 1;
+        let limitSize = limit || 300;
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v2/sports/matches/" + (state?.filtersport?.sport_id || sportid || 79) +"?page=" + (page || 1) + `&size=${limit || 50}` ;
+        let endpoint = "/v2/sports/matches/pre-match/" 
+            + ((location.pathname !== "/" && filtersport?.sport_id) 
+            || filtersport?.sport_id || allSportId || 79) 
+            + ((filtersport && filtersport?.sport_name?.toLowerCase() !== "soccer") ? "/" 
+            + filtersport?.default_market : "")  
+            +"?page=" + pageNo + `&size=${limitSize}` ;
 
         let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";
@@ -69,15 +67,15 @@ const Index = (props) => {
         
         endpoint += "&tab=" + tab;
         
-        if(state?.filtercompetition ) {
-            endpoint = `/v2/sports/competitions/matches/${state?.filtercompetition?.competition_id}`;
+        if(state?.filtercompetition && controlText !=="fetchAll") {
+            endpoint = (controlText == "filtered") && `/v2/sports/competitions/matches/${state?.filtercompetition?.competition_id}`;
 
             // if (state?.filtercompetition?.competition_id == 0){
             //     endpoint = "/v2/sports/competitions/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
             // }
         }
         if (search_term && search_term.length >= 3) {
-            endpoint = `/v1/matches?limit=10&search=${search_term}`;
+            endpoint = `/v2/matches/pre-match?limit=10&search=${search_term}`;
         } 
         // else {
         //     if(state?.filtercompetition ) {
@@ -90,54 +88,37 @@ const Index = (props) => {
         // } 
         endpoint = endpoint.replaceAll(" ", '');
 
-        await makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
+        makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
             setFetchingCount(fetchcount);
+
             if (status == 200) {
-                setMatches(matches?.length > 0 ? {...matches, ...result?.data?.items} : result?.data?.items || result)
-                setFetching(false)
-                if (result?.slip_data) {
-                    setUserSlipsValidation(result?.slip_data);
-                }
-                setProducerDown(result?.producer_status == 1);
+                setMatches(result?.data?.items || result) //(matches?.length > 0 && page > 1) ? [...matches, ...result?.data?.items] : result?.data?.items || result)
+                setFetching(false);
+                setProducers(result?.producer_statuses);
             }
         });
 
     };
 
-    useInterval(async () => {
-      fetchData();
-    }, delay); 
-
-    useEffect(() => {
-        const apiCall = {
-            event: "user.matches",
-            sportId: 79,
-            tab: "highlights",
-            page: 1
-        };
+    // useEffect(() => {
         
-        socket.on('connect', () => {
-            console.log('CONNECTED TO THE SOCKET WELL33333333333333');
-            socket.emit('user.matches', 79, "highlights", 1);
-        });
+    // }, [location])
 
-        socket.on('disconnect', () => {
-            console.log('DISCONNECTED:::::');
-        });
-
-        socket.on("dummygamedata", (data) => {
-            console.log("THE MATCHES CHANGED SUCCESSFULLY :::: === ", data)
-        });
-    return () => {
-        socket.disconnect();
+    
+    const poll = () => {
+        
     }
-    }, [])
-
+    
     useEffect(() => {
-        fetchData();
-        setFetchingCount(0);
-    }, [
-        state?.filtersport, 
+        let newSportId = searchParams.get('sportId');
+        if(newSportId !== null) {
+            fetchData("fetchAll");
+        } else {
+            fetchData("filtered")
+            setFetchingCount(0);
+        }
+    }, [sportid,
+        location,
         state?.filtercategory, 
         state?.filtercompetition, 
         state?.active_tab,
@@ -145,31 +126,22 @@ const Index = (props) => {
     ]
     )
 
-    useEffect(() => {
-        // if(state?.selectedmarkets){ 
-        //     setSubTypes(state.selectedmarkets);
-        // } 
+    useInterval( async () => {
+        if(!socket.connected){
+            fetchData()
+        }
+    } ,1000 * 60);
 
-        // if(state?.categories) {
-        //     let spid = Number(sportid || 79);
-        //     let sp = state.categories.all_sports.find((sport) => sport.sport_id == spid);
-        //     setSubTypes(state?.selectedmarkets || sp.default_display_markets);
-        // } 
-        // let cbetslip = getBetslip();
-
-        // if(cbetslip) {
-        //     dispatch({type:"SET", key:"betslip", payload:cbetslip})
-        // }
-        // return () => {
-        //     setDelay(null);
-        // };
-    }, []);
-
-
+    useEffect(()=> {
+        socket.connect();
+        return () => {
+            socket.disconnect();
+        }
+    },[])
     document.addEventListener('scrollEnd', (event) => {
         if (!fetching) {
-            setFetching(true)
-            setLimit(limit + 50)
+            setFetching(true);
+            setPage(page + 1);
         }
     })
 
@@ -178,33 +150,42 @@ const Index = (props) => {
         <>
             <div className="homepage" ref={homePageRef}>
                 <CarouselLoader/>
-                {/* The highlights board  for running adverts and exposing high interest items */}
-
-                <section className="highlights-board"><HighlightsBoard /></section>
+                <section className="highlights-board">
+                    <HighlightsBoard />
+                </section>
                 {/* End of highlights board */}
 
                 {/* Start tabs */}
                 <MainTabs tab={location.pathname.replace("/", "") || 'highlights'} />
                 {
                     <MatchList
+                        socket={socket}
                         live={false}
                         matches={matches}
-                        pdown={producerDown}
-                        three_way={threeWay}
+                        producers={producers}
+                        three_way={state?.filtersport ? state?.filtersport?.sport_type == "threeway" : true}
                         fetching={fetching}
-                        subTypes={subTypes}
+                        subTypes={state?.filtersport 
+                            ?
+                            state?.filtersport?.sport_name.toLowerCase() !== "soccer"
+                            ?
+                            [state?.filtersport?.default_market] 
+                            :
+                            [1,10,18]
+                            :
+                            [1,10,18]
+                            }
+                        betslip_key={"betslip"}
                         fetchingcount={fetchingCount}
                     />
-                    
-
                 }
-                
             </div>
-            {/* <div className={`text-center mt-2 text-white ${fetching ? 'd-block' : 'd-none'}`}> */}
-                {/* <Spinner animation={'grow'} size={'lg'}/> */}
-            {/* </div> */}
+            <Suspense fallback={<div></div>}>
+                <PopupBanner />
+            </Suspense>
+
         </>
     )
 }
 
-export default Index
+export default React.memo(Index);

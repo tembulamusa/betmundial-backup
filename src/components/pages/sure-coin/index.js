@@ -168,7 +168,6 @@ const SureCoinIndex = (props) => {
             return
         }
    }
-
     const getCoinRoll = (btID, session, nxtRound) => {
         // get session id and use it
         let endpoint = 'coin-roll';

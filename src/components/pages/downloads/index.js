@@ -30,7 +30,6 @@ export default function MatchesList() {
         let method = 'GET'
         let endpoint = "/v2/matches?dooood&page=" + (1) + `&limit=${eventsOption?.value}&tab=` + section + '&sub_type_id=1,10,29,18';
         makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
-            console.log("THE print matches request", status, "THE RESULT:::: ", result);
             if (status == 200) {
                 setMatches(result)
                 if (result.length > 0) {

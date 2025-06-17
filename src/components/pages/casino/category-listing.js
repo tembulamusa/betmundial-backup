@@ -16,8 +16,6 @@ const GameCategoryListing = (props) => {
         } else if (filterType === "providercategory") {
             if (gamesprovider?.id) {
                 navigate(`/casino/providers/${gamesprovider.id}/categories/${gameType}/all`);
-            } else {
-                console.log("Retrieving ...");
             }
         } else {
             navigate(`/casino/categories/${gameType}/all`);

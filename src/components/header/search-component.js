@@ -31,10 +31,7 @@ const SearchInput = ({ onSearch }) => {
 
         if (results.length === 0) {
             alert('No results found for your search!');
-        } else {
-            console.log('Filtered Results:', results);
         }
-
         if (onSearch) {
             onSearch(results);
         }

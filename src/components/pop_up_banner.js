@@ -4,21 +4,25 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "./utils/local-storage";
 
-import One from "../assets/img/popups/1.1.jpg";
-import Two from "../assets/img/popups/2.1.jpg";
-import Three from "../assets/img/popups/3.1.jpg";
-import Four from "../assets/img/popups/4.1.jpg";
-import Five from "../assets/img/popups/5.1.jpg";
-import Six from "../assets/img/popups/6.1.jpg";
-
 const images = [
-    { src: One, link: "/casino-game/aviator/aviator" },
-    { src: Two, link: "/casino-game/aviatrix/aviatrix/sure-popular" },
-    { src: Three, link: "/casino-game/smartsoft/jetx/sure-popular" },
-    { src: Four, link: "/casino-game/eurovirtuals/virtual-league" },
-    { src: Five, link: "/casino-game/pragmatic/spaceman/sure-popular" },
-    { src: Six, link: "/surecoin" },
+    { src: "../assets/img/popups/1.1.jpg", link: "/casino-game/aviator/aviator" },
+    { src: "../assets/img/popups/2.1.jpg", link: "/casino-game/aviatrix/aviatrix/sure-popular" },
+    { src: "../assets/img/popups/3.1.jpg", link: "/casino-game/smartsoft/jetx/sure-popular" },
+    { src: "../assets/img/popups/4.1.jpg", link: "/casino-game/eurovirtuals/virtual-league" },
+    { src: "../assets/img/popups/5.1.jpg", link: "/casino-game/pragmatic/spaceman/sure-popular" },
+    { src: "../assets/img/popups/6.1.jpg", link: "/surecoin" },
 ];
+
+const loadBannerImg = (img) => {
+
+    let sport_image;
+    try {
+        sport_image = require(img);
+    } catch (error) {
+        sport_image = require(`../assets/img/popups/6.1.jpg`);
+    }
+    return sport_image
+}
 
 const PopupBanner = () => {
     const navigate = useNavigate();
@@ -72,7 +76,7 @@ const PopupBanner = () => {
                         {/* Image */}
                         <LazyLoadImage
                             className="popup-responsive-image"
-                            src={randomImage.src}
+                            src={loadBannerImg(randomImage.src)}
                             alt="Popup Promotion"
                         />
 

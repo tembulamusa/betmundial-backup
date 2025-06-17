@@ -13,6 +13,7 @@ import { Context } from '../../../context/store';
 import { ShimmerTable } from "react-shimmer-effects";
 import NoEvents from '../../utils/no-events';
 import CategoryListing from './category-listing';
+import CasinoJackpots from './casino-jackpots';
 
 const Casino = (props) => {
     const {filterType, filterName} = useParams();
@@ -35,9 +36,9 @@ const Casino = (props) => {
             
         } else if (filterType === "providers") {
             if (state?.casinogamesfilter?.provider) {
-                endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`;
+                endpoint = `provider/all-games/${state?.casinogamesfilter?.provider?.id}`;
             } else {
-                endpoint = `provider/games-list/n/${filterName}`;
+                endpoint = `provider/all-games/n/${filterName}`;
 
             }
         } else if (filterType == "combinedprovidercategory") {
@@ -82,14 +83,26 @@ const Casino = (props) => {
     }, [state?.casinogamesfilter]);
 
     useEffect(() => {
+        dispatch({type: "SET", key: "nosports", payload: true});
+
         let gamesFilter = getFromLocalStorage("casinogamesfilter");
         if(gamesFilter) {
             dispatch({type: "SET", key: "casinogamesfilter", payload: gamesFilter})
         }
+
+
+        return () => {
+            dispatch({type: "DEL", key: "nosports"});
+        }
     }, [])
+
+
     return (
         <>
             <CasinoCarousel />
+
+            <CasinoJackpots />
+            
             <div className="casino-games-list">
                 {fetching && <ShimmerTable row={3} />}
                 {!fetching && (!games || games?.length < 1) && (

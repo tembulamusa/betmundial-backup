@@ -22,8 +22,10 @@ const RotatingCoin = (props) => {
     const [spinOutcome, setSpinOutcome] = useState(null);
     const [coinOnDisplay, setCoinOnDisplay] = useState("heads");
     const [won, setWon] = useState(null);
+    const [bigPrizeVisible, setBigPrizeVisible] = useState(false);
+    const showJackpot = false; // Set to false to disable, true to enable
 
-    
+
     useEffect(() => {
         if (isspinning) {
             setSpinOutcome(null);
@@ -122,6 +124,37 @@ const RotatingCoin = (props) => {
         
     }, [isspinning]);
 
+    // Jackpot logic (display every 1 minute)
+    // useEffect(() => {
+    //     const jackpotInterval = setInterval(() => {
+    //         if (!isspinning) {
+    //             setBigPrizeVisible(true);
+
+    //             // Automatically close the popup after 4 seconds
+    //             setTimeout(() => {
+    //                 setBigPrizeVisible(false);
+    //             }, 4000);
+    //         }
+    //     }, 60000); // 1-minute interval
+
+    //     return () => clearInterval(jackpotInterval); // Cleanup on unmount
+    // }, [isspinning]);
+
+
+    useEffect(() => {
+        if (!showJackpot) return; 
+        
+        const interval = setInterval(() => {
+            setBigPrizeVisible(true);
+        }, 60000);
+    
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleBigPrizeClose = () => {
+        setBigPrizeVisible(false);
+    };
+
     const BetInfo = () => {
 
         return (
@@ -181,6 +214,27 @@ const RotatingCoin = (props) => {
                     {/* <div className=""></div> */}
                 </div>
             )}
+
+            {/* Sure Coin Jackpot Popup */}
+            {showJackpot && bigPrizeVisible && (
+                <>
+                    <div className="surecoin-jackpot-modal-backdrop"></div>
+                    <div className="surecoin-jackpot-modal">
+                        <h2>🎉 Congrats! 🎉</h2>
+                        <p className="modal-message-desktop">
+                            You've qualified for the next 🏆<h4>jackpot</h4> 
+                        </p>
+                        <p className="modal-message-desktop">
+                            Win up to <b>20x</b>! 💰 🌟
+                        </p>
+                        <p className="modal-message-mobile">
+                            Next play for 🏆<h4>jackpot</h4>20x! 💰 🌟
+                        </p>
+                    </div>
+                </>
+            )}
+
+
             
         </div>
     )

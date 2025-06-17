@@ -10,7 +10,6 @@ const Logout = () => {
 
             try {
                 localStorage.clear();
-                console.log('localStorage cleared successfully.');
             } catch (error) {
                 console.error('Error clearing localStorage:', error);
             }
