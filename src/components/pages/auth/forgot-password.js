@@ -30,7 +30,7 @@ const ResetPassword = (props) => {
 
     const handleSubmit = values => {
         setMsisdn(values.msisdn);
-        let endpoint = '/v2/auth/forgot-password';
+        let endpoint = '/auth/forgot-password';
         makeRequest({ url: endpoint, method: 'POST', data: values, api_version: 2 }).then(([status, response]) => {
             if (status == 200) {
                 if (response?.status == 200) {
@@ -49,7 +49,7 @@ const ResetPassword = (props) => {
         values.msisdn = msisdn;
         values = { msisdn: msisdn, verification_code: values.verificationCode, password: values.password };
 
-        let endpoint = '/v2/auth/reset-password';
+        let endpoint = '/auth/reset-password';
         makeRequest({ url: endpoint, method: 'POST', data: values, api_version: 2 }).then(([status, response]) => {
             if ([200, 201].includes(status)) {
                 if (response?.status == 200) {
@@ -94,7 +94,7 @@ const ResetPassword = (props) => {
 
     const handleKeyPress = (event, submitForm) => {
         if (event.key == 'Enter') {
-            event.preventDefault(); 
+            event.preventDefault();
             submitForm();
         }
     };
@@ -132,8 +132,8 @@ const ResetPassword = (props) => {
                         <div className="form-group row d-flex justify-content-left mb-4">
                             <div className="col-md-6">
                                 <button type="submit"
-                                        onClick={submitForm}
-                                        className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button'>
+                                    onClick={submitForm}
+                                    className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button'>
                                     Send OTP
                                 </button>
                             </div>
@@ -221,8 +221,8 @@ const ResetPassword = (props) => {
                         <div className="form-group row d-flex justify-content-left mb-4">
                             <div className="col-6">
                                 <button type="submit"
-                                        onClick={submitForm}
-                                        className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button !capitalize'>
+                                    onClick={submitForm}
+                                    className='btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button !capitalize'>
                                     Reset Password
                                 </button>
                             </div>

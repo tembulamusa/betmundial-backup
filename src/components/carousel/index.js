@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
@@ -26,21 +26,21 @@ const CarouselLoader = (props) => {
             // controls={false}
             indicators={false}
             className='banner-imgs'>
-            
+
             <Carousel.Item >
                 <img
                     className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    style={{ display: imageLoaded ? 'block' : 'none' }}
                     src={FreeBet}
                     onLoad={onImageLoaded}
-                    alt="surebet"
+                    alt="betmundial"
                     effects="blur"
                 />
             </Carousel.Item>
             <Carousel.Item >
                 <img
                     className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    style={{ display: imageLoaded ? 'block' : 'none' }}
                     src={Breakfast}
                     onLoad={onImageLoaded}
                     alt="breakfast"
@@ -50,7 +50,7 @@ const CarouselLoader = (props) => {
             <Carousel.Item >
                 <img
                     className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    style={{ display: imageLoaded ? 'block' : 'none' }}
                     src={MultiBet}
                     onLoad={onImageLoaded}
                     alt="multibet"
@@ -60,74 +60,74 @@ const CarouselLoader = (props) => {
             <Carousel.Item >
                 <img
                     className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    style={{ display: imageLoaded ? 'block' : 'none' }}
                     src={Sharebet}
                     onLoad={onImageLoaded}
-                    alt="surebet"
+                    alt="betmundial"
                     effects="blur"
                 />
             </Carousel.Item>
-            
+
             <Carousel.Item >
                 <img
                     className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
+                    style={{ display: imageLoaded ? 'block' : 'none' }}
                     src={Epl}
                     onLoad={onImageLoaded}
-                    alt="surebet"
+                    alt="betmundial"
                     effects="blur"
                 />
             </Carousel.Item>
 
             <Carousel.Item >
                 <Link to={"/live"}>
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Live}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
+                    <img
+                        className="d-block w-100"
+                        style={{ display: imageLoaded ? 'block' : 'none' }}
+                        src={Live}
+                        onLoad={onImageLoaded}
+                        alt="betmundial"
+                        effects="blur"
+                    />
                 </Link>
             </Carousel.Item>
-            
+
             <Carousel.Item >
                 <Link to={"/casino"}>
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Casino}
-                    onLoad={onImageLoaded}
-                    alt="casino"
-                    effects="blur"
-                />
+                    <img
+                        className="d-block w-100"
+                        style={{ display: imageLoaded ? 'block' : 'none' }}
+                        src={Casino}
+                        onLoad={onImageLoaded}
+                        alt="casino"
+                        effects="blur"
+                    />
                 </Link>
             </Carousel.Item>
-            
+
             <Carousel.Item >
                 <Link to={"/jackpot"}>
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={Jackpot}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
+                    <img
+                        className="d-block w-100"
+                        style={{ display: imageLoaded ? 'block' : 'none' }}
+                        src={Jackpot}
+                        onLoad={onImageLoaded}
+                        alt="betmundial"
+                        effects="blur"
+                    />
                 </Link>
             </Carousel.Item>
 
             <Carousel.Item >
                 <Link to={"/app"}>
-                <img
-                    className="d-block w-100"
-                    style={{display: imageLoaded ? 'block' : 'none'}}
-                    src={App}
-                    onLoad={onImageLoaded}
-                    alt="surebet"
-                    effects="blur"
-                />
+                    <img
+                        className="d-block w-100"
+                        style={{ display: imageLoaded ? 'block' : 'none' }}
+                        src={App}
+                        onLoad={onImageLoaded}
+                        alt="betmundial"
+                        effects="blur"
+                    />
                 </Link>
             </Carousel.Item>
 

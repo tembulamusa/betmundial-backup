@@ -1,8 +1,8 @@
 import io from 'socket.io-client';
-const socket = io('wss://wss.surebet.co.ke/surebet', {
+const socket = io('wss://wss.betmundial.com/betmundial', {
     transports: ['websocket'],
     pingInterval: 1000,
-    pingTimeOut: 3000, 
+    pingTimeOut: 3000,
     reconnection: true,
     upgradeTimeout: 1000,
     EIO: 4,

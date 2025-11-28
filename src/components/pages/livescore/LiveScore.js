@@ -6,15 +6,15 @@ import { Context } from "../../../context/store";
 const LiveScore = () => {
     const [, dispatch] = useContext(Context);
 
-    useEffect(() => {dispatch({type:"SET", key:"fullpagewidth", payload:true}); return () => {dispatch({type:"DEL", key:"fullpagewidth"})}}, [])
+    useEffect(() => { dispatch({ type: "SET", key: "fullpagewidth", payload: true }); return () => { dispatch({ type: "DEL", key: "fullpagewidth" }) } }, [])
     return (
         <>
-            <iframe 
-                src="https://s5dev.sir.sportradar.com/risecommts/en/1/season/118703/team/9" 
+            <iframe
+                src="https://s5dev.sir.sportradar.com/risecommts/en/1/season/118703/team/9"
                 className={'w-full min-h-screen'}
-                title="surebet Livescore">
+                title="betmundial Livescore">
 
-                </iframe>
+            </iframe>
         </>)
 }
 

@@ -28,7 +28,7 @@ const ResetPassword = (props) => {
 
     const handleSubmit = values => {
         setMobile(values.mobile);
-        let endpoint = '/v2/code';
+        let endpoint = '/code';
         makeRequest({ url: endpoint, method: 'POST', data: values }).then(([status, response]) => {
             setSuccess(status == 200 || status == 201);
             setMessage(response.success.message);
@@ -84,7 +84,7 @@ const ResetPassword = (props) => {
     const handleKeyPress = (event, submitForm) => {
         if (event.key == 'Enter') {
             event.preventDefault();
-            submitForm(); 
+            submitForm();
         }
     };
 
@@ -122,7 +122,7 @@ const ResetPassword = (props) => {
                                     type="text"
                                     placeholder='Phone number'
                                     onChange={ev => onFieldChanged(ev)}
-                                    onKeyPress={ev => handleKeyPress(ev, submitForm)} 
+                                    onKeyPress={ev => handleKeyPress(ev, submitForm)}
                                 />
                                 {errors.mobile && <div className='text-danger'> {errors.mobile} </div>}
                             </div>
@@ -169,7 +169,7 @@ const ResetPassword = (props) => {
                                         type="text"
                                         placeholder='OTP'
                                         onChange={ev => onFieldChanged(ev)}
-                                        onKeyPress={ev => handleKeyPress(ev, submitForm)} 
+                                        onKeyPress={ev => handleKeyPress(ev, submitForm)}
                                     />
                                     {errors.code && <div className='text-danger'>{errors.code}</div>}
                                 </div>
@@ -185,7 +185,7 @@ const ResetPassword = (props) => {
                                         type="password"
                                         placeholder='Password'
                                         onChange={ev => onFieldChanged(ev)}
-                                        onKeyPress={ev => handleKeyPress(ev, submitForm)} 
+                                        onKeyPress={ev => handleKeyPress(ev, submitForm)}
                                     />
                                     {errors.password && <div className='text-danger'>{errors.password}</div>}
                                 </div>
@@ -201,7 +201,7 @@ const ResetPassword = (props) => {
                                         type="password"
                                         placeholder='Password'
                                         onChange={ev => onFieldChanged(ev)}
-                                        onKeyPress={ev => handleKeyPress(ev, submitForm)} 
+                                        onKeyPress={ev => handleKeyPress(ev, submitForm)}
                                     />
                                     {errors.repeat_password && <div className='text-danger'>{errors.repeat_password}</div>}
                                 </div>

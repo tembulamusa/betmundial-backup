@@ -67,7 +67,7 @@ const MyBets = (props) => {
         const abortController = new AbortController();
         setIsLoading(true);
         setMessage(null);
-        let endpoint = "/v2/user/bets?size=20&page=1";
+        let endpoint = "/user/bets?size=20&page=1";
         makeRequest({ url: endpoint, method: "GET", api_version: 2 }).then(([status, result]) => {
             if ([200, 201].includes(status)) {
                 setUserBets(result?.data || result)
@@ -128,7 +128,7 @@ const MyBets = (props) => {
         const CancelBetMarkup = (props) => {
 
             const cancelBet = () => {
-                let endpoint = '/v2/user/bet/cancel?bet-id=' + bet?.bet_id;
+                let endpoint = '/user/bet/cancel?bet-id=' + bet?.bet_id;
                 makeRequest({ url: endpoint, method: "POST", api_version: 2 }).then(([status, result]) => {
                     if (result?.status == '200') {
                         setShowMarkup(false);

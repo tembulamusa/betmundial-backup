@@ -23,23 +23,23 @@ const General = () => {
                     </li>
                     <li> The term "CLIENT" references any individual person that expressly
                         or
-                        impliedly agrees to all terms and conditions of surebet by opening
+                        impliedly agrees to all terms and conditions of betmundial by opening
                         an
                         account and placing bets on games on the company’s website.
                     </li>
-                    <li> All CLIENTS accessing the surebet’ website agree to abide by the
+                    <li> All CLIENTS accessing the betmundial’ website agree to abide by the
                         following terms and conditions governing the use of its services
                         (the
                         "Agreement").
                     </li>
                     <li> This agreement and any other agreement between the CLIENT and
-                        surebet
+                        betmundial
                         is subject to the laws of Kenya.
                     </li>
                     <li> This Agreement describes the terms, conditions and risks applicable
-                        to the CLIENT using of surebet’ services available under the domains
+                        to the CLIENT using of betmundial’ services available under the domains
                         of
-                        www.surebet.com (the "SITE" If the CLIENT has any questions
+                        www.betmundial.com (the "SITE" If the CLIENT has any questions
                         regarding
                         this Agreement, please contact Customer Support.
                     </li>
@@ -48,7 +48,7 @@ const General = () => {
                         include those terms and conditions expressly set forth below and
                         those
                         incorporated by reference, before the CLIENT may become an active,
-                        registered CLIENT of surebet. By continuing to access or use the
+                        registered CLIENT of betmundial. By continuing to access or use the
                         SITE,
                         the CLIENT agrees to follow the terms and conditions of this
                         Agreement.
@@ -103,7 +103,7 @@ const General = () => {
                         to
                         the personal jurisdiction and venue therein.
                     </li>
-                    <li> surebet will not be liable in any way to any persons in the event
+                    <li> betmundial will not be liable in any way to any persons in the event
                         of
                         force majeure, including but not limited to strike, terrorist
                         activities, political crisis, war, natural catastrophe, or for the
@@ -114,7 +114,7 @@ const General = () => {
                         provisions will remain in full force and effect.
                     </li>
 
-                    <li> surebet will not be responsible for any saturation of the
+                    <li> betmundial will not be responsible for any saturation of the
                         telecommunication networks, cyber-attacks, hacking etc., which could
                         lead to a total or partial access reduction to its services, loss of
                         data by itself or by other contracted independent service providers
@@ -124,11 +124,11 @@ const General = () => {
                         services.
                     </li>
 
-                    <li> surebet will not be held liable and will be held harmless by the
+                    <li> betmundial will not be held liable and will be held harmless by the
                         CLIENT for any damages, losses, costs, loss of profits or any other
                         disadvantage a CLIENT may incur in connection with any disconnection
                         from or the non-availability of any of the products offered by
-                        surebet
+                        betmundial
                         for whatever reason.
                     </li>
 
@@ -136,14 +136,14 @@ const General = () => {
                         Agreement will not be deemed a waiver of such right or provision.
                     </li>
 
-                    <li> surebet may assign this Agreement or any rights and/or obligations
+                    <li> betmundial may assign this Agreement or any rights and/or obligations
                         hereunder without the CLIENT’s consent.
                     </li>
 
-                    <li> surebet may amend the terms of this Agreement from time to time by
+                    <li> betmundial may amend the terms of this Agreement from time to time by
                         posting the amended terms on the WEBSITE. The CLIENT continuing
                         usage of
-                        surebet’ services after the date of amendment is acceptance of the
+                        betmundial’ services after the date of amendment is acceptance of the
                         amended terms and conditions, whether or not the changes have been
                         acknowledged.
                     </li>
@@ -156,14 +156,14 @@ const General = () => {
                         services offered after a change is enacted in the terms and
                         conditions,
                         the CLIENT will be entitled to withdraw their uncommitted funds by
-                        sending an email to customercare@surebet.com. The company will cease to
+                        sending an email to customercare@betmundial.com. The company will cease to
                         have
                         any continued obligation towards the CLIENT from the day of receipt
                         of
                         the email, through to the withdrawal of funds and thereafter.
                     </li>
 
-                    <li> surebet undertakes to respect the CLIENT’s privacy in line with the
+                    <li> betmundial undertakes to respect the CLIENT’s privacy in line with the
                         Company’s Privacy Policy.
                     </li>
                 </ol>

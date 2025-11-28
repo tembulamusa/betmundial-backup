@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { Context } from "../context/store"
 import "../App.css";
@@ -8,13 +8,13 @@ import { useLocation } from "react-router-dom";
 
 
 const LoginModal = (props) => {
-    const {setUser} = props;
-    
+    const { setUser } = props;
+
     const [state, dispatch] = useContext(Context);
     const location = useLocation();
 
     useEffect(() => {
-        if(state?.showloginmodal == true) {
+        if (state?.showloginmodal == true) {
             // dispatch({type:"DEL", key:"showloginmodal"})
         }
     }, [location]);
@@ -22,17 +22,17 @@ const LoginModal = (props) => {
     return (
         <>
             <Modal
-            animation={false}
-            show={state?.showloginmodal == true}
-            onHide={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}
-            dialog className="popover-login-modal"
-            aria-labelledby="contained-modal-title-vcenter">
-                    <Modal.Header closeButton className="no-header">
-                      <Modal.Title>LOGIN IN TO SUREBET</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="p-0">
-                        <BodyLogin setUser={setUser}/>
-                    </Modal.Body>
+                animation={false}
+                show={state?.showloginmodal == true}
+                onHide={() => dispatch({ type: "SET", key: "showloginmodal", payload: false })}
+                dialog className="popover-login-modal"
+                aria-labelledby="contained-modal-title-vcenter">
+                <Modal.Header closeButton className="no-header">
+                    <Modal.Title>LOGIN IN TO betmundial</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="p-0">
+                    <BodyLogin setUser={setUser} />
+                </Modal.Body>
             </Modal>
         </>
     )

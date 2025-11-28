@@ -20,7 +20,7 @@ const VerifyAccount = (props) => {
     }
 
     const handleSubmit = values => {
-        let endpoint = '/v2/auth/verify';
+        let endpoint = '/auth/verify';
         setIsLoading(true);
         makeRequest({ url: endpoint, method: 'POST', data: values, api_version: 2 }).then(([status, response]) => {
             if ([200, 201].includes(status)) {
@@ -49,7 +49,7 @@ const VerifyAccount = (props) => {
     }
 
     const sendOTP = () => {
-        let endpoint = '/v2/auth/verification-code';
+        let endpoint = '/auth/verification-code';
         let values = {
             msisdn: state?.regmsisdn
         }
@@ -70,7 +70,7 @@ const VerifyAccount = (props) => {
 
     const handleKeyPress = (event, handleSubmit) => {
         if (event.key == 'Enter') {
-            event.preventDefault(); 
+            event.preventDefault();
             handleSubmit();
         }
     }

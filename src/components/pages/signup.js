@@ -1,6 +1,6 @@
 
-import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Formik, Form} from 'formik';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Formik, Form } from 'formik';
 import makeRequest from "../utils/fetch-request";
 import mpesa from '../../assets/img/mpesa-3.png'
 import Container from 'react-bootstrap/Container';
@@ -9,7 +9,7 @@ import { Context } from '../../context/store';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Notify from '../utils/Notify';
 import { Link } from 'react-router-dom';
-import { FaRegEye, FaRegEyeSlash  } from "react-icons/fa";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { getFromLocalStorage } from '../utils/local-storage';
 
 const Signup = (props) => {
@@ -27,11 +27,11 @@ const Signup = (props) => {
         msisdn: '',
         password: '',
         password2: '',
-        created_by:"web"
+        created_by: "web"
     }
 
     const handleSubmit = values => {
-        let endpoint = '/v2/auth/signup';
+        let endpoint = '/auth/signup';
         setIsLoading(true);
         let data = {
             msisdn: values.msisdn,
@@ -40,19 +40,19 @@ const Signup = (props) => {
             app_name: app,
         };
 
-        makeRequest({url: endpoint, method: 'POST', data: data, api_version:2}).then(([status, response]) => {
+        makeRequest({ url: endpoint, method: 'POST', data: data, api_version: 2 }).then(([status, response]) => {
             setMessage(response?.message);
-            dispatch({type: "SET", key: "regmsisdn", payload: values?.msisdn})
-            if([200, 201, 204].includes(status)){
-                Notify({status: 200, message: "Registration successful. Please Verify the code sent to your phone"})
+            dispatch({ type: "SET", key: "regmsisdn", payload: values?.msisdn })
+            if ([200, 201, 204].includes(status)) {
+                Notify({ status: 200, message: "Registration successful. Please Verify the code sent to your phone" })
                 setTimeout(() => {
                 }, 3000);
                 navigate("/verify-account");
             } else {
-                Notify({status: 400, message: "Error Making registration"})
+                Notify({ status: 400, message: "Error Making registration" })
                 setIsLoading(false);
             }
-            
+
         })
     }
 
@@ -78,7 +78,7 @@ const Signup = (props) => {
     const handleKeyPress = (event, submitForm) => {
         if (event.key == 'Enter') {
             event.preventDefault();
-            submitForm(); 
+            submitForm();
         }
     };
 
@@ -99,16 +99,16 @@ const Signup = (props) => {
         const [showPassword, setShowPassword] = useState(false);
         const [showPassword2, setShowPassword2] = useState(false);
         const [searchParams] = useSearchParams();
-        const {promoCode} = useParams();
+        const { promoCode } = useParams();
         const promoCodeRef = useRef(null);
 
 
         useEffect(() => {
-            if(getFromLocalStorage("user")){
+            if (getFromLocalStorage("user")) {
                 navigate("/")
             }
-            if(promoCodeRef.current) {
-                if(promoCode){
+            if (promoCodeRef.current) {
+                if (promoCode) {
                     promoCodeRef.current.value = promoCode;
                 }
             }
@@ -124,7 +124,7 @@ const Signup = (props) => {
                 <div className="pt-0">
                     <div className="row form-block">
                         <div className='text-center'>
-                            <h1 className='std-title'>Join Surebet</h1>
+                            <h1 className='std-title'>Join betmundial</h1>
                             <p className='text-xl'>Home to the best Odds, instant Payouts and many bonuses</p>
                         </div>
                         <div className="form-group row d-flex justify-content-center mt-5">
@@ -218,7 +218,7 @@ const Signup = (props) => {
                                 <button type="submit"
                                     className={`btn btn-lg btn-primary mt-5 col-md-12 deposit-withdraw-button font-bold`}
                                     disabled={isLoading}
-                                    >
+                                >
                                     Signup
                                 </button>
                             </div>
@@ -249,7 +249,7 @@ const Signup = (props) => {
                 validateOnChange={false}
                 validateOnBlur={false}
                 validate={validate}
-                render={(props) => <MySignupForm {...props} />}/>
+                render={(props) => <MySignupForm {...props} />} />
         );
     }
 
@@ -261,30 +261,30 @@ const Signup = (props) => {
 
     return (
         <>
-        {
-            <React.Fragment>            
-                <div className='signup-container' >
-                <div className='col-md-12 border-b border-gray-200 page-title p-4 text-center mb-4'>
-                <h4 className="">
-                            Register
-                        </h4>
-                    </div>
-                    <div className='std-medium-width-block bg-white'>
-                        <div className="col-md-12 mt-2 p-2 std-boxed-form-page" 
-                            style={{}}
-                        >
+            {
+                <React.Fragment>
+                    <div className='signup-container' >
+                        <div className='col-md-12 border-b border-gray-200 page-title p-4 text-center mb-4'>
+                            <h4 className="">
+                                Register
+                            </h4>
+                        </div>
+                        <div className='std-medium-width-block bg-white'>
+                            <div className="col-md-12 mt-2 p-2 std-boxed-form-page"
+                                style={{}}
+                            >
 
-                            {message ? <Alert/>:""}
-                            <div className="modal-body pb-0" data-backdrop="static">
-                                <SignupForm/>
+                                {message ? <Alert /> : ""}
+                                <div className="modal-body pb-0" data-backdrop="static">
+                                    <SignupForm />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        </React.Fragment>
-        }
-    </>
-        
+                </React.Fragment>
+            }
+        </>
+
     );
 }
 

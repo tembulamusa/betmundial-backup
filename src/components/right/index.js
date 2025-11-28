@@ -53,7 +53,7 @@ const CustomerCareSection = () => (
       <h2>Customer Care</h2>
       <p>Betmundial is the place to be all day long for 24/7 customer support.</p>
       <div className='text-3xl py-3'>0724599488</div>
-      <p>customercare@betmundial.co.ke</p>
+      <p>customercare@betmundial.com</p>
     </div>
   </section>
 );
@@ -71,7 +71,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData, dbWinMatrix }) => {
       dispatch({ type: 'SET', key: 'showsharemodal', payload: true });
     }
   };
-  
+
 
   const BongeBetMarkupMessage = () => {
     return !state?.isjackpot && Object.keys(state?.betslip || {}).length > 0 && (
@@ -80,65 +80,65 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData, dbWinMatrix }) => {
       </div>
     );
   };
-  
+
   const MobileSlipHeader = () => {
 
     return (
       <>
-          {state?.isjackpot ? 'jackpot' : 'Betslip'}
-            {!state?.isjackpot && (
-              <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
-            )}
-            
-            <div className='float-end'>
-              {Object.keys(state?.betslip || {}).length > 0 && (
+        {state?.isjackpot ? 'jackpot' : 'Betslip'}
+        {!state?.isjackpot && (
+          <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
+        )}
 
-                <span className="col-sm-2 yellow-btn font-bold share-btn btn btn-light mr-2"
-                  style={{ width: 'fit-content' }}
-                  onClick={showShareModalDialog}
-                >
-                  <span><FontAwesomeIcon icon={faShare} /></span>
-                  <span>Share</span>
+        <div className='float-end'>
+          {Object.keys(state?.betslip || {}).length > 0 && (
 
-                </span>
-              )}
-              <button className='btn btn-default' onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:false})}><span className='text-red-700 font-bold mr-3'>X</span>Close</button>
-          </div>
+            <span className="col-sm-2 yellow-btn font-bold share-btn btn btn-light mr-2"
+              style={{ width: 'fit-content' }}
+              onClick={showShareModalDialog}
+            >
+              <span><FontAwesomeIcon icon={faShare} /></span>
+              <span>Share</span>
+
+            </span>
+          )}
+          <button className='btn btn-default' onClick={() => dispatch({ type: "SET", key: "showmobileslip", payload: false })}><span className='text-red-700 font-bold mr-3'>X</span>Close</button>
+        </div>
       </>
     )
   }
   return (
     <>
-    {/* Lets use a modal over here */}
-    <Modal
-            show={state?.showmobileslip}
-            onHide={() => dispatch({type:"SET", key:"showmobileslip", payload:false})}
-            dialogClassName="mobile-betslip-modal"
-            
-            aria-labelledby="contained-modal-title-vcenter">
-                     
-                    <Modal.Header
-                      closeVariant="black"
-                      closeLabel="close"
-                      // closeButton
-                      className="block text-white" style={{background:"rgba(231,6,84, 1)"}}>
-                      <Modal.Title><MobileSlipHeader /> </Modal.Title>
-                    </Modal.Header>
-                    
-                    
-                    <Modal.Body className="bg-dark-bg-secondary px-0 py-0" style={{backgroundColor: '#0f0f1f', color: '#ffffff'}}>
-                      <div id="betslip" className="betslip">
-                        {Object.keys(state?.betslip || {}).length == 0 && <BongeBetMarkupMessage />}
-                        <BetSlip 
-                          jackpot={state?.isjackpot}
-                          betslipValidationData={betslipValidationData}
-                          jackpotData={jackpotData}
-                          dbWinMatrix = {dbWinMatrix}
-                          />
-                      </div>
-                    </Modal.Body>
-                 
-            </Modal>
+      {/* Lets use a modal over here */}
+      <Modal
+        show={state?.showmobileslip}
+        onHide={() => dispatch({ type: "SET", key: "showmobileslip", payload: false })}
+        dialogClassName="mobile-betslip-modal"
+
+        aria-labelledby="contained-modal-title-vcenter">
+
+        <Modal.Header
+          closeVariant="black"
+          closeLabel="close"
+          // closeButton
+          className="block text-white" style={{ background: "rgba(231,6,84, 1)" }}>
+          <Modal.Title><MobileSlipHeader /> </Modal.Title>
+        </Modal.Header>
+
+
+        <Modal.Body className="bg-dark-bg-secondary px-0 py-0" style={{ backgroundColor: '#0f0f1f', color: '#ffffff' }}>
+          <div id="betslip" className="betslip">
+            {Object.keys(state?.betslip || {}).length == 0 && <BongeBetMarkupMessage />}
+            <BetSlip
+              jackpot={state?.isjackpot}
+              betslipValidationData={betslipValidationData}
+              jackpotData={jackpotData}
+              dbWinMatrix={dbWinMatrix}
+            />
+          </div>
+        </Modal.Body>
+
+      </Modal>
 
 
       {/* Mobile Toggle Button */}
@@ -149,7 +149,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData, dbWinMatrix }) => {
         >
           <div className="flex mobile-sticky-footer-slip">
             <div className="col-3 text-left" style={{ paddingLeft: '' }}>
-              <div className="yellow-bg text-white mobile-footer-slip" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}>
+              <div className="yellow-bg text-white mobile-footer-slip" onClick={() => dispatch({ type: "SET", key: "showmobileslip", payload: true })}>
                 slip <span className="mobile-footer-slip-counter rounded-full red-bg">{Object.entries(state?.betslip || state?.jackpotbetslip || {}).length}</span>
               </div>
             </div>
@@ -168,15 +168,15 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData, dbWinMatrix }) => {
                 </div>
               )}
               <div>
-                Win: <span className="font-[500]">{ state?.isjackpot? state?.jackpotdata?.jackpot_amount :  state?.slipnetwin}</span>
+                Win: <span className="font-[500]">{state?.isjackpot ? state?.jackpotdata?.jackpot_amount : state?.slipnetwin}</span>
               </div>
             </div>
             <div className="col-3 pr-0">
-              <button className="bet-button btn red-bg uppercase btn" onClick={() => dispatch({type:"SET", key:"showmobileslip", payload:true})}>Bet Now</button>
+              <button className="bet-button btn red-bg uppercase btn" onClick={() => dispatch({ type: "SET", key: "showmobileslip", payload: true })}>Bet Now</button>
             </div>
           </div>
         </section>
-        }
+      }
     </>
   );
 };
@@ -188,38 +188,38 @@ const Right = (props) => {
   const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
   const [bonusCentage, setBonusCentage] = useState(3);
   const [dbWinMatrix, setDbWinMatrix] = useState({
-        "sgr_bonus_percent_29": "98",
-        "sgr_bonus_percent_27": "85",
-        "sgr_bonus_percent_28": "95",
-        "sgr_bonus_percent_9": "9",
-        "sgr_bonus_percent_10": "10",
-        "sgr_bonus_max_games": "20",
-        "sgr_bonus_percent_11": "14",
-        "sgr_bonus_percent_30": "100",
-        "sgr_bonus_percent_7": "7",
-        "sgr_bonus_percent_8": "8",
-        "sgr_bonus_percent_5": "5",
-        "sgr_bonus_percent_14": "22",
-        "sgr_bonus_percent_6": "6",
-        "sgr_bonus_percent_15": "26",
-        "sgr_bonus_percent_3": "3",
-        "sgr_bonus_percent_12": "15",
-        "sgr_bonus_percent_4": "4",
-        "sgr_bonus_percent_13": "16",
-        "sgr_bonus_percent_18": "38",
-        "sgr_bonus_percent_19": "46",
-        "sgr_bonus_percent_16": "30",
-        "sgr_bonus_enabled": "1",
-        "sgr_bonus_percent_17": "34",
-        "sgr_bonus_percent_21": "54",
-        "sgr_bonus_percent_22": "58",
-        "sgr_bonus_percent_20": "50",
-        "sgr_bonus_min_odds": "1.30",
-        "sgr_bonus_percent_25": "70",
-        "sgr_bonus_percent_26": "80",
-        "sgr_bonus_percent_23": "62",
-        "sgr_bonus_percent_24": "66"
-    });
+    "sgr_bonus_percent_29": "98",
+    "sgr_bonus_percent_27": "85",
+    "sgr_bonus_percent_28": "95",
+    "sgr_bonus_percent_9": "9",
+    "sgr_bonus_percent_10": "10",
+    "sgr_bonus_max_games": "20",
+    "sgr_bonus_percent_11": "14",
+    "sgr_bonus_percent_30": "100",
+    "sgr_bonus_percent_7": "7",
+    "sgr_bonus_percent_8": "8",
+    "sgr_bonus_percent_5": "5",
+    "sgr_bonus_percent_14": "22",
+    "sgr_bonus_percent_6": "6",
+    "sgr_bonus_percent_15": "26",
+    "sgr_bonus_percent_3": "3",
+    "sgr_bonus_percent_12": "15",
+    "sgr_bonus_percent_4": "4",
+    "sgr_bonus_percent_13": "16",
+    "sgr_bonus_percent_18": "38",
+    "sgr_bonus_percent_19": "46",
+    "sgr_bonus_percent_16": "30",
+    "sgr_bonus_enabled": "1",
+    "sgr_bonus_percent_17": "34",
+    "sgr_bonus_percent_21": "54",
+    "sgr_bonus_percent_22": "58",
+    "sgr_bonus_percent_20": "50",
+    "sgr_bonus_min_odds": "1.30",
+    "sgr_bonus_percent_25": "70",
+    "sgr_bonus_percent_26": "80",
+    "sgr_bonus_percent_23": "62",
+    "sgr_bonus_percent_24": "66"
+  });
   const showShareModalDialog = () => {
     if (!state?.user) {
       dispatch({ type: 'SET', key: 'showloginmodal', payload: true });
@@ -229,23 +229,23 @@ const Right = (props) => {
   };
 
   const getDbWinMatrix = () => {
-    let endpoint = "/v2/sports/config/sgr";
-  
+    let endpoint = "/sports/config/sgr";
+
     makeRequest({ url: endpoint, method: "GET", api_version: 2 }).then(([status, result]) => {
       if (status == 200) {
-          if (result.status == 200) {
-            setDbWinMatrix(result?.data);
-          }
+        if (result.status == 200) {
+          setDbWinMatrix(result?.data);
         }
-        });
-      
+      }
+    });
+
   }
   useEffect(() => {
-      getDbWinMatrix();
+    getDbWinMatrix();
   }, []);
   useEffect(() => {
-    if(dbWinMatrix) {
-      dispatch({type:"SET", key:"bonusCentages", dbWinMatrix});
+    if (dbWinMatrix) {
+      dispatch({ type: "SET", key: "bonusCentages", dbWinMatrix });
     }
   }, [dbWinMatrix])
 
@@ -254,51 +254,51 @@ const Right = (props) => {
     let str_configs = state?.bgconfigs?.multibet_bonus_event_award_ratio?.split(",");
     let odd_limit = dbWinMatrix?.sgr_bonus_min_odds || 1.30;
 
-    
+
 
     let max_games = dbWinMatrix?.sgr_bonus_max_games;
-    let total_games = Object.values(state?.betslip||{})?.filter(
-        (slip) => slip.odd_value > (dbWinMatrix?.sgr_bonus_min_odds || 1.30) ).length;
+    let total_games = Object.values(state?.betslip || {})?.filter(
+      (slip) => slip.odd_value > (dbWinMatrix?.sgr_bonus_min_odds || 1.30)).length;
 
     if (total_games > max_games) {
-        total_games = max_games;
+      total_games = max_games;
     }
     let strConstruct = `sgr_bonus_percent_${total_games}`
     // let centage = total_games == max_games ? "100" : (dbWinMatrix[strConstruct] || "0")
-    
+
     if (!(strConstruct in dbWinMatrix)) {
-        setBongeBonusMessage("Select 3 games or more above 1.30 to get a bonus")
+      setBongeBonusMessage("Select 3 games or more above 1.30 to get a bonus")
     }
 
     let bonusAdvice = "";
     if (total_games == 1) {
-        bonusAdvice = "Add 2 more games " + odd_limit + " to win a bonus of 3% from 3 games";
-        dispatch({type:"DEL", key: "centageBonus"});
+      bonusAdvice = "Add 2 more games " + odd_limit + " to win a bonus of 3% from 3 games";
+      dispatch({ type: "DEL", key: "centageBonus" });
 
     } else if (total_games == 2) {
-        bonusAdvice = "Add 1 more game of odds " + odd_limit + " to win a bonus of 3% on 3 games";
-        dispatch({type:"DEL", key: "centageBonus"});
+      bonusAdvice = "Add 1 more game of odds " + odd_limit + " to win a bonus of 3% on 3 games";
+      dispatch({ type: "DEL", key: "centageBonus" });
 
     } else {
-        if (total_games > 2 && total_games <= max_games) {
-            var next_centage = dbWinMatrix[`sgr_bonus_percent_${total_games + 1}`]
-            bonusAdvice = "Congratulations, You have won a bonus of "
-                + dbWinMatrix[strConstruct] + "% on " + total_games + " games of "+ odd_limit + " odds"
-                + ". add 1 more game of "+ odd_limit +" odds to win a bonus of " + next_centage + "%";
-            setBonusCentage(dbWinMatrix[strConstruct]);
-        } else if (total_games > max_games) {
-            bonusAdvice = "Congratulations: you have won a bonus of "
-                + 100 + "% on " + total_games + " games of more than " + odd_limit +  " odds";
-              setBonusCentage('100');
-        }
+      if (total_games > 2 && total_games <= max_games) {
+        var next_centage = dbWinMatrix[`sgr_bonus_percent_${total_games + 1}`]
+        bonusAdvice = "Congratulations, You have won a bonus of "
+          + dbWinMatrix[strConstruct] + "% on " + total_games + " games of " + odd_limit + " odds"
+          + ". add 1 more game of " + odd_limit + " odds to win a bonus of " + next_centage + "%";
+        setBonusCentage(dbWinMatrix[strConstruct]);
+      } else if (total_games > max_games) {
+        bonusAdvice = "Congratulations: you have won a bonus of "
+          + 100 + "% on " + total_games + " games of more than " + odd_limit + " odds";
+        setBonusCentage('100');
+      }
     }
-    dispatch({type:"DEL", key: "centageBonus"});
+    dispatch({ type: "DEL", key: "centageBonus" });
     setBongeBonusMessage(bonusAdvice);
   }
 
   const BongeBetMarkupMessage = () => {
     return !state?.isjackpot && Object.keys(state?.betslip || {}).length > 0 && (
-      <div className="bonge-bonus" style={{ padding: '5px',marginTop: '10px' }}>
+      <div className="bonge-bonus" style={{ padding: '5px', marginTop: '10px' }}>
         <div id="bonus-centage-advice">{bongeBonusMessage}</div>
       </div>
     );
@@ -313,43 +313,43 @@ const Right = (props) => {
 
   return (
     <>
-    {!state?.nosports && <>
-      <div className="col-md-3 betslip-container sticky-top">
-        <>
-        <section id="betslip" className="betslip-v2">
-          <div className="betslip-header bg-secondary uppercase">
-            {state?.isjackpot ? 'jackpot' : 'Betslip'} {state?.isjackpot && ( <span>{Object.keys(state?.jackpotbetslip || {}).length} / {(state?.jackpotdata?.matches || [])?.length}</span>)}
-            {!state?.isjackpot && (
-              <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
-            )}
-            {Object.keys(state?.betslip || {}).length > 0 && (
-              <span className="col-sm-2 yellow-btn font-bold !float-end share-btn btn btn-light"
-                style={{ width: 'fit-content' }}
-                onClick={showShareModalDialog}
-              >
-                <span><FontAwesomeIcon icon={faShare} /></span>
-                <span>Share</span>
-              </span>
-            )}
-          </div>
-          {Object.keys(state?.betslip || {}).length > 0 && <BongeBetMarkupMessage />}
-          <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
-        </section>
-        <PaybillNumbersSection />
+      {!state?.nosports && <>
+        <div className="col-md-3 betslip-container sticky-top">
+          <>
+            <section id="betslip" className="betslip-v2">
+              <div className="betslip-header bg-secondary uppercase">
+                {state?.isjackpot ? 'jackpot' : 'Betslip'} {state?.isjackpot && (<span>{Object.keys(state?.jackpotbetslip || {}).length} / {(state?.jackpotdata?.matches || [])?.length}</span>)}
+                {!state?.isjackpot && (
+                  <span className="col-sm-2 slip-counter">({Object.keys(state?.betslip || {}).length})</span>
+                )}
+                {Object.keys(state?.betslip || {}).length > 0 && (
+                  <span className="col-sm-2 yellow-btn font-bold !float-end share-btn btn btn-light"
+                    style={{ width: 'fit-content' }}
+                    onClick={showShareModalDialog}
+                  >
+                    <span><FontAwesomeIcon icon={faShare} /></span>
+                    <span>Share</span>
+                  </span>
+                )}
+              </div>
+              {Object.keys(state?.betslip || {}).length > 0 && <BongeBetMarkupMessage />}
+              <BetSlip jackpot={state?.isjackpot} betslipValidationData={betslipValidationData} jackpotData={jackpotData} />
+            </section>
+            <PaybillNumbersSection />
 
-        </>
-        <MiniGames />
-        <CustomerCareSection />
-      
-       
-      </div>
+          </>
+          <MiniGames />
+          <CustomerCareSection />
 
-      <LoadedBetslip 
-        dbWinMatrix={dbWinMatrix}
-        betslipValidationData={betslipValidationData}
-        jackpotData={jackpotData} />
+
+        </div>
+
+        <LoadedBetslip
+          dbWinMatrix={dbWinMatrix}
+          betslipValidationData={betslipValidationData}
+          jackpotData={jackpotData} />
       </>
-    }
+      }
     </>
   );
 };

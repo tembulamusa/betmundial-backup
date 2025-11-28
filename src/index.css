@@ -31,7 +31,7 @@ code {
 }
 
 .bg-primary {
-  background: #0f1a3f !important;
+  background: #151525 !important;
   color: #ffffff;
 }
 
@@ -1446,10 +1446,11 @@ h1.std-title {
 }
 
 .popover-login-modal .modal-header {
-  background: #fbfbfb;
+  background: #0a0a15;
   box-shadow: 0 0 5px -1px rgba(0, 0, 0, .43);
   -webkit-box-shadow: 0 0 5px -1px rgba(0, 0, 0, .43);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 .std-carousel-image {

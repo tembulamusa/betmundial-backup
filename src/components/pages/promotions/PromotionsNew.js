@@ -32,10 +32,10 @@ const PromotionsNew = () => {
                                 alt={promo.title}
                                 className="w-full h-45 object-cover"
                             />
-                            <div className="bg-white p-3">
+                            <div className="p-3" style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
                                 <div className="flex justify-between items-center">
                                     <div className="flex-1">
-                                        <p className="font-bold text-gray-800 truncate">
+                                        <p className="font-bold text-white truncate">
                                             {promo.title}
                                         </p>
                                     </div>

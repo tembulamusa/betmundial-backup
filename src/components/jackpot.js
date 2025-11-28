@@ -17,12 +17,12 @@ const Jackpot = (props) => {
     const [jackpotData, setJackpotData] = useState(null);
     const [results, setResults] = useState(null);
     const [, dispatch] = useContext(Context);
-    
+
     const Float = (equation, precision = 4) => {
         return Math.round(equation * (10 ** precision)) / (10 ** precision);
     }
     const fetchMatches = useCallback(async () => {
-        const matchEndpoint = "/v2/jackpot/matches";
+        const matchEndpoint = "/jackpot/matches";
         const [m_status, result] = await makeRequest({ url: matchEndpoint, method: "GET", api_version: 2 });
 
         if (m_status == 200) {
@@ -35,12 +35,12 @@ const Jackpot = (props) => {
     }, []);
 
     const fetchResults = useCallback(async () => {
-        const resultsEndpoint = "/v2/jackpot/results";
+        const resultsEndpoint = "/jackpot/results";
         const [r_status, result] = await makeRequest({ url: resultsEndpoint, method: "GET", api_version: 2 });
         if (r_status == 200) {
-            setResults(result?.data); 
+            setResults(result?.data);
         } else {
-            Notify({status: 400, message: "Error fetching Jackpot results"})
+            Notify({ status: 400, message: "Error fetching Jackpot results" })
         }
     }, []);
 
@@ -98,64 +98,64 @@ const Jackpot = (props) => {
     }
 
     useEffect(() => {
-        dispatch({type:"SET", key:"betslipkey", payload:"jackpotbetslip"})
+        dispatch({ type: "SET", key: "betslipkey", payload: "jackpotbetslip" })
         dispatch({ type: "SET", key: "isjackpot", payload: true });
         return () => {
-            dispatch({ type: "DEL", key: "isjackpot"});
-            dispatch({type:"SET", key:"betslipkey", payload:"betslip"})
+            dispatch({ type: "DEL", key: "isjackpot" });
+            dispatch({ type: "SET", key: "betslipkey", payload: "betslip" })
         }
     }, []);
 
     return (
         <>
-            <LazyLoadImage src={dailyJackpot} alt="jackpot" className="std-carousel-image"/>
-            
-                    <div className="jackpot-header row bg-secondary">
-                        <div className="col-12">
-                            <JackpotHeader jackpot={jackpotData}/>
-                        </div>
-                    </div>
-                    <Tabs defaultActiveKey={"matches"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
-                        <Tab eventKey="matches" title="Matches" className="p-3">
-                            { (jackpotData?.status?.toLowerCase() == "active" && jackpotData?.matches?.length == jackpotData?.total_games) && (
-                               <div className="row flex flex-col items-center md:flex-row">
-                                <div className="col-md-8 !px-3 text-center md:text-left">
-                                    <div className="!px-2">
-                                        <div className="jackpot-amount !pl-0 pt-3">
-                                            Autopick randomly picks jackpot for you! KES {Intl.NumberFormat('en-US').format(jackpotData?.jackpot_amount)}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-4 justify-center mt-3 md:mt-0">
-                                    <div className="autopick-button-div !px-3">
-                                        <button
-                                            onClick={() => AutoPickAllMatches()}
-                                            className="btn btn-auto-pick mt-3 mx-auto md:mx-0">Auto Pick
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>                           
-                            )}
+            <LazyLoadImage src={dailyJackpot} alt="jackpot" className="std-carousel-image" />
 
-                            {/* If games are available, then show games */}
-                            {(jackpotData?.matches?.length > 0 && jackpotData?.total_games) ? (
-                                <JackpotMatchList matches={jackpotData} />
-                            ) : (
-                                <div className={'col-md-12 text-center background-primary mt-2 p-5 no-events-div'}>
-                                    There are no jackpots at the moment.
+            <div className="jackpot-header row bg-secondary">
+                <div className="col-12">
+                    <JackpotHeader jackpot={jackpotData} />
+                </div>
+            </div>
+            <Tabs defaultActiveKey={"matches"} id="jackpot-tabs" className="jackpot-tabs plain-tabs">
+                <Tab eventKey="matches" title="Matches" className="p-3">
+                    {(jackpotData?.status?.toLowerCase() == "active" && jackpotData?.matches?.length == jackpotData?.total_games) && (
+                        <div className="row flex flex-col items-center md:flex-row">
+                            <div className="col-md-8 !px-3 text-center md:text-left">
+                                <div className="!px-2">
+                                    <div className="jackpot-amount !pl-0 pt-3">
+                                        Autopick randomly picks jackpot for you! KES {Intl.NumberFormat('en-US').format(jackpotData?.jackpot_amount)}
+                                    </div>
                                 </div>
-                            )}
-                        </Tab>
-                        <Tab eventKey="results" title="Results" className="p-3">
-                            {results ? (
-                                <JackpotResultsList results={results} /> 
-                            ) : (
-                                <div className={'text-center mt-5'}>
-                                    Loading results...
+                            </div>
+                            <div className="col-md-4 justify-center mt-3 md:mt-0">
+                                <div className="autopick-button-div !px-3">
+                                    <button
+                                        onClick={() => AutoPickAllMatches()}
+                                        className="btn btn-auto-pick mt-3 mx-auto md:mx-0">Auto Pick
+                                    </button>
                                 </div>
-                            )}
-                        </Tab>
-                    </Tabs>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* If games are available, then show games */}
+                    {(jackpotData?.matches?.length > 0 && jackpotData?.total_games) ? (
+                        <JackpotMatchList matches={jackpotData} />
+                    ) : (
+                        <div className={'col-md-12 text-center background-primary mt-2 p-5 no-events-div'}>
+                            There are no jackpots at the moment.
+                        </div>
+                    )}
+                </Tab>
+                <Tab eventKey="results" title="Results" className="p-3">
+                    {results ? (
+                        <JackpotResultsList results={results} />
+                    ) : (
+                        <div className={'text-center mt-5'}>
+                            Loading results...
+                        </div>
+                    )}
+                </Tab>
+            </Tabs>
         </>
     );
 };

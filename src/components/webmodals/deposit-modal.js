@@ -1,7 +1,7 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {Formik, Form} from 'formik';
+import React, { useState, useContext, useEffect } from 'react';
+import { Formik, Form } from 'formik';
 import mpesa from '../../assets/img/mpesa.png'
-import {Context} from '../../context/store';
+import { Context } from '../../context/store';
 import { Modal } from "react-bootstrap";
 import makeRequest from '../utils/fetch-request';
 import Alert from '../utils/alert';
@@ -28,23 +28,23 @@ const DepositModal = (props) => {
     }, [state?.promptdepositrequest?.message]);
 
     const handleSubmit = values => {
-        let endpoint = '/v2/deposits/stk/new';
+        let endpoint = '/deposits/stk/new';
         setIsLoading(true);
         setDepositMessage(null);
         setSuccess(false)
-        makeRequest({url: endpoint, method: 'POST', data: values, api_version:3}).then(([status, response]) => {
-            if(status == 200) {
+        makeRequest({ url: endpoint, method: 'POST', data: values, api_version: 3 }).then(([status, response]) => {
+            if (status == 200) {
                 setSuccess(true)
-                setDepositMessage({status: 200, message: "Check your phone and enter pin to complete deposit"})
+                setDepositMessage({ status: 200, message: "Check your phone and enter pin to complete deposit" })
             } else {
-                setDepositMessage({status: 400, message: "Error pushing stk. Please deposit directly"});
+                setDepositMessage({ status: 400, message: "Error pushing stk. Please deposit directly" });
                 setDirectDepositPrompt(true)
                 setIsLoading(false)
             }
         })
     }
 
-    
+
 
     const validate = values => {
 
@@ -59,30 +59,30 @@ const DepositModal = (props) => {
         }
         return errors
     }
-    
 
-    
+
+
     const DepositFormFields = (props) => {
-        const {values, errors, onFieldChanged} = props;
+        const { values, errors, onFieldChanged } = props;
         return (
             <>
-                
+
                 <div className="form-group row d-flex justify-content-center mt-4">
-                    {depositMessage && <div className='my-3 font-bold'><Alert message={depositMessage} font={"light"}/></div> }
+                    {depositMessage && <div className='my-3 font-bold'><Alert message={depositMessage} font={"light"} /></div>}
 
                     <div className="row">
                         <div className=''>
-                        <input
-                            onChange={ev => onFieldChanged(ev)}
-                            style={{}}
-                            className="text-dark deposit-input form-control  input-field"
-                            id="amount"
-                            name="amount"
-                            type="text"
-                            value={values.amount}
-                            placeholder='Enter Amount'
-                        />
-                        {errors.amount && <div className='text-danger'> {errors.amount} </div>}
+                            <input
+                                onChange={ev => onFieldChanged(ev)}
+                                style={{}}
+                                className="text-dark deposit-input form-control  input-field"
+                                id="amount"
+                                name="amount"
+                                type="text"
+                                value={values.amount}
+                                placeholder='Enter Amount'
+                            />
+                            {errors.amount && <div className='text-danger'> {errors.amount} </div>}
                         </div>
 
                         <input
@@ -104,11 +104,11 @@ const DepositModal = (props) => {
                         </div>
                         <div className='col-4'>
                             <div
-                                onClick={() => dispatch({type:"DEL", key:"promptdepositrequest"})}
+                                onClick={() => dispatch({ type: "DEL", key: "promptdepositrequest" })}
                                 className='w-full btn btn-lg btn-primary btn-warning deposit-withdraw-butto font-[500]'>
                                 {closeButton ? "Cancel" : "Close"}
                             </div></div>
-                        
+
                     </div>
                 </div>
             </>
@@ -116,9 +116,9 @@ const DepositModal = (props) => {
     }
 
 
-    
+
     const MyDepositForm = (props) => {
-        const {errors, values, setFieldValue} = props;
+        const { errors, values, setFieldValue } = props;
 
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
@@ -129,21 +129,21 @@ const DepositModal = (props) => {
             // }
 
         }
-        
+
         return (
             <Form className="rounded border-0">
                 <div className="pt-0">
                     <div className="row px-3">
                         <div className='text-center'>
-                            <img src={mpesa} alt=""/>
+                            <img src={mpesa} alt="" />
                         </div>
 
-                        
+
                     </div>
-                    <hr className='my-2'/>
+                    <hr className='my-2' />
                     <div className='row'>
                         <div className=''>
-                            <DepositFormFields onFieldChanged={onFieldChanged} values={values} errors={errors}/>
+                            <DepositFormFields onFieldChanged={onFieldChanged} values={values} errors={errors} />
                         </div>
 
                     </div>
@@ -160,29 +160,29 @@ const DepositModal = (props) => {
                 validateOnChange={false}
                 validateOnBlur={false}
                 validate={validate}
-                render={(props) => <MyDepositForm {...props} />}/>
+                render={(props) => <MyDepositForm {...props} />} />
         );
     }
 
     return (
         <Modal
             show={state?.promptdepositrequest?.show}
-            onHide={() => dispatch({type:"DEL", key:"promptdepositrequest"})}
+            onHide={() => dispatch({ type: "DEL", key: "promptdepositrequest" })}
             dialog className="popover-login-modal"
             aria-labelledby="contained-modal-title-vcenter">
-                     {/* <Modal.Header closeButton className="no-header">
+            {/* <Modal.Header closeButton className="no-header">
                       <Modal.Title>Deposit</Modal.Title>
                     </Modal.Header> */}
-                    <Modal.Body className="p-4">
-                        <Alert message={{status:400, message: "Insufficient Balance"}} />
-                        <div className='row mt-5'>
-                            <div className='col-7'><a href={`/deposit?next=${window.location.pathname}`} className='p-3 w-[200px] btn btn-primary btn-lg bold uppercase'>Click to Deposit</a></div>
-                            <div className='col-5'><button className='p-3 w-[100px] btn btn-lg bold uppercase btn btn-default' onClick={() => dispatch({type:"DEL", key:"promptdepositrequest"})}>Close</button></div>
-                        </div>
-                    </Modal.Body>
-            </Modal>
-        
-        
+            <Modal.Body className="p-4">
+                <Alert message={{ status: 400, message: "Insufficient Balance" }} />
+                <div className='row mt-5'>
+                    <div className='col-7'><a href={`/deposit?next=${window.location.pathname}`} className='p-3 w-[200px] btn btn-primary btn-lg bold uppercase'>Click to Deposit</a></div>
+                    <div className='col-5'><button className='p-3 w-[100px] btn btn-lg bold uppercase btn btn-default' onClick={() => dispatch({ type: "DEL", key: "promptdepositrequest" })}>Close</button></div>
+                </div>
+            </Modal.Body>
+        </Modal>
+
+
     )
 }
 

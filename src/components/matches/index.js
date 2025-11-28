@@ -230,7 +230,7 @@ const MoreMarketsHeaderRow = (props) => {
     const [matchStatus, setMatchStatus] = useState("");
     // repeated functions should be refactored
     const socketRef = useRef(socket);
-    const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}`, [match]);
+    const socketEvent = useMemo(() => `betmundial#${match?.parent_match_id}`, [match]);
     const navigate = useNavigate();
 
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
@@ -502,8 +502,8 @@ const OddButton = (props) => {
                 (<>
                     <span
                         className="label label-inverse">
-                        {match.odd_key} {(!match?.odd_key.includes(match?.special_bet_value.replace(/^[+-]/, ''))) 
-                        && `(${match?.special_bet_value.slice(match?.special_bet_value.lastIndexOf(":")+1)})`}
+                        {match.odd_key} {(!match?.odd_key.includes(match?.special_bet_value.replace(/^[+-]/, '')))
+                            && `(${match?.special_bet_value.slice(match?.special_bet_value.lastIndexOf(":") + 1)})`}
                     </span>
                     <span
                         className="label label-inverse odd-value">
@@ -544,7 +544,7 @@ const MarketRow = (props) => {
     const [mutableMkts, setMutableMkts] = useState(
         [...markets.sort((a, b) => a?.special_bet_value?.localeCompare(b?.special_bet_value) || a.outcome_id.localeCompare(b.outcome_id) || a.odd_key.localeCompare(b.odd_key))]
     );
-    
+
     const [marketStatus, setMarketStatus] = useState(marketDetail?.market_status);
     const [producerId, setProducerId] = useState(marketDetail?.producer_id);
     const [state, dispatch] = useContext(Context);
@@ -554,7 +554,7 @@ const MarketRow = (props) => {
         if (markets) {
             setMutableMkts([...markets.sort((a, b) => a?.special_bet_value?.localeCompare(b?.special_bet_value) || a.outcome_id.localeCompare(b.outcome_id) || a.odd_key.localeCompare(b.odd_key))]);
         }
-       
+
         // computed producer down
         const producer = producers.find(producer => producer.producer_id === marketDetail?.producer_id);
         if (producer) {
@@ -563,7 +563,7 @@ const MarketRow = (props) => {
     }, [markets]);
 
     const socketRef = useRef(socket);
-    const socketEvent = useMemo(() => `surebet#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
+    const socketEvent = useMemo(() => `betmundial#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
 
     const handleGameSocket = useCallback((type, gameId, sub_type_id) => {
         if (type === "listen" && socketRef.current?.connected) {
@@ -799,7 +799,7 @@ const MatchMarket = (props) => {
     useEffect(() => {
         if (socket.connected) {
             handleGameSocket("listen", match?.parent_match_id);
-            socket?.on(`surebet#${match?.parent_match_id}#${marketId}`, (data) => {
+            socket?.on(`betmundial#${match?.parent_match_id}#${marketId}`, (data) => {
                 if (data.match_market.special_bet_value == special_bet_value) {
                     if (Object.keys(data.event_odds).length > 0) {
                         setOutcomes((prev) => {
@@ -926,7 +926,7 @@ const MatchRow = (props) => {
     useEffect(() => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
         socket.emit('user.match.listen', match?.parent_match_id);
-        socket.on(`surebet#${match?.parent_match_id}`, (data) => {
+        socket.on(`betmundial#${match?.parent_match_id}`, (data) => {
             if (data.message_type == "betstop") {
                 if (data.markets == "all") {
                     setMatch((prevMatch) => {

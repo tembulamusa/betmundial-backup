@@ -15,16 +15,16 @@ const MobileApp = () => {
         <>
             <div className='col-md-12 primary-bg p-4 text-center'>
                 <h4 className=' inline-block'>
-                    SUREBET APP
+                    betmundial APP
                 </h4>
             </div>
 
             <div className='std-medium-width-block'>
 
                 <div className="block">
-                    <div className="w-full justify-center items-center">  
-                        
-                    <h3>Download Today and Enjoy bonuses of Upto 500 !</h3>
+                    <div className="w-full justify-center items-center">
+
+                        <h3>Download Today and Enjoy bonuses of Upto 500 !</h3>
 
                         <div className="flex gap-2 items-center mt-2">
                             <a href="#" target="_blank" className="btn img">
@@ -36,33 +36,33 @@ const MobileApp = () => {
                         </div>
 
                         <ul className="block my-4">
-                            
+
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-custom-red mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" />
                                 Stream LIVE games
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-custom-red mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" />
                                 Play 4 virtual leagues
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-custom-red mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" />
                                 Lighter and faster
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-custom-red mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" />
                                 Share betslip
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-custom-red mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" />
                                 Light &amp; dark mode
                             </li>
                             <li className="flex items-center my-2">
-                                <FiCheckCircle className="text-custom-red mr-2" /> 
+                                <FiCheckCircle className="text-custom-red mr-2" />
                                 Instant notifications
                             </li>
                         </ul>
-                      
+
 
                     </div>
 

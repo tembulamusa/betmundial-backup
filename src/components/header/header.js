@@ -64,7 +64,7 @@ const Header = (props) => {
             return;
         }
 
-        let endpoint = "/v2/user/balance";
+        let endpoint = "/user/balance";
         await makeRequest({ url: endpoint, method: "GET", api_version: 2 }).then(([_status, response]) => {
             if (_status == 200) {
                 let u = { ...user, ...response?.data, bonus_balace: response?.data?.bonus };
@@ -97,7 +97,7 @@ const Header = (props) => {
         if (!user) {
             return false;
         }
-        let endpoint = "/v2/auth/token/refresh";
+        let endpoint = "/auth/token/refresh";
         let values = { refresh_token: user?.refresh_token }
         makeRequest({ url: endpoint, method: 'POST', data: values, api_version: 2 }).then(([status, response]) => {
             if (status == 200 || status == 201 || status == 204) {

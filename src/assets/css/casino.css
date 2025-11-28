@@ -2,6 +2,8 @@
     border-right: 1px solid rgba(255, 255, 255, 0.15);
     min-height: 100vh;
     box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2);
+    background-color: #0f0f1f;
+    color: #ffffff;
 }
 
 .casino-games-liting {
@@ -114,14 +116,14 @@
     font-size: 15px;
     line-height: 1.5;
     font-weight: 400;
-    color: rgba(38, 38, 38, .7);
+    color: rgba(255, 255, 255, 0.8);
     opacity: 1;
     margin-bottom: 0px;
     /* border-bottom: 1px solid #eee; */
     padding-bottom: 8px !important;
     border-radius: 0;
     padding-top: 8px !important;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .casino-list-block ul li:last-child {
@@ -132,8 +134,8 @@
 
 .casino-list-block ul li:hover,
 .casino-list-block ul li.active {
-    background-color: #eee;
-    color: #444;
+    background-color: rgba(231, 6, 84, 0.2);
+    color: #ffffff;
     /* transition: all ease-in-out 0.3s; */
     /* padding-left: 10px; */
 }
@@ -177,13 +179,13 @@
 
 .casino-class-header {
     padding-bottom: 6px;
-    background: #ececec;
-    /* color: white !important; */
+    background: #151525;
+    color: #ffffff !important;
     padding-top: 6px;
     border-radius: 0;
     padding-left: 7px;
-    border-top: 1px solid #c6c6c6;
-    border-bottom: 1px solid #c6c6c6;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .casino.banner-imgs img {

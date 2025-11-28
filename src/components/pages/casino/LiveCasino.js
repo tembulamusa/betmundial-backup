@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from "../../header/header";
 import Footer from "../../footer/footer";
 import makeRequest from "../../utils/fetch-request";
 import SideBar from "../../sidebar/awesome/Sidebar";
-import {getFromLocalStorage, setLocalStorage} from "../../utils/local-storage";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/local-storage";
 import Notify from "../../utils/Notify";
-import {LazyLoadImage} from "react-lazy-load-image-component";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChair, faCircle, faDotCircle} from "@fortawesome/free-solid-svg-icons";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChair, faCircle, faDotCircle } from "@fortawesome/free-solid-svg-icons";
 
 const LiveCasino = (props) => {
 
@@ -24,7 +24,7 @@ const LiveCasino = (props) => {
     const fetchGames = async (category = 'vs') => {
         let endpoint = "/v1/casino-games?game-type-id=" + category
         let method = "GET"
-        await makeRequest({url: endpoint, method: method}).then(([status, result]) => {
+        await makeRequest({ url: endpoint, method: method }).then(([status, result]) => {
             if (status == 200) {
                 setCategories(result.types)
                 setGames(result.data)
@@ -88,7 +88,7 @@ const LiveCasino = (props) => {
 
     const initializeDGA = async () => {
         try {
-            let url = "prelive-dga0.pragmaticplaylive.net/ws?key=testKey&stylename=lmntgmng_surebet";
+            let url = "prelive-dga0.pragmaticplaylive.net/ws?key=testKey&stylename=lmntgmng_betmundial";
             window.dga.connect(url)
         } catch (e) {
             // printed message

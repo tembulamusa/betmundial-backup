@@ -1,13 +1,13 @@
-import React, { 
-    useContext, 
-    useEffect, 
-    useState, 
+import React, {
+    useContext,
+    useEffect,
+    useState,
     useRef,
     Suspense
 } from "react";
 
-import {useLocation, useParams, useSearchParams} from 'react-router-dom';
-import {Context} from '../context/store';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { Context } from '../context/store';
 import makeRequest from './utils/fetch-request';
 import useInterval from "../hooks/set-interval.hook";
 import HighlightsBoard from "./highlights-board";
@@ -21,8 +21,8 @@ const PopupBanner = React.lazy(() => import('./pop_up_banner'));
 
 const Index = (props) => {
     const location = useLocation();
-    const {sportid, categoryid, competitionid } = useParams();
-    const [allSportId, setAllSportId ] = useState();
+    const { sportid, categoryid, competitionid } = useParams();
+    const [allSportId, setAllSportId] = useState();
 
     const [matches, setMatches] = useState();
     const [limit, setLimit] = useState(300);
@@ -34,53 +34,53 @@ const Index = (props) => {
     const [searchParams] = useSearchParams();
     const [producers, setProducers] = useState([])
 
-    
+
     const fetchData = (controlText) => {
         setFetching(true);
         let fetchcount = fetchingCount + 1;
         let filtersport = state?.filtersport || getFromLocalStorage("filtersport");
-        if(location?.pathname == "/"){
+        if (location?.pathname == "/") {
             filtersport = null
         }
         let pageNo = 1;
         let limitSize = limit || 300;
         let tab = 'highlights';
         let method = "GET";
-        let endpoint = "/v2/sports/matches/pre-match/" 
-            + ((location.pathname !== "/" && filtersport?.sport_id) 
-            || filtersport?.sport_id || allSportId || 79) 
-            + ((filtersport && filtersport?.sport_name?.toLowerCase() !== "soccer") ? "/" 
-            + filtersport?.default_market : "")  
-            +"?page=" + pageNo + `&size=${limitSize}` ;
+        let endpoint = "/sports/matches/pre-match/"
+            + ((location.pathname !== "/" && filtersport?.sport_id)
+                || filtersport?.sport_id || allSportId || 79)
+            + ((filtersport && filtersport?.sport_name?.toLowerCase() !== "soccer") ? "/"
+                + filtersport?.default_market : "")
+            + "?page=" + pageNo + `&size=${limitSize}`;
 
         let url = new URL(window.location.href);
         let search_term = state?.searchterm || "";
-        if(state?.filtercategory) {
+        if (state?.filtercategory) {
             endpoint += "&category_id =" + state?.filtercategory?.category_id;
-        } else if(categoryid && !state?.filtermenuclicked == true) {
+        } else if (categoryid && !state?.filtermenuclicked == true) {
             endpoint += "&category_id =" + categoryid;
         }
-        
-        if(state?.active_tab) {
+
+        if (state?.active_tab) {
             tab = state?.active_tab;
         }
-        
+
         endpoint += "&tab=" + tab;
-        
-        if(state?.filtercompetition && controlText !=="fetchAll") {
-            endpoint = (controlText == "filtered") && `/v2/sports/competitions/matches/${state?.filtercompetition?.competition_id}`;
+
+        if (state?.filtercompetition && controlText !== "fetchAll") {
+            endpoint = (controlText == "filtered") && `/sports/competitions/matches/${state?.filtercompetition?.competition_id}`;
 
             // if (state?.filtercompetition?.competition_id == 0){
-            //     endpoint = "/v2/sports/competitions/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
+            //     endpoint = "/sports/competitions/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
             // }
         }
         if (search_term && search_term.length >= 3) {
-            endpoint = `/v2/matches/pre-match?limit=10&search=${search_term}`;
-        } 
+            endpoint = `/matches/pre-match?limit=10&search=${search_term}`;
+        }
         // else {
         //     if(state?.filtercompetition ) {
         //         endpoint = `/v1/sports/competition/matches?id=${state?.filtercompetition?.competition_id}`;
-    
+
         //         if (state?.filtercompetition?.competition_id == 0){
         //             endpoint = "/v1/matches?page=" + (page || 1) + "&sport_id = " + (state?.filtersport?.sport_id||sportid || 79) + `&limit=${limit || 200}`;
         //         }
@@ -88,7 +88,7 @@ const Index = (props) => {
         // } 
         endpoint = endpoint.replaceAll(" ", '');
 
-        makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
+        makeRequest({ url: endpoint, method: method, api_version: 2 }).then(([status, result]) => {
             setFetchingCount(fetchcount);
 
             if (status == 200) {
@@ -101,17 +101,17 @@ const Index = (props) => {
     };
 
     // useEffect(() => {
-        
+
     // }, [location])
 
-    
+
     const poll = () => {
-        
+
     }
-    
+
     useEffect(() => {
         let newSportId = searchParams.get('sportId');
-        if(newSportId !== null) {
+        if (newSportId !== null) {
             fetchData("fetchAll");
         } else {
             fetchData("filtered")
@@ -119,25 +119,25 @@ const Index = (props) => {
         }
     }, [sportid,
         location,
-        state?.filtercategory, 
-        state?.filtercompetition, 
+        state?.filtercategory,
+        state?.filtercompetition,
         state?.active_tab,
         state?.searchterm
     ]
     )
 
-    useInterval( async () => {
-        if(!socket.connected){
+    useInterval(async () => {
+        if (!socket.connected) {
             fetchData()
         }
-    } ,1000 * 60);
+    }, 1000 * 60);
 
-    useEffect(()=> {
+    useEffect(() => {
         socket.connect();
         return () => {
             socket.disconnect();
         }
-    },[])
+    }, [])
     document.addEventListener('scrollEnd', (event) => {
         if (!fetching) {
             setFetching(true);
@@ -149,7 +149,7 @@ const Index = (props) => {
 
         <>
             <div className="homepage" ref={homePageRef}>
-                <CarouselLoader/>
+                <CarouselLoader />
                 <section className="highlights-board">
                     <HighlightsBoard />
                 </section>
@@ -165,16 +165,16 @@ const Index = (props) => {
                         producers={producers}
                         three_way={state?.filtersport ? state?.filtersport?.sport_type == "threeway" : true}
                         fetching={fetching}
-                        subTypes={state?.filtersport 
+                        subTypes={state?.filtersport
                             ?
                             state?.filtersport?.sport_name.toLowerCase() !== "soccer"
-                            ?
-                            [state?.filtersport?.default_market] 
+                                ?
+                                [state?.filtersport?.default_market]
+                                :
+                                [1, 10, 18]
                             :
-                            [1,10,18]
-                            :
-                            [1,10,18]
-                            }
+                            [1, 10, 18]
+                        }
                         betslip_key={"betslip"}
                         fetchingcount={fetchingCount}
                     />

@@ -47,7 +47,7 @@ const CasinoCarousel = () => {
                         style={{ display: imageLoaded ? "block" : "none" }}
                         src={banner.src}
                         onLoad={() => setImageLoaded(true)}
-                        alt="surebet"
+                        alt="betmundial"
                         effects="blur"
                         onClick={() => handleNavigation(banner)}
                     />
@@ -109,7 +109,7 @@ export default React.memo(CasinoCarousel);
 //                         style={{ display: imageLoaded ? 'block' : 'none' }}
 //                         src={Fifteen}
 //                         onLoad={onImageLoaded}
-//                         alt="surebet"
+//                         alt="betmundial"
 //                         effects="blur"
 //                     />
 //                 </Link>
@@ -121,7 +121,7 @@ export default React.memo(CasinoCarousel);
 //                     style={{display: imageLoaded ? 'block' : 'none'}}
 //                     src={AviatorBanner}
 //                     onLoad={onImageLoaded}
-//                     alt="surebet"
+//                     alt="betmundial"
 //                     effects="blur"
 //                 />
 //             </Carousel.Item>
@@ -133,7 +133,7 @@ export default React.memo(CasinoCarousel);
 //                     style={{display: imageLoaded ? 'block' : 'none'}}
 //                     src={One}
 //                     onLoad={onImageLoaded}
-//                     alt="surebet"
+//                     alt="betmundial"
 //                     effects="blur"
 //                 />
 //             </Carousel.Item> */}
@@ -144,7 +144,7 @@ export default React.memo(CasinoCarousel);
 //                         style={{display: imageLoaded ? 'block' : 'none'}}
 //                         src={Two}
 //                         onLoad={onImageLoaded}
-//                         alt="surebet"
+//                         alt="betmundial"
 //                         effects="blur"
 //                     />
 //                 </Link>
@@ -155,7 +155,7 @@ export default React.memo(CasinoCarousel);
 //                     style={{display: imageLoaded ? 'block' : 'none'}}
 //                     src={Three}
 //                     onLoad={onImageLoaded}
-//                     alt="surebet"
+//                     alt="betmundial"
 //                     effects="blur"
 //                 />
 //             </Carousel.Item> 
@@ -166,7 +166,7 @@ export default React.memo(CasinoCarousel);
 //                         style={{ display: imageLoaded ? 'block' : 'none' }}
 //                         src={Four}
 //                         onLoad={onImageLoaded}
-//                         alt="surebet"
+//                         alt="betmundial"
 //                         effects="blur"
 //                     />
 //                 </Link>
@@ -178,7 +178,7 @@ export default React.memo(CasinoCarousel);
 //                     style={{display: imageLoaded ? 'block' : 'none'}}
 //                     src={Five}
 //                     onLoad={onImageLoaded}
-//                     alt="surebet"
+//                     alt="betmundial"
 //                     effects="blur"
 //                 />
 //             </Carousel.Item> */}
@@ -189,7 +189,7 @@ export default React.memo(CasinoCarousel);
 //                     style={{display: imageLoaded ? 'block' : 'none'}}
 //                     src={Six}
 //                     onLoad={onImageLoaded}
-//                     alt="surebet"
+//                     alt="betmundial"
 //                     effects="blur"
 //                 />
 //             </Carousel.Item>
@@ -200,7 +200,7 @@ export default React.memo(CasinoCarousel);
 //                     style={{display: imageLoaded ? 'block' : 'none'}}
 //                     src={Seven}
 //                     onLoad={onImageLoaded}
-//                     alt="surebet"
+//                     alt="betmundial"
 //                     effects="blur"
 //                 />
 //             </Carousel.Item> */}
@@ -211,7 +211,7 @@ export default React.memo(CasinoCarousel);
 //                     style={{display: imageLoaded ? 'block' : 'none'}}
 //                     src={Eight}
 //                     onLoad={onImageLoaded}
-//                     alt="surebet"
+//                     alt="betmundial"
 //                     effects="blur"
 //                 />
 //             </Carousel.Item> */}
@@ -223,7 +223,7 @@ export default React.memo(CasinoCarousel);
 //                         style={{ display: imageLoaded ? 'block' : 'none' }}
 //                         src={Nine}
 //                         onLoad={onImageLoaded}
-//                         alt="surebet"
+//                         alt="betmundial"
 //                         effects="blur"
 //                     />
 //                 </Link>
@@ -236,7 +236,7 @@ export default React.memo(CasinoCarousel);
 //                         style={{ display: imageLoaded ? 'block' : 'none' }}
 //                         src={Ten}
 //                         onLoad={onImageLoaded}
-//                         alt="surebet"
+//                         alt="betmundial"
 //                         effects="blur"
 //                     />
 //                 </Link>
@@ -249,7 +249,7 @@ export default React.memo(CasinoCarousel);
 //                         style={{ display: imageLoaded ? 'block' : 'none' }}
 //                         src={Eleven}
 //                         onLoad={onImageLoaded}
-//                         alt="surebet"
+//                         alt="betmundial"
 //                         effects="blur"
 //                     />
 //                 </Link>
@@ -261,7 +261,7 @@ export default React.memo(CasinoCarousel);
 //                     style={{display: imageLoaded ? 'block' : 'none'}}
 //                     src={Twelve}
 //                     onLoad={onImageLoaded}
-//                     alt="surebet"
+//                     alt="betmundial"
 //                     effects="blur"
 //                 />
 //             </Carousel.Item> */}
@@ -273,7 +273,7 @@ export default React.memo(CasinoCarousel);
 //                         style={{ display: imageLoaded ? 'block' : 'none' }}
 //                         src={Thirteen}
 //                         onLoad={onImageLoaded}
-//                         alt="surebet"
+//                         alt="betmundial"
 //                         effects="blur"
 //                     />
 //                 </Link>
@@ -286,7 +286,7 @@ export default React.memo(CasinoCarousel);
 //                         style={{ display: imageLoaded ? 'block' : 'none' }}
 //                         src={Fourteen}
 //                         onLoad={onImageLoaded}
-//                         alt="surebet"
+//                         alt="betmundial"
 //                         effects="blur"
 //                     />
 //                 </Link>
@@ -299,7 +299,7 @@ export default React.memo(CasinoCarousel);
 //                     style={{ display: imageLoaded ? 'block' : 'none' }}
 //                     src={Sixteen}
 //                     onLoad={onImageLoaded}
-//                     alt="surebet"
+//                     alt="betmundial"
 //                     effects="blur"
 //                 />
 //             </Carousel.Item>

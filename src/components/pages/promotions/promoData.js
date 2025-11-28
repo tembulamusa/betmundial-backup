@@ -8,7 +8,7 @@ export const promoData = [
     title: "First Deposit Bonus",
     image: karibuBonus,
     description: `
-      Karibu to the exciting Surebet Deposit Refund Promotion! Receive bonuses on your first deposit of the day to boost your chances of winning!
+      Karibu to the exciting BetMundial Deposit Refund Promotion! Receive bonuses on your first deposit of the day to boost your chances of winning!
     `,
     details: `
       - Deposit KES 49: Receive KES 4 as a bonus.
@@ -19,7 +19,7 @@ export const promoData = [
     termsAndConditions: `
       - The bonus can only be used on bets with minimum odds of 4.99.
       - Only applicable to sportsbook events.
-      - Winnings from the bonus will be added to your Surebet wallet.
+      - Winnings from the bonus will be added to your BetMundial wallet.
       - Bonus availability is not guaranteed on all devices.
     `
   },
@@ -45,17 +45,17 @@ export const promoData = [
     title: "Bet bila Bundles",
     image: MshipiBonusImg,
     description: `
-      Access Surebet’s website for free with Safaricom data bundles. This offer only applies when using Safaricom mobile network and excludes live streaming.
+      Access BetMundial's website for free with Safaricom data bundles. This offer only applies when using Safaricom mobile network and excludes live streaming.
     `,
     details: `
       - Only available for Safaricom users.
-      - Does not apply to Safaricom Home Fibre or any charges for other Surebet services.
+      - Does not apply to Safaricom Home Fibre or any charges for other BetMundial services.
       - Misuse of the promotion may lead to suspension or blocking of the service.
     `,
     termsAndConditions: `
-      - Surebet reserves the right to alter or discontinue the offer.
-      - The service is provided “as is” without warranties of any kind.
-      - Additional terms apply from Surebet's Privacy Policy.
+      - BetMundial reserves the right to alter or discontinue the offer.
+      - The service is provided "as is" without warranties of any kind.
+      - Additional terms apply from BetMundial's Privacy Policy.
     `
   },
   {
@@ -147,7 +147,7 @@ export const promoData = [
     termsAndConditions: `
       - Only active customers eligible.
       - Cannot be combined with other promotions.
-      - Surebet can amend or cancel offer at any time.
+      - BetMundial can amend or cancel offer at any time.
     `
   },
   {
@@ -181,7 +181,7 @@ export const promoData = [
       - Applies to pre-match bets only.
     `,
     termsAndConditions: `
-      - Final decision rests with Surebet management.
+      - Final decision rests with BetMundial management.
       - Bonus valid for 7 days.
     `
   }  

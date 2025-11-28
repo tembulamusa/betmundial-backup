@@ -1,4 +1,4 @@
-import {setLocalStorage, getFromLocalStorage, removeItem} from './local-storage';
+import { setLocalStorage, getFromLocalStorage, removeItem } from './local-storage';
 
 const ENC_KEY = '2bdVweTeI42s5mkLdYHyklTMxQS5gLA7MDS6FA9cs1uobDXeruACDic0YSU3si04JGZe4Y';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -15,11 +15,11 @@ const CASINO_INTOUCHVAS_URL = process.env.REACT_APP_INTOUCHVAS_URL; // split the
 const CASINO_PRAGMATIC_URL = process.env.REACT_APP_PRAGMATIC_URL; // pragmatic
 const CASINO_SMARTSOFT_URL = process.env.REACT_APP_SMARTSOFT_URL; // smartsoft
 
-const makeRequest = async ({url, method, data = null, use_jwt = false, api_version = 1, responseType = "json"}) => {
+const makeRequest = async ({ url, method, data = null, use_jwt = false, api_version = 1, responseType = "json" }) => {
     // const 
-    if (api_version == 2) {        
+    if (api_version == 2) {
         url = BASE2_URL + url;
-    } else { 
+    } else {
         if (api_version == 3) {
             url = ACCOUNTS_URL + url
         } else {
@@ -32,23 +32,23 @@ const makeRequest = async ({url, method, data = null, use_jwt = false, api_versi
             } else if (api_version == "CasinoGameLaunch") {
                 url = CASINOGAMELaunch + url;
             } else if (api_version == "casinoJackpots") {
-                url = PRAGMATIC_JACKPOT_URL + url;  
+                url = PRAGMATIC_JACKPOT_URL + url;
             }
         }
     }
     let headers = {
         "accept": "application/json",
         "content-type": "application/json",
-        "origin":"surebet.co.ke"
+        "origin": "betmundial.com"
     };
 
     let user = getFromLocalStorage('user');
 
-    
 
-    const token = user?.token;    
+
+    const token = user?.token;
     if (token) {
-        headers = {...headers, ...{Authorization: "Bearer " + token}}
+        headers = { ...headers, ...{ Authorization: "Bearer " + token } }
     }
 
     try {

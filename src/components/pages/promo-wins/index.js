@@ -6,25 +6,25 @@ import makeRequest from "../../utils/fetch-request";
 
 const PromoWins = () => {
     const [isLoading, setIsLoading] = useState(false);
-    
-    const getUserCommision = values => {
-        let endpoint = '/v2/user/commissions';
-        setIsLoading(true);
-        
 
-        makeRequest({url: endpoint, method: 'GET', api_version:2}).then(([status, response]) => {            
-            
+    const getUserCommision = values => {
+        let endpoint = '/user/commissions';
+        setIsLoading(true);
+
+
+        makeRequest({ url: endpoint, method: 'GET', api_version: 2 }).then(([status, response]) => {
+
         })
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         getUserCommision();
-    },[])
+    }, [])
 
     return (
         <>
             <div className="homepage">
-                <PageHeader title={"Affiliate Wins"}/>
+                <PageHeader title={"Affiliate Wins"} />
 
                 <div className="col-md-12 mt-2  p-2">
                     <div className="pb-0" data-backdrop="static">

@@ -17,18 +17,18 @@ const FAQs = () => {
         <>
             <div className='col-md-12 bg-primary p-4 text-center profound-text'>
                 <h4 className="inline-block"> Frequently Asked Questions (FAQs) </h4>
-            </div>                                             
+            </div>
             <div className="col-md-12">
                 <Accordion allowZeroExpanded>
                     {/* FAQ 1 */}
                     <AccordionItem>
                         <AccordionItemHeading>
                             <AccordionItemButton>
-                                What is surebet.co.ke?
+                                What is betmundial.com?
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
-                            <p>Surebet is a leading betting site in Kenya, offering a wide range of sports betting options and games. We are licensed by the Betting Control and Licensing Board (BCLB) and are committed to providing a safe and enjoyable betting experience for all our users.</p>
+                            <p>betmundial is a leading betting site in Kenya, offering a wide range of sports betting options and games. We are licensed by the Betting Control and Licensing Board (BCLB) and are committed to providing a safe and enjoyable betting experience for all our users.</p>
                         </AccordionItemPanel>
                     </AccordionItem>
 
@@ -36,11 +36,11 @@ const FAQs = () => {
                     <AccordionItem>
                         <AccordionItemHeading>
                             <AccordionItemButton>
-                                How do I contact Surebet customer support?
+                                How do I contact betmundial customer support?
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
-                            <p>You can contact our customer support team via email at customercare@surebet.co.ke or call our helpline at +254724599488. Our team is available 24/7 to assist you with any queries or issues you may have.</p>
+                            <p>You can contact our customer support team via email at customercare@betmundial.com or call our helpline at +254724599488. Our team is available 24/7 to assist you with any queries or issues you may have.</p>
                         </AccordionItemPanel>
                     </AccordionItem>
 
@@ -52,9 +52,9 @@ const FAQs = () => {
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
-                            <p>There are two ways to register with Surebet: via SMS and using our online platform.</p>
+                            <p>There are two ways to register with betmundial: via SMS and using our online platform.</p>
                             <p><b>SMS Registration:</b> Send an SMS “JOIN” to 29488. You will receive a confirmation message from 29488 confirming that you are registered.</p>
-                            <p><b>Online Registration:</b> Go to www.surebet.co.ke and click on the Register button on the top right corner of the page. Fill the required fields (including phone number and creating a unique password), read and accept the terms and conditions, and confirm that you are over 18 years old.</p>
+                            <p><b>Online Registration:</b> Go to www.betmundial.com and click on the Register button on the top right corner of the page. Fill the required fields (including phone number and creating a unique password), read and accept the terms and conditions, and confirm that you are over 18 years old.</p>
                         </AccordionItemPanel>
                     </AccordionItem>
 
@@ -68,7 +68,7 @@ const FAQs = () => {
                         <AccordionItemPanel>
                             <p>To reset your password:</p>
                             <ol>
-                                <li>Open your web browser and go to surebet.co.ke.</li>
+                                <li>Open your web browser and go to betmundial.com.</li>
                                 <li>Click on login.</li>
                                 <li>Click on ‘forgot password’ then enter your phone number and click GET RESET CODE.</li>
                                 <li>You will receive an SMS with a reset CODE. Enter the CODE and choose your new password.</li>
@@ -85,14 +85,14 @@ const FAQs = () => {
                         </AccordionItemHeading>
                         <AccordionItemPanel>
                             <p>To check your Bet outcomes:</p>
-                            <p><b>On our Surebet Website:</b> Click on ‘Bet History’.</p>
-                            <p><b>On Surebet App:</b> Tap on the ‘My Bets’ icon to view your bet history.</p>
+                            <p><b>On our betmundial Website:</b> Click on ‘Bet History’.</p>
+                            <p><b>On betmundial App:</b> Tap on the ‘My Bets’ icon to view your bet history.</p>
                             <p><b>On SMS:</b> Send R#Bet ID to 29488, for example, R#CTMSYA to 29488.</p>
                         </AccordionItemPanel>
                     </AccordionItem>
 
                     {/* Add additional FAQs here following the same structure */}
-                    
+
                     {/* FAQ 6 */}
                     <AccordionItem>
                         <AccordionItemHeading>
@@ -122,7 +122,7 @@ const FAQs = () => {
                         <AccordionItemPanel>
                             <p>To place a bet online:</p>
                             <ol>
-                                <li>Open your web browser and go to surebet.co.ke.</li>
+                                <li>Open your web browser and go to betmundial.com.</li>
                                 <li>Log in by entering your phone number and password.</li>
                                 <li>Select your preferred sport and events up to a maximum of 30 matches.</li>
                                 <li>Enter your stake amount and click on “Place Bet”.</li>
@@ -134,13 +134,13 @@ const FAQs = () => {
                     <AccordionItem>
                         <AccordionItemHeading>
                             <AccordionItemButton>
-                                Deposit using Mpesa directly from surebet.co.ke
+                                Deposit using Mpesa directly from betmundial.com
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
-                            <p>To deposit using Mpesa from the Surebet website:</p>
+                            <p>To deposit using Mpesa from the betmundial website:</p>
                             <ol>
-                                <li>Go to the DEPOSIT tab on surbet.co.ke and enter the deposit amount.</li>
+                                <li>Go to the DEPOSIT tab on surbet.com and enter the deposit amount.</li>
                                 <li>A pop-up notification will appear on your phone for M-PESA payment confirmation.</li>
                             </ol>
                         </AccordionItemPanel>
@@ -157,7 +157,7 @@ const FAQs = () => {
                             <p>To deposit via M-PESA menu on your phone:</p>
                             <ol>
                                 <li>Select Lipa na M-PESA Then Pay Bill.</li>
-                                <li>Enter 599488 as the Business Number and your SUREBET registered number as the Account Number</li>
+                                <li>Enter 599488 as the Business Number and your betmundial registered number as the Account Number</li>
                                 <li>Enter your amount and M-PESA PIN and send.</li>
                             </ol>
                         </AccordionItemPanel>
@@ -177,7 +177,7 @@ const FAQs = () => {
                         </AccordionItemPanel>
                     </AccordionItem>
 
-                    
+
                     {/* FAQ 11 */}
                     <AccordionItem>
                         <AccordionItemHeading>
@@ -187,7 +187,7 @@ const FAQs = () => {
                         </AccordionItemHeading>
                         <AccordionItemPanel>
                             <ol style={{ paddingLeft: '1.2em' }}>
-                                <li><strong>Open</strong> your web browser and go to: <strong>surebet.co.ke</strong>.</li>
+                                <li><strong>Open</strong> your web browser and go to: <strong>betmundial.com</strong>.</li>
                                 <li><strong>Select login</strong>, (If Not Logged In).</li>
                                 <li>Enter your <strong>phone number</strong> and <strong>password</strong> to access your account.</li>
                                 <li>Select <strong>'Menu'</strong> at the top left.</li>

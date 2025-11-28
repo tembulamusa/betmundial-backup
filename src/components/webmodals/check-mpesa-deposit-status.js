@@ -8,7 +8,7 @@ import Alert from "../utils/alert";
 
 const CheckMpesaDepositStatus = (props) => {
     const [state, dispatch] = useContext(Context);
-    
+
 
     const CheckMpesaDepositStatusForm = (props) => {
         const [fakeMessage, setFakeMessage] = useState(false);
@@ -21,23 +21,23 @@ const CheckMpesaDepositStatus = (props) => {
             // Validate the code first
             let endpoint = 'v2/transaction/status';
             setIsSubmitting(true);
-            makeRequest({url: endpoint,data:{mpesa_receipt_code: values.mpesa_code},  method: 'POST', api_version:3}).then(([status, response]) => {
+            makeRequest({ url: endpoint, data: { mpesa_receipt_code: values.mpesa_code }, method: 'POST', api_version: 3 }).then(([status, response]) => {
 
-                if(status == 200) {
-                    if(response.success == true) {
+                if (status == 200) {
+                    if (response.success == true) {
                         setTimeout(() => {
-                            dispatch({type:"SET", key:"toggleuserbalance", payload: !state?.toggleuserbalance})
-                            dispatch({type:"SET", key: "showcheckmpesadepositstatus", payload: false})
+                            dispatch({ type: "SET", key: "toggleuserbalance", payload: !state?.toggleuserbalance })
+                            dispatch({ type: "SET", key: "showcheckmpesadepositstatus", payload: false })
                         }, 30000)
-                        setMessage({status: 200, message: "Request has been received. You'll receive an SMS Notification shortly. In case of delay, you could try again by copy pasting the mpesa message."});
+                        setMessage({ status: 200, message: "Request has been received. You'll receive an SMS Notification shortly. In case of delay, you could try again by copy pasting the mpesa message." });
                     }
                 } else {
-                    setMessage({status: 400, message:"Could not process. Please contact customer care. on 0724599488"});
+                    setMessage({ status: 400, message: "Could not process. Please contact customer care. on 0724599488" });
                 }
                 setIsSubmitting(false);
             })
 
-            
+
         };
 
         return (
@@ -45,51 +45,51 @@ const CheckMpesaDepositStatus = (props) => {
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
             >
-                    <Form>
-                        <div className="pt-0">
-                            <div className="row form-block">
-                                <div className='text-center'>
-                                    
+                <Form>
+                    <div className="pt-0">
+                        <div className="row form-block">
+                            <div className='text-center'>
 
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '30px' }}> 
-                                        <p>
-                                            Need to check if your deposit has reflected? Copy the 
-                                            MPESA message you received and paste it in the field below.
-                                        </p>
-                                    </div>
-                                    <div className="col-md-12 py-5">
-                                        {message && <Alert message={message} />}
-                                        <div className="col-md-12">
-                                            <label style={{ display: 'block', textAlign: 'left' }}>MPESA Message Code</label>
-                                            <Field
-                                                placeholder="eg EDK98G76HHKB"
-                                                as="textarea"
-                                                name="mpesa_code"
-                                                className="form-control block py-3 rounded-2xl std-input"                                 
-                                                rows={4} 
-                                                style={{
-                                                    resize: 'none', 
-                                                }} 
-                                            />
-                                        </div>
-                                        
-                                        <div className="">
-                                                                                        
-                                            <button 
-                                                type="submit"
-                                                className={`btn btn-lg btn-primary mt-5 deposit-withdraw-button font-bold`} 
-                                                disabled={isSubmitting}
-                                            >
-                                                Check Now
-                                            </button>
-                                        </div>
-                                        
-                                    </div>
-                                    
+
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '30px' }}>
+                                    <p>
+                                        Need to check if your deposit has reflected? Copy the
+                                        MPESA message you received and paste it in the field below.
+                                    </p>
                                 </div>
+                                <div className="col-md-12 py-5">
+                                    {message && <Alert message={message} />}
+                                    <div className="col-md-12">
+                                        <label style={{ display: 'block', textAlign: 'left' }}>MPESA Message Code</label>
+                                        <Field
+                                            placeholder="eg EDK98G76HHKB"
+                                            as="textarea"
+                                            name="mpesa_code"
+                                            className="form-control block py-3 rounded-2xl std-input"
+                                            rows={4}
+                                            style={{
+                                                resize: 'none',
+                                            }}
+                                        />
+                                    </div>
+
+                                    <div className="">
+
+                                        <button
+                                            type="submit"
+                                            className={`btn btn-lg btn-primary mt-5 deposit-withdraw-button font-bold`}
+                                            disabled={isSubmitting}
+                                        >
+                                            Check Now
+                                        </button>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
-                    </Form>
+                    </div>
+                </Form>
             </Formik>
         );
     }
@@ -97,49 +97,49 @@ const CheckMpesaDepositStatus = (props) => {
 
     const PastUserDeposits = (props) => {
         const [pastDeposits, setPastDeposits] = useState(null);
-        const [tableHeaders, ] = useState(["Date", "Amount", "Surebet Balance"]);
+        const [tableHeaders,] = useState(["Date", "Amount", "betmundial Balance"]);
 
         const requestUserDeposits = () => {
-            let endpoint = '/v2/deposits';
-            
-            makeRequest({url: endpoint, method: 'GET', api_version:3}).then(([status, response]) => {
-                
-                if(status == 200) {
+            let endpoint = '/deposits';
+
+            makeRequest({ url: endpoint, method: 'GET', api_version: 3 }).then(([status, response]) => {
+
+                if (status == 200) {
                     setPastDeposits(response?.data?.deposits)
                 }
             })
-    
+
         }
 
-        useEffect(() => {requestUserDeposits()}, [])
-        return(
+        useEffect(() => { requestUserDeposits() }, [])
+        return (
             <>
                 {pastDeposits &&
                     <>
                         <h1 className="text-2xl text-gray-600 my-2">Past Deposits</h1>
-                        <StdTable headers={tableHeaders} data={pastDeposits} emptymessage="No Deposits. Please make your first deposit"/>
+                        <StdTable headers={tableHeaders} data={pastDeposits} emptymessage="No Deposits. Please make your first deposit" />
                     </>
                 }
-                
+
             </>
         )
     }
     return (
         <>
             <Modal
-            show={state?.showcheckmpesadepositstatus == true}
-            onHide={() => dispatch({type:"SET", key:"showcheckmpesadepositstatus", payload:false})}
-            dialog className="popover-login-modal"
-            aria-labelledby="contained-modal-title-vcenter">
-                     <Modal.Header closeButton className="no-header">
-                      <Modal.Title>Confirm Mpesa Deposit</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="p-4">
-                        <CheckMpesaDepositStatusForm />
+                show={state?.showcheckmpesadepositstatus == true}
+                onHide={() => dispatch({ type: "SET", key: "showcheckmpesadepositstatus", payload: false })}
+                dialog className="popover-login-modal"
+                aria-labelledby="contained-modal-title-vcenter">
+                <Modal.Header closeButton className="no-header">
+                    <Modal.Title>Confirm Mpesa Deposit</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="p-4">
+                    <CheckMpesaDepositStatusForm />
 
-                        {/* Check past deposits */}
-                        {state?.user && <PastUserDeposits />}
-                    </Modal.Body>
+                    {/* Check past deposits */}
+                    {state?.user && <PastUserDeposits />}
+                </Modal.Body>
             </Modal>
         </>
     )

@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {PDFDownloadLink, pdf} from "@react-pdf/renderer";
+import React, { useCallback, useEffect, useState } from "react";
+import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
-import {PdfDocument} from "./Matches";
+import { PdfDocument } from "./Matches";
 import makeRequest from "../../utils/fetch-request";
 import Select from 'react-select'
-import {Card, Tab, Tabs} from "react-bootstrap";
-import {formatNumber} from "../../utils/betslip";
+import { Card, Tab, Tabs } from "react-bootstrap";
+import { formatNumber } from "../../utils/betslip";
 import NoEvents from "../../utils/no-events";
 import Notify from "../../utils/Notify";
 
@@ -18,7 +18,7 @@ export default function MatchesList() {
     const [matches, setMatches] = useState([]);
     const [section, setSection] = useState('highlights');
     const [title, setTitle] = useState('highlights');
-    const [eventsOption, setEventsOption] = useState({value:100});
+    const [eventsOption, setEventsOption] = useState({ value: 100 });
     const [loaded, setLoaded] = useState(false)
     const [jackpotData, setJackpotData] = useState([])
     const [key, setKey] = useState('home');
@@ -28,35 +28,35 @@ export default function MatchesList() {
     const fetchMatches = () => {
         setLoaded(false)
         let method = 'GET'
-        let endpoint = "/v2/matches?dooood&page=" + (1) + `&limit=${eventsOption?.value}&tab=` + section + '&sub_type_id=1,10,29,18';
-        makeRequest({url: endpoint, method: method, api_version:2}).then(([status, result]) => {
+        let endpoint = "/matches?dooood&page=" + (1) + `&limit=${eventsOption?.value}&tab=` + section + '&sub_type_id=1,10,29,18';
+        makeRequest({ url: endpoint, method: method, api_version: 2 }).then(([status, result]) => {
             if (status == 200) {
                 setMatches(result)
                 if (result.length > 0) {
                     setLoaded(true)
                 }
             } else {
-                <Notify message={{status:400, message:"Could not fetch games. Contact us"}} />
+                <Notify message={{ status: 400, message: "Could not fetch games. Contact us" }} />
             }
         });
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         fetchMatches();
     }, []);
 
     const sectionOptions = [
-        {value: 'upcoming', label: 'Upcoming'},
-        {value: 'highlights', label: 'Highlights'},
-        {value: 'tomorrow', label: 'Tomorrow'}
+        { value: 'upcoming', label: 'Upcoming' },
+        { value: 'highlights', label: 'Highlights' },
+        { value: 'tomorrow', label: 'Tomorrow' }
     ]
 
     const totalEventOptions = [
-        {value: '100', label: '100'},
-        {value: '200', label: '200'},
-        {value: '300', label: '300'},
-        {value: '400', label: '400'},
-        {value: '500', label: '500'},
+        { value: '100', label: '100' },
+        { value: '200', label: '200' },
+        { value: '300', label: '300' },
+        { value: '400', label: '400' },
+        { value: '500', label: '500' },
     ]
 
     const handleEventsChange = e => {
@@ -66,9 +66,9 @@ export default function MatchesList() {
 
     const fetchJackpotData = useCallback(async () => {
         setLoaded(false)
-        let match_endpoint = "/v2/matches/jackpot";
+        let match_endpoint = "/matches/jackpot";
         const [match_result] = await Promise.all([
-            makeRequest({url: match_endpoint, method: "get", api_version:2})
+            makeRequest({ url: match_endpoint, method: "get", api_version: 2 })
         ]);
         let [m_status, m_result] = match_result;
         if (m_status == 200) {
@@ -79,7 +79,7 @@ export default function MatchesList() {
                 setLoaded(true)
             }
         } else {
-            <Notify message={{status:400, message:"Could not fetch games. Contact us"}} />
+            <Notify message={{ status: 400, message: "Could not fetch games. Contact us" }} />
         }
     }, []);
 
@@ -119,7 +119,7 @@ export default function MatchesList() {
                                 <table>
                                     <tbody>
                                         <tr>
-                                            <td>Double Chance</td>                                            
+                                            <td>Double Chance</td>
                                         </tr>
                                         <tr className="text-sm font-bold">
                                             <td>
@@ -134,7 +134,7 @@ export default function MatchesList() {
                                                 </table>
                                             </td>
                                         </tr>
-                                        
+
                                     </tbody>
                                 </table>
                             </td>
@@ -159,7 +159,7 @@ export default function MatchesList() {
                                     </tbody>
                                 </table>
                             </td>
-                            
+
                         </tr>
                         {matches.map((match, idx) => (
                             <tr>
@@ -176,7 +176,7 @@ export default function MatchesList() {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    
+
                                 </td>
 
                                 <td colSpan={3}>
@@ -189,7 +189,7 @@ export default function MatchesList() {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    
+
                                 </td>
                                 <td colSpan={3}>
                                     <table>
@@ -201,7 +201,7 @@ export default function MatchesList() {
                                             </tr>
                                         </tbody>
                                     </table>
-                                    
+
                                 </td>
 
                             </tr>
@@ -225,10 +225,10 @@ export default function MatchesList() {
     }
 
     const generatePDFDocument = async () => {
-      const blob = await pdf(
-        <PdfDocument matches={matches} jackpot={isJackpot} title={title}/>
-      ).toBlob();
-      saveAs(blob, "pageName");
+        const blob = await pdf(
+            <PdfDocument matches={matches} jackpot={isJackpot} title={title} />
+        ).toBlob();
+        saveAs(blob, "pageName");
     };
 
 
@@ -242,10 +242,10 @@ export default function MatchesList() {
             </div>
             <div className="col-md-12 text-center vh-100">
                 <p className="text-2xl my-3 px-2">
-                Grab your favorite games in printable format here. surebet provides the the best competitie odds for you to take advantage of in all areas of betting
+                    Grab your favorite games in printable format here. betmundial provides the the best competitie odds for you to take advantage of in all areas of betting
                 </p>
 
-                
+
                 <Tabs
                     variant={'tabs'}
                     defaultActiveKey="matches"
@@ -253,55 +253,55 @@ export default function MatchesList() {
                     className="clear-tabs"
                     justify>
                     <Tab eventKey="matches" title="Matches" className={'background-primary shadow p-5'}
-                         style={{}}>
+                        style={{}}>
 
-                            {
+                        {
                             matches?.length > 0 ?
-                            <>
-                                <div className="col-md-12 d-flex flex-column p-2">
-                                    <div className="row">
-                                    <div className="col-md-6 text-start p-2">
-                                        <label htmlFor="" className={''}>Select Number of Games</label>
-                                        <Select 
-                                        options={totalEventOptions}
-                                                value={() => totalEventOptions.filter(obj => obj == eventsOption)}
-                                                onChange={handleEventsChange}
-                                        />
-                                        
+                                <>
+                                    <div className="col-md-12 d-flex flex-column p-2">
+                                        <div className="row">
+                                            <div className="col-md-6 text-start p-2">
+                                                <label htmlFor="" className={''}>Select Number of Games</label>
+                                                <Select
+                                                    options={totalEventOptions}
+                                                    value={() => totalEventOptions.filter(obj => obj == eventsOption)}
+                                                    onChange={handleEventsChange}
+                                                />
 
+
+                                            </div>
+                                            <div className="col-md-6">
+                                                <br />
+                                                <button
+                                                    onClick={generatePDFDocument}
+                                                    className={`mt-3 btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
+                                                    style={{ width: "300px", border: "none", padding: "3px", marginLeft: "10px", color: "#fff !important" }}
+                                                >
+
+                                                    {loaded ? "Click here to download betmundial matches" : "Loading printable page ... "}
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="col-md-6">
-                                        <br/>
-                                        <button 
-                                        onClick={generatePDFDocument}
-                                        className={`mt-3 btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
-                                        style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
+
+                                    {/* The matches are here */}
+
+                                    <MatchesPreview />
+
+                                    <div className="md-col-12 text-start py-3 ">
+                                        <button
+                                            onClick={generatePDFDocument}
+                                            className={`btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
+                                            style={{ width: "300px", border: "none", padding: "3px", marginLeft: "10px", color: "#fff !important" }}
                                         >
 
-                                        { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
+                                            {loaded ? "Click here to download betmundial matches" : "Loading printable page ... "}
                                         </button>
-                                        </div>
-                                        </div>
-                                </div>
+                                    </div>
+                                </> :
 
-                                {/* The matches are here */}
-
-                                <MatchesPreview />
-
-                                <div className="md-col-12 text-start py-3 ">
-                                    <button 
-                                        onClick={generatePDFDocument}
-                                        className={`btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
-                                        style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
-                                        >
-
-                                        { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
-                                    </button> 
-                                </div>
-                            </> :
-
-                            <NoEvents message={"An Error occurred. Conatct Customer Care on 0724599488"} />
-                            }
+                                <NoEvents message={"An Error occurred. Conatct Customer Care on 0724599488"} />
+                        }
                     </Tab>
                     <Tab eventKey="jackpot" title="Jackpot" className={'background-primary shadow p-5'}
                         style={{}}>

@@ -5,7 +5,7 @@ const PromoCard = ({ promo, openModal }) => {
 
   return (
     //<div className="relative bg-black-50 rounded-lg p-2 !pb-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-6 px-2 shadow-lg">
-    <div className="relative bg-black-50 rounded-lg p-2 !pb-0 w-full md:w-1/2 mb-6 px-2 shadow-lg">
+    <div className="relative rounded-lg p-2 !pb-0 w-full md:w-1/2 mb-6 px-2 shadow-lg" style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
       <div className="round overflow-hidden h-48">
         <img
           src={promo.image}
@@ -13,7 +13,7 @@ const PromoCard = ({ promo, openModal }) => {
           className="object-cover w-full h-full"
         />
       </div>
-      <div className="bg-gray-900 bg-opacity-80 p-4">
+      <div className="p-4">
         <h5 className="text-lg font-bold mb-2 text-white">{promo.title}</h5>
         <p className="mb-4 text-white">{shortDescription}</p>
         <button

@@ -18,7 +18,7 @@ const Complaints = () => {
             <AccordionItemPanel className='accordion-item-panel'>
 
                 <p>
-                    surebet is committed to provide the best quality of support for our
+                    betmundial is committed to provide the best quality of support for our
                     players.
                 </p>
                 <p>
@@ -34,7 +34,7 @@ const Complaints = () => {
                     need
                     further escalation, they should contact our customer support agents by
                     email
-                    on customercare@surebet.com. A customer care representative shall acknowledge
+                    on customercare@betmundial.com. A customer care representative shall acknowledge
                     the
                     receipt of the complaint to the Client in a maximum period of 3 working
                     days.

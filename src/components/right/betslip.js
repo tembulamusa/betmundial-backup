@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useContext, useCallback, useMemo, useRef} from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo, useRef } from 'react';
 import BetslipSubmitForm from './betslip-submit-form';
-import {Context} from '../../context/store';
+import { Context } from '../../context/store';
 import {
     removeFromSlip,
     removeFromJackpotSlip,
@@ -26,22 +26,22 @@ const clean_rep = (str) => {
 }
 
 const BetSlip = (props) => {
-    const {jackpot, betslipValidationData, jackpotData, dbWinMatrix} = props;    
+    const { jackpot, betslipValidationData, jackpotData, dbWinMatrix } = props;
     const [is_jackpot, setIsJackpot] = useState(jackpot);
     const [localJPData, setLocalJPData] = useState(jackpotData);
     const { code } = useParams();
     const [state, dispatch] = useContext(Context);
     const [betslipKey, setBetslipKey] = useState(
-       () => state?.jackpotbetslip ? "jackpotbestslip": "bestslip"
+        () => state?.jackpotbetslip ? "jackpotbestslip" : "bestslip"
     );
     const [betslipsData, setBetslipsData] = useState({});
     const [hasBetslip, setHasBetslip] = useState(false);
     const [socketSlipChange, setSocketSlipChange] = useState(false);
-    
+
     //initial betslip loading
 
 
-    
+
 
     useEffect(() => {
         const formerBetslip = betslipsData;
@@ -49,16 +49,16 @@ const BetSlip = (props) => {
             ? getJackpotBetslip()
             : getBetslip();
         setBetslipsData(b);
-        if(b){
+        if (b) {
             setHasBetslip(true);
         } else {
             setHasBetslip(false);
         }
         setIsJackpot(state?.jackpotbetslip != null);
         setLocalJPData(state?.jackpotdata);
-        (!state?.betslip && !state?.jackpotbetslip) && dispatch({type:"SET", key:state?.jackpotbetslip ? "jackpotbetslip" :"betslip", payload:b})
-        
-    }, [state?.betslip, state?.jackpotbetslip]);    
+        (!state?.betslip && !state?.jackpotbetslip) && dispatch({ type: "SET", key: state?.jackpotbetslip ? "jackpotbetslip" : "betslip", payload: b })
+
+    }, [state?.betslip, state?.jackpotbetslip]);
 
     useEffect(() => {
         if (state[betslipKey]) {
@@ -78,7 +78,7 @@ const BetSlip = (props) => {
 
     }
     //Handle db validation of betslip
-    
+
 
     const setJackpotSlipkey = useCallback(() => {
         if (state?.jackpotbetslip) {
@@ -86,7 +86,7 @@ const BetSlip = (props) => {
         } else {
             setBetslipKey("betslip")
         }
-        dispatch({type: "SET", key:"isjackpot", payload: is_jackpot})
+        dispatch({ type: "SET", key: "isjackpot", payload: is_jackpot })
     }, [is_jackpot]);
 
     useEffect(() => {
@@ -105,8 +105,8 @@ const BetSlip = (props) => {
             + (match.bet_pick)
         );
         setBetslipsData(betslip);
-        dispatch({type: "SET", key: betslipKey, payload: betslip});
-        dispatch({type: "SET", key: match_selector, payload: "remove." + ucn});
+        dispatch({ type: "SET", key: betslipKey, payload: betslip });
+        dispatch({ type: "SET", key: match_selector, payload: "remove." + ucn });
     }
 
     const getSportImageIcon = (sport_name, folder = 'svg', topLeagues = false) => {
@@ -116,12 +116,12 @@ const BetSlip = (props) => {
         try {
             sport_image = topLeagues ? require(`../../assets${sport_name}`) : require(`../../assets/${folder}/${sport_name}.svg`);
         } catch (error) {
-            
+
             sport_image = require(`../../assets/${folder}/${default_img}.svg`);
             if (is_jackpot) {
                 sport_image = require(`../../assets/${folder}/Soccer.svg`);
             }
-            
+
         }
         return sport_image
     }
@@ -131,15 +131,15 @@ const BetSlip = (props) => {
         const [sharedBetLoading, setSharedBetLoading] = useState(false);
         const [sharedBetError, setSharedBetError] = useState(null);
         const [inputShareCode, setInputShareCode] = useState('');
-    
+
         useEffect(() => {
             if (sharedBetError != null) {
                 setSharedBetError(null);
             }
         }, []);
-    
+
         const fetchSharedBetslip = useCallback((code) => {
-            let endpoint = "/v2/bet/share?share-code=" + code;
+            let endpoint = "/bet/share?share-code=" + code;
             setSharedBetError(null);
             setSharedBetLoading(true);
             makeRequest({ url: endpoint, method: "GET", api_version: 2 }).then(([status, result]) => {
@@ -166,11 +166,11 @@ const BetSlip = (props) => {
                 setSharedBetLoading(false);
             });
         }, []);
-    
+
         const handleCodeInputChange = (event) => {
             setInputShareCode(event.target.value);
         };
-    
+
         const loadBetslipFromCode = () => {
             if (inputShareCode && inputShareCode.length >= 5) {
                 fetchSharedBetslip(inputShareCode);
@@ -178,19 +178,19 @@ const BetSlip = (props) => {
                 setSharedBetError({ status: 400, message: "Invalid code. Check your slip and try again" });
             }
         };
-    
+
         const handleKeyPress = (event) => {
             if (event.key == 'Enter') {
                 loadBetslipFromCode();
             }
         };
-    
+
         useEffect(() => {
             if (props.code) {
                 fetchSharedBetslip(props.code);
             }
         }, [fetchSharedBetslip, props.code]);
-    
+
         return (
             <div className='px-2 py-1'>
                 <div className='my-3 font-[500] text-2xl text-center'>Do you have a shared betslip code? Enter it here.</div>
@@ -216,28 +216,28 @@ const BetSlip = (props) => {
             </div>
         );
     };
-    
+
 
     const SlipEntry = (props) => {
-        const {match_id, initialSlip} = props;
+        const { match_id, initialSlip } = props;
         // let odd = slip.odd_value;
-        
+
         // get the entire betslip
-        const [slip, setSlip] = useState({...initialSlip, changeOrigin: "main"});
+        const [slip, setSlip] = useState({ ...initialSlip, changeOrigin: "main" });
         const [slipKey, setKey] = useState();
         // const [slipChangeOrigin, setSlipChangeOrigin] = useState("original")
-        
+
         const checkUpdateSlipChanges = (market, eventOdd) => {
             setSlip((prevSlip) => {
                 let betslips = getBetslip();
 
-                if(!betslips[match_id]) { return false}
+                if (!betslips[match_id]) { return false }
 
-                if( market.sub_type_id == prevSlip.sub_type_id 
+                if (market.sub_type_id == prevSlip.sub_type_id
                     && market.special_bet_value == prevSlip.special_bet_value) {
-                        let newSlip = {...prevSlip};
+                    let newSlip = { ...prevSlip };
 
-                    if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
+                    if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value) {
                         newSlip.comment = 'Market ' + market.status;
                         newSlip.disable = true;
                     } else {
@@ -252,77 +252,77 @@ const BetSlip = (props) => {
                                 newSlip.comment = 'Market ' + eventOdd.market_status;
                                 newSlip.disable = true;
                             } else if (parseFloat(eventOdd.odd_value) !== parseFloat(newSlip.odd_value)) {
-                                if(!("prev_odds" in newSlip)){
+                                if (!("prev_odds" in newSlip)) {
                                     newSlip.prev_odds = newSlip.odd_value;
                                 }
                                 newSlip.odd_value = eventOdd.odd_value;
                                 newSlip.comment = 'The odds for this event have changed';
                             } else {
-                                if(!newSlip.prev_odds){
+                                if (!newSlip.prev_odds) {
                                     delete newSlip.comment
                                     delete newSlip.disable
-                                } else if (newSlip.prev_odds && newSlip.prev_odds == eventOdd.odd_value){
+                                } else if (newSlip.prev_odds && newSlip.prev_odds == eventOdd.odd_value) {
                                     delete newSlip.prev_odds
                                     delete newSlip.comment
                                 }
-                                
+
                             }
-                            
+
                         }
-                        if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value){
-                        newSlip.comment = 'Market ' + market.status;
-                        newSlip.disable = true;
-                    }
+                        if (market.status !== "Active" && market.special_bet_value == prevSlip.special_bet_value) {
+                            newSlip.comment = 'Market ' + market.status;
+                            newSlip.disable = true;
+                        }
                     }
                     newSlip.changeOrigin = "socket"
                     return newSlip;  // Return the updated state
-            } else {
-                return prevSlip
-            }
-                
-            })     
+                } else {
+                    return prevSlip
+                }
+
+            })
         }
 
         const updateBetslipChange = async (slip) => {
-            let betslip = await {...state?.betslip};
-            if (betslip && betslip[slip.match_id]){
-                await addToSlip({...slip});
-                if(JSON.stringify(betslip[slip.match_id]) !== JSON.stringify(slip)) {
+            let betslip = await { ...state?.betslip };
+            if (betslip && betslip[slip.match_id]) {
+                await addToSlip({ ...slip });
+                if (JSON.stringify(betslip[slip.match_id]) !== JSON.stringify(slip)) {
                     betslip[slip.match_id] = slip;
-                    dispatch({type: "SET", key:"betslip", payload: betslip})
+                    dispatch({ type: "SET", key: "betslip", payload: betslip })
                 }
             }
 
         }
 
-        useEffect( () => {
+        useEffect(() => {
             if (slip.changeOrigin == "socket") {
-                updateBetslipChange(slip);                
+                updateBetslipChange(slip);
             }
         }, [slip])
-            
-       const socketRef = useRef(socket);
+
+        const socketRef = useRef(socket);
 
         const socketEvent = (parent_match_id, sub_type_id) => {
-            return `surebet#${parent_match_id}#${sub_type_id}`
+            return `betmundial#${parent_match_id}#${sub_type_id}`
         };
-        
+
         const handleGameSocket = (type, gameId, sub_type_id) => {
             if (type === "listen" && socketRef?.connected) {
-                socketRef.emit('user.market.listen', { parent_match_id: gameId, sub_type_id:sub_type_id });
+                socketRef.emit('user.market.listen', { parent_match_id: gameId, sub_type_id: sub_type_id });
             }
         };
-    
-    
+
+
         const connectBetslipToScket = () => {
             handleGameSocket("listen", slip?.parent_match_id, slip?.sub_type_id);
-        
+
         }
 
         useEffect(() => {
             connectBetslipToScket();
             const handleSocketData = (data) => {
-                if(Object.keys(data.event_odds).length > 0){
+                if (Object.keys(data.event_odds).length > 0) {
                     Object.values(data.event_odds)?.forEach((evodd, ivg) => {
                         checkUpdateSlipChanges(data.match_market, evodd);
                     });
@@ -330,31 +330,31 @@ const BetSlip = (props) => {
                     checkUpdateSlipChanges(data.match_market, null);
 
                 }
-                
+
             };
-            socket?.on(`surebet#${slip?.parent_match_id}#${slip.sub_type_id}`, handleSocketData)
-            
+            socket?.on(`betmundial#${slip?.parent_match_id}#${slip.sub_type_id}`, handleSocketData)
+
             socket.emit('user.match.listen', slip?.parent_match_id);
-            socket.on(`surebet#${slip?.parent_match_id}`, (data) => {
-                if(
-                    data.message_type !== "betstop" 
-                    && 
+            socket.on(`betmundial#${slip?.parent_match_id}`, (data) => {
+                if (
+                    data.message_type !== "betstop"
+                    &&
                     validateStarted(slip.start_time)
                     &&
                     slip.bet_type == 0
                 ) {
                     slip.bet_type = 1
-                    }
                 }
+            }
             )
 
             return () => {
             }
-        },[])
+        }, [])
 
         useEffect(() => {
-           
-            if(slip){
+
+            if (slip) {
                 setKey(`${slip?.parent_match_id}${slip?.bet_pick}${slip?.odd_value}${slip?.market_status}`)
             }
         }, [slip])
@@ -362,47 +362,47 @@ const BetSlip = (props) => {
         return (
             <>
                 <li key={slipKey} className={`${(slip?.bet_type == 0 && validateStarted(slip.start_time)) && 'prematch-started alert alert-warning'} bet-option hide-on-affix ${slip?.disable ? 'warn' : ''}`}
-                    style={{background: slip?.odd_value == 1 ? '#f29f7a' : ''}}>
+                    style={{ background: slip?.odd_value == 1 ? '#f29f7a' : '' }}>
 
                     <div className="bet-cancel">
                         <input id={slip?.match_id} type="submit" value="X"
-                                onClick={() => handledRemoveSlip(slip)} />
+                            onClick={() => handledRemoveSlip(slip)} />
                     </div>
                     <Link to={`/match/${slip.bet_type == 1 && 'live/'}${slip?.match_id}`} style={{}} className='hover:underline'>
-                        <div className={`${(slip?.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} bet-value betslip-game`} onClick={() => dispatch({type:"SET", key:"showmobileslip", payload: false})}>
-                                {
-                                    <span 
-                                        style={{
+                        <div className={`${(slip?.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} bet-value betslip-game`} onClick={() => dispatch({ type: "SET", key: "showmobileslip", payload: false })}>
+                            {
+                                <span
+                                    style={{
                                         float: "left",
                                         width: "auto",
                                         fontWeight: "400"
                                     }}>
-                                        <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon'/>
-                                        {`${slip.home_team} VS ${slip.away_team}`}
-                                    </span>
-                                    }
-                                <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} opacity-60 `}>
-                                    <span>
-                                        {!validateStarted(slip.start_time) && ' Pre-match'}
-                                        {validateStarted(slip.start_time) && <span className='text-red-500'>Live</span>}: 
-                                    </span>
-                                    
-                                    <span className='betslip-match-start-time ml-4'>
-                                        {moment(slip.start_time).format('DD/MM hh:mm A')}
-                                    </span>
-                                </div>
+                                    <img src={getSportImageIcon(slip?.sport_name)} alt={slip.sport_name} className='inline-block betslip-sport-icon' />
+                                    {`${slip.home_team} VS ${slip.away_team}`}
+                                </span>
+                            }
+                            <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'line-through'} opacity-60 `}>
+                                <span>
+                                    {!validateStarted(slip.start_time) && ' Pre-match'}
+                                    {validateStarted(slip.start_time) && <span className='text-red-500'>Live</span>}:
+                                </span>
+
+                                <span className='betslip-match-start-time ml-4'>
+                                    {moment(slip.start_time).format('DD/MM hh:mm A')}
+                                </span>
+                            </div>
                         </div>
                         <div className={`${(slip.bet_type == 0 && validateStarted(slip.start_time)) && 'game-started'} row`}>
                             <div className="bet-value">
                                 {slip?.odd_type} - <span className='font-[500]'>{slip?.bet_pick}</span>
                                 <span className="bet-odd">{slip?.prev_odds && <span className='line-through opacity-60 mr-3'>{parseFloat(slip?.prev_odds).toFixed(2)}</span>} {parseFloat(slip?.odd_value).toFixed(2)}
-                                            {slip?.odd_value == 1 &&
-                                                (<span style={{color: "#cc0000", fontSize: "11px", display: "block"}}>Market Disabled</span>)
-                                            }
+                                    {slip?.odd_value == 1 &&
+                                        (<span style={{ color: "#cc0000", fontSize: "11px", display: "block" }}>Market Disabled</span>)
+                                    }
                                 </span>
                             </div>
                             {/* later add for live */}
-                            
+
                         </div>
                         {/* <div className="bet-pick">Your Pick - <b>{slip.bet_pick}
                             <span className="bet-odd">{slip.odd_value}
@@ -411,11 +411,11 @@ const BetSlip = (props) => {
                                 }
                     </span></b>
                         </div> */}
-                    <div className="row">
-                        <div className="warn">{slip?.comment} </div>
-                    </div>
-                    {(slip?.bet_type == 0 && validateStarted(slip.start_time)) && <div className='alert alert-warning'>Game Started</div>}
-                </Link>
+                        <div className="row">
+                            <div className="warn">{slip?.comment} </div>
+                        </div>
+                        {(slip?.bet_type == 0 && validateStarted(slip.start_time)) && <div className='alert alert-warning'>Game Started</div>}
+                    </Link>
 
                 </li>
             </>
@@ -423,30 +423,30 @@ const BetSlip = (props) => {
     }
 
     return (
-        
+
         <div className="">
-            { (Object.keys(betslipsData || {}).length == 0) &&
-                
+            {(Object.keys(betslipsData || {}).length == 0) &&
+
                 <li className="bet-option hide-on-affix" key="no-slip-ai"
-                    style={{margin:"10px 0px 5px 0px", borderBottom:"none", padding:"0px 2px", listStyle:"none"}}>
+                    style={{ margin: "10px 0px 5px 0px", borderBottom: "none", padding: "0px 2px", listStyle: "none" }}>
                     <div className='my-3 text-center text-2xl'>You have not selected any bet.</div>
-                    <hr className='mb-3'/>
+                    <hr className='mb-3' />
                     {state?.betslipKey}
                     {!state?.isjackpot &&
 
                         <LoadSharedBetslip />
-                        
+
                     }
                 </li>
             }
-            {hasBetslip  && <>
+            {hasBetslip && <>
 
-            <div className="flow betslip-slips" style={{maxHeight: "50vh", overflowY: "auto", overflowX:"hidden", paddingRight:"8px"}}>
-                <ul style={{paddingRight:"8px", paddingLeft:"8px"}}>
-                    {Object.entries(betslipsData ?? {}).map(([match_id, slip]) => (<SlipEntry match_id={match_id} initialSlip={slip} />))
-                    }
-                </ul>
-            </div>
+                <div className="flow betslip-slips" style={{ maxHeight: "50vh", overflowY: "auto", overflowX: "hidden", paddingRight: "8px" }}>
+                    <ul style={{ paddingRight: "8px", paddingLeft: "8px" }}>
+                        {Object.entries(betslipsData ?? {}).map(([match_id, slip]) => (<SlipEntry match_id={match_id} initialSlip={slip} />))
+                        }
+                    </ul>
+                </div>
 
             </>
             }
@@ -457,10 +457,10 @@ const BetSlip = (props) => {
                     jackpot={is_jackpot}
                 />
             </div>
-            
-        
+
+
         </div>
-        
+
     )
 }
 export default React.memo(BetSlip);

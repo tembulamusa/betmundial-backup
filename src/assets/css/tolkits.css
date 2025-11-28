@@ -4682,7 +4682,7 @@ fieldset[disabled] .fm.fl {
 }
 
 .primary-bg {
-    background: #24367e;
+    background: #0f0f1f;
     color: #fff;
 }
 
@@ -10654,13 +10654,13 @@ button.close {
 
 .modal-content {
     position: relative;
-    background-color: #ffffff;
-    border: 1px solid #9da9b0;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: #0a0a15;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
     box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
     background-clip: padding-box;
     outline: 0;
+    color: #ffffff;
 }
 
 .modal-backdrop {
@@ -10692,14 +10692,25 @@ button.close {
     margin-top: -2px;
 }
 
+.modal-header {
+    background-color: #0a0a15;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .modal-title {
     margin: 0;
     line-height: 1.6;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
 }
 
 .modal-body {
     position: relative;
     padding: 15px;
+    background-color: #0a0a15;
+    color: #ffffff;
 }
 
 .rp {
@@ -15730,7 +15741,7 @@ li a.live-game:hover {
 
 
 .filters-modal .modal-content {
-    background-color: #24367e;
+    background-color: #0a0a15;
     color: #fff;
 }
 
@@ -15969,10 +15980,12 @@ li a.live-game:hover {
 }
 
 .promo-pannel {
-    border: 1px solid #bebebe;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.05);
     width: 49.0%;
     margin: 0px 4px;
     border-radius: 5px;
+    color: #ffffff;
 }
 
 .promo-pannel ul li {
