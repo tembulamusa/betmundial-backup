@@ -51,9 +51,9 @@ const CustomerCareSection = () => (
   <section className='betslip-paybill bg-secondary'>
     <div className="paybillnumbers pt-3">
       <h2>Customer Care</h2>
-      <p>Surebet is the place to be all day long for 24/7 customer support.</p>
+      <p>Betmundial is the place to be all day long for 24/7 customer support.</p>
       <div className='text-3xl py-3'>0724599488</div>
-      <p>customercare@surebet.co.ke</p>
+      <p>customercare@betmundial.co.ke</p>
     </div>
   </section>
 );

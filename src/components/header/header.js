@@ -8,7 +8,7 @@ import makeRequest from '../utils/fetch-request';
 import { setLocalStorage } from '../utils/local-storage';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ShareModal from "../sharemodal";
-import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/logo.svg';
 import { Navbar } from "react-bootstrap";
 import MobileRightMenu from './mobile-right-menu';
 import MobileLoggedInBals from './mobile-logged-in-bals';
@@ -168,9 +168,9 @@ const Header = (props) => {
                 <div className='main-header-top w-full p-0'><div className='light-blue md:hidden text-white py-1 w-full px-3'><MobileLoggedInBals /></div>
                     <Container fluid className={'d-flex justify-content-between mobile-change'}>
 
-                        <div className="e col-md-5 col-sm-6 logo align-self-start  items-center" title="surebet">
+                        <div className="e col-md-5 col-sm-6 logo align-self-start  items-center" title="betmundial">
                             <a className="mt-2 inline-block" href="/" style={{ display: "inline-block" }}>
-                                <img src={logo} alt="surebet" title="surebet" effects="blur" />
+                                <img src={logo} alt="betmundial" title="betmundial" effects="blur" />
                             </a>
                         </div>
 
