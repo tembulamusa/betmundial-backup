@@ -24,7 +24,7 @@ const Promotions = () => {
                         <span><u>How to get it</u></span>
                         <ul>
                             <li>
-                                Register on sms by sending the word JOIN 29488 or visiting www.BetMundial.com and creating account via signup link.
+                                Register on sms by sending the word JOIN 29488 or visiting www.Betmundial.com and creating account via signup link.
                             </li>
                         </ul>
                         <div className="col-md-12">
@@ -46,7 +46,7 @@ const Promotions = () => {
                         <span><u>How to get it</u></span>
                         <ul>
                             <li>
-                                Deposit KES.50 and above to BetMundial Paybill 599488 using your phone number as the account number
+                                Deposit KES.50 and above to Betmundial Paybill 599488 using your phone number as the account number
                             </li>
                         </ul>
                         <div className="col-md-12">

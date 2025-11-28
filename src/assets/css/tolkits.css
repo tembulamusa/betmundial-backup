@@ -10695,15 +10695,13 @@ button.close {
 .modal-header {
     background-color: #0a0a15;
     color: #ffffff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .modal-title {
     margin: 0;
     line-height: 1.6;
     color: #ffffff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding-bottom: 10px;
 }
 
 .modal-body {

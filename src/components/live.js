@@ -47,7 +47,6 @@ const Live = (props) => {
     }, !socketIsConnected ? 3000 : null);
 
     useEffect(() => {
-
         handleGameSocket("listen");
         socket.on(`betmundial#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
             setMatches((preveMatches) => {

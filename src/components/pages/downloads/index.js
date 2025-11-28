@@ -294,7 +294,6 @@ export default function MatchesList() {
                                             className={`btn login-button text-white btn-lg col-1 ${loaded ? '' : 'disabled'}`}
                                             style={{ width: "300px", border: "none", padding: "3px", marginLeft: "10px", color: "#fff !important" }}
                                         >
-
                                             {loaded ? "Click here to download betmundial matches" : "Loading printable page ... "}
                                         </button>
                                     </div>

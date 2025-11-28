@@ -23,7 +23,7 @@ const Promotions = () => {
       <div className="primary-bg shadow-sm p-4 text-center mb-4">
         <h4>Promotions</h4>
       </div>
-      <div className="flex flex-wrap justify-center">
+      <div className="flex flex-wrap justify-center gap-4 px-4">
         {promoData.map((promo, index) => (
           <PromoCard key={index} promo={promo} openModal={openModal} />
         ))}

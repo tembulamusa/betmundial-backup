@@ -65,7 +65,7 @@ const AntiMoneyLaundering = () => {
                     <AccordionItem>
                         <AccordionItemHeading>
                             <AccordionItemButton>
-                                betmundial’s AML Approach
+                                betmundial's AML Approach
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>

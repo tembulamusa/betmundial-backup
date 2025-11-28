@@ -39,7 +39,6 @@ const TermAndTermination = React.lazy(() => import('./term-and-termination'));
 const TermsAndConditions = (props) => {
     return (
         <>
-
             <div className='col-md-12 bg-primary p-4 text-center profound-text'>
                 <h4 className="inline-block"> Terms and Conditions </h4>
             </div>
@@ -50,9 +49,7 @@ const TermsAndConditions = (props) => {
                 legal agreement between You and Us and provide information about what other documents form part of our
                 relationship with You.
 
-                <p>In these General Terms and Conditions (“hereinafter <strong>“The Terms”</strong>):</p>
-
-                <p>•	Reference to “betmundial” “We” “our” or “Us” is reference to Risecom Limited, betmundial and or its successors in title and assigns;</p>
+                <p>•	Reference to "betmundial" "We" "our" or "Us" is reference to Risecom Limited, betmundial and or its successors in title and assigns;</p>
                 <p>•	Risecom Limited t/a betmundial, is licensed and regulated by the Betting Control and Licensing Board of Kenya (“BCLB”) under the Betting, Lotteries and Gaming Act, Cap 131, Laws of Kenya;</p>
                 <p>•	betmundial is a licensed trademark owned and operated by Risecom Limited and/or its affiliates and group companies. Risecom Limited is a company registered under the Companies Act of Kenya, 2015 and having its registered address at 1st floor, Milestone Business Center Kiambu Road, Ridgeways, Nairobi and postal address at P.O. Box 2772-00606 (Sarit Centre) Nairobi.</p>
                 <p>•	Reference to “You” “Your’ the “Player” or “Customer(s)” is reference to any person using the Service.</p>
@@ -63,7 +60,6 @@ const TermsAndConditions = (props) => {
             </div>
 
             <div className="col-md-12 py-5 px-4">
-
                 <Accordion allowZeroExpanded>
 
                     <AccordionItem>
@@ -75,8 +71,8 @@ const TermsAndConditions = (props) => {
                                 by betmundial as described in paragraph 1.2. below. By using the Service, You agree to be bound by these Terms
                                 and Conditions.</p>
                             <p>1.2.  The Service includes:</p>
-                            <p>1.2.1. betmundial’s Website (www.betmundial.com) and any other remote product We may offer from time to time |(“Website”);</p>
-                            <p>1.2.2. betmundial’s Tele-betting services i.e. betting via USSD or SMS; and</p>
+                            <p>1.2.1. betmundial's Website (www.betmundial.co.ke) and any other remote product We may offer from time to time |("Website");</p>
+                            <p>1.2.2. betmundial's Tele-betting services i.e. betting via USSD or SMS; and</p>
 
                             <p>1.3. The Terms apply equally irrespective of whether the Service is accessed via telephone, desktop browser, mobile
                                 browser, mobile, tablet device, or any other device.</p>
@@ -96,10 +92,10 @@ const TermsAndConditions = (props) => {
                                 unlawful, racist, sexist, discriminatory, or which could cause offence.</p>
 
                             <p>1.5. In addition, as part of these Terms, You agree to be bound by:</p>
-                            <p>1.5.1. The rules applicable to sports betting, virtual sports, Jackpot, casino or any other products that may be provided from time to time. The rules are available in the “How to Play” section of this Website.</p>
-                            <p>1.5.2.  betmundial’s Betting Rules.</p>
+                            <p>1.5.1. The rules applicable to sports betting, virtual sports, Jackpot, casino or any other products that may be provided from time to time. The rules are available in the "How to Play" section of this Website.</p>
+                            <p>1.5.2.  betmundial's Betting Rules.</p>
 
-                            <p>1.5.3.  betmundial’s Privacy Policy.</p>
+                            <p>1.5.3.  betmundial's Privacy Policy.</p>
 
                             <p>1.5.4.  Any other terms, policies or rules applicable to the Service</p>
                         </AccordionItemPanel>
@@ -125,7 +121,7 @@ const TermsAndConditions = (props) => {
 
                             <p>3.3. As part of the registration process, You will be required to enter Your personal details which include mobile phone number.</p>
 
-                            <p>3.4. You may not access the Services by means of another person's account. Should You attempt to access the Service by means of another person’s account, We reserve the right to immediately close all Your accounts and bar You from future use of any of our Services.</p>
+                            <p>3.4. You may not access the Services by means of another person's account. Should You attempt to access the Service by means of another person's account, We reserve the right to immediately close all Your accounts and bar You from future use of any of our Services.</p>
                             <p>3.5. You may not transfer Your account to any other player or third party.</p>
                             <p>3.6. You are required to keep Your registration details up to date at all times. If You change Your phone number or any other contact or personal information, please contact us in order to update Your account information.  betmundial reserves the right to close the account when the information provided is deemed to be false or inaccurate.</p>
                         </AccordionItemPanel>
@@ -136,7 +132,7 @@ const TermsAndConditions = (props) => {
                             <AccordionItemButton>4. ACCOUNT SECURITY AND PRIVACY</AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>
-                            <p>4.1. As you are responsible for all bets placed on your account, You must keep Your account access information (“Access Information”) including Your username, password, account number or any other information used to access Your account secret and confidential. betmundial shall not be held liable in such cases.</p>
+                            <p>4.1. As you are responsible for all bets placed on your account, You must keep Your account access information ("Access Information") including Your username, password, account number or any other information used to access Your account secret and confidential. betmundial shall not be held liable in such cases.</p>
                             <p>4.2. If there are sufficient funds in your accounts, all Bets will stand if your username and password have been entered correctly (whether or not authorized by you).</p>
                             <p>4.3. If, at any time, you feel that a third party may be aware of your Access Information, You should change it immediately via the Website. Please contact us if you are unable to make the changes.</p>
 
@@ -217,10 +213,6 @@ const TermsAndConditions = (props) => {
                         <AccordionItemPanel>
                             <p>9.1. You may, at any time, instruct Us to exclude You from placing any Bets and using our services for a specified or unspecified period by contacting our Customer Service Center.</p>
                             <p>9.2. By asking Us to exclude You from our Services, You acknowledge and agree that We will block Your account from placing bets for the period requested starting as soon as possible after Your request. The self-exclusion will apply to all Service operated by Us.</p>
-
-                            <p>9.3.  During Your period of self-exclusion, You will not be able to place bets or otherwise access Your Account.</p>
-
-                            <p>9.4.  If You wish to reactivate Your account, You may only do so by contacting our Customer Service Center.</p>
                         </AccordionItemPanel>
                     </AccordionItem>
 
@@ -230,7 +222,7 @@ const TermsAndConditions = (props) => {
                         </AccordionItemHeading>
                         <AccordionItemPanel>
                             <p>10.1. You can only place a bet if You have been duly registered with betmundial and an account has been opened and assigned to You.  </p>
-                            <p>10.2. All bets are subject to the Rules for the relevant sport/market/game set out In the “How to Play” Section of the Website.</p>
+                            <p>10.2. All bets are subject to the Rules for the relevant sport/market/game set out In the "How to Play" Section of the Website.</p>
                             <p>10.3. betmundial reserves the right to decline all, or part, of any bet requested at our sole and absolute discretion. All bets are placed at your own risk and discretion.</p>
                             <p>10.4. It is Your responsibility to ensure that Your bet details are accurate. betmundial reserves the right to cancel any bet at any time.</p>
                             <p>10.5. Without limiting our discretion to refuse or limit bets at our discretion, You agree that We may void any bets in our absolute discretion if: 10.5.1.1. We suspect that You have engaged in any Prohibited Activities;</p>
@@ -265,7 +257,7 @@ const TermsAndConditions = (props) => {
                             <p>12.2. You shall only deposit money in Your account for the purposes of You using such money to place bets or stakes on our platforms. betmundial shall be entitled to suspend or close Your account if betmundial reasonably considers or has reason to believe that You are depositing money without any intention of placing bets.</p>
                             <p>12.3. By depositing funds with betmundial You certify that the funds You deposit in Your account are not from an illegal source. You shall not use the Service for the purpose of transferring such funds from illegal sources. You will not use our Services for any illicit or fraudulent activity, or for any unlawful or fraudulent transactions. We reserve the right to suspend or close Your account at any time if We suspect that You may be engaging in, or have engaged in fraudulent, unlawful or improper activity, including money laundering activities or any conduct which violates these Terms. If Your account is terminated or blocked for these reasons, We are under no obligation to refund to You any money that may be in Your account. In addition, We are entitled to inform relevant authorities of Your suspected unlawful, fraudulent or improper activity.</p>
                             <p><b>Payments/Withdrawals</b></p>
-                            <p>12.4. The “Potential Win” calculation available on the Website is for information purposes only, and all bets will be calculate using the stake/risk at the odds accepted.</p>
+                            <p>12.4. The "Potential Win" calculation available on the Website is for information purposes only, and all bets will be calculate using the stake/risk at the odds accepted.</p>
                             <p>12.5. Should You include a non-runner or void selection in a multiple bet/parlay, the bet will be settled on the remaining selections.</p>
                             <p>12.6. We reserve the right to withhold payment and to declare bets on an event void if we have evidence that the following has occurred:</p>
                             <p>(i) the integrity of the event has been called into question; </p>

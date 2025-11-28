@@ -1,0 +1,266 @@
+public/index.html:137: leftover conflict marker
+public/index.html:141: leftover conflict marker
+public/index.html:145: leftover conflict marker
+src/components/all-markets.js:93: leftover conflict marker
+src/components/all-markets.js:95: leftover conflict marker
+src/components/all-markets.js:97: leftover conflict marker
+src/components/carousel/index.js:84: leftover conflict marker
+src/components/carousel/index.js:93: leftover conflict marker
+src/components/carousel/index.js:102: leftover conflict marker
+src/components/carousel/index.js:121: leftover conflict marker
+src/components/carousel/index.js:130: leftover conflict marker
+src/components/carousel/index.js:139: leftover conflict marker
+src/components/carousel/index.js:145: leftover conflict marker
+src/components/carousel/index.js:154: leftover conflict marker
+src/components/carousel/index.js:163: leftover conflict marker
+src/components/footer/footer.js:14: leftover conflict marker
+src/components/footer/footer.js:16: leftover conflict marker
+src/components/footer/footer.js:18: leftover conflict marker
+src/components/footer/footer.js:33: leftover conflict marker
+src/components/footer/footer.js:35: leftover conflict marker
+src/components/footer/footer.js:37: leftover conflict marker
+src/components/footer/footer.js:109: leftover conflict marker
+src/components/footer/footer.js:111: leftover conflict marker
+src/components/footer/footer.js:113: leftover conflict marker
+src/components/highlights/advert2.js:19: leftover conflict marker
+src/components/highlights/advert2.js:19: trailing whitespace.
+[32m+[m[32m<<<<<<< HEAD[m[41m[m
+src/components/highlights/advert2.js:21: leftover conflict marker
+src/components/highlights/advert2.js:21: trailing whitespace.
+[32m+[m[32m=======[m[41m[m
+src/components/highlights/advert2.js:22: trailing whitespace.
+[32m+[m[32m                                       <GiSoccerBall className="inline-block text-3xl mr-2"/><span className="">Betmundial Free Bets</span>[m[41m [m
+src/components/highlights/advert2.js:23: leftover conflict marker
+src/components/highlights/advert2.js:23: trailing whitespace.
+[32m+[m[32m>>>>>>> 7e8662dac5f54f3aa6b0175502e199f457e859b3[m[41m[m
+src/components/live.js:50: leftover conflict marker
+src/components/live.js:51: leftover conflict marker
+src/components/live.js:52: trailing whitespace.
+[32m+[m[41m        [m
+src/components/live.js:63: leftover conflict marker
+src/components/loginmodal.js:25: leftover conflict marker
+src/components/loginmodal.js:25: trailing whitespace.
+[32m+[m[32m<<<<<<< HEAD[m[41m[m
+src/components/loginmodal.js:37: leftover conflict marker
+src/components/loginmodal.js:37: trailing whitespace.
+[32m+[m[32m=======[m[41m[m
+src/components/loginmodal.js:38: trailing whitespace.
+[32m+[m[32m            animation={false}[m[41m[m
+src/components/loginmodal.js:39: trailing whitespace.
+[32m+[m[32m            show={state?.showloginmodal == true}[m[41m[m
+src/components/loginmodal.js:40: trailing whitespace.
+[32m+[m[32m            onHide={() => dispatch({type:"SET", key:"showloginmodal", payload:false})}[m[41m[m
+src/components/loginmodal.js:41: trailing whitespace.
+[32m+[m[32m            dialog className="popover-login-modal"[m[41m[m
+src/components/loginmodal.js:42: trailing whitespace.
+[32m+[m[32m            aria-labelledby="contained-modal-title-vcenter">[m[41m[m
+src/components/loginmodal.js:43: trailing whitespace.
+[32m+[m[32m                    <Modal.Header closeButton className="no-header">[m[41m[m
+src/components/loginmodal.js:44: trailing whitespace.
+[32m+[m[32m                      <Modal.Title>LOGIN IN TO BETMUNDIAL</Modal.Title>[m[41m[m
+src/components/loginmodal.js:45: trailing whitespace.
+[32m+[m[32m                    </Modal.Header>[m[41m[m
+src/components/loginmodal.js:46: trailing whitespace.
+[32m+[m[32m                    <Modal.Body className="p-0">[m[41m[m
+src/components/loginmodal.js:47: trailing whitespace.
+[32m+[m[32m                        <BodyLogin setUser={setUser}/>[m[41m[m
+src/components/loginmodal.js:48: trailing whitespace.
+[32m+[m[32m                    </Modal.Body>[m[41m[m
+src/components/loginmodal.js:49: leftover conflict marker
+src/components/loginmodal.js:49: trailing whitespace.
+[32m+[m[32m>>>>>>> 7e8662dac5f54f3aa6b0175502e199f457e859b3[m[41m[m
+src/components/pages/anti-money-laundering/index.js:68: leftover conflict marker
+src/components/pages/anti-money-laundering/index.js:70: leftover conflict marker
+src/components/pages/anti-money-laundering/index.js:72: leftover conflict marker
+src/components/pages/app/index.js:18: leftover conflict marker
+src/components/pages/app/index.js:20: leftover conflict marker
+src/components/pages/app/index.js:22: leftover conflict marker
+src/components/pages/dispute-resolution/index.js:30: leftover conflict marker
+src/components/pages/dispute-resolution/index.js:44: leftover conflict marker
+src/components/pages/dispute-resolution/index.js:58: leftover conflict marker
+src/components/pages/dispute-resolution/index.js:69: leftover conflict marker
+src/components/pages/dispute-resolution/index.js:84: leftover conflict marker
+src/components/pages/dispute-resolution/index.js:99: leftover conflict marker
+src/components/pages/dispute-resolution/index.js:163: leftover conflict marker
+src/components/pages/dispute-resolution/index.js:165: leftover conflict marker
+src/components/pages/dispute-resolution/index.js:167: leftover conflict marker
+src/components/pages/downloads/index.js:245: leftover conflict marker
+src/components/pages/downloads/index.js:247: leftover conflict marker
+src/components/pages/downloads/index.js:249: leftover conflict marker
+src/components/pages/downloads/index.js:302: leftover conflict marker
+src/components/pages/downloads/index.js:304: leftover conflict marker
+src/components/pages/downloads/index.js:306: leftover conflict marker
+src/components/pages/downloads/index.js:311: leftover conflict marker
+src/components/pages/downloads/index.js:314: leftover conflict marker
+src/components/pages/downloads/index.js:320: trailing whitespace.
+[32m+[m[32m                                    <button[m[41m [m
+src/components/pages/downloads/index.js:323: trailing whitespace.
+[32m+[m[32m                                        style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}}[m[41m [m
+src/components/pages/downloads/index.js:327: trailing whitespace.
+[32m+[m[32m                                    </button>[m[41m [m
+src/components/pages/downloads/index.js:333: leftover conflict marker
+src/components/pages/faqs/index.js:27: leftover conflict marker
+src/components/pages/faqs/index.js:33: leftover conflict marker
+src/components/pages/faqs/index.js:39: leftover conflict marker
+src/components/pages/faqs/index.js:47: leftover conflict marker
+src/components/pages/faqs/index.js:53: leftover conflict marker
+src/components/pages/faqs/index.js:59: leftover conflict marker
+src/components/pages/faqs/index.js:71: leftover conflict marker
+src/components/pages/faqs/index.js:75: leftover conflict marker
+src/components/pages/faqs/index.js:79: leftover conflict marker
+src/components/pages/faqs/index.js:93: leftover conflict marker
+src/components/pages/faqs/index.js:95: leftover conflict marker
+src/components/pages/faqs/index.js:97: leftover conflict marker
+src/components/pages/faqs/index.js:114: leftover conflict marker
+src/components/pages/faqs/index.js:117: leftover conflict marker
+src/components/pages/faqs/index.js:120: leftover conflict marker
+src/components/pages/faqs/index.js:156: leftover conflict marker
+src/components/pages/faqs/index.js:158: leftover conflict marker
+src/components/pages/faqs/index.js:160: leftover conflict marker
+src/components/pages/faqs/index.js:172: leftover conflict marker
+src/components/pages/faqs/index.js:178: leftover conflict marker
+src/components/pages/faqs/index.js:184: leftover conflict marker
+src/components/pages/faqs/index.js:203: leftover conflict marker
+src/components/pages/faqs/index.js:205: leftover conflict marker
+src/components/pages/faqs/index.js:207: leftover conflict marker
+src/components/pages/faqs/index.js:237: leftover conflict marker
+src/components/pages/faqs/index.js:239: leftover conflict marker
+src/components/pages/faqs/index.js:241: leftover conflict marker
+src/components/pages/privacy-policy/index.js:31: leftover conflict marker
+src/components/pages/privacy-policy/index.js:34: leftover conflict marker
+src/components/pages/privacy-policy/index.js:37: leftover conflict marker
+src/components/pages/privacy-policy/index.js:79: leftover conflict marker
+src/components/pages/privacy-policy/index.js:85: leftover conflict marker
+src/components/pages/privacy-policy/index.js:91: leftover conflict marker
+src/components/pages/privacy-policy/index.js:107: leftover conflict marker
+src/components/pages/privacy-policy/index.js:114: leftover conflict marker
+src/components/pages/privacy-policy/index.js:121: leftover conflict marker
+src/components/pages/privacy-policy/index.js:322: leftover conflict marker
+src/components/pages/privacy-policy/index.js:324: leftover conflict marker
+src/components/pages/privacy-policy/index.js:326: leftover conflict marker
+src/components/pages/promo-wins/promo-code.js:17: leftover conflict marker
+src/components/pages/promo-wins/promo-code.js:19: leftover conflict marker
+src/components/pages/promo-wins/promo-code.js:21: leftover conflict marker
+src/components/pages/promotions/Oldpromotions.jsx:23: leftover conflict marker
+src/components/pages/promotions/Oldpromotions.jsx:29: leftover conflict marker
+src/components/pages/promotions/Oldpromotions.jsx:35: leftover conflict marker
+src/components/pages/promotions/Oldpromotions.jsx:53: leftover conflict marker
+src/components/pages/promotions/Oldpromotions.jsx:59: leftover conflict marker
+src/components/pages/promotions/Oldpromotions.jsx:65: leftover conflict marker
+src/components/pages/promotions/Oldpromotions.jsx:99: leftover conflict marker
+src/components/pages/promotions/Oldpromotions.jsx:100: leftover conflict marker
+src/components/pages/promotions/Oldpromotions.jsx:112: trailing whitespace.
+[32m+[m[32m                    </div>[m[41m [m
+src/components/pages/promotions/Oldpromotions.jsx:204: leftover conflict marker
+src/components/pages/promotions/promoData.js:11: leftover conflict marker
+src/components/pages/promotions/promoData.js:13: leftover conflict marker
+src/components/pages/promotions/promoData.js:15: leftover conflict marker
+src/components/pages/promotions/promoData.js:26: leftover conflict marker
+src/components/pages/promotions/promoData.js:28: leftover conflict marker
+src/components/pages/promotions/promoData.js:30: leftover conflict marker
+src/components/pages/promotions/promoData.js:56: leftover conflict marker
+src/components/pages/promotions/promoData.js:68: leftover conflict marker
+src/components/pages/promotions/promoData.js:80: leftover conflict marker
+src/components/pages/promotions/promoData.js:172: leftover conflict marker
+src/components/pages/promotions/promoData.js:174: leftover conflict marker
+src/components/pages/promotions/promoData.js:176: leftover conflict marker
+src/components/pages/promotions/promoData.js:210: leftover conflict marker
+src/components/pages/promotions/promoData.js:212: leftover conflict marker
+src/components/pages/promotions/promoData.js:214: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:30: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:36: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:37: trailing whitespace.
+[32m+[m[32m                        <AccordionItemPanel>[m[41m                            [m
+src/components/pages/responsible-gambling/index.js:42: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:97: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:102: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:107: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:125: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:128: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:131: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:165: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:170: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:175: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:200: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:205: leftover conflict marker
+src/components/pages/responsible-gambling/index.js:210: leftover conflict marker
+src/components/pages/signup.js:127: leftover conflict marker
+src/components/pages/signup.js:129: leftover conflict marker
+src/components/pages/signup.js:131: leftover conflict marker
+src/components/pages/terms-and-conditions/bonuses-and-promotions.js:74: leftover conflict marker
+src/components/pages/terms-and-conditions/bonuses-and-promotions.js:76: leftover conflict marker
+src/components/pages/terms-and-conditions/bonuses-and-promotions.js:78: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:42: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:43: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:44: trailing whitespace.
+[32m+[m[41m            [m
+src/components/pages/terms-and-conditions/index.js:49: trailing whitespace.
+[32m+[m[32m                    Please ensure that You read and understand these terms prior to using the Service. Acceptance of[m[41m [m
+src/components/pages/terms-and-conditions/index.js:50: trailing whitespace.
+[32m+[m[32m                    these terms and conditions is a personal undertaking to be bound by these Terms. If you do not accept[m[41m [m
+src/components/pages/terms-and-conditions/index.js:51: trailing whitespace.
+[32m+[m[32m                    these Terms, please do not use Betmundials’s Services. The terms contain important information about the[m[41m [m
+src/components/pages/terms-and-conditions/index.js:52: trailing whitespace.
+[32m+[m[32m                    legal agreement between You and Us and provide information about what other documents form part of our[m[41m [m
+src/components/pages/terms-and-conditions/index.js:54: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:66: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:68: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:76: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:90: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:104: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:116: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:135: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:141: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:147: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:153: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:171: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:176: trailing whitespace.
+[32m+[m[32m                            <AccordionItemPanel>[m[41m                                [m
+src/components/pages/terms-and-conditions/index.js:180: trailing whitespace.
+[32m+[m[32m                        </AccordionItem>[m[41m                       [m
+src/components/pages/terms-and-conditions/index.js:189: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:193: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:208: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:219: trailing whitespace.
+[32m+[m[32m                            <AccordionItemPanel>[m[41m                                [m
+src/components/pages/terms-and-conditions/index.js:223: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:230: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:258: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:262: trailing whitespace.
+[32m+[m[41m                [m
+src/components/pages/terms-and-conditions/index.js:284: trailing whitespace.
+[32m+[m[32m                            <AccordionItemPanel>[m[41m    [m
+src/components/pages/terms-and-conditions/index.js:303: trailing whitespace.
+[32m+[m[32m                                <p>7.3. We will not be liable for any loss or damage which you may incur as a result of any prohibited acts. you agree to cooperate in any investigation in respect of Prohibited Acts.</p>[m[41m                [m
+src/components/pages/terms-and-conditions/index.js:311: trailing whitespace.
+[32m+[m[32m                            <AccordionItemPanel>[m[41m                                [m
+src/components/pages/terms-and-conditions/index.js:316: trailing whitespace.
+[32m+[m[41m                      [m
+src/components/pages/terms-and-conditions/index.js:324: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:363: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:371: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:376: trailing whitespace.
+[32m+[m[32m                            <AccordionItemPanel>[m[41m                                [m
+src/components/pages/terms-and-conditions/index.js:388: trailing whitespace.
+[32m+[m[41m                        [m
+src/components/pages/terms-and-conditions/index.js:401: trailing whitespace.
+[32m+[m[32m                        </AccordionItem>[m[41m                        [m
+src/components/pages/terms-and-conditions/index.js:402: trailing whitespace.
+[32m+[m[41m                        [m
+src/components/pages/terms-and-conditions/index.js:407: trailing whitespace.
+[32m+[m[32m                            <AccordionItemPanel>[m[41m                                 [m
+src/components/pages/terms-and-conditions/index.js:428: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:453: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:493: leftover conflict marker
+src/components/pages/terms-and-conditions/index.js:503: trailing whitespace.
+[32m+[m[41m                        [m
+src/components/pages/terms-and-conditions/index.js:511: trailing whitespace.
+[32m+[m[32m                                <p>16.2. You are not the owner of the Software; the Software is owned and is exclusive property of Us, the licensor, an associate, or a third-party software provider company, (the "Software Provider").[m[41m [m
+src/components/pages/terms-and-conditions/index.js:513: trailing whitespace.
+[32m+[m[32m                                    Any unauthorized use of any URL containing betmundial and or the betmundial logo may result in prosecution. Your use of the Software does not allow You or grant You any right of any intellectual property right in the Software.[m[41m [m
+src/components/pages/terms-and-conditions/index.js:514: trailing whitespace.
+[32m+[m[32m                                    betmundial is the owner or the rightful licensee of the rights to the technology, software and business systems used within this Website; this also includes, but is not limited to, the special promotional software and intellectual property of this concept.[m[41m [m
+src/components/pages/terms-and-conditions/index.js:518: trailing whitespace.
+[32m+[m[32m                        </AccordionItem>[m[41m                        [m
+src/components/pages/terms-and-conditions/index.js:528: trailing whitespace.
+[32m+[m[32m                                <p>17.3. Where link to third party resources appear on the Mobile service, Website and any other media/electronic platform, these links are provided for the information of the Customer only. betmundial is not responsible and has no control over the content of third party Websites sites or services offered therein, does no

@@ -28,7 +28,7 @@ const DisputeResolution = () => {
                         </AccordionItemHeading>
                         <AccordionItemPanel>
                             <p>
-                                betmundial aims to offer all of the company’s clients from the Kenya the
+                                betmundial aims to offer all of the company's clients from the Kenya the
                                 greatest possible Customer experience in the industry. We want to make
                                 sure
                                 that all of our clients are completely satisfied with the products and
@@ -36,7 +36,7 @@ const DisputeResolution = () => {
                                 transparency.
                                 At the same time, betmundial realizes that sometimes there might be cases
                                 when
-                                the company hasn’t been able to deliver. If you are not happy with the
+                                the company hasn't been able to deliver. If you are not happy with the
                                 service that our platform provides, you can always send a query to our
                                 Customer Services team.
                             </p>
@@ -52,13 +52,13 @@ const DisputeResolution = () => {
                         <AccordionItemPanel>
                             <p>
                                 You can contact the betmundial Customer Services team by way of email
-                                customercare@betmundial.com or call our customer care lines or inbox us through
+                                customercare@betmundial.co.ke or call our customer care lines or inbox us through
                                 our
                                 social Media Pages Facebook, betmundial, Instagram betmundial etc. Queries
                                 will
                                 always be processed within one business day. However, if, after your
                                 issue
-                                has been processed, you’re still not satisfied with the decision or
+                                has been processed, you're still not satisfied with the decision or
                                 believe
                                 that the situation is at a deadlock, you can always ask BCLB (The
                                 Betting
@@ -127,7 +127,7 @@ const DisputeResolution = () => {
                     <AccordionItem>
                         <AccordionItemHeading>
                             <AccordionItemButton>
-                                betmundial’s Dispute Resolution Policy
+                                betmundial's Dispute Resolution Policy
                             </AccordionItemButton>
                         </AccordionItemHeading>
                         <AccordionItemPanel>

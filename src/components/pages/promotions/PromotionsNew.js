@@ -20,11 +20,11 @@ const PromotionsNew = () => {
             <div className="primary-bg shadow-sm p-4 text-center mb-4">
                 <h4>Promotions New</h4>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 px-2">
                 {promoImages.map((promo) => (
                     <div
                         key={promo.id}
-                        className="col-span-1 px-2"
+                        className="col-span-1"
                     >
                         <div className="rounded-lg overflow-hidden shadow-lg">
                             <img

@@ -30,7 +30,7 @@ export const PromoTracker = () => {
 
         // Check if the user is coming from an external source or root
         const referrer = document.referrer;
-        const isExternalNavigation = !referrer || !referrer.includes("betmundial.com");
+        const isExternalNavigation = !referrer || !referrer.includes("betmundial.co.ke");
 
         if (isExternalNavigation && path !== "/") {
             const promoName = path.startsWith("/") ? path.slice(1) : path;
