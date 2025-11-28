@@ -12,7 +12,7 @@ const LiveScore = () => {
             <iframe 
                 src="https://s5dev.sir.sportradar.com/risecommts/en/1/season/118703/team/9" 
                 className={'w-full min-h-screen'}
-                title="surebet Livescore">
+                title="betmundial Livescore">
 
                 </iframe>
         </>)

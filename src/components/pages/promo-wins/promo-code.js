@@ -14,7 +14,7 @@ const PromoCode = () => {
 
             <div className="flex alert alert-warning">
                 <div className="">
-                    You Do not have a promo Code. Create, Share and Enjoy a lot from Surebet.
+                    You Do not have a promo Code. Create, Share and Enjoy a lot from Betmundial.
                 </div>
 
                 <button 

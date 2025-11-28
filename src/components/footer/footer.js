@@ -11,7 +11,7 @@ const Footer = (props) => {
         <footer className="footer-custom">
             <div className="row">
                 <div className="col-xs-12 col-sm-6 col-md-3 col-lg-3 text-white">
-                    <h5 className='text-2x uppercase font-bld'>Surebet</h5>
+                    <h5 className='text-2x uppercase font-bld'>Betmundial</h5>
                     <ul>
                         <li className="text-white">
                         BOX 2772 - 00606, NAIROBI
@@ -23,13 +23,13 @@ const Footer = (props) => {
                             </a>
                         </li>
                         <li className="footer-icon" style={{ display: 'flex', justifyContent: 'flex-start', gap: '15px' }}>
-                            <a target='_blank' href="https://www.facebook.com/kesurebet">
+                            <a target='_blank' href="https://www.facebook.com/kebetmundial">
                                 <span><FaFacebook className="social-icon" /></span>
                             </a>
-                            <a target='_blank' href="https://x.com/Kenya_Surebet">
+                            <a target='_blank' href="https://x.com/Kenya_Betmundial">
                                 <span><FaXTwitter className="social-icon" /></span>
                             </a>
-                            <a target='_blank' href="https://www.instagram.com/surebet_kenya_official">
+                            <a target='_blank' href="https://www.instagram.com/betmundial_kenya_official">
                                 <span><FaInstagram className="social-icon" /></span>
                             </a>
                         </li>
@@ -98,7 +98,7 @@ const Footer = (props) => {
                     <h5>LICENSING</h5>
                     <hr/>
                     <p>
-                        Surebet is a Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
+                        Betmundial is a Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
                     </p>
                 </div>
             </div>

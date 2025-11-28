@@ -22,12 +22,12 @@ const DisputeResolution = () => {
                     from time to time.
                 </p>
                 <p>
-                    If surebet is unable to settle the dispute, surebet will refer the
+                    If betmundial is unable to settle the dispute, betmundial will refer the
                     dispute to an arbiter, whose decision will be final (save in respect of
                     any manifest error) subject to full representation given to all parties
                     involved. No dispute regarding any bet/wager will result in litigation,
                     court action or objection to a bookmaker’s licence or permit (including
-                    any remote operator’s licence or personal licence) unless surebet fails
+                    any remote operator’s licence or personal licence) unless betmundial fails
                     to implement the decision given by arbitration.
                 </p>
             </AccordionItemPanel>

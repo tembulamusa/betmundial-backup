@@ -97,7 +97,7 @@ const CheckMpesaDepositStatus = (props) => {
 
     const PastUserDeposits = (props) => {
         const [pastDeposits, setPastDeposits] = useState(null);
-        const [tableHeaders, ] = useState(["Date", "Amount", "Surebet Balance"]);
+        const [tableHeaders, ] = useState(["Date", "Amount", "Betmundial Balance"]);
 
         const requestUserDeposits = () => {
             let endpoint = '/v2/deposits';

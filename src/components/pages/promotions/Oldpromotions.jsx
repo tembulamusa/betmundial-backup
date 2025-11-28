@@ -19,12 +19,12 @@ const Promotions = () => {
             <div className={'row  p-3 d-flex justify-content-center'}>
                 <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                     <div className="d-flex flex-column">
-                        <h5 className="uppercase">SUREBET 3000 KARIBU BONUS</h5>
+                        <h5 className="uppercase">BETMUNDIAL 3000 KARIBU BONUS</h5>
                         <img src={karibuBonus} className={'rounded'}/>
                         <span><u>How to get it</u></span>
                         <ul>
                             <li>
-                                Register on sms by sending the word JOIN 29488 or visiting www.SUREBET.co.ke and creating account via signup link.
+                                Register on sms by sending the word JOIN 29488 or visiting www.BETMUNDIAL.co.ke and creating account via signup link.
                             </li>
                         </ul>
                         <div className="col-md-12">
@@ -41,12 +41,12 @@ const Promotions = () => {
                 </div>
                 <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                     <div className="d-flex flex-column">
-                        <h5>100% FIRST DEPOSIT SUREBET BONUS </h5>
+                        <h5>100% FIRST DEPOSIT BETMUNDIAL BONUS </h5>
                         <img src={hundredPercentDepositBonus} className={'rounded'}/>
                         <span><u>How to get it</u></span>
                         <ul>
                             <li>
-                                Deposit KES.50 and above to SUREBET Paybill 599488 using your phone number as the account number
+                                Deposit KES.50 and above to BETMUNDIAL Paybill 599488 using your phone number as the account number
                             </li>
                         </ul>
                         <div className="col-md-12">
@@ -74,10 +74,10 @@ const Promotions = () => {
                             <div className="col-md-12">
                                 <ul>
 
-                                    <li> Your Surebet account will be created and your Freebet will be placed. Please don't forget to verify your account once you receive our SMS code; unverified accounts will lose their Freebet after 7 days. To view your bet, Log on to surebet.co.ke, go to ‘Menu’ and choose ‘My Bets’. </li>
+                                    <li> Your Betmundial account will be created and your Freebet will be placed. Please don't forget to verify your account once you receive our SMS code; unverified accounts will lose their Freebet after 7 days. To view your bet, Log on to betmundial.co.ke, go to ‘Menu’ and choose ‘My Bets’. </li>
                                     <li> Freebet offer is limited to one per customer and cannot be used in conjunction with any other offer.</li>
                                     <li> The refund amount shall be refunded as bonus and bonus terms and condition apply to redeem the award</li>
-                                    <li>When your Freebet wins, Surebet keeps its stake and pays the winnings into your Surebet account. You can use these winnings to bet on more matches.</li>
+                                    <li>When your Freebet wins, Betmundial keeps its stake and pays the winnings into your Betmundial account. You can use these winnings to bet on more matches.</li>
                                     <li><b>Abuse: </b>Persons attempting to take unfair advantage of the Freebet offer by creating multiple new accounts, inputting invalid phone numbers or depositing funds to reach the withdrawal threshold risk having all associated accounts closed and all funds confiscated.</li>
                                 </ul>
                             </div>
@@ -91,8 +91,8 @@ const Promotions = () => {
                             <span><b>Open to all new and existing customers</b></span>
                             <ul>
                                 <li>Customers will be required to place a cash bet on atleast one or more EPL 2024/25 games using a stake of KShs. 49 or more. They will automatically enter into the draw to win various daily, weekly and grand prizes including but not limited to  Chapaa , phones, Airtime ,Gifts vouchers and many other gifts</li>
-                                <li>Winners will receive the various prizes credited to their Surebets' account. This can be withdrawn via Mpesa</li>
-                                <li>Winners are chosen randomly by Surebet promotion systems</li>
+                                <li>Winners will receive the various prizes credited to their Betmundials' account. This can be withdrawn via Mpesa</li>
+                                <li>Winners are chosen randomly by Betmundial promotion systems</li>
                             </ul>
                             <div className="col-md-12">
                                 <span><b>Prizes</b></span>
@@ -102,7 +102,7 @@ const Promotions = () => {
                                     <li> 2. 5 Weekly winners of KShs. 5,000 each</li>
                                     <li> 3. 1  phone per week</li>
                                     <li>4. 1 Grand winners of KShs. 100,000 each</li>
-                                    <li>5. Surebet branded merchandise</li>
+                                    <li>5. Betmundial branded merchandise</li>
                                 </ul>
                             </div>
                             <p><b>Promo runs from 16th August 2024 to 25th May 2025</b> <br/>Terms and conditions apply</p>
@@ -110,23 +110,23 @@ const Promotions = () => {
                     </div>
                     <div className="col-md-6 mb-2 p-3 shadow-md promo-pannel">
                         <div className="d-flex flex-column">
-                            <h5>SUREBET APP BONUS</h5>
+                            <h5>BETMUNDIAL APP BONUS</h5>
                             <img alt="" src={earlyBirdDailyDepositBonus} className={'rounded'}/>
                             <ul>
                                     <b>Open to all new and existing customers. </b>
                             </ul>
                             <div className="col-md-12">
                                 <span><u>Terms and conditions</u></span>
-                                <p>Customers will be required to DOWNLOAD the SUREBET APP from the Play store, Place a cash bet using a stake of Ksh 49 or more with total odds of 7.99 or more. They will automatically enter into the draw.</p>
+                                <p>Customers will be required to DOWNLOAD the BETMUNDIAL APP from the Play store, Place a cash bet using a stake of Ksh 49 or more with total odds of 7.99 or more. They will automatically enter into the draw.</p>
                                 <p>Winners will receive various prizes;daily or weekly bonuses</p>
-                                <p>Winners are chosen randomly by the Surebet  promotion systems</p>
+                                <p>Winners are chosen randomly by the Betmundial  promotion systems</p>
                                 <h5 className="uppercase pt-4">Prizes</h5>
                                 <ul>
 
                                     <li> 1. 100 Daily winners of KSh. 100 each.</li>
-                                    <li> 2. 1000 Weekly winners of various bonus amounts credited to their Surebet account. This can be withdrawn via MPESA</li>
+                                    <li> 2. 1000 Weekly winners of various bonus amounts credited to their Betmundial account. This can be withdrawn via MPESA</li>
                                 </ul>
-                                <p>Bonus terms and conditions apply. General Surebet terms and conditions apply</p>
+                                <p>Bonus terms and conditions apply. General Betmundial terms and conditions apply</p>
                             </div>
                         </div>
                     </div>
@@ -143,9 +143,9 @@ const Promotions = () => {
                                 <p>The stake refund will be in form of a bonus</p>
                                 <ul>
 
-                                    <li> The stake refund can be used to play again on any type of bet and on any market on Surebet. (No restrictions on how to use the cash back refund).</li>
+                                    <li> The stake refund can be used to play again on any type of bet and on any market on Betmundial. (No restrictions on how to use the cash back refund).</li>
                                 </ul>
-                                <p>Bonus terms and conditions apply. General Surebet terms and conditions apply</p>
+                                <p>Bonus terms and conditions apply. General Betmundial terms and conditions apply</p>
                             </div>
                         </div>
                     </div>
@@ -159,20 +159,20 @@ const Promotions = () => {
                             </ul>
                             <div className="col-md-12">
                                 <span><b>How to participate</b></span>
-                                    <p>The Share Bet Ushinde Promotion  is open to individuals who are registered users of Surebet and who meet the eligibility criteria outlined in these terms and conditions.</p>
+                                    <p>The Share Bet Ushinde Promotion  is open to individuals who are registered users of Betmundial and who meet the eligibility criteria outlined in these terms and conditions.</p>
                                     <p>Participants must be of legal age to gamble in their jurisdiction and must comply with all applicable laws and regulations</p>
                                 <ul>
 
                                     <li>The Promotion will run everyday .</li>
-                                    <li>To qualify for the Promotion, participants must place a bet with any amount on Surebet</li>
-                                    <li>Participants must share their betslip with at least 5 friends using the provided sharing options on the surebet platform</li>
+                                    <li>To qualify for the Promotion, participants must place a bet with any amount on Betmundial</li>
+                                    <li>Participants must share their betslip with at least 5 friends using the provided sharing options on the betmundial platform</li>
                                     <li>Participants will be eligible to win a cash prize worth 5,000 Kenyan Shillings (KES) if their betslip is shared with at least 5 friends</li>
                                     <li>If the participant's (group of friends) collectively place bets on the shared betslip, the participant will win the cash prize</li>
                                     <li>Winners will be notified via their registered mobile number</li>
-                                    <li>Surebet reserves the right to use any other method of communication deemed appropriate to notify winners</li>
+                                    <li>Betmundial reserves the right to use any other method of communication deemed appropriate to notify winners</li>
                                     <li>The cash prize will be awarded to the participant within 24 hours of meeting the eligibility criteria</li>
                                 </ul>
-                                <p>Bonus terms and conditions apply. General Surebet terms and conditions apply</p>
+                                <p>Bonus terms and conditions apply. General Betmundial terms and conditions apply</p>
                             </div>
                         </div>
                     </div>

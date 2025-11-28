@@ -242,7 +242,7 @@ export default function MatchesList() {
             </div>
             <div className="col-md-12 text-center vh-100">
                 <p className="text-2xl my-3 px-2">
-                Grab your favorite games in printable format here. surebet provides the the best competitie odds for you to take advantage of in all areas of betting
+                Grab your favorite games in printable format here. betmundial provides the the best competitie odds for you to take advantage of in all areas of betting
                 </p>
 
                 
@@ -278,7 +278,7 @@ export default function MatchesList() {
                                         style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
                                         >
 
-                                        { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
+                                        { loaded ? "Click here to download betmundial matches" : "Loading printable page ... " }
                                         </button>
                                         </div>
                                         </div>
@@ -295,7 +295,7 @@ export default function MatchesList() {
                                         style={{width: "300px", border: "none", padding: "3px", marginLeft:"10px", color:"#fff !important"}} 
                                         >
 
-                                        { loaded ? "Click here to download surebet matches" : "Loading printable page ... " }
+                                        { loaded ? "Click here to download betmundial matches" : "Loading printable page ... " }
                                     </button> 
                                 </div>
                             </> :

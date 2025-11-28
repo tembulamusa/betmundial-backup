@@ -33,7 +33,7 @@ const ApplicableLaw = () => {
                     such bet shall be subject to all appropriate exchange control
                     regulations and the laws of the foreign jurisdiction from which such
                     communication originates and it shall be the responsibility of the
-                    CLIENT to ensure full compliance with same. surebet makes no warranties
+                    CLIENT to ensure full compliance with same. betmundial makes no warranties
                     and shall not be liable to the CLIENT if it is not able to remit any
                     monies held by it to any account held by the CLIENT in a foreign
                     jurisdiction.

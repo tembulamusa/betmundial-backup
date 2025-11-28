@@ -33,7 +33,7 @@ const CarouselLoader = (props) => {
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={FreeBet}
                     onLoad={onImageLoaded}
-                    alt="surebet"
+                    alt="betmundial"
                     effects="blur"
                 />
             </Carousel.Item>
@@ -63,7 +63,7 @@ const CarouselLoader = (props) => {
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Sharebet}
                     onLoad={onImageLoaded}
-                    alt="surebet"
+                    alt="betmundial"
                     effects="blur"
                 />
             </Carousel.Item>
@@ -74,7 +74,7 @@ const CarouselLoader = (props) => {
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Epl}
                     onLoad={onImageLoaded}
-                    alt="surebet"
+                    alt="betmundial"
                     effects="blur"
                 />
             </Carousel.Item>
@@ -86,7 +86,7 @@ const CarouselLoader = (props) => {
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Live}
                     onLoad={onImageLoaded}
-                    alt="surebet"
+                    alt="betmundial"
                     effects="blur"
                 />
                 </Link>
@@ -112,7 +112,7 @@ const CarouselLoader = (props) => {
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={Jackpot}
                     onLoad={onImageLoaded}
-                    alt="surebet"
+                    alt="betmundial"
                     effects="blur"
                 />
                 </Link>
@@ -125,7 +125,7 @@ const CarouselLoader = (props) => {
                     style={{display: imageLoaded ? 'block' : 'none'}}
                     src={App}
                     onLoad={onImageLoaded}
-                    alt="surebet"
+                    alt="betmundial"
                     effects="blur"
                 />
                 </Link>

@@ -49,7 +49,7 @@ const Live = (props) => {
     useEffect(() => {
         
             handleGameSocket("listen");
-            socket.on(`surebet#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
+            socket.on(`betmundial#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
                 setMatches((preveMatches) => {
                     let odds = {}
                     let selectedSport = state?.selectedLivesport ? state?.selectedLivesport?.betradar_sport_id : 1

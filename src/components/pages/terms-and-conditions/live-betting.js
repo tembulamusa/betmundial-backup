@@ -35,13 +35,13 @@ const LiveBetting = () => {
                     at all.
                 </p>
 
-                <p>surebet reiterates that any live scores displayed on its sites during
+                <p>betmundial reiterates that any live scores displayed on its sites during
                     live
-                    events remain placed for guidance purposes only and that surebet will
+                    events remain placed for guidance purposes only and that betmundial will
                     not
                     take any responsibility for any errors and inaccuracies on the same.
                 </p>
-                <p>surebet reserves the right to void any bets placed after the outcome of
+                <p>betmundial reserves the right to void any bets placed after the outcome of
                     an
                     event is known. Should a bet be placed with incorrect odds due to
                     delayed

@@ -304,7 +304,7 @@ const BetSlip = (props) => {
        const socketRef = useRef(socket);
 
         const socketEvent = (parent_match_id, sub_type_id) => {
-            return `surebet#${parent_match_id}#${sub_type_id}`
+            return `betmundial#${parent_match_id}#${sub_type_id}`
         };
         
         const handleGameSocket = (type, gameId, sub_type_id) => {
@@ -332,10 +332,10 @@ const BetSlip = (props) => {
                 }
                 
             };
-            socket?.on(`surebet#${slip?.parent_match_id}#${slip.sub_type_id}`, handleSocketData)
+            socket?.on(`betmundial#${slip?.parent_match_id}#${slip.sub_type_id}`, handleSocketData)
             
             socket.emit('user.match.listen', slip?.parent_match_id);
-            socket.on(`surebet#${slip?.parent_match_id}`, (data) => {
+            socket.on(`betmundial#${slip?.parent_match_id}`, (data) => {
                 if(
                     data.message_type !== "betstop" 
                     && 

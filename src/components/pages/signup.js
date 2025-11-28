@@ -124,7 +124,7 @@ const Signup = (props) => {
                 <div className="pt-0">
                     <div className="row form-block">
                         <div className='text-center'>
-                            <h1 className='std-title'>Join Surebet</h1>
+                            <h1 className='std-title'>Join Betmundial</h1>
                             <p className='text-xl'>Home to the best Odds, instant Payouts and many bonuses</p>
                         </div>
                         <div className="form-group row d-flex justify-content-center mt-5">

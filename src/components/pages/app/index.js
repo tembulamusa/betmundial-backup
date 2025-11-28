@@ -15,7 +15,7 @@ const MobileApp = () => {
         <>
             <div className='col-md-12 primary-bg p-4 text-center'>
                 <h4 className=' inline-block'>
-                    SUREBET APP
+                    BETMUNDIAL APP
                 </h4>
             </div>
 

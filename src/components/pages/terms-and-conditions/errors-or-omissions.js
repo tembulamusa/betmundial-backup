@@ -70,7 +70,7 @@ const ErrorsOrOmissions = () => {
                     </li>
                 </ul>
                 <p>
-                    surebet reserves the right to:
+                    betmundial reserves the right to:
                 </p>
                 <ul>
                     <li>

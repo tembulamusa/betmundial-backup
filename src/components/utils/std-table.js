@@ -59,7 +59,7 @@ const StdTable = (props) => {
                                 {row.date}
                             </StyledTableCell>
                             <StyledTableCell align="right">{row.amount}</StyledTableCell>
-                            <StyledTableCell align="right">{row.surebet_balance}</StyledTableCell>
+                            <StyledTableCell align="right">{row.betmundial_balance}</StyledTableCell>
                             </StyledTableRow>
                         ))}
 
