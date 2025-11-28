@@ -77,8 +77,8 @@ const MiniGames = () => {
     ) || [];
 
     return (
-        <div className="mt-4 p-4 bg-blue-900 border border-gray-300 rounded-md">
-            <div className="bg-blue-900 pb-4">
+        <div className="mt-4 p-4 bg-dark-bg-secondary border border-gray-200 rounded-md" style={{backgroundColor: '#0f0f1f', borderColor: 'rgba(255, 255, 255, 0.15)'}}>
+            <div className="pb-4" style={{backgroundColor: '#0f0f1f'}}>
                 <h3 className="text-white mb-2">Mini Games</h3>
                 <input
                     type="text"
@@ -87,7 +87,8 @@ const MiniGames = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onFocus={() => setIsFocused(true)} 
                     onBlur={() => setIsFocused(false)} 
-                    className={`w-full p-2 mb-4 border ${isFocused ? 'bg-white' : 'bg-transparent'} border-gray-300 rounded-md`}
+                    className={`w-full p-2 mb-4 border ${isFocused ? 'bg-dark-bg-tertiary' : 'bg-transparent'} border-gray-200 rounded-md text-white`}
+                    style={{backgroundColor: isFocused ? '#151525' : 'transparent', borderColor: 'rgba(255, 255, 255, 0.15)', color: '#ffffff'}}
                 />
             </div>
             <div className="mt-4 pt-4 grid grid-cols-4 gap-4">

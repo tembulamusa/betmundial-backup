@@ -243,7 +243,7 @@ const ProSidebar = (props) => {
                 {/* The new  */}
 
                 <Sidebar
-                    style={{backgroundColor: '#16202c !important'}}
+                    style={{backgroundColor: '#0f0f1f !important'}}
                     image={false}
                     onToggle={handleToggleSidebar}
                     collapsed={collapsed}

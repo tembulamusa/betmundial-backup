@@ -203,7 +203,7 @@ const BetSlip = (props) => {
                     onKeyPress={handleKeyPress}
                     value={inputShareCode}
                     className='block w-full px-2 text-center rounded-2xl'
-                    style={{ border: "1px solid #ddd", margin: "0px 0px 0px", height: "40px" }}
+                    style={{ border: "1px solid rgba(255, 255, 255, 0.15)", margin: "0px 0px 0px", height: "40px", backgroundColor: "#151525", color: "#ffffff" }}
                 />
                 <button
                     disabled={sharedBetLoading}

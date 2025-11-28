@@ -126,7 +126,7 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData, dbWinMatrix }) => {
                     </Modal.Header>
                     
                     
-                    <Modal.Body className="bg-white px-0 py-0">
+                    <Modal.Body className="bg-dark-bg-secondary px-0 py-0" style={{backgroundColor: '#0f0f1f', color: '#ffffff'}}>
                       <div id="betslip" className="betslip">
                         {Object.keys(state?.betslip || {}).length == 0 && <BongeBetMarkupMessage />}
                         <BetSlip 

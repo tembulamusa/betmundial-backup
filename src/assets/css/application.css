@@ -7,7 +7,7 @@
 /* docs overrides */
 .a {
   background-color: #fff;
-  border-color: #d3e0e9;
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 
@@ -59,7 +59,7 @@
   height: 100vh;
 }
 .app-navbar .form-control {
-  border: 1px solid #636363;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   /* background: rgba; */
   border-radius: 3px !important;
   /* height: 31px; */
@@ -82,9 +82,10 @@
   }
 }
 .betj {
-  background: #fbfbfb;
+  background: #0f0f1f;
   overflow: auto;
   clear: both;
+  color: #ffffff;
 }
 .betj .col-sm-12, .betj .col-sm-6{padding: 0;}
 
@@ -107,7 +108,8 @@
 
 .pick {
     cursor: copy;
-    cursor: pointer;background: #F3F3F3;
+    cursor: pointer;background: #151525;
+    color: #ffffff;
 }
 
 .betslip input[type="number"] {
@@ -133,11 +135,14 @@
 
 .betslip td, .betslip  th {
     padding: 3px 5px;
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 #quick-login {
-  background: #f2f2f2;
+  background: #0f0f1f;
   padding: 8px 8px 10px;
+  color: #ffffff;
   display: none;
   overflow: auto;
   width: 100%;
@@ -288,9 +293,18 @@ li.bet-option {
 }
 
 .bet-table a{
-    color: #26408A;
+    color: rgba(255, 255, 255, 0.8);
     font-weight: bold;
     display: inline-block;
+}
+.bet-table {
+    color: #ffffff;
+    background-color: #0f0f1f;
+}
+.bet-table td,
+.bet-table th {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .bet-odd {
@@ -405,18 +419,45 @@ display: none;
 }
 .react-loading, .react-loading span{
     width:100%;
-   --base-color: #2b3640;
-   --highlight-color: #404f5f;
+   --base-color: #151525;
+   --highlight-color: #0f1a3f;
    --animation-duration:3.2s;
+   background-color: #0f0f1f;
 }
 .react-loading-image, .react-loading-image span{
-   background: #212931;
-   --base-color: #2b3640;
-   --highlight-color: #404f5f;
+   background: #0f0f1f;
+   --base-color: #151525;
+   --highlight-color: #0f1a3f;
     width: fit-content;
     float: left;
 }
 .react-loading-skeleton {
+    background-color: #0f0f1f;
+}
+/* React Shimmer Effects - Dark Theme */
+.shimmer-wrapper,
+.shimmer-wrapper *,
+[class*="shimmer"],
+[class*="Shimmer"] {
+    background-color: #0f0f1f !important;
+    background: #0f0f1f !important;
+}
+.shimmer,
+.shimmer-wrapper .shimmer {
+    background: linear-gradient(90deg, #0f0f1f 0%, #151525 50%, #0f0f1f 100%) !important;
+    background-color: #0f0f1f !important;
+}
+.shimmer::after,
+.shimmer-wrapper .shimmer::after {
+    background: linear-gradient(90deg, transparent, rgba(15, 26, 63, 0.4), transparent) !important;
+}
+/* Additional loading backgrounds */
+[class*="loading"],
+[class*="Loading"],
+.loading-overlay,
+.spinner-background {
+    background-color: #0f0f1f !important;
+    background: #0f0f1f !important;
 }
 .colored-circle {
     display: inline-block;

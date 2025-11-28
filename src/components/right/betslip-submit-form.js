@@ -483,7 +483,7 @@ const BetslipSubmitForm = (props) => {
                     <FormikForm name="betslip-submit-form">
                     {<div className='mx-auto w-[95%]'><Alert/></div>}
                     <div className='uppercase'>
-                        <table className="bet-table !p-3 border-t border-gray-300 m-auto" style={{width:"96%"}}>
+                        <table className="bet-table !p-3 border-t border-gray-200 m-auto" style={{width:"96%", borderTopColor: 'rgba(255, 255, 255, 0.15)'}}>
                             <tbody>
                             {!jackpot && <tr className="hide-on-affix">
                                 <td className='opacity-60 py-3'>TOTAL ODDS</td>
