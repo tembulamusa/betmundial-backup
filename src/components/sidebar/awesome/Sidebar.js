@@ -137,7 +137,7 @@ const ProSidebar = (props) => {
         try {
             sport_image = topLeagues ? require(`../../../assets/img/flags-1-1/${sport_name}.svg`) : require(`../../../assets/${folder}/${sport_name}.svg`);
         } catch (error) {
-            sport_image = require(`../../../assets/${folder}/${default_img}.png`);
+            sport_image = require(`../../../assets/${folder}/${default_img}.svg`);
         }
         return sport_image
     }
