@@ -89,7 +89,7 @@ const Signup = (props) => {
 
     const FormTitle = () => {
         return (
-            <div className='col-md-12 border-b uppercase p-4 text-center' style={{ borderColor: 'rgba(255, 255, 255, 0.15)', color: '#ffffff' }}>
+            <div className='col-md-12 uppercase p-4 text-center' style={{ borderBottom: 'none', color: '#ffffff' }}>
                 <h4 className="inline-block" style={{ color: '#ffffff' }}>
                     CREATE AN ACCOUNT
                 </h4>
@@ -267,21 +267,18 @@ const Signup = (props) => {
         <>
             {
                 <React.Fragment>
-                    <div className='signup-container' >
-                        <div className='col-md-12 border-b page-title p-4 text-center mb-4' style={{ borderColor: 'rgba(255, 255, 255, 0.15)' }}>
-                            <h4 className="" style={{ color: '#ffffff' }}>
-                                Register
-                            </h4>
-                        </div>
+                    <div className='signup-container' style={{ paddingTop: '20px' }}>
                         <div className='std-medium-width-block'>
                             <div className="col-md-12 mt-2 p-2 std-boxed-form-page"
                                 style={{}}
                             >
-
-                                {message ? <Alert /> : ""}
-                                <div className="modal-body pb-0" data-backdrop="static">
-                                    <SignupForm />
+                                <div className='text-center mb-4'>
+                                    <h4 className="" style={{ color: '#ffffff', fontSize: '28px', fontWeight: '600' }}>
+                                        Register
+                                    </h4>
                                 </div>
+                                {message ? <Alert /> : ""}
+                                <SignupForm />
                             </div>
                         </div>
                     </div>
