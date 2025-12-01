@@ -312,7 +312,7 @@ const SideBets = (props) => {
 
             <div
                 onClick={() => openLiveStats(match?.parent_match_id)}
-                className='side !pl-2 !ml-3 text-blue-700 font-bold opacity-60 hover:opacity-100 cursor-pointer'>
+                className='side !pl-2 !ml-3 text-white font-bold opacity-70 hover:opacity-100 cursor-pointer'>
                 <IoIosStats size={20} />
             </div>
         </div>

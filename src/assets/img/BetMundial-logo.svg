@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 813.47 255.79">
+  <defs>
+    <style>
+      .logo-bg { fill: #341C4B; }
+      .logo-accent { fill: #E50654; }
+      .logo-text { fill: #FFFFFF; font-family: Arial, sans-serif; font-weight: bold; }
+    </style>
+  </defs>
+  <g>
+    <!-- Background shape (keeping the original design element) -->
+    <path class="logo-accent" d="M45.5,61.21c0.25-6.03,1.11-14.29,11.07-18.22s83.03-17.01,151.27,0c12.08,2.92,11.27,14.39,11.27,14.39
+      s9.98,118.87-86.8,162.95C132.31,220.33,40.57,182.66,45.5,61.21z"/>
+    
+    <!-- BetMundial Text -->
+    <text x="200" y="140" class="logo-text" font-size="60" text-anchor="middle">BetMundial</text>
+  </g>
+</svg>
+

@@ -11047,8 +11047,8 @@ button.close {
 .carousel {
     position: relative;
     padding-bottom: 0px;
-    border-bottom: 1px solid #dddddd;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #ffffff0d;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
 }
 
 .cr {

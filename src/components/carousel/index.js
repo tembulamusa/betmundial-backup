@@ -3,15 +3,15 @@ import Carousel from 'react-bootstrap/Carousel';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 // import banner5 from '../../assets/img/banner/products/Daily-JackPot.png'
-import Breakfast from '../../assets/img/banner/Breakfast.png';
-import App from '../../assets/img/banner/App.png';
+import Breakfast from '../../assets/img/banner/carousel/breakfast.png';
+import App from '../../assets/img/banner/carousel/app.png';
 import Sharebet from '../../assets/img/banner/carousel/Sharebet.png';
 import FreeBet from '../../assets/img/banner/carousel/Tick.png';
-import MultiBet from '../../assets/img/banner/Multibet.png';
-import Epl from '../../assets/img/banner/EPL.png';
+import MultiBet from '../../assets/img/banner/carousel/multibet.png';
+import Epl from '../../assets/img/banner/carousel/moses-epl.png';
 import Live from '../../assets/img/banner/carousel/Live-Betting.png';
-import Casino from '../../assets/img/banner/Casino.png';
-import Jackpot from '../../assets/img/banner/jackpot.png';
+import Casino from '../../assets/img/banner/carousel/casino.png';
+import Jackpot from '../../assets/img/banner/carousel/jackpot.png';
 import { Link } from 'react-router-dom';
 
 
