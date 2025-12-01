@@ -28,6 +28,7 @@ const Live = (props) => {
     const { spid, sub_type_id } = useParams();
     const [socketIsConnected, setSockectIsConnected] = useState(socket.connected);
     const socketRef = useRef(socket);
+    const isFirstLoad = useRef(true);
 
 
     const handleGameSocket = (type) => {
@@ -99,9 +100,17 @@ const Live = (props) => {
             + (`${state?.selectedLivesport && state?.selectedLivesport?.sport_name?.toLowerCase() !== "soccer" ? "/"
                 + state?.selectedLivesport?.default_market : ""}`) + "?page=" + (page || 1) + `&size=${limit || 200}`;
         let method = "GET";
-        setFetching(true);
+        
+        // Only set loading state on first load to avoid flickers
+        if (isFirstLoad.current) {
+            setFetching(true);
+        }
+        
         makeRequest({ url: endpoint, method: method, api_version: 2 }).then(([status, result]) => {
-            setFetching(false)
+            if (isFirstLoad.current) {
+                setFetching(false);
+                isFirstLoad.current = false;
+            }
             if (status == 200) {
                 setMatches(result?.data?.items?.sort((a, b) => ((a.start_time - b.start_time) || (b.match_time - a.match_time))) || result)
                 setProducers(result?.producer_statuses);
