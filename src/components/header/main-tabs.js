@@ -44,7 +44,7 @@ const MainTabs = (props) => {
     const getCategoryOptionLabel = (category_name, cat_flag, showCaret = false) => {
         let cat_image = null;
         try {
-            cat_image = require(`../../assets/img/flags-1-1/${cat_flag || "default_flag"}.svg`)
+            cat_image = require(`../../assets/img/flags-1-1/${cat_flag || "sure"}.svg`)
         } catch (error) {
         }
 
@@ -164,7 +164,7 @@ const MainTabs = (props) => {
         try {
             sport_image = require(`../../assets/img/flags-1-1/${flag_icon}.svg`);
         } catch (error) {
-            sport_image = require(`../../assets/${folder}/${default_img}.png`);
+            sport_image = require(`../../assets/${folder}/${default_img}.svg`);
         }
         return sport_image
     }
