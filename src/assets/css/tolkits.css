@@ -2174,7 +2174,8 @@ events-header {
     padding-bottom: 0;
 }
 
-.top-matches button.picked {
+.top-matches button.picked,
+.matches .top-matches .match-detail button.home-team.picked {
     background: rgba(231, 6, 84, 0.958) !important;
 }
 

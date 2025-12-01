@@ -5,13 +5,13 @@ const BodyLogin = React.lazy(() => import('../header/mobile-login'));
 const Login = (props) => {
 
     return (
-        <div className="">
+        <div className="" style={{ background: '#0f0f1f', minHeight: '100vh', color: '#ffffff' }}>
             <div className='col-md-12 border-b page-title p-4 text-center mb-4'>
-                <h4 className="">
+                <h4 className="" style={{ color: '#ffffff' }}>
                     Login
                 </h4>
             </div>
-            <div className='std-medium-width-block bg-white'>
+            <div className='std-medium-width-block'>
                 <div className="col-md-12">
                     <BodyLogin/>
                 </div>

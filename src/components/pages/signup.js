@@ -23,6 +23,10 @@ const Signup = (props) => {
     const app = promoName ? `${app_name}:${promoName}` : app_name;
 
 
+    useEffect(() => {
+        dispatch({ type: "SET", key: "fullpagewidth", payload: true });
+    }, [dispatch]);
+
     const initialValues = {
         msisdn: '',
         password: '',
@@ -85,8 +89,8 @@ const Signup = (props) => {
 
     const FormTitle = () => {
         return (
-            <div className='col-md-12 border-b border-gray-200 uppercase p-4 text-center'>
-                <h4 className="inline-block">
+            <div className='col-md-12 border-b uppercase p-4 text-center' style={{ borderColor: 'rgba(255, 255, 255, 0.15)', color: '#ffffff' }}>
+                <h4 className="inline-block" style={{ color: '#ffffff' }}>
                     CREATE AN ACCOUNT
                 </h4>
             </div>
@@ -124,12 +128,12 @@ const Signup = (props) => {
                 <div className="pt-0">
                     <div className="row form-block">
                         <div className='text-center'>
-                            <h1 className='std-title'>Join betmundial</h1>
-                            <p className='text-xl'>Home to the best Odds, instant Payouts and many bonuses</p>
+                            <h1 className='std-title' style={{ color: '#ffffff' }}>Join betmundial</h1>
+                            <p className='text-xl' style={{ color: 'rgba(255, 255, 255, 0.8)' }}>Home to the best Odds, instant Payouts and many bonuses</p>
                         </div>
                         <div className="form-group row d-flex justify-content-center mt-5">
                             <div className="col-md-12">
-                                <label>Mobile Number</label>
+                                <label style={{ color: '#ffffff' }}>Mobile Number</label>
                                 <input
                                     value={values.msisdn}
                                     className="form-control block px-3 py-3 w-full rounded-2xl std-input "
@@ -146,7 +150,7 @@ const Signup = (props) => {
 
                         <div className="form-group row d-flex justify-content-center mt-5">
                             <div className="col-md-12 relative">
-                                <label>Password</label>
+                                <label style={{ color: '#ffffff' }}>Password</label>
                                 <div className="relative">
                                     <input
                                         value={values.password}
@@ -171,7 +175,7 @@ const Signup = (props) => {
 
                         <div className="form-group row d-flex justify-content-center mt-5">
                             <div className="col-md-12 relative">
-                                <label>Repeat Password</label>
+                                <label style={{ color: '#ffffff' }}>Repeat Password</label>
                                 <div className="relative">
                                     <input
                                         value={values.password2}
@@ -197,7 +201,7 @@ const Signup = (props) => {
                         {/* refcode */}
                         <div className="form-group row d-flex justify-content-center mt-5">
                             <div className="col-md-12">
-                                <label>Promo Code</label>
+                                <label style={{ color: '#ffffff' }}>Promo Code</label>
                                 <input
                                     ref={promoCodeRef}
                                     value={values.promo_code}
@@ -222,14 +226,14 @@ const Signup = (props) => {
                                     Signup
                                 </button>
                             </div>
-                            <Link to="/login" title="Already Registered?" className='mt-4 text-2xl hover:underline'>
+                            <Link to="/login" title="Already Registered?" className='mt-4 text-2xl hover:underline' style={{ color: 'rgba(231, 6, 84, 1)' }}>
                                 <span className="font-[500]">Have an account? Login here</span>
                             </Link>
                         </div>
 
-                        <div className='disclaimer mt-5 text-center'>
+                        <div className='disclaimer mt-5 text-center' style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                             <p>
-                                By registering for an account, you agree to our <Link to={"/terms"}>Terms of Use,</Link> <Link to={"/privacy-policy"}>Privacy Policy</Link> and Responsible Gambling Policy.
+                                By registering for an account, you agree to our <Link to={"/terms"} style={{ color: 'rgba(231, 6, 84, 1)' }}>Terms of Use,</Link> <Link to={"/privacy-policy"} style={{ color: 'rgba(231, 6, 84, 1)' }}>Privacy Policy</Link> and Responsible Gambling Policy.
                             </p>
                             <p className='mt-4'>
                                 You must be 18yrs and above in order to sign up.
@@ -264,12 +268,12 @@ const Signup = (props) => {
             {
                 <React.Fragment>
                     <div className='signup-container' >
-                        <div className='col-md-12 border-b border-gray-200 page-title p-4 text-center mb-4'>
-                            <h4 className="">
+                        <div className='col-md-12 border-b page-title p-4 text-center mb-4' style={{ borderColor: 'rgba(255, 255, 255, 0.15)' }}>
+                            <h4 className="" style={{ color: '#ffffff' }}>
                                 Register
                             </h4>
                         </div>
-                        <div className='std-medium-width-block bg-white'>
+                        <div className='std-medium-width-block'>
                             <div className="col-md-12 mt-2 p-2 std-boxed-form-page"
                                 style={{}}
                             >

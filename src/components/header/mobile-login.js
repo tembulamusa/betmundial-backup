@@ -221,9 +221,13 @@ const BodyLogin = (props) => {
                             <div><Alert message={generalErrorMessage} /></div>
                         }
                         <div className='row !pr-0 px-0 !mr-0'>
-                            <div className='col-3'><button className='mt-4 btn btn-default btn-lg bg-gray-200 hover:bg-gray-300' style={{
+                            <div className='col-3'><button className='mt-4 btn btn-default btn-lg' style={{
                                 marginTop: "10px",
-                                padding: "8px 12px", fontSize: "14px"
+                                padding: "8px 12px", 
+                                fontSize: "14px",
+                                background: "#151525",
+                                color: "#ffffff",
+                                border: "1px solid rgba(255, 255, 255, 0.2)"
                             }} onClick={() => dispatch({ type: "SET", key: "showloginmodal", payload: false })}>Cancel</button></div>
                             <div className='col-9 !pr-0'>
                                 <button
@@ -237,11 +241,11 @@ const BodyLogin = (props) => {
                             </div>
                         </div>
 
-                        <div className='cursor-pointer px-0 mt-4 font-[500] hover:underline' to="/forgot-password" title="Forgot password" onClick={() => navigateAway("/forgot-password")}>
+                        <div className='cursor-pointer px-0 mt-4 font-[500] hover:underline' to="/forgot-password" title="Forgot password" onClick={() => navigateAway("/forgot-password")} style={{ color: 'rgba(231, 6, 84, 1)' }}>
                             <span className="">Forgot Password</span>
                         </div>
                         <div className="my-5 px-0 cursor-pointer ">
-                            <div className="capitalize font-bold text-gray-500 hover:text-gray-600 hover:underline" onClick={() => navigateAway("/signup")}>
+                            <div className="capitalize font-bold hover:underline" onClick={() => navigateAway("/signup")} style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
                                 <span className="">Don't have an account? Register now!</span>
                             </div>
                         </div>

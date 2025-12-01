@@ -292,7 +292,9 @@
 }
 
 .page-title {
-    background-color: #ffffff;
+    background-color: #0f0f1f;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
 .casino-jackpot-cards {

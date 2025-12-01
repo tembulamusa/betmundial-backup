@@ -152,14 +152,25 @@ h2 {
   padding: 0px 12px;
   font-size: 14px;
   line-height: 1.6;
-  color: #ffffff;
-  background-color: #151525;
+  color: #ffffff !important;
+  background-color: #151525 !important;
   background-image: none;
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   -moz-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+input.form-control,
+input[type="text"].form-control,
+input[type="password"].form-control {
+  color: #ffffff !important;
+  background-color: #151525 !important;
 }
 
 .pro-sidebar {
@@ -886,9 +897,13 @@ input.std-input {
   /* width: calc(100% - 20px); */
   padding: 2.5px 10px;
   border-radius: 8px;
-  background: #151525;
-  color: #ffffff;
+  background: #151525 !important;
+  color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+input.std-input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 
 :disabled {
@@ -1720,6 +1735,8 @@ svg.big-offcanvas-icon {
   border-radius: 5px;
   box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
+  background: #151525 !important;
+  color: #ffffff;
 }
 
 .input-field {
@@ -1728,6 +1745,29 @@ svg.big-offcanvas-icon {
 
 label {
   text-transform: capitalize;
+  color: #ffffff;
+}
+
+.modal-label {
+  color: #ffffff;
+}
+
+.signup-container {
+  background: #0f0f1f;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.alert-warning {
+  background-color: rgba(255, 193, 7, 0.2);
+  border-color: rgba(255, 193, 7, 0.5);
+  color: #ffc107;
+}
+
+.alert-danger {
+  background-color: rgba(220, 53, 69, 0.2);
+  border-color: rgba(220, 53, 69, 0.5);
+  color: #dc3545;
 }
 
 .accordion__panel {

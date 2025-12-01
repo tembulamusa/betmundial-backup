@@ -80,7 +80,7 @@ const MatchAllMarkets = (props) => {
         if (!socketIsConnected) {
             fetchPagedData();
         }
-    }, !socketIsConnected ? 3000 : null);
+    }, !socketIsConnected ? 10000 : null);
 
     useEffect(() => {
 
