@@ -350,6 +350,8 @@ li.bet-option {}
 
 .bet-odd {
   float: right;
+  font-weight: bold;
+  color: rgba(255, 215, 0);
 }
 
 .bet-type {
