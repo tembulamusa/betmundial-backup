@@ -25,7 +25,10 @@ const Signup = (props) => {
 
     useEffect(() => {
         dispatch({ type: "SET", key: "fullpagewidth", payload: true });
-    }, [dispatch]);
+        return () => {
+            dispatch({ type: "DEL", key: "fullpagewidth" });
+        };
+    }, []);
 
     const initialValues = {
         msisdn: '',

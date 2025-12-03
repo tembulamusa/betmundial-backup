@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../context/store';
 
 const BodyLogin = React.lazy(() => import('../header/mobile-login'));
@@ -8,7 +8,10 @@ const Login = (props) => {
 
     useEffect(() => {
         dispatch({ type: "SET", key: "fullpagewidth", payload: true });
-    }, [dispatch]);
+        return () => {
+            dispatch({ type: "DEL", key: "fullpagewidth" });
+        };
+    }, []);
 
     return (
         <div className="" style={{ background: '#0f0f1f', minHeight: '100vh', color: '#ffffff' }}>
@@ -22,7 +25,7 @@ const Login = (props) => {
                                 Login
                             </h4>
                         </div>
-                        <BodyLogin/>
+                        <BodyLogin />
                     </div>
                 </div>
             </div>

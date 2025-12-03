@@ -1,9 +1,9 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
-import {Formik, Form} from 'formik';
+import { Formik, Form } from 'formik';
 import makeRequest from "../../utils/fetch-request";
 import mpesa from '../../../assets/img/mpesa.png'
-import {Context} from '../../../context/store';
+import { Context } from '../../../context/store';
 import Notify from '../../utils/Notify';
 import Accordion from 'react-bootstrap/Accordion';
 import '../../../assets/css/accordion.react.css';
@@ -26,50 +26,50 @@ const Deposit = (props) => {
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const user = getFromLocalStorage("user");
-    
+
     const initialValues = {
         amount: '',
         msisdn: user?.msisdn || ''
-        
+
     }
 
     useEffect(() => {
-        dispatch({type:"SET", key:"nosidebar", payload:true})
+        dispatch({ type: "SET", key: "fullpagewidth", payload: true });
         return () => {
-            dispatch({type:"DEL", key:"nosidebar"})
-        }
-    }, [])
+            dispatch({ type: "DEL", key: "fullpagewidth" });
+        };
+    }, []);
 
-    
+
     const handleSubmit = values => {
         let endpoint = 'v2/deposits/stk/new';
         setIsLoading(true);
         setMessage(null);
         setSuccess(false)
         const requestData = {
-            ...values, 
-            app_name: app 
+            ...values,
+            app_name: app
         };
-    
+
         makeRequest({ url: endpoint, method: 'POST', data: requestData, api_version: 3 })
             .then(([status, response]) => {
-            dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
-            if(status == 200) {
-                setSuccess(true)
-                setMessage({status: 200, message: "Check your phone and enter pin to complete deposit"});
-                const pollBalID = setInterval(function(){
-                    dispatch({type:"SET", key:"toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true}) 
-                }, 7000);
-                const removePoll = setTimeout(() => {clearInterval(pollBalID)}, 60000)
-            } else {
-                setMessage({status: 400, message: "STK not Available. Click to deposit directly"})
-                Notify({status: 400, message:"Error making a deposit. Seek customer care support"})
-            }
-            setIsLoading(false)
-        })
+                dispatch({ type: "SET", key: "toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true })
+                if (status == 200) {
+                    setSuccess(true)
+                    setMessage({ status: 200, message: "Check your phone and enter pin to complete deposit" });
+                    const pollBalID = setInterval(function () {
+                        dispatch({ type: "SET", key: "toggleuserbalance", payload: state?.toggleuserbalance ? !state?.toggleuserbalance : true })
+                    }, 7000);
+                    const removePoll = setTimeout(() => { clearInterval(pollBalID) }, 60000)
+                } else {
+                    setMessage({ status: 400, message: "STK not Available. Click to deposit directly" })
+                    Notify({ status: 400, message: "Error making a deposit. Seek customer care support" })
+                }
+                setIsLoading(false)
+            })
     }
 
-    
+
 
     const validate = values => {
 
@@ -84,12 +84,12 @@ const Deposit = (props) => {
         }
         return errors
     }
-        
-    
-    
 
-        // Upon loading this page call the function that polls for balance every 3 seconds and then stops after 1 minute
-        
+
+
+
+    // Upon loading this page call the function that polls for balance every 3 seconds and then stops after 1 minute
+
 
     const FormTitle = () => {
         return (
@@ -103,18 +103,18 @@ const Deposit = (props) => {
 
 
     const DepositFormFields = (props) => {
-        const {values, errors, onFieldChanged} = props;
+        const { values, errors, onFieldChanged } = props;
 
         return (
             <>
-                
+
                 <div className="form-group row d-flex justify-content-center mt-4">
-                    
+
                     <div className="row">
-                        {message && 
-                        <div className='mt-3 font-bold'>
-                            <Link to={"#pay-via-mobile"}><Alert/></Link>
-                        </div> }
+                        {message &&
+                            <div className='mt-3 font-bold'>
+                                <Link to={"#pay-via-mobile"}><Alert /></Link>
+                            </div>}
                         <input
                             onChange={ev => onFieldChanged(ev)}
                             style={{}}
@@ -137,7 +137,7 @@ const Deposit = (props) => {
                             placeholder='Enter Amount'
                         />
                         {errors.amount && <div className='text-danger'> {errors.amount} </div>}
-                        
+
                         <button
                             disabled={isLoading}
                             style={{}}
@@ -153,8 +153,8 @@ const Deposit = (props) => {
 
     const PaymentInstructions = (props) => {
         return (
-            <>               
-                <hr className='my-3'/>
+            <>
+                <hr className='my-3' />
                 <div className='' id='pay-via-mobile'>
                     <h2 className='text-2x text-gray-700 font-[500] mb-3 '>Direct Mpesa Deposit</h2>
                     <div className="row">
@@ -167,7 +167,7 @@ const Deposit = (props) => {
                         <div className="col"> 3. Enter Paybill number: <span className='text-2x font-bold'>599488</span></div>
                     </div>
                     <div className="row">
-                        <div className="col"> 4. Account Number: 
+                        <div className="col"> 4. Account Number:
                             <span className='text-2x font-bold'>Enter your phone number</span>
                         </div>
                     </div>
@@ -184,7 +184,7 @@ const Deposit = (props) => {
         );
     }
     const MyDepositForm = (props) => {
-        const {errors, values, setFieldValue} = props;
+        const { errors, values, setFieldValue } = props;
 
         const onFieldChanged = (ev) => {
             let field = ev.target.name;
@@ -195,10 +195,10 @@ const Deposit = (props) => {
         const DepositSelfService = (props) => {
 
             return (
-                <div className='cursor-pointer opacity-80 hover:opacity-100' 
-                    onClick={() => dispatch({type:"SET", key:"showcheckmpesadepositstatus", payload:true})}>
+                <div className='cursor-pointer opacity-80 hover:opacity-100'
+                    onClick={() => dispatch({ type: "SET", key: "showcheckmpesadepositstatus", payload: true })}>
                     <div className='flex'>
-                        <GoAlertFill className='text-3xl mr-4 align-middle' size={30}/>
+                        <GoAlertFill className='text-3xl mr-4 align-middle' size={30} />
                         <div className=''>
                             <div className='font-bold'>Missing Deposit</div>
                             <div className='block font-[500] opacity-70'>
@@ -219,22 +219,22 @@ const Deposit = (props) => {
                     <div className="pt-0">
                         <div className="row px-3">
                             <div className='text-center'>
-                                <img src={mpesa} alt=""/>
+                                <img src={mpesa} alt="" />
                             </div>
 
-                           
+
                         </div>
-                        <hr className='my-2'/>
+                        <hr className='my-2' />
                         <div className='row'>
                             <div className=''>
-                                <DepositFormFields onFieldChanged={onFieldChanged} values={values} errors={errors}/>
-                                
+                                <DepositFormFields onFieldChanged={onFieldChanged} values={values} errors={errors} />
+
                                 <div className='my-3'><DepositSelfService /></div>
 
-                                <Accordion 
-                                className="accordion mt-4"
-                                defaultActiveKey={0}
-                                allowMultipleExpanded={false}
+                                <Accordion
+                                    className="accordion mt-4"
+                                    defaultActiveKey={0}
+                                    allowMultipleExpanded={false}
                                 // uuid = {}
                                 >
                                     <Accordion.Item eventKey={0}>
@@ -242,7 +242,7 @@ const Deposit = (props) => {
                                             <span className='capitalize'>Deposit via paybill number (599488)</span>
                                         </Accordion.Header>
                                         <Accordion.Body>
-                                            <PaymentInstructions/> 
+                                            <PaymentInstructions />
                                         </Accordion.Body>
                                     </Accordion.Item>
                                 </Accordion>
@@ -263,7 +263,7 @@ const Deposit = (props) => {
                 validateOnChange={false}
                 validateOnBlur={false}
                 validate={validate}
-                render={(props) => <MyDepositForm {...props} />}/>
+                render={(props) => <MyDepositForm {...props} />} />
         );
     }
 
@@ -271,11 +271,11 @@ const Deposit = (props) => {
         let c = success ? 'success' : 'danger';
         return (
             <>
-                {message && 
+                {message &&
                     <div role="alert" className={`rounded-md fade alert alert-${c} show`}>
                         {message?.message}
                     </div>
-                } 
+                }
             </>
         );
 
@@ -283,10 +283,10 @@ const Deposit = (props) => {
 
     return (
         <div className="homepage">
-            <FormTitle/>
+            <FormTitle />
             <div className="col-md-12 mt-2  p-2">
                 <div className="pb-0" data-backdrop="static">
-                    <DepositForm/>
+                    <DepositForm />
                 </div>
             </div>
         </div>
