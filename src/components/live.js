@@ -49,7 +49,7 @@ const Live = (props) => {
 
     useEffect(() => {
         handleGameSocket("listen");
-        socket.on(`betmundial#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
+        socket.on(`socket-io#live-match-page#${state?.selectedLivesport?.betradar_sport_id || 1}`, (data) => {
             setMatches((preveMatches) => {
                 let odds = {}
                 let selectedSport = state?.selectedLivesport ? state?.selectedLivesport?.betradar_sport_id : 1
@@ -100,12 +100,12 @@ const Live = (props) => {
             + (`${state?.selectedLivesport && state?.selectedLivesport?.sport_name?.toLowerCase() !== "soccer" ? "/"
                 + state?.selectedLivesport?.default_market : ""}`) + "?page=" + (page || 1) + `&size=${limit || 200}`;
         let method = "GET";
-        
+
         // Only set loading state on first load to avoid flickers
         if (isFirstLoad.current) {
             setFetching(true);
         }
-        
+
         makeRequest({ url: endpoint, method: method, api_version: 2 }).then(([status, result]) => {
             if (isFirstLoad.current) {
                 setFetching(false);

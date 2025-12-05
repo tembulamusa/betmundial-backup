@@ -230,7 +230,7 @@ const MoreMarketsHeaderRow = (props) => {
     const [matchStatus, setMatchStatus] = useState("");
     // repeated functions should be refactored
     const socketRef = useRef(socket);
-    const socketEvent = useMemo(() => `betmundial#${match?.parent_match_id}`, [match]);
+    const socketEvent = useMemo(() => `socket-io#${match?.parent_match_id}`, [match]);
     const navigate = useNavigate();
 
     const updateMatchTimeMinutesAndSeconds = (match_time) => {
@@ -563,7 +563,7 @@ const MarketRow = (props) => {
     }, [markets]);
 
     const socketRef = useRef(socket);
-    const socketEvent = useMemo(() => `betmundial#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
+    const socketEvent = useMemo(() => `socket-io#${match?.parent_match_id}#${marketDetail.sub_type_id}`, [match, marketDetail]);
 
     const handleGameSocket = useCallback((type, gameId, sub_type_id) => {
         if (type === "listen" && socketRef.current?.connected) {
@@ -799,7 +799,7 @@ const MatchMarket = (props) => {
     useEffect(() => {
         if (socket.connected) {
             handleGameSocket("listen", match?.parent_match_id);
-            socket?.on(`betmundial#${match?.parent_match_id}#${marketId}`, (data) => {
+            socket?.on(`socket-io#${match?.parent_match_id}#${marketId}`, (data) => {
                 if (data.match_market.special_bet_value == special_bet_value) {
                     if (Object.keys(data.event_odds).length > 0) {
                         setOutcomes((prev) => {
@@ -926,7 +926,7 @@ const MatchRow = (props) => {
     useEffect(() => {
         updateMatchTimeMinutesAndSeconds(match?.match_time);
         socket.emit('user.match.listen', match?.parent_match_id);
-        socket.on(`betmundial#${match?.parent_match_id}`, (data) => {
+        socket.on(`socket-io#${match?.parent_match_id}`, (data) => {
             if (data.message_type == "betstop") {
                 if (data.markets == "all") {
                     setMatch((prevMatch) => {

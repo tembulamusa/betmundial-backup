@@ -89,7 +89,7 @@ const MatchAllMarkets = (props) => {
         if (matchwithmarkets) {
             handleGameSocket("listen")
         }
-        socket.on(`betmundial#${matchwithmarkets?.parent_match_id}`, (data) => {
+        socket.on(`socket-io#${matchwithmarkets?.parent_match_id}`, (data) => {
             if (data.message_type == "betstop") {
                 setBetstopMessage(data);
             } else {
