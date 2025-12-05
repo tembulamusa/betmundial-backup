@@ -344,7 +344,7 @@ aside[class*="ps-sidebar-root"],
   width: 100%;
   align-items: center;
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255);
+  background-color: rgba(0, 0, 0, 0.1);
   padding: 1rem;
   font-weight: 500;
 }
@@ -683,7 +683,11 @@ aside[class*="ps-sidebar-root"],
 }
 
 tr.my-bets {
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+tr.my-bets:last-child {
+  border-bottom: 2px solid rgba(255, 255, 255, 0);
 }
 
 tr.my-bets td {
@@ -1694,7 +1698,7 @@ svg.big-offcanvas-icon {
 }
 
 .ps-menu-button.ps-open {
-  background: #0f1a3f !important;
+  background: rgba(231, 6, 84, 0.958) !important;
   color: white !important;
 }
 
@@ -1704,9 +1708,33 @@ svg.big-offcanvas-icon {
   margin-bottom: 0 !important;
 }
 
+.betslip-header.bg-secondary {
+  background: rgba(231, 6, 84, 0.958) !important;
+}
+
 .header-menu li.active,
 .header-menu li:hover {
   opacity: 1;
+}
+
+.accordion-item {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: var(--bs-accordion-border-width) solid rgba(255, 255, 255, 0.1);
+}
+
+.accordion-button:not(.collapsed) {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: inherit;
+  box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 rgba(255, 255, 255, 255, 0.3);
+}
+
+.table>:not(caption)>*>* {
+  padding: .5rem .5rem;
+  color: rgba(255, 255, 255, 0.75);
+  background-color: var(--bs-table-bg);
+  border-bottom-width: var(--bs-border-width);
+  box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)));
 }
 
 .red-bg {

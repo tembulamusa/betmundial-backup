@@ -33,13 +33,6 @@ const Deposit = (props) => {
 
     }
 
-    useEffect(() => {
-        dispatch({ type: "SET", key: "fullpagewidth", payload: true });
-        return () => {
-            dispatch({ type: "DEL", key: "fullpagewidth" });
-        };
-    }, []);
-
 
     const handleSubmit = values => {
         let endpoint = 'v2/deposits/stk/new';

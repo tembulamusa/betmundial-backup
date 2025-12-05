@@ -37,7 +37,7 @@ const ProSidebar = (props) => {
     const [competitions, setCompetitions] = useState(null);
     const [focusSportId, setFocusSportId] = useState(null);
     // const []
-    const excludeSidebar = ["/login", "/signup", '/withdraw', "/deposit", '/livescore']
+    const excludeSidebar = ["/login", "/signup", '/livescore']
     const navigate = useNavigate()
 
     useEffect(() => {

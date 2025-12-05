@@ -19,12 +19,6 @@ const Withdrawal = (props) => {
     }
 
 
-    useEffect(() => {
-        dispatch({ type: "SET", key: "fullpagewidth", payload: true });
-        return () => {
-            dispatch({ type: "DEL", key: "fullpagewidth" });
-        };
-    }, []);
     const handleSubmit = values => {
         let endpoint = 'v2/withdrawals/new';
         let data = { msisdn: user?.msisdn, amount: values?.amount }
