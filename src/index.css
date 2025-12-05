@@ -131,7 +131,7 @@ code {
 }
 
 .bg-primary {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   font-weight: 500;
   text-transform: capitalize;
   font-size: 20px;
@@ -690,6 +690,30 @@ tr.my-bets:last-child {
   border-bottom: 2px solid rgba(255, 255, 255, 0);
 }
 
+.offcanvas.offcanvas-end {
+  top: 0;
+  right: 0;
+  width: var(--bs-offcanvas-width);
+  border-left: 2px solid rgba(255, 255, 255, 0.1) !important;
+  transform: translateX(100%);
+}
+
+.header-account .cd a:hover,
+.header-account .cd div:hover,
+.header-account .cd-l:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  transition: all ease-in 0.2s;
+  -moz-transition: all ease-in 0.2s;
+  -webkit-transition: all ease-in 0.2s;
+}
+
+.header-account .cd-l {
+  transition: all ease-in 0.2s;
+  -moz-transition: all ease-in 0.2s;
+  -webkit-transition: all ease-in 0.2s;
+}
+
 tr.my-bets td {
   background: rgba(0, 0, 0, 0.042) !important;
 }
@@ -982,6 +1006,31 @@ input.std-input::placeholder {
   transition: all ease-in 0.4s;
   -moz-transition: all ease-in 0.4s;
   -webkit-transition: all ease-in 0.4s;
+}
+
+.accordion__button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  border-radius: 2px !important;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  margin-bottom: 3px;
+}
+
+.accordion__button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.accordion__panel {
+  padding: 20px;
+  animation: fadein 0.35s ease-in;
+  background: rgba(255, 255, 255, 0.04);
+  margin-top: -5px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  margin-bottom: 4px;
 }
 
 .jackpot-zero-top {
