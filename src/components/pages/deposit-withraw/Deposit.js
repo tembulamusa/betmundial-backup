@@ -86,7 +86,7 @@ const Deposit = (props) => {
 
     const FormTitle = () => {
         return (
-            <div className='p-4 text-center border-b border-gray-200'>
+            <div className='p-4 text-center border-b bg-primary'>
                 <h4 className="!uppercase">
                     Deposit Funds (Mobile money)
                 </h4>
@@ -134,7 +134,7 @@ const Deposit = (props) => {
                         <button
                             disabled={isLoading}
                             style={{}}
-                            className='btn btn-lg btn-primary bg-primary deposit-withdraw-butto font-[500]'>
+                            className='btn btn-lg btn-primary mt-3 col-md-12 deposit-withdraw-button'>
                             {isLoading ? "wait..." : "Deposit"}
                         </button>
                     </div>

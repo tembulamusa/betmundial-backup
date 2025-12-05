@@ -10754,7 +10754,7 @@ button.close {
         -moz-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         border-radius: 5px !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 
     .rq {
@@ -15667,13 +15667,13 @@ li a.live-game:hover {
     border: none;
     font-size: 14px;
     text-transform: uppercase;
-    background: #4d4093;
+    background: #109121 !important;
     width: 100% !important;
+    border: rgba(255, 255, 255, 0.3);
 }
 
 .deposit-withdraw-button:hover {
-
-    background: #4d4093;
+    background: #1fac32 !important;
 }
 
 .input-square {

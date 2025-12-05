@@ -16,7 +16,6 @@ import './assets/css/surebox.css';
 import './assets/css/skip-rope.css';
 import './assets/css/jumprope.css';
 import './assets/css/casino.css';
-import './index.css';
 import 'react-toastify/dist/ReactToastify.css'
 import Store from './context/store';
 import Index from './components/index';
@@ -65,6 +64,7 @@ import ReactGA from "react-ga4";
 import PageviewTracker from "./components/utils/pageview-tracker";
 import { PromoTracker } from "./promo-tracker";
 import PromoWins from "./components/pages/promo-wins";
+import './index.css';
 
 const container = document.getElementById("app");
 

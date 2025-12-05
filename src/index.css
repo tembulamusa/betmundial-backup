@@ -138,6 +138,12 @@ code {
   margin-bottom: 15px;
 }
 
+.btn.bg-primary {
+  background: rgba(231, 6, 84, 0.958) !important;
+  border: 1px solid rgba(255, 255, 255, 0.31) !important;
+  color: #ffffff;
+}
+
 h5,
 h4,
 h3,
@@ -1029,7 +1035,7 @@ input.std-input::placeholder {
   animation: fadein 0.35s ease-in;
   background: rgba(255, 255, 255, 0.04);
   margin-top: -5px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
   margin-bottom: 4px;
 }
 
@@ -1528,15 +1534,23 @@ h1.std-title {
 }
 
 .btn-default {
-  background: #dddddd;
+  background: rgba(255, 255, 255, 0.21);
+  opacity: 1;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
 
 .popover-login-modal .modal-header {
   background: #0a0a15;
   box-shadow: 0 0 5px -1px rgba(0, 0, 0, .43);
   -webkit-box-shadow: 0 0 5px -1px rgba(0, 0, 0, .43);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.072);
   color: #ffffff;
+}
+
+.border-gray-200 {
+  border-color: rgba(255, 255, 255, 0.0315) !important;
+  background: rgba(255, 255, 255, 0.051);
 }
 
 .std-carousel-image {
