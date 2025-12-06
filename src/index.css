@@ -2142,7 +2142,8 @@ button.locked-button:hover {
 }
 
 .inactive-odds-btn {
-  background: #cccccc !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #FFC428 !important;
 }
 
 .inactive-odds-btn .et.label {

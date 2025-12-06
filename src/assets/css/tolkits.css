@@ -873,7 +873,7 @@ li a,
     font-size: 12px;
     font-family: inherit;
     text-transform: uppercase;
-    padding-left: 0;
+    /* padding-left: 0; */
 }
 
 .match-header {

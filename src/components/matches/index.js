@@ -82,7 +82,7 @@ const EmptyTextRow = (props) => {
             {odd_key && <span className="et label btn-disabled ">{odd_key}</span>}
             <span className="label label-inverse">
                 <LazyLoadImage
-                    style={{ opacity: "0.3", width: "15px" }}
+                    style={{ width: "15px" }}
                     src={padlock}
                     effect="blur"
                     alt="--" />
