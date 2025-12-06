@@ -600,7 +600,7 @@ aside[class*="ps-sidebar-root"],
 }
 
 .no-events-div {
-  background: #2a2a3e;
+  background: rgb(21, 21, 37);
   border: 2px dashed rgba(255, 255, 255, 0.2);
   font-weight: 700;
   color: #ffffff;
@@ -1549,8 +1549,8 @@ h1.std-title {
 }
 
 .border-gray-200 {
-  border-color: rgba(255, 255, 255, 0.0315) !important;
-  background: rgba(255, 255, 255, 0.051);
+  border-color: rgba(255, 255, 255, 0.1315) !important;
+  background: rgb(21, 21, 37);
 }
 
 .std-carousel-image {

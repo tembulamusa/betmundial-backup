@@ -304,7 +304,7 @@ const SideBets = (props) => {
 
     const openLiveStats = (parent_match_id) => {
 
-        window.open(`https://s5dev.sir.sportradar.com/risecommts/en/1/season/118703/team/${match?.parent_match_id}`, 'sportradderwindow', 'width=648,height=700');
+        window.open(`https://s5dev.sir.sportradar.com/BetMundialmts/en/1/season/118703/team/${match?.parent_match_id}`, 'sportradderwindow', 'width=648,height=700');
     }
     return (
         <div
@@ -1335,12 +1335,12 @@ export const JackpotMatchList = (props) => {
                     <MatchRow initialMatchmatch={match} jackpot key={key} jackpotstatus={matches?.status} />
                 ))
                 }
-                {!matches &&
-                    <div className="top-matches row">
-                        No events found.
-                    </div>
-                }
             </Container>
+            {!matches &&
+                <div className="top-matches row">
+                    No events found.
+                </div>
+            }
         </div>
     )
 }
@@ -1435,11 +1435,12 @@ const MatchList = (props) => {
                 {(((matches || []).length) == 0 && fetching) &&
                     <ShimmerTable row={3} />
                 }
-                {(((matches || []).length) == 0 && !fetching) &&
-                    <NoEvents message={"Matches Not Found"} />
-                }
+
 
             </Container>
+            {(((matches || []).length) == 0 && !fetching) &&
+                <NoEvents message={"Matches Not Found"} />
+            }
         </div>
     )
 }

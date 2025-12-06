@@ -17,9 +17,9 @@ const Footer = (props) => {
                             BOX 2772 - 00606, NAIROBI
                         </li>
                         <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <a target='_blank' href="mailto:info@risecombiz.com" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <a target='_blank' href="mailto:info@BetMundialbiz.com" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <FaEnvelope className="icon" />
-                                <span>info@risecombiz.com</span>
+                                <span>info@BetMundialbiz.com</span>
                             </a>
                         </li>
                         <li className="footer-icon" style={{ display: 'flex', justifyContent: 'flex-start', gap: '15px' }}>
@@ -98,7 +98,7 @@ const Footer = (props) => {
                     <h5>LICENSING</h5>
                     <hr />
                     <p>
-                        betmundial is a Trademark of Risecom Limited. Risecom Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
+                        betmundial is a Trademark of BetMundial Limited. BetMundial Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
                     </p>
                 </div>
             </div>
