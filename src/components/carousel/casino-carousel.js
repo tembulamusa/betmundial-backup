@@ -3,8 +3,8 @@ import Carousel from "react-bootstrap/Carousel";
 import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "../utils/local-storage";
 
-import Two from "../../assets/img/casino/carousel/2.png";
-import Nine from "../../assets/img/casino/carousel/9.png";
+import Two from "../../assets/img/casino/carousel/2.jpg";
+import Nine from "../../assets/img/casino/carousel/9.jpg";
 import Ten from "../../assets/img/casino/carousel/10.png";
 import Eleven from "../../assets/img/casino/carousel/11.png";
 import Thirteen from "../../assets/img/casino/carousel/13.jpg";
