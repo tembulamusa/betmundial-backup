@@ -68,7 +68,7 @@ const CasinoJackpots = () => {
 
   return (
     <section className="p-6 bg-primary text-white w-full">
-      <h2 className="text-left text-3xl text-custom-orange font-bold mb-4">Casino Jackpots</h2>
+      <h2 className="text-left text-3xl text-custom-orange ">Casino Jackpots</h2>
       <div className="relative flex justify-center items-center w-full">
         {/* Navigation Arrows on Mobile */}
         {/* <button

@@ -83,9 +83,9 @@ const CasinoGame = (props) => {
                 style={{}}
                 className="game-image-wrapper"
                 key={game.game_id}>
-                <LazyLoadImage 
+                <LazyLoadImage
                     alt={game.game_url}
-                    id={game?.game_id} 
+                    id={game?.game_id}
                     src={getCasinoImageIcon(game.image_url)}
                     className={'virtual-game-image'} />
 
@@ -112,7 +112,7 @@ const CasinoGame = (props) => {
                     </div>
                 }
             </div>
-            <p className={'py-2 font-[500] text-elipsis text-gray-700'}>{game?.game_name}</p>
+            <p className={'py-2 font-[500] text-elipsis text-white'}>{game?.game_name}</p>
             <div className="game-buttons">
                 <Button className="casino-play-btn red-bg casino-cta"
                     onClick={() => launchGame(game, 1)}>

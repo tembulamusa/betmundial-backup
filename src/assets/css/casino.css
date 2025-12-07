@@ -70,7 +70,7 @@
 }
 
 .casino-category-header {
-    background: #24367e;
+    background: rgb(21, 21, 37);
     margin-bottom: 5px;
     /* box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
     /* -moz-box-shadow: 0 2px 0px rgba(0,0,0,0.12); */
@@ -123,7 +123,7 @@
     padding-bottom: 8px !important;
     border-radius: 0;
     padding-top: 8px !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.0515);
 }
 
 .casino-list-block ul li:last-child {
@@ -134,10 +134,10 @@
 
 .casino-list-block ul li:hover,
 .casino-list-block ul li.active {
-    background-color: rgba(231, 6, 84, 0.2);
+    background-color: rgba(231, 6, 84, 0.958) !important;
     color: #ffffff;
     /* transition: all ease-in-out 0.3s; */
-    /* padding-left: 10px; */
+    padding-left: 8px;
 }
 
 .launched-casino-wrapper {
@@ -198,6 +198,9 @@
     top: -4px;
     left: 3%;
     right: auto;
+    background: rgba(255, 0, 0, 0.8);
+    color: #ffffff;
+    padding: 6px;
 }
 
 .casino-sidebar-items {
