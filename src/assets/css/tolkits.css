@@ -287,11 +287,11 @@ li a,
 
 .accordion-button {
     outline: none;
-    border: thin solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.1) !important;
+    border: thin solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.05) !important;
     padding: 14px;
     font-size: 14px;
-    /* color: whitesmoke; */
+    color: rgba(255, 255, 255, 0.8);
     /* border-bottom: thin solid white; */
 }
 
