@@ -6,7 +6,7 @@ import { getFromLocalStorage } from "../utils/local-storage";
 import Two from "../../assets/img/casino/carousel/2.jpg";
 import Nine from "../../assets/img/casino/carousel/9.jpg";
 import Ten from "../../assets/img/casino/carousel/10.png";
-import Eleven from "../../assets/img/casino/carousel/11.png";
+import Eleven from "../../assets/img/casino/carousel/11.jpg";
 import Thirteen from "../../assets/img/casino/carousel/13.jpg";
 import Fourteen from "../../assets/img/casino/carousel/14.png";
 import Fifteen from "../../assets/img/casino/carousel/15.png";
