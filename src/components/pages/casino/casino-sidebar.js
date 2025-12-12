@@ -63,7 +63,7 @@ const CasinoSidebar = (props) => {
                     <ul className="casino-sidebar-items">
                         <li key={"all-" + 24}
                             className={`cursor-pointer menu-item capitalize`}
-                            onClick={() => filterGames("all", "all")}>
+                            onClick={() => filterGames("all", "")}>
                             <img src={getSportImageIcon('home')} className="casino-icon inline-block" alt="" />{"All games"}
                         </li>
                         <li key={"popular-" + 53}
@@ -106,7 +106,7 @@ const CasinoSidebar = (props) => {
     }
     return (
         <div className="casino-sidebar ml-2 mt-4">
-            <h1 className="mb-2 bg-dark-bg-secondary pt-2 pb-3  text-4xl px-3 text-white font-[600] border-b" style={{borderColor: 'rgba(255, 255, 255, 0.15)'}}>Casino</h1>
+            <h1 className="mb-2 bg-dark-bg-secondary pt-2 pb-3  text-4xl px-3 text-white font-[600] border-b" style={{ borderColor: 'rgba(255, 255, 255, 0.15)' }}>Casino</h1>
             <CasinoCategories />
         </div>
     )

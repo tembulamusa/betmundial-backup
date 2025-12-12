@@ -170,7 +170,7 @@ const Header = (props) => {
 
                         <div className="e col-md-5 col-sm-6 logo align-self-start  items-center" title="betmundial">
                             <a className="mt-2 inline-block" href="/" style={{ display: "inline-block" }}>
-                                <img src={logo} alt="betmundial" title="betmundial" effects="blur" />
+                                <img src={logo} alt="betmundial" title="betmundial" effects="blur" style={{ width: "100%", height: "auto" }} />
                             </a>
                         </div>
 

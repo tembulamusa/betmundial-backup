@@ -19,7 +19,7 @@ const banners = [
     { src: Ten, link: "/casino-game/aviatrix/aviatrix/sure-popular", requiresAuth: true },
     { src: Eleven, link: "/surecoin", requiresAuth: false },
     { src: Thirteen, link: "/casino", requiresAuth: false },
-    { src: Fourteen, link: "/casino-game/eurovirtuals/virtual-league", requiresAuth: true },
+    // { src: Fourteen, link: "/casino-game/eurovirtuals/virtual-league", requiresAuth: true },
     { src: Sixteen, link: null, requiresAuth: false }, 
 ];
 
