@@ -2,6 +2,8 @@ import karibuBonus from "../../../assets/img/banner/products/Welcome-Bonus.png";
 import MshipiBonusImg from "../../../assets/img/banner/products/Mshipi-Bonus.png";
 import hundredPercentDepositBonus from "../../../assets/img/banner/products/Deposit-Bonus.png";
 import earlyBirdDailyDepositBonus from "../../../assets/img/banner/products/Deposit-Bonus.png";
+import cashbackBonus from "../../../assets/img/banner/products/CashBack.png";
+import freebetBonus from "../../../assets/img/banner/products/freebet.png";
 
 export const promoData = [
   {
@@ -25,7 +27,7 @@ export const promoData = [
   },
   {
     title: "Multibet Refund Bonus",
-    image: hundredPercentDepositBonus,
+    image: cashbackBonus,
     description: `
       Get more chances to win with the Multibet Refund Bonus. Place multi-bets and get a refund if one match loses!
     `,
@@ -41,23 +43,23 @@ export const promoData = [
       - Free bets cannot be used in conjunction with other promotions.
     `
   },
-  {
-    title: "Bet bila Bundles",
-    image: MshipiBonusImg,
-    description: `
-      Access Betmundial's website for free with Safaricom data bundles. This offer only applies when using Safaricom mobile network and excludes live streaming.
-    `,
-    details: `
-      - Only available for Safaricom users.
-      - Does not apply to Safaricom Home Fibre or any charges for other Betmundial services.
-      - Misuse of the promotion may lead to suspension or blocking of the service.
-    `,
-    termsAndConditions: `
-      - Betmundial reserves the right to alter or discontinue the offer.
-      - The service is provided "as is" without warranties of any kind.
-      - Additional terms apply from Betmundial's Privacy Policy.
-    `
-  },
+  // {
+  //   title: "Bet bila Bundles",
+  //   image: MshipiBonusImg,
+  //   description: `
+  //     Access Betmundial's website for free with Safaricom data bundles. This offer only applies when using Safaricom mobile network and excludes live streaming.
+  //   `,
+  //   details: `
+  //     - Only available for Safaricom users.
+  //     - Does not apply to Safaricom Home Fibre or any charges for other Betmundial services.
+  //     - Misuse of the promotion may lead to suspension or blocking of the service.
+  //   `,
+  //   termsAndConditions: `
+  //     - Betmundial reserves the right to alter or discontinue the offer.
+  //     - The service is provided "as is" without warranties of any kind.
+  //     - Additional terms apply from Betmundial's Privacy Policy.
+  //   `
+  // },
   {
     title: "Form Fridays",
     image: earlyBirdDailyDepositBonus,
@@ -77,7 +79,7 @@ export const promoData = [
   },
   {
     title: "Money Back",
-    image: karibuBonus,
+    image: cashbackBonus,
     description: `
       Get up to 100x your stake back on multi-bets if one match loses. The higher your odds, the greater your potential refund!
     `,
@@ -94,22 +96,22 @@ export const promoData = [
       - Online customers only.
     `
   },
-  {
-    title: "Quiz Bet",
-    image: hundredPercentDepositBonus,
-    description: `
-      Build your bet by answering questions in the Quiz Bet feature. Skip questions, choose your stake, and check your potential win before placing the bet.
-    `,
-    details: `
-      - Answer questions and each answer becomes part of your bet.
-      - The bet outcome is based on regular match time and injury time.
-      - Overtime or penalty shootouts do not affect the outcome unless otherwise stated.
-    `,
-    termsAndConditions: `
-      - Valid only for football markets.
-      - Terms and conditions apply.
-    `
-  },
+  // {
+  //   title: "Quiz Bet",
+  //   image: hundredPercentDepositBonus,
+  //   description: `
+  //     Build your bet by answering questions in the Quiz Bet feature. Skip questions, choose your stake, and check your potential win before placing the bet.
+  //   `,
+  //   details: `
+  //     - Answer questions and each answer becomes part of your bet.
+  //     - The bet outcome is based on regular match time and injury time.
+  //     - Overtime or penalty shootouts do not affect the outcome unless otherwise stated.
+  //   `,
+  //   termsAndConditions: `
+  //     - Valid only for football markets.
+  //     - Terms and conditions apply.
+  //   `
+  // },
   {
     title: "Deposit Promo",
     image: MshipiBonusImg,
@@ -170,7 +172,7 @@ export const promoData = [
   },
   {
     title: "Top of the Hour Cash",
-    image: earlyBirdDailyDepositBonus,
+    image: freebetBonus,
     description: `
       Last bet of the hour wins a free bet worth the net stake. 
       Valid for pre-match bets only.
@@ -184,5 +186,5 @@ export const promoData = [
       - Final decision rests with Betmundial management.
       - Bonus valid for 7 days.
     `
-  }  
+  }
 ];
