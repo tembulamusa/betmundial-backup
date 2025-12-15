@@ -94,7 +94,9 @@ const App = () => {
 
                                     <Route exact path="/casino" element={<Casino />} />
                                     <Route exact path="/casino1" element={<CasinoHome />} />
+                                    <Route exact path="/casino/:filterType" element={<Casino />} />
                                     <Route exact path="/casino/:filterType/:filterName" element={<Casino />} />
+                                    <Route exact path="/casino/:filterType/:filterName/:item" element={<Casino />} />
                                     <Route exact path="/casino-game/:provider/:gameName" element={<CasinoLaunchedGame />} />
                                     <Route exact path="/casino-game/:provider/:gameName/sure-popular" element={<CasinoLaunchedGame />} />
                                     <Route exact path="/match/live/:id" element={<MatchAllMarkets live />} />
