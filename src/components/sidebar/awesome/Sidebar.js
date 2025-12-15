@@ -234,7 +234,7 @@ const ProSidebar = (props) => {
                         zIndex: 10,
                         top: "100px"
                     }}
-                        className={`vh-100 sticky-top d-none d-md-block up col-md-2`}>
+                        className={`vh-100 sticky-top d-none d-md-block up col-md-2 pr-[12px]`}>
 
                         {!competitions &&
                             <>All Sports</>

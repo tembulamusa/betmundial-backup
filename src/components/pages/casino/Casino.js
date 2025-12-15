@@ -36,9 +36,9 @@ const Casino = (props) => {
             
         } else if (filterType === "providers") {
             if (state?.casinogamesfilter?.provider) {
-                endpoint = `provider/all-games/${state?.casinogamesfilter?.provider?.id}`;
+                endpoint = `provider/games-list/${state?.casinogamesfilter?.provider?.id}`;
             } else {
-                endpoint = `provider/all-games/n/${filterName}`;
+                endpoint = `provider/games-list/n/${filterName}`;
 
             }
         } else if (filterType == "combinedprovidercategory") {

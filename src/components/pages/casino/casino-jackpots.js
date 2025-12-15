@@ -78,7 +78,7 @@ const CasinoJackpots = () => {
           &lt;
         </button> */}
         <div className="flex w-full casino-jackpot-cards">
-          {jackpots.map((jackpot, index) => {
+          {jackpots?.map((jackpot, index) => {
             const isActive = index === currentIndex;
             const tier = tierColors[jackpot.tier] || tierColors[0];
 
