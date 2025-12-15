@@ -220,7 +220,7 @@
     /* Cover the full width */
     height: 100%;
     /* Cover the full height */
-    object-fit: cover;
+    /* object-fit: cover; */
     /* Ensure the image fits without stretching */
     object-position: center;
     /* Center the image within the container */
