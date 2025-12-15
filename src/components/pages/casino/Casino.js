@@ -23,7 +23,6 @@ const Casino = (props) => {
     const [fetching, setFetching] = useState(false);
     const loc = useLocation();
 
-
     const fetchCasinoGames = async () => {
         setFetching(true);
         let endpoint = "games-list";
