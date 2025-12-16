@@ -167,7 +167,7 @@ const Header = (props) => {
                 <div className='main-header-top w-full p-0'><div className='light-blue md:hidden text-white py-1 w-full px-3'><MobileLoggedInBals /></div>
                     <Container fluid className={'d-flex justify-content-between mobile-change'}>
 
-                        <div className="e col-md-5 col-sm-6 logo align-self-start  items-center" title="betmundial">
+                        <div className="e col-md-5 col-sm-6 logo align-self-start  items-center pl-0" title="betmundial">
                             <a className="mt-2 inline-block" href="/" style={{ display: "inline-block" }}>
                                 <img src={logo} alt="betmundial" title="betmundial" effects="blur" style={{ width: "100%", height: "auto" }} />
                             </a>
