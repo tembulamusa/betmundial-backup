@@ -10,7 +10,7 @@ const images = [
     { src: "../assets/img/popups/3.1.jpg", link: "/casino-game/smartsoft/jetx/sure-popular" },
     { src: "../assets/img/popups/4.1.jpg", link: "/casino-game/eurovirtuals/virtual-league" },
     { src: "../assets/img/popups/5.1.jpg", link: "/casino-game/pragmatic/spaceman/sure-popular" },
-    { src: "../assets/img/popups/6.1.jpg", link: "/surecoin" },
+    // { src: "../assets/img/popups/6.1.jpg", link: "/surecoin" },
 ];
 
 const loadBannerImg = (img) => {
@@ -43,15 +43,15 @@ const PopupBanner = () => {
     }, []);
 
     const handlePlayNow = () => {
-        setShow(false); 
-    
+        setShow(false);
+
         if (!user) {
             navigate(`/login?next=${encodeURIComponent(randomImage.link)}`);
         } else {
             navigate(randomImage.link, { state: { game: randomImage } });
         }
     };
-    
+
 
     return (
         <>
@@ -91,7 +91,7 @@ const PopupBanner = () => {
                                 onClick={handlePlayNow}
                                 className="play-now-button text-xl"
                             >
-                                Play 
+                                Play
                             </Button>
                         </div>
                     </Modal.Body>
