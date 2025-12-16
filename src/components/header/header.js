@@ -146,7 +146,6 @@ const Header = (props) => {
     useEffect(() => {
         try {
             socket.connect();
-
         } catch (err) {
 
         }
