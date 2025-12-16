@@ -98,7 +98,7 @@ const Footer = (props) => {
                     <h5>LICENSING</h5>
                     <hr />
                     <p>
-                        betmundial is a Trademark of BetMundial Limited. BetMundial Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. 0000738
+                        betmundial is a Trademark of BetMundial Limited. BetMundial Limited is authorized and regulated by Betting Control and Licencing Board of Kenya (BCLB) under the betting, lotteries and gaming Act, Cap 131 under Licence No. BK-0001303, PG-0001211
                     </p>
                 </div>
             </div>
