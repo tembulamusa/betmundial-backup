@@ -927,7 +927,11 @@ const MatchRow = (props) => {
 
     useEffect(() => {
         // alert(JSON.stringify(initialMatch));
+
         updateMatchTimeMinutesAndSeconds(match?.match_time);
+        if (jackpot) {
+            return;
+        }
         socket.emit('user.match.listen', match?.parent_match_id);
         socket.on(`socket-io#${match?.parent_match_id}`, (data) => {
             if (data.message_type == "betstop") {
