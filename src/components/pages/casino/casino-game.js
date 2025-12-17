@@ -112,7 +112,7 @@ const CasinoGame = (props) => {
                     </div>
                 }
             </div>
-            <p className={'py-2 font-[500] text-elipsis text-white'}>{game?.game_name}</p>
+            <p className={'py-2 font-[500] text-elipsis text-white casino-game-title-text'}>{game?.game_name}</p>
             <div className="game-buttons">
                 <Button className="casino-play-btn red-bg casino-cta"
                     onClick={() => launchGame(game, 1)}>

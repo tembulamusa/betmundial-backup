@@ -900,6 +900,13 @@ tr.my-bets td {
   text-align: right;
 }
 
+.casino-game-title-text {
+  text-transform: uppercase;
+  font-size: 12px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .btn-auto-pick {
   height: 40px;
   width: 100%;
