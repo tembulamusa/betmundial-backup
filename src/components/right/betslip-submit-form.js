@@ -335,7 +335,7 @@ const BetslipSubmitForm = (props) => {
             }, 1);
             setTotalOdds(odds);
 
-            let stake_after_tax = (stake / 115) * 100
+            let stake_after_tax = (stake / 100) * 100
             let ext = stake - stake_after_tax;
             let raw_possible_win = stake_after_tax * Float(odds);
             raw_possible_win += raw_possible_win * Float(centageInt);
@@ -536,7 +536,7 @@ const BetslipSubmitForm = (props) => {
                                         </tr>}
 
                                         <tr className="bet-win-tr hide-on-affix">
-                                            <td className='opacity-70 pb-4'> Excise Tax (15%)</td>
+                                            <td className='opacity-70 pb-4'> Excise Tax (0%)</td>
                                             <td className='text-right pb-4 pr-2'>KSH. <span id="tax">{exciseTax} </span></td>
                                         </tr>
                                     </tbody>
