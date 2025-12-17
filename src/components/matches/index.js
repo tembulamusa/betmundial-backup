@@ -556,9 +556,9 @@ const MarketRow = (props) => {
         }
 
         // computed producer down
-        const producer = producers.find(producer => producer.producer_id === marketDetail?.producer_id);
+        const producer = producers?.find?.(producer => producer.producer_id === marketDetail?.producer_id);
         if (producer) {
-            setPdown(producer.disabled);
+            setPdown(producer?.disabled);
         }
     }, [markets]);
 
@@ -778,10 +778,14 @@ const MatchMarket = (props) => {
     const [market_status, setMarketStatus] = useState(initialMatch?.odds?.[marketName]?.market_status);
 
     useEffect(() => {
+        // alert(JSON.stringify({ jackpotstatus, jackpot, outcomes }));
         let pId = initialMatch?.odds?.[marketName]?.producer_id
-        const producer = producers.find(producer => producer.producer_id === pId);
+        const producer = producers?.find?.(producer => producer.producer_id === pId);
         if (producer) {
             setPdown(producer.disabled);
+        }
+        if (jackpot && jackpotstatus == "ACTIVE") {
+            setMarketStatus("Active");
         }
     }, [])
 
@@ -921,9 +925,8 @@ const MatchRow = (props) => {
         });
     }
 
-
-
     useEffect(() => {
+        // alert(JSON.stringify(initialMatch));
         updateMatchTimeMinutesAndSeconds(match?.match_time);
         socket.emit('user.match.listen', match?.parent_match_id);
         socket.on(`socket-io#${match?.parent_match_id}`, (data) => {
@@ -1019,7 +1022,7 @@ const MatchRow = (props) => {
                             {
                                 !live
                                     ?
-                                    <>ID:  {match?.game_id} </>
+                                    <>ID: {match?.game_id} </>
                                     :
                                     <span className='text-red-500 ml-2'>
                                         {updatedMatchTime?.minutes == 90
@@ -1079,7 +1082,6 @@ const MatchRow = (props) => {
                                 </span>
                                 <span className=''>ID: {match?.game_id}</span>
                             </div>
-
                         </div>
 
 
@@ -1328,11 +1330,12 @@ export const JackpotMatchList = (props) => {
 
     return (
         <div className="matches is-jackpot-matches full-width mt-3">
-
-            <MatchHeaderRow jackpot={true} first_match={matches ? matches[0] : {}} />
+            <MatchHeaderRow jackpot={true} first_match={matches ? matches?.matches[0] : {}} />
             <Container className="web-element">
-                {matches && Object.entries(matches?.matches).map(([key, match]) => (
-                    <MatchRow initialMatchmatch={match} jackpot key={key} jackpotstatus={matches?.status} />
+                {(matches && Object.entries(matches?.matches) || [])?.map(([key, match]) => (
+                    <>
+                        <MatchRow initialMatch={match} jackpot key={key} jackpotstatus={matches?.status} />
+                    </>
                 ))
                 }
             </Container>
@@ -1373,7 +1376,7 @@ export const JackpotResultsList = (props) => {
                         <MatchRow initialMatch={match} key={key} jackpot jackpotstatus={results?.status} />
                     ))
                 ) : (
-                    <div className="top-matches row">
+                    <div className="top-matches row px-4 text-center py-3">
                         No results found.
                     </div>
                 )}

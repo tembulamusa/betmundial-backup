@@ -752,7 +752,7 @@ li a,
 }
 
 .matches {
-    width: 98%;
+    /* width: 98%; */
     margin: auto;
     border-radius: 5px;
     background: #0f0f1f !important;
@@ -2676,7 +2676,7 @@ footer a {
 }
 
 .bg-secondary {
-    background: #0f1a3f !important;
+    background: rgba(255, 255, 255, 0.025) !important;
     color: #ffffff;
 }
 
@@ -15918,12 +15918,12 @@ li a.live-game:hover {
 }
 
 .tab-content {
-    background-color: #0f0f1f;
+    background-color: rgb(21, 21, 37) !important;
     color: #ffffff;
 }
 
 .tab-pane {
-    background-color: #0f0f1f;
+    /* background-color: #0f0f1f; */
     color: #ffffff;
 }
 

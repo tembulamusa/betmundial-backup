@@ -10,7 +10,6 @@ const images = [
     { src: "../assets/img/popups/3.1.jpg", link: "/casino-game/smartsoft/jetx/sure-popular" },
     { src: "../assets/img/popups/4.1.jpg", link: "/casino-game/eurovirtuals/virtual-league" },
     { src: "../assets/img/popups/5.1.jpg", link: "/casino-game/pragmatic/spaceman/sure-popular" },
-    // { src: "../assets/img/popups/6.1.jpg", link: "/surecoin" },
 ];
 
 const loadBannerImg = (img) => {
@@ -19,7 +18,7 @@ const loadBannerImg = (img) => {
     try {
         sport_image = require(img);
     } catch (error) {
-        sport_image = require(`../assets/img/popups/6.1.jpg`);
+        sport_image = require(`../assets/img/popups/1.1.jpg`);
     }
     return sport_image
 }
