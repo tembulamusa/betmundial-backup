@@ -68,10 +68,11 @@ const Jackpot = (props) => {
         if (jackpotData) {
             let betslip;
             Object.entries(jackpotData?.matches).map(([key, match]) => {
+                // alert(JSON.stringify(match));
                 let reference = match.match_id + "_selected";
                 let pick = randomPick(1, 3);
-                let pickedValue = (pick == 1 ? match.home_team : (pick == 2 ? 'draw' : match.away_team));
-                let oddValue = (pick == 1 ? Float(match.odds["1x2"][0].odd_value, 2) : (pick == 2 ? Float(match.odds["1x2"][1].odd_value, 2) : Float(match.odds["1x2"][2].odd_value, 2)));
+                let pickedValue = (pick == 1 ? match.home_team : (pick == 2 ? 'draw' : match?.away_team));
+                let oddValue = (pick == 1 ? Float(match.odds["1x2"]['outcomes'][0].odd_value, 2) : (pick == 2 ? Float(match.odds["1x2"]['outcomes'][1].odd_value, 2) : Float(match.odds["1x2"]['outcomes'][2].odd_value, 2)));
                 let cstm = clean(match.match_id + "" + 1 + pickedValue);
                 let slip = {
                     "match_id": match.match_id,
