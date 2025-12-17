@@ -26,12 +26,12 @@ const ClipboardCopy = ({ copyText }) => {
   return (
     <div className="row">
       <div className="col-10 ">
-          <input type="text" className="disabled form-control std-input" style={{width:"100%"}} value={copyText} readOnly />
+        <input type="text" className="disabled form-control std-input" style={{ width: "100%" }} value={copyText} readOnly />
       </div>
       <div className="col-2">
-          <button onClick={handleCopyClick} style = {{background:"#0c3c5a", color:"#fff", padding: "2px 10px"}}>
-            <span>{isCopied ? 'Copied!' : 'Copy'}</span>
-          </button>
+        <button onClick={handleCopyClick} style={{ background: "rgba(231, 6, 84, 0.958)", color: "#fff", padding: "2px 10px" }}>
+          <span>{isCopied ? 'Copied!' : 'Copy'}</span>
+        </button>
       </div>
     </div>
   );

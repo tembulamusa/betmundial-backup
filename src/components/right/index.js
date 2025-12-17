@@ -9,7 +9,7 @@ import Float from "../utils/mathematical-formulas";
 import MiniGames from './mini-games';
 import { Modal } from 'react-bootstrap';
 import makeRequest from '../utils/fetch-request';
-import { removeItem, setLocalStorage } from '../utils/local-storage';
+import { removeItem, setLocalStorage, getFromLocalStorage } from '../utils/local-storage';
 import { type } from '@testing-library/user-event/dist/cjs/utility/index.js';
 
 const AlertMessage = (props) => {
@@ -65,7 +65,8 @@ const LoadedBetslip = ({ betslipValidationData, jackpotData, dbWinMatrix }) => {
   const [bongeBonusMessage, setBongeBonusMessage] = useState('Select 3 or more games to win big bonus');
 
   const showShareModalDialog = () => {
-    if (!state?.user) {
+    const loggedInUser = getFromLocalStorage("user") ?? null;
+    if (!loggedInUser) {
       dispatch({ type: 'SET', key: 'showloginmodal', payload: true });
     } else {
       dispatch({ type: 'SET', key: 'showsharemodal', payload: true });
@@ -221,7 +222,8 @@ const Right = (props) => {
     "sgr_bonus_percent_24": "66"
   });
   const showShareModalDialog = () => {
-    if (!state?.user) {
+    const loggedInUser = getFromLocalStorage("user") ?? null;
+    if (!loggedInUser) {
       dispatch({ type: 'SET', key: 'showloginmodal', payload: true });
     } else {
       dispatch({ type: 'SET', key: 'showsharemodal', payload: true });
@@ -325,7 +327,7 @@ const Right = (props) => {
                 {Object.keys(state?.betslip || {}).length > 0 && (
                   <span className="col-sm-2 yellow-btn font-bold !float-end share-btn btn btn-light"
                     style={{ width: 'fit-content' }}
-                    onClick={showShareModalDialog}
+                    onClick={() => showShareModalDialog()}
                   >
                     <span><FontAwesomeIcon icon={faShare} /></span>
                     <span>Share</span>
