@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "./utils/local-storage";
 
 const images = [
-    { src: "../assets/img/popups/1.1.jpg", link: "/casino-game/aviator/aviator" },
+    { src: "../assets/img/popups/aviator.jpg", link: "/casino-game/aviator/aviator" },
     { src: "../assets/img/popups/2.1.jpg", link: "/casino-game/aviatrix/aviatrix/sure-popular" },
     { src: "../assets/img/popups/3.1.jpg", link: "/casino-game/smartsoft/jetx/sure-popular" },
     { src: "../assets/img/popups/4.1.jpg", link: "/casino-game/eurovirtuals/virtual-league" },
@@ -18,7 +18,7 @@ const loadBannerImg = (img) => {
     try {
         sport_image = require(img);
     } catch (error) {
-        sport_image = require(`../assets/img/popups/1.1.jpg`);
+        sport_image = require(`../assets/img/popups/aviator.jpg`);
     }
     return sport_image
 }

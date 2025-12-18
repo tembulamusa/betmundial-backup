@@ -643,11 +643,15 @@ li.bet-option {}
 
 
 .popup-responsive-image {
-  width: 80%;
+  /* width: 80%; */
   height: auto;
-  max-width: 300px;
+  /* max-width: 300px; */
   /* max-height: 500px; */
-  object-fit: cover;
+  /* object-fit: cover; */
+}
+
+.popup-banner-modal {
+  max-width: 360px;
 }
 
 .buttons-container {

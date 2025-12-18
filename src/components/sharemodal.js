@@ -31,6 +31,8 @@ const ShareModal = (props) => {
         setDoneShare(false);
         let betslip = getBetslip();
         let sharedSlip = state?.betsharetype == "placedbet" ? state?.sharedbet?.betslip : Object.values(betslip || []);
+        sharedSlip = sharedSlip.map(({ start_time, ...rest }) => rest);
+
         let payload = {
             bet_string: 'web',
             app_name: 'desktop',
