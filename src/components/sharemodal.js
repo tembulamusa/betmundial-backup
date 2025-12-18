@@ -154,7 +154,7 @@ const ShareModal = (props) => {
                         </>
                     )}
 
-                    <div className=""><button className="my-3 font-bold btn btn-default capitalize border border-gray-200 text-white bg-red-400 px-4 py-3">cancel</button></div>
+                    <div className=""><button className="my-3 font-bold btn btn-default capitalize border border-gray-200 text-white bg-red-400 px-4 py-3" onClick={() => destroyShareModal()}>cancel</button></div>
                 </Modal.Body>
 
             </Modal>

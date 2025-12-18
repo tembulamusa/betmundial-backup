@@ -1276,7 +1276,7 @@ export const MarketList = (props) => {
                 // matchwithmarkets !== null && <MatchDetailFilter />
             }
 
-            <div className="web-element">
+            <div className="web-element bg-[rgba(255,255,255,0.02)]">
                 {/* {(!matchwithmarkets || Object.entries(matchwithmarkets?.odds || {}).length == 0 || matchwithmarkets == null) && <EventUnavailable />} */}
 
                 {/* filter here */}
@@ -1421,7 +1421,7 @@ const MatchList = (props) => {
                 subTypes={subTypes}
             />
 
-            <Container className="web-element">
+            <Container className="web-element bg-[rgba(255,255,255,0.02)]">
                 {matches &&
                     Object.entries(matches).map(([key, match]) => (
                         match?.match_status?.toLowerCase() !== "ended" &&
